@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <Import Project="../Build/build_core.props" />
+  <Import Project="../Build/build_version.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="5.0.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.10.0" />
+    <PackageReference Include="Mono.Options" Version="6.6.0.161" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="FS.TimeTracking.config.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="FS.TimeTracking.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="FS.TimeTracking.config.User.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Update="FS.TimeTracking.config.nlog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="DetectIfRuntimeSpecificBuild" AfterTargets="AfterBuild" Condition="$(RuntimeIdentifier) != '' OR $(RuntimeIdentifiers) != ''">
+    <PropertyGroup>
+      <IsRuntimeSpecific>true</IsRuntimeSpecific>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="GenerateOpenApiFile" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
+  </Target>
+
+</Project>

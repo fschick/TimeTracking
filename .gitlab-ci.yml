@@ -1,0 +1,49 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - Build/make_build.ps1 -version "0.0.0.0"
+
+test_job:
+  stage: test
+  script:
+    - Build/make_test.ps1
+  artifacts:
+    name: "test-results"
+    paths:
+      - ./*/TestResults/*.trx
+      - ./*/TestResults/*.html
+    expire_in: 1 week
+    when: always
+
+deploy_job_win:
+  stage: deploy
+  only:
+    - /^\d+\..*$/
+  except:
+    - branches
+  script:
+    - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime win10-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  artifacts:
+    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-win10-x64"
+    paths:
+      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    expire_in: 1 month
+    
+deploy_job_linux:
+  stage: deploy
+  only:
+    - /^\d+\..*$/
+  except:
+    - branches
+  script:
+    - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime linux-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  artifacts:
+    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
+    paths:
+      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    expire_in: 1 month

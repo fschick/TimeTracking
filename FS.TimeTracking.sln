@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking", "FS.TimeTracking\FS.TimeTracking.csproj", "{AF93A262-D7EE-4072-A31A-2ED73E89F388}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Api.REST", "FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj", "{D782C5A1-448F-404C-965D-2407DF585006}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
+	ProjectSection(SolutionItems) = preProject
+		Build\build_core.props = Build\build_core.props
+		Build\build_standard.props = Build\build_standard.props
+		Build\build_version.props = Build\build_version.props
+		Build\build_xml_documentation.props = Build\build_xml_documentation.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A7309F57-C6D4-4AEA-BDF7-95443393A93B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF93A262-D7EE-4072-A31A-2ED73E89F388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF93A262-D7EE-4072-A31A-2ED73E89F388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF93A262-D7EE-4072-A31A-2ED73E89F388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF93A262-D7EE-4072-A31A-2ED73E89F388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D782C5A1-448F-404C-965D-2407DF585006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D782C5A1-448F-404C-965D-2407DF585006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D782C5A1-448F-404C-965D-2407DF585006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D782C5A1-448F-404C-965D-2407DF585006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7309F57-C6D4-4AEA-BDF7-95443393A93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7309F57-C6D4-4AEA-BDF7-95443393A93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7309F57-C6D4-4AEA-BDF7-95443393A93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7309F57-C6D4-4AEA-BDF7-95443393A93B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}
+	EndGlobalSection
+EndGlobal

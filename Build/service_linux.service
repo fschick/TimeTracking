@@ -1,0 +1,17 @@
+[Unit]
+Description=FS.TimeTracking
+
+[Service]
+Type=notify
+ExecStart=/opt/FS.TimeTracking/bin/FS.TimeTracking
+WorkingDirectory=/opt/FS.TimeTracking/bin
+SyslogIdentifier=FS.TimeTracking
+Restart=on-failure
+RestartSec=10
+User=dotnetuser
+Group=dotnetuser
+Environment=ASPNETCORE_ENVIRONMENT=Production
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

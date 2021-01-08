@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <Product>Time Tracking</Product>
+    <Title>$(Product)</Title>
+    <Description>Time Tracking</Description>
+    <Authors>Florian Schick</Authors>
+    <Company>Schick Software Entwicklung</Company>
+    <Copyright>© Florian Schick, 2020 all rights reserved</Copyright>
+    <Tags></Tags>
+    <PackageDescription>$(Description)</PackageDescription>
+    <Owners>$(Company)</Owners>
+    <Summary>$(Description)</Summary>
+
+    <Version>0.0.0.0</Version>
+    <FileVersion>0.0.0.0</FileVersion>
+    <AssemblyVersion>$(FileVersion)</AssemblyVersion>
+
+    <PackageProjectUrl>https://github.com/fschick/TimeTracking</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fschick/TimeTracking.git</RepositoryUrl>
+    <PackageLicenseUrl>MIT</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>$(Tags)</PackageTags>
+  </PropertyGroup>
+</Project>
