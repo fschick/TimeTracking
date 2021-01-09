@@ -1,5 +1,21 @@
 {
   "TimeTracking": {
+    "Database": {
+      "Type": "Memory",
+      "ConnectionString": "<database>"
+
+      //"Type": "SqLite",
+      //"ConnectionString": "Data Source=<database>.sqlite"
+
+      //"Type": "SqlServer",
+      //"ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True"
+
+      //"Type": "PostgreSql",
+      //"ConnectionString": "Server=<server>;Database=<database>;User Id=<user>;Password=<password>;"
+
+      //"Type": "MySql",
+      //"ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
+    }
   },
   "Kestrel": {
     "EndPoints": {

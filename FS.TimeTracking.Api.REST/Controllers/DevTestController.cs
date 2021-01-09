@@ -27,11 +27,6 @@ namespace FS.TimeTracking.Api.REST.Controllers
         [HttpGet(Routes.DevTest.TestMethod)]
         public Task<object> TestMethod(CancellationToken cancellationToken = default)
             => _devTestService.TestMethod(cancellationToken);
-
-        /// <inheritdoc />
-        [HttpGet(Routes.DevTest.LongRunningOperation)]
-        public Task<string> LongRunningOperation(int milliseconds, string result, CancellationToken cancellationToken = default)
-            => _devTestService.LongRunningOperation(milliseconds, result, cancellationToken);
     }
 }
 #endif

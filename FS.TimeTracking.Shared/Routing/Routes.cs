@@ -41,7 +41,6 @@ namespace FS.TimeTracking.Shared.Routing
             private const string ROOT = API_ROUTE_PREFIX + nameof(DevTest) + "/";
 
             public const string TestMethod = ROOT + nameof(TestMethod);
-            public const string LongRunningOperation = ROOT + nameof(LongRunningOperation);
         }
 #endif
     }

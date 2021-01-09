@@ -1,4 +1,5 @@
 using FS.TimeTracking.Api.REST.Startup;
+using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,9 @@ namespace FS.TimeTracking
         private const string NLOG_CONFIGURATION_FILE = CONFIG_BASE_NAME + ".nlog";
 
         private static readonly string _executablePath = AssemblyExtensions.GetProgramDirectory();
+        private static readonly string _pathToContentRoot = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"
+            ? Directory.GetCurrentDirectory()
+            : _executablePath;
 
         public static void Main(string[] args)
         {
@@ -56,13 +60,13 @@ namespace FS.TimeTracking
 
         public static IHostBuilder CreateHostBuilder(string[] args)
             => Host.CreateDefaultBuilder(args)
-                //.UseContentRoot(...)
+                .UseContentRoot(_pathToContentRoot)
                 .ConfigureAppConfiguration(builder => ConfigureServerConfiguration(builder, args))
                 .ConfigureNlog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.Configure((builder, app) => ConfigureServerApplication(app, builder.HostingEnvironment));
                     webBuilder.ConfigureServices(ConfigureServerServices);
+                    webBuilder.Configure((builder, app) => ConfigureServerApplication(app, builder.HostingEnvironment));
                 });
 
         private static void ConfigureServerConfiguration(IConfigurationBuilder configurationBuilder, string[] commandLineArgs)
@@ -71,9 +75,9 @@ namespace FS.TimeTracking
             configurationBuilder.Sources.Clear();
             configurationBuilder
                 .Add(chainedConfigurationSource)
-                .AddJsonFile(Path.Combine(_executablePath, $"{CONFIG_BASE_NAME}.json"), false, true)
-                .AddJsonFile(Path.Combine(_executablePath, $"{CONFIG_BASE_NAME}.Development.json"), true, true)
-                .AddJsonFile(Path.Combine(_executablePath, $"{CONFIG_BASE_NAME}.User.json"), true, true)
+                .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
+                .AddJsonFile($"{CONFIG_BASE_NAME}.Development.json", true, true)
+                .AddJsonFile($"{CONFIG_BASE_NAME}.User.json", true, true)
                 .AddEnvironmentVariables()
                 .AddCommandLine(commandLineArgs);
         }
@@ -87,6 +91,18 @@ namespace FS.TimeTracking
                         .AddNLog(NLOG_CONFIGURATION_FILE)
                 )
                 .UseNLog();
+
+        private static void ConfigureServerServices(WebHostBuilderContext context, IServiceCollection services)
+        {
+            services
+                .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
+                .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
+                .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value)
+                .RegisterApplicationServices()
+                .RegisterOpenApiController()
+                .RegisterRestApiController()
+                .RegisterSpaStaticFiles(context.HostingEnvironment);
+        }
 
         private static void ConfigureServerApplication(IApplicationBuilder applicationBuilder, IHostEnvironment hostEnvironment)
         {
@@ -102,19 +118,8 @@ namespace FS.TimeTracking
                 //.UseAuthorization()
                 .RegisterOpenApiRoutes()
                 .RegisterRestApiRoutes()
-                .RegisterSpaRoutes(hostEnvironment);
-        }
-
-        private static void ConfigureServerServices(WebHostBuilderContext context, IServiceCollection services)
-        {
-            services
-                .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
-                .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
-                .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value)
-                .RegisterApplicationServices()
-                .RegisterOpenApiController()
-                .RegisterRestApiController()
-                .RegisterSpaStaticFiles(context.HostingEnvironment);
+                .RegisterSpaRoutes(hostEnvironment)
+                .MigrateDatabase();
         }
 
         private static IServiceCollection CreateAndRegisterEnvironmentConfiguration(this IServiceCollection services, IHostEnvironment hostEnvironment)
@@ -124,6 +129,15 @@ namespace FS.TimeTracking
                 IsProduction = hostEnvironment.IsProduction(),
             });
 
+        private static IServiceCollection RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
+        {
+            if (hostEnvironment.IsDevelopment())
+                return services;
+
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, "UI"));
+            return services;
+        }
+
         private static IApplicationBuilder RegisterSpaRoutes(this IApplicationBuilder applicationBuilder, IHostEnvironment hostEnvironment)
         {
             if (hostEnvironment.IsDevelopment())
@@ -132,15 +146,6 @@ namespace FS.TimeTracking
             applicationBuilder.UseSpaStaticFiles();
             applicationBuilder.UseSpa(_ => { });
             return applicationBuilder;
-        }
-
-        private static IServiceCollection RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
-        {
-            if (hostEnvironment.IsDevelopment())
-                return services;
-
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, "UI"));
-            return services;
         }
     }
 }

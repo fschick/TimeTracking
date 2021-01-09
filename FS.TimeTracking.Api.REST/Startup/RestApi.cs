@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Api.REST.Startup
 {
-    internal static class Application
+    internal static class RestApi
     {
         public static IApplicationBuilder RegisterRestApiRoutes(this IApplicationBuilder applicationBuilder)
             => applicationBuilder

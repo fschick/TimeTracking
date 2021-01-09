@@ -145,26 +145,30 @@ namespace FS.TimeTracking.Shared.Interfaces.Repository
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity to update.</param>
-        /// <param name="cancellationToken"> A <see cref="CancellationToken" /> to observe while waiting for the task to complete. </param>
         /// <returns></returns>
-        Task<TEntity> Update<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class;
+        TEntity Update<TEntity>(TEntity entity) where TEntity : class;
 
         /// <summary>
         /// Removes the specified entity from database.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity to remove.</param>
-        /// <param name="cancellationToken"> A <see cref="CancellationToken" /> to observe while waiting for the task to complete. </param>
         /// <returns></returns>
-        Task<TEntity> Remove<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class;
+        TEntity Remove<TEntity>(TEntity entity) where TEntity : class;
 
         /// <summary>
         /// Removes a range of specified entities from database.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entities">The entities to remove.</param>
-        /// <param name="cancellationToken"> A <see cref="CancellationToken" /> to observe while waiting for the task to complete. </param>
         /// <returns></returns>
-        Task<List<TEntity>> RemoveRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class;
+        List<TEntity> RemoveRange<TEntity>(List<TEntity> entities) where TEntity : class;
+
+        /// <summary>
+        /// Saves all changes made in this context to the database.
+        /// </summary>
+        /// <param name="cancellationToken"> A <see cref="CancellationToken" /> to observe while waiting for the task to complete. </param>
+        /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>
+        Task<int> SaveChanges(CancellationToken cancellationToken = default);
     }
 }
