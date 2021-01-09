@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Routing;
+﻿using FS.TimeTracking.Api.REST.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,13 +16,17 @@ namespace FS.TimeTracking.Api.REST.Startup
 {
     internal static class OpenApi
     {
+        public const string OPEN_API_UI_ROUTE = "openapi/";
+        public const string OPEN_API_SPEC = "openapi.json";
+        public const string SWAGGER_UI_ROUTE = "swagger/";
+
         internal static IApplicationBuilder RegisterOpenApiRoutes(this IApplicationBuilder applicationBuilder)
             => applicationBuilder
-                .UseSwagger(c => c.RouteTemplate = $"{Routes.OpenApi.ROOT}{{documentName}}/{Routes.OpenApi.OpenApiSpec}")
+                .UseSwagger(c => c.RouteTemplate = $"{OPEN_API_UI_ROUTE}{{documentName}}/{OPEN_API_SPEC}")
                 .UseSwaggerUI(c =>
                 {
-                    c.RoutePrefix = Routes.OpenApi.OpenApiUi.Trim('/');
-                    c.SwaggerEndpoint($"{Routes.API_VERSION}/{Routes.OpenApi.OpenApiSpec}", $"API version {Routes.API_VERSION}");
+                    c.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
+                    c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
                 });
 
         internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
@@ -32,9 +36,9 @@ namespace FS.TimeTracking.Api.REST.Startup
                 {
                     // Use method name as operationId
                     c.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null);
-                    c.SwaggerDoc(Routes.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = Routes.API_VERSION });
-                    c.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
-                    c.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
+                    c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
+                    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
+                    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
                 });
 
         internal static void GenerateOpenApiJson(this IHost host, string outFile)
@@ -44,8 +48,8 @@ namespace FS.TimeTracking.Api.REST.Startup
 
             var openApiJson = host
                 .Services
-                .GetService<ISwaggerProvider>()
-                .GetSwagger(Routes.API_VERSION)
+                .GetRequiredService<ISwaggerProvider>()
+                .GetSwagger(V1ApiController.API_VERSION)
                 .SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
 
             File.WriteAllText(outFile, openApiJson);

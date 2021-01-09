@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Application;
-using FS.TimeTracking.Shared.Routing;
+﻿using FS.TimeTracking.Api.REST.Routing;
+using FS.TimeTracking.Shared.Interfaces.Application;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +9,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
     /// <inheritdoc cref="IInformationService" />
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="IInformationService" />
-    [ApiController]
-    [ApiExplorerSettings(GroupName = Routes.API_VERSION)]
+    [V1ApiController]
     public class InformationController : ControllerBase, IInformationService
     {
         private readonly IInformationService _informationService;
@@ -23,17 +22,17 @@ namespace FS.TimeTracking.Api.REST.Controllers
             => _informationService = informationService;
 
         /// <inheritdoc />
-        [HttpGet(Routes.Information.GetProductName)]
+        [HttpGet]
         public Task<string> GetProductName(CancellationToken cancellationToken = default)
             => _informationService.GetProductName(cancellationToken);
 
         /// <inheritdoc />
-        [HttpGet(Routes.Information.GetProductVersion)]
+        [HttpGet]
         public Task<string> GetProductVersion(CancellationToken cancellationToken = default)
             => _informationService.GetProductVersion(cancellationToken);
 
         /// <inheritdoc />
-        [HttpGet(Routes.Information.GetProductCopyright)]
+        [HttpGet]
         public Task<string> GetProductCopyright(CancellationToken cancellationToken = default)
             => _informationService.GetProductCopyright(cancellationToken);
     }
