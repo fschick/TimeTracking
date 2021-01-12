@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Interfaces.Application;
+using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using System.Threading;
 using System.Threading.Tasks;
 

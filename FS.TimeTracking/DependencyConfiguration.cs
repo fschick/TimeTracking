@@ -1,8 +1,12 @@
-﻿using FS.TimeTracking.Application.Services;
+﻿using FS.TimeTracking.Application.Converters;
+using FS.TimeTracking.Application.Services;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Repositories;
-using FS.TimeTracking.Shared.Interfaces.Application;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Interfaces.Application.Converters;
+using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking
@@ -11,10 +15,20 @@ namespace FS.TimeTracking
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
+            services.AddSingleton<IModelConverter<Activity, ActivityDto>, ActivityConverter>();
+            services.AddSingleton<IModelConverter<Customer, CustomerDto>, CustomerConverter>();
+            services.AddSingleton<IModelConverter<Project, ProjectDto>, ProjectConverter>();
+            services.AddSingleton<IModelConverter<TimeSheet, TimeSheetDto>, TimeSheetConverter>();
+
             //services.AddDbContextPool<TimeTrackingDbContext>(o => { });
             services.AddDbContext<TimeTrackingDbContext>();
             services.AddScoped<IRepository, Repository<TimeTrackingDbContext>>();
+
             services.AddScoped<IInformationService, InformationService>();
+            services.AddScoped<IActivityService, ActivityService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ITimeSheetService, TimeSheetService>();
 #if DEBUG
             services.AddScoped<IDevTestService, DevTestService>();
 #endif

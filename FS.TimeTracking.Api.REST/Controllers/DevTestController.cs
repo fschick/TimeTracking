@@ -1,6 +1,6 @@
 ﻿#if DEBUG
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.Interfaces.Application;
+using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;

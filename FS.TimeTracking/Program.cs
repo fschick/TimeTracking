@@ -46,10 +46,10 @@ namespace FS.TimeTracking
             }
             catch (Exception exception)
             {
-                NLogBuilder
-                    .ConfigureNLog(NLOG_CONFIGURATION_FILE)
+                using var loggerFactory = NLogBuilder.ConfigureNLog(NLOG_CONFIGURATION_FILE);
+                loggerFactory
                     .GetCurrentClassLogger()
-                    .Error(exception, "Stopped program because of exception");
+                    .Error(exception, "Program stopped due to an exception");
                 throw;
             }
             finally

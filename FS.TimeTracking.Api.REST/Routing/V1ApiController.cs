@@ -22,6 +22,6 @@ namespace FS.TimeTracking.Api.REST.Routing
         public int? Order { get; } = 0;
 
         /// <inheritdoc />
-        public string Name { get; } = $"{API_VERSION}_[controller]_[action]";
+        public string Name { get; } = "[controller]_[action]";
     }
 }

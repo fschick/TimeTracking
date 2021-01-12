@@ -13,7 +13,7 @@
         /// <summary>
         /// Gets or sets the database configuration.
         /// </summary>
-        public DatabaseConfiguration Database { get; set; }
+        public DatabaseConfiguration Database { get; set; } = new();
 
         /// <summary>
         /// Database specific configuration

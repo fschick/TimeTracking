@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Repository;
+﻿using FS.TimeTracking.Shared.Interfaces.Models;
+using FS.TimeTracking.Shared.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace FS.TimeTracking.Repository.Repositories
             int? take = null,
             bool tracked = false,
             CancellationToken cancellationToken = default
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, orderBy, null, includes, distinct, skip, take, tracked)
                 .ToListAsync(cancellationToken);
 
@@ -42,7 +43,7 @@ namespace FS.TimeTracking.Repository.Repositories
             int? take = null,
             bool tracked = false,
             CancellationToken cancellationToken = default
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
             => GetInternal(x => x.GroupBy(groupBy).Select(select), where, null, orderBy, includes, distinct, skip, take, tracked)
                 .ToListAsync(cancellationToken);
 
@@ -54,7 +55,7 @@ namespace FS.TimeTracking.Repository.Repositories
             int? skip = null,
             bool tracked = false,
             CancellationToken cancellationToken = default
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -63,7 +64,7 @@ namespace FS.TimeTracking.Repository.Repositories
             Expression<Func<TEntity, bool>> where = null,
             bool distinct = false,
             CancellationToken cancellationToken = default
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, null, null, null, distinct, null, null, false)
                 .LongCountAsync(cancellationToken);
 
@@ -71,26 +72,36 @@ namespace FS.TimeTracking.Repository.Repositories
             Expression<Func<TEntity, TResult>> select,
             Expression<Func<TEntity, bool>> where = null,
             CancellationToken cancellationToken = default
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
                 .AnyAsync(cancellationToken);
 
-        public async Task<TEntity> Add<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class
+        public async Task<TEntity> Add<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
             => (await AddRange(new[] { entity }.ToList(), cancellationToken)).First();
 
-        public async Task<List<TEntity>> AddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class
+        public async Task<List<TEntity>> AddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
         {
+            var utcNow = DateTime.UtcNow;
+            foreach (var entity in entities)
+            {
+                entity.Created = utcNow;
+                entity.Modified = utcNow;
+            }
+
             await _dbContext.AddRangeAsync(entities, cancellationToken);
             return entities;
         }
 
-        public TEntity Update<TEntity>(TEntity entity) where TEntity : class
-            => _dbContext.Update(entity).Entity;
+        public TEntity Update<TEntity>(TEntity entity) where TEntity : class, IEntityModel
+        {
+            entity.Modified = DateTime.UtcNow;
+            return _dbContext.Update(entity).Entity;
+        }
 
-        public TEntity Remove<TEntity>(TEntity entity) where TEntity : class
+        public TEntity Remove<TEntity>(TEntity entity) where TEntity : class, IEntityModel
             => _dbContext.Remove(entity).Entity;
 
-        public List<TEntity> RemoveRange<TEntity>(List<TEntity> entities) where TEntity : class
+        public List<TEntity> RemoveRange<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel
             => entities
                 .Select(entity => _dbContext.Remove(entity).Entity)
                 .ToList();
@@ -111,7 +122,7 @@ namespace FS.TimeTracking.Repository.Repositories
             int? skip,
             int? take,
             bool tracked
-            ) where TEntity : class
+            ) where TEntity : class, IEntityModel
         {
             var query = _dbContext
                 .Set<TEntity>()

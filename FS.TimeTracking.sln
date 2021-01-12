@@ -12,16 +12,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
 		Build\build_core.props = Build\build_core.props
-		Build\build_standard.props = Build\build_standard.props
 		Build\build_version.props = Build\build_version.props
 		Build\build_xml_documentation.props = Build\build_xml_documentation.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A7309F57-C6D4-4AEA-BDF7-95443393A93B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Repository", "FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{F5DEC073-72E6-4E5E-B036-A341F15E9866}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{F5DEC073-72E6-4E5E-B036-A341F15E9866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4A5BB14C-4B55-45D9-9129-156EEE1AA7BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4A5BB14C-4B55-45D9-9129-156EEE1AA7BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Memory", "FS.TimeTracking.Repository.Memory\FS.TimeTracking.Repository.Memory.csproj", "{2EE4C64B-E9D7-42A2-A142-97EDC75A8254}"
 EndProject
@@ -30,6 +29,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{F2871F13-0E8F-4C0D-94E3-0500DE3B55B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +78,10 @@ Global
 		{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2205F08B-B25B-4421-BF77-F0CF71190155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2205F08B-B25B-4421-BF77-F0CF71190155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2205F08B-B25B-4421-BF77-F0CF71190155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2205F08B-B25B-4421-BF77-F0CF71190155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

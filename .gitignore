@@ -297,3 +297,4 @@ __pycache__/
 # User added stuff
 /FS.TimeTracking/FS.TimeTracking.openapi.json
 /FS.TimeTracking/FS.TimeTracking.config.Development.json
+/FS.TimeTracking/timetracking.sqlite

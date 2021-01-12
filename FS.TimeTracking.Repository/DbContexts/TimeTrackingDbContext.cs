@@ -1,5 +1,7 @@
 ﻿using FS.TimeTracking.Shared.Models.Configuration;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Logging;
 using System;
 
@@ -10,6 +12,8 @@ namespace FS.TimeTracking.Repository.DbContexts
         private readonly ILoggerFactory _loggerFactory;
         private readonly TimeTrackingConfiguration _configuration;
         private readonly EnvironmentConfiguration _environment;
+
+        public DbSet<Customer> Customers { get; set; }
 
         public TimeTrackingDbContext(ILoggerFactory loggerFactory, TimeTrackingConfiguration configuration, EnvironmentConfiguration environment)
         {
@@ -54,6 +58,65 @@ namespace FS.TimeTracking.Repository.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            ConfigureCustomer(modelBuilder.Entity<Customer>());
+            ConfigureProject(modelBuilder.Entity<Project>());
+            ConfigureActivity(modelBuilder.Entity<Activity>());
+            ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
+        }
+
+        private static void ConfigureCustomer(EntityTypeBuilder<Customer> customerBuilder)
+        {
+            customerBuilder
+                .HasIndex(x => new { x.ShortName, x.Hidden });
+        }
+
+        private static void ConfigureProject(EntityTypeBuilder<Project> projectBuilder)
+        {
+            projectBuilder
+                .HasIndex(x => new { x.Name, x.Hidden });
+
+            projectBuilder
+                .HasOne<Customer>()
+                .WithMany()
+                .HasForeignKey(x => x.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+        }
+
+        private static void ConfigureActivity(EntityTypeBuilder<Activity> activityBuilder)
+        {
+            activityBuilder
+                .HasIndex(x => new { x.Name, x.Hidden });
+
+            activityBuilder
+                .HasOne<Customer>()
+                .WithMany()
+                .HasForeignKey(x => x.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            activityBuilder
+                .HasOne<Project>()
+                .WithMany()
+                .HasForeignKey(x => x.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
+        private static void ConfigureTimeSheet(EntityTypeBuilder<TimeSheet> timeSheetBuilder)
+        {
+            timeSheetBuilder
+                .HasOne<Customer>()
+                .WithMany()
+                .HasForeignKey(x => x.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            timeSheetBuilder
+                .HasOne<Activity>()
+                .WithMany()
+                .HasForeignKey(x => x.ActivityId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

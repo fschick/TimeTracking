@@ -3,4 +3,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <DefineConstants Condition="'$(TargetFramework)' == 'net5.0'">$(DefineConstants);NET_CORE</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IDisposableAnalyzers" Version="3.4.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
