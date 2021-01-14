@@ -27,7 +27,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
             => _modelService.Query(cancellationToken);
 
         /// <inheritdoc />
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "[controller]_[action]")]
         public Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
             => _modelService.Get(id, cancellationToken);
 

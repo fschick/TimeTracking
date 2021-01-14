@@ -295,6 +295,8 @@ __pycache__/
 *.xsd.cs
 
 # User added stuff
+/FS.TimeTracking/openapitools.json
 /FS.TimeTracking/FS.TimeTracking.openapi.json
 /FS.TimeTracking/FS.TimeTracking.config.Development.json
 /FS.TimeTracking/timetracking.sqlite
+/FS.TimeTracking.UI.Angular/src/app/shared/services/api

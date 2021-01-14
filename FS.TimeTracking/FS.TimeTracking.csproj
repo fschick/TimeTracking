@@ -42,14 +42,12 @@
     </None>
   </ItemGroup>
 
-  <Target Name="DetectIfRuntimeSpecificBuild" AfterTargets="AfterBuild" Condition="$(RuntimeIdentifier) != '' OR $(RuntimeIdentifiers) != ''">
-    <PropertyGroup>
-      <IsRuntimeSpecific>true</IsRuntimeSpecific>
-    </PropertyGroup>
+  <Target Name="GenerateOpenApiSpec" AfterTargets="AfterBuild">
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
   </Target>
 
-  <Target Name="GenerateOpenApiFile" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
+  <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild">
+    <Exec Command="npx ../FS.TimeTracking.UI.Angular/node_modules/.bin/openapi-generator-cli generate -c ../FS.TimeTracking.UI.Angular/openapi.config.json -g typescript-angular --template-dir ../FS.TimeTracking.UI.Angular/openapi/templates/typescript-angular --import-mappings=DateTime=Date --type-mappings=DateTime=Date -i $(TargetName).openapi.json -o ../FS.TimeTracking.UI.Angular/src/app/shared/services/api" />
   </Target>
 
 </Project>

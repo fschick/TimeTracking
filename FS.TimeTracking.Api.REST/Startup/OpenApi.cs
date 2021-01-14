@@ -26,7 +26,6 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
                     c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
                     c.DisplayRequestDuration();
-                    //c.EnableFilter();
                 });
 
         internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
@@ -37,12 +36,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
-                    //c.TagActionsBy(api => new[]
-                    //{
-                    //    (api.ActionDescriptor as ControllerActionDescriptor)?.ControllerName.ToLowerInvariant(),
-                    //    (api.ActionDescriptor as ControllerActionDescriptor)?.ActionName.ToLowerInvariant(),
-                    //    api.HttpMethod?.ToLowerInvariant()
-                    //});
+                    c.OperationFilter<ActionExtensionOperationFilter>();
                 });
 
         internal static void GenerateOpenApiJson(this IHost host, string outFile)

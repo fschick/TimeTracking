@@ -1,0 +1,5 @@
+{
+  "enumPropertyNaming": "camelCase",
+  "supportsES6": true,
+  "withInterfaces": false
+}

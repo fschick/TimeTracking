@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiBasePath: `${location.protocol}//${location.hostname}:${location.port}`
 };
