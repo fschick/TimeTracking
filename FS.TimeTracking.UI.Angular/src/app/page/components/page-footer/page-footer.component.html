@@ -1,0 +1,3 @@
+<small class="text-muted" *ngIf="info$ | async as info">
+  {{ info.productName }}, Version&nbsp;{{ info.productVersion }} | Copyright {{ info.copyright }}
+</small>
