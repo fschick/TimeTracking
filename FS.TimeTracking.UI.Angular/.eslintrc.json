@@ -25,7 +25,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "app",
+            "prefix": "ts",
             "style": "kebab-case"
           }
         ],
@@ -36,6 +36,11 @@
             "prefix": "app",
             "style": "camelCase"
           }
+        ],
+        "curly": [
+          "off",
+          "multi-or-nest",
+          "consistent"
         ]
       }
     },

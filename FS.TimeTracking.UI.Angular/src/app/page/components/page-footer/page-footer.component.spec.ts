@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PageFooterComponent } from './page-footer.component';
+import {PageFooterComponent} from './page-footer.component';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('PageFooterComponent', () => {
   let component: PageFooterComponent;
@@ -8,9 +9,10 @@ describe('PageFooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageFooterComponent ]
+      imports: [HttpClientModule],
+      declarations: [PageFooterComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

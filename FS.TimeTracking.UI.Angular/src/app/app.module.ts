@@ -9,12 +9,12 @@ import {AppComponent} from './app.component';
 import {ApiModule, Configuration} from './shared/services/api';
 import {HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
-import {loadTranslations} from "@angular/localize";
+import {loadTranslations} from '@angular/localize';
 import translationsEN from '../locale/messages.en.json';
 import translationsDE from '../locale/messages.de.json';
 import localeEN from '@angular/common/locales/en';
 import localeDE from '@angular/common/locales/de';
-import {registerLocaleData} from "@angular/common";
+import {registerLocaleData} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,26 +35,28 @@ import {registerLocaleData} from "@angular/common";
   ],
   providers: [{
     provide: APP_INITIALIZER,
-    useFactory: ConfigurationLoaderFactory,
+    useFactory: configurationLoaderFactory,
     multi: true
   }, {
     provide: LOCALE_ID,
-    useFactory: LocaleLoaderFactory  //returns locale string
+    useFactory: localeLoaderFactory  //returns locale string
   }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
 
-export function ConfigurationLoaderFactory(): () => Promise<void> {
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export function configurationLoaderFactory(): () => Promise<void> {
   return () => {
-    loadTranslations(flattenTranslations(translationsEN))
-    // loadTranslations(flattenTranslations(translationsDE))
+    loadTranslations(flattenTranslations(translationsEN));
+    // loadTranslations(flattenTranslations(translationsDE));
     return Promise.resolve();
-  }
+  };
 }
 
-export function LocaleLoaderFactory() {
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export function localeLoaderFactory() {
   registerLocaleData(localeEN);
   registerLocaleData(localeDE);
   return 'en';
@@ -62,12 +64,12 @@ export function LocaleLoaderFactory() {
   // return navigator.languages[0];
 }
 
-
 /**
  * @param obj Object                The translations to flatten
  * @param parent String (Optional)  The prefix to add before each key, also used for recursion
  * @param result                    The result (parameter used by recursion)
  **/
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function flattenTranslations<T>(obj: T, parent: string = '', result: { [key: string]: string } = {}): { [key: string]: string } {
 
   for (const [propertyName, property] of Object.entries(obj)) {

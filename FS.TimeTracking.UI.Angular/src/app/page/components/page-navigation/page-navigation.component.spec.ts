@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PageNavigationComponent } from './page-navigation.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {PageNavigationComponent} from './page-navigation.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PageNavigationComponent', () => {
   let component: PageNavigationComponent;
@@ -8,9 +8,10 @@ describe('PageNavigationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageNavigationComponent ]
+      imports: [RouterTestingModule],
+      declarations: [PageNavigationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

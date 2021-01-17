@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from "../../../../environments/environment";
+import {environment} from '../../../../environments/environment';
 
 @Component({
-  selector: 'page-navigation',
+  selector: 'ts-page-navigation',
   templateUrl: './page-navigation.component.html',
   styleUrls: ['./page-navigation.component.scss']
 })
