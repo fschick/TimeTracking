@@ -9,10 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NLog.Web;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace FS.TimeTracking
 {
@@ -59,9 +61,19 @@ namespace FS.TimeTracking
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
+            => CreateHostBuilder(args, builder => builder.AddConfigurationFromEnvironment(args));
+
+        internal static IHostBuilder CreateHostBuilder(TimeTrackingConfiguration configuration)
+            => CreateHostBuilder(Array.Empty<string>(), builder => builder.AddConfigurationFromBluePrint(configuration));
+
+        private static IHostBuilder CreateHostBuilder(string[] args, Action<IConfigurationBuilder> configurationBuilder)
             => Host.CreateDefaultBuilder(args)
                 .UseContentRoot(_pathToContentRoot)
-                .ConfigureAppConfiguration(builder => ConfigureServerConfiguration(builder, args))
+                .ConfigureAppConfiguration(builder =>
+                {
+                    builder.ClearConfiguration();
+                    configurationBuilder(builder);
+                })
                 .ConfigureNlog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -69,17 +81,30 @@ namespace FS.TimeTracking
                     webBuilder.Configure((builder, app) => ConfigureServerApplication(app, builder.HostingEnvironment));
                 });
 
-        private static void ConfigureServerConfiguration(IConfigurationBuilder configurationBuilder, string[] commandLineArgs)
+        private static void ClearConfiguration(this IConfigurationBuilder configurationBuilder)
         {
             var chainedConfigurationSource = configurationBuilder.Sources.OfType<ChainedConfigurationSource>().First();
             configurationBuilder.Sources.Clear();
             configurationBuilder
-                .Add(chainedConfigurationSource)
-                .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
+                .Add(chainedConfigurationSource);
+        }
+
+        private static void AddConfigurationFromEnvironment(this IConfigurationBuilder configurationBuilder, string[] commandLineArgs)
+        {
+            configurationBuilder
+            .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
                 .AddJsonFile($"{CONFIG_BASE_NAME}.Development.json", true, true)
                 .AddJsonFile($"{CONFIG_BASE_NAME}.User.json", true, true)
                 .AddEnvironmentVariables()
                 .AddCommandLine(commandLineArgs);
+        }
+
+        private static void AddConfigurationFromBluePrint(this IConfigurationBuilder configurationBuilder, TimeTrackingConfiguration configuration)
+        {
+            var json = JsonConvert.SerializeObject(new { TimeTracking = configuration });
+            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            var configurationRoot = new ConfigurationBuilder().AddJsonStream(memoryStream).Build();
+            configurationBuilder.AddConfiguration(configurationRoot);
         }
 
         private static IHostBuilder ConfigureNlog(this IHostBuilder builder)

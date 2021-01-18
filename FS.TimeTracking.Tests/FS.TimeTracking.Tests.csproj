@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Build/buil_tests.props" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.2" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking\FS.TimeTracking.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FakeItEasy" Version="6.2.1" />
+    <PackageReference Update="FluentAssertions" Version="5.10.3" />
+  </ItemGroup>
+
+</Project>

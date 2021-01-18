@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
+		Build\buil_tests.props = Build\buil_tests.props
 		Build\build_core.props = Build\build_core.props
 		Build\build_version.props = Build\build_version.props
 		Build\build_xml_documentation.props = Build\build_xml_documentation.props
@@ -30,7 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Tests", "FS.TimeTracking.Tests\FS.TimeTracking.Tests.csproj", "{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,9 +87,17 @@ Global
 		{2205F08B-B25B-4421-BF77-F0CF71190155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2205F08B-B25B-4421-BF77-F0CF71190155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2205F08B-B25B-4421-BF77-F0CF71190155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2205F08B-B25B-4421-BF77-F0CF71190155} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
+		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}
