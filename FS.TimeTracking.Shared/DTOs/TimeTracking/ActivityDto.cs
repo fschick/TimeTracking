@@ -1,10 +1,12 @@
-﻿using FS.TimeTracking.Shared.Models.TimeTracking;
+﻿using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 {
     /// <inheritdoc cref="Activity"/>
+    [ValidationDescription]
     public class ActivityDto
     {
         /// <inheritdoc cref="Activity.Id"/>

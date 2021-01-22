@@ -11,8 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
-		Build\buil_tests.props = Build\buil_tests.props
 		Build\build_core.props = Build\build_core.props
+		Build\build_tests.props = Build\build_tests.props
 		Build\build_version.props = Build\build_version.props
 		Build\build_xml_documentation.props = Build\build_xml_documentation.props
 	EndProjectSection
@@ -33,9 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Tests", "FS.TimeTracking.Tests\FS.TimeTracking.Tests.csproj", "{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tests", "FS.TimeTracking.Tests\FS.TimeTracking.Tests.csproj", "{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Application.Tests", "FS.TimeTracking.Application.Tests\FS.TimeTracking.Application.Tests.csproj", "{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2205F08B-B25B-4421-BF77-F0CF71190155} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
+		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}

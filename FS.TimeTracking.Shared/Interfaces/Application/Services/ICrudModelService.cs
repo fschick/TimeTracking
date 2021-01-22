@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services
 {
     /// <summary>
-    /// Interface ICrudModelService
+    /// CRUD model services
     /// </summary>
     /// <typeparam name="TDto">The type of the t dto.</typeparam>
     public interface ICrudModelService<TDto>

@@ -1,5 +1,6 @@
-﻿using FS.TimeTracking.Application.Converters;
+﻿using FS.TimeTracking.Application.ModelConverters;
 using FS.TimeTracking.Application.Services;
+using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Repositories;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
@@ -29,6 +30,7 @@ namespace FS.TimeTracking
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ITimeSheetService, TimeSheetService>();
+            services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, ValidationDescriptionConverter>>();
 #if DEBUG
             services.AddScoped<IDevTestService, DevTestService>();
 #endif

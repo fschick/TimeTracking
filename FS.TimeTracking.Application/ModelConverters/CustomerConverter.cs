@@ -2,7 +2,7 @@
 using FS.TimeTracking.Shared.Interfaces.Application.Converters;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 
-namespace FS.TimeTracking.Application.Converters
+namespace FS.TimeTracking.Application.ModelConverters
 {
     public class CustomerConverter : IModelConverter<Customer, CustomerDto>
     {

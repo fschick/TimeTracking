@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Build/build_core.props" />
   <Import Project="../Build/build_version.props" />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />

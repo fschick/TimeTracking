@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Repository.Tests
+namespace FS.TimeTracking.Repository.Tests.Tests
 {
     [TestClass]
     public class RepositoryTests
