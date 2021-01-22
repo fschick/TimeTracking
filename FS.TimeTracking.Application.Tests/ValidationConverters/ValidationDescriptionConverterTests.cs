@@ -13,7 +13,7 @@ using System.Reflection;
 namespace FS.TimeTracking.Application.Tests.ValidationConverters
 {
     [TestClass]
-    public class MaxLengthValidationConverterTests
+    public class ValidationDescriptionConverterTests
     {
         [DataTestMethod]
         [ValidationDescriptionConverterTestSource]
