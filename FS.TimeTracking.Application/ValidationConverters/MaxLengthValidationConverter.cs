@@ -11,12 +11,12 @@ namespace FS.TimeTracking.Application.ValidationConverters
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(MaxLengthAttribute) };
 
-        public IEnumerable<JToken> Convert(CustomAttributeData attribute, string errorI18NPrefix)
-        {
-            var result = new JObject();
-            result.Add(new JProperty("max", (int)attribute.ConstructorArguments[0].Value!));
-            result.Add(GetErrorArgument(attribute, errorI18NPrefix, "MaxLength"));
-            return new JProperty("length", result);
-        }
+        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
+            => new JObject
+            {
+                new JProperty("type", "length"),
+                new JProperty("max", (int)attribute.ConstructorArguments[0].Value!),
+                GetErrorArgument(attribute, errorI18NPrefix, "MaxLength")
+            };
     }
 }

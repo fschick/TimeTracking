@@ -11,11 +11,11 @@ namespace FS.TimeTracking.Application.ValidationConverters
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RequiredAttribute) };
 
-        public IEnumerable<JToken> Convert(CustomAttributeData attribute, string errorI18NPrefix)
-        {
-            var result = new JObject();
-            result.Add(GetErrorArgument(attribute, errorI18NPrefix, "Required"));
-            return new JProperty("required", result);
-        }
+        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
+            => new JObject
+            {
+                new JProperty("type", "required"),
+                GetErrorArgument(attribute, errorI18NPrefix, "Required")
+            };
     }
 }

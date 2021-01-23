@@ -20,6 +20,6 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Converters
         /// </summary>
         /// <param name="attribute">The attribute to convert.</param>
         /// <param name="errorI18NPrefix">The error i18n prefix.</param>
-        IEnumerable<JToken> Convert(CustomAttributeData attribute, string errorI18NPrefix);
+        JObject Convert(CustomAttributeData attribute, string errorI18NPrefix);
     }
 }

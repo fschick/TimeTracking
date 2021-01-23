@@ -14,9 +14,11 @@ namespace FS.TimeTracking.Application.ValidationConverters
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RangeAttribute) };
 
-        public IEnumerable<JToken> Convert(CustomAttributeData attribute, string errorI18NPrefix)
+        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
         {
-            var result = new JObject();
+            var result = new JObject{
+                new JProperty("type", "range")
+            };
 
             var (minValue, maxValue) = GetConversionParameter(attribute);
             if (minValue != null)
@@ -26,7 +28,7 @@ namespace FS.TimeTracking.Application.ValidationConverters
 
             result.Add(GetErrorArgument(attribute, errorI18NPrefix, "Max"));
 
-            return new JProperty("range", result);
+            return result;
         }
 
         private static (IComparable, IComparable) GetConversionParameter(CustomAttributeData attribute)

@@ -54,5 +54,31 @@ namespace FS.TimeTracking.Application.Tests
 
         [Compare(nameof(Required))]
         public string Compare { get; set; }
+
+
+        [Required]
+        [MinLength(5)]
+        [StringLength(5, MinimumLength = 1)]
+        public string MultiValidation { get; set; }
+
+
+        public TestNestedInnerDto NestedOuter { get; set; }
+
+        public TestNestedOuterDto NestedInner { get; set; }
+
+
+        [ValidationDescription]
+        public class TestNestedInnerDto
+        {
+            [Required]
+            public string NestedRequired { get; set; }
+        }
+    }
+
+    [ValidationDescription]
+    public class TestNestedOuterDto
+    {
+        [Required]
+        public string NestedRequired { get; set; }
     }
 }

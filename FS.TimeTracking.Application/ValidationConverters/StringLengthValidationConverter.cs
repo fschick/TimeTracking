@@ -12,9 +12,12 @@ namespace FS.TimeTracking.Application.ValidationConverters
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(StringLengthAttribute) };
 
-        public IEnumerable<JToken> Convert(CustomAttributeData attribute, string errorI18NPrefix)
+        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
         {
-            var result = new JObject();
+            var result = new JObject
+            {
+                new JProperty("type", "length")
+            };
 
             var minArgument = attribute.NamedArguments!.FirstOrDefault(x => x.MemberName == nameof(StringLengthAttribute.MinimumLength)).TypedValue.Value;
             if (minArgument != null)
@@ -22,7 +25,7 @@ namespace FS.TimeTracking.Application.ValidationConverters
             result.Add(new JProperty("max", (int)attribute.ConstructorArguments[0].Value!));
             result.Add(GetErrorArgument(attribute, errorI18NPrefix, "StringLength"));
 
-            return new JProperty("length", result);
+            return result;
         }
     }
 }
