@@ -3,27 +3,45 @@ stages:
   - test
   - deploy
 
+workflow:
+  rules:
+    # If merge request exists: Run as (detached) merge request pipeline (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+    # Never run normal pipeline when merge request exists / never run both (- if: $CI_OPEN_MERGE_REQUESTS)
+    # Otherwise: Run as normal pipeline (- when: always)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - when: always
+
 build_job:
   stage: build
   script:
     - Build/make_build.ps1 -version "0.0.0.0"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - when: on_success
+      # If merge request exists: Run as (detached) merge request pipeline (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+      # If tag is pushed: Run as normal pipeline (CI_COMMIT_REF_PROTECTED is false for unprotected tags) (- if: $CI_COMMIT_TAG)
+      # On unprotected branch: Enable manual start of normal pipeline (- if: $CI_COMMIT_REF_PROTECTED == "false")
+      # Otherwise run always (merge / fast forward / ...) (- when: always)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_REF_PROTECTED == "false"
+      when: manual
+    - when: always
 
 test_job:
   stage: test
   script:
    - Build/make_test.ps1
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    # If merge request exists: Don't allow to fail (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+    # If on unprotected branch: Allow fail (- if: $CI_COMMIT_REF_PROTECTED == "false")
+    # Else: Don't allow to fail (default)
+    # Run always when all jobs in earlier stages succeed (- when: on_success)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       allow_failure: false
-    - if: $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_REF_PROTECTED == "false"
       allow_failure: true
+    - when: on_success
   artifacts:
     name: "test-results"
     paths:
@@ -34,12 +52,11 @@ test_job:
 
 deploy_job_win:
   stage: deploy
-  only:
-    - /^\d+\..*$/
-  except:
-    - branches
   script:
     - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime win10-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
   artifacts:
     name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-win10-x64"
     paths:
@@ -47,13 +64,11 @@ deploy_job_win:
     expire_in: 1 month
     
 deploy_job_linux:
-  stage: deploy
-  only:
-    - /^\d+\..*$/
-  except:
-    - branches
   script:
     - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime linux-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
   artifacts:
     name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
     paths:
