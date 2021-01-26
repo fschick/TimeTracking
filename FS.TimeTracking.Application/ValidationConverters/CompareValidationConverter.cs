@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class CompareValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class CompareValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(CompareAttribute) };
 
@@ -20,7 +20,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
             {
                 new JProperty("type", "compare"),
                 new JProperty("otherProperty", otherProperty),
-                GetErrorArgument(attribute, errorI18NPrefix, "MaxLength")
             };
         }
     }

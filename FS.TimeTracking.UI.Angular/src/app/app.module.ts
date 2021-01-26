@@ -15,6 +15,9 @@ import translationsDE from '../locale/messages.de.json';
 import localeEN from '@angular/common/locales/en';
 import localeDE from '@angular/common/locales/de';
 import {registerLocaleData} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
+import {FormSubmitDirective} from './shared/directives/form-submit.directive';
 
 @NgModule({
   declarations: [
@@ -22,13 +25,15 @@ import {registerLocaleData} from '@angular/common';
     PageNavigationComponent,
     PageFooterComponent,
     MasterDataComponent,
-    TimesheetComponent
+    TimesheetComponent,
+    FormValidationErrorsComponent,
+    FormSubmitDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ApiModule,
     HttpClientModule,
+    ReactiveFormsModule,
     ApiModule.forRoot(() =>
       new Configuration({basePath: environment.apiBasePath})
     )

@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class MinLengthValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class MinLengthValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(MinLengthAttribute) };
 
@@ -16,7 +16,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
             {
                 new JProperty("type", "length"),
                 new JProperty("min", (int)attribute.ConstructorArguments[0].Value!),
-                GetErrorArgument(attribute, errorI18NPrefix, "MinLength")
             };
     }
 }

@@ -15,6 +15,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking
 {
@@ -28,7 +29,7 @@ namespace FS.TimeTracking
             ? Directory.GetCurrentDirectory()
             : _executablePath;
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             try
             {
@@ -41,10 +42,12 @@ namespace FS.TimeTracking
                     .UseSystemd()
                     .Build();
 
-                if (options.GenerateOpenApiJsonFile)
-                    host.GenerateOpenApiJson(options.OpenApiJsonFile);
+                if (options.GenerateOpenApiSpecFile)
+                    host.GenerateOpenApiSpec(options.OpenApiSpecFile);
+                else if (options.GenerateValidationSpecFile)
+                    await host.GenerateValidationSpec(options.ValidationSpecFile);
                 else
-                    host.Run();
+                    await host.RunAsync();
             }
             catch (Exception exception)
             {

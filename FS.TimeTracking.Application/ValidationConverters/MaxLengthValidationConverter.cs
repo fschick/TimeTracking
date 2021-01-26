@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class MaxLengthValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class MaxLengthValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(MaxLengthAttribute) };
 
@@ -16,7 +16,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
             {
                 new JProperty("type", "length"),
                 new JProperty("max", (int)attribute.ConstructorArguments[0].Value!),
-                GetErrorArgument(attribute, errorI18NPrefix, "MaxLength")
             };
     }
 }

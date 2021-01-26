@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class RangeValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class RangeValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RangeAttribute) };
 
@@ -25,8 +25,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
                 result.Add(new JProperty("min", minValue));
             if (maxValue != null)
                 result.Add(new JProperty("max", maxValue));
-
-            result.Add(GetErrorArgument(attribute, errorI18NPrefix, "Max"));
 
             return result;
         }

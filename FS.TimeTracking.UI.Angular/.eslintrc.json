@@ -41,6 +41,13 @@
           "off",
           "multi-or-nest",
           "consistent"
+        ],
+        "max-len": [
+          "error",
+          {
+            "ignoreTemplateLiterals": true,
+            "code": 140
+          }
         ]
       }
     },

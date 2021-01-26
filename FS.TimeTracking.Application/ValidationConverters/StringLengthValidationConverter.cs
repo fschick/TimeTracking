@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class StringLengthValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class StringLengthValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(StringLengthAttribute) };
 
@@ -23,7 +23,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
             if (minArgument != null)
                 result.Add(new JProperty("min", (int)minArgument));
             result.Add(new JProperty("max", (int)attribute.ConstructorArguments[0].Value!));
-            result.Add(GetErrorArgument(attribute, errorI18NPrefix, "StringLength"));
 
             return result;
         }

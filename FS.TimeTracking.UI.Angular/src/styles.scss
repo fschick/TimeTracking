@@ -3,6 +3,31 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 /* ----------------------------------------- */
+/* Form validation
+/* ----------------------------------------- */
+form.ng-submitted .form-control.ng-invalid {
+  $input-invalid-color: rgba($danger, $input-btn-focus-color-opacity);
+  $input-invalid-border-color: tint-color($danger, 50%);
+  $input-invalid-box-shadow: 0 0 0 $input-btn-focus-width $input-invalid-color;
+
+  color: $danger;
+  border-color: $input-invalid-border-color;
+
+  &:focus {
+    @if $enable-shadows {
+      @include box-shadow($input-box-shadow, $input-invalid-box-shadow);
+    } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
+      box-shadow: $input-invalid-box-shadow;
+    }
+  }
+}
+
+ts-form-validation-errors .ng-invalid {
+  color: $danger;
+}
+
+/* ----------------------------------------- */
 /* Footer
 /* ----------------------------------------- */
 html {

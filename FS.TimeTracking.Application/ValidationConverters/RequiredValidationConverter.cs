@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
-    public class RequiredValidationConverter : ValidationDescriptionConverter, IValidationDescriptionConverter
+    public class RequiredValidationConverter : IValidationDescriptionConverter
     {
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RequiredAttribute) };
 
@@ -15,7 +15,6 @@ namespace FS.TimeTracking.Application.ValidationConverters
             => new JObject
             {
                 new JProperty("type", "required"),
-                GetErrorArgument(attribute, errorI18NPrefix, "Required")
             };
     }
 }

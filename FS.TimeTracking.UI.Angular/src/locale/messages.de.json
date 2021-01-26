@@ -4,5 +4,13 @@
       "Timesheet": "Zeiterfassung",
       "MasterData": "Stammdaten"
     }
+  },
+  "Validations": {
+    "RequiredWithField": "'{$FIELDNAME}' ist erforderlich",
+    "MinLengthWithField": "'{$FIELDNAME}' Muss mindesten {$VALUE} Zeichen haben",
+    "MaxLengthWithField": "'{$FIELDNAME}' darf nicht mehr als {$VALUE} Zeichen haben",
+    "MinWithField": "'{$FIELDNAME}' muss größer oder gleich {$VALUE} sein",
+    "MaxWithField": "'{$FIELDNAME}' muss kleiner oder gleich {$VALUE} sein",
+    "CompareWithField": "'{$FIELDNAME}' und '{$OTHERFIELDNAME}' stimmen nicht überein"
   }
 }

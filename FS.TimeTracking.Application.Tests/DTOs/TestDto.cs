@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FS.TimeTracking.Application.Tests
+namespace FS.TimeTracking.Application.Tests.DTOs
 {
     [ValidationDescription]
     public class TestDto
@@ -11,35 +11,35 @@ namespace FS.TimeTracking.Application.Tests
         public string Required { get; set; }
 
 
-        [MinLength(5)]
+        [MinLength(2)]
         public string MinLength { get; set; }
 
-        [MaxLength(5)]
+        [MaxLength(4)]
         public string MaxLength { get; set; }
 
-        [StringLength(5, MinimumLength = 1)]
+        [StringLength(4, MinimumLength = 2)]
         public string StringLength { get; set; }
 
-        [StringLength(5)]
+        [StringLength(4)]
         public string StringLengthMax { get; set; }
 
 
-        [Range(1, 5)]
+        [Range(2, 4)]
         public int RangeInt { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(2, int.MaxValue)]
         public int RangeIntMin { get; set; }
 
-        [Range(int.MinValue, 5)]
+        [Range(int.MinValue, 4)]
         public int RangeIntMax { get; set; }
 
-        [Range(1d, 5d)]
+        [Range(2d, 4d)]
         public double RangeDouble { get; set; }
 
-        [Range(1d, double.MaxValue)]
+        [Range(2d, double.MaxValue)]
         public double RangeDoubleMin { get; set; }
 
-        [Range(double.MinValue, 5d)]
+        [Range(double.MinValue, 4d)]
         public double RangeDoubleMax { get; set; }
 
         [Range(typeof(DateTime), "2020-01-01", "2020-01-31")]
@@ -57,8 +57,8 @@ namespace FS.TimeTracking.Application.Tests
 
 
         [Required]
-        [MinLength(5)]
-        [StringLength(5, MinimumLength = 1)]
+        [MinLength(4)]
+        [StringLength(4, MinimumLength = 2)]
         public string MultiValidation { get; set; }
 
 

@@ -39,7 +39,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.OperationFilter<ActionExtensionOperationFilter>();
                 });
 
-        internal static void GenerateOpenApiJson(this IHost host, string outFile)
+        internal static void GenerateOpenApiSpec(this IHost host, string outFile)
         {
             if (string.IsNullOrWhiteSpace(outFile))
                 throw new ArgumentException("No destination file for generated OpenAPI document given.");
