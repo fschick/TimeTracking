@@ -3,6 +3,7 @@
   <Import Project="../Build/build_version.props" />
 
   <ItemGroup>
+    <PackageReference Include="linq2db.EntityFrameworkCore" Version="5.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.2" />

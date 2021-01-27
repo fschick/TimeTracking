@@ -1,5 +1,6 @@
 ﻿using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,8 @@ namespace FS.TimeTracking.Repository.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            LinqToDBForEFTools.Initialize();
+
             options
                 .UseLoggerFactory(_loggerFactory)
                 .EnableSensitiveDataLogging(_environment.IsDevelopment);

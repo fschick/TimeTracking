@@ -163,7 +163,14 @@ namespace FS.TimeTracking.Shared.Interfaces.Repository
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entities">The entities to remove.</param>
         /// <returns></returns>
-        List<TEntity> RemoveRange<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel;
+        List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel;
+
+        /// <summary>
+        /// Removes a range of entities specified by a predicate.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="where">Filters the entities based on a predicate.</param>
+        Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class, IEntityModel;
 
         /// <summary>
         /// Saves all changes made in this context to the database.

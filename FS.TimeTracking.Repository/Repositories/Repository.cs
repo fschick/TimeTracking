@@ -1,5 +1,7 @@
 ﻿using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Repository;
+using LinqToDB;
+using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,7 +32,7 @@ namespace FS.TimeTracking.Repository.Repositories
             CancellationToken cancellationToken = default
             ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, orderBy, null, includes, distinct, skip, take, tracked)
-                .ToListAsync(cancellationToken);
+                .ToListAsyncLinqToDB(cancellationToken);
 
         public Task<List<TResult>> GetGrouped<TEntity, TGroupByKey, TResult>(
             Expression<Func<TEntity, TGroupByKey>> groupBy,
@@ -45,7 +47,7 @@ namespace FS.TimeTracking.Repository.Repositories
             CancellationToken cancellationToken = default
             ) where TEntity : class, IEntityModel
             => GetInternal(x => x.GroupBy(groupBy).Select(select), where, null, orderBy, includes, distinct, skip, take, tracked)
-                .ToListAsync(cancellationToken);
+                .ToListAsyncLinqToDB(cancellationToken);
 
         public Task<TResult> FirstOrDefault<TEntity, TResult>(
             Expression<Func<TEntity, TResult>> select,
@@ -57,7 +59,7 @@ namespace FS.TimeTracking.Repository.Repositories
             CancellationToken cancellationToken = default
             ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
-                .FirstOrDefaultAsync(cancellationToken);
+                .FirstOrDefaultAsyncLinqToDB(cancellationToken);
 
         public Task<long> Count<TEntity, TResult>(
             Expression<Func<TEntity, TResult>> select,
@@ -66,7 +68,7 @@ namespace FS.TimeTracking.Repository.Repositories
             CancellationToken cancellationToken = default
             ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, null, null, null, distinct, null, null, false)
-                .LongCountAsync(cancellationToken);
+                .LongCountAsyncLinqToDB(cancellationToken);
 
         public Task<bool> Exists<TEntity, TResult>(
             Expression<Func<TEntity, TResult>> select,
@@ -74,7 +76,7 @@ namespace FS.TimeTracking.Repository.Repositories
             CancellationToken cancellationToken = default
             ) where TEntity : class, IEntityModel
             => GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
-                .AnyAsync(cancellationToken);
+                .AnyAsyncLinqToDB(cancellationToken);
 
         public async Task<TEntity> Add<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
             => (await AddRange(new[] { entity }.ToList(), cancellationToken)).First();
@@ -101,10 +103,22 @@ namespace FS.TimeTracking.Repository.Repositories
         public TEntity Remove<TEntity>(TEntity entity) where TEntity : class, IEntityModel
             => _dbContext.Remove(entity).Entity;
 
-        public List<TEntity> RemoveRange<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel
+        public List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel
             => entities
                 .Select(entity => _dbContext.Remove(entity).Entity)
                 .ToList();
+
+        public async Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class, IEntityModel
+        {
+            var query = _dbContext
+                .Set<TEntity>()
+                .AsQueryable();
+
+            if (where != null)
+                query = query.Where(where);
+
+            return await query.DeleteAsync();
+        }
 
         public Task<int> SaveChanges(CancellationToken cancellationToken = default)
         {

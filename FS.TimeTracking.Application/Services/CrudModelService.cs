@@ -52,7 +52,7 @@ namespace FS.TimeTracking.Application.Services
 
         public async Task<long> Delete(Guid id)
         {
-            _repository.Remove(new TModel { Id = id });
+            await _repository.Remove<TModel>(x => x.Id == id);
             return await _repository.SaveChanges();
         }
     }
