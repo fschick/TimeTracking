@@ -13,8 +13,6 @@ namespace FS.TimeTracking.Repository.DbContexts
         private readonly TimeTrackingConfiguration _configuration;
         private readonly EnvironmentConfiguration _environment;
 
-        public DbSet<Customer> Customers { get; set; }
-
         public TimeTrackingDbContext(ILoggerFactory loggerFactory, TimeTrackingConfiguration configuration, EnvironmentConfiguration environment)
         {
             _loggerFactory = loggerFactory;
@@ -68,12 +66,14 @@ namespace FS.TimeTracking.Repository.DbContexts
         private static void ConfigureCustomer(EntityTypeBuilder<Customer> customerBuilder)
         {
             customerBuilder
+                .ToTable("Customers")
                 .HasIndex(x => new { x.ShortName, x.Hidden });
         }
 
         private static void ConfigureProject(EntityTypeBuilder<Project> projectBuilder)
         {
             projectBuilder
+                .ToTable("Projects")
                 .HasIndex(x => new { x.Name, x.Hidden });
 
             projectBuilder
@@ -87,6 +87,7 @@ namespace FS.TimeTracking.Repository.DbContexts
         private static void ConfigureActivity(EntityTypeBuilder<Activity> activityBuilder)
         {
             activityBuilder
+                .ToTable("Activities")
                 .HasIndex(x => new { x.Name, x.Hidden });
 
             activityBuilder
@@ -104,6 +105,9 @@ namespace FS.TimeTracking.Repository.DbContexts
 
         private static void ConfigureTimeSheet(EntityTypeBuilder<TimeSheet> timeSheetBuilder)
         {
+            timeSheetBuilder
+                .ToTable("TimeSheets");
+
             timeSheetBuilder
                 .HasOne<Customer>()
                 .WithMany()

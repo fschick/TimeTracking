@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
@@ -56,7 +56,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.HasIndex("Name", "Hidden");
 
-                    b.ToTable("Activity");
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
@@ -145,7 +145,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.HasIndex("Name", "Hidden");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
@@ -184,7 +184,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("TimeSheet");
+                    b.ToTable("TimeSheets");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>

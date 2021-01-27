@@ -15,7 +15,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
@@ -54,7 +54,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("Name", "Hidden");
 
-                    b.ToTable("Activity");
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
@@ -143,7 +143,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("Name", "Hidden");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
@@ -182,7 +182,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("TimeSheet");
+                    b.ToTable("TimeSheets");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>

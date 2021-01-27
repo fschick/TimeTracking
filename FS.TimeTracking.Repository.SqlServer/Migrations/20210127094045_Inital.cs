@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FS.TimeTracking.Repository.SqlServer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Project",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -43,9 +43,9 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Project", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_Customers_CustomerId",
+                        name: "FK_Projects_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
@@ -53,7 +53,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Activity",
+                name: "Activities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -67,23 +67,23 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Activity", x => x.Id);
+                    table.PrimaryKey("PK_Activities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Activity_Customers_CustomerId",
+                        name: "FK_Activities_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Activity_Project_ProjectId",
+                        name: "FK_Activities_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeSheet",
+                name: "TimeSheets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -98,15 +98,15 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeSheet", x => x.Id);
+                    table.PrimaryKey("PK_TimeSheets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeSheet_Activity_ActivityId",
+                        name: "FK_TimeSheets_Activities_ActivityId",
                         column: x => x.ActivityId,
-                        principalTable: "Activity",
+                        principalTable: "Activities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TimeSheet_Customers_CustomerId",
+                        name: "FK_TimeSheets_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
@@ -114,18 +114,18 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activity_CustomerId",
-                table: "Activity",
+                name: "IX_Activities_CustomerId",
+                table: "Activities",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activity_Name_Hidden",
-                table: "Activity",
+                name: "IX_Activities_Name_Hidden",
+                table: "Activities",
                 columns: new[] { "Name", "Hidden" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activity_ProjectId",
-                table: "Activity",
+                name: "IX_Activities_ProjectId",
+                table: "Activities",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
@@ -134,36 +134,36 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 columns: new[] { "ShortName", "Hidden" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_CustomerId",
-                table: "Project",
+                name: "IX_Projects_CustomerId",
+                table: "Projects",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_Name_Hidden",
-                table: "Project",
+                name: "IX_Projects_Name_Hidden",
+                table: "Projects",
                 columns: new[] { "Name", "Hidden" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSheet_ActivityId",
-                table: "TimeSheet",
+                name: "IX_TimeSheets_ActivityId",
+                table: "TimeSheets",
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSheet_CustomerId",
-                table: "TimeSheet",
+                name: "IX_TimeSheets_CustomerId",
+                table: "TimeSheets",
                 column: "CustomerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TimeSheet");
+                name: "TimeSheets");
 
             migrationBuilder.DropTable(
-                name: "Activity");
+                name: "Activities");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Customers");
