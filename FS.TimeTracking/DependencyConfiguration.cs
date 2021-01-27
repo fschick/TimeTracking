@@ -32,7 +32,7 @@ namespace FS.TimeTracking
             services.AddScoped<ITimeSheetService, TimeSheetService>();
             services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 #if DEBUG
-            services.AddScoped<IDevTestService, DevTestService>();
+            services.AddScoped<IDebugService, DebugService>();
 #endif
             return services;
         }
