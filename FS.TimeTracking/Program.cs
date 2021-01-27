@@ -64,12 +64,12 @@ namespace FS.TimeTracking
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
-            => CreateHostBuilder(args, builder => builder.AddConfigurationFromEnvironment(args));
+            => CreateHostBuilderInternal(args, builder => builder.AddConfigurationFromEnvironment(args));
 
-        internal static IHostBuilder CreateHostBuilder(TimeTrackingConfiguration configuration)
-            => CreateHostBuilder(Array.Empty<string>(), builder => builder.AddConfigurationFromBluePrint(configuration));
+        internal static IHostBuilder CreateHostBuilderInternal(TimeTrackingConfiguration configuration)
+            => CreateHostBuilderInternal(Array.Empty<string>(), builder => builder.AddConfigurationFromBluePrint(configuration));
 
-        private static IHostBuilder CreateHostBuilder(string[] args, Action<IConfigurationBuilder> configurationBuilder)
+        private static IHostBuilder CreateHostBuilderInternal(string[] args, Action<IConfigurationBuilder> configurationBuilder)
             => Host.CreateDefaultBuilder(args)
                 .UseContentRoot(_pathToContentRoot)
                 .ConfigureAppConfiguration(builder =>

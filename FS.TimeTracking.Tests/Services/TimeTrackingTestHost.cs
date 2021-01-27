@@ -31,7 +31,7 @@ namespace FS.TimeTracking.Tests.Services
                 }
             };
 
-            var hostBuilder = Program.CreateHostBuilder(configuration)
+            var hostBuilder = Program.CreateHostBuilderInternal(configuration)
                 .ConfigureWebHost(webHostBuilder => webHostBuilder.UseTestServer());
 
             return new TimeTrackingTestHost
