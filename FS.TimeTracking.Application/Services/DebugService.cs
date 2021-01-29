@@ -6,6 +6,7 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,8 +39,8 @@ namespace FS.TimeTracking.Application.Services
             var customers = new Faker<Customer>(locale)
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
-                .RuleFor(x => x.ShortName, faker => faker.Company.CompanyName())
-                .RuleFor(x => x.CompanyName, (_, entity) => entity.ShortName)
+                .RuleFor(x => x.CompanyName, faker => faker.Company.CompanyName())
+                .RuleFor(x => x.ShortName, (_, entity) => Regex.Replace(entity.CompanyName, @"^(\w+).*$", "$1"))
                 .RuleFor(x => x.ContactName, faker => $"{faker.Name.FirstName()} {faker.Name.LastName()}")
                 .RuleFor(x => x.Street, faker => faker.Address.StreetAddress())
                 .RuleFor(x => x.ZipCode, f => f.Address.ZipCode())

@@ -1,1 +1,50 @@
-<p>master-data works!</p>
+<div class="accordion" id="accordionMasterData">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingCustomers">
+      <a routerLink="/master-data/customers"
+         class="accordion-button text-decoration-none collapsed"
+         aria-expanded="false"
+         aria-controls="customers"
+         i18n="@@Page.MasterData.Customers">
+        [i18n] Customers
+      </a>
+    </h2>
+    <div id=" customers" #customers class="accordion-collapse collapse" aria-labelledby="headingCustomers" data-bs-parent="#accordionMasterData">
+      <div class="accordion-body">
+        <ts-master-data-customers></ts-master-data-customers>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingProjects">
+      <a routerLink="/master-data/projects"
+         class="accordion-button text-decoration-none collapsed"
+         aria-expanded="false"
+         aria-controls="projects"
+         i18n="@@Page.MasterData.Projects">
+        [i18n] Projects
+      </a>
+    </h2>
+    <div id="projects" #projects class="accordion-collapse collapse" aria-labelledby="headingProjects" data-bs-parent="#accordionMasterData">
+      <div class="accordion-body">
+        <ts-master-data-projects></ts-master-data-projects>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingActivities">
+      <a routerLink="/master-data/activities"
+         class="accordion-button text-decoration-none collapsed"
+         aria-expanded="false"
+         aria-controls="activities"
+         i18n="@@Page.MasterData.Activities">
+        [i18n] Activities
+      </a>
+    </h2>
+    <div id="activities" #activities class="accordion-collapse collapse" aria-labelledby="headingActivities" data-bs-parent="#accordionMasterData">
+      <div class="accordion-body">
+        <ts-master-data-activities></ts-master-data-activities>
+      </div>
+    </div>
+  </div>
+</div>

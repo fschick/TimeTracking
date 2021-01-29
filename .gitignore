@@ -301,3 +301,4 @@ __pycache__/
 /FS.TimeTracking/timetracking.sqlite
 /FS.TimeTracking.UI.Angular/src/app/shared/services/api
 /FS.TimeTracking.UI.Angular/src/app/shared/services/validation/validation.spec.json
+/Bogus.Premium.LicenseKey

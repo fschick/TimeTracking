@@ -159,20 +159,34 @@ namespace FS.TimeTracking
 
         private static IServiceCollection RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
         {
-            if (hostEnvironment.IsDevelopment())
-                return services;
+            //if (hostEnvironment.IsProduction())
+            //    services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, "UI"));
 
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, "UI"));
+            services
+                .AddSpaStaticFiles(configuration =>
+                    configuration.RootPath = hostEnvironment.IsProduction()
+                        ? Path.Combine(_executablePath, "UI")
+                        : "../FS.TimeTracking.UI.Angular/dist/TimeTracking"
+                );
+
             return services;
         }
 
         private static IApplicationBuilder RegisterSpaRoutes(this IApplicationBuilder applicationBuilder, IHostEnvironment hostEnvironment)
         {
-            if (hostEnvironment.IsDevelopment())
-                return applicationBuilder;
+            //if (hostEnvironment.IsProduction())
+            //{
+            //    applicationBuilder.UseSpaStaticFiles();
+            //    applicationBuilder.UseSpa(_ => { });
+            //}
+            //else
+            //{
+            //    applicationBuilder.UseSpa(c => c.UseProxyToSpaDevelopmentServer("http://localhost:4200/"));
+            //}
 
             applicationBuilder.UseSpaStaticFiles();
             applicationBuilder.UseSpa(_ => { });
+
             return applicationBuilder;
         }
     }

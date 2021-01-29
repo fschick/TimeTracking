@@ -1,0 +1,53 @@
+﻿/* ----------------------------------------- */
+/* ngx-datatable
+/* ----------------------------------------- */
+.ngx-datatable {
+  .datatable-header {
+    .datatable-header-cell {
+      &.resizeable {
+      }
+
+      &.sortable {
+      }
+
+      &.longpress {
+      }
+
+      &.dragging {
+      }
+
+      &.sort-active {
+        &.sort-asc {
+        }
+
+        &.sort-desc {
+        }
+      }
+
+      .datatable-header-cell-label {
+        .draggable {
+        }
+      }
+    }
+  }
+
+  .datatable-body-row {
+    &.datatable-row-even {
+
+    }
+
+    &.datatable-row-odd {
+
+    }
+
+    .datatable-body-cell {
+      &.sort-active {
+        &.sort-asc {
+        }
+
+        &.sort-desc {
+        }
+      }
+    }
+  }
+}

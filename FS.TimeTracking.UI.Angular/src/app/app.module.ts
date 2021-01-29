@@ -18,6 +18,10 @@ import {registerLocaleData} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
 import {FormSubmitDirective} from './shared/directives/form-submit.directive';
+import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import { MasterDataProjectsComponent } from './master-data/components/master-data-projects/master-data-projects.component';
+import { MasterDataActivitiesComponent } from './master-data/components/master-data-activities/master-data-activities.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +31,17 @@ import {FormSubmitDirective} from './shared/directives/form-submit.directive';
     MasterDataComponent,
     TimesheetComponent,
     FormValidationErrorsComponent,
-    FormSubmitDirective
+    FormSubmitDirective,
+    MasterDataCustomersComponent,
+    MasterDataProjectsComponent,
+    MasterDataActivitiesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxDatatableModule,
     ApiModule.forRoot(() =>
       new Configuration({basePath: environment.apiBasePath})
     )

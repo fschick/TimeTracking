@@ -1,48 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ----------------------------------------- */
+/* Bootstrap + Icons
+/* ----------------------------------------- */
+$accordion-button-active-color: inherit;
+$accordion-button-active-bg: inherit;
+
+// DEV only
+$enable-reduced-motion: false;
+
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.accordion-button {
+  cursor: pointer;
+}
+/* ----------------------------------------- */
+/* ngx-datatable
+/* ----------------------------------------- */
+@import "styles/ngx-datatable";
 
 /* ----------------------------------------- */
 /* Form validation
 /* ----------------------------------------- */
-form.ng-submitted .form-control.ng-invalid {
-  $input-invalid-color: rgba($danger, $input-btn-focus-color-opacity);
-  $input-invalid-border-color: tint-color($danger, 50%);
-  $input-invalid-box-shadow: 0 0 0 $input-btn-focus-width $input-invalid-color;
-
-  color: $danger;
-  border-color: $input-invalid-border-color;
-
-  &:focus {
-    @if $enable-shadows {
-      @include box-shadow($input-box-shadow, $input-invalid-box-shadow);
-    } @else {
-      // Avoid using mixin so we can pass custom focus shadow properly
-      box-shadow: $input-invalid-box-shadow;
-    }
-  }
-}
-
-ts-form-validation-errors .ng-invalid {
-  color: $danger;
-}
+@import "styles/form-validation";
 
 /* ----------------------------------------- */
 /* Footer
 /* ----------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom == footer height */
-  margin-bottom: 3rem !important;
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 3rem;
-}
+@import "styles/footer";

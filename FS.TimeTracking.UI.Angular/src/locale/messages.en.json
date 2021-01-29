@@ -3,6 +3,23 @@
     "Navigation": {
       "Timesheet": "Timesheet",
       "MasterData": "Master Data"
+    },
+    "MasterData": {
+      "Customers": "Customers",
+      "Projects": "Projects",
+      "Activities": "Activities"
+    }
+  },
+  "DTOs": {
+    "CustomerDto": {
+      "ShortName": "Short name",
+      "CompanyName": "Company",
+      "ContactName": "Contact",
+      "Street": "Street",
+      "ZipCode": "Zip",
+      "City": "City",
+      "Country": "Country",
+      "Hidden": "Hidden"
     }
   },
   "Validations": {

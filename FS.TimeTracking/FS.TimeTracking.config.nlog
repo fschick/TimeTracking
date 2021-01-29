@@ -87,10 +87,13 @@
     <!-- Discard finally non-critical logs from Microsoft -->
     <logger name="Microsoft.*" maxlevel="Info" final="true" />
 
+    <!-- Discard finally non-critical logs from LinqToDB -->
+    <logger name="LinqToDB" maxlevel="Info" final="true" />
+
     <!-- Discard finally TaskCanceledException exceptions -->
     <logger name="*">
       <filters>
-		<when condition="equals('${exception}', 'TaskCanceledException')" action="IgnoreFinal" />
+        <when condition="equals('${exception}', 'TaskCanceledException')" action="IgnoreFinal" />
       </filters>
     </logger>
 
