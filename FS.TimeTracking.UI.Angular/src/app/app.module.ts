@@ -20,8 +20,9 @@ import {FormValidationErrorsComponent} from './shared/components/form-validation
 import {FormSubmitDirective} from './shared/directives/form-submit.directive';
 import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
-import { MasterDataProjectsComponent } from './master-data/components/master-data-projects/master-data-projects.component';
-import { MasterDataActivitiesComponent } from './master-data/components/master-data-activities/master-data-activities.component';
+import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
+import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
+import {StorageService} from './shared/services/storage/storage.service';
 
 @NgModule({
   declarations: [
@@ -49,10 +50,12 @@ import { MasterDataActivitiesComponent } from './master-data/components/master-d
   providers: [{
     provide: APP_INITIALIZER,
     useFactory: configurationLoaderFactory,
+    deps: [StorageService],
     multi: true
   }, {
     provide: LOCALE_ID,
-    useFactory: localeLoaderFactory  //returns locale string
+    useFactory: localeLoaderFactory,  //returns locale string,
+    deps: [StorageService]
   }],
   bootstrap: [AppComponent]
 })
@@ -60,21 +63,19 @@ export class AppModule {
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function configurationLoaderFactory(): () => Promise<void> {
+export function configurationLoaderFactory(storageService: StorageService): () => Promise<void> {
   return () => {
-    loadTranslations(flattenTranslations(translationsEN));
-    // loadTranslations(flattenTranslations(translationsDE));
+    const translations = storageService.language === 'de' ? translationsDE : translationsEN;
+    loadTranslations(flattenTranslations(translations));
     return Promise.resolve();
   };
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function localeLoaderFactory() {
-  registerLocaleData(localeEN);
-  registerLocaleData(localeDE);
-  return 'en';
-  // return 'de';
-  // return navigator.languages[0];
+export function localeLoaderFactory(storageService: StorageService) {
+  const locale = storageService.language === 'de' ? localeDE : localeEN;
+  registerLocaleData(locale);
+  return storageService.language;
 }
 
 /**
