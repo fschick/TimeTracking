@@ -46,7 +46,7 @@
           "error",
           {
             "ignoreTemplateLiterals": true,
-            "code": 140
+            "code": 160
           }
         ]
       }

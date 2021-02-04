@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "True": "true",
+    "False": "false"
+  },
   "Page": {
     "Navigation": {
       "Timesheet": "Timesheet",

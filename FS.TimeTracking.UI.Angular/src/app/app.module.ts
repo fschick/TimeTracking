@@ -15,13 +15,13 @@ import translationsDE from '../locale/messages.de.json';
 import localeEN from '@angular/common/locales/en';
 import localeDE from '@angular/common/locales/de';
 import {registerLocaleData} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
 import {FormSubmitDirective} from './shared/directives/form-submit.directive';
 import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
-import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
+import {SimpleTableComponent} from './shared/components/simple-table/simple-table.component';
 import {StorageService} from './shared/services/storage/storage.service';
 
 @NgModule({
@@ -35,18 +35,19 @@ import {StorageService} from './shared/services/storage/storage.service';
     FormSubmitDirective,
     MasterDataCustomersComponent,
     MasterDataProjectsComponent,
-    MasterDataActivitiesComponent
+    MasterDataActivitiesComponent,
+    SimpleTableComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    ApiModule.forRoot(() =>
-      new Configuration({basePath: environment.apiBasePath})
-    )
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ApiModule.forRoot(() =>
+            new Configuration({basePath: environment.apiBasePath})
+        ),
+    ],
   providers: [{
     provide: APP_INITIALIZER,
     useFactory: configurationLoaderFactory,

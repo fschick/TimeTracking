@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "True": "wahr",
+    "False": "falsch"
+  },
   "Page": {
     "Navigation": {
       "Timesheet": "Zeiterfassung",

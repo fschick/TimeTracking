@@ -1,5 +1,6 @@
-<ngx-datatable
-  [rows]="rows$ | async"
+<ts-simple-table
+  *ngIf="rows$|async as rows"
   [columns]="columns"
-  [columnMode]="columnMode">
-</ngx-datatable>
+  [rows]="rows"
+  [configuration]="configuration">
+</ts-simple-table>
