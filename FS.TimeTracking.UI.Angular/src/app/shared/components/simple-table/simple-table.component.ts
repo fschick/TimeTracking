@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, TemplateRef, TrackByFunction} from '@angular/core';
+/* eslint-disable @angular-eslint/no-input-rename */
+import {ChangeDetectionStrategy, Component, Input, TemplateRef, TrackByFunction} from '@angular/core';
 
 export type SortOrder = 'asc' | 'desc';
 export type Filters<TRow> = { [key in keyof TRow]: string };
@@ -55,11 +56,33 @@ export type Column<TRow> = {
   styleUrls: ['./simple-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimpleTableComponent<TRow> implements OnChanges {
-  @Input() public rows: TRow[];
-  @Input() public columns: Column<TRow>[];
-  @Input() public configuration?: Partial<Configuration<TRow>>;
-  public mergedConfig: Configuration<TRow>;
+export class SimpleTableComponent<TRow> {
+  @Input('configuration') set setConfiguration(configuration: Partial<Configuration<TRow>> | null | undefined) {
+    this.configuration = {...new Configuration<TRow>(), ...configuration};
+    this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
+    if (!this.configuration.filterRow)
+      this.resetFilter();
+    this.sortRows();
+    this.applyFilter();
+  };
+
+  @Input('rows') set setRows(rows: TRow[] | null | undefined) {
+    this.rows = rows ?? [];
+    this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
+    this.sortRows();
+    this.applyFilter();
+  };
+
+  @Input('columns') set setColumns(columns: Column<TRow>[] | null | undefined) {
+    this.columns = columns ?? [];
+    this.updateFiltersWithChangedColumns();
+    this.sortRows();
+    this.applyFilter();
+  }
+
+  public configuration: Configuration<TRow>;
+  public rows: TRow[];
+  public columns: Column<TRow>[];
 
   public filters: Filters<TRow> = {} as Filters<TRow>;
   public filteredRows: TRow[];
@@ -67,32 +90,11 @@ export class SimpleTableComponent<TRow> implements OnChanges {
   private originRowOrder: any[];
 
   constructor() {
+    this.configuration = new Configuration();
     this.rows = [];
-    this.filteredRows = [];
     this.columns = [];
+    this.filteredRows = [];
     this.originRowOrder = [];
-    this.mergedConfig = new Configuration();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.configuration !== undefined) {
-      this.mergedConfig = {...new Configuration<TRow>(), ...changes.configuration.currentValue};
-      this.originRowOrder = this.rows.map((row, index) => this.mergedConfig.trackBy(index, row));
-      if (!this.mergedConfig.filterRow)
-        this.resetFilter();
-    }
-
-    if (changes.columns !== undefined)
-      this.applyChangedColumnsToFilter();
-
-    if (changes.rows !== undefined) {
-      if (this.rows === undefined)
-        this.rows = [];
-      this.originRowOrder = this.rows.map((row, index) => this.mergedConfig.trackBy(index, row));
-    }
-
-    this.sortRows();
-    this.applyFilter();
   }
 
   public getFilterTemplateContext(column: Column<TRow>) {
@@ -116,7 +118,7 @@ export class SimpleTableComponent<TRow> implements OnChanges {
   }
 
   public getCssSortEnabled(column: Column<TRow>): string {
-    return column.sortable !== false ? this.mergedConfig.cssSortEnabled : '';
+    return column.sortable !== false ? this.configuration.cssSortEnabled : '';
   }
 
   public getCssDataCell(row: TRow, column: Column<TRow>): string {
@@ -129,8 +131,8 @@ export class SimpleTableComponent<TRow> implements OnChanges {
     const columnSortOrder = this.sortOrder.get(column.prop);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
-        ? this.mergedConfig.cssSortAsc
-        : this.mergedConfig.cssSortDesc
+        ? this.configuration.cssSortAsc
+        : this.configuration.cssSortDesc
       : '';
   }
 
@@ -138,8 +140,8 @@ export class SimpleTableComponent<TRow> implements OnChanges {
     const columnSortOrder = this.sortOrder.get(column.prop);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
-        ? this.mergedConfig.glyphSortAsc
-        : this.mergedConfig.glyphSortDesc
+        ? this.configuration.glyphSortAsc
+        : this.configuration.glyphSortDesc
       : '';
   }
 
@@ -148,7 +150,7 @@ export class SimpleTableComponent<TRow> implements OnChanges {
       return column.format(row, column);
 
     const value = row[column.prop] as any;
-    return value?.toLocaleString(this.mergedConfig.locale);
+    return value?.toLocaleString(this.configuration.locale);
   }
 
   public applySortOrder(column: Column<TRow>) {
@@ -156,7 +158,7 @@ export class SimpleTableComponent<TRow> implements OnChanges {
       return;
 
     let columnSortOrder = this.sortOrder.get(column.prop);
-    if (!this.mergedConfig.multiSort)
+    if (!this.configuration.multiSort)
       this.sortOrder.clear();
 
     columnSortOrder = columnSortOrder === undefined ? 'asc' : columnSortOrder === 'asc' ? 'desc' : undefined;
@@ -173,7 +175,7 @@ export class SimpleTableComponent<TRow> implements OnChanges {
     this.filteredRows = this.filterRows(this.rows);
   }
 
-  private applyChangedColumnsToFilter(): void {
+  private updateFiltersWithChangedColumns(): void {
     const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
 
     const filterableColumn = this.columns.filter(x => x.filterable !== 'no');
@@ -202,12 +204,11 @@ export class SimpleTableComponent<TRow> implements OnChanges {
         if (columnResult !== 0)
           return columnResult;
       }
-
       // When rows remain same/unsorted, compare/sort by origin order.
       const rowIndexA = this.rows.indexOf(rowA);
       const rowIndexB = this.rows.indexOf(rowB);
-      const rowKeyA = this.mergedConfig.trackBy(rowIndexA, rowA);
-      const rowKeyB = this.mergedConfig.trackBy(rowIndexB, rowB);
+      const rowKeyA = this.configuration.trackBy(rowIndexA, rowA);
+      const rowKeyB = this.configuration.trackBy(rowIndexB, rowB);
       return this.originRowOrder.indexOf(rowKeyA) - this.originRowOrder.indexOf(rowKeyB);
     });
   }

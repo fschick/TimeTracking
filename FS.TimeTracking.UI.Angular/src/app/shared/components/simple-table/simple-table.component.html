@@ -1,22 +1,22 @@
-<div [class]="mergedConfig.cssWrapper">
-  <table [class]="mergedConfig.cssTable">
+<div [class]="configuration.cssWrapper">
+  <table [class]="configuration.cssTable">
     <thead>
-    <ng-container *ngTemplateOutlet="mergedConfig.headRowTemplate ? mergedConfig.headRowTemplate : defaultHeadRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.headRowTemplate ? configuration.headRowTemplate : defaultHeadRowTemplate; context: {columns: columns}"></ng-container>
     </thead>
     <tbody>
-    <ng-container *ngTemplateOutlet="mergedConfig.filterRowTemplate ? mergedConfig.filterRowTemplate : defaultFilterRowTemplate; context: {columns: columns}"></ng-container>
-    <ng-container *ngTemplateOutlet="mergedConfig.dataRowTemplate ? mergedConfig.dataRowTemplate : defaultDataRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.filterRowTemplate ? configuration.filterRowTemplate : defaultFilterRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.dataRowTemplate ? configuration.dataRowTemplate : defaultDataRowTemplate; context: {columns: columns}"></ng-container>
     </tbody>
     <tfoot>
-    <ng-container *ngTemplateOutlet="mergedConfig.footRowTemplate ? mergedConfig.footRowTemplate : defaultFooterRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.footRowTemplate ? configuration.footRowTemplate : defaultFooterRowTemplate; context: {columns: columns}"></ng-container>
     </tfoot>
   </table>
 </div>
 
 <ng-template #defaultHeadRowTemplate let-columns="columns">
-  <tr [class]="mergedConfig.cssHeadRow">
+  <tr [class]="configuration.cssHeadRow">
     <th *ngFor="let column of columns;"
-        [ngClass]="[mergedConfig.cssHeadCell, getCssHeadCell(column), getCssSortEnabled(column)]"
+        [ngClass]="[configuration.cssHeadCell, getCssHeadCell(column), getCssSortEnabled(column)]"
         [style]="getColumnWidth(column)"
         (click)="applySortOrder(column)"
         scope="col">
@@ -26,10 +26,10 @@
 </ng-template>
 
 <ng-template #defaultFilterRowTemplate let-columns="columns">
-  <tr *ngIf="mergedConfig.filterRow">
+  <tr *ngIf="configuration.filterRow">
     <td
       *ngFor="let column of columns;"
-      [ngClass]="[mergedConfig.cssFilterCell, getCssFilterCell(column)]"
+      [ngClass]="[configuration.cssFilterCell, getCssFilterCell(column)]"
       [style]="getColumnWidth(column)">
       <ng-container *ngIf="column.filterable !== 'no'">
         <ng-container *ngTemplateOutlet="column.filterCellTemplate ? column.filterCellTemplate : defaultFilterCellTemplate; context: getFilterTemplateContext(column)"></ng-container>
@@ -40,18 +40,18 @@
 
 <ng-template #defaultDataRowTemplate let-columns="columns">
   <tr
-    *ngFor="let row of filteredRows; trackBy: mergedConfig.trackBy;"
-    [class]="mergedConfig.cssDataRow">
+    *ngFor="let row of filteredRows; trackBy: configuration.trackBy;"
+    [class]="configuration.cssDataRow">
     <td
       *ngFor="let column of columns;"
-      [ngClass]="[mergedConfig.cssDataCell, getCssDataCell(row, column)]"
+      [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
       [style]="getColumnWidth(column)">
       <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: {row: row, column: column}"></ng-container>
     </td>
   </tr>
 </ng-template>
 
-<ng-template #defaultFooterRowTemplate let-columns="columns">
+<ng-template #defaultFooterRowTemplate>
 </ng-template>
 
 <ng-template #defaultHeadCellTemplate let-column="column">
@@ -60,6 +60,7 @@
 </ng-template>
 
 <ng-template #defaultFilterCellTemplate let-column="column" let-filters="filters" let-applyFilter="applyFilter">
+  <!--suppress HtmlFormInputWithoutLabel -->
   <input
     [attr.aria-label]="column.title"
     [(ngModel)]="filters[column.prop]"
