@@ -14,52 +14,71 @@ describe('rematch', () => {
     expect(noMatch).toBeNull();
   });
 
-  it('should match path with parameters', () => {
-    const matcher = rematch('master-data/:entity/:id');
+  it('should match nested path', () => {
+    const matcher = rematch('admin/master-data');
 
-    const noParameter = matcher(toSegments('master-data'), {} as UrlSegmentGroup, {} as Route);
+    const match = matcher(toSegments('admin/master-data'), {} as UrlSegmentGroup, {} as Route);
+    const expected = {consumed: [{path: 'admin'},{path: 'master-data'}], posParams: {}} as UrlMatchResult;
+    expect(match).toEqual(expected);
+
+    const noMatch = matcher(toSegments('admin/reports'), {} as UrlSegmentGroup, {} as Route);
+    expect(noMatch).toBeNull();
+  });
+
+  it('should match path with parameters', () => {
+    const matcher = rematch('admin/master-data/:entity/:id');
+
+    const noParameter = matcher(toSegments('admin/master-data'), {} as UrlSegmentGroup, {} as Route);
     expect(noParameter).toBeNull();
 
-    const oneParameter = matcher(toSegments('master-data/customers'), {} as UrlSegmentGroup, {} as Route);
+    const oneParameter = matcher(toSegments('admin/master-data/customers'), {} as UrlSegmentGroup, {} as Route);
     expect(oneParameter).toBeNull();
 
-    const twoParameter = matcher(toSegments('master-data/customers/11'), {} as UrlSegmentGroup, {} as Route);
+    const twoParameter = matcher(toSegments('admin/master-data/customers/11'), {} as UrlSegmentGroup, {} as Route);
     const expected = {
-      consumed: [{path: 'master-data'}, {path: 'customers'}, {path: '11'}],
+      consumed: [{path: 'admin'}, {path: 'master-data'}, {path: 'customers'}, {path: '11'}],
       posParams: {entity: {path: 'customers'}, id: {path: '11'}}
     } as unknown as UrlMatchResult;
     expect(twoParameter).toEqual(expected);
 
-    const threeParameter = matcher(toSegments('master-data/customers/11/create'), {} as UrlSegmentGroup, {} as Route);
-    expect(threeParameter).toBeNull();
+    const threeParameter = matcher(toSegments('admin/master-data/customers/11/create'), {} as UrlSegmentGroup, {} as Route);
+    const threeExpected = {
+      consumed: [{path: 'admin'}, {path: 'master-data'}, {path: 'customers'}, {path: '11'}],
+      posParams: {entity: {path: 'customers'}, id: {path: '11'}}
+    } as unknown as UrlMatchResult;
+    expect(threeParameter).toEqual(threeExpected);
   });
 
   it('should match path with optional parameters', () => {
-    const matcher = rematch('master-data/:entity?/:id?');
+    const matcher = rematch('admin/master-data/:entity?/:id?');
 
-    const noParameter = matcher(toSegments('master-data'), {} as UrlSegmentGroup, {} as Route);
+    const noParameter = matcher(toSegments('admin/master-data'), {} as UrlSegmentGroup, {} as Route);
     const noExpected = {
-      consumed: [{path: 'master-data'}],
+      consumed: [{path: 'admin'}, {path: 'master-data'}],
       posParams: {}
     } as unknown as UrlMatchResult;
     expect(noParameter).toEqual(noExpected);
 
-    const oneParameter = matcher(toSegments('master-data/customers'), {} as UrlSegmentGroup, {} as Route);
+    const oneParameter = matcher(toSegments('admin/master-data/customers'), {} as UrlSegmentGroup, {} as Route);
     const oneExpected = {
-      consumed: [{path: 'master-data'}, {path: 'customers'}],
+      consumed: [{path: 'admin'}, {path: 'master-data'}, {path: 'customers'}],
       posParams: {entity: {path: 'customers'}}
     } as unknown as UrlMatchResult;
     expect(oneParameter).toEqual(oneExpected);
 
-    const twoParameter = matcher(toSegments('master-data/customers/11'), {} as UrlSegmentGroup, {} as Route);
+    const twoParameter = matcher(toSegments('admin/master-data/customers/11'), {} as UrlSegmentGroup, {} as Route);
     const twoExpected = {
-      consumed: [{path: 'master-data'}, {path: 'customers'}, {path: '11'}],
+      consumed: [{path: 'admin'}, {path: 'master-data'}, {path: 'customers'}, {path: '11'}],
       posParams: {entity: {path: 'customers'}, id: {path: '11'}}
     } as unknown as UrlMatchResult;
     expect(twoParameter).toEqual(twoExpected);
 
-    const threeParameter = matcher(toSegments('master-data/customers/11/create'), {} as UrlSegmentGroup, {} as Route);
-    expect(threeParameter).toBeNull();
+    const threeParameter = matcher(toSegments('admin/master-data/customers/11/create'), {} as UrlSegmentGroup, {} as Route);
+    const threeExpected = {
+      consumed: [{path: 'admin'}, {path: 'master-data'}, {path: 'customers'}, {path: '11'}],
+      posParams: {entity: {path: 'customers'}, id: {path: '11'}}
+    } as unknown as UrlMatchResult;
+    expect(threeParameter).toEqual(threeExpected);
   });
 
   it('should match path with custom parameters', () => {

@@ -5,19 +5,31 @@ import {pathToRegexp} from 'path-to-regexp';
 export function rematch(path: string): UrlMatcher {
   return (urlSegments: UrlSegment[]/*, group: UrlSegmentGroup, route: Route*/): UrlMatchResult | null => {
     const paramKeys: any = [];
-    const pathRegex = pathToRegexp(path, paramKeys);
+    const pathRegex = pathToRegexp(path, paramKeys, {end: false});
 
     const url = urlSegments.map(x => x.path).join('/');
     const matches = pathRegex.exec(url);
     if (matches === null)
       return null;
 
-    const posParams: { [name: string]: UrlSegment } = {};
-    const params = matches.filter(param => param !== undefined);
-    for (let idx = 1; idx < params.length; idx++) {
-      posParams[paramKeys[idx - 1].name] = urlSegments[idx];
-    }
+    const parameters = matches.slice(1);
+    const firstParameterUrlIndex = urlSegments.findIndex(x => x.path === parameters[0]);
+    const parameterUrls = firstParameterUrlIndex >= 0
+      ? urlSegments.slice(firstParameterUrlIndex)
+      : [];
 
-    return {consumed: urlSegments, posParams};
+    const allParameterUrlsMatches = parameters.every((value, idx) => value === parameterUrls[idx]?.path);
+    if (!allParameterUrlsMatches)
+      return null;
+
+    const consumedSegments = firstParameterUrlIndex >= 0
+      ? urlSegments.slice(0, firstParameterUrlIndex + parameters.length)
+      : urlSegments;
+
+    const posParams = parameters
+      .map((param, idx) => [paramKeys[idx].name, parameterUrls[idx]])
+      .filter(x => x[1]?.path !== undefined);
+
+    return {consumed: consumedSegments, posParams: Object.fromEntries(posParams)};
   };
 }
