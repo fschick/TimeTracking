@@ -1,0 +1,23 @@
+@import '~bootstrap/scss/functions.scss';
+@import '~bootstrap/scss/variables.scss';
+@import '~bootstrap/scss/mixins.scss';
+
+.dropdown.active > .dropdown-toggle {
+  color: $navbar-dark-active-color;
+}
+
+.dropdown-item {
+  color: $navbar-dark-color;
+
+  &:hover,
+  &:focus {
+    color: $navbar-dark-hover-color;
+    @include gradient-bg($success);
+  }
+
+  &.active,
+  &:active {
+    color: $navbar-dark-active-color;
+    background-color: $success;
+  }
+}

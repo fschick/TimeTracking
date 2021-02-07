@@ -1,11 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {MasterDataComponent} from './master-data/components/master-data/master-data.component';
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
-import {rematch} from './shared/services/routing/rematch';
+import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
+import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
+import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 
 const routes: Routes = [
-  {matcher: rematch('master-data/:entity(customers|projects|activities)?/:id?'), component: MasterDataComponent},
+  {path: 'master-data/customers', component: MasterDataCustomersComponent},
+  {path: 'master-data/projects', component: MasterDataProjectsComponent},
+  {path: 'master-data/activities', component: MasterDataActivitiesComponent},
   {path: '', component: TimesheetComponent},
 ];
 

@@ -1,6 +1,18 @@
+<router-outlet></router-outlet>
 <ts-simple-table
-  *ngIf="rows$|async as rows"
+  #customerTable
   [columns]="columns"
-  [rows]="rows"
+  [rows]="rows$|async"
   [configuration]="configuration">
 </ts-simple-table>
+
+<ng-template #editCellTemplate let-row="row" let-column="column">
+  <a class="d-block text-decoration-none text-body"
+     [routerLink]="row.id">
+    <i class="bi bi-pencil-square pe-2"></i>
+  </a>
+</ng-template>
+
+<ng-template #dataCellTemplate let-row="row" let-column="column">
+  {{getCellValue(row, column)}}
+</ng-template>

@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {PageNavigationComponent} from './page/components/page-navigation/page-navigation.component';
 import {PageFooterComponent} from './page/components/page-footer/page-footer.component';
-import {MasterDataComponent} from './master-data/components/master-data/master-data.component';
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -26,28 +25,27 @@ import {StorageService} from './shared/services/storage/storage.service';
 
 @NgModule({
   declarations: [
+    FormSubmitDirective,
+    FormValidationErrorsComponent,
+    SimpleTableComponent,
     AppComponent,
     PageNavigationComponent,
     PageFooterComponent,
-    MasterDataComponent,
     TimesheetComponent,
-    FormValidationErrorsComponent,
-    FormSubmitDirective,
     MasterDataCustomersComponent,
     MasterDataProjectsComponent,
-    MasterDataActivitiesComponent,
-    SimpleTableComponent
+    MasterDataActivitiesComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        FormsModule,
-        ApiModule.forRoot(() =>
-            new Configuration({basePath: environment.apiBasePath})
-        ),
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ApiModule.forRoot(() =>
+      new Configuration({basePath: environment.apiBasePath})
+    ),
+  ],
   providers: [{
     provide: APP_INITIALIZER,
     useFactory: configurationLoaderFactory,

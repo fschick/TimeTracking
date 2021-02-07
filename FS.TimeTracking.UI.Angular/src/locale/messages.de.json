@@ -4,11 +4,11 @@
     "False": "falsch"
   },
   "Page": {
-    "Navigation": {
-      "Timesheet": "Zeiterfassung",
-      "MasterData": "Stammdaten"
+    "Timesheet": {
+      "Timesheet": "Zeiterfassung"
     },
     "MasterData": {
+      "MasterData": "Stammdaten",
       "Customers": "Kunden",
       "Projects": "Projekte",
       "Activities": "Tätigkeiten"

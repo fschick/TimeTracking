@@ -14,22 +14,32 @@
       </span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <span i18n="@@Page.Navigation.Timesheet">[I18N] Timesheet</span>
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <span i18n="@@Page.Timesheet.Timesheet">[I18N] Timesheet</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/master-data" routerLinkActive="active">
-            <span i18n="@@Page.Navigation.MasterData">[I18N] Master Data</span>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <ng-container i18n="@@Page.MasterData.MasterData">[I18N] Master Data</ng-container>
           </a>
+          <ul class="dropdown-menu bg-success" aria-labelledby="masterDataDropdown">
+            <li><a class="dropdown-item" i18n="@@Page.MasterData.Customers" routerLink="/master-data/customers" routerLinkActive="active">[I18N] Customers</a></li>
+            <li><a class="dropdown-item" i18n="@@Page.MasterData.Projects" routerLink="/master-data/projects" routerLinkActive="active">[I18N] Projects</a></li>
+            <li><a class="dropdown-item" i18n="@@Page.MasterData.Activities" routerLink="/master-data/activities" routerLinkActive="active">[I18N] Activities</a></li>
+          </ul>
         </li>
       </ul>
     </div>
