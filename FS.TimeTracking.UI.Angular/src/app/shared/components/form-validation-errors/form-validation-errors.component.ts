@@ -2,8 +2,8 @@ import {Component, Input, OnInit, Optional} from '@angular/core';
 import {FormGroupDirective} from '@angular/forms';
 import {filter, map} from 'rxjs/operators';
 import {merge, Observable, of} from 'rxjs';
-import {ValidationFormGroup} from '../../services/validation/validation.service';
-import {$localizeId} from '../../services/validation/localizeId';
+import {ValidationFormGroup} from '../../services/form-validation/form-validation.service';
+import {$localizeId} from '../../services/internationalization/localizeId';
 
 @Component({
   selector: 'ts-form-validation-errors',
@@ -94,8 +94,8 @@ type IValidationErrorConverters = {
 };
 
 const validationErrorConverters: IValidationErrorConverters = {
-  required: (fieldName, error) => $localize`:@@Validations.RequiredWithField:[I18N] The field '${fieldName}:FIELDNAME:' is required`,
   // eslint-disable-next-line max-len
+  required: (fieldName, _) => $localize`:@@Validations.RequiredWithField:[I18N] The field '${fieldName}:FIELDNAME:' is required`,
   minlength: (fieldName, error) => $localize`:@@Validations.MinLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
   maxlength: (fieldName, error) => $localize`:@@Validations.MaxLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
   min: (fieldName, error) => $localize`:@@Validations.MinWithField:[I18N] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,

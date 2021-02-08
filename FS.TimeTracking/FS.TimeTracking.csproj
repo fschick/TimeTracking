@@ -55,7 +55,7 @@
   </Target>
 
   <Target Name="GenerateValidationSpec" AfterTargets="AfterBuild">
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/src/app/shared/services/validation/validation.spec.json" />
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/src/app/shared/services/form-validation/dto-validations.spec.json" />
   </Target>
 
 </Project>

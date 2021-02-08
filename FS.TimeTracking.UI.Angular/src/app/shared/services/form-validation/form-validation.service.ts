@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators as AngularValidators
 } from '@angular/forms';
-import validationDescriptions from './validation.spec.json';
+import validationDescriptions from './dto-validations.spec.json';
 import {Validators as CustomValidators} from './validators';
 
 type ValidationDescription = { [key: string]: any; type: string };
@@ -29,7 +29,7 @@ export class ValidationFormGroup extends FormGroup {
 @Injectable({
   providedIn: 'root'
 })
-export class ValidationService {
+export class FormValidationService {
 
   public getFormGroup<TType>(
     typeName: keyof typeof validationDescriptions,

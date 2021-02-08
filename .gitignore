@@ -300,5 +300,5 @@ __pycache__/
 /FS.TimeTracking/FS.TimeTracking.config.Development.json
 /FS.TimeTracking/timetracking.sqlite
 /FS.TimeTracking.UI.Angular/src/app/shared/services/api
-/FS.TimeTracking.UI.Angular/src/app/shared/services/validation/validation.spec.json
+/FS.TimeTracking.UI.Angular/src/app/shared/services/form-validation/dto-validations.spec.json
 /Bogus.Premium.LicenseKey
