@@ -1,14 +1,19 @@
-<router-outlet></router-outlet>
-<ts-simple-table
-  #customerTable
-  [columns]="columns"
-  [rows]="rows$|async"
-  [configuration]="configuration">
-</ts-simple-table>
+<div class="card">
+  <div class="card-header" i18n="@@Page.MasterData.Customers">
+    [i18n] Customers
+  </div>
+  <div class="card-body">
+    <ts-simple-table
+      #customerTable
+      [columns]="columns"
+      [rows]="rows"
+      [configuration]="configuration">
+    </ts-simple-table>
+  </div>
+</div>
 
-<ng-template #editCellTemplate let-row="row" let-column="column">
-  <a class="d-block text-decoration-none text-body"
-     [routerLink]="row.id">
+<ng-template #editCellTemplate let-row="row">
+  <a class="d-block text-decoration-none text-body" [routerLink]="row.id">
     <i class="bi bi-pencil-square pe-2"></i>
   </a>
 </ng-template>
@@ -16,3 +21,5 @@
 <ng-template #dataCellTemplate let-row="row" let-column="column">
   {{getCellValue(row, column)}}
 </ng-template>
+
+<router-outlet></router-outlet>

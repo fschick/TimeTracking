@@ -136,12 +136,17 @@ namespace FS.TimeTracking
         {
             if (hostEnvironment.IsDevelopment())
             {
+#if DEBUG
                 applicationBuilder.UseDeveloperExceptionPage();
-                applicationBuilder.UseCors(policy => policy.AllowAnyOrigin());
+                applicationBuilder.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+#endif
+            }
+            else
+            {
+                applicationBuilder.UseHttpsRedirection();
             }
 
             applicationBuilder
-                //.UseHttpsRedirection()
                 .UseRouting()
                 //.UseAuthorization()
                 .RegisterOpenApiRoutes()

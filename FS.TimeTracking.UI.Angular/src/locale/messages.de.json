@@ -1,7 +1,10 @@
 {
   "Common": {
     "True": "wahr",
-    "False": "falsch"
+    "False": "falsch",
+    "Save": "Speichern",
+    "Close": "Schließen",
+    "Cancel": "Abbrechen"
   },
   "Page": {
     "Timesheet": {
@@ -10,11 +13,14 @@
     "MasterData": {
       "MasterData": "Stammdaten",
       "Customers": "Kunden",
+      "CustomerEdit": "Kunde bearbeiten",
       "Projects": "Projekte",
-      "Activities": "Tätigkeiten"
+      "ProjectEdit": "Projekt bearbeiten",
+      "Activities": "Tätigkeiten",
+      "ActivityEdit": "Tätigkeit bearbeiten"
     }
   },
-  "DTOs": {
+  "DTO": {
     "CustomerDto": {
       "ShortName": "Kurzname",
       "CompanyName": "Firma",
@@ -26,7 +32,7 @@
       "Hidden": "Versteckt"
     }
   },
-  "Validations": {
+  "Validation": {
     "RequiredWithField": "'{$FIELDNAME}' ist erforderlich",
     "MinLengthWithField": "'{$FIELDNAME}' Muss mindesten {$VALUE} Zeichen haben",
     "MaxLengthWithField": "'{$FIELDNAME}' darf nicht mehr als {$VALUE} Zeichen haben",

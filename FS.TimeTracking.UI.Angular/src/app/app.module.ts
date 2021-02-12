@@ -22,6 +22,7 @@ import {MasterDataProjectsComponent} from './master-data/components/master-data-
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {SimpleTableComponent} from './shared/components/simple-table/simple-table.component';
 import {StorageService} from './shared/services/storage/storage.service';
+import { MasterDataCustomersEditComponent } from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import {StorageService} from './shared/services/storage/storage.service';
     PageFooterComponent,
     TimesheetComponent,
     MasterDataCustomersComponent,
+    MasterDataCustomersEditComponent,
     MasterDataProjectsComponent,
-    MasterDataActivitiesComponent
+    MasterDataActivitiesComponent,
   ],
   imports: [
     BrowserModule,

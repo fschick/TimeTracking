@@ -74,7 +74,7 @@ export class FormValidationErrorsComponent implements OnInit {
       return validationErrorConverter(fieldName, error);
     } else {
       console.error(`No error converter for validation '${validation}' found.`);
-      return $localize`:@@Validations.Common.InvalidWithField:'${fieldName}:FIELDNAME:' is invalid.`;
+      return $localize`:@@Validation.Common.InvalidWithField:'${fieldName}:FIELDNAME:' is invalid.`;
     }
   }
 
@@ -95,12 +95,12 @@ type IValidationErrorConverters = {
 
 const validationErrorConverters: IValidationErrorConverters = {
   // eslint-disable-next-line max-len
-  required: (fieldName, _) => $localize`:@@Validations.RequiredWithField:[I18N] The field '${fieldName}:FIELDNAME:' is required`,
-  minlength: (fieldName, error) => $localize`:@@Validations.MinLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
-  maxlength: (fieldName, error) => $localize`:@@Validations.MaxLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
-  min: (fieldName, error) => $localize`:@@Validations.MinWithField:[I18N] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,
-  max: (fieldName, error) => $localize`:@@Validations.MaxWithField:[I18N] '${fieldName}:FIELDNAME:' must be lower or equal to ${error.max}:VALUE:`,
-  compare: (fieldName, error) => $localize`:@@Validations.CompareWithField:[I18N] '${error.fieldName}:FIELDNAME:' and '${error.otherFieldName}:OTHERFIELDNAME:' does not match`,
+  required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[I18N] The field '${fieldName}:FIELDNAME:' is required`,
+  minlength: (fieldName, error) => $localize`:@@Validation.MinLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
+  maxlength: (fieldName, error) => $localize`:@@Validation.MaxLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
+  min: (fieldName, error) => $localize`:@@Validation.MinWithField:[I18N] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,
+  max: (fieldName, error) => $localize`:@@Validation.MaxWithField:[I18N] '${fieldName}:FIELDNAME:' must be lower or equal to ${error.max}:VALUE:`,
+  compare: (fieldName, error) => $localize`:@@Validation.CompareWithField:[I18N] '${error.fieldName}:FIELDNAME:' and '${error.otherFieldName}:OTHERFIELDNAME:' does not match`,
 };
 
 

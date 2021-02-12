@@ -1,33 +1,41 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
+import {EntityChangedService} from '../../../shared/services/state-management/entity-changed.service';
+import {single} from 'rxjs/operators';
 
 @Component({
   selector: 'ts-master-data-customers',
   templateUrl: './master-data-customers.component.html',
   styleUrls: ['./master-data-customers.component.scss']
 })
-export class MasterDataCustomersComponent implements OnInit {
+export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerDto>;
   @ViewChild('editCellTemplate', {static: true}) private editCellTemplate?: DataCellTemplate<CustomerDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerDto>;
 
-  public rows$?: Observable<CustomerDto[]>;
   public rows: CustomerDto[];
   public columns!: Column<CustomerDto>[];
   public configuration?: Partial<Configuration<CustomerDto>>;
 
+  private subscriptions = new Subscription();
+
   constructor(
     private customerService: CustomerService,
+    private entityChangedService: EntityChangedService,
     private storageService: StorageService,
   ) {
     this.rows = [];
   }
 
   public ngOnInit(): void {
-    this.rows$ = this.customerService.query();
+    this.customerService.query().pipe(single()).subscribe(x => this.rows = x);
+    const customerChanged = this.entityChangedService.customerChanged.subscribe(changedEvent =>
+      this.rows = [...this.entityChangedService.updateCollection(this.rows, 'id', changedEvent)]
+    );
+    this.subscriptions.add(customerChanged);
 
     this.configuration = {
       cssWrapper: 'table-responsive',
@@ -35,22 +43,25 @@ export class MasterDataCustomersComponent implements OnInit {
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.storageService.language,
-      trackBy: (_, row: CustomerDto) => row.id,
     };
 
     // const hideBelowViewPointMd = {cssHeadCell: 'd-none d-md-table-cell', cssDataCell: 'd-none d-md-table-cell'};
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
       {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, width: '3%'},
-      {title: $localize`:@@DTOs.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
-      // {title: $localize`:@@DTOs.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName'},
-      {title: $localize`:@@DTOs.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
-      // {title: $localize`:@@DTOs.CustomerDto.Street:[i18n] Street`, prop: 'street', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTOs.CustomerDto.ZipCode:[i18n] Zip`, prop: 'zipCode', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTOs.CustomerDto.City:[i18n] City`, prop: 'city', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTOs.CustomerDto.Country:[i18n] Country`, prop: 'country', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTOs.CustomerDto.Hidden:[i18n] Hidden`, prop: 'hidden', format: row => row.hidden ? this.trueString : this.falseString},
+      {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss},
+      {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss},
+      {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss},
+      // {title: $localize`:@@DTO.CustomerDto.Street:[i18n] Street`, prop: 'street', ...hideBelowViewPointMd},
+      // {title: $localize`:@@DTO.CustomerDto.ZipCode:[i18n] Zip`, prop: 'zipCode', ...hideBelowViewPointMd},
+      // {title: $localize`:@@DTO.CustomerDto.City:[i18n] City`, prop: 'city', ...hideBelowViewPointMd},
+      // {title: $localize`:@@DTO.CustomerDto.Country:[i18n] Country`, prop: 'country', ...hideBelowViewPointMd},
+      // {title: $localize`:@@DTO.CustomerDto.Hidden:[i18n] Hidden`, prop: 'hidden', format: row => row.hidden ? this.trueString : this.falseString},
     ];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   getCellValue(row: CustomerDto, column: Column<CustomerDto>) {
