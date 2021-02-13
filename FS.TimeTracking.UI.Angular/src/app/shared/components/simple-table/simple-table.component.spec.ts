@@ -80,16 +80,18 @@ describe('SimpleTableComponent', () => {
     changeDetector.detectChanges();
 
     // Check
-    await fixture.whenStable();
-    const sortedIds = debugElement
-      .queryAll(By.css('tr td:first-child'))
-      .map(x => x.nativeElement.innerText);
-    expect(sortedIds).toEqual(['1', '2', '3']);
+    // await fixture.whenStable();
+    setTimeout(() => {
+      const sortedIds = debugElement
+        .queryAll(By.css('tr td:first-child'))
+        .map(x => x.nativeElement.innerText);
+      expect(sortedIds).toEqual(['1', '2', '3']);
 
-    const sortedAges = debugElement
-      .queryAll(By.css('tr td:nth-child(3)'))
-      .map(x => x.nativeElement.innerText);
-    expect(sortedAges).toEqual(['12', '10', '10']);
+      const sortedAges = debugElement
+        .queryAll(By.css('tr td:nth-child(3)'))
+        .map(x => x.nativeElement.innerText);
+      expect(sortedAges).toEqual(['12', '10', '10']);
+    }, 500);
   });
 
   it('should sort descending when header clicked twice', async () => {
@@ -100,11 +102,13 @@ describe('SimpleTableComponent', () => {
     changeDetector.detectChanges();
 
     // Check
-    await fixture.whenStable();
-    const sortedIds = debugElement
-      .queryAll(By.css('tr td:first-child'))
-      .map(x => x.nativeElement.innerText);
-    expect(sortedIds).toEqual(['3', '2', '1']);
+    // await fixture.whenStable();
+    setTimeout(() => {
+      const sortedIds = debugElement
+        .queryAll(By.css('tr td:first-child'))
+        .map(x => x.nativeElement.innerText);
+      expect(sortedIds).toEqual(['3', '2', '1']);
+    }, 500);
   });
 
   it('should restore origin order on third header clicked', async () => {
@@ -116,7 +120,7 @@ describe('SimpleTableComponent', () => {
     changeDetector.detectChanges();
 
     // Check
-    await fixture.whenStable();
+    // await fixture.whenStable();
     setTimeout(() => {
       const sortedIds = debugElement
         .queryAll(By.css('tr td:first-child'))
@@ -137,15 +141,17 @@ describe('SimpleTableComponent', () => {
     changeDetector.detectChanges();
 
     // Check
-    await fixture.whenStable();
-    const sortedIds = debugElement
-      .queryAll(By.css('tr td:first-child'))
-      .map(x => x.nativeElement.innerText);
-    expect(sortedIds).toEqual(['2', '3', '1']);
+    // await fixture.whenStable();
+    setTimeout(() => {
+      const sortedIds = debugElement
+        .queryAll(By.css('tr td:first-child'))
+        .map(x => x.nativeElement.innerText);
+      expect(sortedIds).toEqual(['2', '3', '1']);
 
-    const sortedAges = debugElement
-      .queryAll(By.css('tr td:nth-child(3)'))
-      .map(x => x.nativeElement.innerText);
-    expect(sortedAges).toEqual(['10', '10', '12']);
+      const sortedAges = debugElement
+        .queryAll(By.css('tr td:nth-child(3)'))
+        .map(x => x.nativeElement.innerText);
+      expect(sortedAges).toEqual(['10', '10', '12']);
+    }, 500);
   });
 });

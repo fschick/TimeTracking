@@ -1,14 +1,42 @@
 /* eslint-disable @angular-eslint/no-input-rename */
-import {ChangeDetectionStrategy, Component, Input, TemplateRef, TrackByFunction} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef, TrackByFunction} from '@angular/core';
 
 export type SortOrder = 'asc' | 'desc';
 export type Filters<TRow> = { [key in keyof TRow]: string };
 
-export type RowTemplate<TRow> = TemplateRef<{ columns: Column<TRow>[] }>;
+export type HeaderCellClickEvent<TRow> = {
+  column: Column<TRow>; mouseEvent: MouseEvent;
+  table: SimpleTableComponent<TRow>;
+};
 
-export type HeadCellTemplate<TRow> = TemplateRef<{ column: Column<TRow> }>;
-export type FilterCellTemplate<TRow> = TemplateRef<{ column: Column<TRow>; filters: Filters<TRow>; applyFilter: (() => void) }>;
-export type DataCellTemplate<TRow> = TemplateRef<{ row: TRow; column: Column<TRow> }>;
+export type DataCellClickEvent<TRow> = {
+  row: TRow;
+  column: Column<TRow>;
+  mouseEvent: MouseEvent;
+  table: SimpleTableComponent<TRow>;
+};
+
+export type RowTemplate<TRow> = TemplateRef<{
+  columns: Column<TRow>[];
+  table: SimpleTableComponent<TRow>;
+}>;
+
+export type HeadCellTemplate<TRow> = TemplateRef<{
+  column: Column<TRow>;
+  table: SimpleTableComponent<TRow>;
+}>;
+
+export type FilterCellTemplate<TRow> = TemplateRef<{
+  column: Column<TRow>;
+  filters: Filters<TRow>;
+  applyFilter: (() => void);
+  table: SimpleTableComponent<TRow>;
+}>;
+
+export type DataCellTemplate<TRow> = TemplateRef<{
+  row: TRow; column: Column<TRow>;
+  table: SimpleTableComponent<TRow>;
+}>;
 
 export class Configuration<TRow> {
   public cssWrapper = '';
@@ -80,6 +108,10 @@ export class SimpleTableComponent<TRow> {
     this.applyFilter();
   }
 
+  @Output() headerCellClick = new EventEmitter<HeaderCellClickEvent<TRow>>();
+
+  @Output() dataCellClick = new EventEmitter<DataCellClickEvent<TRow>>();
+
   public configuration: Configuration<TRow>;
   public rows: TRow[];
   public columns: Column<TRow>[];
@@ -97,8 +129,20 @@ export class SimpleTableComponent<TRow> {
     this.originRowOrder = [];
   }
 
-  public getFilterTemplateContext(column: Column<TRow>) {
-    return {column, filters: this.filters, applyFilter: () => this.applyFilter()};
+  public getHeaderRowContext() {
+    return {columns: this.columns, table: this};
+  }
+
+  public getHeaderCellContext(column: Column<TRow>) {
+    return {column, table: this};
+  }
+
+  public getFilterCellContext(column: Column<TRow>) {
+    return {column, filters: this.filters, applyFilter: () => this.applyFilter(), table: this};
+  }
+
+  public getDataCellContext(row: TRow, column: Column<TRow>) {
+    return {row, column, table: this};
   }
 
   public getColumnWidth(column: Column<TRow>): string {
@@ -153,7 +197,11 @@ export class SimpleTableComponent<TRow> {
     return value?.toLocaleString(this.configuration.locale);
   }
 
-  public applySortOrder(column: Column<TRow>) {
+  public applySortOrder(column: Column<TRow>, $event: MouseEvent) {
+    this.headerCellClick.emit({column, mouseEvent: $event, table: this});
+    if ($event.defaultPrevented)
+      return;
+
     if (column.sortable === false)
       return;
 
@@ -173,6 +221,10 @@ export class SimpleTableComponent<TRow> {
 
   public applyFilter(): void {
     this.filteredRows = this.filterRows(this.rows);
+  }
+
+  public onDataCellClick(row: TRow, column: Column<TRow>, $event: MouseEvent) {
+    this.dataCellClick.emit({row, column, mouseEvent: $event, table: this});
   }
 
   private updateFiltersWithChangedColumns(): void {

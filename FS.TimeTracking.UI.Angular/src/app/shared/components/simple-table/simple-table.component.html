@@ -1,14 +1,14 @@
 <div [class]="configuration.cssWrapper">
   <table [class]="configuration.cssTable">
     <thead>
-    <ng-container *ngTemplateOutlet="configuration.headRowTemplate ? configuration.headRowTemplate : defaultHeadRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.headRowTemplate ? configuration.headRowTemplate : defaultHeadRowTemplate; context: getHeaderRowContext()"></ng-container>
     </thead>
     <tbody>
-    <ng-container *ngTemplateOutlet="configuration.filterRowTemplate ? configuration.filterRowTemplate : defaultFilterRowTemplate; context: {columns: columns}"></ng-container>
-    <ng-container *ngTemplateOutlet="configuration.dataRowTemplate ? configuration.dataRowTemplate : defaultDataRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.filterRowTemplate ? configuration.filterRowTemplate : defaultFilterRowTemplate; context: getHeaderRowContext()"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.dataRowTemplate ? configuration.dataRowTemplate : defaultDataRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tbody>
     <tfoot>
-    <ng-container *ngTemplateOutlet="configuration.footRowTemplate ? configuration.footRowTemplate : defaultFooterRowTemplate; context: {columns: columns}"></ng-container>
+    <ng-container *ngTemplateOutlet="configuration.footRowTemplate ? configuration.footRowTemplate : defaultFooterRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tfoot>
   </table>
 </div>
@@ -18,9 +18,9 @@
     <th *ngFor="let column of columns;"
         [ngClass]="[configuration.cssHeadCell, getCssHeadCell(column), getCssSortEnabled(column)]"
         [style]="getColumnWidth(column)"
-        (click)="applySortOrder(column)"
+        (click)="applySortOrder(column, $event)"
         scope="col">
-      <ng-container *ngTemplateOutlet="column.headCellTemplate ? column.headCellTemplate : defaultHeadCellTemplate; context: {column: column}"></ng-container>
+      <ng-container *ngTemplateOutlet="column.headCellTemplate ? column.headCellTemplate : defaultHeadCellTemplate; context: getHeaderCellContext(column)"></ng-container>
     </th>
   </tr>
 </ng-template>
@@ -32,7 +32,7 @@
       [ngClass]="[configuration.cssFilterCell, getCssFilterCell(column)]"
       [style]="getColumnWidth(column)">
       <ng-container *ngIf="column.filterable !== 'no'">
-        <ng-container *ngTemplateOutlet="column.filterCellTemplate ? column.filterCellTemplate : defaultFilterCellTemplate; context: getFilterTemplateContext(column)"></ng-container>
+        <ng-container *ngTemplateOutlet="column.filterCellTemplate ? column.filterCellTemplate : defaultFilterCellTemplate; context: getFilterCellContext(column)"></ng-container>
       </ng-container>
     </td>
   </tr>
@@ -45,8 +45,9 @@
     <td
       *ngFor="let column of columns;"
       [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
-      [style]="getColumnWidth(column)">
-      <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: {row: row, column: column}"></ng-container>
+      [style]="getColumnWidth(column)"
+      (click)="onDataCellClick(row, column, $event)">
+      <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: getDataCellContext(row, column)"></ng-container>
     </td>
   </tr>
 </ng-template>
