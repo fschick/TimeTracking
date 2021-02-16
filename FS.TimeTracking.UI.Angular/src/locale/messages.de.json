@@ -6,6 +6,9 @@
     "Close": "Schließen",
     "Cancel": "Abbrechen"
   },
+  "API": {
+    "InternalServerError": "Interner Serverfehler aufgetreten"
+  },
   "Page": {
     "Timesheet": {
       "Timesheet": "Zeiterfassung"

@@ -6,7 +6,7 @@ import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.com
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ApiModule, Configuration} from './shared/services/api';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
 import translationsEN from '../locale/messages.en.json';
@@ -22,7 +22,10 @@ import {MasterDataProjectsComponent} from './master-data/components/master-data-
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {SimpleTableComponent} from './shared/components/simple-table/simple-table.component';
 import {StorageService} from './shared/services/storage/storage.service';
-import { MasterDataCustomersEditComponent } from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
+import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,11 @@ import { MasterDataCustomersEditComponent } from './master-data/components/maste
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      extendedTimeOut: 2500,
+      positionClass: 'toast-bottom-right'
+    }),
     ApiModule.forRoot(() =>
       new Configuration({basePath: environment.apiBasePath})
     ),
@@ -57,6 +65,10 @@ import { MasterDataCustomersEditComponent } from './master-data/components/maste
     provide: LOCALE_ID,
     useFactory: localeLoaderFactory,  //returns locale string,
     deps: [StorageService]
+  }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ApiErrorInterceptor,
+    multi: true
   }],
   bootstrap: [AppComponent]
 })
