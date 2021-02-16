@@ -18,8 +18,11 @@
   </a>
 </ng-template>
 
-<ng-template #dataCellTemplate let-row="row" let-column="column">
-  {{getCellValue(row, column)}}
+<ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
+  <a class="text-body text-decoration-none"
+     [routerLink]="row.id">
+    {{table.getCellValue(row, column)}}
+  </a>
 </ng-template>
 
 <router-outlet></router-outlet>

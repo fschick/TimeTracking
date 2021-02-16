@@ -10,7 +10,7 @@ export interface EntityChanged<TDto> {
 @Injectable({
   providedIn: 'root'
 })
-export class EntityChangedService {
+export class EntityService {
   public customerChanged: Subject<EntityChanged<CustomerDto>> = new Subject<EntityChanged<CustomerDto>>();
 
   public updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
@@ -30,4 +30,22 @@ export class EntityChangedService {
 
     return entities;
   }
+
+  // public showUpdateNote(dtoTransUnitId: string) {
+  //   return <T>(source: Observable<HttpResponse<T>>) =>
+  //     source.pipe(
+  //       catchError(err => {
+  //         const fieldName = '--fieldName--';
+  //         const requiredLength = '--requiredLength--';
+  //         const dtoName = $localizeId`${dtoTransUnitId}:TRANSUNITID:`;
+  //         this.toastr.error($localize`:@@Common.DtoSaveError:[I18N] Error while saving ${dtoName}:DTONAME:`);
+  //         return throwError(err);
+  //       }),
+  //       map(response => {
+  //         const dtoName = $localizeId`${dtoTransUnitId}:TRANSUNITID:`;
+  //         this.toastr.success($localize`:@@Common.DtoSaveSuccess:[I18N] ${dtoName}:DTONAME: saved`);
+  //         return response.body ?? {} as T;
+  //       }),
+  //     );
+  // }
 }

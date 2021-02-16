@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {ActivatedRoute, Router} from '@angular/router';
-import {take} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {single} from 'rxjs/operators';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Modal} from 'bootstrap';
-import {EntityChangedService} from '../../../shared/services/state-management/entity-changed.service';
 import {Location} from '@angular/common';
+import {EntityService} from '../../../shared/services/state-management/entity.service';
 
 @Component({
   selector: 'ts-master-data-customers-edit',
@@ -22,13 +22,13 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private location: Location,
     private route: ActivatedRoute,
     private customerService: CustomerService,
-    private entityChangedService: EntityChangedService,
+    private entityService: EntityService,
     private formValidationService: FormValidationService,
   ) {
     this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto');
     this.customerService
       .get(this.route.snapshot.params.id)
-      .pipe(take(1))
+      .pipe(single())
       .subscribe(customer => this.customerForm.patchValue(customer));
   }
 
@@ -43,10 +43,10 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
       return;
 
     this.customerService.update(this.customerForm.value)
-      .pipe(take(1))
+      .pipe(single())
       .subscribe(customer => {
         this.close();
-        this.entityChangedService.customerChanged.next({action: 'updated', entity: customer});
+        this.entityService.customerChanged.next({action: 'updated', entity: customer});
       });
   }
 

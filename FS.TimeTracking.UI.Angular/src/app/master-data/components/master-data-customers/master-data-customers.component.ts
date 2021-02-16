@@ -3,8 +3,8 @@ import {CustomerDto, CustomerService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
-import {EntityChangedService} from '../../../shared/services/state-management/entity-changed.service';
 import {single} from 'rxjs/operators';
+import {EntityChanged, EntityService} from '../../../shared/services/state-management/entity.service';
 
 @Component({
   selector: 'ts-master-data-customers',
@@ -24,7 +24,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService,
-    private entityChangedService: EntityChangedService,
+    private entityService: EntityService,
     private storageService: StorageService,
   ) {
     this.rows = [];
@@ -32,9 +32,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.customerService.query().pipe(single()).subscribe(x => this.rows = x);
-    const customerChanged = this.entityChangedService.customerChanged.subscribe(changedEvent =>
-      this.rows = [...this.entityChangedService.updateCollection(this.rows, 'id', changedEvent)]
-    );
+    const customerChanged = this.entityService.customerChanged
+      .subscribe((changedEvent: EntityChanged<CustomerDto>) =>
+        this.rows = [...this.entityService.updateCollection(this.rows, 'id', changedEvent)]
+      );
     this.subscriptions.add(customerChanged);
 
     this.configuration = {
@@ -49,9 +50,9 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
       {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, width: '3%'},
-      {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss},
-      {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss},
-      {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss},
+      {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       // {title: $localize`:@@DTO.CustomerDto.Street:[i18n] Street`, prop: 'street', ...hideBelowViewPointMd},
       // {title: $localize`:@@DTO.CustomerDto.ZipCode:[i18n] Zip`, prop: 'zipCode', ...hideBelowViewPointMd},
       // {title: $localize`:@@DTO.CustomerDto.City:[i18n] City`, prop: 'city', ...hideBelowViewPointMd},
@@ -62,10 +63,5 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  getCellValue(row: CustomerDto, column: Column<CustomerDto>) {
-    return this.customerTable?.getCellValue(row, column);
-    // return row[column.prop];
   }
 }
