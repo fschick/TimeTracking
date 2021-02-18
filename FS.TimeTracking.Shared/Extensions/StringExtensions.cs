@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="value">The value.</param>
         public static string LowercaseFirstChar(this string value)
-            => value[0].ToString().ToLowerInvariant() + value[1..];
+            => char.ToLower(value[0]) + value[1..];
     }
 }

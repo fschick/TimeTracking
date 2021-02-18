@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
@@ -13,7 +13,10 @@ export class ApiErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(tap(
       () => {},
       error => {
-        this.toastrService.error($localize`:@@API.InternalServerError:`);
+        const requestId = error.headers.get('Request-Id');
+        const message = $localize`:@@API.InternalServerError:\r\n` + '.\r\nRequestID:' + requestId;
+        console.error(message);
+        this.toastrService.error(message);
       }));
   }
 }

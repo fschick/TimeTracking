@@ -138,7 +138,11 @@ namespace FS.TimeTracking
             {
 #if DEBUG
                 applicationBuilder.UseDeveloperExceptionPage();
-                applicationBuilder.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                applicationBuilder.UseCors(policy => policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                );
 #endif
             }
             else

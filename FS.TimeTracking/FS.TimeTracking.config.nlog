@@ -24,7 +24,7 @@
             concurrentWrites="false"
             openFileCacheTimeout="30"
             fileName="${basedir}/TimeTracking.log.txt"
-            layout="${longdate}|${level:uppercase=true}|${logger}|${event-properties:item=EventId_Id}|${ndlc:separator= => }|${message}|${exception:format=tostring}|${callsite:className=true:fileName=true:includeSourcePath=false:methodName=true:cleanNamesOfAnonymousDelegates=true}|${stacktrace}">
+            layout="${longdate}|${level:uppercase=true}|${logger}|${event-properties:item=EventId_Id}|${mdlc:item=RequestId}|${mdlc:item=RequestPath}|${message}|${exception:format=tostring}|${callsite:className=true:fileName=true:includeSourcePath=false:methodName=true:cleanNamesOfAnonymousDelegates=true}|${stacktrace}">
     </target>
 
     <target name="log_to_csv"
@@ -41,7 +41,8 @@
         <column name="LogLevel" layout="${level:uppercase=true}" />
         <column name="Logger" layout="${logger}" />
         <column name="EventId" layout="${event-properties:item=EventId_Id}" />
-        <column name="Scope" layout="${ndlc:separator= => }" />
+        <column name="RequestId" layout="${mdlc:item=RequestId}" />
+        <column name="RequestPath" layout="${mdlc:item=RequestPath}" />
         <column name="Message" layout="${message}" />
         <column name="Exception" layout="${exception:format=tostring}" />
         <column name="Callsite" layout="${callsite:className=true:fileName=true:includeSourcePath=false:methodName=true:cleanNamesOfAnonymousDelegates=true}" />

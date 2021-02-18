@@ -36,7 +36,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
-                    c.OperationFilter<ActionExtensionOperationFilter>();
+                    c.OperationFilter<OpenApiActionFilter>();
                 });
 
         internal static void GenerateOpenApiSpec(this IHost host, string outFile)

@@ -1,15 +1,16 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using FS.TimeTracking.Shared.Extensions;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FS.TimeTracking.Api.REST.Startup
 {
-    internal class ActionExtensionOperationFilter : IOperationFilter
+    internal class OpenApiActionFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             var action = context.MethodInfo.Name;
-            var lowercasedAction = char.ToLower(action[0]) + action.Substring(1);
+            var lowercasedAction = action.LowercaseFirstChar();
             operation.Extensions.Add("x-csharp-action", new OpenApiString(lowercasedAction));
         }
     }
