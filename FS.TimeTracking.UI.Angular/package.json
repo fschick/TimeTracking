@@ -9,6 +9,7 @@
     "test": "ng test --no-watch --browsers=Chrome",
     "test-headless": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
+    "bundle-size": "ng build --prod --sourceMap=true && source-map-explorer dist/TimeTracking/main.*.js",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -58,6 +59,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "source-map-explorer": "^2.5.2",
     "ts-node": "^9.1.1",
     "tslint": "~6.1.0",
     "typescript": "^4.1.5"
