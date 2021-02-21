@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
-    <ProjectReference Include="..\FS.TimeTracking.Repository.Memory\FS.TimeTracking.Repository.Memory.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.Sqlite\FS.TimeTracking.Repository.SqLite.csproj" />

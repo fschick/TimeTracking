@@ -35,19 +35,16 @@ namespace FS.TimeTracking.Repository.DbContexts
 
             switch (_configuration.Database.Type)
             {
-                case TimeTrackingConfiguration.DatabaseType.Memory:
-                    options.UseInMemoryDatabase(connectionString);
-                    break;
-                case TimeTrackingConfiguration.DatabaseType.SqLite:
+                case DatabaseType.SqLite:
                     options.UseSqlite(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
-                case TimeTrackingConfiguration.DatabaseType.SqlServer:
+                case DatabaseType.SqlServer:
                     options.UseSqlServer(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
-                case TimeTrackingConfiguration.DatabaseType.PostgreSql:
+                case DatabaseType.PostgreSql:
                     options.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
-                case TimeTrackingConfiguration.DatabaseType.MySql:
+                case DatabaseType.MySql:
                     var serverVersion = ServerVersion.AutoDetect(connectionString);
                     options.UseMySql(connectionString, serverVersion, o => o.MigrationsAssembly(migrationAssembly));
                     break;

@@ -19,7 +19,7 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(new TimeTrackingConfiguration { Database = new TimeTrackingConfiguration.DatabaseConfiguration { ConnectionString = "timetracking" } });
+            autoFake.Provide(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } });
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act
@@ -38,7 +38,7 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(new TimeTrackingConfiguration { Database = new TimeTrackingConfiguration.DatabaseConfiguration { ConnectionString = "timetracking" } });
+            autoFake.Provide(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } });
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act

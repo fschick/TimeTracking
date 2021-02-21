@@ -24,9 +24,9 @@ namespace FS.TimeTracking.Tests.Services
             var sqLiteDatabaseFilePath = $"{Guid.NewGuid()}.sqlite";
             var configuration = new TimeTrackingConfiguration
             {
-                Database = new TimeTrackingConfiguration.DatabaseConfiguration
+                Database = new DatabaseConfiguration
                 {
-                    Type = TimeTrackingConfiguration.DatabaseType.SqLite,
+                    Type = DatabaseType.SqLite,
                     ConnectionString = $"Data Source={sqLiteDatabaseFilePath}"
                 }
             };
