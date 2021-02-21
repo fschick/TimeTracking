@@ -42,7 +42,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
             => _modelService.Update(dto);
 
         /// <inheritdoc />
-        [HttpDelete]
+        [HttpDelete("{id}", Name = "[controller]_[action]")]
         public Task<long> Delete(Guid id)
             => _modelService.Delete(id);
     }

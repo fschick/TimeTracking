@@ -11,4 +11,10 @@
     <ProjectReference Include="..\FS.TimeTracking\FS.TimeTracking.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestDatabaseSources.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

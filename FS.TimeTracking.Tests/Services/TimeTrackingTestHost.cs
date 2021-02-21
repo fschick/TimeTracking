@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.IO;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,21 +14,12 @@ namespace FS.TimeTracking.Tests.Services
     public sealed class TimeTrackingTestHost : IHost, IAsyncDisposable
     {
         private IHost _testHost;
-        private string _sqLiteDatabaseFilePath;
 
         private TimeTrackingTestHost() { }
 
-        public static async Task<TimeTrackingTestHost> Create()
+        public static async Task<TimeTrackingTestHost> Create(DatabaseConfiguration database)
         {
-            var sqLiteDatabaseFilePath = $"{Guid.NewGuid()}.sqlite";
-            var configuration = new TimeTrackingConfiguration
-            {
-                Database = new DatabaseConfiguration
-                {
-                    Type = DatabaseType.SqLite,
-                    ConnectionString = $"Data Source={sqLiteDatabaseFilePath}"
-                }
-            };
+            var configuration = new TimeTrackingConfiguration { Database = database };
 
             var hostBuilder = Program.CreateHostBuilderInternal(configuration)
                 .ConfigureWebHost(webHostBuilder => webHostBuilder.UseTestServer());
@@ -37,7 +27,6 @@ namespace FS.TimeTracking.Tests.Services
             return new TimeTrackingTestHost
             {
                 _testHost = await hostBuilder.StartAsync(),
-                _sqLiteDatabaseFilePath = sqLiteDatabaseFilePath
             };
         }
 
@@ -70,9 +59,6 @@ namespace FS.TimeTracking.Tests.Services
 
             await _testHost.StopAsync(TimeSpan.FromSeconds(10));
             _testHost.Dispose();
-
-            if (File.Exists(_sqLiteDatabaseFilePath))
-                File.Delete(_sqLiteDatabaseFilePath);
 
             _disposedValue = true;
         }

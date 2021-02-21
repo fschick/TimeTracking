@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FS.TimeTracking.Api.REST.Controllers;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,10 +15,11 @@ namespace FS.TimeTracking.Tests.IntegrationTests
     public class CrudIntegrationTests
     {
         [TestMethod]
-        public async Task WhenCustomerIsAdded_AllMembersAreSaved()
+        [TestDatabaseSources]
+        public async Task WhenCustomerIsAdded_AllMembersAreSaved(DatabaseConfiguration configuration)
         {
             // Prepare
-            await using var testHost = await TimeTrackingTestHost.Create();
+            await using var testHost = await TimeTrackingTestHost.Create(configuration);
             using var client = testHost.GetTestClient();
 
             var newCustomer = new CustomerDto
@@ -44,6 +46,10 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             // Check
             createdCustomer.Should().BeEquivalentTo(newCustomer);
             readCustomer.Should().BeEquivalentTo(createdCustomer);
+
+            // Cleanup
+            var deleteRoute = testHost.GetRoute<CustomerController>(x => x.Delete(readCustomer.Id));
+            await client.DeleteAsync(deleteRoute);
         }
     }
 }

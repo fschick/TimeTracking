@@ -15,6 +15,7 @@ workflow:
 
 build_job:
   stage: build
+  interruptible: true
   script:
     - Build/make_build.ps1 -version "0.0.0.0"
   rules:
@@ -30,6 +31,7 @@ build_job:
 
 test_job:
   stage: test
+  interruptible: true
   script:
    - Build/make_test.ps1
   rules:
@@ -52,6 +54,7 @@ test_job:
 
 deploy_job_win:
   stage: deploy
+  interruptible: true
   script:
     - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime win10-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
   rules:
@@ -64,6 +67,8 @@ deploy_job_win:
     expire_in: 1 month
     
 deploy_job_linux:
+  stage: deploy
+  interruptible: true
   script:
     - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -runtime linux-x64 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
   rules:
