@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                 .AddControllers(o =>
                 {
                     o.OutputFormatters.RemoveType<StringOutputFormatter>();
-                    o.Filters.Add<RequestIdHeaderFilter>();
+                    o.Filters.Add<AddRequestIdToHeaderFilter>();
                 })
                 .AddNewtonsoftJson();
 

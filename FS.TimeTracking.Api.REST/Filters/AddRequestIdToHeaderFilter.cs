@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Filters
 {
-    internal class RequestIdHeaderFilter : IActionFilter
+    internal class AddRequestIdToHeaderFilter : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {

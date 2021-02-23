@@ -9,13 +9,14 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Tests.Services
 {
-    public class TestDatabaseSourcesAttribute : Attribute, ITestDataSource
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class TestDatabasesAttribute : Attribute, ITestDataSource
     {
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
-            var testDatabaseSourcesFile = Environment.GetEnvironmentVariable("TestDatabaseSources");
-            testDatabaseSourcesFile ??= "TestDatabaseSources.json";
-            var testDatabaseSourcesJson = File.ReadAllText(testDatabaseSourcesFile);
+            var testDatabasesFile = Environment.GetEnvironmentVariable("TestDatabases");
+            testDatabasesFile ??= "TestDatabases.json";
+            var testDatabaseSourcesJson = File.ReadAllText(testDatabasesFile);
             var testDatabaseSources = JsonConvert.DeserializeObject<List<DatabaseConfiguration>>(testDatabaseSourcesJson);
             return testDatabaseSources.Select(x => new object[] { x });
         }

@@ -15,11 +15,11 @@ namespace FS.TimeTracking.Tests.IntegrationTests
     public class CrudIntegrationTests
     {
         [TestMethod]
-        [TestDatabaseSources]
+        [TestDatabases]
         public async Task WhenCustomerIsAdded_AllMembersAreSaved(DatabaseConfiguration configuration)
         {
-            // Prepare
-            await using var testHost = await TimeTrackingTestHost.Create(configuration);
+        	// Prepare
+            await using var testHost = await TestHost.Create(configuration);
             using var client = testHost.GetTestClient();
 
             var newCustomer = new CustomerDto
