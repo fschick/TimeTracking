@@ -4,8 +4,10 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 
 namespace FS.TimeTracking.Application.ModelConverters
 {
+    /// <inheritdoc />
     public class CustomerConverter : IModelConverter<Customer, CustomerDto>
     {
+        /// <inheritdoc />
         public CustomerDto ToDto(Customer model)
             => new CustomerDto
             {
@@ -20,6 +22,7 @@ namespace FS.TimeTracking.Application.ModelConverters
                 Hidden = model.Hidden,
             };
 
+        /// <inheritdoc />
         public Customer FromDto(CustomerDto dto)
             => new Customer
             {

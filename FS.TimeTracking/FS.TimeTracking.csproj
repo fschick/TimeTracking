@@ -45,6 +45,10 @@
     <AngularDirectory>../FS.TimeTracking.UI.Angular</AngularDirectory>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\net5.0\FS.TimeTracking.xml</DocumentationFile>
+  </PropertyGroup>
+
   <Target Name="GenerateOpenApiSpec" AfterTargets="AfterBuild">
     <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
   </Target>

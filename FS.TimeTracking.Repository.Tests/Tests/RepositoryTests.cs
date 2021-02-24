@@ -1,8 +1,8 @@
 using Autofac.Extras.FakeItEasy;
 using FluentAssertions;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Repositories;
-using FS.TimeTracking.Shared.Interfaces.Repository;
+using FS.TimeTracking.Repository.Services;
+using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

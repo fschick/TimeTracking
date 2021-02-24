@@ -7,10 +7,13 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
+    /// <inheritdoc />
     public class MaxLengthValidationConverter : IValidationDescriptionConverter
     {
+        /// <inheritdoc />
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(MaxLengthAttribute) };
 
+        /// <inheritdoc />
         public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
             => new JObject
             {

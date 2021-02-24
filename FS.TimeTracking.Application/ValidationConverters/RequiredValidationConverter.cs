@@ -7,10 +7,13 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
+    /// <inheritdoc />
     public class RequiredValidationConverter : IValidationDescriptionConverter
     {
+        /// <inheritdoc />
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RequiredAttribute) };
 
+        /// <inheritdoc />
         public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
             => new JObject
             {

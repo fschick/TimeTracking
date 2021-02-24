@@ -11,10 +11,12 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services
 {
+    /// <inheritdoc />
     public class ValidationDescriptionService<TModelAssembly, TConverterAssembly> : IValidationDescriptionService
     {
         internal readonly IValidationDescriptionConverter[] ValidationDescriptionConverters = GetValidationDescriptionConverters();
 
+        /// <inheritdoc />
         public Task<JObject> GetValidationDescriptions()
         {
             var typeValidationDescriptions = GetTypesWithValidationDescriptionAttribute<TModelAssembly>()

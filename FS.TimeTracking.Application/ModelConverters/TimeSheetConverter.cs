@@ -4,8 +4,10 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 
 namespace FS.TimeTracking.Application.ModelConverters
 {
+    /// <inheritdoc />
     public class TimeSheetConverter : IModelConverter<TimeSheet, TimeSheetDto>
     {
+        /// <inheritdoc />
         public TimeSheetDto ToDto(TimeSheet model)
             => new TimeSheetDto
             {
@@ -18,6 +20,7 @@ namespace FS.TimeTracking.Application.ModelConverters
                 Comment = model.Comment
             };
 
+        /// <inheritdoc />
         public TimeSheet FromDto(TimeSheetDto dto)
             => new TimeSheet
             {

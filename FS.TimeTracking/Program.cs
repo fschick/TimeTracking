@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking
 {
-    public static class Program
+    internal static class Program
     {
         private const string CONFIG_BASE_NAME = "FS.TimeTracking.config";
         private const string NLOG_CONFIGURATION_FILE = CONFIG_BASE_NAME + ".nlog";

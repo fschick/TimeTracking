@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Shared.Interfaces.Repository
+namespace FS.TimeTracking.Shared.Interfaces.Services
 {
     /// <summary>
     /// Generic repository.

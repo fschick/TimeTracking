@@ -8,10 +8,13 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
+    /// <inheritdoc />
     public class CompareValidationConverter : IValidationDescriptionConverter
     {
+        /// <inheritdoc />
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(CompareAttribute) };
 
+        /// <inheritdoc />
         public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
         {
             var otherProperty = ((string)attribute.ConstructorArguments[0].Value).LowercaseFirstChar();

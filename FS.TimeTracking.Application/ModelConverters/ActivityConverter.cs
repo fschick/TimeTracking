@@ -4,8 +4,10 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 
 namespace FS.TimeTracking.Application.ModelConverters
 {
+    /// <inheritdoc />
     public class ActivityConverter : IModelConverter<Activity, ActivityDto>
     {
+        /// <inheritdoc />
         public ActivityDto ToDto(Activity model)
             => new ActivityDto
             {
@@ -17,6 +19,7 @@ namespace FS.TimeTracking.Application.ModelConverters
                 Hidden = model.Hidden
             };
 
+        /// <inheritdoc />
         public Activity FromDto(ActivityDto dto)
             => new Activity
             {

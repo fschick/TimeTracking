@@ -8,10 +8,13 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Application.ValidationConverters
 {
+    /// <inheritdoc />
     public class StringLengthValidationConverter : IValidationDescriptionConverter
     {
+        /// <inheritdoc />
         public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(StringLengthAttribute) };
 
+        /// <inheritdoc />
         public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
         {
             var result = new JObject

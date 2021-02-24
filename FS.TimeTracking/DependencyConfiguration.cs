@@ -2,17 +2,17 @@
 using FS.TimeTracking.Application.Services;
 using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Repositories;
+using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Converters;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Repository;
+using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking
 {
-    public static class DependencyConfiguration
+    internal static class DependencyConfiguration
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
