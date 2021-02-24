@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Converters;
 
 namespace FS.TimeTracking.Api.REST.Startup
 {
@@ -18,8 +19,12 @@ namespace FS.TimeTracking.Api.REST.Startup
                 {
                     o.OutputFormatters.RemoveType<StringOutputFormatter>();
                     o.Filters.Add<AddRequestIdToHeaderFilter>();
+                    o.Filters.Add<ExceptionToHttpResultFilter>();
                 })
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(opts =>
+                {
+                    opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             return services;
         }

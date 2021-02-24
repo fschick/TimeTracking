@@ -1,7 +1,9 @@
 ﻿using FS.TimeTracking.Shared.Interfaces.Application.Services;
+using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,6 +45,8 @@ namespace FS.TimeTracking.Api.REST.Controllers
 
         /// <inheritdoc />
         [HttpDelete("{id}", Name = "[controller]_[action]")]
+        [ProducesResponseType(typeof(long), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorInformation), (int)HttpStatusCode.Conflict)]
         public Task<long> Delete(Guid id)
             => _modelService.Delete(id);
     }

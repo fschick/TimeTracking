@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Routing;
+﻿using FS.TimeTracking.Api.REST.Filters;
+using FS.TimeTracking.Api.REST.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,7 +37,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
-                    c.OperationFilter<OpenApiActionFilter>();
+                    c.OperationFilter<AddCSharpActionFilter>();
                 });
 
         internal static void GenerateOpenApiSpec(this IHost host, string outFile)

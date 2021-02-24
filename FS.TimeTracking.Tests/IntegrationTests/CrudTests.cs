@@ -5,7 +5,6 @@ using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -14,26 +13,14 @@ namespace FS.TimeTracking.Tests.IntegrationTests
     [TestClass]
     public class CrudIntegrationTests
     {
-        [TestMethod]
-        [TestDatabases]
+        [DataTestMethod, TestDatabases]
         public async Task WhenCustomerIsAdded_AllMembersAreSaved(DatabaseConfiguration configuration)
         {
-        	// Prepare
+            // Prepare
             await using var testHost = await TestHost.Create(configuration);
             using var client = testHost.GetTestClient();
 
-            var newCustomer = new CustomerDto
-            {
-                Id = Guid.NewGuid(),
-                ShortName = "TestCustomer",
-                CompanyName = "TestCompany",
-                ContactName = "TestContact",
-                Street = "TestStreet",
-                ZipCode = "1234",
-                City = "TestCity",
-                Country = "TestCountry",
-                Hidden = true,
-            };
+            var newCustomer = FakeEntityFactory.CreateCustomer(hidden: true);
 
             // Act
             var createRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
