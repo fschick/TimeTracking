@@ -49,8 +49,14 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button form="customerForm" type="button" class="btn btn-secondary" (click)="close()" i18n="@@Common.Cancel">[i18n] Cancel</button>
-        <button form="customerForm" type="submit" class="btn btn-primary" i18n="@@Common.Save">[i18n] Save</button>
+        <button form="customerForm" type="button" class="btn btn-outline-danger" (click)="delete()">
+          <i class="bi bi-eraser me-1"></i>
+          <ng-container i18n="@@Common.Delete">[i18n] Delete</ng-container>
+        </button>
+        <button form="customerForm" type="submit" class="btn btn-primary">
+          <i class="bi bi-check-square me-1"></i>
+          <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+        </button>
       </div>
     </div>
   </div>

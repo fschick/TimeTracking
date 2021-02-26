@@ -9,11 +9,21 @@ $accordion-button-active-bg: inherit;
 // DEV only
 $enable-reduced-motion: false;
 
+$enable-negative-margins: true;
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 .accordion-button {
   cursor: pointer;
+}
+
+i.bi {
+  //noinspection CssNoGenericFontName
+  font-family: bootstrap-icons;
+}
+
+button i.bi {
+  vertical-align: bottom;
 }
 
 /* ----------------------------------------- */

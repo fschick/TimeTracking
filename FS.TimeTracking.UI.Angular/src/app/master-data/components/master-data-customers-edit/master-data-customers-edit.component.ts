@@ -42,11 +42,22 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     if (!this.customerForm.valid)
       return;
 
-    this.customerService.update(this.customerForm.value)
+    this.customerService
+      .update(this.customerForm.value)
       .pipe(single())
       .subscribe(customer => {
         this.close();
         this.entityService.customerChanged.next({action: 'updated', entity: customer});
+      });
+  }
+
+  public delete(): void {
+    this.customerService
+      .delete(this.customerForm.value.id)
+      .pipe(single())
+      .subscribe(() => {
+        this.close();
+        this.entityService.customerChanged.next({action: 'deleted', entity: this.customerForm.value});
       });
   }
 

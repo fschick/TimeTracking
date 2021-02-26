@@ -2,8 +2,15 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
-import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
+import {
+  Column,
+  Configuration,
+  DataCellClickEvent,
+  DataCellTemplate,
+  SimpleTableComponent
+} from '../../../shared/components/simple-table/simple-table.component';
 import {single} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EntityChanged, EntityService} from '../../../shared/services/state-management/entity.service';
 
 @Component({
@@ -23,6 +30,8 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
+    private  router: Router,
+    private  route: ActivatedRoute,
     private customerService: CustomerService,
     private entityService: EntityService,
     private storageService: StorageService,
@@ -49,7 +58,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     // const hideBelowViewPointMd = {cssHeadCell: 'd-none d-md-table-cell', cssDataCell: 'd-none d-md-table-cell'};
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, width: '3%'},
+      {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, cssDataCell: 'text-nowrap', width: '1px', sortable: false},
       {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
@@ -63,5 +72,13 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  public getDataCellValue(row: CustomerDto, column: Column<CustomerDto>): string {
+    return this.customerTable?.getCellValue(row, column) ?? '';
+  }
+
+  dataCellClick($event: DataCellClickEvent<CustomerDto>) {
+    this.router.navigate([$event.row.id], {relativeTo: this.route});
   }
 }
