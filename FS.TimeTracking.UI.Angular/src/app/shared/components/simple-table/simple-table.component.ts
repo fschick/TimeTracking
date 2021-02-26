@@ -77,6 +77,7 @@ export type Column<TRow> = {
   width?: string;
   format?: ((row: TRow, column: Column<TRow>) => string | undefined);
   sortable?: boolean;
+  sortType?: 'string' | 'number' | 'date';
   sort?: ((rowA: TRow, rowB: TRow) => number);
   filterable?: 'contains' | 'startWith' | 'no';
   filter?: ((row: TRow, filterValue: string) => boolean);
@@ -199,9 +200,7 @@ export class SimpleTableComponent<TRow> {
   public getCellValue(row: TRow, column: Column<TRow>): string | undefined {
     if (column.format)
       return column.format(row, column);
-
-    const value = row[column.prop] as any;
-    return value?.toLocaleString(this.configuration.locale);
+    return this.toString(row[column.prop]);
   }
 
   public applySortOrder(column: Column<TRow>, $event: MouseEvent) {
@@ -234,6 +233,24 @@ export class SimpleTableComponent<TRow> {
     this.dataCellClick.emit({row, column, mouseEvent: $event, table: this});
   }
 
+  public toString<T>(value: T): string {
+    if (value === null || value === undefined)
+      return '';
+
+    switch (typeof value) {
+      case 'string':
+        return value;
+      case 'number':
+      case 'bigint':
+        return value.toLocaleString(this.configuration.locale);
+      case 'object':
+        if (value instanceof Date)
+          return value.toLocaleString(this.configuration.locale);
+    }
+
+    return String(value);
+  }
+
   private updateFiltersWithChangedColumns(): void {
     const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
 
@@ -253,9 +270,12 @@ export class SimpleTableComponent<TRow> {
       // Compare/sort by column.
       for (const [prop, direction] of this.sortOrder) {
         let columnResult = 0;
-        const columnSortFn = this.columns.find(x => x.prop === prop)?.sort;
+        const column = this.columns.find(x => x.prop === prop);
+        const columnSortFn = column?.sort;
         if (columnSortFn)
           columnResult = columnSortFn(rowA, rowB) * (direction === 'asc' ? 1 : -1);
+        if (column?.sortType === undefined || column.sortType === 'string')
+          columnResult = this.toString(rowA[prop]).localeCompare(this.toString(rowB[prop])) * (direction === 'asc' ? 1 : -1);
         else if (rowA[prop] > rowB[prop])
           columnResult = direction === 'asc' ? 1 : -1;
         else if (rowA[prop] < rowB[prop])
@@ -263,6 +283,7 @@ export class SimpleTableComponent<TRow> {
         if (columnResult !== 0)
           return columnResult;
       }
+
       // When rows remain same/unsorted, compare/sort by origin order.
       const rowIndexA = this.rows.indexOf(rowA);
       const rowIndexB = this.rows.indexOf(rowB);
