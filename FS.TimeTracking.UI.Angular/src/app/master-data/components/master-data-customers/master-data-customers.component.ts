@@ -30,10 +30,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    private  router: Router,
-    private  route: ActivatedRoute,
+    public entityService: EntityService,
+    private router: Router,
+    private route: ActivatedRoute,
     private customerService: CustomerService,
-    private entityService: EntityService,
     private storageService: StorageService,
   ) {
     this.rows = [];

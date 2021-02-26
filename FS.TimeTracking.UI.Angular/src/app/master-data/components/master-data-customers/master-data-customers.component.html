@@ -1,6 +1,12 @@
 <div class="card">
-  <div class="card-header" i18n="@@Page.MasterData.Customers">
-    [i18n] Customers
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <ng-container i18n="@@Page.MasterData.Customers">
+      [i18n] Customers
+    </ng-container>
+    <button type="button" class="btn btn-primary" [routerLink]="entityService.guidEmpty">
+      <i class="bi bi-plus-circle me-1"></i>
+      <ng-container i18n="@@Common.New">[i18n] New</ng-container>
+    </button>
   </div>
   <div class="card-body">
     <ts-simple-table

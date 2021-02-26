@@ -10,7 +10,7 @@
           <div class="row g-3">
             <div class="col-lg-6">
               <label for="shortName" class="form-label" i18n="@@DTO.CustomerDto.ShortName">[i18n] Short name</label>
-              <input id="shortName" type="text" class="form-control" formControlName="shortName">
+              <input id="shortName" type="text" class="form-control" formControlName="shortName" #shortName>
             </div>
             <div class="col-lg-6">
               <label for="companyName" class="form-label" i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
@@ -49,7 +49,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button form="customerForm" type="button" class="btn btn-outline-danger" (click)="delete()">
+        <button form="customerForm" type="button" class="btn btn-outline-danger" [disabled]="isNewRecord" (click)="delete()">
           <i class="bi bi-eraser me-1"></i>
           <ng-container i18n="@@Common.Delete">[i18n] Delete</ng-container>
         </button>

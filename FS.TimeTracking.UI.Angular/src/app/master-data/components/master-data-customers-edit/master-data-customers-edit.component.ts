@@ -14,8 +14,10 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 })
 export class MasterDataCustomersEditComponent implements AfterViewInit {
   @ViewChild('customerEdit') private customerEdit?: ElementRef;
+  @ViewChild('shortName') private shortName?: ElementRef;
 
   public customerForm: ValidationFormGroup;
+  public isNewRecord: boolean;
   private modal!: Modal;
 
   constructor(
@@ -25,16 +27,20 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
   ) {
-    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto');
-    this.customerService
-      .get(this.route.snapshot.params.id)
-      .pipe(single())
-      .subscribe(customer => this.customerForm.patchValue(customer));
+    this.isNewRecord = this.route.snapshot.params.id === this.entityService.guidEmpty;
+    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: this.entityService.guidEmpty, hidden: false});
+
+    if (!this.isNewRecord)
+      this.customerService
+        .get(this.route.snapshot.params.id)
+        .pipe(single())
+        .subscribe(customer => this.customerForm.patchValue(customer));
   }
 
   public ngAfterViewInit(): void {
     this.modal = new bootstrap.Modal(this.customerEdit?.nativeElement);
     this.customerEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
+    this.customerEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.shortName?.nativeElement.focus());
     this.modal.show();
   }
 
@@ -42,12 +48,19 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     if (!this.customerForm.valid)
       return;
 
-    this.customerService
-      .update(this.customerForm.value)
+    const apiAction = this.isNewRecord
+      ? this.customerService.create(this.customerForm.value)
+      : this.customerService.update(this.customerForm.value);
+
+    const customerChangedAction = this.isNewRecord
+      ? 'created'
+      : 'updated';
+
+    apiAction
       .pipe(single())
       .subscribe(customer => {
         this.close();
-        this.entityService.customerChanged.next({action: 'updated', entity: customer});
+        this.entityService.customerChanged.next({entity: customer, action: customerChangedAction});
       });
   }
 
@@ -57,7 +70,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
       .pipe(single())
       .subscribe(() => {
         this.close();
-        this.entityService.customerChanged.next({action: 'deleted', entity: this.customerForm.value});
+        this.entityService.customerChanged.next({entity: this.customerForm.value, action: 'deleted'});
       });
   }
 
