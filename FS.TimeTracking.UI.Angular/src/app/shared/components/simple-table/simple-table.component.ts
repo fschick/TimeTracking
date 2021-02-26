@@ -34,7 +34,14 @@ export type FilterCellTemplate<TRow> = TemplateRef<{
 }>;
 
 export type DataCellTemplate<TRow> = TemplateRef<{
-  row: TRow; column: Column<TRow>;
+  row: TRow;
+  column: Column<TRow>;
+  index: number;
+  count: number;
+  first: boolean;
+  last: boolean;
+  even: boolean;
+  odd: boolean;
   table: SimpleTableComponent<TRow>;
 }>;
 
@@ -141,8 +148,8 @@ export class SimpleTableComponent<TRow> {
     return {column, filters: this.filters, applyFilter: () => this.applyFilter(), table: this};
   }
 
-  public getDataCellContext(row: TRow, column: Column<TRow>) {
-    return {row, column, table: this};
+  public getDataCellContext(row: TRow, column: Column<TRow>, index: number, count: number, first: boolean, last: boolean, even: boolean, odd: boolean) {
+    return {row, column, index, count, first, last, even, odd, table: this};
   }
 
   public getColumnWidth(column: Column<TRow>): string {

@@ -40,14 +40,14 @@
 
 <ng-template #defaultDataRowTemplate let-columns="columns">
   <tr
-    *ngFor="let row of filteredRows; trackBy: configuration.trackBy;"
+    *ngFor="let row of filteredRows; index as index, count as count; first as first; last as last; even as even; odd as odd; trackBy: configuration.trackBy;"
     [class]="configuration.cssDataRow">
     <td
       *ngFor="let column of columns;"
       [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
       [style]="getColumnWidth(column)"
       (click)="onDataCellClick(row, column, $event)">
-      <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: getDataCellContext(row, column)"></ng-container>
+      <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: getDataCellContext(row, column, index, count, first, last,even, odd)"></ng-container>
     </td>
   </tr>
 </ng-template>
