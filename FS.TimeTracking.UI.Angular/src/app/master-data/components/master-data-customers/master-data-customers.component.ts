@@ -40,7 +40,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.customerService.query().pipe(single()).subscribe(x => this.rows = x);
+    this.customerService.list().pipe(single()).subscribe(x => this.rows = x);
     const customerChanged = this.entityService.customerChanged
       .subscribe((changedEvent: EntityChanged<CustomerDto>) =>
         this.rows = [...this.entityService.updateCollection(this.rows, 'id', changedEvent)]

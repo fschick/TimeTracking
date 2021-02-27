@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers
 {
-    /// <inheritdoc cref="ICrudModelService{TDto, TQueryDto}" />
+    /// <inheritdoc cref="ICrudModelService{TDto, TListDto}" />
     /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ICrudModelService{TDto, TQueryDto}" />
-    public abstract class CrudModelController<TDto, TQueryDto> : ControllerBase, ICrudModelService<TDto, TQueryDto>
+    /// <seealso cref="ICrudModelService{TDto, TListDto}" />
+    public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICrudModelService<TDto, TListDto>
     {
-        private readonly ICrudModelService<TDto, TQueryDto> _modelService;
+        private readonly ICrudModelService<TDto, TListDto> _modelService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudModelController{TDto, TQueryDto}"/> class.
+        /// Initializes a new instance of the <see cref="CrudModelController{TDto, TListDto}"/> class.
         /// </summary>
         /// <param name="modelService">The model service.</param>
-        protected CrudModelController(ICrudModelService<TDto, TQueryDto> modelService)
+        protected CrudModelController(ICrudModelService<TDto, TListDto> modelService)
             => _modelService = modelService;
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TQueryDto>> Query(CancellationToken cancellationToken = default)
-            => _modelService.Query(cancellationToken);
+        public Task<List<TListDto>> List(CancellationToken cancellationToken = default)
+            => _modelService.List(cancellationToken);
 
         /// <inheritdoc />
         [HttpGet("{id}", Name = "[controller]_[action]")]

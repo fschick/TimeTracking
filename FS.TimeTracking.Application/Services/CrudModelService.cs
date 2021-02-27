@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services
 {
     /// <inheritdoc />
-    public abstract class CrudModelService<TModel, TDto, TQueryDto> : ICrudModelService<TDto, TQueryDto>
+    public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelService<TDto, TListDto>
         where TModel : class, IEntityModel, new()
     {
         /// <inheritdoc cref="IRepository" />
@@ -32,7 +32,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public abstract Task<List<TQueryDto>> Query(CancellationToken cancellationToken = default);
+        public abstract Task<List<TListDto>> List(CancellationToken cancellationToken = default);
 
         /// <inheritdoc />
         public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)

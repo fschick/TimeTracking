@@ -19,7 +19,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public override async Task<List<CustomerDto>> Query(CancellationToken cancellationToken = default)
+        public override async Task<List<CustomerDto>> List(CancellationToken cancellationToken = default)
             => await Repository
                 .Get(
                     select: (Customer x) => ModelConverter.ToDto(x),
