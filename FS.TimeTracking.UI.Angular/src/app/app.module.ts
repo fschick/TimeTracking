@@ -26,6 +26,8 @@ import {MasterDataCustomersEditComponent} from './master-data/components/master-
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
+import { ConfirmButtonComponent } from './shared/components/confirm-button/confirm-button.component';
+import {ReactiveComponentModule} from '@ngrx/component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.in
     MasterDataCustomersEditComponent,
     MasterDataProjectsComponent,
     MasterDataActivitiesComponent,
+    ConfirmButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.in
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    ReactiveComponentModule,
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'

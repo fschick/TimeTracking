@@ -1,0 +1,11 @@
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button"
+          [disabled]="disabled || (confirm$ | ngrxPush)"
+          [class]="'btn btn-outline-'+ color"
+          (click)="switchConfirm(true)">
+    <ng-content></ng-content>
+  </button>
+
+  <button *ngIf="confirm$ | ngrxPush" type="button" class="btn btn-secondary" (click)="switchConfirm(false)"><i class="bi bi-x-circle-fill"></i></button>
+  <button *ngIf="confirm$ | ngrxPush" [disabled]="!(confirmEnabled$ | ngrxPush)" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)"><i class="bi bi-check-circle-fill"></i></button>
+</div>
