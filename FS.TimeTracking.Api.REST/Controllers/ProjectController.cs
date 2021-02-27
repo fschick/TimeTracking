@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="IProjectService" />
     [V1ApiController]
-    public class ProjectController : CrudModelController<ProjectDto>, IProjectService
+    public class ProjectController : CrudModelController<ProjectDto, ProjectDto>, IProjectService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectController"/> class.

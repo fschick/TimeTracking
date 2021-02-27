@@ -8,14 +8,15 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
     /// <summary>
     /// CRUD model services
     /// </summary>
-    /// <typeparam name="TDto">The type of the t dto.</typeparam>
-    public interface ICrudModelService<TDto>
+    /// <typeparam name="TDto">The type of the entity DTO.</typeparam>
+    /// <typeparam name="TQueryDto">The type of the query DTO</typeparam>
+    public interface ICrudModelService<TDto, TQueryDto>
     {
         /// <summary>
         /// Gets all items
         /// </summary>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-        Task<List<TDto>> Query(CancellationToken cancellationToken = default);
+        Task<List<TQueryDto>> Query(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the item specified by <paramref name="id"/>.

@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers
 {
-    /// <inheritdoc cref="ICrudModelService{TDto}" />
+    /// <inheritdoc cref="ICrudModelService{TDto, TQueryDto}" />
     /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ICrudModelService{TDto}" />
-    public abstract class CrudModelController<TDto> : ControllerBase, ICrudModelService<TDto>
+    /// <seealso cref="ICrudModelService{TDto, TQueryDto}" />
+    public abstract class CrudModelController<TDto, TQueryDto> : ControllerBase, ICrudModelService<TDto, TQueryDto>
     {
-        private readonly ICrudModelService<TDto> _modelService;
+        private readonly ICrudModelService<TDto, TQueryDto> _modelService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudModelController{TDto}"/> class.
+        /// Initializes a new instance of the <see cref="CrudModelController{TDto, TQueryDto}"/> class.
         /// </summary>
         /// <param name="modelService">The model service.</param>
-        protected CrudModelController(ICrudModelService<TDto> modelService)
+        protected CrudModelController(ICrudModelService<TDto, TQueryDto> modelService)
             => _modelService = modelService;
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TDto>> Query(CancellationToken cancellationToken = default)
+        public Task<List<TQueryDto>> Query(CancellationToken cancellationToken = default)
             => _modelService.Query(cancellationToken);
 
         /// <inheritdoc />

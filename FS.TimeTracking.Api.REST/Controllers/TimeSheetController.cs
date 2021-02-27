@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="ITimeSheetService" />
     [V1ApiController]
-    public class TimeSheetController : CrudModelController<TimeSheetDto>, ITimeSheetService
+    public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetDto>, ITimeSheetService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSheetController"/> class.
