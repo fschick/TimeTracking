@@ -9,11 +9,11 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
     /// CRUD model services
     /// </summary>
     /// <typeparam name="TDto">The type of the entity DTO.</typeparam>
-    /// <typeparam name="TListDto">The type of the query DTO</typeparam>
+    /// <typeparam name="TListDto">The type of the DTO used to deliver a flatten view to the entity</typeparam>
     public interface ICrudModelService<TDto, TListDto>
     {
         /// <summary>
-        /// Gets all items
+        /// Gets all items as flat list
         /// </summary>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
         Task<List<TListDto>> List(CancellationToken cancellationToken = default);

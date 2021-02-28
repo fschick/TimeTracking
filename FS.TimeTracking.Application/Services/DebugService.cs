@@ -4,6 +4,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -58,6 +59,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Hidden, hidden)
                 .RuleFor(x => x.Created, default(DateTime))
                 .RuleFor(x => x.Modified, default(DateTime))
+                .RuleFor(x => x.Projects, default(List<Project>))
                 .Generate(amount)
                 .ToList();
 
@@ -66,6 +68,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
                 .RuleFor(x => x.Name, faker => faker.Commerce.ProductName())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
+                .RuleFor(x => x.Customer, default(Customer))
                 .RuleFor(x => x.Comment, comment)
                 .RuleFor(x => x.Hidden, hidden)
                 .RuleFor(x => x.Created, default(DateTime))
