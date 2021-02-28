@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Application.Services;
+﻿using FS.TimeTracking.Api.REST.Filters;
+using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,6 +30,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
             => _modelService.List(cancellationToken);
 
         /// <inheritdoc />
+        [NotFoundWhenEmpty]
         [HttpGet("{id}", Name = "[controller]_[action]")]
         public Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
             => _modelService.Get(id, cancellationToken);

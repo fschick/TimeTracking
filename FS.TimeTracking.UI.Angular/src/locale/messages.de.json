@@ -9,9 +9,10 @@
     "Delete": "Löschen"
   },
   "API": {
-    "Delete.ForeignKeyViolation": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
+    "NotFound": "Der Datensatz konnte nicht gefunden werden",
     "Conflict": "Die Anfrage steht in Konflikt mit anderen Daten",
-    "InternalServerError": "Interner Serverfehler aufgetreten"
+    "InternalServerError": "Interner Serverfehler aufgetreten",
+    "Delete.ForeignKeyViolation": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen"
   },
   "Page": {
     "Timesheet": {

@@ -9,9 +9,10 @@
     "Delete": "Delete"
   },
   "API": {
-    "Delete.ForeignKeyViolation": "The record could not be deleted because other data depend on it",
+    "NotFound": "The record could not be found",
     "Conflict": "The operation conflicts with other data",
-    "InternalServerError": "Internal server error occurred"
+    "InternalServerError": "Internal server error occurred",
+    "Delete.ForeignKeyViolation": "The record could not be deleted because other data depend on it"
   },
   "Page": {
     "Timesheet": {

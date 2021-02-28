@@ -17,19 +17,22 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
         let message: string;
         const error = response.error as ErrorInformation;
-        const requestId = response.headers.get('Request-Id');
 
         switch (response.status) {
+          case 404:
+            message = $localize`:@@API.NotFound:[i18n] The record could not be found`;
+            break;
           case 409:
             if (request.method === 'DELETE' && error.databaseErrorCode === DatabaseErrorCode.foreignKeyViolation)
-              message = $localize`:@@API.Delete.ForeignKeyViolation:`;
+              message = $localize`:@@API.Delete.ForeignKeyViolation:[i18n] The record could not be deleted because other data depend on it`;
             else
-              message = $localize`:@@API.Conflict:`;
+              message = $localize`:@@API.Conflict:[i18n] The operation conflicts with other data`;
             break;
           default:
-            message = $localize`:@@API.InternalServerError:`;
+            message = $localize`:@@API.InternalServerError:[i18n] Internal server error occurred`;
         }
 
+        // const requestId = response.headers.get('Request-Id');
         // message += `. RequestID: ${requestId}`;
 
         console.error(message);
