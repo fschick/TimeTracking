@@ -15,8 +15,9 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
         /// <summary>
         /// Gets all items as flat list
         /// </summary>
+        /// <param name="id">When specified, only the entity with the given GUID is returned.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-        Task<List<TListDto>> List(CancellationToken cancellationToken = default);
+        Task<List<TListDto>> List(Guid? id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the item specified by <paramref name="id"/>.

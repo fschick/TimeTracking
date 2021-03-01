@@ -20,7 +20,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public override Task<List<ActivityDto>> List(CancellationToken cancellationToken = default)
+        public override Task<List<ActivityDto>> List(Guid? id, CancellationToken cancellationToken = default)
             => throw new NotImplementedException();
     }
 }

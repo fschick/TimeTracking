@@ -32,7 +32,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public abstract Task<List<TListDto>> List(CancellationToken cancellationToken = default);
+        public abstract Task<List<TListDto>> List(Guid? id, CancellationToken cancellationToken = default);
 
         /// <inheritdoc />
         public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)

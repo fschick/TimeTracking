@@ -3,6 +3,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Converters;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,10 +20,11 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public override async Task<List<CustomerDto>> List(CancellationToken cancellationToken = default)
+        public override async Task<List<CustomerDto>> List(Guid? id, CancellationToken cancellationToken = default)
             => await Repository
                 .Get(
                     select: (Customer customer) => ModelConverter.ToDto(customer),
+                    where: id.HasValue ? x => x.Id == id : null,
                     cancellationToken: cancellationToken
                 );
     }
