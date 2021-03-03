@@ -104,11 +104,10 @@ namespace FS.TimeTracking.Application.Services
                 .ToList();
 
             //var debug = JsonConvert.SerializeObject(new { customers, projects, activities, timesheet }, Formatting.Indented);
-            await _repository.AddRange(customers);
-            await _repository.AddRange(projects);
-            await _repository.AddRange(activities);
-            await _repository.AddRange(timesheet);
-            await _repository.SaveChanges();
+            await _repository.BulkAddRange(customers);
+            await _repository.BulkAddRange(projects);
+            await _repository.BulkAddRange(activities);
+            await _repository.BulkAddRange(timesheet);
         }
 
         /// <inheritdoc />

@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using LinqToDB;
+using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -104,6 +105,14 @@ namespace FS.TimeTracking.Repository.Services
             }
 
             await _dbContext.AddRangeAsync(entities, cancellationToken);
+            return entities;
+        }
+
+        /// <inheritdoc />
+        public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
+        {
+            var options = new BulkCopyOptions { CheckConstraints = true, KeepIdentity = true };
+            await _dbContext.BulkCopyAsync(options, entities, cancellationToken);
             return entities;
         }
 

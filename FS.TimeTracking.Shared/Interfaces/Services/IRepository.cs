@@ -142,6 +142,15 @@ namespace FS.TimeTracking.Shared.Interfaces.Services
         Task<List<TEntity>> AddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel;
 
         /// <summary>
+        /// Adds a range of specified entities to database.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="entities">The entities to add.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+        /// <returns></returns>
+        Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel;
+
+        /// <summary>
         /// Updates the specified entity in database.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
