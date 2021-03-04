@@ -70,7 +70,8 @@ export class Configuration<TRow> {
 
 export type Column<TRow> = {
   title?: string;
-  prop: keyof TRow;
+  prop?: keyof TRow;
+  customId?: string;
   cssHeadCell?: string | ((column: Column<TRow>) => string);
   cssFilterCell?: string | ((column: Column<TRow>) => string);
   cssDataCell?: string | ((row: TRow, column: Column<TRow>) => string);
@@ -180,6 +181,9 @@ export class SimpleTableComponent<TRow> {
   }
 
   public getCssSortOrder(column: Column<TRow>): string {
+    if (column.prop === undefined)
+      return '';
+
     const columnSortOrder = this.sortOrder.get(column.prop);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
@@ -189,6 +193,9 @@ export class SimpleTableComponent<TRow> {
   }
 
   public getGlyphSortOrder(column: Column<TRow>) {
+    if (column.prop === undefined)
+      return '';
+
     const columnSortOrder = this.sortOrder.get(column.prop);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
@@ -200,7 +207,10 @@ export class SimpleTableComponent<TRow> {
   public getCellValue(row: TRow, column: Column<TRow>): string | undefined {
     if (column.format)
       return column.format(row, column);
-    return this.toString(row[column.prop]);
+
+    return column.prop !== undefined
+      ? this.toString(row[column.prop])
+      : '';
   }
 
   public applySortOrder(column: Column<TRow>, $event: MouseEvent) {
@@ -208,7 +218,7 @@ export class SimpleTableComponent<TRow> {
     if ($event.defaultPrevented)
       return;
 
-    if (column.sortable === false)
+    if (column.sortable === false || column.prop === undefined)
       return;
 
     let columnSortOrder = this.sortOrder.get(column.prop);
@@ -254,13 +264,14 @@ export class SimpleTableComponent<TRow> {
   private updateFiltersWithChangedColumns(): void {
     const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
 
-    const filterableColumn = this.columns.filter(x => x.filterable !== 'no');
+    const filterableColumns = this.columns.filter(x => x.filterable !== 'no');
 
-    const missingFilters = filterableColumn.filter(col => !filterProperties.some(filterProp => filterProp === col.prop));
+    const missingFilters = filterableColumns.filter(col => !filterProperties.some(filterProp => filterProp === col.prop));
     for (const column of missingFilters)
-      this.filters[column.prop] = '';
+      if (column.prop !== undefined)
+        this.filters[column.prop] = '';
 
-    const extraFilters = filterProperties.filter(filterProp => !filterableColumn.some(col => col.prop === filterProp));
+    const extraFilters = filterProperties.filter(filterProp => !filterableColumns.some(col => col.prop === filterProp));
     for (const filter of extraFilters)
       delete this.filters[filter];
   }
