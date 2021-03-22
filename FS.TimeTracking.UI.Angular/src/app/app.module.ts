@@ -26,8 +26,11 @@ import {MasterDataCustomersEditComponent} from './master-data/components/master-
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
-import { ConfirmButtonComponent } from './shared/components/confirm-button/confirm-button.component';
+import {ConfirmButtonComponent} from './shared/components/confirm-button/confirm-button.component';
 import {ReactiveComponentModule} from '@ngrx/component';
+import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
+import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
+import {DialogModule} from '@ngneat/dialog';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import {ReactiveComponentModule} from '@ngrx/component';
     MasterDataProjectsComponent,
     MasterDataActivitiesComponent,
     ConfirmButtonComponent,
+    SimpleConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,10 @@ import {ReactiveComponentModule} from '@ngrx/component';
     FormsModule,
     BrowserAnimationsModule,
     ReactiveComponentModule,
+    NgSelectModule,
+    DialogModule.forRoot({
+      sizes: {inherit: {}}
+    }),
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'
@@ -63,7 +71,7 @@ import {ReactiveComponentModule} from '@ngrx/component';
   providers: [{
     provide: APP_INITIALIZER,
     useFactory: configurationLoaderFactory,
-    deps: [StorageService],
+    deps: [StorageService, NgSelectConfig],
     multi: true
   }, {
     provide: LOCALE_ID,
@@ -80,10 +88,17 @@ export class AppModule {
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function configurationLoaderFactory(storageService: StorageService): () => Promise<void> {
+export function configurationLoaderFactory(storageService: StorageService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
     const translations = storageService.language === 'de' ? translationsDE : translationsEN;
     loadTranslations(flattenTranslations(translations));
+
+    ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
+    ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
+    ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
+    ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
+    ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
+
     return Promise.resolve();
   };
 }

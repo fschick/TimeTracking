@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "test": "ng test --no-watch --browsers=Chrome",
+    "test": "ng test --browsers=Chrome",
+    "test-single": "ng test --no-watch --browsers=Chrome",
     "test-headless": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "bundle-size": "ng build --prod --sourceMap=true && source-map-explorer dist/TimeTracking/main.*.js",

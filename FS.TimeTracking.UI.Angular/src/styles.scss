@@ -7,7 +7,7 @@ $accordion-button-active-color: inherit;
 $accordion-button-active-bg: inherit;
 
 // DEV only
-$enable-reduced-motion: false;
+//$enable-reduced-motion: false;
 
 $enable-negative-margins: true;
 @import "~bootstrap/scss/bootstrap";
@@ -24,6 +24,107 @@ i.bi {
 
 button i.bi {
   vertical-align: bottom;
+}
+
+/* ----------------------------------------- */
+/* Custom extensions
+/* ----------------------------------------- */
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.table {
+  .action-cell {
+    padding: 0 $table-cell-padding-x !important;
+  }
+
+  .action-button {
+    padding: 0.2rem $btn-padding-x-sm !important;
+  }
+}
+
+/* ----------------------------------------- */
+/* @ngneat/dialog
+/* ----------------------------------------- */
+ngneat-dialog {
+  .ngneat-dialog-content {
+    width: 100%;
+
+    @if $enable-reduced-motion {
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+  }
+
+  &.center .ngneat-dialog-content {
+    margin: auto;
+  }
+
+  @include media-breakpoint-up(sm) {
+    &.dialog-sm .ngneat-dialog-content {
+      max-width: $modal-sm;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &.dialog-md .ngneat-dialog-content {
+      max-width: $modal-md;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .ngneat-dialog-content {
+      max-width: $modal-lg;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &.dialog-xl .ngneat-dialog-content {
+      max-width: $modal-xl;
+    }
+  }
+
+  .ngneat-dialog-backdrop {
+    align-items: baseline;
+
+    @if $enable-reduced-motion {
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+  }
+}
+
+/* ----------------------------------------- */
+/* Dialog card
+/* ----------------------------------------- */
+.dialog.card {
+  overflow: hidden;
+
+  .card-header {
+    padding: $modal-header-padding;
+    background-color: inherit;
+  }
+
+  .card-body {
+    overflow-y: auto;
+  }
+
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding: $modal-inner-padding - $modal-footer-margin-between / 2;
+    background-color: inherit;
+
+    > * {
+      margin: $modal-footer-margin-between / 2;
+    }
+  }
 }
 
 /* ----------------------------------------- */

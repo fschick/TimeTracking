@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {InformationService} from '../../../shared/services/api';
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
