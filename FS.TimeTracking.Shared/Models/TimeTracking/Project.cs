@@ -26,6 +26,9 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [Required]
         public Guid CustomerId { get; set; }
 
+        /// <inheritdoc cref="TimeTracking.Customer"/>
+        public Customer Customer { get; set; }
+
         /// <summary>
         /// Gets or sets a comment.
         /// </summary>

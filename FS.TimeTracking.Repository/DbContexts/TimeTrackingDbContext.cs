@@ -87,9 +87,9 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .HasIndex(x => new { x.Name, x.Hidden });
 
             projectBuilder
-                .HasOne<Customer>()
-                .WithMany()
-                .HasForeignKey(x => x.CustomerId)
+                .HasOne(project => project.Customer)
+                .WithMany(x => x.Projects)
+                .HasForeignKey(project => project.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
         }

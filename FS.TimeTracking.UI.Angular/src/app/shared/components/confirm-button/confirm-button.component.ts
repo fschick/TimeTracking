@@ -1,25 +1,20 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BehaviorSubject, interval} from 'rxjs';
-import {debounce, debounceTime} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'ts-confirm-button',
   templateUrl: './confirm-button.component.html',
   styleUrls: ['./confirm-button.component.scss']
 })
-export class ConfirmButtonComponent implements OnInit {
+export class ConfirmButtonComponent {
   @Input() color: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark' = 'secondary';
   @Input() disabled = false;
-  @Input() debounceTime = 1000;
+  @Input() debounceTime = 150;
   @Output() confirmed = new EventEmitter<MouseEvent>();
 
   public confirm$ = new BehaviorSubject<boolean>(false);
   public confirmEnabled$ = this.confirm$.pipe(debounceTime(this.debounceTime));
-
-  constructor() { }
-
-  public ngOnInit(): void {
-  }
 
   public switchConfirm(enabled: boolean): void {
     this.confirm$.next(enabled);

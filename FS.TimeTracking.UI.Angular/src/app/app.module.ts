@@ -28,6 +28,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
 import {ConfirmButtonComponent} from './shared/components/confirm-button/confirm-button.component';
 import {ReactiveComponentModule} from '@ngrx/component';
+import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {DialogModule} from '@ngneat/dialog';
@@ -46,6 +47,7 @@ import {DialogModule} from '@ngneat/dialog';
     MasterDataProjectsComponent,
     MasterDataActivitiesComponent,
     ConfirmButtonComponent,
+    MasterDataProjectsEditComponent,
     SimpleConfirmComponent,
   ],
   imports: [
@@ -58,7 +60,10 @@ import {DialogModule} from '@ngneat/dialog';
     ReactiveComponentModule,
     NgSelectModule,
     DialogModule.forRoot({
-      sizes: {inherit: {}}
+      sizes: {
+        inherit: {
+        }
+      }
     }),
     ToastrModule.forRoot({
       extendedTimeOut: 2500,

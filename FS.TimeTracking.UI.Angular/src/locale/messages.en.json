@@ -28,6 +28,15 @@
       "ActivityEdit": "Edit Activity"
     }
   },
+  "Component": {
+    "NgSelect": {
+      "AddTagText": "Add item",
+      "LoadingText": "Loading...",
+      "ClearAllText": "Clear all",
+      "NotFoundText": "No items found",
+      "TypeToSearchText": "Type to search"
+    }
+  },
   "DTO": {
     "CustomerDto": {
       "ShortName": "Short name",
@@ -37,6 +46,19 @@
       "ZipCode": "Zip",
       "City": "City",
       "Country": "Country",
+      "Hidden": "Hidden"
+    },
+    "ProjectDto": {
+      "Name": "Name",
+      "CustomerId": "Customer",
+      "Customer": "Customer",
+      "Comment": "Comment",
+      "Hidden": "Hidden"
+    },
+    "ProjectOverviewDto": {
+      "Name": "Project",
+      "CustomerShortName": "Customer",
+      "CustomerCompanyName": "Company",
       "Hidden": "Hidden"
     }
   },

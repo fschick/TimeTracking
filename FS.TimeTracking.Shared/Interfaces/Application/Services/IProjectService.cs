@@ -3,7 +3,7 @@
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services
 {
     /// <inheritdoc />
-    public interface IProjectService : ICrudModelService<ProjectDto, ProjectDto>
+    public interface IProjectService : ICrudModelService<ProjectDto, ProjectListDto>
     {
     }
 }

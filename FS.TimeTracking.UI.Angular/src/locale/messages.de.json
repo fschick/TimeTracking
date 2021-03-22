@@ -28,6 +28,15 @@
       "ActivityEdit": "Tätigkeit bearbeiten"
     }
   },
+  "Component": {
+    "NgSelect": {
+      "AddTagText": "Element hinzufügen",
+      "LoadingText": "Lade...",
+      "ClearAllText": "Alle löschen",
+      "NotFoundText": "Keine Einträge gefunden",
+      "TypeToSearchText": "Zum Suchen tippen"
+    }
+  },
   "DTO": {
     "CustomerDto": {
       "ShortName": "Kurzname",
@@ -37,6 +46,19 @@
       "ZipCode": "PLZ",
       "City": "Ort",
       "Country": "Land",
+      "Hidden": "Versteckt"
+    },
+    "ProjectDto": {
+      "Name": "Name",
+      "CustomerId": "Kunde",
+      "Customer": "Kunde",
+      "Comment": "Kommentar",
+      "Hidden": "Versteckt"
+    },
+    "ProjectOverviewDto": {
+      "Name": "Projekt",
+      "CustomerShortName": "Kunde",
+      "CustomerCompanyName": "Firma",
       "Hidden": "Versteckt"
     }
   },

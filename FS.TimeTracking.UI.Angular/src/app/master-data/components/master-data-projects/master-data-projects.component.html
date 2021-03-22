@@ -1,1 +1,36 @@
-<p>master-data-projects works!</p>
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <ng-container i18n="@@Page.MasterData.Projects">
+      [i18n] Customers
+    </ng-container>
+    <button type="button" class="btn btn-primary" [routerLink]="entityService.guidEmpty">
+      <i class="bi bi-plus-circle me-1"></i>
+      <ng-container i18n="@@Common.New">[i18n] New</ng-container>
+    </button>
+  </div>
+  <div class="card-body">
+    <ts-simple-table
+      [columns]="columns"
+      [rows]="rows"
+      [configuration]="configuration"
+      (dataCellClick)="dataCellClick($event)">
+    </ts-simple-table>
+  </div>
+</div>
+
+<ng-template #editCellTemplate let-row="row">
+  <a class="d-block text-decoration-none text-body" [routerLink]="row.id">
+    <i class="bi bi-pencil-square pe-2"></i>
+  </a>
+</ng-template>
+
+<ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
+  <a class="text-decoration-none"
+     [ngClass]="{'text-secondary': row.hidden, 'text-body': !row.hidden}"
+     [routerLink]="row.id"
+     (click)="$event.stopPropagation()">
+    {{table.getCellValue(row, column)}}
+  </a>
+</ng-template>
+
+<router-outlet></router-outlet>

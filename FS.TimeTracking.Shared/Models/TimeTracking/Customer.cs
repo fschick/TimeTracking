@@ -1,5 +1,6 @@
 ﻿using FS.TimeTracking.Shared.Interfaces.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Shared.Models.TimeTracking
@@ -74,5 +75,10 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// <inheritdoc />
         [Required]
         public DateTime Modified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the projects related to this customer.
+        /// </summary>
+        public List<Project> Projects { get; set; }
     }
 }

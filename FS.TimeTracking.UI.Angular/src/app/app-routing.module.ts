@@ -5,13 +5,17 @@ import {MasterDataCustomersComponent} from './master-data/components/master-data
 import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
+import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 
 const routes: Routes = [
   {
     path: 'master-data/customers', component: MasterDataCustomersComponent,
     children: [{path: ':id', component: MasterDataCustomersEditComponent}]
   },
-  {path: 'master-data/projects', component: MasterDataProjectsComponent},
+  {
+    path: 'master-data/projects', component: MasterDataProjectsComponent,
+    children: [{path: ':id', component: MasterDataProjectsEditComponent}]
+  },
   {path: 'master-data/activities', component: MasterDataActivitiesComponent},
   {path: '', component: TimesheetComponent},
 ];

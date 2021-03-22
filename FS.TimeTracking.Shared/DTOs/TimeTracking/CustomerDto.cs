@@ -10,6 +10,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
     public record CustomerDto
     {
         /// <inheritdoc cref="Customer.Id"/>
+        [Required]
         public Guid Id { get; init; }
 
         /// <inheritdoc cref="Customer.ShortName"/>

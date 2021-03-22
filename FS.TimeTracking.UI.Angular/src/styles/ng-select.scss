@@ -1,0 +1,35 @@
+﻿@import '~bootstrap/scss/functions.scss';
+@import '~bootstrap/scss/variables.scss';
+@import '~bootstrap/scss/mixins.scss';
+
+$ng-select-highlight: $secondary;
+$ng-select-primary-text: $dropdown-link-color;
+//$ng-select-disabled-text: #f9f9f9 !default;
+$ng-select-border: $input-border-color;
+$ng-select-border-radius: valid-radius($input-border-radius);
+$ng-select-bg: $input-bg;
+$ng-select-selected: $primary;
+$ng-select-marked: $dropdown-link-hover-bg;
+$ng-select-box-shadow: $input-focus-box-shadow;
+//$ng-select-placeholder: lighten($ng-select-primary-text, 40) !default;
+$ng-select-height: 2.35rem;
+//$ng-select-value-padding-left: 10px !default;
+$ng-select-value-font-size: $input-font-size;
+
+@import "~@ng-select/ng-select/scss/default.theme";
+
+.ng-select.ng-select-focused {
+  &:not(.ng-select-opened) > .ng-select-container {
+    border-color: $input-focus-border-color;
+  }
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  &.ng-option-selected, &.ng-option-selected.ng-option-marked {
+    color: color-contrast($primary);
+  }
+
+  &.ng-option-marked {
+    color: color-contrast($dropdown-link-hover-bg);
+  }
+}

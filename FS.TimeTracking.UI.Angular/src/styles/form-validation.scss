@@ -3,19 +3,29 @@
 /* ----------------------------------------- */
 /* Form validation
 /* ----------------------------------------- */
-form.ng-submitted .form-control.ng-invalid {
+form.ng-submitted {
   $input-invalid-color: rgba($danger, $input-btn-focus-color-opacity);
   $input-invalid-border-color: tint-color($danger, 50%);
   $input-invalid-box-shadow: 0 0 0 $input-btn-focus-width $input-invalid-color;
 
-  color: $danger;
-  border-color: $input-invalid-border-color;
+  & .form-control.ng-invalid,
+  & .ng-select.ng-invalid .ng-select-container {
+    color: $danger;
+    border-color: $input-invalid-border-color;
 
-  &:focus {
-    @if $enable-shadows {
-      @include box-shadow($input-box-shadow, $input-invalid-box-shadow);
-    } @else {
-      // Avoid using mixin so we can pass custom focus shadow properly
+    &:focus {
+      @if $enable-shadows {
+        @include box-shadow($input-box-shadow, $input-invalid-box-shadow);
+      } @else {
+        // Avoid using mixin so we can pass custom focus shadow properly
+        box-shadow: $input-invalid-box-shadow;
+      }
+    }
+  }
+
+  & .ng-select-focused.ng-invalid {
+    &:not(.ng-select-opened) > .ng-select-container {
+      border-color: $input-invalid-border-color;
       box-shadow: $input-invalid-box-shadow;
     }
   }

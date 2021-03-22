@@ -1,11 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-import {CustomerDto} from '../api';
+import {Observable, of, Subject} from 'rxjs';
+import {CustomerDto, ProjectListDto} from '../api';
+import {map, single, switchMap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
   entity: TDto;
   action: 'created' | 'updated' | 'deleted';
 }
+
+export type CrudDto = {
+  id: string;
+};
+
+export type CrudService<TDto> = {
+  list: (id: string) => Observable<TDto[]>;
+};
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +23,7 @@ export class EntityService {
   public guidEmpty = '00000000-0000-0000-0000-000000000000';
 
   public customerChanged: Subject<EntityChanged<CustomerDto>> = new Subject<EntityChanged<CustomerDto>>();
+  public projectChanged: Subject<EntityChanged<ProjectListDto>> = new Subject<EntityChanged<ProjectListDto>>();
 
   public updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
     switch (changedEvent?.action) {
@@ -33,6 +43,24 @@ export class EntityService {
     }
 
     return entities;
+  }
+
+  public replaceEntityWithOverviewDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
+    return (source: Observable<EntityChanged<TDto>>) =>
+      source.pipe(switchMap((changedEvent: EntityChanged<TDto>) => {
+          if (changedEvent.action === 'deleted') {
+            changedEvent.entity = {id: changedEvent.entity.id} as TDto;
+            return of(changedEvent);
+          }
+
+          return crudService
+            .list(changedEvent.entity.id)
+            .pipe(single(), map(project => {
+              changedEvent.entity = project[0];
+              return changedEvent;
+            }));
+        }
+      ));
   }
 
   // // See https://stackoverflow.com/a/2117523/1271211
