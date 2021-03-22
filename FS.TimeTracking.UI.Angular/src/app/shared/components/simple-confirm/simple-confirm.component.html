@@ -1,0 +1,27 @@
+<div class="btn-group" role="group" aria-label="Basic example">
+  <div (click)="createConfirmDialog()" class="cursor-pointer">
+    <ng-content></ng-content>
+  </div>
+</div>
+
+<ng-template #confirmDialog>
+  <div class="dialog card card-lg">
+    <h5 class="card-header">
+      {{title}}
+    </h5>
+    <div class="card-body">
+      {{message}}
+    </div>
+    <div class="card-footer">
+      <button type="button" class="btn btn-secondary" (click)="destroyConfirmDialog()">
+        <i class="bi bi-x-circle-fill me-1"></i>
+        <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+      </button>
+      <button type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)">
+        <i *ngIf="actionIcon" class="{{actionIcon}} me-1"></i>
+        {{actionText}}
+      </button>
+    </div>
+  </div>
+
+</ng-template>
