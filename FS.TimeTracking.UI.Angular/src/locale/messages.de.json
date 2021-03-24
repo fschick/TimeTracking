@@ -6,7 +6,9 @@
     "Save": "Speichern",
     "Close": "Schließen",
     "Cancel": "Abbrechen",
-    "Delete": "Löschen"
+    "Delete": "Löschen",
+    "Edit": "Bearbeiten",
+    "Action": "Aktion"
   },
   "API": {
     "NotFound": "Der Datensatz konnte nicht gefunden werden",
@@ -20,10 +22,18 @@
     },
     "MasterData": {
       "MasterData": "Stammdaten",
-      "Customers": "Kunden",
-      "CustomerEdit": "Kunde bearbeiten",
-      "Projects": "Projekte",
-      "ProjectEdit": "Projekt bearbeiten",
+      "Customers": {
+        "Title": "Kunden",
+        "Edit": "Kunde bearbeiten",
+        "Delete": "Kunde löschen",
+        "DeleteMessage": "Wollen Sie den Kunden wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      },
+      "Projects": {
+        "Title": "Projekte",
+        "Edit": "Projekt bearbeiten",
+        "Delete": "Projekt löschen",
+        "DeleteMessage": "Wollen Sie das Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      },
       "Activities": "Tätigkeiten",
       "ActivityEdit": "Tätigkeit bearbeiten"
     }
@@ -56,7 +66,7 @@
       "Hidden": "Versteckt"
     },
     "ProjectOverviewDto": {
-      "Name": "Projekt",
+      "Name": "Name",
       "CustomerShortName": "Kunde",
       "CustomerCompanyName": "Firma",
       "Hidden": "Versteckt"

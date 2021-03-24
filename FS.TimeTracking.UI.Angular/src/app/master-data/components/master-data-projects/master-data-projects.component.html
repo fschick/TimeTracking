@@ -1,13 +1,13 @@
 <div class="card">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <ng-container i18n="@@Page.MasterData.Projects">
+  <h5 class="card-header d-flex justify-content-between align-items-center">
+    <ng-container i18n="@@Page.MasterData.Projects.Title">
       [i18n] Customers
     </ng-container>
-    <button type="button" class="btn btn-primary" [routerLink]="entityService.guidEmpty">
+    <button type="button" class="btn btn-sm btn-primary" [routerLink]="entityService.guidEmpty">
       <i class="bi bi-plus-circle me-1"></i>
       <ng-container i18n="@@Common.New">[i18n] New</ng-container>
     </button>
-  </div>
+  </h5>
   <div class="card-body">
     <ts-simple-table
       [columns]="columns"
@@ -18,12 +18,6 @@
   </div>
 </div>
 
-<ng-template #editCellTemplate let-row="row">
-  <a class="d-block text-decoration-none text-body" [routerLink]="row.id">
-    <i class="bi bi-pencil-square pe-2"></i>
-  </a>
-</ng-template>
-
 <ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
   <a class="text-decoration-none"
      [ngClass]="{'text-secondary': row.hidden, 'text-body': !row.hidden}"
@@ -31,6 +25,29 @@
      (click)="$event.stopPropagation()">
     {{table.getCellValue(row, column)}}
   </a>
+</ng-template>
+
+<ng-template #actionCellTemplate let-row="row">
+  <a class="btn btn-sm btn-outline-secondary action-button me-2"
+     title="[i18n] Edit Project"
+     i18n-title="@@Page.MasterData.Projects.Edit"
+     [routerLink]="row.id">
+    <i class="bi bi-pencil-square"></i>
+  </a>
+  <ts-simple-confirm
+    title="[i18n] Delete project"
+    i18n-title="@@Page.MasterData.Projects.Delete"
+    message="[i18n] Are you sure you want to delete this project?. This cannot be undone."
+    i18n-message="@@Page.MasterData.Projects.DeleteMessage"
+    actionIcon="bi bi-eraser"
+    actionText="[i18n] Delete Project"
+    i18n-actionText="@@Page.MasterData.Projects.Delete"
+    color="danger"
+    (confirmed)="deleteItem(row.id)">
+    <button type="button" class="btn btn-sm btn-outline-danger action-button">
+      <i class="bi bi-eraser"></i>
+    </button>
+  </ts-simple-confirm>
 </ng-template>
 
 <router-outlet></router-outlet>

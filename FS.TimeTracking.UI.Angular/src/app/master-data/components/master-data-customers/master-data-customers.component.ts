@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CustomerDto, CustomerService} from '../../../shared/services/api';
+import {CustomerDto, CustomerService, ProjectListDto} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {
@@ -20,8 +20,8 @@ import {EntityChanged, EntityService} from '../../../shared/services/state-manag
 })
 export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerDto>;
-  @ViewChild('editCellTemplate', {static: true}) private editCellTemplate?: DataCellTemplate<CustomerDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<CustomerDto>;
 
   public rows: CustomerDto[];
   public columns!: Column<CustomerDto>[];
@@ -58,7 +58,6 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     // const hideBelowViewPointMd = {cssHeadCell: 'd-none d-md-table-cell', cssDataCell: 'd-none d-md-table-cell'};
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, cssDataCell: 'text-nowrap', width: '1px', sortable: false},
       {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
@@ -67,6 +66,14 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
       // {title: $localize`:@@DTO.CustomerDto.City:[i18n] City`, prop: 'city', ...hideBelowViewPointMd},
       // {title: $localize`:@@DTO.CustomerDto.Country:[i18n] Country`, prop: 'country', ...hideBelowViewPointMd},
       // {title: $localize`:@@DTO.CustomerDto.Hidden:[i18n] Hidden`, prop: 'hidden', format: row => row.hidden ? this.trueString : this.falseString},
+      {
+        title: $localize`:@@Common.Action:[i18n] Action`,
+        customId: 'delete',
+        dataCellTemplate: this.actionCellTemplate,
+        cssDataCell: 'text-nowrap align-middle action-cell',
+        width: '1px',
+        sortable: false
+      },
     ];
   }
 
@@ -79,6 +86,16 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   }
 
   dataCellClick($event: DataCellClickEvent<CustomerDto>) {
-    this.router.navigate([$event.row.id], {relativeTo: this.route});
+    if ($event.column.customId !== 'delete')
+      this.router.navigate([$event.row.id], {relativeTo: this.route});
+  }
+
+  public deleteItem(id: string): void {
+    this.customerService
+      .delete(id)
+      .pipe(single())
+      .subscribe(() => {
+        this.entityService.customerChanged.next({entity: {id} as CustomerDto, action: 'deleted'});
+      });
   }
 }

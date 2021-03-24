@@ -72,16 +72,6 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
       });
   }
 
-  public delete(): void {
-    this.projectService
-      .delete(this.projectForm.value.id)
-      .pipe(single())
-      .subscribe(() => {
-        this.close();
-        this.entityService.projectChanged.next({entity: this.projectForm.value, action: 'deleted'});
-      });
-  }
-
   public close(): void {
     this.dialog?.close();
   }

@@ -6,7 +6,9 @@
     "Save": "Save",
     "Close": "Close",
     "Cancel": "Cancel",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Action": "Action"
   },
   "API": {
     "NotFound": "The record could not be found",
@@ -20,10 +22,18 @@
     },
     "MasterData": {
       "MasterData": "Master Data",
-      "Customers": "Customers",
-      "CustomerEdit": "Edit Customer",
-      "Projects": "Projects",
-      "ProjectEdit": "Edit Project",
+      "Customers": {
+        "Title": "Customers",
+        "Edit": "Edit Customer",
+        "Delete": "Delete Customer",
+        "DeleteMessage": "Are you sure you want to delete this customer? This cannot be undone."
+      },
+      "Projects": {
+        "Title": "Projects",
+        "Edit": "Edit Project",
+        "Delete": "Delete Project",
+        "DeleteMessage": "Are you sure you want to delete this project? This cannot be undone."
+      },
       "Activities": "Activities",
       "ActivityEdit": "Edit Activity"
     }
@@ -56,7 +66,7 @@
       "Hidden": "Hidden"
     },
     "ProjectOverviewDto": {
-      "Name": "Project",
+      "Name": "Name",
       "CustomerShortName": "Customer",
       "CustomerCompanyName": "Company",
       "Hidden": "Hidden"

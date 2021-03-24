@@ -39,10 +39,11 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.customerEdit) {
-      this.dialog = this.dialogService.open(this.customerEdit, {draggable: true, size: 'inherit'});
-      this.dialog.afterClosed$.pipe(single()).subscribe(_ => this.location.back());
-    }
+    if (!this.customerEdit)
+      return;
+
+    this.dialog = this.dialogService.open(this.customerEdit, {draggable: true, size: 'inherit'});
+    this.dialog.afterClosed$.pipe(single()).subscribe(_ => this.location.back());
   }
 
   public save(): void {
@@ -65,18 +66,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
       });
   }
 
-  public delete(): void {
-    this.customerService
-      .delete(this.customerForm.value.id)
-      .pipe(single())
-      .subscribe(() => {
-        this.close();
-        this.entityService.customerChanged.next({entity: this.customerForm.value, action: 'deleted'});
-      });
-  }
-
   public close(): void {
-    if (this.dialog)
-      this.dialog.close();
+    this.dialog?.close();
   }
 }

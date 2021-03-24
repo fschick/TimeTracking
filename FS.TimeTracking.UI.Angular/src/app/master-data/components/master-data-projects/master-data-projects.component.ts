@@ -21,8 +21,8 @@ import {single} from 'rxjs/operators';
 export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
   @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectListDto>;
-  @ViewChild('editCellTemplate', {static: true}) private editCellTemplate?: DataCellTemplate<ProjectListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectListDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectListDto>;
 
   public rows: ProjectListDto[];
   public columns!: Column<ProjectListDto>[];
@@ -62,7 +62,6 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
     const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: '', prop: 'id', dataCellTemplate: this.editCellTemplate, cssDataCell: 'text-nowrap', width: '1px', sortable: false},
       {title: $localize`:@@DTO.ProjectOverviewDto.Name:[i18n] Project`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
         title: $localize`:@@DTO.ProjectOverviewDto.CustomerShortName:[i18n] Customer`,
@@ -76,6 +75,14 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },
+      {
+        title: $localize`:@@Common.Action:[i18n] Action`,
+        customId: 'delete',
+        dataCellTemplate: this.actionCellTemplate,
+        cssDataCell: 'text-nowrap align-middle action-cell',
+        width: '1px',
+        sortable: false
+      },
     ];
   }
 
@@ -87,7 +94,17 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     return this.projectTable?.getCellValue(row, column) ?? '';
   }
 
-  dataCellClick($event: DataCellClickEvent<ProjectListDto>) {
-    this.router.navigate([$event.row.id], {relativeTo: this.route});
+  public dataCellClick($event: DataCellClickEvent<ProjectListDto>): void {
+    if ($event.column.customId !== 'delete')
+      this.router.navigate([$event.row.id], {relativeTo: this.route});
+  }
+
+  public deleteItem(id: string): void {
+    this.projectService
+      .delete(id)
+      .pipe(single())
+      .subscribe(() => {
+        this.entityService.projectChanged.next({entity: {id} as ProjectListDto, action: 'deleted'});
+      });
   }
 }

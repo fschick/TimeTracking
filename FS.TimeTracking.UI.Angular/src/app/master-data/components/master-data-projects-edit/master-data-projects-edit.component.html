@@ -1,7 +1,7 @@
 <ng-template #projectEdit>
   <div class="dialog card card-lg">
     <h5 class="card-header">
-      <ng-container i18n="@@Page.MasterData.ProjectEdit">[i18n] Edit Project</ng-container>
+      <ng-container i18n="@@Page.MasterData.Projects.Edit">[i18n] Edit Project</ng-container>
     </h5>
     <div class="card-body">
       <form id="projectForm" [formGroup]="projectForm" (ngSubmit)="save()">
@@ -40,10 +40,10 @@
       </form>
     </div>
     <div class="card-footer">
-      <ts-confirm-button (confirmed)="delete()" [disabled]="isNewRecord" color="danger">
-        <i class="bi bi-eraser me-1"></i>
-        <ng-container i18n="@@Common.Delete">[i18n] Delete</ng-container>
-      </ts-confirm-button>
+      <button form="projectForm" type="button" class="btn btn-outline-secondary" (click)="close()">
+        <i class="bi bi-x-circle me-1"></i>
+        <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+      </button>
       <button form="projectForm" type="submit" class="btn btn-primary">
         <i class="bi bi-check-square me-1"></i>
         <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
