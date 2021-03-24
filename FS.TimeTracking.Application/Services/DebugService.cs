@@ -58,6 +58,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Hidden, hidden)
                 .RuleFor(x => x.Created, default(DateTime))
                 .RuleFor(x => x.Modified, default(DateTime))
+                .RuleFor(x => x.Projects, _ => default)
                 .Generate(amount)
                 .ToList();
 
@@ -66,6 +67,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
                 .RuleFor(x => x.Name, faker => faker.Commerce.ProductName())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
+                .RuleFor(x => x.Customer, _ => default)
                 .RuleFor(x => x.Comment, comment)
                 .RuleFor(x => x.Hidden, hidden)
                 .RuleFor(x => x.Created, default(DateTime))
@@ -95,6 +97,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.EndTime, faker => referenceDate = referenceDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromHours(8).TotalMinutes)))
                 .RuleFor(x => x.Billable, f => f.Random.Bool())
                 .RuleFor(x => x.Comment, comment)
+                .RuleFor(x => x.Deleted, deleted)
                 .RuleFor(x => x.Created, default(DateTime))
                 .RuleFor(x => x.Modified, default(DateTime))
                 .Generate(amount * 10)
