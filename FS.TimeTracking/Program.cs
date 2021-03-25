@@ -37,7 +37,7 @@ namespace FS.TimeTracking
                 if (!options.Parsed)
                     return;
 
-                var host = CreateHostBuilder(args)
+                using var host = CreateHostBuilder(args)
                     .UseWindowsService()
                     .UseSystemd()
                     .Build();

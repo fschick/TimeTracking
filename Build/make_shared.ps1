@@ -22,7 +22,8 @@ function Npm-Restore {
 #
 function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion = "0.0.0") {
 	# Build back-end
-	& dotnet build --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
+	& dotnet build -warnaserror --configuration Debug
+	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
 		exit $LASTEXITCODE
 	}

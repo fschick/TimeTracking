@@ -97,7 +97,6 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.EndTime, faker => referenceDate = referenceDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromHours(8).TotalMinutes)))
                 .RuleFor(x => x.Billable, f => f.Random.Bool())
                 .RuleFor(x => x.Comment, comment)
-                .RuleFor(x => x.Deleted, deleted)
                 .RuleFor(x => x.Created, default(DateTime))
                 .RuleFor(x => x.Modified, default(DateTime))
                 .Generate(amount * 10)
