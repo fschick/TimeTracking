@@ -1,7 +1,12 @@
 ﻿using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -50,11 +55,20 @@ namespace FS.TimeTracking.Repository.Startup
         // TODO: Remove as soon as production state has reached.
         private static void TruncateDatabase(DbContext dbContext)
         {
-            dbContext.Database.ExecuteSqlRaw("DROP TABLE TimeSheets");
-            dbContext.Database.ExecuteSqlRaw("DROP TABLE Activities");
-            dbContext.Database.ExecuteSqlRaw("DROP TABLE Projects");
-            dbContext.Database.ExecuteSqlRaw("DROP TABLE Customers");
-            dbContext.Database.ExecuteSqlRaw("DROP TABLE __EFMigrationsHistory");
+            var sqlGenerator = dbContext.GetInfrastructure().GetRequiredService<IMigrationsSqlGenerator>();
+            var connection = dbContext.GetInfrastructure().GetRequiredService<IRelationalConnection>();
+
+            var tableDropOperations = new[] { typeof(TimeSheet), typeof(Activity), typeof(Project), typeof(Customer) }
+                .Select(type => dbContext.Model.FindEntityType(type))
+                .Select(entityType => new DropTableOperation { Name = entityType.GetTableName(), Schema = entityType.GetSchema() })
+                .ToList();
+
+            var migrationTableDropOperation = new DropTableOperation { Name = HistoryRepository.DefaultTableName, Schema = tableDropOperations.First().Schema };
+            tableDropOperations.Add(migrationTableDropOperation);
+
+            var migrationCommands = sqlGenerator.Generate(tableDropOperations);
+            foreach (var migrationCommand in migrationCommands)
+                migrationCommand.ExecuteNonQuery(connection);
         }
     }
 }
