@@ -25,10 +25,16 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// </summary>
         public Guid? CustomerId { get; set; }
 
+        /// <inheritdoc cref="TimeTracking.Customer"/>
+        public Customer Customer { get; set; }
+
         /// <summary>
         /// Gets or sets the identifier to the related <see cref="Project"/>.
         /// </summary>
         public Guid? ProjectId { get; set; }
+
+        /// <inheritdoc cref="TimeTracking.Project"/>
+        public Project Project { get; set; }
 
         /// <summary>
         /// Gets or sets a comment.

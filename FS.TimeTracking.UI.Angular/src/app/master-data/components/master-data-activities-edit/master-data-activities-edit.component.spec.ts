@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {ProjectService, TypeaheadService} from '../../../shared/services/api';
+import {ActivityService, TypeaheadService} from '../../../shared/services/api';
 import {Observable, of} from 'rxjs';
-import {MasterDataProjectsEditComponent} from './master-data-projects-edit.component';
+import {MasterDataActivitiesEditComponent} from './master-data-activities-edit.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
@@ -9,12 +9,13 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {DialogModule} from '@ngneat/dialog';
 import {ReactiveComponentModule} from '@ngrx/component';
 
-const fakeProjectService = {
+const fakeActivityService = {
   get: (): Observable<any> => of({})
-} as Partial<ProjectService>;
+} as Partial<ActivityService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any> => of({})
+  getCustomers: (): Observable<any> => of({}),
+  getProjects: (): Observable<any> => of({})
 } as Partial<TypeaheadService>;
 
 @Component({
@@ -23,10 +24,10 @@ const fakeTypeaheadService = {
 class TestRootComponent {
 }
 
-describe('MasterDataProjectsEditComponent', () => {
-  let component: MasterDataProjectsEditComponent;
+describe('MasterDataActivitiesEditComponent', () => {
+  let component: MasterDataActivitiesEditComponent;
   let rootFixture: ComponentFixture<TestRootComponent>;
-  let fixture: ComponentFixture<MasterDataProjectsEditComponent>;
+  let fixture: ComponentFixture<MasterDataActivitiesEditComponent>;
   let router: Router;
 
   const navigateById = (id: string) => {
@@ -35,19 +36,19 @@ describe('MasterDataProjectsEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestRootComponent, MasterDataProjectsEditComponent],
+      declarations: [TestRootComponent, MasterDataActivitiesEditComponent],
       imports: [
         HttpClientModule,
         ReactiveComponentModule,
         RouterTestingModule.withRoutes([
-          {path: ':id', component: MasterDataProjectsEditComponent}
+          {path: ':id', component: MasterDataActivitiesEditComponent}
         ]),
         DialogModule.forRoot({
           sizes: {inherit: {}}
         })
       ],
       providers: [
-        {provide: ProjectService, useValue: fakeProjectService},
+        {provide: ActivityService, useValue: fakeActivityService},
         {provide: TypeaheadService, useValue: fakeTypeaheadService},
       ],
     });
@@ -60,7 +61,7 @@ describe('MasterDataProjectsEditComponent', () => {
   beforeEach(fakeAsync(() => {
     navigateById('efb9854c-38e5-4a8f-aad7-71f1b2a483c3');
     tick();
-    fixture = TestBed.createComponent(MasterDataProjectsEditComponent);
+    fixture = TestBed.createComponent(MasterDataActivitiesEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

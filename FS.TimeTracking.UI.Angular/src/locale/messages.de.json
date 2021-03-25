@@ -26,16 +26,20 @@
         "Title": "Kunden",
         "Edit": "Kunde bearbeiten",
         "Delete": "Kunde löschen",
-        "DeleteMessage": "Wollen Sie den Kunden wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+        "DeleteMessage": "Wollen Sie diesen Kunden wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
       "Projects": {
         "Title": "Projekte",
         "Edit": "Projekt bearbeiten",
         "Delete": "Projekt löschen",
-        "DeleteMessage": "Wollen Sie das Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+        "DeleteMessage": "Wollen Sie dieses Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
-      "Activities": "Tätigkeiten",
-      "ActivityEdit": "Tätigkeit bearbeiten"
+      "Activities": {
+        "Title": "Tätigkeiten",
+        "Edit": "Tätigkeit bearbeiten",
+        "Delete": "Tätigkeit löschen",
+        "DeleteMessage": "Wollen Sie diese Tätigkeit wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      }
     }
   },
   "Component": {
@@ -70,6 +74,20 @@
       "CustomerShortName": "Kunde",
       "CustomerCompanyName": "Firma",
       "Hidden": "Versteckt"
+    },
+    "ActivityDto": {
+      "Name": "Name",
+      "CustomerId": "Kunde",
+      "Customer": "Kunde",
+      "ProjectId": "Projekt",
+      "Project": "Projekt",
+      "Comment": "Kommentar",
+      "Hidden": "Versteckt"
+    },
+    "ActivityOverviewDto": {
+      "Name": "Name",
+      "CustomerShortName": "Kunde",
+      "ProjectName": "Projekt"
     }
   },
   "Validation": {

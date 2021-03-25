@@ -77,18 +77,18 @@ namespace FS.TimeTracking.Repository.DbContexts
         {
             customerBuilder
                 .ToTable("Customers")
-                .HasIndex(x => new { x.ShortName, x.Hidden });
+                .HasIndex(customer => new { customer.ShortName, customer.Hidden });
         }
 
         private static void ConfigureProject(EntityTypeBuilder<Project> projectBuilder)
         {
             projectBuilder
                 .ToTable("Projects")
-                .HasIndex(x => new { x.Name, x.Hidden });
+                .HasIndex(project => new { project.Name, project.Hidden });
 
             projectBuilder
                 .HasOne(project => project.Customer)
-                .WithMany(x => x.Projects)
+                .WithMany(customer => customer.Projects)
                 .HasForeignKey(project => project.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
@@ -98,18 +98,18 @@ namespace FS.TimeTracking.Repository.DbContexts
         {
             activityBuilder
                 .ToTable("Activities")
-                .HasIndex(x => new { x.Name, x.Hidden });
+                .HasIndex(activity => new { activity.Name, activity.Hidden });
 
             activityBuilder
-                .HasOne<Customer>()
+                .HasOne(activity => activity.Customer)
                 .WithMany()
-                .HasForeignKey(x => x.CustomerId)
+                .HasForeignKey(activity => activity.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             activityBuilder
-                .HasOne<Project>()
+                .HasOne(activity => activity.Project)
                 .WithMany()
-                .HasForeignKey(x => x.ProjectId)
+                .HasForeignKey(activity => activity.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
@@ -121,14 +121,14 @@ namespace FS.TimeTracking.Repository.DbContexts
             timeSheetBuilder
                 .HasOne<Customer>()
                 .WithMany()
-                .HasForeignKey(x => x.CustomerId)
+                .HasForeignKey(timeSheet => timeSheet.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             timeSheetBuilder
                 .HasOne<Activity>()
                 .WithMany()
-                .HasForeignKey(x => x.ActivityId)
+                .HasForeignKey(timeSheet => timeSheet.ActivityId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
         }

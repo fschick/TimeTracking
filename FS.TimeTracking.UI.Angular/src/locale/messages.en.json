@@ -34,8 +34,12 @@
         "Delete": "Delete Project",
         "DeleteMessage": "Are you sure you want to delete this project? This cannot be undone."
       },
-      "Activities": "Activities",
-      "ActivityEdit": "Edit Activity"
+      "Activities": {
+        "Title": "Activities",
+        "Edit": "Edit Activity",
+        "Delete": "Delete Activity",
+        "DeleteMessage": "Are you sure you want to delete this activity? This cannot be undone."
+      }
     }
   },
   "Component": {
@@ -70,6 +74,20 @@
       "CustomerShortName": "Customer",
       "CustomerCompanyName": "Company",
       "Hidden": "Hidden"
+    },
+    "ActivityDto": {
+      "Name": "Name",
+      "CustomerId": "Customer",
+      "Customer": "Customer",
+      "ProjectId": "Project",
+      "Project": "Project",
+      "Comment": "Comment",
+      "Hidden": "Hidden"
+    },
+    "ActivityOverviewDto": {
+      "Name": "Name",
+      "CustomerShortName": "Customer",
+      "ProjectName": "Project"
     }
   },
   "Validation": {

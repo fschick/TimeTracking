@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services
 {
     /// <inheritdoc cref="IActivityService" />
-    public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityDto>, IActivityService
+    public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityListDto>, IActivityService
     {
         /// <inheritdoc />
         public ActivityService(IRepository repository, IModelConverter<Activity, ActivityDto> modelConverter)
@@ -20,7 +20,20 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public override Task<List<ActivityDto>> List(Guid? id, CancellationToken cancellationToken = default)
-            => throw new NotImplementedException();
+        public override Task<List<ActivityListDto>> List(Guid? id, CancellationToken cancellationToken = default)
+            => Repository
+                .Get(
+                    select: (Activity activity) => new ActivityListDto
+                    {
+                        Id = activity.Id,
+                        Name = activity.Name,
+                        CustomerShortName = activity.Customer.ShortName,
+                        CustomerCompanyName = activity.Customer.CompanyName,
+                        ProjectName = activity.Project.Name,
+                        Hidden = activity.Hidden,
+                    },
+                    where: id.HasValue ? x => x.Id == id : null,
+                    cancellationToken: cancellationToken
+                );
     }
 }

@@ -32,6 +32,7 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {DialogModule} from '@ngneat/dialog';
+import { MasterDataActivitiesEditComponent } from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {DialogModule} from '@ngneat/dialog';
     ConfirmButtonComponent,
     MasterDataProjectsEditComponent,
     SimpleConfirmComponent,
+    MasterDataActivitiesEditComponent,
   ],
   imports: [
     BrowserModule,

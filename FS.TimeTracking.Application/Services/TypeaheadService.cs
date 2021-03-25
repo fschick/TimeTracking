@@ -24,5 +24,9 @@ namespace FS.TimeTracking.Application.Services
         /// <inheritdoc />
         public async Task<List<TypeaheadDto<string>>> GetCustomers(CancellationToken cancellationToken = default)
             => await _repository.Get((Customer x) => TypeaheadDto.Create(x.Id, x.ShortName), cancellationToken: cancellationToken);
+
+        /// <inheritdoc />
+        public async Task<List<TypeaheadDto<string>>> GetProjects(CancellationToken cancellationToken = default)
+            => await _repository.Get((Project x) => TypeaheadDto.Create(x.Id, x.Name), cancellationToken: cancellationToken);
     }
 }

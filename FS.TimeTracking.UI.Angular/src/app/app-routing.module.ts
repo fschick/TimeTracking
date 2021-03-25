@@ -6,6 +6,7 @@ import {MasterDataProjectsComponent} from './master-data/components/master-data-
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
+import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,10 @@ const routes: Routes = [
     path: 'master-data/projects', component: MasterDataProjectsComponent,
     children: [{path: ':id', component: MasterDataProjectsEditComponent}]
   },
-  {path: 'master-data/activities', component: MasterDataActivitiesComponent},
+  {
+    path: 'master-data/activities', component: MasterDataActivitiesComponent,
+    children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
+  },
   {path: '', component: TimesheetComponent},
 ];
 
