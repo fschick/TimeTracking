@@ -26,16 +26,6 @@ namespace FS.TimeTracking.Api.REST.Controllers
         [HttpGet]
         public Task<object> TestMethod(CancellationToken cancellationToken = default)
             => _debugService.TestMethod(cancellationToken);
-
-        /// <inheritdoc />
-        [HttpPost]
-        public Task SeedData(int amount = 10, bool truncateBeforeSeed = false)
-            => _debugService.SeedData(amount, truncateBeforeSeed);
-
-        /// <inheritdoc />
-        [HttpDelete]
-        public Task TruncateData()
-            => _debugService.TruncateData();
     }
 }
 #endif
