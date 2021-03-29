@@ -5,6 +5,7 @@
 </div>
 
 <ng-template #confirmDialog>
+  {{ confirmSubmit.focus() }}
   <div class="dialog card card-lg">
     <h5 class="card-header">
       {{title}}
@@ -13,11 +14,11 @@
       {{message}}
     </div>
     <div class="card-footer">
-      <button type="button" class="btn btn-secondary" (click)="destroyConfirmDialog()">
+      <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="destroyConfirmDialog()">
         <i class="bi bi-x-circle-fill me-1"></i>
         <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
       </button>
-      <button type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)">
+      <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" #confirmSubmit>
         <i *ngIf="actionIcon" class="{{actionIcon}} me-1"></i>
         {{actionText}}
       </button>

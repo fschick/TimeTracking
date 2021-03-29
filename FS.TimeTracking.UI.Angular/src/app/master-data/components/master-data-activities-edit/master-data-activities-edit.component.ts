@@ -7,6 +7,7 @@ import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
+import {tick} from '@angular/core/testing';
 
 @Component({
   selector: 'ts-master-data-activities-edit',
@@ -15,7 +16,6 @@ import {single} from 'rxjs/operators';
 })
 export class MasterDataActivitiesEditComponent implements AfterViewInit {
   @ViewChild('activityEdit') private activityEdit?: TemplateRef<any>;
-  @ViewChild('title') private title?: ElementRef;
 
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;

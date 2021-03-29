@@ -16,7 +16,6 @@ import {DialogRef, DialogService} from '@ngneat/dialog';
 })
 export class MasterDataProjectsEditComponent implements AfterViewInit {
   @ViewChild('projectEdit') private projectEdit?: TemplateRef<any>;
-  @ViewChild('title') private title?: ElementRef;
 
   public projectForm: ValidationFormGroup;
   public isNewRecord: boolean;
