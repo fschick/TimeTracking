@@ -44,7 +44,7 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     this.projectService.list().pipe(single()).subscribe(x => this.rows = x);
 
     const projectChanged = this.entityService.projectChanged
-      .pipe(this.entityService.replaceEntityWithOverviewDto(this.projectService))
+      .pipe(this.entityService.replaceEntityWithListDto(this.projectService))
       .subscribe(changedEvent => {
           const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
           return this.rows = [...updatedRows];
@@ -62,15 +62,15 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
     const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ProjectOverviewDto.Name:[i18n] Project`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.ProjectListDto.Name:[i18n] Project`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.ProjectOverviewDto.CustomerShortName:[i18n] Customer`,
+        title: $localize`:@@DTO.ProjectListDto.CustomerShortName:[i18n] Customer`,
         prop: 'customerShortName',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },
       {
-        title: $localize`:@@DTO.ProjectOverviewDto.CustomerCompanyName:[i18n] Company`,
+        title: $localize`:@@DTO.ProjectListDto.CustomerCompanyName:[i18n] Company`,
         prop: 'customerCompanyName',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate

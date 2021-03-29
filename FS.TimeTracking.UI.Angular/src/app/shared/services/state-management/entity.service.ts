@@ -46,7 +46,7 @@ export class EntityService {
     return entities;
   }
 
-  public replaceEntityWithOverviewDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
+  public replaceEntityWithListDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
     return (source: Observable<EntityChanged<TDto>>) =>
       source.pipe(switchMap((changedEvent: EntityChanged<TDto>) => {
           if (changedEvent.action === 'deleted') {

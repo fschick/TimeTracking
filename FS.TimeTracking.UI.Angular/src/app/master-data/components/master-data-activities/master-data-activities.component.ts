@@ -44,7 +44,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     this.activityService.list().pipe(single()).subscribe(x => this.rows = x);
 
     const activityChanged = this.entityService.activityChanged
-      .pipe(this.entityService.replaceEntityWithOverviewDto(this.activityService))
+      .pipe(this.entityService.replaceEntityWithListDto(this.activityService))
       .subscribe(changedEvent => {
           const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
           return this.rows = [...updatedRows];
@@ -62,15 +62,9 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
 
     const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ActivityOverviewDto.Name:[i18n] Activity`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.ActivityListDto.Name:[i18n] Activity`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.ActivityOverviewDto.CustomerShortName:[i18n] Customer`,
-        prop: 'customerShortName',
-        cssDataCell: dataCellCss,
-        dataCellTemplate: this.dataCellTemplate
-      },
-      {
-        title: $localize`:@@DTO.ActivityOverviewDto.ProjectName:[i18n] Project`,
+        title: $localize`:@@DTO.ActivityListDto.ProjectName:[i18n] Project`,
         prop: 'projectName',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
