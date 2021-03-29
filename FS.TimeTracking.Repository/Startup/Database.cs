@@ -43,12 +43,6 @@ namespace FS.TimeTracking.Repository.Startup
             dbContext.Database.Migrate();
             logger.LogInformation("Database migration finished.");
 
-#if DEBUG
-            // TODO: Remove as soon as production state has reached.
-            if (migrationsHasBeenMerged)
-                debugService.SeedData();
-#endif
-
             return applicationBuilder;
         }
 
@@ -68,7 +62,8 @@ namespace FS.TimeTracking.Repository.Startup
 
             var migrationCommands = sqlGenerator.Generate(tableDropOperations);
             foreach (var migrationCommand in migrationCommands)
-                migrationCommand.ExecuteNonQuery(connection);
+                try { migrationCommand.ExecuteNonQuery(connection); }
+                catch { /* Ignore */}
         }
     }
 }

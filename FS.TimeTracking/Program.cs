@@ -1,4 +1,5 @@
 using FS.TimeTracking.Api.REST.Startup;
+using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Models.Configuration;
@@ -122,11 +123,13 @@ namespace FS.TimeTracking
 
         private static void ConfigureServerServices(WebHostBuilderContext context, IServiceCollection services)
         {
+            //FS.TimeTracking.Application.Startup.AutoMapper.RegisterAutoMapper();
             services
                 .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
                 .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
                 .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value)
                 .RegisterApplicationServices()
+                .RegisterAutoMapper()
                 .RegisterOpenApiController()
                 .RegisterRestApiController()
                 .RegisterSpaStaticFiles(context.HostingEnvironment);

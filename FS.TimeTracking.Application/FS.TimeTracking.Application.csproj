@@ -4,6 +4,8 @@
   <Import Project="../Build/build_xml_documentation.props" />
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Bogus" Version="33.0.2" />
     <PackageReference Include="Bogus.Tools.Analyzer" Version="33.0.2">
       <PrivateAssets>all</PrivateAssets>
