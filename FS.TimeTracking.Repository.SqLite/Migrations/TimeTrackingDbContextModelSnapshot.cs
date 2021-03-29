@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
@@ -37,12 +37,12 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
+                    b.Property<Guid?>("ProjectId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -51,7 +51,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("Name", "Hidden");
+                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Activities");
                 });
@@ -90,12 +90,12 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ShortName")
-                        .IsRequired()
+                    b.Property<string>("Street")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Street")
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -105,7 +105,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShortName", "Hidden");
+                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Customers");
                 });
@@ -131,7 +131,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
@@ -140,7 +140,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Name", "Hidden");
+                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Projects");
                 });
@@ -186,24 +186,30 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Project", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", null)
-                        .WithMany()
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
+                        .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
@@ -219,6 +225,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

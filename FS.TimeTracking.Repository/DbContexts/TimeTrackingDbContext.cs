@@ -77,14 +77,14 @@ namespace FS.TimeTracking.Repository.DbContexts
         {
             customerBuilder
                 .ToTable("Customers")
-                .HasIndex(customer => new { customer.ShortName, customer.Hidden });
+                .HasIndex(customer => new { customer.Title, customer.Hidden });
         }
 
         private static void ConfigureProject(EntityTypeBuilder<Project> projectBuilder)
         {
             projectBuilder
                 .ToTable("Projects")
-                .HasIndex(project => new { project.Name, project.Hidden });
+                .HasIndex(project => new { project.Title, project.Hidden });
 
             projectBuilder
                 .HasOne(project => project.Customer)
@@ -98,7 +98,7 @@ namespace FS.TimeTracking.Repository.DbContexts
         {
             activityBuilder
                 .ToTable("Activities")
-                .HasIndex(activity => new { activity.Name, activity.Hidden });
+                .HasIndex(activity => new { activity.Title, activity.Hidden });
 
             activityBuilder
                 .HasOne(activity => activity.Customer)

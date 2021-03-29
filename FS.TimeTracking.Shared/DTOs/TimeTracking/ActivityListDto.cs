@@ -13,18 +13,18 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         [Required]
         public Guid Id { get; set; }
 
-        /// <inheritdoc cref="Activity.Name"/>
+        /// <inheritdoc cref="Activity.Title"/>
         [Required]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
-        /// <inheritdoc cref="Customer.ShortName"/>
-        public string CustomerShortName { get; set; }
+        /// <inheritdoc cref="Customer.Title"/>
+        public string CustomerTitle { get; set; }
 
         /// <inheritdoc cref="Customer.CompanyName"/>
         public string CustomerCompanyName { get; set; }
 
-        /// <inheritdoc cref="Project.Name"/>
-        public string ProjectName { get; set; }
+        /// <inheritdoc cref="Project.Title"/>
+        public string ProjectTitle { get; set; }
 
         /// <inheritdoc cref="Project.Hidden"/>
         public bool Hidden { get; set; }

@@ -45,7 +45,7 @@ namespace FS.TimeTracking.Repository.Tests.Tests
             var repository = autoFake.Resolve<IRepository>();
             var customer = new Customer();
             var addedCustomer = await repository.Add(customer);
-            addedCustomer.ShortName = "TestName";
+            addedCustomer.Title = "TestName";
             var updatedCustomer = repository.Update(customer);
 
             // Check

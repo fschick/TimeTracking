@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FS.TimeTracking.Repository.SqLite.Migrations
+namespace FS.TimeTracking.Repository.MySql.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,18 +11,18 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ShortName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CompanyName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    ContactName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Street = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    ZipCode = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    City = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Country = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    CompanyName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    ContactName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    Street = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,13 +33,13 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,14 +56,14 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    ProjectId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,15 +86,15 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "TimeSheets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Billable = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Billable = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,19 +119,19 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_Name_Hidden",
-                table: "Activities",
-                columns: new[] { "Name", "Hidden" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Activities_ProjectId",
                 table: "Activities",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_ShortName_Hidden",
+                name: "IX_Activities_Title_Hidden",
+                table: "Activities",
+                columns: new[] { "Title", "Hidden" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_Title_Hidden",
                 table: "Customers",
-                columns: new[] { "ShortName", "Hidden" });
+                columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CustomerId",
@@ -139,9 +139,9 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_Name_Hidden",
+                name: "IX_Projects_Title_Hidden",
                 table: "Projects",
-                columns: new[] { "Name", "Hidden" });
+                columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",

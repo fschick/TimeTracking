@@ -7,8 +7,8 @@
       <form id="activityForm" [formGroup]="activityForm" (ngSubmit)="save()">
         <div class="row g-3">
           <div class="col-lg-12">
-            <label for="shortName" class="form-label" i18n="@@DTO.ActivityDto.Name">[i18n] Name</label>
-            <input id="shortName" type="text" class="form-control" formControlName="name" #shortName>
+            <label for="title" class="form-label" i18n="@@DTO.ActivityDto.Title">[i18n] Name</label>
+            <input id="title" type="text" class="form-control" formControlName="title" #title>
           </div>
           <div class="col-lg-6">
             <!--suppress XmlInvalidId -->

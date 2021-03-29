@@ -53,7 +53,7 @@
   },
   "DTO": {
     "CustomerDto": {
-      "ShortName": "Kurzname",
+      "Title": "Titel",
       "CompanyName": "Firma",
       "ContactName": "Kontakt",
       "Street": "Straße",
@@ -63,20 +63,20 @@
       "Hidden": "Versteckt"
     },
     "ProjectDto": {
-      "Name": "Name",
+      "Title": "Titel",
       "CustomerId": "Kunde",
       "Customer": "Kunde",
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ProjectListDto": {
-      "Name": "Name",
-      "CustomerShortName": "Kunde",
+    "ProjectOverviewDto": {
+      "Title": "Titel",
+      "CustomerTitle": "Kunde",
       "CustomerCompanyName": "Firma",
       "Hidden": "Versteckt"
     },
     "ActivityDto": {
-      "Name": "Name",
+      "Title": "Titel",
       "CustomerId": "Kunde",
       "Customer": "Kunde",
       "ProjectId": "Projekt",
@@ -84,10 +84,10 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ActivityListDto": {
-      "Name": "Name",
-      "CustomerShortName": "Kunde",
-      "ProjectName": "Projekt"
+    "ActivityOverviewDto": {
+      "Title": "Titel",
+      "CustomerTitle": "Kunde",
+      "ProjectTitle": "Projekt"
     }
   },
   "Validation": {

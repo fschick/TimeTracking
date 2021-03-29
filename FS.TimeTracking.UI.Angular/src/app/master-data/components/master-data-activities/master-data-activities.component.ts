@@ -62,10 +62,16 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
 
     const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ActivityListDto.Name:[i18n] Activity`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.ActivityOverviewDto.Title:[i18n] Activity`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.ActivityListDto.ProjectName:[i18n] Project`,
-        prop: 'projectName',
+        title: $localize`:@@DTO.ActivityOverviewDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate
+      },
+      {
+        title: $localize`:@@DTO.ActivityOverviewDto.ProjectTitle:[i18n] Project`,
+        prop: 'projectTitle',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },

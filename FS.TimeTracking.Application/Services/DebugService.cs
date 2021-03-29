@@ -28,7 +28,7 @@ namespace FS.TimeTracking.Application.Services
         /// <inheritdoc />
         public async Task<object> TestMethod(CancellationToken cancellationToken = default)
         {
-            await _repository.Add(new Customer { ShortName = "Test" }, cancellationToken);
+            await _repository.Add(new Customer { Title = "Test" }, cancellationToken);
             await _repository.SaveChanges(cancellationToken);
             var customer = await _repository.FirstOrDefault((Customer x) => x, cancellationToken: cancellationToken);
             return Task.FromResult<object>(1);
@@ -48,7 +48,7 @@ namespace FS.TimeTracking.Application.Services
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
                 .RuleFor(x => x.CompanyName, faker => faker.Company.CompanyName())
-                .RuleFor(x => x.ShortName, (_, entity) => Regex.Replace(entity.CompanyName, @"^(\w+).*$", "$1"))
+                .RuleFor(x => x.Title, (_, entity) => Regex.Replace(entity.CompanyName, @"^(\w+).*$", "$1"))
                 .RuleFor(x => x.ContactName, faker => $"{faker.Name.FirstName()} {faker.Name.LastName()}")
                 .RuleFor(x => x.Street, faker => faker.Address.StreetAddress())
                 .RuleFor(x => x.ZipCode, f => f.Address.ZipCode())
@@ -65,7 +65,7 @@ namespace FS.TimeTracking.Application.Services
             var projects = new Faker<Project>(locale)
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
-                .RuleFor(x => x.Name, faker => faker.Commerce.ProductName())
+                .RuleFor(x => x.Title, faker => faker.Commerce.ProductName())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
                 .RuleFor(x => x.Customer, _ => default)
                 .RuleFor(x => x.Comment, comment)
@@ -78,7 +78,7 @@ namespace FS.TimeTracking.Application.Services
             var activities = new Faker<Activity>(locale)
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
-                .RuleFor(x => x.Name, faker => faker.Hacker.Verb())
+                .RuleFor(x => x.Title, faker => faker.Hacker.Verb())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, customers.Count))))
                 .RuleFor(x => x.Customer, _ => default)
                 .RuleFor(x => x.ProjectId, (faker, entity) => entity.CustomerId != null ? null : faker.PickRandom(projects.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, projects.Count))))

@@ -62,10 +62,10 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
     const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ProjectListDto.Name:[i18n] Project`, prop: 'name', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.ProjectOverviewDto.Title:[i18n] Project`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.ProjectListDto.CustomerShortName:[i18n] Customer`,
-        prop: 'customerShortName',
+        title: $localize`:@@DTO.ProjectOverviewDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },

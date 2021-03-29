@@ -19,7 +19,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// </summary>
         [Required]
         [StringLength(100)]
-        public string ShortName { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the company.

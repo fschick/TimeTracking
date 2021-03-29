@@ -55,17 +55,11 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
       locale: this.storageService.language,
     };
 
-    // const hideBelowViewPointMd = {cssHeadCell: 'd-none d-md-table-cell', cssDataCell: 'd-none d-md-table-cell'};
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.CustomerDto.ShortName:[i18n] Short name`, prop: 'shortName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.CustomerDto.Title:[i18n] Title`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
-      // {title: $localize`:@@DTO.CustomerDto.Street:[i18n] Street`, prop: 'street', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTO.CustomerDto.ZipCode:[i18n] Zip`, prop: 'zipCode', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTO.CustomerDto.City:[i18n] City`, prop: 'city', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTO.CustomerDto.Country:[i18n] Country`, prop: 'country', ...hideBelowViewPointMd},
-      // {title: $localize`:@@DTO.CustomerDto.Hidden:[i18n] Hidden`, prop: 'hidden', format: row => row.hidden ? this.trueString : this.falseString},
       {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',

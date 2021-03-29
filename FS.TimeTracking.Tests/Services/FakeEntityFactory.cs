@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Tests.Services
             => new CustomerDto
             {
                 Id = Guid.NewGuid(),
-                ShortName = $"{prefix}Customer",
+                Title = $"{prefix}Customer",
                 CompanyName = $"{prefix}Company",
                 ContactName = $"{prefix}Contact",
                 Street = $"{prefix}Street",
@@ -22,7 +22,7 @@ namespace FS.TimeTracking.Tests.Services
             => new ProjectDto
             {
                 Id = Guid.NewGuid(),
-                Name = $"{prefix}Name",
+                Title = $"{prefix}Name",
                 Comment = $"{prefix}Comment",
                 CustomerId = customerId,
                 Hidden = hidden

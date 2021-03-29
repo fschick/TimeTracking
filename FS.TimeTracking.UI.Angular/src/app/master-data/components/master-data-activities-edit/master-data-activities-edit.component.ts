@@ -15,7 +15,7 @@ import {single} from 'rxjs/operators';
 })
 export class MasterDataActivitiesEditComponent implements AfterViewInit {
   @ViewChild('activityEdit') private activityEdit?: TemplateRef<any>;
-  @ViewChild('shortName') private shortName?: ElementRef;
+  @ViewChild('title') private title?: ElementRef;
 
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;

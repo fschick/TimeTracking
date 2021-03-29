@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FS.TimeTracking.Repository.SqlServer.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShortName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ContactName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -34,7 +34,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Hidden = table.Column<bool>(type: "bit", nullable: false),
@@ -57,7 +57,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -119,19 +119,19 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_Name_Hidden",
-                table: "Activities",
-                columns: new[] { "Name", "Hidden" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Activities_ProjectId",
                 table: "Activities",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_ShortName_Hidden",
+                name: "IX_Activities_Title_Hidden",
+                table: "Activities",
+                columns: new[] { "Title", "Hidden" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_Title_Hidden",
                 table: "Customers",
-                columns: new[] { "ShortName", "Hidden" });
+                columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CustomerId",
@@ -139,9 +139,9 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_Name_Hidden",
+                name: "IX_Projects_Title_Hidden",
                 table: "Projects",
-                columns: new[] { "Name", "Hidden" });
+                columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",
