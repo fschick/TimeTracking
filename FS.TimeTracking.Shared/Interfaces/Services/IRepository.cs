@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace FS.TimeTracking.Shared.Interfaces.Services
 {
@@ -206,6 +207,11 @@ namespace FS.TimeTracking.Shared.Interfaces.Services
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="where">Filters the entities based on a predicate.</param>
         Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class, IEntityModel;
+
+        /// <summary>
+        /// Creates a new transaction scope. Transaction scopes can be nested.
+        /// </summary>
+        TransactionScope CreateTransactionScope();
 
         /// <summary>
         /// Saves all changes made in this context to the database.

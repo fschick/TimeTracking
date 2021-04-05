@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using EFCore.BulkExtensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using LinqToDB;
-using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace FS.TimeTracking.Repository.Services
 {
@@ -135,8 +137,13 @@ namespace FS.TimeTracking.Repository.Services
         /// <inheritdoc />
         public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
         {
-            var options = new BulkCopyOptions { CheckConstraints = true, KeepIdentity = true };
-            await _dbContext.BulkCopyAsync(options, entities, cancellationToken);
+            var bulkConfig = new BulkConfig
+            {
+                EnableShadowProperties = true,
+                SqlBulkCopyOptions = SqlBulkCopyOptions.KeepIdentity | SqlBulkCopyOptions.CheckConstraints
+            };
+
+            await _dbContext.BulkInsertAsync(entities, bulkConfig, cancellationToken: cancellationToken);
             return entities;
         }
 
@@ -169,6 +176,10 @@ namespace FS.TimeTracking.Repository.Services
 
             return await query.DeleteAsync();
         }
+
+        /// <inheritdoc />
+        public TransactionScope CreateTransactionScope()
+            => new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
         /// <inheritdoc />
         public Task<int> SaveChanges(CancellationToken cancellationToken = default)
