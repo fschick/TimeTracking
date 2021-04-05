@@ -25,9 +25,6 @@ namespace FS.TimeTracking.Application.Services
         /// <inheritdoc />
         public async Task SeedTestData(int amount = 10, bool truncateBeforeSeed = false)
         {
-            if (truncateBeforeSeed)
-                await TruncateData();
-
             const string locale = "de";
             static string comment(Faker faker) => faker.Lorem.Sentences(faker.Random.Number(0, 3), ".");
             static bool hidden(Faker faker) => faker.Random.WeightedRandom(new[] { true, false }, new[] { .2f, .8f });
@@ -92,21 +89,30 @@ namespace FS.TimeTracking.Application.Services
                 .Generate(amount * 10)
                 .ToList();
 
-            //var debug = JsonConvert.SerializeObject(new { customers, projects, activities, timesheet }, Formatting.Indented);
+            using var scope = _repository.CreateTransactionScope();
+
+            if (truncateBeforeSeed)
+                await TruncateData();
+
             await _repository.BulkAddRange(customers);
             await _repository.BulkAddRange(projects);
             await _repository.BulkAddRange(activities);
             await _repository.BulkAddRange(timesheet);
+
+            scope.Complete();
         }
 
         /// <inheritdoc />
         public async Task TruncateData()
         {
+            using var scope = _repository.CreateTransactionScope();
+
             await _repository.Remove<TimeSheet>();
             await _repository.Remove<Activity>();
             await _repository.Remove<Project>();
             await _repository.Remove<Customer>();
-            await _repository.SaveChanges();
+
+            scope.Complete();
         }
     }
 }
