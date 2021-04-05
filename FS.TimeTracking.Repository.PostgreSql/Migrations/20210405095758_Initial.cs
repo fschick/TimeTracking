@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FS.TimeTracking.Repository.SqLite.Migrations
+namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 {
     public partial class Initial : Migration
     {
@@ -11,18 +11,18 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CompanyName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    ContactName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Street = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    ZipCode = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    City = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Country = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CompanyName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ContactName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,13 +33,13 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,14 +56,14 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,15 +86,15 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 name: "TimeSheets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Billable = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Billable = table.Column<bool>(type: "boolean", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

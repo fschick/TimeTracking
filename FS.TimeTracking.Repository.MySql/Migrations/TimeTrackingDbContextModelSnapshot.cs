@@ -167,13 +167,13 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");

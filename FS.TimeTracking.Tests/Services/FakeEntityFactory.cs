@@ -16,13 +16,14 @@ namespace FS.TimeTracking.Tests.Services
                 ZipCode = "1234",
                 City = $"{prefix}City",
                 Country = $"{prefix}Country",
-                Hidden = false,
+                Hidden = hidden,
             };
+
         public static ProjectDto CreateProject(Guid customerId, string prefix = "Test", bool hidden = false)
             => new ProjectDto
             {
                 Id = Guid.NewGuid(),
-                Title = $"{prefix}Name",
+                Title = $"{prefix}Project",
                 Comment = $"{prefix}Comment",
                 CustomerId = customerId,
                 Hidden = hidden

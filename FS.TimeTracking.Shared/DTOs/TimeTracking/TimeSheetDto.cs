@@ -21,13 +21,13 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         [Required]
         public Guid ActivityId { get; set; }
 
-        /// <inheritdoc cref="TimeSheet.StartTime"/>
+        /// <inheritdoc cref="TimeSheet.StartDate"/>
         [Required]
-        public DateTime StartTime { get; set; }
+        public DateTime StartDate { get; set; }
 
-        /// <inheritdoc cref="TimeSheet.EndTime"/>
+        /// <inheritdoc cref="TimeSheet.EndDate"/>
         [Required]
-        public DateTime EndTime { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <inheritdoc cref="TimeSheet.Billable"/>
         [Required]
