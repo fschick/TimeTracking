@@ -23,11 +23,10 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 
         /// <inheritdoc cref="TimeSheet.StartDate"/>
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
         /// <inheritdoc cref="TimeSheet.EndDate"/>
-        [Required]
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <inheritdoc cref="TimeSheet.Billable"/>
         [Required]

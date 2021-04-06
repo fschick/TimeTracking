@@ -51,7 +51,7 @@
   </Target>
 
   <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild">
-    <Exec StandardOutputImportance="low" Command="npx $(AngularDirectory)/node_modules/.bin/openapi-generator-cli generate -c $(AngularDirectory)/openapi-generator/config.json -g typescript-angular --template-dir $(AngularDirectory)/openapi-generator/templates/typescript-angular --import-mappings=DateTime=Date --type-mappings=DateTime=Date -i $(TargetName).openapi.json -o $(AngularDirectory)/src/app/shared/services/api" />
+    <Exec StandardOutputImportance="low" Command="npx $(AngularDirectory)/node_modules/.bin/openapi-generator-cli generate -c $(AngularDirectory)/openapi-generator/config.json -g typescript-angular --template-dir $(AngularDirectory)/openapi-generator/templates/typescript-angular --import-mappings=DateTime=luxon --type-mappings=DateTime=DateTime -i $(TargetName).openapi.json -o $(AngularDirectory)/src/app/shared/services/api" />
   </Target>
 
   <Target Name="GenerateValidationSpec" AfterTargets="AfterBuild">

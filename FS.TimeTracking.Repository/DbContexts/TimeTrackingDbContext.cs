@@ -3,8 +3,10 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace FS.TimeTracking.Repository.DbContexts
 {
@@ -71,6 +73,8 @@ namespace FS.TimeTracking.Repository.DbContexts
             ConfigureProject(modelBuilder.Entity<Project>());
             ConfigureActivity(modelBuilder.Entity<Activity>());
             ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
+
+            RegisterDateTimeAsUtcConverter(modelBuilder);
         }
 
         private static void ConfigureCustomer(EntityTypeBuilder<Customer> customerBuilder)
@@ -131,6 +135,33 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .HasForeignKey(timeSheet => timeSheet.ActivityId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+        }
+
+        // https://stackoverflow.com/a/61243301/1271211
+        private static void RegisterDateTimeAsUtcConverter(ModelBuilder modelBuilder)
+        {
+            var dateTimeConverter = new ValueConverter<DateTime, DateTime>
+            (
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            );
+
+            var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>
+            (
+                v => v.HasValue ? v.Value.ToUniversalTime() : null,
+                v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : null
+            );
+
+            var properties = modelBuilder.Model
+                .GetEntityTypes()
+                .SelectMany(entityType => entityType.GetProperties())
+                .ToList();
+
+            foreach (var property in properties)
+                if (property.ClrType == typeof(DateTime))
+                    property.SetValueConverter(dateTimeConverter);
+                else if (property.ClrType == typeof(DateTime?))
+                    property.SetValueConverter(nullableDateTimeConverter);
         }
     }
 }

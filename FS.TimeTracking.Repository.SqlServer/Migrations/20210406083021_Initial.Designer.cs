@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FS.TimeTracking.Repository.SqlServer.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20210405095706_Initial")]
+    [Migration("20210406083021_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,13 +171,19 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<double?>("EndDateOffset")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("EndDateUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<double>("StartDateOffset")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

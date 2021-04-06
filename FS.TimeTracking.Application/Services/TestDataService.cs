@@ -28,6 +28,7 @@ namespace FS.TimeTracking.Application.Services
             const string locale = "de";
             static string comment(Faker faker) => faker.Lorem.Sentences(faker.Random.Number(0, 3), ".");
             static bool hidden(Faker faker) => faker.Random.WeightedRandom(new[] { true, false }, new[] { .2f, .8f });
+            var referenceDate = DateTimeOffset.Now.AddYears(amount / 10 * -1);
 
             var customers = new Faker<Customer>(locale)
                 .StrictMode(true)
@@ -63,7 +64,7 @@ namespace FS.TimeTracking.Application.Services
             var activities = new Faker<Activity>(locale)
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
-                .RuleFor(x => x.Title, faker => faker.Hacker.Verb())
+                .RuleFor(x => x.Title, faker => faker.Hacker.IngVerb())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, customers.Count))))
                 .RuleFor(x => x.Customer, _ => default)
                 .RuleFor(x => x.ProjectId, (faker, entity) => entity.CustomerId != null ? null : faker.PickRandom(projects.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, projects.Count))))
@@ -75,12 +76,15 @@ namespace FS.TimeTracking.Application.Services
                 .Generate(amount)
                 .ToList();
 
-            var referenceDate = DateTime.Now.AddYears(amount / 10 * -1);
             var timesheet = new Faker<TimeSheet>()
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
                 .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
                 .RuleFor(x => x.ActivityId, faker => faker.PickRandom(activities.Select(c => c.Id)))
+                .RuleFor(x => x.StartDateUtc, default(DateTime))
+                .RuleFor(x => x.StartDateOffset, default(double))
                 .RuleFor(x => x.StartDate, faker => referenceDate = referenceDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromDays(5).TotalMinutes)))
+                .RuleFor(x => x.EndDateUtc, default(DateTime?))
+                .RuleFor(x => x.EndDateOffset, default(double?))
                 .RuleFor(x => x.EndDate, faker => referenceDate = referenceDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromHours(8).TotalMinutes)))
                 .RuleFor(x => x.Billable, f => f.Random.Bool())
                 .RuleFor(x => x.Comment, comment)

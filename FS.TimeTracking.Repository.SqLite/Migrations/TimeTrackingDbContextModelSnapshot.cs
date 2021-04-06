@@ -166,13 +166,19 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<double?>("EndDateOffset")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime?>("EndDateUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<double>("StartDateOffset")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

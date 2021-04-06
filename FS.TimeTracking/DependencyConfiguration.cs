@@ -17,7 +17,7 @@ namespace FS.TimeTracking
             services.AddDbContext<TimeTrackingDbContext>();
             services.AddScoped<IRepository, Repository<TimeTrackingDbContext>>();
             services.AddSingleton<IDbExceptionService, DbExceptionService>();
-            services.AddSingleton<ITruncateDbService, TruncateDbService>();
+            services.AddScoped<ITruncateDbService, TruncateDbService>();
 
             services.AddScoped<IInformationService, InformationService>();
             services.AddScoped<IActivityService, ActivityService>();

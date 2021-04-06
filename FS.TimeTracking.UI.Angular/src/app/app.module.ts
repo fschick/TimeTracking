@@ -32,7 +32,8 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {DialogModule} from '@ngneat/dialog';
-import { MasterDataActivitiesEditComponent } from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
+import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
+import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -63,8 +64,7 @@ import { MasterDataActivitiesEditComponent } from './master-data/components/mast
     NgSelectModule,
     DialogModule.forRoot({
       sizes: {
-        inherit: {
-        }
+        inherit: {}
       }
     }),
     ToastrModule.forRoot({
@@ -84,6 +84,10 @@ import { MasterDataActivitiesEditComponent } from './master-data/components/mast
     provide: LOCALE_ID,
     useFactory: localeLoaderFactory,  //returns locale string,
     deps: [StorageService]
+  }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ApiDateTimeInterceptorInterceptor,
+    multi: true
   }, {
     provide: HTTP_INTERCEPTORS,
     useClass: ApiErrorInterceptor,

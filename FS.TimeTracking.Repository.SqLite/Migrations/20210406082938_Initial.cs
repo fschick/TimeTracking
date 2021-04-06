@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FS.TimeTracking.Repository.MySql.Migrations
+namespace FS.TimeTracking.Repository.SqLite.Migrations
 {
     public partial class Initial : Migration
     {
@@ -11,18 +11,18 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
-                    CompanyName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ContactName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    Street = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ZipCode = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    City = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    Country = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    CompanyName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    ContactName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Street = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,13 +33,13 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,14 +56,14 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ProjectId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Hidden = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,15 +86,17 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 name: "TimeSheets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ActivityId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Billable = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StartDateUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StartDateOffset = table.Column<double>(type: "REAL", nullable: false),
+                    EndDateUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    EndDateOffset = table.Column<double>(type: "REAL", nullable: true),
+                    Billable = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

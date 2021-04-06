@@ -28,5 +28,28 @@ namespace FS.TimeTracking.Tests.Services
                 CustomerId = customerId,
                 Hidden = hidden
             };
+
+        public static ActivityDto CreateActivity(Guid? customerId = null, Guid? projectId = null, string prefix = "Test", bool hidden = false)
+            => new ActivityDto
+            {
+                Id = Guid.NewGuid(),
+                Title = $"{prefix}Project",
+                CustomerId = customerId,
+                ProjectId = projectId,
+                Comment = $"{prefix}Comment",
+                Hidden = hidden
+            };
+
+        public static TimeSheetDto CreateTimeSheet(Guid customerId, Guid activityId, string prefix = "Test")
+            => new TimeSheetDto
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = customerId,
+                ActivityId = activityId,
+                StartDate = DateTimeOffset.Now.Date,
+                EndDate = DateTimeOffset.Now.Date.AddHours(12),
+                Billable = true,
+                Comment = $"{prefix}Comment",
+            };
     }
 }

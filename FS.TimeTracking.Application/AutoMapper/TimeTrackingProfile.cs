@@ -17,10 +17,20 @@ namespace FS.TimeTracking.Application.AutoMapper
         public TimeTrackingProfile()
         {
             ClearPrefixes();
-            CreateMap<Customer, CustomerDto>().ReverseMap();
-            CreateMap<Project, ProjectDto>().ReverseMap();
-            CreateMap<Activity, ActivityDto>().ReverseMap();
-            CreateMap<TimeSheet, TimeSheetDto>().ReverseMap();
+
+            CreateMap<Customer, CustomerDto>()
+                .ReverseMap();
+
+            CreateMap<Project, ProjectDto>()
+                .ReverseMap();
+
+            CreateMap<Activity, ActivityDto>()
+                .ReverseMap();
+
+            CreateMap<TimeSheet, TimeSheetDto>()
+                .ReverseMap()
+                .ForMember(x => x.StartDateOffset, o => o.Ignore())
+                .ForMember(x => x.EndDateOffset, o => o.Ignore());
 
             CreateMap<Project, ProjectListDto>();
             CreateMap<Activity, ActivityListDto>();

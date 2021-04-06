@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20210405095758_Initial")]
+    [Migration("20210406083000_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,13 +171,19 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<double?>("EndDateOffset")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime?>("EndDateUtc")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<double>("StartDateOffset")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
