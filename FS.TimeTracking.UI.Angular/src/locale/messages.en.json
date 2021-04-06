@@ -34,6 +34,12 @@
         "Delete": "Delete Project",
         "DeleteMessage": "Are you sure you want to delete this project? This cannot be undone."
       },
+      "Orders": {
+        "Title": "Orders",
+        "Edit": "Edit Order",
+        "Delete": "Delete Order",
+        "DeleteMessage": "Are you sure you want to delete this order? This cannot be undone."
+      },
       "Activities": {
         "Title": "Activities",
         "Edit": "Edit Activity",
@@ -69,7 +75,26 @@
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "ProjectOverviewDto": {
+    "ProjectListDto": {
+      "Title": "Title",
+      "CustomerTitle": "Customer",
+      "CustomerCompanyName": "Company",
+      "Hidden": "Hidden"
+    },
+    "OrderDto": {
+      "Title": "Title",
+      "Description": "Description",
+      "Number": "Order Number",
+      "CustomerId": "Customer",
+      "Customer": "Customer",
+      "StartDate": "Start Date",
+      "DueDate": "Due Date",
+      "HourlyRate": "Hourly Rate",
+      "Budget": "Budget",
+      "Comment": "Comment",
+      "Hidden": "Hidden"
+    },
+    "OrderListDto": {
       "Title": "Title",
       "CustomerTitle": "Customer",
       "CustomerCompanyName": "Company",
@@ -77,16 +102,13 @@
     },
     "ActivityDto": {
       "Title": "Title",
-      "CustomerId": "Customer",
-      "Customer": "Customer",
       "ProjectId": "Project",
       "Project": "Project",
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "ActivityOverviewDto": {
+    "ActivityListDto": {
       "Title": "Title",
-      "CustomerTitle": "Customer",
       "ProjectTitle": "Project"
     }
   },

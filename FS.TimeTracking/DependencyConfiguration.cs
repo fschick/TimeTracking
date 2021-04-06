@@ -23,6 +23,7 @@ namespace FS.TimeTracking
             services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITimeSheetService, TimeSheetService>();
             services.AddScoped<ITestDataService, TestDataService>();
             services.AddScoped<ITypeaheadService, TypeaheadService>();

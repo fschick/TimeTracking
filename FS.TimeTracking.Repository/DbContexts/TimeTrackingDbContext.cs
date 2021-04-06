@@ -72,6 +72,7 @@ namespace FS.TimeTracking.Repository.DbContexts
             ConfigureCustomer(modelBuilder.Entity<Customer>());
             ConfigureProject(modelBuilder.Entity<Project>());
             ConfigureActivity(modelBuilder.Entity<Activity>());
+            ConfigureOrder(modelBuilder.Entity<Order>());
             ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
 
             RegisterDateTimeAsUtcConverter(modelBuilder);
@@ -98,17 +99,25 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .IsRequired();
         }
 
+        private static void ConfigureOrder(EntityTypeBuilder<Order> orderBuilder)
+        {
+            orderBuilder
+                .ToTable("Orders")
+                .HasIndex(project => new { project.Title, project.Hidden });
+
+            orderBuilder
+                .HasOne(project => project.Customer)
+                .WithMany(customer => customer.Orders)
+                .HasForeignKey(project => project.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+        }
+
         private static void ConfigureActivity(EntityTypeBuilder<Activity> activityBuilder)
         {
             activityBuilder
                 .ToTable("Activities")
                 .HasIndex(activity => new { activity.Title, activity.Hidden });
-
-            activityBuilder
-                .HasOne(activity => activity.Customer)
-                .WithMany()
-                .HasForeignKey(activity => activity.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             activityBuilder
                 .HasOne(activity => activity.Project)
@@ -123,9 +132,9 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .ToTable("TimeSheets");
 
             timeSheetBuilder
-                .HasOne<Customer>()
+                .HasOne<Project>()
                 .WithMany()
-                .HasForeignKey(timeSheet => timeSheet.CustomerId)
+                .HasForeignKey(timeSheet => timeSheet.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
@@ -135,6 +144,12 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .HasForeignKey(timeSheet => timeSheet.ActivityId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+
+            timeSheetBuilder
+                .HasOne<Order>()
+                .WithMany()
+                .HasForeignKey(timeSheet => timeSheet.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         // https://stackoverflow.com/a/61243301/1271211

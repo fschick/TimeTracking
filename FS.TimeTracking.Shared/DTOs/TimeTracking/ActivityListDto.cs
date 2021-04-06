@@ -17,12 +17,6 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         [Required]
         public string Title { get; set; }
 
-        /// <inheritdoc cref="Customer.Title"/>
-        public string CustomerTitle { get; set; }
-
-        /// <inheritdoc cref="Customer.CompanyName"/>
-        public string CustomerCompanyName { get; set; }
-
         /// <inheritdoc cref="Project.Title"/>
         public string ProjectTitle { get; set; }
 

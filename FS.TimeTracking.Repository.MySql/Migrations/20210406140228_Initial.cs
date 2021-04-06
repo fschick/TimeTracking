@@ -30,6 +30,37 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Number = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    StartDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    StartDateOffset = table.Column<double>(type: "double", nullable: false),
+                    DueDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DueDateOffset = table.Column<double>(type: "double", nullable: false),
+                    HourlyRate = table.Column<double>(type: "double", nullable: false),
+                    Budget = table.Column<double>(type: "double", nullable: false),
+                    Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -58,7 +89,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: true),
                     ProjectId = table.Column<Guid>(type: "char(36)", nullable: true),
                     Comment = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
                     Hidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -68,12 +98,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Activities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Activities_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -87,8 +111,10 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "char(36)", nullable: false),
                     ActivityId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Issue = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
                     StartDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     StartDateOffset = table.Column<double>(type: "double", nullable: false),
                     EndDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -108,17 +134,18 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TimeSheets_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        name: "FK_TimeSheets_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TimeSheets_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activities_CustomerId",
-                table: "Activities",
-                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_ProjectId",
@@ -133,6 +160,16 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_Title_Hidden",
                 table: "Customers",
+                columns: new[] { "Title", "Hidden" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_CustomerId",
+                table: "Orders",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_Title_Hidden",
+                table: "Orders",
                 columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
@@ -151,9 +188,14 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSheets_CustomerId",
+                name: "IX_TimeSheets_OrderId",
                 table: "TimeSheets",
-                column: "CustomerId");
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeSheets_ProjectId",
+                table: "TimeSheets",
+                column: "ProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -163,6 +205,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Activities");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Projects");

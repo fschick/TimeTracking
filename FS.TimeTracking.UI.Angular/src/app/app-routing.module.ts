@@ -7,11 +7,17 @@ import {MasterDataActivitiesComponent} from './master-data/components/master-dat
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
+import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
+import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
 
 const routes: Routes = [
   {
     path: 'master-data/customers', component: MasterDataCustomersComponent,
     children: [{path: ':id', component: MasterDataCustomersEditComponent}]
+  },
+  {
+    path: 'master-data/orders', component: MasterDataOrdersComponent,
+    children: [{path: ':id', component: MasterDataOrdersEditComponent}]
   },
   {
     path: 'master-data/projects', component: MasterDataProjectsComponent,

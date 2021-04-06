@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services
 {
-    /// <inheritdoc cref="ITimeSheetService" />
-    public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSheetListDto>, ITimeSheetService
+    /// <inheritdoc cref="IProjectService" />
+    public class OrderService : CrudModelService<Order, OrderDto, OrderListDto>, IOrderService
     {
         /// <inheritdoc />
-        public TimeSheetService(IRepository repository, IMapper mapper)
+        public OrderService(IRepository repository, IMapper mapper)
             : base(repository, mapper)
         { }
 
         /// <inheritdoc />
-        public override async Task<List<TimeSheetListDto>> List(Guid? id, CancellationToken cancellationToken = default)
+        public override async Task<List<OrderListDto>> List(Guid? id, CancellationToken cancellationToken = default)
             => (await base.List(id, cancellationToken)).OrderBy(x => x.StartDate).ToList();
     }
 }

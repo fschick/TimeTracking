@@ -80,5 +80,10 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// Gets or sets the projects related to this customer.
         /// </summary>
         public List<Project> Projects { get; set; }
+
+        /// <summary>
+        /// Gets or sets the orders related to this customer.
+        /// </summary>
+        public List<Order> Orders { get; set; }
     }
 }

@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FS.TimeTracking.Api.REST.Controllers
 {
-    /// <inheritdoc cref="ITimeSheetService" />
+    /// <inheritdoc cref="IProjectService" />
     /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ITimeSheetService" />
+    /// <seealso cref="IOrderService" />
     [V1ApiController]
-    public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetListDto>, ITimeSheetService
+    public class OrderController : CrudModelController<OrderDto, OrderListDto>, IOrderService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSheetController"/> class.
+        /// Initializes a new instance of the <see cref="ProjectController"/> class.
         /// </summary>
         /// <param name="modelService">The model service.</param>
-        public TimeSheetController(ITimeSheetService modelService)
+        public OrderController(IOrderService modelService)
             : base(modelService)
         {
         }

@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Application.Startup
     {
         public static IServiceCollection RegisterAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(TimeTrackingProfile));
+            services.AddAutoMapper(typeof(TimeTrackingAutoMapper));
             return services;
         }
     }

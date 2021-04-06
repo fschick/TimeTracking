@@ -1,0 +1,77 @@
+<ng-template #orderEdit>
+  <div class="dialog card card-lg">
+    <h5 class="card-header">
+      <ng-container i18n="@@Page.MasterData.Orders.Edit">[i18n] Edit Order</ng-container>
+    </h5>
+    <div class="card-body">
+      <form id="orderForm" [formGroup]="orderForm" (ngSubmit)="save()">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <label for="title" class="form-label" i18n="@@DTO.OrderDto.Title">[i18n] Short Description</label>
+            <input id="title" type="text" class="form-control" formControlName="title" #title>
+          </div>
+          <div class="col-lg-6">
+            <!--suppress XmlInvalidId -->
+            <label for="customerName" class="form-label" i18n="@@DTO.OrderDto.Customer">[i18n] Customer</label>
+            <ng-select [items]="customers$ | ngrxPush"
+                       bindValue="id"
+                       bindLabel="value"
+                       labelForId="customerName"
+                       appendTo="body"
+                       formControlName="customerId">
+            </ng-select>
+          </div>
+          <div class="col-lg-6">
+            <label for="startDate" class="form-label" i18n="@@DTO.OrderDto.StartDate">[i18n] Start Date</label>
+            <input id="startDate" type="date" class="form-control" formControlName="startDate">
+          </div>
+          <div class="col-lg-6">
+            <label for="dueDate" class="form-label" i18n="@@DTO.OrderDto.DueDate">[i18n] Due Date</label>
+            <input id="dueDate" type="date" class="form-control" formControlName="dueDate">
+          </div>
+          <div class="col-lg-6">
+            <label for="hourlyRate" class="form-label" i18n="@@DTO.OrderDto.HourlyRate">[i18n] Hourly Rate</label>
+            <input id="hourlyRate" type="number" class="form-control" formControlName="hourlyRate">
+          </div>
+          <div class="col-lg-6">
+            <label for="budget" class="form-label" i18n="@@DTO.OrderDto.Budget">[i18n] Budget</label>
+            <input id="budget" type="number" class="form-control" formControlName="budget">
+          </div>
+          <div class="col-lg-6">
+            <label for="number" class="form-label" i18n="@@DTO.OrderDto.Number">[i18n] Order Number</label>
+            <input id="number" type="text" class="form-control" formControlName="number">
+          </div>
+          <div class="col-lg-12">
+            <label for="description" class="form-label" i18n="@@DTO.OrderDto.Description">[i18n] Description</label>
+            <textarea id="description" class="form-control" formControlName="description" rows="3"></textarea>
+          </div>
+          <div class="col-lg-12">
+            <label for="comment" class="form-label" i18n="@@DTO.OrderDto.Comment">[i18n] Comment</label>
+            <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
+          </div>
+          <div class="col-lg-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
+              <label class="form-check-label" for="hidden" i18n="@@DTO.OrderDto.Hidden">
+                [i18n] Hidden
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <ts-form-validation-errors></ts-form-validation-errors>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer">
+      <button form="orderForm" type="button" class="btn btn-outline-secondary" (click)="close()">
+        <i class="bi bi-x-circle me-1"></i>
+        <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+      </button>
+      <button form="orderForm" type="submit" class="btn btn-primary">
+        <i class="bi bi-check-square me-1"></i>
+        <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -22,8 +22,9 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             using var client = testHost.GetTestClient();
 
             var newCustomer = FakeEntityFactory.CreateCustomer();
+            var newProject = FakeEntityFactory.CreateProject(newCustomer.Id);
             var newActivity = FakeEntityFactory.CreateActivity();
-            var newTimeSheet = FakeEntityFactory.CreateTimeSheet(newCustomer.Id, newActivity.Id);
+            var newTimeSheet = FakeEntityFactory.CreateTimeSheet(newProject.Id, newActivity.Id);
 
             // Act
             newTimeSheet.StartDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(-4));
@@ -33,6 +34,9 @@ namespace FS.TimeTracking.Tests.IntegrationTests
 
             var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
             await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
+
+            var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
+            await client.PostAsJsonAsync(projectCreateRoute, newProject);
 
             var activityCreateRoute = testHost.GetRoute<ActivityController>(x => x.Create(default));
             await client.PostAsJsonAsync(activityCreateRoute, newActivity);

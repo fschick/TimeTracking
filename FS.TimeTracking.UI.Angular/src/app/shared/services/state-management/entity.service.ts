@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
-import {ActivityListDto, CustomerDto, ProjectListDto} from '../api';
+import {ActivityListDto, CustomerDto, OrderListDto, ProjectListDto} from '../api';
 import {map, single, switchMap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
@@ -24,6 +24,7 @@ export class EntityService {
 
   public customerChanged: Subject<EntityChanged<CustomerDto>> = new Subject<EntityChanged<CustomerDto>>();
   public projectChanged: Subject<EntityChanged<ProjectListDto>> = new Subject<EntityChanged<ProjectListDto>>();
+  public orderChanged: Subject<EntityChanged<OrderListDto>> = new Subject<EntityChanged<OrderListDto>>();
   public activityChanged: Subject<EntityChanged<ActivityListDto>> = new Subject<EntityChanged<ActivityListDto>>();
 
   public updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {

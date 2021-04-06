@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FS.TimeTracking.Repository.MySql.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20210406082910_Initial")]
+    [Migration("20210406140228_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Hidden")
                         .HasColumnType("tinyint(1)");
 
@@ -49,8 +46,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ProjectId");
 
@@ -113,6 +108,66 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<double>("Budget")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<double>("DueDateOffset")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("DueDateUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Hidden")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+
+                    b.Property<double>("StartDateOffset")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("StartDateUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("Title", "Hidden");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -166,17 +221,23 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
-
                     b.Property<double?>("EndDateOffset")
                         .HasColumnType("double");
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Issue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("StartDateOffset")
                         .HasColumnType("double");
@@ -188,26 +249,32 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("TimeSheets");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Customer");
-
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Order", b =>
+                {
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Project", b =>
@@ -229,15 +296,22 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Order", null)
                         .WithMany()
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618

@@ -34,6 +34,8 @@ import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-
 import {DialogModule} from '@ngneat/dialog';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
+import { MasterDataOrdersComponent } from './master-data/components/master-data-orders/master-data-orders.component';
+import { MasterDataOrdersEditComponent } from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handlin
     MasterDataProjectsEditComponent,
     SimpleConfirmComponent,
     MasterDataActivitiesEditComponent,
+    MasterDataOrdersComponent,
+    MasterDataOrdersEditComponent,
   ],
   imports: [
     BrowserModule,

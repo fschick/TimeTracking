@@ -34,6 +34,12 @@
         "Delete": "Projekt löschen",
         "DeleteMessage": "Wollen Sie dieses Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
+      "Orders": {
+        "Title": "Aufträge",
+        "Edit": "Auftrag bearbeiten",
+        "Delete": "Auftrag löschen",
+        "DeleteMessage": "Wollen Sie diesen Auftrag wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      },
       "Activities": {
         "Title": "Tätigkeiten",
         "Edit": "Tätigkeit bearbeiten",
@@ -69,7 +75,26 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ProjectOverviewDto": {
+    "ProjectListDto": {
+      "Title": "Titel",
+      "CustomerTitle": "Kunde",
+      "CustomerCompanyName": "Firma",
+      "Hidden": "Versteckt"
+    },
+    "OrderDto": {
+      "Title": "Titel",
+      "Description": "Beschreibung",
+      "Number": "Auftragsnummer",
+      "CustomerId": "Kunde",
+      "Customer": "Kunde",
+      "StartDate": "Startdatum",
+      "DueDate": "Fälligkeitsdatum",
+      "HourlyRate": "Stundensatz",
+      "Budget": "Budget",
+      "Comment": "Kommentar",
+      "Hidden": "Versteckt"
+    },
+    "OrderListDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
       "CustomerCompanyName": "Firma",
@@ -84,7 +109,7 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ActivityOverviewDto": {
+    "ActivityListDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
       "ProjectTitle": "Projekt"

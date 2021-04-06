@@ -18,9 +18,6 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         [StringLength(100)]
         public string Title { get; set; }
 
-        /// <inheritdoc cref="Activity.CustomerId"/>
-        public Guid? CustomerId { get; set; }
-
         /// <inheritdoc cref="Activity.ProjectId"/>
         public Guid? ProjectId { get; set; }
 

@@ -2,10 +2,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FS.TimeTracking.Application.Tests.DTOs
+namespace FS.TimeTracking.Application.Tests.Models
 {
     [ValidationDescription]
-    public class TestDto
+    public class ValidationTestDto
     {
         [Required]
         public string Required { get; set; }

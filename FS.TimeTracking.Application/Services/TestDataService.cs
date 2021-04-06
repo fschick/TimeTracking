@@ -45,6 +45,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Created, default(DateTime))
                 .RuleFor(x => x.Modified, default(DateTime))
                 .RuleFor(x => x.Projects, _ => default)
+                .RuleFor(x => x.Orders, f => default)
                 .Generate(amount)
                 .ToList();
 
@@ -65,9 +66,7 @@ namespace FS.TimeTracking.Application.Services
                 .StrictMode(true)
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
                 .RuleFor(x => x.Title, faker => faker.Hacker.IngVerb())
-                .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, customers.Count))))
-                .RuleFor(x => x.Customer, _ => default)
-                .RuleFor(x => x.ProjectId, (faker, entity) => entity.CustomerId != null ? null : faker.PickRandom(projects.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, projects.Count))))
+                .RuleFor(x => x.ProjectId, (faker, entity) => faker.PickRandom(projects.Select(c => (Guid?)c.Id).Concat(Enumerable.Repeat<Guid?>(null, projects.Count))))
                 .RuleFor(x => x.Project, _ => default)
                 .RuleFor(x => x.Comment, comment)
                 .RuleFor(x => x.Hidden, hidden)
@@ -76,10 +75,35 @@ namespace FS.TimeTracking.Application.Services
                 .Generate(amount)
                 .ToList();
 
+            var orders = new Faker<Order>(locale)
+                .StrictMode(true)
+                .RuleFor(o => o.Id, f => f.Random.Uuid())
+                .RuleFor(o => o.Title, f => f.Hacker.Phrase())
+                .RuleFor(o => o.Description, f => f.Hacker.Phrase())
+                .RuleFor(o => o.Number, f => f.Random.Replace("???-****-##"))
+                .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
+                .RuleFor(o => o.Customer, _ => default)
+                .RuleFor(o => o.StartDateUtc, default(DateTime))
+                .RuleFor(o => o.StartDateOffset, default(double))
+                .RuleFor(x => x.StartDate, faker => referenceDate = referenceDate.AddDays(faker.Random.Number((int)TimeSpan.FromDays(5).TotalDays)))
+                .RuleFor(o => o.DueDateUtc, default(DateTime))
+                .RuleFor(o => o.DueDateOffset, default(double))
+                .RuleFor(x => x.DueDate, faker => referenceDate = referenceDate.AddDays(faker.Random.Number((int)TimeSpan.FromHours(8).TotalDays)))
+                .RuleFor(o => o.Budget, faker => faker.Random.Number(15, 1500) * 8 * 75)
+                .RuleFor(o => o.HourlyRate, faker => faker.Random.Number(50, 150))
+                .RuleFor(x => x.Comment, comment)
+                .RuleFor(x => x.Hidden, hidden)
+                .RuleFor(x => x.Created, default(DateTime))
+                .RuleFor(x => x.Modified, default(DateTime))
+                .Generate((int)(amount / 2d))
+                .ToList();
+
             var timesheet = new Faker<TimeSheet>()
                 .RuleFor(x => x.Id, f => f.Random.Uuid())
-                .RuleFor(x => x.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
+                .RuleFor(x => x.ProjectId, faker => faker.PickRandom(projects.Select(c => c.Id)))
+                .RuleFor(x => x.OrderId, faker => faker.PickRandom(orders.Select(c => c.Id)))
                 .RuleFor(x => x.ActivityId, faker => faker.PickRandom(activities.Select(c => c.Id)))
+                .RuleFor(x => x.Issue, f => f.Lorem.Word())
                 .RuleFor(x => x.StartDateUtc, default(DateTime))
                 .RuleFor(x => x.StartDateOffset, default(double))
                 .RuleFor(x => x.StartDate, faker => referenceDate = referenceDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromDays(5).TotalMinutes)))
@@ -100,6 +124,7 @@ namespace FS.TimeTracking.Application.Services
 
             await _repository.BulkAddRange(customers);
             await _repository.BulkAddRange(projects);
+            await _repository.BulkAddRange(orders);
             await _repository.BulkAddRange(activities);
             await _repository.BulkAddRange(timesheet);
 
@@ -113,6 +138,7 @@ namespace FS.TimeTracking.Application.Services
 
             await _repository.Remove<TimeSheet>();
             await _repository.Remove<Activity>();
+            await _repository.Remove<Order>();
             await _repository.Remove<Project>();
             await _repository.Remove<Customer>();
 

@@ -6,7 +6,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {ProjectListDto, ProjectService} from '../../../shared/services/api';
+import {OrderListDto, OrderService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -14,19 +14,19 @@ import {StorageService} from '../../../shared/services/storage/storage.service';
 import {single} from 'rxjs/operators';
 
 @Component({
-  selector: 'ts-master-data-projects',
-  templateUrl: './master-data-projects.component.html',
-  styleUrls: ['./master-data-projects.component.scss']
+  selector: 'ts-master-data-orders',
+  templateUrl: './master-data-orders.component.html',
+  styleUrls: ['./master-data-orders.component.scss']
 })
-export class MasterDataProjectsComponent implements OnInit, OnDestroy {
+export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
-  @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectListDto>;
+  @ViewChild(SimpleTableComponent) private orderTable?: SimpleTableComponent<OrderListDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderListDto>;
 
-  public rows: ProjectListDto[];
-  public columns!: Column<ProjectListDto>[];
-  public configuration?: Partial<Configuration<ProjectListDto>>;
+  public rows: OrderListDto[];
+  public columns!: Column<OrderListDto>[];
+  public configuration?: Partial<Configuration<OrderListDto>>;
 
   private subscriptions = new Subscription();
 
@@ -34,23 +34,23 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     public entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService,
+    private orderService: OrderService,
     private storageService: StorageService,
   ) {
     this.rows = [];
   }
 
   public ngOnInit(): void {
-    this.projectService.list().pipe(single()).subscribe(x => this.rows = x);
+    this.orderService.list().pipe(single()).subscribe(x => this.rows = x);
 
-    const projectChanged = this.entityService.projectChanged
-      .pipe(this.entityService.replaceEntityWithListDto(this.projectService))
+    const orderChanged = this.entityService.orderChanged
+      .pipe(this.entityService.replaceEntityWithListDto(this.orderService))
       .subscribe(changedEvent => {
           const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
           return this.rows = [...updatedRows];
         }
       );
-    this.subscriptions.add(projectChanged);
+    this.subscriptions.add(orderChanged);
 
     this.configuration = {
       cssWrapper: 'table-responsive',
@@ -60,17 +60,17 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
       locale: this.storageService.language,
     };
 
-    const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
+    const dataCellCss = (row: OrderListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-        { title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-          title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
-          prop: 'customerTitle',
+        title: $localize`:@@DTO.OrderListDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },
       {
-        title: $localize`:@@DTO.ProjectListDto.CustomerCompanyName:[i18n] Company`,
+        title: $localize`:@@DTO.OrderListDto.CustomerCompanyName:[i18n] Company`,
         prop: 'customerCompanyName',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
@@ -90,21 +90,21 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public getDataCellValue(row: ProjectListDto, column: Column<ProjectListDto>): string {
-    return this.projectTable?.getCellValue(row, column) ?? '';
+  public getDataCellValue(row: OrderListDto, column: Column<OrderListDto>): string {
+    return this.orderTable?.getCellValue(row, column) ?? '';
   }
 
-  public dataCellClick($event: DataCellClickEvent<ProjectListDto>): void {
+  public dataCellClick($event: DataCellClickEvent<OrderListDto>): void {
     if ($event.column.customId !== 'delete')
       this.router.navigate([$event.row.id], {relativeTo: this.route});
   }
 
   public deleteItem(id: string): void {
-    this.projectService
+    this.orderService
       .delete(id)
       .pipe(single())
       .subscribe(() => {
-        this.entityService.projectChanged.next({entity: {id} as ProjectListDto, action: 'deleted'});
+        this.entityService.orderChanged.next({entity: {id} as OrderListDto, action: 'deleted'});
       });
   }
 }

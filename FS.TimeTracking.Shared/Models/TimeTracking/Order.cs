@@ -7,35 +7,40 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FS.TimeTracking.Shared.Models.TimeTracking
 {
     /// <summary>
-    /// TimeSheet.
+    /// Project
     /// </summary>
-    public class TimeSheet : IEntityModel
+    public class Order : IEntityModel
     {
         /// <inheritdoc />
         [Required]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Project"/>.
+        /// Gets the short/display name.
         /// </summary>
         [Required]
-        public Guid ProjectId { get; set; }
+        [StringLength(100)]
+        public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Activity"/>.
+        /// Gets or sets a description.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets the order number.
+        /// </summary>
+        [StringLength(100)]
+        public string Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier to the related <see cref="Customer"/>.
         /// </summary>
         [Required]
-        public Guid ActivityId { get; set; }
+        public Guid CustomerId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Order"/>.
-        /// </summary>
-        public Guid? OrderId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the related issue/ticket/... .
-        /// </summary>
-        public string Issue { get; set; }
+        /// <inheritdoc cref="TimeTracking.Customer"/>
+        public Customer Customer { get; set; }
 
         /// <summary>
         /// Gets the start date in UTC.
@@ -59,35 +64,50 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         }
 
         /// <summary>
-        /// Gets the end date in UTC.
+        /// Gets the due date in UTC.
         /// </summary>
-        public DateTime? EndDateUtc { get; set; }
+        public DateTime DueDateUtc { get; set; }
 
         /// <summary>
-        /// Gets the end date's timezone offset in hours.
+        /// Gets the due date's timezone offset in hours.
         /// </summary>
-        public double? EndDateOffset { get; set; }
+        public double DueDateOffset { get; set; }
 
         /// <summary>
-        /// Gets the end date.
+        /// Gets the due date.
         /// </summary>
+        [Required]
         [NotMapped]
-        public DateTimeOffset? EndDate
+        public DateTimeOffset DueDate
         {
-            get => EndDateUtc.ToOffset(TimeSpan.FromHours(EndDateOffset!.Value));
-            set { EndDateUtc = value?.UtcDateTime; EndDateOffset = value?.Offset.TotalHours; }
+            get => DueDateUtc.ToOffset(TimeSpan.FromHours(DueDateOffset));
+            set { DueDateUtc = value.UtcDateTime; DueDateOffset = value.Offset.TotalHours; }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this item is billable.
+        /// Gets the hourly rate.
+        /// </summary>
+        /// [Required]
+        [Range(0, double.PositiveInfinity)]
+        public double HourlyRate { get; set; }
+
+        /// <summary>
+        /// Gets the budget.
         /// </summary>
         [Required]
-        public bool Billable { get; set; }
+        [Range(0, double.PositiveInfinity)]
+        public double Budget { get; set; }
 
         /// <summary>
         /// Gets or sets a comment.
         /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this item is hidden.
+        /// </summary>
+        [Required]
+        public bool Hidden { get; set; }
 
         /// <inheritdoc />
         [Required]

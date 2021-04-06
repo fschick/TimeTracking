@@ -15,7 +15,7 @@ namespace FS.TimeTracking.Application.Tests.Tests
         [TestMethod]
         public void AllMappingConfigurations_ShouldBeValid()
         {
-            var timeTrackingConfiguration = (IProfileConfiguration)new TimeTrackingProfile();
+            var timeTrackingConfiguration = (IProfileConfiguration)new TimeTrackingAutoMapper();
             var mappingValidations = timeTrackingConfiguration
                 .TypeMapConfigs
                 .Select(x => new MapperConfiguration(cc => cc.CreateMap(x.SourceType, x.DestinationType)))

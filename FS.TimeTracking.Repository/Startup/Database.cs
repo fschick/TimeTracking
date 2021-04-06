@@ -30,7 +30,19 @@ namespace FS.TimeTracking.Repository.Startup
             logger.LogInformation("Apply migrations to database. Please be patient ...");
             foreach (var pendingMigration in pendingMigrations)
                 logger.LogInformation(pendingMigration);
+#if DEBUG
+            try
+            {
+                dbContext.Database.Migrate();
+            }
+            catch
+            {
+                truncateDbService.TruncateDatabase();
+                dbContext.Database.Migrate();
+            }
+#else
             dbContext.Database.Migrate();
+#endif
             logger.LogInformation("Database migration finished.");
 
             return applicationBuilder;
