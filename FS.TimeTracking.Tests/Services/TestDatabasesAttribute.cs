@@ -18,7 +18,7 @@ namespace FS.TimeTracking.Tests.Services
             testDatabasesFile ??= "TestDatabases.json";
             var testDatabaseSourcesJson = File.ReadAllText(testDatabasesFile);
             var testDatabaseSources = JsonConvert.DeserializeObject<List<DatabaseConfiguration>>(testDatabaseSourcesJson);
-            return testDatabaseSources.Select(x => new object[] { x });
+            return testDatabaseSources!.Select(x => new object[] { x });
         }
 
         public string GetDisplayName(MethodInfo methodInfo, object[] data)
