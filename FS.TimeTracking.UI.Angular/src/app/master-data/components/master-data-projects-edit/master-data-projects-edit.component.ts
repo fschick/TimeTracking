@@ -7,6 +7,7 @@ import {ProjectDto, ProjectService, StringTypeaheadDto, TypeaheadService} from '
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-projects-edit',
@@ -27,11 +28,12 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private entityService: EntityService,
+    private guidService: GuidService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === this.entityService.guidEmpty;
-    this.projectForm = this.formValidationService.getFormGroup<ProjectDto>('ProjectDto', {id: this.entityService.guidEmpty, hidden: false});
+    this.isNewRecord = this.route.snapshot.params.id === this.guidService.guidEmpty;
+    this.projectForm = this.formValidationService.getFormGroup<ProjectDto>('ProjectDto', {id: this.guidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.projectService

@@ -12,6 +12,7 @@ import {
 } from '../../../shared/components/simple-table/simple-table.component';
 import {Subscription} from 'rxjs';
 import {single} from 'rxjs/operators';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-activities',
@@ -31,7 +32,8 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public entityService: EntityService,
+    public guidService: GuidService,
+    private entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,
     private activityService: ActivityService,

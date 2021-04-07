@@ -35,6 +35,7 @@ import {MasterDataActivitiesEditComponent} from './master-data/components/master
 import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 import { MasterDataOrdersComponent } from './master-data/components/master-data-orders/master-data-orders.component';
 import { MasterDataOrdersEditComponent } from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
+import { BootstrapDatepickerComponent } from './shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MasterDataOrdersEditComponent } from './master-data/components/master-d
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
+    BootstrapDatepickerComponent,
   ],
   imports: [
     BrowserModule,

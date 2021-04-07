@@ -27,6 +27,7 @@
     "@ngrx/component": "^11.1.0",
     "@types/bootstrap": "^5.0.12",
     "bootstrap": "^5.0.0-beta3",
+    "bootstrap-datepicker": "^1.9.0",
     "bootstrap-icons": "^1.4.1",
     "luxon": "^1.26.0",
     "ngx-toastr": "^13.2.1",

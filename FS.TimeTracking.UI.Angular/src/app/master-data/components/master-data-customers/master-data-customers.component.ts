@@ -12,6 +12,7 @@ import {
 import {single} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityChanged, EntityService} from '../../../shared/services/state-management/entity.service';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-customers',
@@ -30,7 +31,8 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public entityService: EntityService,
+    public guidService: GuidService,
+    private entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,
     private customerService: CustomerService,

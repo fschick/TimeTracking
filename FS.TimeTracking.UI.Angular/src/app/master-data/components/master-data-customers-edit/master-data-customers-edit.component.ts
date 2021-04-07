@@ -6,6 +6,7 @@ import {FormValidationService, ValidationFormGroup} from '../../../shared/servic
 import {Location} from '@angular/common';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {Modal} from 'bootstrap';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-customers-edit',
@@ -25,10 +26,11 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private entityService: EntityService,
+    private guidService: GuidService,
     private formValidationService: FormValidationService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === this.entityService.guidEmpty;
-    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: this.entityService.guidEmpty, hidden: false});
+    this.isNewRecord = this.route.snapshot.params.id === this.guidService.guidEmpty;
+    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: this.guidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.customerService

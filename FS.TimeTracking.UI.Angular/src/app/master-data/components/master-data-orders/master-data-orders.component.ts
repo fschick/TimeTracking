@@ -12,6 +12,7 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {single} from 'rxjs/operators';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-orders',
@@ -31,7 +32,8 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public entityService: EntityService,
+    public guidService: GuidService,
+    private entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,

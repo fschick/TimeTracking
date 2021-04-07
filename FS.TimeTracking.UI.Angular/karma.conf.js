@@ -13,7 +13,10 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     files:[
-      "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
+      "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+      "node_modules/jquery/dist/jquery.js",
+      "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+      "node_modules/bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min.js"
     ],
     client: {
       jasmine: {

@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {Modal} from 'bootstrap';
+import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
   selector: 'ts-master-data-activities-edit',
@@ -28,11 +29,12 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private activityService: ActivityService,
     private entityService: EntityService,
+    private guidService: GuidService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === this.entityService.guidEmpty;
-    this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: this.entityService.guidEmpty, hidden: false});
+    this.isNewRecord = this.route.snapshot.params.id === this.guidService.guidEmpty;
+    this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: this.guidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.activityService
