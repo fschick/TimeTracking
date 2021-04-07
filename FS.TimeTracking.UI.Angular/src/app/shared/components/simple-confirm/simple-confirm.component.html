@@ -1,28 +1,29 @@
-<div class="btn-group" role="group" aria-label="Basic example">
+<div class="btn-group" role="group" aria-label="Confirm dialog">
   <div (click)="createConfirmDialog()" class="cursor-pointer">
     <ng-content></ng-content>
   </div>
 </div>
 
-<ng-template #confirmDialog>
-  {{ confirmSubmit.focus() }}
-  <div class="dialog card card-lg">
-    <h5 class="card-header">
-      {{title}}
-    </h5>
-    <div class="card-body">
-      {{message}}
-    </div>
-    <div class="card-footer">
-      <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="destroyConfirmDialog()">
-        <i class="bi bi-x-circle-fill me-1"></i>
-        <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
-      </button>
-      <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" #confirmSubmit>
-        <i *ngIf="actionIcon" class="{{actionIcon}} me-1"></i>
-        {{actionText}}
-      </button>
+<div class="modal" #confirmDialog tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="m-0">{{title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{message}}
+      </div>
+      <div class="modal-footer">
+        <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
+          <i class="bi bi-x-circle-fill me-1"></i>
+          <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+        </button>
+        <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" #confirmSubmit>
+          <i *ngIf="actionIcon" class="{{actionIcon}} me-1"></i>
+          {{actionText}}
+        </button>
+      </div>
     </div>
   </div>
-
-</ng-template>
+</div>

@@ -1,63 +1,65 @@
-<ng-template #customerEdit>
-  {{ title.focus() }}
-  <div class="dialog card card-lg">
-    <h5 class="card-header">
-      <ng-container i18n="@@Page.MasterData.Customers.Edit">[i18n] Edit Customer</ng-container>
-    </h5>
-    <div class="card-body">
-      <form id="customerForm" [formGroup]="customerForm" (ngSubmit)="save()">
-        <div class="row g-3">
-          <div class="col-lg-6">
-            <label for="title" class="form-label" i18n="@@DTO.CustomerDto.Title">[i18n] Title</label>
-            <input id="title" type="text" class="form-control" formControlName="title" #title>
-          </div>
-          <div class="col-lg-6">
-            <label for="companyName" class="form-label" i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
-            <input id="companyName" type="text" class="form-control" formControlName="companyName">
-          </div>
-          <div class="col-lg-6">
-            <label for="contactName" class="form-label" i18n="@@DTO.CustomerDto.ContactName">[i18n] Contact</label>
-            <input id="contactName" type="text" class="form-control" formControlName="contactName">
-          </div>
-          <div class="col-lg-6">
-            <label for="street" class="form-label" i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>
-            <input id="street" type="text" class="form-control" formControlName="street">
-          </div>
-          <div class="col-lg-2 col-sm-3">
-            <label for="zipCode" class="form-label" i18n="@@DTO.CustomerDto.ZipCode">[i18n] Zip</label>
-            <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
-          </div>
-          <div class="col-lg-4 col-sm-9">
-            <label for="city" class="form-label" i18n="@@DTO.CustomerDto.City">[i18n] City</label>
-            <input id="city" type="text" class="form-control" formControlName="city">
-          </div>
-          <div class="col-lg-6">
-            <label for="country" class="form-label" i18n="@@DTO.CustomerDto.Country">[i18n] Country</label>
-            <input id="country" type="text" class="form-control" formControlName="country">
-          </div>
-          <div class="col-lg-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
-              <label class="form-check-label" for="hidden" i18n="@@DTO.CustomerDto.Hidden">
-                [i18n] Hidden
-              </label>
+<div class="modal" #customerEdit tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="m-0" i18n="@@Page.MasterData.Customers.Edit">[i18n] Edit Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="customerForm" [formGroup]="customerForm" (ngSubmit)="save()">
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <label for="title" class="form-label" i18n="@@DTO.CustomerDto.Title">[i18n] Title</label>
+              <input id="title" type="text" class="form-control" formControlName="title" #title>
+            </div>
+            <div class="col-lg-6">
+              <label for="companyName" class="form-label" i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
+              <input id="companyName" type="text" class="form-control" formControlName="companyName">
+            </div>
+            <div class="col-lg-6">
+              <label for="contactName" class="form-label" i18n="@@DTO.CustomerDto.ContactName">[i18n] Contact</label>
+              <input id="contactName" type="text" class="form-control" formControlName="contactName">
+            </div>
+            <div class="col-lg-6">
+              <label for="street" class="form-label" i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>
+              <input id="street" type="text" class="form-control" formControlName="street">
+            </div>
+            <div class="col-lg-2 col-sm-3">
+              <label for="zipCode" class="form-label" i18n="@@DTO.CustomerDto.ZipCode">[i18n] Zip</label>
+              <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
+            </div>
+            <div class="col-lg-4 col-sm-9">
+              <label for="city" class="form-label" i18n="@@DTO.CustomerDto.City">[i18n] City</label>
+              <input id="city" type="text" class="form-control" formControlName="city">
+            </div>
+            <div class="col-lg-6">
+              <label for="country" class="form-label" i18n="@@DTO.CustomerDto.Country">[i18n] Country</label>
+              <input id="country" type="text" class="form-control" formControlName="country">
+            </div>
+            <div class="col-lg-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
+                <label class="form-check-label" for="hidden" i18n="@@DTO.CustomerDto.Hidden">
+                  [i18n] Hidden
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <ts-form-validation-errors></ts-form-validation-errors>
             </div>
           </div>
-          <div class="col-lg-12">
-            <ts-form-validation-errors></ts-form-validation-errors>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="card-footer">
-      <button form="customerForm" type="button" class="btn btn-outline-secondary" (click)="close()">
-        <i class="bi bi-x-circle me-1"></i>
-        <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
-      </button>
-      <button form="customerForm" type="submit" class="btn btn-primary">
-        <i class="bi bi-check-square me-1"></i>
-        <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
-      </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button form="customerForm" type="button" class="btn btn-outline-secondary" (click)="close()">
+          <i class="bi bi-x-circle me-1"></i>
+          <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+        </button>
+        <button form="customerForm" type="submit" class="btn btn-primary">
+          <i class="bi bi-check-square me-1"></i>
+          <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+        </button>
+      </div>
     </div>
   </div>
-</ng-template>
+</div>

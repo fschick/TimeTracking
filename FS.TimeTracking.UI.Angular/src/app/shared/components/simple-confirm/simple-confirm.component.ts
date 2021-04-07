@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
-import {DialogRef, DialogService} from '@ngneat/dialog';
-import {single} from 'rxjs/operators';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {Modal} from 'bootstrap';
 
 @Component({
   selector: 'ts-simple-confirm',
@@ -14,33 +13,29 @@ export class SimpleConfirmComponent implements OnDestroy {
   @Input() public message = '';
   @Input() public actionIcon = '';
   @Input() public actionText = '';
+
   @Output() public confirmed = new EventEmitter<MouseEvent>();
-  @ViewChild('confirmDialog') private confirmDialogRef?: TemplateRef<any>;
+  @ViewChild('confirmDialog') private confirmDialog?: ElementRef;
+  @ViewChild('confirmSubmit') private confirmSubmit?: ElementRef;
 
-  private confirmDialog?: DialogRef<unknown, any, TemplateRef<any>>;
-
-  constructor(private dialogService: DialogService) { }
+  private modal!: Modal;
 
   public onConfirmed($event: MouseEvent) {
-    this.destroyConfirmDialog();
+    this.hideConfirmDialog();
     this.confirmed.emit($event);
   }
 
   public createConfirmDialog() {
-    if (this.confirmDialogRef) {
-      this.confirmDialog = this.dialogService.open(this.confirmDialogRef, {draggable: true, size: 'inherit', windowClass: 'center dialog-lg'});
-      this.confirmDialog.afterClosed$.pipe(single()).subscribe(_ => this.confirmDialog = undefined);
-    }
+    this.modal = new bootstrap.Modal(this.confirmDialog?.nativeElement);
+    this.confirmDialog?.nativeElement.addEventListener('shown.bs.modal', () => this.confirmSubmit?.nativeElement.focus());
+    this.modal.show();
   }
 
-  public destroyConfirmDialog() {
-    if (this.confirmDialog) {
-      this.confirmDialog.close();
-      this.confirmDialog = undefined;
-    }
+  public hideConfirmDialog() {
+    this.modal?.hide();
   }
 
   public ngOnDestroy(): void {
-    this.destroyConfirmDialog();
+    this.hideConfirmDialog();
   }
 }

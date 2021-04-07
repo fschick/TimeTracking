@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
 import {ActivityDto, ActivityService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
-import {DialogRef, DialogService} from '@ngneat/dialog';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
-import {tick} from '@angular/core/testing';
+import {Modal} from 'bootstrap';
 
 @Component({
   selector: 'ts-master-data-activities-edit',
@@ -15,13 +14,14 @@ import {tick} from '@angular/core/testing';
   styleUrls: ['./master-data-activities-edit.component.scss']
 })
 export class MasterDataActivitiesEditComponent implements AfterViewInit {
-  @ViewChild('activityEdit') private activityEdit?: TemplateRef<any>;
+  @ViewChild('activityEdit') private activityEdit?: ElementRef;
+  @ViewChild('title') private title?: ElementRef;
 
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public customers$: Observable<StringTypeaheadDto[]>;
   public projects$: Observable<StringTypeaheadDto[]>;
-  private dialog?: DialogRef<unknown, any, TemplateRef<any>>;
+  private modal!: Modal;
 
   constructor(
     private location: Location,
@@ -30,7 +30,6 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
-    private dialogService: DialogService,
   ) {
     this.isNewRecord = this.route.snapshot.params.id === this.entityService.guidEmpty;
     this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: this.entityService.guidEmpty, hidden: false});
@@ -46,11 +45,10 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.activityEdit)
-      return;
-
-    this.dialog = this.dialogService.open(this.activityEdit, {draggable: true, size: 'inherit'});
-    this.dialog.afterClosed$.pipe(single()).subscribe(_ => this.location.back());
+    this.modal = new bootstrap.Modal(this.activityEdit?.nativeElement);
+    this.activityEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
+    this.activityEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
+    this.modal.show();
   }
 
   public save(): void {
@@ -74,6 +72,6 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
   }
 
   public close(): void {
-    this.dialog?.close();
+    this.modal?.hide();
   }
 }

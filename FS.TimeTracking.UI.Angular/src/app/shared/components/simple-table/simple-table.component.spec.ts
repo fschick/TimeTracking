@@ -91,7 +91,7 @@ describe('SimpleTableComponent', () => {
         .queryAll(By.css('tr td:nth-child(3)'))
         .map(x => x.nativeElement.innerText);
       expect(sortedAges).toEqual(['12', '10', '10']);
-    }, 500);
+    }, 1000);
   });
 
   it('should sort descending when header clicked twice', async () => {
@@ -108,7 +108,7 @@ describe('SimpleTableComponent', () => {
         .queryAll(By.css('tr td:first-child'))
         .map(x => x.nativeElement.innerText);
       expect(sortedIds).toEqual(['3', '2', '1']);
-    }, 500);
+    }, 1000);
   });
 
   it('should restore origin order on third header clicked', async () => {
@@ -126,7 +126,7 @@ describe('SimpleTableComponent', () => {
         .queryAll(By.css('tr td:first-child'))
         .map(x => x.nativeElement.innerText);
       expect(sortedIds).toEqual(['1', '3', '2']);
-    }, 500);
+    }, 1000);
   });
 
   it('should sort multi rows when configured', async () => {
@@ -152,6 +152,6 @@ describe('SimpleTableComponent', () => {
         .queryAll(By.css('tr td:nth-child(3)'))
         .map(x => x.nativeElement.innerText);
       expect(sortedAges).toEqual(['10', '10', '12']);
-    }, 500);
+    }, 1000);
   });
 });

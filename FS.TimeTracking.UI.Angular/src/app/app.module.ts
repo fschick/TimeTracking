@@ -31,7 +31,6 @@ import {ReactiveComponentModule} from '@ngrx/component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
-import {DialogModule} from '@ngneat/dialog';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 import { MasterDataOrdersComponent } from './master-data/components/master-data-orders/master-data-orders.component';
@@ -66,11 +65,6 @@ import { MasterDataOrdersEditComponent } from './master-data/components/master-d
     BrowserAnimationsModule,
     ReactiveComponentModule,
     NgSelectModule,
-    DialogModule.forRoot({
-      sizes: {
-        inherit: {}
-      }
-    }),
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'

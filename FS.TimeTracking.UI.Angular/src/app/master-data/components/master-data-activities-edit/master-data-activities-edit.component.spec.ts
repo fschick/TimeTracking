@@ -6,7 +6,6 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DialogModule} from '@ngneat/dialog';
 import {ReactiveComponentModule} from '@ngrx/component';
 
 const fakeActivityService = {
@@ -42,10 +41,7 @@ describe('MasterDataActivitiesEditComponent', () => {
         ReactiveComponentModule,
         RouterTestingModule.withRoutes([
           {path: ':id', component: MasterDataActivitiesEditComponent}
-        ]),
-        DialogModule.forRoot({
-          sizes: {inherit: {}}
-        })
+        ])
       ],
       providers: [
         {provide: ActivityService, useValue: fakeActivityService},

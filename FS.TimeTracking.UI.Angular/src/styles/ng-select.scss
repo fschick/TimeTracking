@@ -24,9 +24,13 @@ $ng-select-value-font-size: $input-font-size;
   }
 }
 
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  &.ng-option-selected, &.ng-option-selected.ng-option-marked {
-    color: color-contrast($primary);
+.ng-dropdown-panel {
+  z-index: $zindex-modal !important;
+
+  .ng-dropdown-panel-items .ng-option {
+    &.ng-option-selected, &.ng-option-selected.ng-option-marked {
+      color: color-contrast($primary);
+    }
   }
 
   &.ng-option-marked {
