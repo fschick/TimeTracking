@@ -7,14 +7,16 @@ import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveComponentModule} from '@ngrx/component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const fakeActivityService = {
   get: (): Observable<any> => of({})
 } as Partial<ActivityService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any> => of({}),
-  getProjects: (): Observable<any> => of({})
+  getCustomers: (): Observable<any[]> => of([]),
+  getProjects: (): Observable<any[]> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({
@@ -38,6 +40,8 @@ describe('MasterDataActivitiesEditComponent', () => {
       declarations: [TestRootComponent, MasterDataActivitiesEditComponent],
       imports: [
         HttpClientModule,
+        NgSelectModule,
+        ReactiveFormsModule,
         ReactiveComponentModule,
         RouterTestingModule.withRoutes([
           {path: ':id', component: MasterDataActivitiesEditComponent}

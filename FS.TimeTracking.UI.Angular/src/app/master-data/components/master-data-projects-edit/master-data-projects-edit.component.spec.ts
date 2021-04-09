@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ProjectService, TypeaheadService} from '../../../shared/services/api';
+import {CustomerDto, ProjectService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
 import {Observable, of} from 'rxjs';
 import {MasterDataProjectsEditComponent} from './master-data-projects-edit.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
@@ -7,13 +7,15 @@ import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveComponentModule} from '@ngrx/component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 const fakeProjectService = {
   get: (): Observable<any> => of({})
 } as Partial<ProjectService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any> => of({})
+  getCustomers: (): Observable<any[]> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({
@@ -37,6 +39,8 @@ describe('MasterDataProjectsEditComponent', () => {
       declarations: [TestRootComponent, MasterDataProjectsEditComponent],
       imports: [
         HttpClientModule,
+        NgSelectModule,
+        ReactiveFormsModule,
         ReactiveComponentModule,
         RouterTestingModule.withRoutes([
           {path: ':id', component: MasterDataProjectsEditComponent}

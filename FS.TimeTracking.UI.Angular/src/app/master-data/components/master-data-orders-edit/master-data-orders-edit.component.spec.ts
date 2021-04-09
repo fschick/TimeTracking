@@ -7,13 +7,16 @@ import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveComponentModule} from '@ngrx/component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BootstrapDatepickerComponent} from '../../../shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
 
 const fakeOrderService = {
   get: (): Observable<any> => of({})
 } as Partial<OrderService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any> => of({})
+  getCustomers: (): Observable<any[]> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({
@@ -34,9 +37,15 @@ describe('MasterDataOrderEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestRootComponent, MasterDataOrdersEditComponent],
+      declarations: [
+        BootstrapDatepickerComponent,
+        TestRootComponent,
+        MasterDataOrdersEditComponent
+      ],
       imports: [
         HttpClientModule,
+        NgSelectModule,
+        ReactiveFormsModule,
         ReactiveComponentModule,
         RouterTestingModule.withRoutes([
           {path: ':id', component: MasterDataOrdersEditComponent}

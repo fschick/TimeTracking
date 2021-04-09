@@ -6,6 +6,8 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const fakeCustomerService = {
   get: (): Observable<any> => of({})
@@ -32,6 +34,8 @@ describe('MasterDataCustomersEditComponent', () => {
       declarations: [TestRootComponent, MasterDataCustomersEditComponent],
       imports: [
         HttpClientModule,
+        NgSelectModule,
+        ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {path: ':id', component: MasterDataCustomersEditComponent}
         ])

@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, Optional} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, Optional, ViewChild} from '@angular/core';
 import {FormGroupDirective} from '@angular/forms';
-import {filter, map} from 'rxjs/operators';
+import {filter, map, tap} from 'rxjs/operators';
 import {merge, Observable, of} from 'rxjs';
 import {ValidationFormGroup} from '../../services/form-validation/form-validation.service';
 import {$localizeId} from '../../services/internationalization/localizeId';
@@ -13,7 +13,10 @@ import {$localizeId} from '../../services/internationalization/localizeId';
 export class FormValidationErrorsComponent implements OnInit {
   @Input() @Optional() form!: FormGroupDirective;
 
+  @ViewChild('container') container?: ElementRef;
+
   public errors$!: Observable<string[]>;
+
   private validationFormGroup!: ValidationFormGroup;
 
   constructor(
@@ -30,7 +33,11 @@ export class FormValidationErrorsComponent implements OnInit {
     this.validationFormGroup = this.ngForm.form as ValidationFormGroup;
 
     const ngSubmit: Observable<string[]> = this.ngForm.ngSubmit.pipe(
-      map(_ => this.getErrors())
+      map(_ => this.getErrors()),
+      tap(errors => {
+        if (errors.length > 0)
+          setTimeout(() => this.container?.nativeElement.scrollIntoView(), 0);
+      })
     );
 
     const statusChanges = !this.ngForm.statusChanges
