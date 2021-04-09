@@ -72,10 +72,18 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
         dataCellTemplate: this.dataCellTemplate
       },
       {
-        title: $localize`:@@DTO.OrderListDto.CustomerCompanyName:[i18n] Company`,
-        prop: 'customerCompanyName',
+        title: $localize`:@@DTO.OrderListDto.StartDate:[i18n] Start Date`,
+        prop: 'startDate',
         cssDataCell: dataCellCss,
-        dataCellTemplate: this.dataCellTemplate
+        dataCellTemplate: this.dataCellTemplate,
+        format: (row) => row.startDate.toFormat(this.storageService.dateFormat)
+      },
+      {
+        title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due Date`,
+        prop: 'dueDate',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate,
+        format: (row) => row.startDate.toFormat(this.storageService.dateFormat)
       },
       {
         title: $localize`:@@Common.Action:[i18n] Action`,

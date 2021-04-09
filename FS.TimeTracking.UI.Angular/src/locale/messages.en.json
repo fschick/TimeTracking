@@ -97,6 +97,8 @@
     "OrderListDto": {
       "Title": "Title",
       "CustomerTitle": "Customer",
+      "StartDate": "Start Date",
+      "DueDate": "Due Date",
       "CustomerCompanyName": "Company",
       "Hidden": "Hidden"
     },
