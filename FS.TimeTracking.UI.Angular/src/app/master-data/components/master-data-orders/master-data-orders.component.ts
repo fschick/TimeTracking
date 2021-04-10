@@ -10,7 +10,7 @@ import {OrderListDto, OrderService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StorageService} from '../../../shared/services/storage/storage.service';
+import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {single} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 
@@ -37,7 +37,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private storageService: StorageService,
+    private localizationService: LocalizationService,
   ) {
     this.rows = [];
   }
@@ -59,7 +59,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       cssTable: 'table table-borderless table-hover small',
       glyphSortAsc: '',
       glyphSortDesc: '',
-      locale: this.storageService.language,
+      locale: this.localizationService.language,
     };
 
     const dataCellCss = (row: OrderListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
@@ -76,14 +76,14 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
         prop: 'startDate',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate,
-        format: (row) => row.startDate.toFormat(this.storageService.dateFormat)
+        format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       },
       {
         title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due Date`,
         prop: 'dueDate',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate,
-        format: (row) => row.startDate.toFormat(this.storageService.dateFormat)
+        format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       },
       {
         title: $localize`:@@Common.Action:[i18n] Action`,
@@ -105,8 +105,10 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   }
 
   public dataCellClick($event: DataCellClickEvent<OrderListDto>): void {
-    if ($event.column.customId !== 'delete')
+    if ($event.column.customId !== 'delete') {
+      // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
+    }
   }
 
   public deleteItem(id: string): void {

@@ -21,7 +21,6 @@ import {MasterDataCustomersComponent} from './master-data/components/master-data
 import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {SimpleTableComponent} from './shared/components/simple-table/simple-table.component';
-import {StorageService} from './shared/services/storage/storage.service';
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -33,9 +32,10 @@ import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
-import { MasterDataOrdersComponent } from './master-data/components/master-data-orders/master-data-orders.component';
-import { MasterDataOrdersEditComponent } from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
-import { BootstrapDatepickerComponent } from './shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
+import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
+import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
+import {BootstrapDatepickerComponent} from './shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
+import {LocalizationService} from './shared/services/internationalization/localization.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import { BootstrapDatepickerComponent } from './shared/components/bootstrap-date
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
-    BootstrapDatepickerComponent,
+    BootstrapDatepickerComponent
   ],
   imports: [
     BrowserModule,
@@ -78,12 +78,12 @@ import { BootstrapDatepickerComponent } from './shared/components/bootstrap-date
   providers: [{
     provide: APP_INITIALIZER,
     useFactory: configurationLoaderFactory,
-    deps: [StorageService, NgSelectConfig],
+    deps: [LocalizationService, NgSelectConfig],
     multi: true
   }, {
     provide: LOCALE_ID,
     useFactory: localeLoaderFactory,  //returns locale string,
-    deps: [StorageService]
+    deps: [LocalizationService]
   }, {
     provide: HTTP_INTERCEPTORS,
     useClass: ApiDateTimeInterceptorInterceptor,
@@ -99,9 +99,9 @@ export class AppModule {
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function configurationLoaderFactory(storageService: StorageService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
+export function configurationLoaderFactory(localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
-    const translations = storageService.language === 'de' ? translationsDE : translationsEN;
+    const translations = localizationService.language === 'de' ? translationsDE : translationsEN;
     loadTranslations(flattenTranslations(translations));
 
     ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
@@ -115,10 +115,10 @@ export function configurationLoaderFactory(storageService: StorageService, ngSel
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function localeLoaderFactory(storageService: StorageService) {
-  const locale = storageService.language === 'de' ? localeDE : localeEN;
+export function localeLoaderFactory(localizationService: LocalizationService) {
+  const locale = localizationService.language === 'de' ? localeDE : localeEN;
   registerLocaleData(locale);
-  return storageService.language;
+  return localizationService.language;
 }
 
 /**

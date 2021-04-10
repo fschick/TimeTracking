@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CustomerDto, CustomerService, ProjectListDto} from '../../../shared/services/api';
+import {CustomerDto, CustomerService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
-import {StorageService} from '../../../shared/services/storage/storage.service';
+import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
   Configuration,
@@ -36,7 +36,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private customerService: CustomerService,
-    private storageService: StorageService,
+    private localizationService: LocalizationService,
   ) {
     this.rows = [];
   }
@@ -54,7 +54,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
       cssTable: 'table table-borderless table-hover small',
       glyphSortAsc: '',
       glyphSortDesc: '',
-      locale: this.storageService.language,
+      locale: this.localizationService.language,
     };
 
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
@@ -82,8 +82,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   }
 
   dataCellClick($event: DataCellClickEvent<CustomerDto>) {
-    if ($event.column.customId !== 'delete')
+    if ($event.column.customId !== 'delete') {
+      // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
+    }
   }
 
   public deleteItem(id: string): void {

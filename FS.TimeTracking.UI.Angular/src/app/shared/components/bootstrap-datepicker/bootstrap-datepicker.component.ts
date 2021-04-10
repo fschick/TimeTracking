@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, forwardRef, OnDestroy} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {DateTime} from 'luxon';
-import {StorageService} from '../../services/storage/storage.service';
+import {LocalizationService} from '../../services/internationalization/localization.service';
 import {GuidService} from '../../services/state-management/guid.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
@@ -26,11 +26,11 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
   private datePickerOptions = {};
 
   constructor(
-    private storageService: StorageService,
+    private localizationService: LocalizationService,
     guidService: GuidService,
   ) {
     this.id = guidService.newGuid();
-    this.format = storageService.dateFormat;
+    this.format = localizationService.dateTime.dateFormat;
 
     this.datePickerOptions = {
       format: this.toDatePickerFormat(this.format),
@@ -38,7 +38,7 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
       calendarWeeks: true,
       weekStart: 1,
       autoclose: true,
-      language: this.storageService.language,
+      language: this.localizationService.language,
       todayBtn: 'linked',
       showOnFocus: false,
       assumeNearbyYear: true,

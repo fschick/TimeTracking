@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivityListDto, ActivityService} from '../../../shared/services/api';
-import {StorageService} from '../../../shared/services/storage/storage.service';
+import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
   Configuration,
@@ -37,7 +37,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private activityService: ActivityService,
-    private storageService: StorageService,
+    private localizationService: LocalizationService,
   ) {
     this.rows = [];
   }
@@ -59,7 +59,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
       cssTable: 'table table-borderless table-hover small',
       glyphSortAsc: '',
       glyphSortDesc: '',
-      locale: this.storageService.language,
+      locale: this.localizationService.language,
     };
 
     const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
@@ -91,8 +91,10 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   }
 
   public dataCellClick($event: DataCellClickEvent<ActivityListDto>): void {
-    if ($event.column.customId !== 'delete')
+    if ($event.column.customId === 'delete') {
+      // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
+    }
   }
 
   public deleteItem(id: string): void {

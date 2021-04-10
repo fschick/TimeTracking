@@ -10,7 +10,7 @@ import {ProjectListDto, ProjectService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StorageService} from '../../../shared/services/storage/storage.service';
+import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {single} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 
@@ -37,7 +37,7 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private storageService: StorageService,
+    private localizationService: LocalizationService,
   ) {
     this.rows = [];
   }
@@ -59,15 +59,15 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
       cssTable: 'table table-borderless table-hover small',
       glyphSortAsc: '',
       glyphSortDesc: '',
-      locale: this.storageService.language,
+      locale: this.localizationService.language,
     };
 
     const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-        { title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-          title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
-          prop: 'customerTitle',
+        title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },
@@ -97,8 +97,10 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
   }
 
   public dataCellClick($event: DataCellClickEvent<ProjectListDto>): void {
-    if ($event.column.customId !== 'delete')
+    if ($event.column.customId !== 'delete') {
+      // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
+    }
   }
 
   public deleteItem(id: string): void {
