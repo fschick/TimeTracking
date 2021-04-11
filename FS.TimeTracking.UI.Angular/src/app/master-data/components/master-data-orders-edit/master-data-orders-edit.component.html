@@ -14,11 +14,11 @@
             </div>
             <div class="col-lg-3">
               <label for="startDate" class="form-label" i18n="@@DTO.OrderDto.StartDate">[i18n] Start Date</label>
-              <ts-bootstrap-datepicker id="startDate" formControlName="startDate"></ts-bootstrap-datepicker>
+              <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate">
             </div>
             <div class="col-lg-3">
               <label for="dueDate" class="form-label" i18n="@@DTO.OrderDto.DueDate">[i18n] Due Date</label>
-              <ts-bootstrap-datepicker id="dueDate" formControlName="dueDate"></ts-bootstrap-datepicker>
+              <input id="dueDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="dueDate">
             </div>
             <div class="col-lg-6">
               <!--suppress XmlInvalidId -->
@@ -33,11 +33,11 @@
             </div>
             <div class="col-lg-3">
               <label for="hourlyRate" class="form-label" i18n="@@DTO.OrderDto.HourlyRate">[i18n] Hourly Rate</label>
-              <input id="hourlyRate" type="text" inputmode="decimal" [tsNumericInput]="{ fractionDigits:2}" class="form-control" formControlName="hourlyRate">
+              <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{ fractionDigits:2}" class="form-control" formControlName="hourlyRate">
             </div>
             <div class="col-lg-3">
               <label for="budget" class="form-label" i18n="@@DTO.OrderDto.Budget">[i18n] Budget</label>
-              <input id="budget" type="text" inputmode="decimal" [tsNumericInput]="{ fractionDigits:2}" class="form-control" formControlName="budget">
+              <input id="budget" type="text" inputmode="decimal" [tsNumeric]="{ fractionDigits:2}" class="form-control" formControlName="budget">
             </div>
             <div class="col-lg-6">
               <label for="number" class="form-label" i18n="@@DTO.OrderDto.Number">[i18n] Order Number</label>

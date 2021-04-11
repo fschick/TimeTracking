@@ -9,7 +9,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveComponentModule} from '@ngrx/component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BootstrapDatepickerComponent} from '../../../shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
 
 const fakeOrderService = {
   get: (): Observable<any> => of({})
@@ -38,7 +37,6 @@ describe('MasterDataOrderEditComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        BootstrapDatepickerComponent,
         TestRootComponent,
         MasterDataOrdersEditComponent
       ],

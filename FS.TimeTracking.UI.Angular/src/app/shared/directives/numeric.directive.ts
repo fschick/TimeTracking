@@ -5,20 +5,20 @@ import {UtilityService} from '../services/utility.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => NumericInputDirective),
+  useExisting: forwardRef(() => NumericDirective),
   multi: true,
 };
 
-export interface NumericInputOptions {
+export interface NumericOptions {
   fractionDigits?: number;
 }
 
 @Directive({
-  selector: '[tsNumericInput]',
+  selector: '[tsNumeric]',
   providers: [CUSTOM_VALUE_ACCESSOR],
 })
-export class NumericInputDirective implements ControlValueAccessor {
-  @Input() @Optional() tsNumericInput?: NumericInputOptions;
+export class NumericDirective implements ControlValueAccessor {
+  @Input() @Optional() tsNumeric?: NumericOptions;
 
   private inputElement: HTMLInputElement;
   private readonly digitGroupingSymbol: string;
@@ -84,7 +84,7 @@ export class NumericInputDirective implements ControlValueAccessor {
 
   @HostListener('blur', ['$event.target.value'])
   public onBlur(rawInput: string | undefined) {
-    const fractionDigits = this.tsNumericInput?.fractionDigits;
+    const fractionDigits = this.tsNumeric?.fractionDigits;
     const newValue = this.utilityService.parseNumber(rawInput, fractionDigits);
 
     const options = fractionDigits ? {minimumFractionDigits: fractionDigits} : undefined;
@@ -97,7 +97,7 @@ export class NumericInputDirective implements ControlValueAccessor {
   }
 
   public writeValue(value: number | undefined): void {
-    const fractionDigits = this.tsNumericInput?.fractionDigits;
+    const fractionDigits = this.tsNumeric?.fractionDigits;
     const options = fractionDigits ? {minimumFractionDigits: fractionDigits} : undefined;
     const newRawInput = this.utilityService.formatNumber(value, options);
     this.setRawInput(newRawInput);

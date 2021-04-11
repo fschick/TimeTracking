@@ -1,24 +1,19 @@
-import {AfterViewInit, Component, forwardRef, OnDestroy} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy, Optional} from '@angular/core';
+import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime} from 'luxon';
-import {LocalizationService} from '../../services/internationalization/localization.service';
-import {GuidService} from '../../services/state-management/guid.service';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => BootstrapDatepickerComponent),
+  useExisting: forwardRef(() => DatePickerDirective),
   multi: true,
 };
 
-@Component({
-  selector: 'ts-bootstrap-datepicker',
-  templateUrl: './bootstrap-datepicker.component.html',
-  styleUrls: ['./bootstrap-datepicker.component.scss'],
+@Directive({
+  selector: '[tsDatePicker]',
   providers: [CUSTOM_VALUE_ACCESSOR],
 })
-export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, ControlValueAccessor {
-  public readonly id: string;
-
+export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
   private readonly format: string;
   private value?: DateTime = DateTime.min();
   private disabled = false;
@@ -26,10 +21,9 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
   private datePickerOptions = {};
 
   constructor(
-    private localizationService: LocalizationService,
-    guidService: GuidService,
+    private elementRef: ElementRef,
+    private localizationService: LocalizationService
   ) {
-    this.id = guidService.newGuid();
     this.format = localizationService.dateTime.dateFormat;
 
     this.datePickerOptions = {
@@ -45,36 +39,29 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
     };
   }
 
-  public ngAfterViewInit(): void {
-    this.datePicker = $(`#${this.id}`) as any;
-    this.datePicker
-      .datepicker(this.datePickerOptions)
-      .on('hide', () => this.datePicker.focus());
-  }
-
-  public showDatePicker(): void {
+  @HostListener('click')
+  public onClick(): void {
     this.datePicker?.datepicker('show');
   }
 
+  @HostListener('blur')
   public onBlur() {
     const date = this.datePicker?.datepicker('getDate');
     const dateTime = DateTime.fromJSDate(date);
     this.emitValue(dateTime.isValid ? dateTime : undefined);
   }
 
-  public emitValue(value?: DateTime): void {
-    this.value = value;
-    this.onChange(this.value);
-    this.onTouched();
+  public ngAfterViewInit(): void {
+    this.datePicker = $(this.elementRef.nativeElement) as any;
+    this.datePicker
+      .datepicker(this.datePickerOptions)
+      .on('hide', () => this.datePicker.focus());
   }
 
   public writeValue(obj: DateTime): void {
     this.value = obj;
     this.datePicker?.datepicker('update', this.value?.toJSDate());
-  }
-
-  public get formattedValue(): string {
-    return this.value?.toFormat(this.format) ?? '';
+    this.elementRef.nativeElement.value = this.value?.toFormat(this.format) ?? '';
   }
 
   public registerOnChange(fn: any): void {
@@ -89,12 +76,15 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
     this.disabled = isDisabled;
   }
 
+  public emitValue(value?: DateTime): void {
+    this.value = value;
+    this.onChange(this.value);
+    this.onTouched();
+  }
+
   public ngOnDestroy(): void {
     this.datePicker?.datepicker('destroy');
   }
-
-  private onChange: (obj: any) => void = (_: any) => {};
-  private onTouched: () => void = () => {};
 
   private toDatePickerFormat(format: string): string {
     // see https://moment.github.io/luxon/docs/manual/formatting.html
@@ -109,4 +99,7 @@ export class BootstrapDatepickerComponent implements AfterViewInit, OnDestroy, C
       .replace(/MM/g, 'mm')
       .replace(/M/g, 'm');
   }
+
+  private onChange: (obj: any) => void = (_: any) => {};
+  private onTouched: () => void = () => {};
 }

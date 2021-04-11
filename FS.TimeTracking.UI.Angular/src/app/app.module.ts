@@ -34,9 +34,9 @@ import {MasterDataActivitiesEditComponent} from './master-data/components/master
 import { ApiDateTimeInterceptorInterceptor } from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
-import {BootstrapDatepickerComponent} from './shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
 import { LocalizationService } from './shared/services/internationalization/localization.service';
-import { NumericInputDirective } from './shared/directives/numeric-input.directive';
+import { NumericDirective } from './shared/directives/numeric.directive';
+import { DatePickerDirective } from './shared/directives/date-picker.directive';
 
 @NgModule({
   declarations: [
@@ -57,8 +57,8 @@ import { NumericInputDirective } from './shared/directives/numeric-input.directi
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
-    BootstrapDatepickerComponent,
-    NumericInputDirective,
+    NumericDirective,
+    DatePickerDirective,
   ],
   imports: [
     BrowserModule,
