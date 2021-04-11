@@ -31,11 +31,12 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
-import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
+import { ApiDateTimeInterceptorInterceptor } from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
 import {BootstrapDatepickerComponent} from './shared/components/bootstrap-datepicker/bootstrap-datepicker.component';
-import {LocalizationService} from './shared/services/internationalization/localization.service';
+import { LocalizationService } from './shared/services/internationalization/localization.service';
+import { NumericInputDirective } from './shared/directives/numeric-input.directive';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {LocalizationService} from './shared/services/internationalization/locali
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
-    BootstrapDatepickerComponent
+    BootstrapDatepickerComponent,
+    NumericInputDirective,
   ],
   imports: [
     BrowserModule,
