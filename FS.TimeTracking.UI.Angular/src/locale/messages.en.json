@@ -68,6 +68,12 @@
       "Country": "Country",
       "Hidden": "Hidden"
     },
+    "CustomerListDto": {
+      "Title": "Title",
+      "CompanyName": "Company",
+      "ContactName": "Contact",
+      "Hidden": "Hidden"
+    },
     "ProjectDto": {
       "Title": "Title",
       "CustomerId": "Customer",
@@ -78,7 +84,6 @@
     "ProjectListDto": {
       "Title": "Title",
       "CustomerTitle": "Customer",
-      "CustomerCompanyName": "Company",
       "Hidden": "Hidden"
     },
     "OrderDto": {
@@ -99,7 +104,6 @@
       "CustomerTitle": "Customer",
       "StartDate": "Start Date",
       "DueDate": "Due Date",
-      "CustomerCompanyName": "Company",
       "Hidden": "Hidden"
     },
     "ActivityDto": {

@@ -27,7 +27,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link"
+             data-bs-toggle="collapse"
+             data-bs-target=".navbar-collapse.show"
+             routerLink="/"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">
             <span i18n="@@Page.Timesheet.Timesheet">[I18N] Timesheet</span>
           </a>
         </li>
@@ -36,10 +41,30 @@
             <ng-container i18n="@@Page.MasterData.MasterData">[I18N] Master Data</ng-container>
           </a>
           <ul class="dropdown-menu bg-success" aria-labelledby="masterDataDropdown">
-            <li><a class="dropdown-item" i18n="@@Page.MasterData.Customers.Title" routerLink="/master-data/customers" routerLinkActive="active">[I18N] Customers</a></li>
-            <li><a class="dropdown-item" i18n="@@Page.MasterData.Projects.Title" routerLink="/master-data/projects" routerLinkActive="active">[I18N] Projects</a></li>
-            <li><a class="dropdown-item" i18n="@@Page.MasterData.Orders.Title" routerLink="/master-data/orders" routerLinkActive="active">[I18N] Orders</a></li>
-            <li><a class="dropdown-item" i18n="@@Page.MasterData.Activities.Title" routerLink="/master-data/activities" routerLinkActive="active">[I18N] Activities</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.MasterData.Customers.Title"
+                   routerLink="/master-data/customers"
+                   routerLinkActive="active">[I18N] Customers</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.MasterData.Projects.Title"
+                   routerLink="/master-data/projects"
+                   routerLinkActive="active">[I18N] Projects</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.MasterData.Orders.Title"
+                   routerLink="/master-data/orders"
+                   routerLinkActive="active">[I18N] Orders</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.MasterData.Activities.Title"
+                   routerLink="/master-data/activities"
+                   routerLinkActive="active">[I18N] Activities</a></li>
           </ul>
         </li>
       </ul>

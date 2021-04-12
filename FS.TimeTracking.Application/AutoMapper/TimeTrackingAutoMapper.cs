@@ -36,6 +36,8 @@ namespace FS.TimeTracking.Application.AutoMapper
                 .ForMember(x => x.StartDateOffset, x => x.Ignore())
                 .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
+            CreateMap<Customer, CustomerListDto>();
+
             CreateMap<Project, ProjectListDto>();
 
             CreateMap<Order, OrderListDto>();

@@ -72,12 +72,6 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
         dataCellTemplate: this.dataCellTemplate
       },
       {
-        title: $localize`:@@DTO.ProjectListDto.CustomerCompanyName:[i18n] Company`,
-        prop: 'customerCompanyName',
-        cssDataCell: dataCellCss,
-        dataCellTemplate: this.dataCellTemplate
-      },
-      {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,

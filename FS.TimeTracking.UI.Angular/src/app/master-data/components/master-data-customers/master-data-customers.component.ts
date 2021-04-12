@@ -58,10 +58,18 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     };
 
     const dataCellCss = (row: CustomerDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
+    const headCellMdCss = 'd-none d-md-table-cell';
+    const dataCellMdCss = (row: CustomerDto) => `${dataCellCss(row)} ${headCellMdCss}`;
     this.columns = [
       {title: $localize`:@@DTO.CustomerDto.Title:[i18n] Title`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
-      {title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`, prop: 'contactName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {
+        title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`,
+        prop: 'contactName',
+        cssHeadCell: headCellMdCss,
+        cssDataCell: dataCellMdCss,
+        dataCellTemplate: this.dataCellTemplate
+      },
       {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',

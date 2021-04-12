@@ -6,7 +6,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {OrderListDto, OrderService} from '../../../shared/services/api';
+import {CustomerDto, OrderListDto, OrderService} from '../../../shared/services/api';
 import {Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -63,6 +63,8 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     };
 
     const dataCellCss = (row: OrderListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
+    const headCellMdCss = 'd-none d-md-table-cell';
+    const dataCellMdCss = (row: OrderListDto) => `${dataCellCss(row)} ${headCellMdCss}`;
     this.columns = [
       {title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
@@ -74,14 +76,16 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       {
         title: $localize`:@@DTO.OrderListDto.StartDate:[i18n] Start Date`,
         prop: 'startDate',
-        cssDataCell: dataCellCss,
+        cssHeadCell: headCellMdCss,
+        cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       },
       {
         title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due Date`,
         prop: 'dueDate',
-        cssDataCell: dataCellCss,
+        cssHeadCell: headCellMdCss,
+        cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       },
