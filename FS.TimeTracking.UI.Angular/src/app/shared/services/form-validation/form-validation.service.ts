@@ -98,15 +98,15 @@ export class FormValidationService {
       case 'required':
         return [AngularValidators.required];
       case 'length':
-        return this.getLengthValidators(validation);
+        return this.getFieldLengthValidators(validation);
       case 'range':
-        return this.getRangeValidators(validation);
+        return this.getFieldRangeValidators(validation);
       default:
         return [];
     }
   }
 
-  private getLengthValidators(validation: ValidationDescription): ValidatorFn[] {
+  private getFieldLengthValidators(validation: ValidationDescription): ValidatorFn[] {
     const lengthValidators: ValidatorFn[] = [];
     if (validation.min !== undefined)
       lengthValidators.push(AngularValidators.minLength(validation.min));
@@ -115,7 +115,7 @@ export class FormValidationService {
     return lengthValidators;
   }
 
-  private getRangeValidators(validation: ValidationDescription): ValidatorFn[] {
+  private getFieldRangeValidators(validation: ValidationDescription): ValidatorFn[] {
     const rangeValidators: ValidatorFn[] = [];
     if (validation.min !== undefined)
       rangeValidators.push(AngularValidators.min(validation.min));
@@ -141,6 +141,8 @@ export class FormValidationService {
     switch (validation.type) {
       case 'compare':
         return [CustomValidators.compare(fieldName, validation.otherProperty)];
+      case 'compareTo':
+        return [CustomValidators.compareTo(fieldName, validation.otherProperty, validation.comparisonType)];
       default:
         return [];
     }

@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application.Tests", "FS.TimeTracking.Application.Tests\FS.TimeTracking.Application.Tests.csproj", "{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{2205F08B-B25B-4421-BF77-F0CF71190155} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
+		{A6C87157-ADD1-4460-B496-1AD952B20A88} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}

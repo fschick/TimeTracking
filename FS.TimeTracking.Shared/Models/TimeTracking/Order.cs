@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.Extensions;
+﻿using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -78,6 +79,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// </summary>
         [Required]
         [NotMapped]
+        [CompareTo(Shared.ComparisonType.GreaterThan, nameof(StartDate))]
         public DateTimeOffset DueDate
         {
             get => DueDateUtc.ToOffset(TimeSpan.FromHours(DueDateOffset));

@@ -66,12 +66,20 @@ namespace FS.TimeTracking.Application.Tests.Tests
             { nameof(ValidationTestDto.RangeIntMax), new[] { new { type = "range", max = 4 } } },
             { nameof(ValidationTestDto.RangeDouble), new[] { new { type = "range", min = 2.0, max = 4.0 } } },
             { nameof(ValidationTestDto.RangeDoubleMin), new[] { new { type = "range", min = 2.0 } } },
+            { nameof(ValidationTestDto.RangeDoubleMinInfinity), new[] { new { type = "range", min = 2.0 } } },
             { nameof(ValidationTestDto.RangeDoubleMax), new[] { new { type = "range", max = 4.0 } } },
+            { nameof(ValidationTestDto.RangeDoubleMaxInfinity), new[] { new { type = "range", max = 4.0 } } },
             { nameof(ValidationTestDto.RangeDate), new[] { new { type = "range", min = "2020-01-01T00:00:00", max = "2020-01-31T00:00:00" } } },
             { nameof(ValidationTestDto.RangeDateMin), new[] { new { type = "range", min = "2020-01-01T00:00:00" } } },
             { nameof(ValidationTestDto.RangeDateMax), new[] { new { type = "range", max = "2020-01-31T00:00:00" } } },
 
             { nameof(ValidationTestDto.Compare), new[] { new { type = "compare", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToEqual), new[] { new { type = "compareTo", comparisonType = "equal", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToNotEqual), new[] { new { type = "compareTo", comparisonType = "notEqual", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToLessThan), new[] { new { type = "compareTo", comparisonType = "lessThan", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToLessThanOrEqual), new[] { new { type = "compareTo", comparisonType = "lessThanOrEqual", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToGreaterThan), new[] { new { type = "compareTo", comparisonType = "greaterThan", otherProperty = "required" } } },
+            { nameof(ValidationTestDto.CompareToGreaterThanOrEqual), new[] { new { type = "compareTo", comparisonType = "greaterThanOrEqual", otherProperty = "required" } } },
 
             { nameof(ValidationTestDto.MultiValidation), new object[] { new { type = "required" }, new { type = "length", min = 4 }, new { type = "length", min = 2, max = 4 } } },
 

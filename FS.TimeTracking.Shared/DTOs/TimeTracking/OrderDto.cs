@@ -35,6 +35,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 
         /// <inheritdoc cref="Order.DueDate"/>
         [Required]
+        [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
         public DateTimeOffset DueDate { get; set; }
 
         /// <inheritdoc cref="Order.HourlyRate"/>

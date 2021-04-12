@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -39,8 +40,14 @@ namespace FS.TimeTracking.Application.Tests.Models
         [Range(2d, double.MaxValue)]
         public double RangeDoubleMin { get; set; }
 
+        [Range(2d, double.PositiveInfinity)]
+        public double RangeDoubleMinInfinity { get; set; }
+
         [Range(double.MinValue, 4d)]
         public double RangeDoubleMax { get; set; }
+
+        [Range(double.NegativeInfinity, 4d)]
+        public double RangeDoubleMaxInfinity { get; set; }
 
         [Range(typeof(DateTime), "2020-01-01", "2020-01-31")]
         public DateTime RangeDate { get; set; }
@@ -54,6 +61,24 @@ namespace FS.TimeTracking.Application.Tests.Models
 
         [Compare(nameof(Required))]
         public string Compare { get; set; }
+
+        [CompareTo(ComparisonType.Equal, nameof(Required))]
+        public string CompareToEqual { get; set; }
+
+        [CompareTo(ComparisonType.NotEqual, nameof(Required))]
+        public string CompareToNotEqual { get; set; }
+
+        [CompareTo(ComparisonType.LessThan, nameof(Required))]
+        public string CompareToLessThan { get; set; }
+
+        [CompareTo(ComparisonType.LessThanOrEqual, nameof(Required))]
+        public string CompareToLessThanOrEqual { get; set; }
+
+        [CompareTo(ComparisonType.GreaterThan, nameof(Required))]
+        public string CompareToGreaterThan { get; set; }
+
+        [CompareTo(ComparisonType.GreaterThanOrEqual, nameof(Required))]
+        public string CompareToGreaterThanOrEqual { get; set; }
 
 
         [Required]

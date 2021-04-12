@@ -50,9 +50,9 @@ namespace FS.TimeTracking.Application.ValidationConverters
                 var minDoubleValue = System.Convert.ToDouble(attribute.ConstructorArguments[0].Value, CultureInfo.InvariantCulture);
                 var maxDoubleValue = System.Convert.ToDouble(attribute.ConstructorArguments[1].Value, CultureInfo.InvariantCulture);
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                minValue = minDoubleValue != double.MinValue ? minDoubleValue : null;
+                minValue = (minDoubleValue == double.MinValue || double.IsNegativeInfinity(minDoubleValue)) ? null : minDoubleValue;
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                maxValue = maxDoubleValue != double.MaxValue ? maxDoubleValue : null;
+                maxValue = (maxDoubleValue == double.MaxValue || double.IsPositiveInfinity(maxDoubleValue)) ? null : maxDoubleValue;
             }
             else if (typeof(IComparable).IsAssignableFrom((Type)firstConstructorArgument.Value))
             {

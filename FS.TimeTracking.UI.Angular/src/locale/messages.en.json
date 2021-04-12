@@ -124,6 +124,12 @@
     "MaxLengthWithField": "'{$FIELDNAME}' must not have more than {$VALUE} characters",
     "MinWithField": "'{$FIELDNAME}' must be greater or equal to {$VALUE}",
     "MaxWithField": "'{$FIELDNAME}' must be lower or equal to {$VALUE}",
-    "CompareWithField": "'{$FIELDNAME}' and '{$OTHERFIELDNAME}' does not match"
+    "CompareWithField": "'{$FIELDNAME}' and '{$OTHERFIELDNAME}' does not match",
+    "CompareToEqualWithField": "'{$FIELDNAME}' and '{$OTHERFIELDNAME}' must be equal",
+    "CompareToNotEqualWithField": "'{$FIELDNAME}' and '{$OTHERFIELDNAME}' must not be equal",
+    "CompareToLessThanWithField": "'{$FIELDNAME}' must be less than '{$OTHERFIELDNAME}'",
+    "CompareToLessThanOrEqualWithField": "'{$FIELDNAME}' must be less or equal than '{$OTHERFIELDNAME}'",
+    "CompareToGreaterThanWithField": "'{$FIELDNAME}' must be grater than '{$OTHERFIELDNAME}'",
+    "CompareToGreaterThanOrEqualWithField": "'{$FIELDNAME}' must be greater or equal than '{$OTHERFIELDNAME}'"
   }
 }
