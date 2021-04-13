@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LocalizationService} from './internationalization/localization.service';
+import {DateTime} from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,67 @@ export class UtilityService {
       index++;
 
     return index;
+  }
+
+  public parseDate(rawInput: string | undefined): DateTime | undefined {
+    if (!rawInput)
+      return undefined;
+
+    // const dateFormat = this.localizationService.dateTime.dateFormat;
+    // const formatPattern = new RegExp('([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)');
+    // const formatParts = dateFormat.match(formatPattern);
+    // if (formatParts === null)
+    //   return undefined;
+
+    const formatParts = ['dd', 'MM', 'yyyy'];
+    const valuePattern = new RegExp('\\s*(\\d{1,2})?(?:\\D*(\\d{1,2}))?(?:\\D*(\\d{2,4}))?');
+    const valueParts = rawInput.match(valuePattern);
+    if (valueParts === null)
+      return undefined;
+
+    let day: number | undefined;
+    let month: number | undefined;
+    let year: number | undefined;
+
+    for (let index = 1; index < valueParts.length; index++) {
+      const formatPart = formatParts[index - 1];
+      let valuePart: number | undefined = parseFloat(valueParts[index]);
+      if (isNaN(valuePart))
+        valuePart = undefined;
+
+      switch (formatPart) {
+        case 'd':
+        case 'dd':
+          day = valuePart;
+          break;
+        case 'M':
+        case 'MM':
+          month = valuePart;
+          break;
+        case 'yy':
+        case 'yyyy':
+          year = valuePart;
+          break;
+      }
+    }
+
+    const now = DateTime.now();
+    if (day === undefined)
+      day = now.day;
+    if (month === undefined)
+      month = now.month;
+    if (year === undefined)
+      year = now.year;
+
+    if (year < 100) {
+      const century = Math.floor(now.year / 100) * 100;
+      const shortYear = now.year % 100;
+      if (year - shortYear < 20)
+        year = century + year;
+      else
+        year = century - 100 + year;
+    }
+
+    return DateTime.local(year, month, day);
   }
 }

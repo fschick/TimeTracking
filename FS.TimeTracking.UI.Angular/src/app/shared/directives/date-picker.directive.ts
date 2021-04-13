@@ -2,6 +2,7 @@ import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, O
 import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {UtilityService} from '../services/utility.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -22,7 +23,8 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
   constructor(
     private elementRef: ElementRef,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
+    private utilityService: UtilityService,
   ) {
     this.format = localizationService.dateTime.dateFormat;
 
@@ -36,6 +38,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       todayBtn: 'linked',
       showOnFocus: false,
       assumeNearbyYear: true,
+      forceParse: false,
     };
   }
 
@@ -44,11 +47,21 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePicker?.datepicker('show');
   }
 
-  @HostListener('blur')
-  public onBlur() {
-    const date = this.datePicker?.datepicker('getDate');
-    const dateTime = DateTime.fromJSDate(date);
-    this.emitValue(dateTime.isValid ? dateTime : undefined);
+  @HostListener('blur', ['$event.target.value'])
+  public onBlur(rawInput: string | undefined) {
+    const parsedDate = this.utilityService.parseDate(rawInput);
+    const currentDate = DateTime.fromJSDate(this.datePicker?.datepicker('getDate'));
+
+    if (parsedDate?.equals(currentDate))
+      return;
+
+    if (parsedDate?.isValid) {
+      this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
+      this.emitValue(parsedDate);
+    } else {
+      this.elementRef.nativeElement.value = '';
+      this.emitValue(undefined);
+    }
   }
 
   public ngAfterViewInit(): void {
