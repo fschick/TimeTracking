@@ -87,7 +87,7 @@ export class NumericDirective implements ControlValueAccessor {
     const fractionDigits = this.tsNumeric?.fractionDigits;
     const newValue = this.utilityService.parseNumber(rawInput, fractionDigits);
 
-    const options = fractionDigits ? {minimumFractionDigits: fractionDigits} : undefined;
+    const options = fractionDigits ? {minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits} : undefined;
     const newRawInput = this.utilityService.formatNumber(newValue, options);
 
     if (newRawInput !== rawInput) {
@@ -98,7 +98,7 @@ export class NumericDirective implements ControlValueAccessor {
 
   public writeValue(value: number | undefined): void {
     const fractionDigits = this.tsNumeric?.fractionDigits;
-    const options = fractionDigits ? {minimumFractionDigits: fractionDigits} : undefined;
+    const options = fractionDigits ? {minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits} : undefined;
     const newRawInput = this.utilityService.formatNumber(value, options);
     this.setRawInput(newRawInput);
   }

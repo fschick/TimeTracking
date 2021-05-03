@@ -87,7 +87,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
         cssHeadCell: headCellMdCss,
         cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate,
-        format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
+        format: (row) => row.dueDate.toFormat(this.localizationService.dateTime.dateFormat)
       },
       {
         title: $localize`:@@Common.Action:[i18n] Action`,
