@@ -1,5 +1,7 @@
 # FS.TimeTracking
 
+Time tracking software for freelancers. Still under active development.
+
 ### Configuration files
 
 ##### Application / Service / Kestrel configuration
