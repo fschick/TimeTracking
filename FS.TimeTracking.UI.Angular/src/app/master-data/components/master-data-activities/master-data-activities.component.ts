@@ -87,7 +87,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   }
 
   public dataCellClick($event: DataCellClickEvent<ActivityListDto>): void {
-    if ($event.column.customId === 'delete') {
+    if ($event.column.customId !== 'delete') {
       // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
     }
