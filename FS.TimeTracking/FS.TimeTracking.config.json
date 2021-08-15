@@ -1,5 +1,6 @@
 {
   "TimeTracking": {
+    "WorkingDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
     "Database": {
       "Type": "Memory",
       "ConnectionString": "<database>"

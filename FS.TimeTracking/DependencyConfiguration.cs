@@ -13,6 +13,8 @@ namespace FS.TimeTracking
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
+            services.AddSingleton<IWorkDaysService, WorkDaysService>();
+
             //services.AddDbContextPool<TimeTrackingDbContext>(o => { });
             services.AddDbContext<TimeTrackingDbContext>();
             services.AddScoped<IRepository, Repository<TimeTrackingDbContext>>();

@@ -4,7 +4,7 @@ using System.Linq;
 namespace FS.TimeTracking.Shared.Extensions
 {
     /// <summary>
-    /// Extension methods to handle convert NULL-References to an empty instance/array/enumerable.
+    /// Extension methods to convert NULL-References to an empty instance/array/enumerable.
     /// </summary>
     public static class EmptyIfNullExtensions
     {

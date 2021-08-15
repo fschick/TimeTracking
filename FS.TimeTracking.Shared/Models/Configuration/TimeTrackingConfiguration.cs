@@ -1,4 +1,7 @@
-﻿namespace FS.TimeTracking.Shared.Models.Configuration
+﻿using System;
+using System.Collections.Generic;
+
+namespace FS.TimeTracking.Shared.Models.Configuration
 {
     /// <summary>
     /// Global application configuration
@@ -9,6 +12,11 @@
         /// The configuration section bind to.
         /// </summary>
         public const string CONFIGURATION_SECTION = "TimeTracking";
+
+        /// <summary>
+        /// Gets or sets the working days.
+        /// </summary>
+        public IEnumerable<DayOfWeek> WorkingDays { get; set; }
 
         /// <summary>
         /// Gets or sets the database configuration.
