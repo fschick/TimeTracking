@@ -49,7 +49,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
       .pipe(this.entityService.replaceEntityWithListDto(this.activityService))
       .subscribe(changedEvent => {
           const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
-          return this.rows = [...updatedRows];
+          this.rows = [...updatedRows];
         }
       );
     this.subscriptions.add(activityChanged);
@@ -84,10 +84,6 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  public getDataCellValue(row: ActivityListDto, column: Column<ActivityListDto>): string {
-    return this.activityTable?.getCellValue(row, column) ?? '';
   }
 
   public dataCellClick($event: DataCellClickEvent<ActivityListDto>): void {

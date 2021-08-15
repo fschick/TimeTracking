@@ -44,9 +44,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.customerService.list().pipe(single()).subscribe(x => this.rows = x);
     const customerChanged = this.entityService.customerChanged
-      .subscribe((changedEvent: EntityChanged<CustomerDto>) =>
-        this.rows = [...this.entityService.updateCollection(this.rows, 'id', changedEvent)]
-      );
+      .subscribe((changedEvent: EntityChanged<CustomerDto>) => {
+        const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
+        this.rows = [...updatedRows];
+      });
     this.subscriptions.add(customerChanged);
 
     this.configuration = {
@@ -89,7 +90,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     return this.customerTable?.getCellValue(row, column) ?? '';
   }
 
-  dataCellClick($event: DataCellClickEvent<CustomerDto>) {
+  public dataCellClick($event: DataCellClickEvent<CustomerDto>) {
     if ($event.column.customId !== 'delete') {
       // noinspection JSIgnoredPromiseFromCall
       this.router.navigate([$event.row.id], {relativeTo: this.route});
