@@ -13,4 +13,8 @@ export class StorageService {
   public set(key: string, value: string) {
     localStorage.setItem(this.storagePrefix + key, value);
   }
+
+  public remove(key: string): void {
+    localStorage.removeItem(this.storagePrefix + key);
+  }
 }

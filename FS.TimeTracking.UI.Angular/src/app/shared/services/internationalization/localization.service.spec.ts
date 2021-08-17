@@ -35,11 +35,13 @@ describe('LocalizationService', () => {
 
 
   it('should return \'MM/dd/yyyy\' as date format for english', () => {
+    service.dateTime.removeDateFormat();
     service.language = 'en';
     expect(service.dateTime.dateFormat).toBe('MM/dd/yyyy');
   });
 
   it('should return \'dd.MM.yyyy\' as date format for german', () => {
+    service.dateTime.removeDateFormat();
     service.language = 'de';
     expect(service.dateTime.dateFormat).toBe('dd.MM.yyyy');
   });

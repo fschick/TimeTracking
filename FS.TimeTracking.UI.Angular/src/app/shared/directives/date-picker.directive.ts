@@ -52,8 +52,10 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     const parsedDate = this.utilityService.parseDate(rawInput);
     const currentDate = DateTime.fromJSDate(this.datePicker?.datepicker('getDate'));
 
-    if (parsedDate?.equals(currentDate))
+    if (parsedDate?.equals(currentDate)) {
+      this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
       return;
+    }
 
     if (parsedDate?.isValid) {
       this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);

@@ -85,28 +85,69 @@ export class UtilityService {
     if (!rawInput)
       return undefined;
 
-    // const dateFormat = this.localizationService.dateTime.dateFormat;
-    // const formatPattern = new RegExp('([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)');
-    // const formatParts = dateFormat.match(formatPattern);
-    // if (formatParts === null)
-    //   return undefined;
-
-    const formatParts = ['dd', 'MM', 'yyyy'];
-    const valuePattern = new RegExp('\\s*(\\d{1,2})?(?:\\D*(\\d{1,2}))?(?:\\D*(\\d{2,4}))?');
-    const valueParts = rawInput.match(valuePattern);
-    if (valueParts === null)
+    const dateFormat = this.localizationService.dateTime.dateFormat;
+    const formatPattern = new RegExp('([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)[^A-Za-z]+([A-Za-z]+)');
+    const formatParts = dateFormat.match(formatPattern);
+    if (formatParts === null)
       return undefined;
 
-    let day: number | undefined;
-    let month: number | undefined;
-    let year: number | undefined;
+    const firstPartLength = formatParts[1].startsWith('yy') ? '{1,4}' : '{1,2}';
+    const secondPartLength = formatParts[2].startsWith('yy') ? '{1,4}' : '{1,2}';
+    const thirdPartLength = formatParts[3].startsWith('yy') ? '{1,4}' : '{1,2}';
 
-    for (let index = 1; index < valueParts.length; index++) {
-      const formatPart = formatParts[index - 1];
-      let valuePart: number | undefined = parseFloat(valueParts[index]);
-      if (isNaN(valuePart))
-        valuePart = undefined;
+    const todayPattern = new RegExp('^\\s+$');
+    const dayPattern = new RegExp('^\\s*(\\d{1,2})\\s*$');
+    const monthAndDayPattern = new RegExp('^\\s*(\\d{1,2})\\D*(\\d{1,2})\\s*$');
+    const monthDayAndYearPattern = new RegExp(`^\\s*(\\d${firstPartLength})\\D*(\\d${secondPartLength})\\D*(\\d${thirdPartLength})\\s*$`);
 
+    const todayParts = rawInput.match(todayPattern);
+    const dayValueParts = rawInput.match(dayPattern);
+    const monthAndDayValueParts = rawInput.match(monthAndDayPattern);
+    const monthDayAndYearValueParts = rawInput.match(monthDayAndYearPattern);
+
+    if (todayParts)
+      return this.parseToday();
+    if (dayValueParts)
+      return this.parseDay(dayValueParts);
+    if (monthAndDayValueParts)
+      return this.parseMonthAndDay(formatParts, monthAndDayValueParts);
+    if (monthDayAndYearValueParts)
+      return this.parseMonthDayAndYear(formatParts, monthDayAndYearValueParts);
+    return undefined;
+  }
+
+  private parseToday(): DateTime {
+    const now = DateTime.now();
+    return DateTime.local(now.year, now.month, now.day);
+  }
+
+  private parseDay(valueParts: RegExpMatchArray): DateTime {
+    const now = DateTime.now();
+    const day = parseFloat(valueParts[1]);
+    return DateTime.local(now.year, now.month, day);
+  }
+
+  private parseMonthAndDay(formatParts: RegExpMatchArray, valueParts: RegExpMatchArray): DateTime | undefined {
+    const dayPartIndex = formatParts.findIndex(x => x.startsWith('d'));
+    const monthPartIndex = formatParts.findIndex(x => x.startsWith('M'));
+    const dayIsFirst = dayPartIndex < monthPartIndex;
+
+    const now = DateTime.now();
+    const day = parseFloat(dayIsFirst ? valueParts[1] : valueParts[2]);
+    const month = parseFloat(dayIsFirst ? valueParts[2] : valueParts[1]);
+    return DateTime.local(now.year, month, day);
+  }
+
+  private parseMonthDayAndYear(formatParts: RegExpMatchArray, valueParts: RegExpMatchArray): DateTime | undefined {
+    const now = DateTime.now();
+
+    let day = -1;
+    let month = -1;
+    let year = -1;
+
+    for (let index = 1; index < formatParts.length; index++) {
+      const formatPart = formatParts[index];
+      const valuePart = parseFloat(valueParts[index]);
       switch (formatPart) {
         case 'd':
         case 'dd':
@@ -122,14 +163,6 @@ export class UtilityService {
           break;
       }
     }
-
-    const now = DateTime.now();
-    if (day === undefined)
-      day = now.day;
-    if (month === undefined)
-      month = now.month;
-    if (year === undefined)
-      year = now.year;
 
     if (year < 100) {
       const century = Math.floor(now.year / 100) * 100;

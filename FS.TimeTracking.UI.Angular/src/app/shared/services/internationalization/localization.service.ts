@@ -61,6 +61,10 @@ class DateTimeFormats {
     this.storageService.set(this.dateFormatKey, value);
   }
 
+  public removeDateFormat() {
+    this.storageService.remove(this.dateFormatKey);
+  }
+
   public get timeFormat(): string {
     return this.storageService.get(this.timeFormatKey, this.guessedTimeFormat);
   }
@@ -69,12 +73,20 @@ class DateTimeFormats {
     this.storageService.set(this.timeFormatKey, value);
   }
 
+  public removeTimeFormat() {
+    this.storageService.remove(this.timeFormatKey);
+  }
+
   public get dateTimeFormat(): string {
     return this.storageService.get(this.dateTimeFormatKey, this.guessedDateTimeFormat);
   }
 
   public set dateTimeFormat(value: string) {
     this.storageService.set(this.dateTimeFormatKey, value);
+  }
+
+  public removeDateTimeFormat() {
+    this.storageService.remove(this.dateTimeFormatKey);
   }
 
   private guessDateFormat(): string {

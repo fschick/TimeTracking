@@ -1,12 +1,15 @@
 import {TestBed} from '@angular/core/testing';
 import {UtilityService} from './utility.service';
 import {DateTime} from 'luxon';
+import {LocalizationService} from './internationalization/localization.service';
 
 describe('UtilityService', () => {
   let service: UtilityService;
+  let localizationService: LocalizationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
+    localizationService = TestBed.inject(LocalizationService);
     service = TestBed.inject(UtilityService);
   });
 
@@ -54,23 +57,80 @@ describe('UtilityService', () => {
 
   it('parseDate should work as expected ', () => {
     const now = DateTime.local();
-    expect(service.parseDate('')).toBe(undefined);
-    expect(service.parseDate(' ')?.toString()).toBe(DateTime.local(now.year, now.month, now.day).toString());
+    let parsedDate: DateTime | undefined;
+    let expectedDate: DateTime | undefined;
 
-    expect(service.parseDate(`${now.day - 1}`)?.toString()).toBe(DateTime.local(now.year, now.month, now.day - 1).toString());
-    expect(service.parseDate(`${now.day - 1} ${now.month - 1} `)?.toString()).toBe(DateTime.local(now.year, now.month - 1, now.day - 1).toString());
-    expect(service.parseDate(`${now.day - 1} ${now.month - 1} ${now.year - 1} `)?.toString()).toBe(DateTime.local(now.year - 1, now.month - 1, now.day - 1).toString());
+    // Empty input
+    parsedDate = service.parseDate('');
+    expectedDate = undefined;
+    expect(parsedDate?.toString()).toBe(expectedDate);
 
-    expect(service.parseDate(`02 04 1938`)?.toString()).toBe(DateTime.local(1938, 4, 2).toString());
-    expect(service.parseDate(`2 04 1938`)?.toString()).toBe(DateTime.local(1938, 4, 2).toString());
-    expect(service.parseDate(`02 4 1938`)?.toString()).toBe(DateTime.local(1938, 4, 2).toString());
-    expect(service.parseDate(` 2 4 1938`)?.toString()).toBe(DateTime.local(1938, 4, 2).toString());
+    parsedDate = service.parseDate(' ');
+    expectedDate = DateTime.local(now.year, now.month, now.day);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
 
-    expect(service.parseDate(`02 04 20`)?.toString()).toBe(DateTime.local(2020, 4, 2).toString());
-    expect(service.parseDate(`02 04 80`)?.toString()).toBe(DateTime.local(1980, 4, 2).toString());
+    // Relative input
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`${now.day - 1}`);
+    expectedDate = DateTime.local(now.year, now.month, now.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
 
-    expect(service.parseDate(`020420`)?.toString()).toBe(DateTime.local(2020, 4, 2).toString());
-    expect(service.parseDate(`0204`)?.toString()).toBe(DateTime.local(now.year, 4, 2).toString());
-    expect(service.parseDate(`024`)?.toString()).toBe(DateTime.local(now.year, 4, 2).toString());
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`${now.day - 1} ${now.month - 1} `);
+    expectedDate = DateTime.local(now.year, now.month - 1, now.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`${now.day - 1} ${now.month - 1} ${now.year - 1} `);
+    expectedDate = DateTime.local(now.year - 1, now.month - 1, now.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    // Fixed input, 4-digit year
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`02 04 1938`);
+    expectedDate = DateTime.local(1938, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`2 04 1938`);
+    expectedDate = DateTime.local(1938, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`02 4 1938`);
+    expectedDate = DateTime.local(1938, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(` 2 4 1938`);
+    expectedDate = DateTime.local(1938, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    // Fixed input, 2-digit year
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`02 04 20`);
+    expectedDate = DateTime.local(2020, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`02 04 80`);
+    expectedDate = DateTime.local(1980, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    // Fixed input, partial values
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`020420`);
+    expectedDate = DateTime.local(2020, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`0204`);
+    expectedDate = DateTime.local(now.year, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+
+    localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
+    parsedDate = service.parseDate(`024`);
+    expectedDate = DateTime.local(now.year, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString());
   });
 });
