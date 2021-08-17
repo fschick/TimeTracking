@@ -12,7 +12,9 @@ import {loadTranslations} from '@angular/localize';
 import translationsEN from '../locale/messages.en.json';
 import translationsDE from '../locale/messages.de.json';
 import localeEN from '@angular/common/locales/en';
-import localeDE from '@angular/common/locales/de';
+import localeDeDE from '@angular/common/locales/de';
+import localeDeCH from '@angular/common/locales/de-CH';
+import localeDeAT from '@angular/common/locales/de-AT';
 import {registerLocaleData} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
@@ -31,12 +33,13 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
-import { ApiDateTimeInterceptorInterceptor } from './shared/services/error-handling/api-date-time-interceptor.interceptor';
+import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
-import { LocalizationService } from './shared/services/internationalization/localization.service';
-import { NumericDirective } from './shared/directives/numeric.directive';
-import { DatePickerDirective } from './shared/directives/date-picker.directive';
+import {LocalizationService} from './shared/services/internationalization/localization.service';
+import {NumericDirective} from './shared/directives/numeric.directive';
+import {DatePickerDirective} from './shared/directives/date-picker.directive';
+import {Settings} from 'luxon';
 
 @NgModule({
   declarations: [
@@ -103,7 +106,19 @@ export class AppModule {
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function configurationLoaderFactory(localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
-    const translations = localizationService.language === 'de' ? translationsDE : translationsEN;
+    let translations: any;
+    switch (localizationService.language) {
+      case 'de':
+      case 'de-DE':
+      case 'de-CH':
+      case 'de-AT':
+        translations = translationsDE;
+        break;
+      default:
+        translations = translationsEN;
+        break;
+    }
+
     loadTranslations(flattenTranslations(translations));
 
     ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
@@ -118,8 +133,23 @@ export function configurationLoaderFactory(localizationService: LocalizationServ
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function localeLoaderFactory(localizationService: LocalizationService) {
-  const locale = localizationService.language === 'de' ? localeDE : localeEN;
+  let locale: any;
+  switch (localizationService.language) {
+    case 'de':
+    case 'de-DE':
+      locale = localeDeDE;
+      break;
+    case 'de-CH':
+      locale = localeDeCH;
+      break;
+    case 'de-AT':
+      locale = localeDeAT;
+      break;
+    default:
+      locale = localeEN;
+  }
   registerLocaleData(locale);
+  Settings.defaultLocale = localizationService.language;
   return localizationService.language;
 }
 
