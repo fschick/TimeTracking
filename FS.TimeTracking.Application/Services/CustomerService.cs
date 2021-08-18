@@ -20,7 +20,7 @@ namespace FS.TimeTracking.Application.Services
         { }
 
         /// <inheritdoc />
-        public override async Task<List<CustomerListDto>> List(Guid? id, CancellationToken cancellationToken = default)
+        public override async Task<List<CustomerListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
             => (await base.List(id, cancellationToken)).OrderBy(x => x.Title).ToList();
     }
 }

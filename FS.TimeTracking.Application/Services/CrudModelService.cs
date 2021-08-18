@@ -38,7 +38,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <inheritdoc />
-        public virtual async Task<List<TListDto>> List(Guid? id, CancellationToken cancellationToken = default)
+        public virtual async Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
             => await Repository
                 .Get<TModel, TListDto>(
                     where: id.HasValue ? x => x.Id == id : null,

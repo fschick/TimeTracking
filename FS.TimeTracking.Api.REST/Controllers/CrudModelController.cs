@@ -26,7 +26,7 @@ namespace FS.TimeTracking.Api.REST.Controllers
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TListDto>> List(Guid? id, CancellationToken cancellationToken = default)
+        public Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
             => _modelService.List(id, cancellationToken);
 
         /// <inheritdoc />
