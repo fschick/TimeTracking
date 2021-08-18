@@ -40,6 +40,8 @@ import {LocalizationService} from './shared/services/internationalization/locali
 import {NumericDirective} from './shared/directives/numeric.directive';
 import {DatePickerDirective} from './shared/directives/date-picker.directive';
 import {Settings} from 'luxon';
+import {TimePipe} from './shared/pipes/time.pipe';
+import {DatePipe} from './shared/pipes/date.pipe';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import {Settings} from 'luxon';
     MasterDataOrdersEditComponent,
     NumericDirective,
     DatePickerDirective,
+    DatePipe,
+    TimePipe,
   ],
   imports: [
     BrowserModule,
@@ -80,24 +84,27 @@ import {Settings} from 'luxon';
       new Configuration({basePath: environment.apiBasePath})
     ),
   ],
-  providers: [{
-    provide: APP_INITIALIZER,
-    useFactory: configurationLoaderFactory,
-    deps: [LocalizationService, NgSelectConfig],
-    multi: true
-  }, {
-    provide: LOCALE_ID,
-    useFactory: localeLoaderFactory,  //returns locale string,
-    deps: [LocalizationService]
-  }, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ApiDateTimeInterceptorInterceptor,
-    multi: true
-  }, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ApiErrorInterceptor,
-    multi: true
-  }],
+  providers: [
+    DatePipe,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configurationLoaderFactory,
+      deps: [LocalizationService, NgSelectConfig],
+      multi: true
+    }, {
+      provide: LOCALE_ID,
+      useFactory: localeLoaderFactory,  //returns locale string,
+      deps: [LocalizationService]
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiDateTimeInterceptorInterceptor,
+      multi: true
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
