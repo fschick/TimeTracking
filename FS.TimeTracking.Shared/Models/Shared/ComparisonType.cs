@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Shared.Models.Shared
         Equal,
 
         /// <summary>
-        /// Properties not equal
+        /// Properties are not equal
         /// </summary>
         NotEqual,
 
@@ -24,7 +24,7 @@ namespace FS.TimeTracking.Shared.Models.Shared
         LessThan,
 
         /// <summary>
-        /// Validated property is less than or equal other property
+        /// Validated property is less than or equal to other property
         /// </summary>
         LessThanOrEqual,
 
@@ -34,7 +34,7 @@ namespace FS.TimeTracking.Shared.Models.Shared
         GreaterThan,
 
         /// <summary>
-        /// Validated property is greater or equal than other property
+        /// Validated property is greater than or equal to other property
         /// </summary>
         GreaterThanOrEqual,
     }
