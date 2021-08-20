@@ -4,6 +4,7 @@ using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,11 +40,7 @@ namespace FS.TimeTracking.Application.Services
 
         /// <inheritdoc />
         public virtual async Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
-            => await Repository
-                .Get<TModel, TListDto>(
-                    where: id.HasValue ? x => x.Id == id : null,
-                    cancellationToken: cancellationToken
-                );
+            => await ListInternal(id, null, cancellationToken);
 
         /// <inheritdoc />
         public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
@@ -76,5 +73,19 @@ namespace FS.TimeTracking.Application.Services
             await Repository.Remove<TModel>(x => x.Id == id);
             return await Repository.SaveChanges();
         }
+
+        /// <summary>
+        /// Gets all items as flat list
+        /// </summary>
+        /// <param name="id">When specified, only the entity with the given GUID is returned.</param>
+        /// <param name="orderBy">A function to order the result.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+        protected async Task<List<TListDto>> ListInternal(Guid? id = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, CancellationToken cancellationToken = default)
+            => await Repository
+                .Get<TModel, TListDto>(
+                    where: id.HasValue ? x => x.Id == id : null,
+                    orderBy: orderBy,
+                    cancellationToken: cancellationToken
+                );
     }
 }
