@@ -19,7 +19,7 @@ namespace FS.TimeTracking.Application.Services
         private readonly IWorkDaysService _workDaysService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestDataService" /> class.
+        /// Initializes a new instance of the <see cref="TestDataService"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// <param name="workDaysService">The work days service.</param>
@@ -35,8 +35,8 @@ namespace FS.TimeTracking.Application.Services
             const string locale = "de";
             static string comment(Faker faker) => faker.Lorem.Sentences(faker.Random.Number(0, 3), ".");
             static bool hidden(Faker faker) => faker.Random.WeightedRandom(new[] { true, false }, new[] { .2f, .8f });
-            var referenceDate = DateTimeOffset.Now.Date.AddYears(amount / 10 * -1);
             var random = new Random();
+            var createdModified = DateTime.UtcNow;
 
             var customers = new Faker<Customer>(locale)
                 .StrictMode(true)
@@ -50,8 +50,8 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Country, new RegionInfo(locale).NativeName)
                 .RuleFor(x => x.Comment, comment)
                 .RuleFor(x => x.Hidden, hidden)
-                .RuleFor(x => x.Created, default(DateTime))
-                .RuleFor(x => x.Modified, default(DateTime))
+                .RuleFor(x => x.Created, createdModified)
+                .RuleFor(x => x.Modified, createdModified)
                 .RuleFor(x => x.Projects, _ => default)
                 .RuleFor(x => x.Orders, _ => default)
                 .Generate(amount)
@@ -65,8 +65,8 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(project => project.Customer, _ => default)
                 .RuleFor(project => project.Comment, (_, project) => ProjectCodeNames.GetDescription(project.Title))
                 .RuleFor(project => project.Hidden, hidden)
-                .RuleFor(project => project.Created, default(DateTime))
-                .RuleFor(project => project.Modified, default(DateTime))
+                .RuleFor(project => project.Created, createdModified)
+                .RuleFor(project => project.Modified, createdModified)
                 .Generate(amount * 2)
                 .ToList();
 
@@ -79,11 +79,12 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(activity => activity.Project, _ => default)
                 .RuleFor(activity => activity.Comment, comment)
                 .RuleFor(activity => activity.Hidden, hidden)
-                .RuleFor(activity => activity.Created, default(DateTime))
-                .RuleFor(activity => activity.Modified, default(DateTime))
+                .RuleFor(activity => activity.Created, createdModified)
+                .RuleFor(activity => activity.Modified, createdModified)
                 .Generate(Math.Min(amount, DevelopmentActivities.Activities.Count))
                 .ToList();
 
+            var referenceDate = DateTimeOffset.UtcNow.Date.AddYears(amount / 10 * -1);
             var orderDate = referenceDate.AddDays(random.Next(-15, 15));
             var orders = new Faker<Order>(locale)
                 .StrictMode(true)
@@ -95,7 +96,7 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(order => order.Customer, _ => default)
                 .RuleFor(order => order.StartDateUtc, default(DateTime))
                 .RuleFor(order => order.StartDateOffset, default(double))
-                .RuleFor(order => order.StartDate, faker => orderDate)
+                .RuleFor(order => order.StartDate, _ => orderDate)
                 .RuleFor(order => order.DueDateUtc, default(DateTime))
                 .RuleFor(order => order.DueDateOffset, default(double))
                 .RuleFor(order => order.DueDate, faker => orderDate.AddDays(faker.Random.Number(15, 120)))
@@ -103,13 +104,13 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(order => order.Budget, (faker, order) => (order.DueDate - order.StartDate).TotalDays * 8 * order.HourlyRate * faker.Random.Double(0.8, 1.2))
                 .RuleFor(order => order.Comment, comment)
                 .RuleFor(order => order.Hidden, hidden)
-                .RuleFor(order => order.Created, default(DateTime))
-                .RuleFor(order => order.Modified, default(DateTime))
+                .RuleFor(order => order.Created, createdModified)
+                .RuleFor(order => order.Modified, createdModified)
                 .FinishWith((faker, _) => orderDate = orderDate.AddDays(faker.Random.Number(30, 90)))
                 .Generate((int)(amount / 2d))
                 .ToList();
 
-            var timesheetRules = new Faker<TimeSheet>() { }
+            var timesheetRules = new Faker<TimeSheet>()
                 .RuleFor(timeSheet => timeSheet.Id, faker => faker.Random.Uuid())
                 //.RuleFor(timeSheet => timeSheet.ProjectId, faker => faker.PickRandom(projects.Select(c => c.Id)))
                 //.RuleFor(timeSheet => timeSheet.OrderId, faker => faker.PickRandom(orders.Select(c => c.Id)))
@@ -123,8 +124,8 @@ namespace FS.TimeTracking.Application.Services
                 //.RuleFor(timeSheet => timeSheet.EndDate, faker => timesheetDate = timesheetDate.AddMinutes(faker.Random.Number((int)TimeSpan.FromHours(8).TotalMinutes)))
                 .RuleFor(timeSheet => timeSheet.Billable, faker => faker.Random.Bool())
                 .RuleFor(timeSheet => timeSheet.Comment, comment)
-                .RuleFor(timeSheet => timeSheet.Created, default(DateTime))
-                .RuleFor(timeSheet => timeSheet.Modified, default(DateTime));
+                .RuleFor(timeSheet => timeSheet.Created, createdModified)
+                .RuleFor(timeSheet => timeSheet.Modified, createdModified);
 
             var timesSheets = new List<TimeSheet>();
             var minDate = orders.Min(x => x.StartDateUtc);
