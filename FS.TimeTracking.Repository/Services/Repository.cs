@@ -4,6 +4,7 @@ using EFCore.BulkExtensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using LinqToDB;
+using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -143,7 +144,8 @@ namespace FS.TimeTracking.Repository.Services
                 SqlBulkCopyOptions = SqlBulkCopyOptions.KeepIdentity | SqlBulkCopyOptions.CheckConstraints
             };
 
-            await _dbContext.BulkInsertAsync(entities, bulkConfig, cancellationToken: cancellationToken);
+            var bulkCopyOptions = new BulkCopyOptions { KeepIdentity = true };
+            await _dbContext.BulkCopyAsync(bulkCopyOptions, entities, cancellationToken);
             return entities;
         }
 
