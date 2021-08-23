@@ -32,11 +32,11 @@ namespace FS.TimeTracking.Repository.DbContexts
         }
 
         /// <inheritdoc />
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             LinqToDBForEFTools.Initialize();
 
-            options
+            optionsBuilder
                 .UseLoggerFactory(_loggerFactory)
                 .EnableSensitiveDataLogging(_environment.IsDevelopment);
 
@@ -47,20 +47,20 @@ namespace FS.TimeTracking.Repository.DbContexts
             switch (_configuration.Database.Type)
             {
                 case DatabaseType.SqLite:
-                    options.UseSqlite(connectionString, o => o.MigrationsAssembly(migrationAssembly));
+                    optionsBuilder.UseSqlite(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 case DatabaseType.SqlServer:
-                    options.UseSqlServer(connectionString, o => o.MigrationsAssembly(migrationAssembly));
+                    optionsBuilder.UseSqlServer(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 case DatabaseType.PostgreSql:
-                    options.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationAssembly));
+                    optionsBuilder.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 case DatabaseType.MySql:
                     var serverVersion = ServerVersion.AutoDetect(connectionString);
-                    options.UseMySql(connectionString, serverVersion, o => o.MigrationsAssembly(migrationAssembly));
+                    optionsBuilder.UseMySql(connectionString, serverVersion, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(null, "Configured database type is unsupported");
             }
         }
 
