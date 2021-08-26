@@ -144,12 +144,14 @@ namespace FS.TimeTracking.Repository.Services
                     FROM pg_proc p 
                     INNER JOIN pg_namespace ns ON (p.pronamespace = ns.oid)
                     WHERE ns.nspname = 'public';",
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
                 DatabaseType.MySql => $@"
                     SELECT NULL, routine_name AS Name
                     FROM information_schema.routines
                     WHERE routine_schema NOT IN ('sys', 'mysql', 'information_schema', 'performance_schema')
                     AND routine_type = 'FUNCTION'
                     AND routine_schema = '{_dbContext.Database.GetDbConnection().Database}'",
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
                 _ => throw new ArgumentOutOfRangeException()
             };
 
