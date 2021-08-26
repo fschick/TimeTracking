@@ -1,4 +1,6 @@
-﻿using FS.TimeTracking.Shared.Models.Configuration;
+﻿using FS.TimeTracking.Repository.DbFunctions;
+using FS.TimeTracking.Shared.Interfaces.Models;
+using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,7 @@ namespace FS.TimeTracking.Repository.DbContexts
             {
                 case DatabaseType.SqLite:
                     optionsBuilder.UseSqlite(connectionString, o => o.MigrationsAssembly(migrationAssembly));
+                    optionsBuilder.RegisterSqLiteDateTimeFunctions();
                     break;
                 case DatabaseType.SqlServer:
                     optionsBuilder.UseSqlServer(connectionString, o => o.MigrationsAssembly(migrationAssembly));
@@ -68,6 +71,8 @@ namespace FS.TimeTracking.Repository.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.RegisterDateTimeFunctions(_configuration.Database.Type);
 
             ConfigureCustomer(modelBuilder.Entity<Customer>());
             ConfigureProject(modelBuilder.Entity<Project>());
@@ -161,22 +166,15 @@ namespace FS.TimeTracking.Repository.DbContexts
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
 
-            var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>
-            (
-                v => v.HasValue ? v.Value.ToUniversalTime() : null,
-                v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : null
-            );
-
             var properties = modelBuilder.Model
                 .GetEntityTypes()
+                .Where(x => x.ClrType.GetInterface(nameof(IEntityModel)) != null)
                 .SelectMany(entityType => entityType.GetProperties())
+                .Where(x => x.Name == nameof(IEntityModel.Created) || x.Name == nameof(IEntityModel.Modified))
                 .ToList();
 
             foreach (var property in properties)
-                if (property.ClrType == typeof(DateTime))
-                    property.SetValueConverter(dateTimeConverter);
-                else if (property.ClrType == typeof(DateTime?))
-                    property.SetValueConverter(nullableDateTimeConverter);
+                property.SetValueConverter(dateTimeConverter);
         }
     }
 }

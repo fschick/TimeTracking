@@ -129,11 +129,11 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<double>("DueDateOffset")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("DueDateUtc")
+                    b.Property<DateTime>("DueDateLocal")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DueDateOffset")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("boolean");
@@ -148,11 +148,11 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -221,11 +221,11 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<double?>("EndDateOffset")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime?>("EndDateUtc")
+                    b.Property<DateTime?>("EndDateLocal")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("EndDateOffset")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Issue")
                         .HasColumnType("text");
@@ -239,11 +239,11 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -1,4 +1,5 @@
 ﻿#if DEBUG
+using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
@@ -23,9 +24,9 @@ namespace FS.TimeTracking.Application.Services
         /// <inheritdoc />
         public async Task<object> TestMethod(CancellationToken cancellationToken = default)
         {
-            await _repository.Add(new Customer { Title = "Test" }, cancellationToken);
-            await _repository.SaveChanges(cancellationToken);
-            var customer = await _repository.FirstOrDefault((Customer x) => x, cancellationToken: cancellationToken);
+            var d1 = await _repository.Get((Order x) => x.StartDateLocal, cancellationToken: cancellationToken);
+            var d2 = await _repository.Get((Order x) => x.StartDateLocal.ToUtc(120), cancellationToken: cancellationToken);
+            var d3 = await _repository.Get((Order x) => x.StartDateLocal.ToUtc(x.StartDateOffset), cancellationToken: cancellationToken);
             return Task.FromResult<object>(1);
         }
     }

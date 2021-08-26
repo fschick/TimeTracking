@@ -44,14 +44,14 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Customer Customer { get; set; }
 
         /// <summary>
-        /// Gets the start date in UTC.
+        /// Gets the start date in local time.
         /// </summary>
-        public DateTime StartDateUtc { get; set; }
+        public DateTime StartDateLocal { get; set; }
 
         /// <summary>
         /// Gets the start date's timezone offset in hours.
         /// </summary>
-        public double StartDateOffset { get; set; }
+        public int StartDateOffset { get; set; }
 
         /// <summary>
         /// Gets the start date.
@@ -60,19 +60,19 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [NotMapped]
         public DateTimeOffset StartDate
         {
-            get => StartDateUtc.ToOffset(TimeSpan.FromHours(StartDateOffset));
-            set { StartDateUtc = value.UtcDateTime; StartDateOffset = value.Offset.TotalHours; }
+            get => StartDateLocal.ToOffset(TimeSpan.FromMinutes(StartDateOffset));
+            set { StartDateLocal = value.DateTime; StartDateOffset = (int)value.Offset.TotalMinutes; }
         }
 
         /// <summary>
-        /// Gets the due date in UTC.
+        /// Gets the due date in local time.
         /// </summary>
-        public DateTime DueDateUtc { get; set; }
+        public DateTime DueDateLocal { get; set; }
 
         /// <summary>
         /// Gets the due date's timezone offset in hours.
         /// </summary>
-        public double DueDateOffset { get; set; }
+        public int DueDateOffset { get; set; }
 
         /// <summary>
         /// Gets the due date.
@@ -82,8 +82,8 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [CompareTo(Shared.ComparisonType.GreaterThan, nameof(StartDate))]
         public DateTimeOffset DueDate
         {
-            get => DueDateUtc.ToOffset(TimeSpan.FromHours(DueDateOffset));
-            set { DueDateUtc = value.UtcDateTime; DueDateOffset = value.Offset.TotalHours; }
+            get => DueDateLocal.ToOffset(TimeSpan.FromMinutes(DueDateOffset));
+            set { DueDateLocal = value.DateTime; DueDateOffset = (int)value.Offset.TotalMinutes; }
         }
 
         /// <summary>

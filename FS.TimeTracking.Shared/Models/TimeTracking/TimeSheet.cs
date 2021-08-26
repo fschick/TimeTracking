@@ -38,14 +38,14 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public string Issue { get; set; }
 
         /// <summary>
-        /// Gets the start date in UTC.
+        /// Gets the start date in local time.
         /// </summary>
-        public DateTime StartDateUtc { get; set; }
+        public DateTime StartDateLocal { get; set; }
 
         /// <summary>
         /// Gets the start date's timezone offset in hours.
         /// </summary>
-        public double StartDateOffset { get; set; }
+        public int StartDateOffset { get; set; }
 
         /// <summary>
         /// Gets the start date.
@@ -54,19 +54,19 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [NotMapped]
         public DateTimeOffset StartDate
         {
-            get => StartDateUtc.ToOffset(TimeSpan.FromHours(StartDateOffset));
-            set { StartDateUtc = value.UtcDateTime; StartDateOffset = value.Offset.TotalHours; }
+            get => StartDateLocal.ToOffset(TimeSpan.FromMinutes(StartDateOffset));
+            set { StartDateLocal = value.DateTime; StartDateOffset = (int)value.Offset.TotalMinutes; }
         }
 
         /// <summary>
         /// Gets the end date in UTC.
         /// </summary>
-        public DateTime? EndDateUtc { get; set; }
+        public DateTime? EndDateLocal { get; set; }
 
         /// <summary>
         /// Gets the end date's timezone offset in hours.
         /// </summary>
-        public double? EndDateOffset { get; set; }
+        public int? EndDateOffset { get; set; }
 
         /// <summary>
         /// Gets the end date.
@@ -74,8 +74,8 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [NotMapped]
         public DateTimeOffset? EndDate
         {
-            get => EndDateUtc.ToOffset(TimeSpan.FromHours(EndDateOffset!.Value));
-            set { EndDateUtc = value?.UtcDateTime; EndDateOffset = value?.Offset.TotalHours; }
+            get => EndDateLocal.ToOffset(TimeSpan.FromMinutes(EndDateOffset!.Value));
+            set { EndDateLocal = value?.DateTime; EndDateOffset = (int?)value?.Offset.TotalMinutes; }
         }
 
         /// <summary>

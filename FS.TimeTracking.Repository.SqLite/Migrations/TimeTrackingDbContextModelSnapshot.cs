@@ -126,11 +126,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("DueDateOffset")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("DueDateUtc")
+                    b.Property<DateTime>("DueDateLocal")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("DueDateOffset")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("INTEGER");
@@ -145,11 +145,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -218,11 +218,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("EndDateOffset")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime?>("EndDateUtc")
+                    b.Property<DateTime?>("EndDateLocal")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("EndDateOffset")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Issue")
                         .HasColumnType("TEXT");
@@ -236,11 +236,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

@@ -22,8 +22,8 @@ namespace FS.TimeTracking.Api.REST.Controllers
 
         /// <inheritdoc />
         [HttpPost]
-        public Task SeedTestData(int amount = 10, bool truncateBeforeSeed = false)
-            => _testDataService.SeedTestData(amount, truncateBeforeSeed);
+        public Task SeedTestData(int amount = 10, string timeZoneId = null, bool truncateBeforeSeed = false)
+            => _testDataService.SeedTestData(amount, timeZoneId, truncateBeforeSeed);
 
         /// <inheritdoc />
         [HttpDelete]

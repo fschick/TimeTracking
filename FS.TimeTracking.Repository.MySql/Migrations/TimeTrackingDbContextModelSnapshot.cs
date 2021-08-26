@@ -127,11 +127,11 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<double>("DueDateOffset")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime>("DueDateUtc")
+                    b.Property<DateTime>("DueDateLocal")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DueDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("tinyint(1)");
@@ -146,11 +146,11 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -219,11 +219,11 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<double?>("EndDateOffset")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime?>("EndDateUtc")
+                    b.Property<DateTime?>("EndDateLocal")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("EndDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<string>("Issue")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -237,11 +237,11 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("char(36)");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

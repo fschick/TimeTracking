@@ -14,19 +14,15 @@ namespace FS.TimeTracking.Shared.Extensions
         /// </summary>
         /// <param name="dateTime">The date time.</param>
         /// <param name="offset">The offset to use.</param>
-        public static DateTimeOffset ToOffset(this DateTime dateTime, TimeSpan? offset)
-        {
-            if (dateTime.Kind == DateTimeKind.Unspecified)
-                throw new ArgumentException($"The kind must not be '{nameof(DateTimeKind.Unspecified)}'", nameof(dateTime));
-            return new DateTimeOffset(dateTime.ToUniversalTime(), TimeSpan.Zero).ToOffset(offset ?? TimeSpan.Zero);
-        }
+        public static DateTimeOffset ToOffset(this DateTime dateTime, TimeSpan offset)
+            => new DateTimeOffset(dateTime, offset);
 
         /// <summary>
         /// Converts a <see cref="DateTime"/> to a <see cref="DateTimeOffset"/> using a given offset.
         /// </summary>
         /// <param name="dateTime">The date time.</param>
         /// <param name="offset">The offset to use.</param>
-        public static DateTimeOffset? ToOffset(this DateTime? dateTime, TimeSpan? offset)
+        public static DateTimeOffset? ToOffset(this DateTime? dateTime, TimeSpan offset)
             => dateTime?.ToOffset(offset);
 
         /// <summary>
@@ -67,5 +63,33 @@ namespace FS.TimeTracking.Shared.Extensions
             => Enumerable
                 .Range(1, dateTime.Day)
                 .Select(day => new DateTime(dateTime.Year, dateTime.Month, day));
+
+        /// <summary>
+        /// Converts a <see cref="DateTime"/> to UTC time using a specific offset.
+        /// </summary>
+        /// <param name="dateTime">The date time expressed as UTC.</param>
+        /// <param name="offset">The offset in minutes to remove.</param>
+        public static DateTime ToUtc(this DateTime dateTime, int offset)
+            => dateTime.AddMinutes(offset * -1);
+
+        /// <summary>
+        /// Converts a <see cref="DateTime"/> to UTC time using a specific offset.
+        /// </summary>
+        /// <param name="dateTime">The date time expressed as UTC.</param>
+        /// <param name="offset">The offset in minutes to remove.</param>
+        public static DateTime? ToUtc(this DateTime? dateTime, int offset)
+            => dateTime.HasValue ? ToUtc(dateTime.Value, offset) : null;
+
+        /// <summary>
+        /// Converts a <see cref="DateTime"/> to <see cref="DateTimeOffset"/> using a given time zone.
+        /// </summary>
+        /// <param name="dateTime">The date/time to convert.</param>
+        /// <param name="timeZone">The time zone to convert the date to.</param>
+        public static DateTimeOffset ConvertTo(this DateTime dateTime, TimeZoneInfo timeZone)
+        {
+            var convertedDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
+            var offset = timeZone.GetUtcOffset(convertedDateTime);
+            return new DateTimeOffset(convertedDateTime, offset);
+        }
     }
 }

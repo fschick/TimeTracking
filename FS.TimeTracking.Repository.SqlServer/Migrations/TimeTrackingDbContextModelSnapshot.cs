@@ -129,11 +129,11 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("DueDateOffset")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DueDateUtc")
+                    b.Property<DateTime>("DueDateLocal")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DueDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("bit");
@@ -148,11 +148,11 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -221,11 +221,11 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("EndDateOffset")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime?>("EndDateUtc")
+                    b.Property<DateTime?>("EndDateLocal")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("EndDateOffset")
+                        .HasColumnType("int");
 
                     b.Property<string>("Issue")
                         .HasColumnType("nvarchar(max)");
@@ -239,11 +239,11 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("StartDateOffset")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("StartDateUtc")
+                    b.Property<DateTime>("StartDateLocal")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
