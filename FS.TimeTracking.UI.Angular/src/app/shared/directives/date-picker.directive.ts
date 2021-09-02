@@ -63,7 +63,15 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePicker = $(this.elementRef.nativeElement) as any;
     this.datePicker
       .datepicker(this.datePickerOptions)
-      .on('hide', () => this.datePicker.focus());
+      .on('hide', () => {
+        this.datePicker.focus();
+      })
+      .on('changeDate', (event: any) => {
+        const parsedDate = DateTime.fromJSDate(event.date);
+        this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
+        this.emitValue(parsedDate);
+      })
+    ;
   }
 
   public writeValue(obj: DateTime): void {
