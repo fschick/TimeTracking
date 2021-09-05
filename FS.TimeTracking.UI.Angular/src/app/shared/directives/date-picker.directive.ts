@@ -93,6 +93,9 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   }
 
   public emitValue(value?: DateTime): void {
+    if ((!this.value && !value) || (value && this.value?.equals(value)))
+      return;
+
     this.value = value;
     this.onChange(this.value);
     this.onTouched();
