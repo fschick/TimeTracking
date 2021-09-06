@@ -1,5 +1,7 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 
+export type ComparisonType = 'equal' | 'notEqual' | 'lessThan' | 'lessThanOrEqual' | 'greaterThan' | 'greaterThanOrEqual';
+
 export class Validators {
   public static compare<TType>(fieldName: keyof TType, otherFieldName: keyof TType): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -9,8 +11,8 @@ export class Validators {
       if (field && otherField && field.value !== otherField.value) {
         return {
           compare: {
-            fieldName,
-            otherFieldName,
+            fieldName: fieldName,
+            otherFieldName: otherFieldName,
             fieldsDoesNotMatch: true,
           }
         };
@@ -20,7 +22,7 @@ export class Validators {
     };
   }
 
-  public static compareTo<TType>(fieldName: keyof TType, otherFieldName: keyof TType, comparisonType: string): ValidatorFn {
+  public static compareTo<TType>(fieldName: keyof TType, otherFieldName: keyof TType, comparisonType: ComparisonType): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const field = control.get(fieldName as string);
       const otherField = control.get(otherFieldName as string);
