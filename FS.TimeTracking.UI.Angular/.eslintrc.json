@@ -48,6 +48,10 @@
             "ignoreTemplateLiterals": true,
             "code": 160
           }
+        ],
+        "object-shorthand": [
+          "off",
+          "consistent"
         ]
       }
     },
