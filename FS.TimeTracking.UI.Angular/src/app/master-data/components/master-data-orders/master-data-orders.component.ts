@@ -6,8 +6,8 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {CustomerDto, OrderListDto, OrderService} from '../../../shared/services/api';
-import {Subscription} from 'rxjs';
+import {OrderListDto, OrderService} from '../../../shared/services/api';
+import {Observable, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -25,7 +25,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderListDto>;
 
-  public rows: OrderListDto[];
+  public rows$: Observable<OrderListDto[]>;
   public columns!: Column<OrderListDto>[];
   public configuration?: Partial<Configuration<OrderListDto>>;
 
@@ -39,21 +39,14 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private localizationService: LocalizationService,
   ) {
-    this.rows = [];
+    this.rows$ = this.orderService.list()
+      .pipe(
+        single(),
+        this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService)
+      );
   }
 
   public ngOnInit(): void {
-    this.orderService.list().pipe(single()).subscribe(x => this.rows = x);
-
-    const orderChanged = this.entityService.orderChanged
-      .pipe(this.entityService.replaceEntityWithListDto(this.orderService))
-      .subscribe(changedEvent => {
-          const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
-          return this.rows = [...updatedRows];
-        }
-      );
-    this.subscriptions.add(orderChanged);
-
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-borderless table-hover small',

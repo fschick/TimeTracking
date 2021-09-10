@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   Column,
   Configuration,
@@ -7,7 +7,7 @@ import {
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
 import {ProjectListDto, ProjectService} from '../../../shared/services/api';
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -19,17 +19,15 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   templateUrl: './master-data-projects.component.html',
   styleUrls: ['./master-data-projects.component.scss']
 })
-export class MasterDataProjectsComponent implements OnInit, OnDestroy {
+export class MasterDataProjectsComponent implements OnInit {
 
   @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectListDto>;
 
-  public rows: ProjectListDto[];
+  public rows$: Observable<ProjectListDto[]>;
   public columns!: Column<ProjectListDto>[];
   public configuration?: Partial<Configuration<ProjectListDto>>;
-
-  private subscriptions = new Subscription();
 
   constructor(
     public guidService: GuidService,
@@ -39,21 +37,14 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     private projectService: ProjectService,
     private localizationService: LocalizationService,
   ) {
-    this.rows = [];
+    this.rows$ = this.projectService.list()
+      .pipe(
+        single(),
+        this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService)
+      );
   }
 
   public ngOnInit(): void {
-    this.projectService.list().pipe(single()).subscribe(x => this.rows = x);
-
-    const projectChanged = this.entityService.projectChanged
-      .pipe(this.entityService.replaceEntityWithListDto(this.projectService))
-      .subscribe(changedEvent => {
-          const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
-          return this.rows = [...updatedRows];
-        }
-      );
-    this.subscriptions.add(projectChanged);
-
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-borderless table-hover small',
@@ -80,10 +71,6 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
         sortable: false
       },
     ];
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   public getDataCellValue(row: ProjectListDto, column: Column<ProjectListDto>): string {

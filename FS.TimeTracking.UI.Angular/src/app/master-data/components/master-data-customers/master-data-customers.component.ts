@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -11,7 +11,7 @@ import {
 } from '../../../shared/components/simple-table/simple-table.component';
 import {single} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EntityChanged, EntityService} from '../../../shared/services/state-management/entity.service';
+import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 
 @Component({
@@ -19,16 +19,14 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   templateUrl: './master-data-customers.component.html',
   styleUrls: ['./master-data-customers.component.scss']
 })
-export class MasterDataCustomersComponent implements OnInit, OnDestroy {
+export class MasterDataCustomersComponent implements OnInit {
   @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<CustomerDto>;
 
-  public rows: CustomerDto[];
+  public rows$: Observable<CustomerDto[]>;
   public columns!: Column<CustomerDto>[];
   public configuration?: Partial<Configuration<CustomerDto>>;
-
-  private subscriptions = new Subscription();
 
   constructor(
     public guidService: GuidService,
@@ -38,18 +36,14 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     private customerService: CustomerService,
     private localizationService: LocalizationService,
   ) {
-    this.rows = [];
+    this.rows$ = this.customerService.list()
+      .pipe(
+        single(),
+        this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService)
+      );
   }
 
   public ngOnInit(): void {
-    this.customerService.list().pipe(single()).subscribe(x => this.rows = x);
-    const customerChanged = this.entityService.customerChanged
-      .subscribe((changedEvent: EntityChanged<CustomerDto>) => {
-        const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
-        this.rows = [...updatedRows];
-      });
-    this.subscriptions.add(customerChanged);
-
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-borderless table-hover small',
@@ -80,10 +74,6 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
         sortable: false
       },
     ];
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   public getDataCellValue(row: CustomerDto, column: Column<CustomerDto>): string {

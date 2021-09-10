@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MasterDataOrdersComponent } from './master-data-orders.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ReactiveComponentModule} from '@ngrx/component';
 
 describe('MasterDataOrdersComponent', () => {
   let component: MasterDataOrdersComponent;
@@ -10,7 +11,7 @@ describe('MasterDataOrdersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule],
+      imports: [HttpClientModule, RouterTestingModule, ReactiveComponentModule],
       declarations: [ MasterDataOrdersComponent ]
     })
       .compileComponents();

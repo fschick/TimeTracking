@@ -11,7 +11,7 @@
   <div class="card-body">
     <ts-simple-table
       [columns]="columns"
-      [rows]="rows"
+      [rows]="rows$ | ngrxPush"
       [configuration]="configuration"
       (dataCellClick)="dataCellClick($event)">
     </ts-simple-table>

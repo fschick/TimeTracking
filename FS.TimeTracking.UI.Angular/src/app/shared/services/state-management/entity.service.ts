@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
+import {merge, Observable, of, Subject} from 'rxjs';
 import {ActivityListDto, CustomerDto, OrderListDto, ProjectListDto} from '../api';
-import {map, single, switchMap} from 'rxjs/operators';
+import {map, single, switchMap, tap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
   entity: TDto;
@@ -25,7 +25,44 @@ export class EntityService {
   public orderChanged: Subject<EntityChanged<OrderListDto>> = new Subject<EntityChanged<OrderListDto>>();
   public activityChanged: Subject<EntityChanged<ActivityListDto>> = new Subject<EntityChanged<ActivityListDto>>();
 
-  public updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
+  public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
+    return (sourceList: Observable<TDto[]>) => {
+      let bufferedSourceList: TDto[] = [];
+
+      const tappedSourceList = sourceList
+        .pipe(tap(list => bufferedSourceList = list));
+
+      const updatedSourceList = entityChanged
+        .pipe(
+          this.replaceEntityWithListDto(crudService),
+          map(changedEvent => {
+            const updatedDtos = this.updateCollection(bufferedSourceList, 'id', changedEvent);
+            bufferedSourceList = [...updatedDtos];
+            return bufferedSourceList;
+          }));
+
+      return merge(tappedSourceList, updatedSourceList);
+    };
+  }
+
+  private replaceEntityWithListDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
+    return (source: Observable<EntityChanged<TDto>>) =>
+      source.pipe(switchMap((changedEvent: EntityChanged<TDto>) => {
+        if (changedEvent.action === 'deleted') {
+          changedEvent.entity = {id: changedEvent.entity.id} as TDto;
+          return of(changedEvent);
+        }
+
+        return crudService
+          .list(changedEvent.entity.id)
+          .pipe(single(), map(entity => {
+            changedEvent.entity = entity[0];
+            return changedEvent;
+          }));
+      }));
+  }
+
+  private updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
     switch (changedEvent?.action) {
       case 'created':
         entities.push(changedEvent.entity);
@@ -43,24 +80,6 @@ export class EntityService {
     }
 
     return entities;
-  }
-
-  public replaceEntityWithListDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
-    return (source: Observable<EntityChanged<TDto>>) =>
-      source.pipe(switchMap((changedEvent: EntityChanged<TDto>) => {
-          if (changedEvent.action === 'deleted') {
-            changedEvent.entity = {id: changedEvent.entity.id} as TDto;
-            return of(changedEvent);
-          }
-
-          return crudService
-            .list(changedEvent.entity.id)
-            .pipe(single(), map(project => {
-              changedEvent.entity = project[0];
-              return changedEvent;
-            }));
-        }
-      ));
   }
 
   // public showUpdateNote(dtoTransUnitId: string) {

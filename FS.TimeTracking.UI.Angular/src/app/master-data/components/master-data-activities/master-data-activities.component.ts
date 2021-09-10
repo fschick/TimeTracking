@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivityListDto, ActivityService} from '../../../shared/services/api';
@@ -10,7 +10,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {single} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 
@@ -19,17 +19,15 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   templateUrl: './master-data-activities.component.html',
   styleUrls: ['./master-data-activities.component.scss']
 })
-export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
+export class MasterDataActivitiesComponent implements OnInit {
 
   @ViewChild(SimpleTableComponent) private activityTable?: SimpleTableComponent<ActivityListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ActivityListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ActivityListDto>;
 
-  public rows: ActivityListDto[];
+  public rows$: Observable<ActivityListDto[]>;
   public columns!: Column<ActivityListDto>[];
   public configuration?: Partial<Configuration<ActivityListDto>>;
-
-  private subscriptions = new Subscription();
 
   constructor(
     public guidService: GuidService,
@@ -39,21 +37,14 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     private activityService: ActivityService,
     private localizationService: LocalizationService,
   ) {
-    this.rows = [];
+    this.rows$ = this.activityService.list()
+      .pipe(
+        single(),
+        this.entityService.withUpdatesFrom(this.entityService.activityChanged, this.activityService)
+      );
   }
 
   public ngOnInit(): void {
-    this.activityService.list().pipe(single()).subscribe(x => this.rows = x);
-
-    const activityChanged = this.entityService.activityChanged
-      .pipe(this.entityService.replaceEntityWithListDto(this.activityService))
-      .subscribe(changedEvent => {
-          const updatedRows = this.entityService.updateCollection(this.rows, 'id', changedEvent);
-          this.rows = [...updatedRows];
-        }
-      );
-    this.subscriptions.add(activityChanged);
-
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-borderless table-hover small',
@@ -80,10 +71,6 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
         sortable: false
       },
     ];
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   public dataCellClick($event: DataCellClickEvent<ActivityListDto>): void {
