@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
-namespace FS.TimeTracking.Shared.Interfaces.Application.Converters
+namespace FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters
 {
     /// <summary>
     /// Validation description converter
