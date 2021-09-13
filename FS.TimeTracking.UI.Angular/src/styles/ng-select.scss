@@ -8,7 +8,7 @@ $ng-select-primary-text: $dropdown-link-color;
 $ng-select-border: $input-border-color;
 $ng-select-border-radius: valid-radius($input-border-radius);
 $ng-select-bg: $input-bg;
-$ng-select-selected: $primary;
+//$ng-select-selected: $primary;
 $ng-select-marked: $dropdown-link-hover-bg;
 $ng-select-box-shadow: $input-focus-box-shadow;
 //$ng-select-placeholder: lighten($ng-select-primary-text, 40) !default;
@@ -18,6 +18,9 @@ $ng-select-value-font-size: $input-font-size;
 
 @import "~@ng-select/ng-select/scss/default.theme";
 
+/* ----------------------------------------- */
+/* ng-select
+/* ----------------------------------------- */
 .ng-select.ng-select-focused {
   &:not(.ng-select-opened) > .ng-select-container {
     border-color: $input-focus-border-color;
@@ -30,10 +33,54 @@ $ng-select-value-font-size: $input-font-size;
   .ng-dropdown-panel-items .ng-option {
     &.ng-option-selected, &.ng-option-selected.ng-option-marked {
       color: color-contrast($primary);
+      background-color: $primary;
     }
   }
 
   &.ng-option-marked {
     color: color-contrast($dropdown-link-hover-bg);
   }
+
+  &.ng-select-sm {
+    font-size: 0.875rem;
+  }
+}
+
+/* ----------------------------------------- */
+/* ng-select-sm
+/* ----------------------------------------- */
+.ng-select.ng-select-sm {
+  .ng-select-container {
+    height: inherit;
+    min-height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.125rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+  }
+
+  .ng-select-container .ng-value-container {
+    padding: 0;
+  }
+
+  .ng-select-container .ng-value-container .ng-input {
+    padding: 0;
+  }
+
+  &.ng-select-single .ng-select-container .ng-value-container .ng-input {
+    padding-left: 0.5rem;
+  }
+
+  .ng-select-container .ng-value-container .ng-placeholder {
+    top: 4px;
+    padding-left: inherit;;
+  }
+
+  .ng-select-container .ng-value-container .ng-value {
+    font-size: 0.875rem;
+    margin: 0 0.25rem 0 0;
+  }
+}
+
+.ng-dropdown-panel.ng-select-sm {
+  font-size: 0.875rem;
 }
