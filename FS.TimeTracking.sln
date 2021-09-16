@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking\FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking.Shared\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking.Shared\FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking\FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
