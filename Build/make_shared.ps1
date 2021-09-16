@@ -5,10 +5,10 @@
 #
 function Npm-Restore {
     # Switch to UI project
-	Push-Location FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
 	
 	# Restore npm packages
-	& npm install --prefer-offline --no-audit
+	& npm install --prefer-offline --no-audit --silent
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE
@@ -31,7 +31,7 @@ function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion 
 
 function Build-Ui {
     # Switch to UI project
-	Push-Location FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
 	
 	& npm run lint
 	if(!$?) {
@@ -63,7 +63,7 @@ function Test-Rest-Services {
 
 function Test-Ui {
 	# Switch to UI project
-	Push-Location FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
 	
 	& npm run test-headless
 	if(!$?) {

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Build/build_core.props" />
-  <Import Project="../Build/build_version.props" />
+  <Import Project="../../Build/build_core.props" />
+  <Import Project="../../Build/build_version.props" />
+
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -10,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj" />
-    <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking.Shared\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
   </ItemGroup>
 
 </Project>

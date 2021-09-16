@@ -295,12 +295,12 @@ __pycache__/
 *.xsd.cs
 
 # User added stuff
-/FS.TimeTracking/openapitools.json
-/FS.TimeTracking/FS.TimeTracking.openapi.json
-/FS.TimeTracking/FS.TimeTracking.config.Development.json
-/FS.TimeTracking/timetracking.sqlite
-/FS.TimeTracking.UI.Angular/src/app/shared/services/api
-/FS.TimeTracking.UI.Angular/src/app/shared/services/form-validation/dto-validations.spec.json
-/Bogus.Premium.LicenseKey
-/FS.TimeTracking.Tests/TestDatabases.json
+/FS.TimeTracking/FS.TimeTracking/openapitools.json
+/FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.openapi.json
+/FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.config.Development.json
+/FS.TimeTracking/FS.TimeTracking/timetracking.sqlite
+/FS.TimeTracking/FS.TimeTracking.Tests/TestDatabases.json
+/FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/src/app/shared/services/api
+/FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/src/app/shared/services/form-validation/dto-validations.spec.json
 /Assets
+/Bogus.Premium.LicenseKey

@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking", "FS.TimeTracking\FS.TimeTracking.csproj", "{AF93A262-D7EE-4072-A31A-2ED73E89F388}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Api.REST", "FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj", "{D782C5A1-448F-404C-965D-2407DF585006}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
 		Build\build_core.props = Build\build_core.props
@@ -17,27 +11,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD
 		Build\build_xml_documentation.props = Build\build_xml_documentation.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A7309F57-C6D4-4AEA-BDF7-95443393A93B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{F5DEC073-72E6-4E5E-B036-A341F15E9866}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4A5BB14C-4B55-45D9-9129-156EEE1AA7BB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{9E9A7492-72BC-47B9-B1F4-8E485453C077}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{F2871F13-0E8F-4C0D-94E3-0500DE3B55B1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tests", "FS.TimeTracking.Tests\FS.TimeTracking.Tests.csproj", "{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application.Tests", "FS.TimeTracking.Application.Tests\FS.TimeTracking.Application.Tests.csproj", "{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking", "FS.TimeTracking\FS.TimeTracking\FS.TimeTracking.csproj", "{AF93A262-D7EE-4072-A31A-2ED73E89F388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tests", "FS.TimeTracking\FS.TimeTracking.Tests\FS.TimeTracking.Tests.csproj", "{0CC83CFF-B4C9-4084-B465-7ACDB30BE66A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Api.REST", "FS.TimeTracking\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj", "{D782C5A1-448F-404C-965D-2407DF585006}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A7309F57-C6D4-4AEA-BDF7-95443393A93B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application.Tests", "FS.TimeTracking\FS.TimeTracking.Application.Tests\FS.TimeTracking.Application.Tests.csproj", "{D00442CC-5225-4F36-B4C4-A6CECF6A6FCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "FS.TimeTracking\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{F5DEC073-72E6-4E5E-B036-A341F15E9866}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4A5BB14C-4B55-45D9-9129-156EEE1AA7BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "FS.TimeTracking\FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{9E9A7492-72BC-47B9-B1F4-8E485453C077}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{F2871F13-0E8F-4C0D-94E3-0500DE3B55B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Tests", "FS.TimeTracking\FS.TimeTracking.Repository.Tests\FS.TimeTracking.Repository.Tests.csproj", "{2205F08B-B25B-4421-BF77-F0CF71190155}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking.Shared\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking.Shared\FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
