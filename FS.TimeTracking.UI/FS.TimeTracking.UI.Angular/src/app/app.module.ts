@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
-import {PageNavigationComponent} from './page/components/page-navigation/page-navigation.component';
-import {PageFooterComponent} from './page/components/page-footer/page-footer.component';
+import {PageNavigationComponent} from './layout/components/page-navigation/page-navigation.component';
+import {PageFooterComponent} from './layout/components/page-footer/page-footer.component';
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
