@@ -5,7 +5,7 @@ namespace FS.TimeTracking.Application.Startup
 {
     internal static class AutoMapper
     {
-        public static IServiceCollection RegisterAutoMapper(this IServiceCollection services)
+        public static IServiceCollection RegisterTimeTrackingAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(TimeTrackingAutoMapper));
             return services;

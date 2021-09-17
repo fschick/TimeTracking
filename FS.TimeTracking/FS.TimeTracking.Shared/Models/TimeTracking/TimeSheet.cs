@@ -74,7 +74,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [NotMapped]
         public DateTimeOffset? EndDate
         {
-            get => EndDateLocal.ToOffset(TimeSpan.FromMinutes(EndDateOffset!.Value));
+            get => EndDateLocal?.ToOffset(TimeSpan.FromMinutes(EndDateOffset!.Value));
             set { EndDateLocal = value?.DateTime; EndDateOffset = (int?)value?.Offset.TotalMinutes; }
         }
 

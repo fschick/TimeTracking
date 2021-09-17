@@ -12,6 +12,7 @@ $fileVersion=$version -replace '(\d+(?:\.\d+)*)(.*)', '$1'
 
 Npm-Restore
 Build-Rest-Services -version $version -fileVersion $fileVersion
+Build-Tool -version $version -fileVersion $fileVersion
 Build-Ui
 
 Pop-Location

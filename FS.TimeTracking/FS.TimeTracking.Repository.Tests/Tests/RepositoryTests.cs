@@ -5,6 +5,7 @@ using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } });
+            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } }));
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act
@@ -38,7 +39,7 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } });
+            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } }));
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act

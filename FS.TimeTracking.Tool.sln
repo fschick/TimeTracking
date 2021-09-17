@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
+	ProjectSection(SolutionItems) = preProject
+		Build\build_core.props = Build\build_core.props
+		Build\build_tests.props = Build\build_tests.props
+		Build\build_version.props = Build\build_version.props
+		Build\build_xml_documentation.props = Build\build_xml_documentation.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tool", "FS.TimeTracking.Tool\FS.TimeTracking.Tool\FS.TimeTracking.Tool.csproj", "{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "FS.TimeTracking\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A886F314-5C81-4D42-AB9C-48F81086F365}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{9C393428-23C0-4B08-A03B-54771ACE966F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "FS.TimeTracking\FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{938C4D52-50AA-469B-809A-46783C6D852B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A886F314-5C81-4D42-AB9C-48F81086F365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A886F314-5C81-4D42-AB9C-48F81086F365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A886F314-5C81-4D42-AB9C-48F81086F365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A886F314-5C81-4D42-AB9C-48F81086F365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C393428-23C0-4B08-A03B-54771ACE966F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C393428-23C0-4B08-A03B-54771ACE966F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C393428-23C0-4B08-A03B-54771ACE966F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C393428-23C0-4B08-A03B-54771ACE966F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938C4D52-50AA-469B-809A-46783C6D852B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938C4D52-50AA-469B-809A-46783C6D852B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938C4D52-50AA-469B-809A-46783C6D852B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938C4D52-50AA-469B-809A-46783C6D852B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}
+	EndGlobalSection
+EndGlobal

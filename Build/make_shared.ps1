@@ -22,8 +22,17 @@ function Npm-Restore {
 #
 function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion = "0.0.0") {
 	# Build back-end
-	& dotnet build -warnaserror --configuration Debug
-	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
+	& dotnet build FS.TimeTracking.sln -warnaserror --configuration Debug
+	& dotnet build FS.TimeTracking.sln -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
+	if(!$?) {
+		exit $LASTEXITCODE
+	}
+}
+
+function Build-Tool([String] $version = "0.0.0", [String] $fileVersion = "0.0.0") {
+	# Build back-end
+	& dotnet build FS.TimeTracking.Tool.sln -warnaserror --configuration Debug
+	& dotnet build FS.TimeTracking.Tool.sln -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
 		exit $LASTEXITCODE
 	}
@@ -55,7 +64,15 @@ function Build-Ui {
 #
 function Test-Rest-Services {
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
-	& dotnet test --configuration Release --logger:trx --logger:html
+	& dotnet test FS.TimeTracking.sln --configuration Release --logger:trx --logger:html
+	if(!$?) {
+		exit $LASTEXITCODE
+	}
+}
+
+function Test-Tool {
+	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
+	& dotnet test FS.TimeTracking.Tool.sln --configuration Release --logger:trx --logger:html
 	if(!$?) {
 		exit $LASTEXITCODE
 	}

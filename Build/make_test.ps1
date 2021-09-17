@@ -7,6 +7,8 @@ Push-Location $PSScriptRoot\..
 Npm-Restore
 Build-Rest-Services
 Test-Rest-Services
+Build-Tool
+Test-Tool
 Test-Ui
 
 Pop-Location

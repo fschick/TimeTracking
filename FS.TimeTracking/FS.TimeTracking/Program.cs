@@ -129,7 +129,7 @@ namespace FS.TimeTracking
                 .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
                 .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value)
                 .RegisterApplicationServices()
-                .RegisterAutoMapper()
+                .RegisterTimeTrackingAutoMapper()
                 .RegisterOpenApiController()
                 .RegisterRestApiController()
                 .RegisterSpaStaticFiles(context.HostingEnvironment);

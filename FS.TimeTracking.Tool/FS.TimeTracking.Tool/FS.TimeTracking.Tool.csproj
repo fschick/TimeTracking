@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Build/build_core.props" />
+  <Import Project="../../Build/build_version.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Mono.Options" Version="6.12.0.148" />
+    <PackageReference Include="linq2db.EntityFrameworkCore" Version="5.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0-alpha.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
