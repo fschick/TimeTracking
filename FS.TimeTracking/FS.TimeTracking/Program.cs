@@ -1,3 +1,8 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.Startup;
@@ -9,14 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog.Web;
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FS.TimeTracking
 {
@@ -127,7 +126,6 @@ namespace FS.TimeTracking
             services
                 .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
                 .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
-                .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value)
                 .RegisterApplicationServices()
                 .RegisterTimeTrackingAutoMapper()
                 .RegisterOpenApiController()

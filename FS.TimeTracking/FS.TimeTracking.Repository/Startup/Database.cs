@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Linq;
 
 namespace FS.TimeTracking.Repository.Startup
@@ -15,7 +16,7 @@ namespace FS.TimeTracking.Repository.Startup
         {
             var serviceFactory = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using var serviceScope = serviceFactory.CreateScope();
-            var databaseConfiguration = serviceScope.ServiceProvider.GetRequiredService<TimeTrackingConfiguration>().Database;
+            var databaseConfiguration = serviceScope.ServiceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value.Database;
             using var dbContext = serviceScope.ServiceProvider.GetRequiredService<TimeTrackingDbContext>();
             var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<TimeTrackingDbContext>>();
             var truncateDbService = serviceScope.ServiceProvider.GetRequiredService<ITruncateDbService>();
