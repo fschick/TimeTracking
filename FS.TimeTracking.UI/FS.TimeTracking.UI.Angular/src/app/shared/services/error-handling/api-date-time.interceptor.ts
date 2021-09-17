@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 
 @Injectable()
-export class ApiDateTimeInterceptorInterceptor implements HttpInterceptor {
+export class ApiDateTimeInterceptor implements HttpInterceptor {
 
   private isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+\-]\d{2}:\d{2})$/;
   private dotNetTimeSpanFormat = /^(?:(?<days>\d+)\.)?(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d+))?$/;

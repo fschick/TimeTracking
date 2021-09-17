@@ -33,7 +33,7 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
-import {ApiDateTimeInterceptorInterceptor} from './shared/services/error-handling/api-date-time-interceptor.interceptor';
+import {ApiDateTimeInterceptor} from './shared/services/error-handling/api-date-time.interceptor';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
 import {LocalizationService} from './shared/services/internationalization/localization.service';
@@ -99,7 +99,7 @@ import {DurationPipe} from './shared/pipes/duration.pipe';
       deps: [LocalizationService]
     }, {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiDateTimeInterceptorInterceptor,
+      useClass: ApiDateTimeInterceptor,
       multi: true
     }, {
       provide: HTTP_INTERCEPTORS,
