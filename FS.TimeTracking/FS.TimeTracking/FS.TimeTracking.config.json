@@ -2,11 +2,8 @@
   "TimeTracking": {
     "WorkingDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
     "Database": {
-      "Type": "Memory",
-      "ConnectionString": "<database>"
-
-      //"Type": "SqLite",
-      //"ConnectionString": "Data Source=<database>.sqlite"
+      "Type": "SqLite",
+      "ConnectionString": "Data Source=TimeTracking.sqlite"
 
       //"Type": "SqlServer",
       //"ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True"
