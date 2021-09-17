@@ -34,7 +34,7 @@ namespace FS.TimeTracking.Application.Services
         public async Task<List<TypeaheadDto<string>>> GetProjects(CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    select: (Project x) => TypeaheadDto.Create(x.Id, x.Title),
+                    select: (Project x) => TypeaheadDto.Create(x.Id, $"{x.Title} ({x.Customer.Title})"),
                     where: x => !x.Hidden,
                     cancellationToken: cancellationToken
                 );
