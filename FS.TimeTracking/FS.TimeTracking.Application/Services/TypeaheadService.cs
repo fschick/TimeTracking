@@ -3,6 +3,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@ namespace FS.TimeTracking.Application.Services
                 .Get(
                     select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title),
                     where: x => !x.Hidden,
+                    orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
 
@@ -36,6 +38,7 @@ namespace FS.TimeTracking.Application.Services
                 .Get(
                     select: (Project x) => TypeaheadDto.Create(x.Id, $"{x.Title} ({x.Customer.Title})"),
                     where: x => !x.Hidden,
+                    orderBy: o => o.OrderBy(x => x.Title).ThenBy(x => x.Customer.Title),
                     cancellationToken: cancellationToken
                 );
 
@@ -45,6 +48,7 @@ namespace FS.TimeTracking.Application.Services
                 .Get(
                     select: (Order x) => TypeaheadDto.Create(x.Id, x.Title),
                     where: x => !x.Hidden,
+                    orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
 
@@ -54,6 +58,7 @@ namespace FS.TimeTracking.Application.Services
                 .Get(
                     select: (Order x) => TypeaheadDto.Create(x.Id, x.Number),
                     where: x => !x.Hidden,
+                    orderBy: o => o.OrderBy(x => x.Number),
                     cancellationToken: cancellationToken
                 );
 
@@ -63,6 +68,7 @@ namespace FS.TimeTracking.Application.Services
                 .Get(
                     select: (Activity x) => TypeaheadDto.Create(x.Id, x.Title),
                     where: x => !x.Hidden,
+                    orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
     }
