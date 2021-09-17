@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EFCore.BulkExtensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;

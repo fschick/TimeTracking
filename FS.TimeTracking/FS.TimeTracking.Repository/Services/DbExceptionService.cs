@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Services;
+﻿using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;

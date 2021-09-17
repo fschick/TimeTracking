@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Collections.Generic;

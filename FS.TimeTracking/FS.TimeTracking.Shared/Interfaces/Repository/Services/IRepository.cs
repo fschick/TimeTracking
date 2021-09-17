@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FS.TimeTracking.Shared.Interfaces.Services
+namespace FS.TimeTracking.Shared.Interfaces.Repository.Services
 {
     /// <summary>
     /// Generic repository.

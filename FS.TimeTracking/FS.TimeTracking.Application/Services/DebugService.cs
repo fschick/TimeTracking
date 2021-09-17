@@ -1,7 +1,7 @@
 ﻿#if DEBUG
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System.Threading;
 using System.Threading.Tasks;

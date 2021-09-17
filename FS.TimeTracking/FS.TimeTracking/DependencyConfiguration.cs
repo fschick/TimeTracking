@@ -4,7 +4,7 @@ using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking

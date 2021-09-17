@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

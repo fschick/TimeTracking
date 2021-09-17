@@ -3,7 +3,7 @@ using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tool.AutoMapper.Imports;
 using FS.TimeTracking.Tool.DbContexts.Imports;

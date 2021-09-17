@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Services;
+﻿using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Repository;
 using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;

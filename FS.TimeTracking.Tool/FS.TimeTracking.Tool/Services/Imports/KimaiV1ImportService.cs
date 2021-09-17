@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Services;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using FS.TimeTracking.Tool.Interfaces.Import;
 using FS.TimeTracking.Tool.Models.Configurations;
@@ -43,7 +43,7 @@ namespace FS.TimeTracking.Tool.Services.Imports
                     var project = _mapper.Map<Project>(kimaiProject);
                     project.CustomerId = kimaiCustomers
                         .SingleOrDefault(kimaiCustomer => kimaiCustomer.CustomerId == kimaiProject.CustomerId)?.Id
-                        ?? throw new InvalidOperationException($"Kimai customer with ID {kimaiProject.CustomerId} not found, Kimai project ID {kimaiProject.ProjectId}"); ;
+                        ?? throw new InvalidOperationException($"Kimai customer with ID {kimaiProject.CustomerId} not found, Kimai project ID {kimaiProject.ProjectId}");
                     return project;
                 })
                 .ToList();
