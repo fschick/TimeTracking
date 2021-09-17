@@ -80,6 +80,12 @@ namespace FS.TimeTracking.Tool.Models.Imports
         /// Gets or sets a value indicating whether this item is hidden.
         /// </summary>
         [Required]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this item is hidden.
+        /// </summary>
+        [Required]
         public bool Trash { get; set; }
     }
 }

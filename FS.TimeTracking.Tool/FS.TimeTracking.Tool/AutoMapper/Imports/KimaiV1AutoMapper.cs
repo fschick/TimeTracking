@@ -27,7 +27,7 @@ namespace FS.TimeTracking.Tool.AutoMapper.Imports
                 .ForMember(x => x.Title, config => config.MapFrom(x => x.Name))
                 .ForMember(x => x.CompanyName, config => config.MapFrom(x => x.Company))
                 .ForMember(x => x.ContactName, config => config.MapFrom(x => x.Contact))
-                .ForMember(x => x.Hidden, config => config.MapFrom(x => x.Trash))
+                .ForMember(x => x.Hidden, config => config.MapFrom(x => x.Trash || !x.Visible))
                 .ForMember(x => x.Created, config => config.MapFrom(x => utcNow))
                 .ForMember(x => x.Modified, config => config.MapFrom(x => utcNow));
 
