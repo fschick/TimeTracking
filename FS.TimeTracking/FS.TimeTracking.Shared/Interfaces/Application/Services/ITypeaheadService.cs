@@ -35,5 +35,11 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
         /// </summary>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
         Task<List<TypeaheadDto<string>>> GetOrderNumbers(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets the values for typeahead displaying <see cref="Activity.Title"/>.
+        /// </summary>
+        /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+        Task<List<TypeaheadDto<string>>> GetActivities(CancellationToken cancellationToken = default);
     }
 }

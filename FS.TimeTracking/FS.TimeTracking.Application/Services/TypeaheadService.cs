@@ -56,5 +56,14 @@ namespace FS.TimeTracking.Application.Services
                     where: x => !x.Hidden,
                     cancellationToken: cancellationToken
                 );
+
+        /// <inheritdoc />
+        public async Task<List<TypeaheadDto<string>>> GetActivities(CancellationToken cancellationToken = default)
+            => await _repository
+                .Get(
+                    select: (Activity x) => TypeaheadDto.Create(x.Id, x.Title),
+                    where: x => !x.Hidden,
+                    cancellationToken: cancellationToken
+                );
     }
 }

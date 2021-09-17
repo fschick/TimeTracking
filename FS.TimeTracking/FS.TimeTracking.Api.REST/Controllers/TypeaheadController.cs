@@ -43,5 +43,10 @@ namespace FS.TimeTracking.Api.REST.Controllers
         [HttpGet]
         public Task<List<TypeaheadDto<string>>> GetOrderNumbers(CancellationToken cancellationToken = default)
             => _typeaheadService.GetOrderNumbers(cancellationToken);
+
+        /// <inheritdoc />
+        [HttpGet]
+        public Task<List<TypeaheadDto<string>>> GetActivities(CancellationToken cancellationToken = default)
+            => _typeaheadService.GetActivities(cancellationToken);
     }
 }
