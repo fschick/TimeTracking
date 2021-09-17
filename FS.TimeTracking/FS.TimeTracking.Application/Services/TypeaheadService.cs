@@ -23,10 +23,38 @@ namespace FS.TimeTracking.Application.Services
 
         /// <inheritdoc />
         public async Task<List<TypeaheadDto<string>>> GetCustomers(CancellationToken cancellationToken = default)
-            => await _repository.Get((Customer x) => TypeaheadDto.Create(x.Id, x.Title), cancellationToken: cancellationToken);
+            => await _repository
+                .Get(
+                    select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title),
+                    where: x => !x.Hidden,
+                    cancellationToken: cancellationToken
+                );
 
         /// <inheritdoc />
         public async Task<List<TypeaheadDto<string>>> GetProjects(CancellationToken cancellationToken = default)
-            => await _repository.Get((Project x) => TypeaheadDto.Create(x.Id, x.Title), cancellationToken: cancellationToken);
+            => await _repository
+                .Get(
+                    select: (Project x) => TypeaheadDto.Create(x.Id, x.Title),
+                    where: x => !x.Hidden,
+                    cancellationToken: cancellationToken
+                );
+
+        /// <inheritdoc />
+        public async Task<List<TypeaheadDto<string>>> GetOrders(CancellationToken cancellationToken = default)
+            => await _repository
+                .Get(
+                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Title),
+                    where: x => !x.Hidden,
+                    cancellationToken: cancellationToken
+                );
+
+        /// <inheritdoc />
+        public async Task<List<TypeaheadDto<string>>> GetOrderNumbers(CancellationToken cancellationToken = default)
+            => await _repository
+                .Get(
+                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Number),
+                    where: x => !x.Hidden,
+                    cancellationToken: cancellationToken
+                );
     }
 }
