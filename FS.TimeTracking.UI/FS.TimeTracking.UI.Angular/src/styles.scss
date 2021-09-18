@@ -30,30 +30,35 @@ html {
   cursor: pointer;
 }
 
-i.bi {
-  //noinspection CssNoGenericFontName
-  font-family: bootstrap-icons;
-}
-
 ts-icon {
   height: 1rem;
   width: 1rem;
   display: inline-block;
 }
 
+.btn, td {
+  ts-icon svg {
+    vertical-align: -0.125em;
+  }
+}
+
+.row {
+  ts-icon svg {
+    vertical-align: -0.25em;
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
 
-.table {
-  .action-cell {
-    padding: 0 $table-cell-padding-x !important;
-  }
+.action-cell {
+  padding: 0 $table-cell-padding-x !important;
+}
 
-  .action-icon {
-    height: 1.2rem;
-    width: 1.2rem;
-  }
+.action-icon {
+  height: 1.2rem;
+  width: 1.2rem;
 }
 
 /* ----------------------------------------- */
