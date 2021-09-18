@@ -49,7 +49,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover small',
+      cssTable: 'table table-borderless table-hover small align-middle',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -86,7 +86,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
-        cssDataCell: 'text-nowrap align-middle action-cell',
+        cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false
       },

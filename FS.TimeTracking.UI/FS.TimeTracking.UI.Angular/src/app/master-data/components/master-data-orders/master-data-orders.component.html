@@ -28,11 +28,11 @@
 </ng-template>
 
 <ng-template #actionCellTemplate let-row="row">
-  <a class="btn btn-sm btn-outline-secondary action-button me-2"
+  <a class="text-secondary me-2"
      title="[i18n] Edit Order"
      i18n-title="@@Page.MasterData.Orders.Edit"
      [routerLink]="row.id">
-    <ts-icon icon="bi bi-pencil-square"></ts-icon>
+    <ts-icon icon="bi bi-pencil-square" class="action-icon"></ts-icon>
   </a>
   <ts-simple-confirm
     title="[i18n] Delete order"
@@ -44,9 +44,9 @@
     i18n-actionText="@@Page.MasterData.Orders.Delete"
     color="danger"
     (confirmed)="deleteItem(row.id)">
-    <button type="button" class="btn btn-sm btn-outline-danger action-button">
-      <ts-icon icon="bi bi-eraser"></ts-icon>
-    </button>
+    <a class="text-danger">
+      <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
+    </a>
   </ts-simple-confirm>
 </ng-template>
 
