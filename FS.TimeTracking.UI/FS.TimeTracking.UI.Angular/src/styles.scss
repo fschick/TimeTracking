@@ -11,7 +11,6 @@ $accordion-button-active-bg: inherit;
 
 $enable-negative-margins: true;
 @import "~bootstrap/scss/bootstrap";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar
@@ -34,6 +33,12 @@ html {
 i.bi {
   //noinspection CssNoGenericFontName
   font-family: bootstrap-icons;
+}
+
+ts-icon {
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
 }
 
 .cursor-pointer {

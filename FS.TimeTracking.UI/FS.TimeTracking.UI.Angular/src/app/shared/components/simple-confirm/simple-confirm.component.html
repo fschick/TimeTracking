@@ -1,7 +1,5 @@
-<div class="btn-group" role="group" aria-label="Confirm dialog">
-  <div (click)="createConfirmDialog()" class="cursor-pointer">
-    <ng-content></ng-content>
-  </div>
+<div class="d-inline-block cursor-pointer" (click)="createConfirmDialog()" aria-label="Confirm dialog">
+  <ng-content></ng-content>
 </div>
 
 <div class="modal" #confirmDialog tabindex="-1">
@@ -16,13 +14,11 @@
       </div>
       <div class="modal-footer">
         <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
-          <i class="bi bi-x-circle-fill me-1"></i>
+          <ts-icon *ngIf="actionIcon" icon="bi bi-x-circle-fill" class="me-1"></ts-icon>
           <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
         </button>
         <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" #confirmSubmit>
-          <i *ngIf="actionIcon" class="{{actionIcon}} me-1"></i>
-          {{actionText}}
-        </button>
+          <ts-icon *ngIf="actionIcon" [icon]="actionIcon" class="me-1"></ts-icon>{{actionText}}</button>
       </div>
     </div>
   </div>

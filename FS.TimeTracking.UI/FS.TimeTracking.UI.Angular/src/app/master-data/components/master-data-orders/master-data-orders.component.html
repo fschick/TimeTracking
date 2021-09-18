@@ -4,7 +4,7 @@
       [i18n] Orders
     </ng-container>
     <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
-      <i class="bi bi-plus-circle me-1"></i>
+      <ts-icon icon="bi bi-plus-circle" class="me-1"></ts-icon>
       <ng-container i18n="@@Common.New">[i18n] New</ng-container>
     </button>
   </h5>
@@ -32,7 +32,7 @@
      title="[i18n] Edit Order"
      i18n-title="@@Page.MasterData.Orders.Edit"
      [routerLink]="row.id">
-    <i class="bi bi-pencil-square"></i>
+    <ts-icon icon="bi bi-pencil-square"></ts-icon>
   </a>
   <ts-simple-confirm
     title="[i18n] Delete order"
@@ -45,7 +45,7 @@
     color="danger"
     (confirmed)="deleteItem(row.id)">
     <button type="button" class="btn btn-sm btn-outline-danger action-button">
-      <i class="bi bi-eraser"></i>
+      <ts-icon icon="bi bi-eraser"></ts-icon>
     </button>
   </ts-simple-confirm>
 </ng-template>

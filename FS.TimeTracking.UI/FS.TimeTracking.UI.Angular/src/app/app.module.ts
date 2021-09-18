@@ -42,6 +42,7 @@ import {Settings} from 'luxon';
 import {TimePipe} from './shared/pipes/time.pipe';
 import {DatePipe} from './shared/pipes/date.pipe';
 import {DurationPipe} from './shared/pipes/duration.pipe';
+import { IconComponent } from './shared/components/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {DurationPipe} from './shared/pipes/duration.pipe';
     DatePipe,
     TimePipe,
     DurationPipe,
+    IconComponent,
   ],
   imports: [
     BrowserModule,
