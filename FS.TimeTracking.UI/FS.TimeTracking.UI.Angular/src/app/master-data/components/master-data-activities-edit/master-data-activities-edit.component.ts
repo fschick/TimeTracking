@@ -42,8 +42,8 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
         .pipe(single())
         .subscribe(activity => this.activityForm.patchValue(activity));
 
-    this.customers$ = typeaheadService.getCustomers();
-    this.projects$ = typeaheadService.getProjects();
+    this.customers$ = typeaheadService.getCustomers(true);
+    this.projects$ = typeaheadService.getProjects(true);
   }
 
   public ngAfterViewInit(): void {

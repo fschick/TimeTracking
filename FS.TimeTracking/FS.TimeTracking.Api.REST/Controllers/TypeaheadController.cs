@@ -26,27 +26,27 @@ namespace FS.TimeTracking.Api.REST.Controllers
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TypeaheadDto<string>>> GetCustomers(CancellationToken cancellationToken = default)
-            => _typeaheadService.GetCustomers(cancellationToken);
+        public Task<List<TypeaheadDto<string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
+            => _typeaheadService.GetCustomers(showHidden, cancellationToken);
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TypeaheadDto<string>>> GetProjects(CancellationToken cancellationToken = default)
-            => _typeaheadService.GetProjects(cancellationToken);
+        public Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
+            => _typeaheadService.GetProjects(showHidden, cancellationToken);
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TypeaheadDto<string>>> GetOrders(CancellationToken cancellationToken = default)
-            => _typeaheadService.GetOrders(cancellationToken);
+        public Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
+            => _typeaheadService.GetOrders(showHidden, cancellationToken);
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TypeaheadDto<string>>> GetOrderNumbers(CancellationToken cancellationToken = default)
-            => _typeaheadService.GetOrderNumbers(cancellationToken);
+        public Task<List<TypeaheadDto<string>>> GetOrderNumbers(bool showHidden, CancellationToken cancellationToken = default)
+            => _typeaheadService.GetOrderNumbers(showHidden, cancellationToken);
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<List<TypeaheadDto<string>>> GetActivities(CancellationToken cancellationToken = default)
-            => _typeaheadService.GetActivities(cancellationToken);
+        public Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
+            => _typeaheadService.GetActivities(showHidden, cancellationToken);
     }
 }

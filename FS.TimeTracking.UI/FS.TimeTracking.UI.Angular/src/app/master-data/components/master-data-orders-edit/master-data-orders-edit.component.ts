@@ -41,7 +41,7 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
         .pipe(single())
         .subscribe(order => this.orderForm.patchValue(order));
 
-    this.customers$ = typeaheadService.getCustomers();
+    this.customers$ = typeaheadService.getCustomers(true);
   }
 
   public ngAfterViewInit(): void {

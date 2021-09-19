@@ -23,51 +23,51 @@ namespace FS.TimeTracking.Application.Services
             => _repository = repository;
 
         /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetCustomers(CancellationToken cancellationToken = default)
+        public async Task<List<TypeaheadDto<string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
                     select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title),
-                    where: x => !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
 
         /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetProjects(CancellationToken cancellationToken = default)
+        public async Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
                     select: (Project x) => TypeaheadDto.Create(x.Id, $"{x.Title} ({x.Customer.Title})"),
-                    where: x => !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Title).ThenBy(x => x.Customer.Title),
                     cancellationToken: cancellationToken
                 );
 
         /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetOrders(CancellationToken cancellationToken = default)
+        public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
                     select: (Order x) => TypeaheadDto.Create(x.Id, x.Title),
-                    where: x => !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
 
         /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetOrderNumbers(CancellationToken cancellationToken = default)
+        public async Task<List<TypeaheadDto<string>>> GetOrderNumbers(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
                     select: (Order x) => TypeaheadDto.Create(x.Id, x.Number),
-                    where: x => !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Number),
                     cancellationToken: cancellationToken
                 );
 
         /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetActivities(CancellationToken cancellationToken = default)
+        public async Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
                     select: (Activity x) => TypeaheadDto.Create(x.Id, x.Title),
-                    where: x => !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
