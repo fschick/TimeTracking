@@ -17,6 +17,9 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         /// <inheritdoc cref="Project.Title"/>
         public string ProjectTitle { get; set; }
 
+        /// <inheritdoc cref="Customer.Title"/>
+        public string CustomerTitle { get; set; }
+
         /// <inheritdoc cref="Project.Hidden"/>
         public bool Hidden { get; set; }
     }

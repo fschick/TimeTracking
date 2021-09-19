@@ -115,7 +115,8 @@
     },
     "ActivityListDto": {
       "Title": "Title",
-      "ProjectTitle": "Project"
+      "ProjectTitle": "Project",
+      "CustomerTitle": "Customer"
     }
   },
   "Validation": {

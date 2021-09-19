@@ -42,7 +42,8 @@ namespace FS.TimeTracking.Application.AutoMapper
 
             CreateMap<Order, OrderListDto>();
 
-            CreateMap<Activity, ActivityListDto>();
+            CreateMap<Activity, ActivityListDto>()
+                .ForMember(x => x.CustomerTitle, x => x.MapFrom(activity => activity.Project.Customer.Title));
 
             CreateMap<TimeSheet, TimeSheetListDto>();
         }

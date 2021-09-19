@@ -55,10 +55,21 @@ export class MasterDataActivitiesComponent implements OnInit {
 
     const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ActivityListDto.Title:[i18n] Activity`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
+      {
+        title: $localize`:@@DTO.ActivityListDto.Title:[i18n] Activity`,
+        prop: 'title',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate
+      },
       {
         title: $localize`:@@DTO.ActivityListDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate
+      },
+      {
+        title: $localize`:@@DTO.ActivityListDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
       },
