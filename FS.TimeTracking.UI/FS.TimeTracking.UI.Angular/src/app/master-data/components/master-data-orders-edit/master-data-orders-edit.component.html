@@ -29,6 +29,9 @@
                          labelForId="customerName"
                          appendTo="body"
                          formControlName="customerId">
+                <ng-template ng-option-tmp let-item="item">
+                  <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+                </ng-template>
               </ng-select>
             </div>
             <div class="col-lg-3">
