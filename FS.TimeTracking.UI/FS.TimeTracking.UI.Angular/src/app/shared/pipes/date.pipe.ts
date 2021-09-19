@@ -7,7 +7,11 @@ import {DateTime, DateTimeFormatOptions} from 'luxon';
 })
 export class DatePipe implements PipeTransform {
 
-  transform(value: DateTime | null | undefined, format: string | DateTimeFormatOptions = DateTime.DATE_SHORT): string {
+  constructor(
+    private localizationService: LocalizationService
+  ) {}
+
+  public transform(value: DateTime | null | undefined, format: string | DateTimeFormatOptions = this.localizationService.dateTime.dateFormat): string {
     if (!value)
       return '';
 

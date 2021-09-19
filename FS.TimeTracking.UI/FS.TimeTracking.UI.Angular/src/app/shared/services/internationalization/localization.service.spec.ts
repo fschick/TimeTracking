@@ -46,23 +46,23 @@ describe('LocalizationService', () => {
     expect(service.dateTime.dateFormat).toBe('dd.MM.yyyy');
   });
 
-  it('should return \'HH:mm:ss\' as time format for english', () => {
+  it('should return \'HH:mm\' as time format for english', () => {
     service.language = 'en';
-    expect(service.dateTime.timeFormat).toBe('HH:mm:ss');
+    expect(service.dateTime.timeFormat).toBe('HH:mm');
   });
 
-  it('should return \'HH:mm:ss\' as time format for german', () => {
+  it('should return \'HH:mm\' as time format for german', () => {
     service.language = 'de';
-    expect(service.dateTime.timeFormat).toBe('HH:mm:ss');
+    expect(service.dateTime.timeFormat).toBe('HH:mm');
   });
 
-  it('should return \'dd.MM.yyyy, HH:mm:ss\' as  date/time format for english', () => {
+  it('should return \'dd.MM.yyyy, HH:mm\' as  date/time format for english', () => {
     service.language = 'en';
-    expect(service.dateTime.dateTimeFormat).toBe('MM/dd/yyyy, HH:mm:ss');
+    expect(service.dateTime.dateTimeFormat).toBe('MM/dd/yyyy, HH:mm');
   });
 
-  it('should return \'dd.MM.yyyy, HH:mm:ss\' as date/time format for german', () => {
+  it('should return \'dd.MM.yyyy, HH:mm\' as date/time format for german', () => {
     service.language = 'de';
-    expect(service.dateTime.dateTimeFormat).toBe('dd.MM.yyyy, HH:mm:ss');
+    expect(service.dateTime.dateTimeFormat).toBe('dd.MM.yyyy, HH:mm');
   });
 });

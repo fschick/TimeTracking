@@ -15,21 +15,21 @@ describe('TimePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('date should be formatted to DateTime.TIME_SHORT as default', () => {
-    const date = DateTime.local(2020, 6, 15, 8, 30, 50).setLocale('en');
+  it('time should be formatted to guessed time format as default', () => {
+    const date = DateTime.local(2020, 6, 15, 16, 30, 50).setLocale('en');
     const transformedDate = pipe.transform(date);
-    const expectedDate = '8:30 AM';
+    const expectedDate = '16:30';
     expect(transformedDate).toBe(expectedDate);
   });
 
-  it('date should be formattable via predefined format ', () => {
+  it('time should be formattable via predefined format ', () => {
     const date = DateTime.local(2020, 6, 15, 8, 30, 50).setLocale('en');
     const transformedDate = pipe.transform(date, DateTime.TIME_24_SIMPLE);
     const expectedDate = '08:30';
     expect(transformedDate).toBe(expectedDate);
   });
 
-  it('date should be formattable via custom pattern', () => {
+  it('time should be formattable via custom pattern', () => {
     const date = DateTime.local(2020, 6, 15, 8, 30, 50).setLocale('en');
     const transformedDate = pipe.transform(date, 'HH:mm:ss');
     const expectedDate = '08:30:50';

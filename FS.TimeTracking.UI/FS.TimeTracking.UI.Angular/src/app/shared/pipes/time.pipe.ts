@@ -8,9 +8,12 @@ import {DatePipe} from './date.pipe';
 })
 export class TimePipe implements PipeTransform {
 
-  constructor(private datePipe: DatePipe) {}
+  constructor(
+    private datePipe: DatePipe,
+    private localizationService: LocalizationService
+  ) {}
 
-  transform(value: DateTime | null | undefined, format: string | DateTimeFormatOptions = DateTime.TIME_SIMPLE): string {
+  transform(value: DateTime | null | undefined, format: string | DateTimeFormatOptions = this.localizationService.dateTime.timeFormat): string {
     return this.datePipe.transform(value, format);
   }
 

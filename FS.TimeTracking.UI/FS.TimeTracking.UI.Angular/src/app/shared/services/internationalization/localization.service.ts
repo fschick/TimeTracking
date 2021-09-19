@@ -95,7 +95,7 @@ class DateTimeFormats {
   }
 
   private guessTimeFormat(): string {
-    const intl = new Intl.DateTimeFormat(this.language, {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
+    const intl = new Intl.DateTimeFormat(this.language, {hour: '2-digit', minute: '2-digit', hour12: false});
     return this.toDateTimeFormat(intl.formatToParts());
   }
 
@@ -106,7 +106,6 @@ class DateTimeFormats {
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit',
       hour12: false
     });
 
@@ -129,6 +128,8 @@ class DateTimeFormats {
             return 'mm';
           case 'second':
             return 'ss';
+          case 'dayPeriod':
+            return 'a';
           default:
             return x.value;
         }

@@ -1,12 +1,15 @@
 import {DatePipe} from './date.pipe';
 import {TestBed} from '@angular/core/testing';
 import {DateTime} from 'luxon';
+import {LocalizationService} from '../services/internationalization/localization.service';
 
 describe('DatePipe', () => {
+  let localizationService: LocalizationService;
   let pipe: DatePipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [DatePipe]});
+    localizationService = TestBed.inject(LocalizationService);
     pipe = TestBed.inject(DatePipe);
   });
 
@@ -14,14 +17,16 @@ describe('DatePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('date should be formatted to DateTime.DATE_SHORT as default', () => {
+  it('date should be formatted to guessed format as default', () => {
+    localizationService.language = 'en';
     const date = DateTime.local(2020, 6, 15).setLocale('en');
     const transformedDate = pipe.transform(date);
-    const expectedDate = '6/15/2020';
+    const expectedDate = '06/15/2020';
     expect(transformedDate).toBe(expectedDate);
   });
 
   it('date should be formattable via predefined format ', () => {
+    localizationService.language = 'en';
     const date = DateTime.local(2020, 6, 15).setLocale('en');
     const transformedDate = pipe.transform(date, DateTime.DATE_FULL);
     const expectedDate = 'June 15, 2020';
