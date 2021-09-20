@@ -34,13 +34,6 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
         Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Gets the values for typeahead displaying <see cref="Order.Number"/>.
-        /// </summary>
-        /// <param name="showHidden">If set to <c>true</c>, objects marked as hidden will also be returned.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-        Task<List<TypeaheadDto<string>>> GetOrderNumbers(bool showHidden, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Gets the values for typeahead displaying <see cref="Activity.Title" />.
         /// </summary>
         /// <param name="showHidden">If set to <c>true</c>, objects marked as hidden will also be returned.</param>

@@ -46,19 +46,9 @@ namespace FS.TimeTracking.Application.Services
         public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Title, x.Hidden),
+                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Number != null ? $"{x.Title} ({x.Number})" : x.Title, x.Hidden),
                     where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
-                    cancellationToken: cancellationToken
-                );
-
-        /// <inheritdoc />
-        public async Task<List<TypeaheadDto<string>>> GetOrderNumbers(bool showHidden, CancellationToken cancellationToken = default)
-            => await _repository
-                .Get(
-                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Number, x.Hidden),
-                    where: x => showHidden || !x.Hidden,
-                    orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Number),
                     cancellationToken: cancellationToken
                 );
 
