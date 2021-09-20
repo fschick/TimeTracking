@@ -47,7 +47,7 @@ export class MasterDataProjectsComponent implements OnInit {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover small align-middle',
+      cssTable: 'table table-borderless table-hover align-middle text-break',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -55,17 +55,23 @@ export class MasterDataProjectsComponent implements OnInit {
 
     const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
     this.columns = [
-      {title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
-        prop: 'customerTitle',
+        title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`,
+        prop: 'title',
+        cssHeadCell: 'text-nowrap',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
+        title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
+        prop: 'customerTitle',
+        cssHeadCell: 'text-nowrap',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate
+      }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
+        cssHeadCell: 'text-nowrap',
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false

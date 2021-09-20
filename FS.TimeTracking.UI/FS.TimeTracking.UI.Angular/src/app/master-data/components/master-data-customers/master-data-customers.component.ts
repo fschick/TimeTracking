@@ -46,7 +46,7 @@ export class MasterDataCustomersComponent implements OnInit {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover small align-middle',
+      cssTable: 'table table-borderless table-hover align-middle text-break',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -56,19 +56,29 @@ export class MasterDataCustomersComponent implements OnInit {
     const headCellMdCss = 'd-none d-md-table-cell';
     const dataCellMdCss = (row: CustomerDto) => `${dataCellCss(row)} ${headCellMdCss}`;
     this.columns = [
-      {title: $localize`:@@DTO.CustomerDto.Title:[i18n] Title`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
-      {title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`, prop: 'companyName', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
-        title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`,
-        prop: 'contactName',
-        cssHeadCell: headCellMdCss,
+        title: $localize`:@@DTO.CustomerDto.Title:[i18n] Title`,
+        prop: 'title',
+        cssHeadCell: 'text-nowrap',
+        cssDataCell: dataCellCss,
+        dataCellTemplate: this.dataCellTemplate
+      }, {
+        title: $localize`:@@DTO.CustomerDto.CompanyName:[i18n] Company`,
+        prop: 'companyName',
+        cssHeadCell: headCellMdCss + ' text-nowrap',
         cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
+        title: $localize`:@@DTO.CustomerDto.ContactName:[i18n] Contact`,
+        prop: 'contactName',
+        cssHeadCell: headCellMdCss + ' text-nowrap',
+        cssDataCell: dataCellMdCss,
+        dataCellTemplate: this.dataCellTemplate
+      }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
+        cssHeadCell: 'text-nowrap',
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false

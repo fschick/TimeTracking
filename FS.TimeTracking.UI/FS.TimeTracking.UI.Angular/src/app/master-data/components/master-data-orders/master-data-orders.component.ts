@@ -49,7 +49,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover small align-middle',
+      cssTable: 'table table-borderless table-hover align-middle text-break',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -63,29 +63,28 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       {
         title: $localize`:@@DTO.OrderListDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
+        cssHeadCell: 'text-nowrap',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
         title: $localize`:@@DTO.OrderListDto.StartDate:[i18n] Start Date`,
         prop: 'startDate',
-        cssHeadCell: headCellMdCss,
+        cssHeadCell: headCellMdCss + ' text-nowrap',
         cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
-      },
-      {
+      }, {
         title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due Date`,
         prop: 'dueDate',
-        cssHeadCell: headCellMdCss,
+        cssHeadCell: headCellMdCss + ' text-nowrap',
         cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.dueDate.toFormat(this.localizationService.dateTime.dateFormat)
-      },
-      {
+      }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
+        cssHeadCell: 'text-nowrap',
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false

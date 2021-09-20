@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActivityListDto, ActivityService} from '../../../shared/services/api';
+import {ActivityListDto, ActivityService, CustomerDto} from '../../../shared/services/api';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -47,36 +47,39 @@ export class MasterDataActivitiesComponent implements OnInit {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover small align-middle',
+      cssTable: 'table table-borderless table-hover align-middle text-break',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
     };
 
     const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
+    const headCellMdCss = 'd-none d-md-table-cell';
+    const dataCellMdCss = (row: ActivityListDto) => `${dataCellCss(row)} ${headCellMdCss}`;
     this.columns = [
       {
         title: $localize`:@@DTO.ActivityListDto.Title:[i18n] Activity`,
         prop: 'title',
+        cssHeadCell: 'text-nowrap',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
         title: $localize`:@@DTO.ActivityListDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
+        cssHeadCell: 'text-nowrap',
         cssDataCell: dataCellCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
         title: $localize`:@@DTO.ActivityListDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
-        cssDataCell: dataCellCss,
+        cssHeadCell: headCellMdCss + ' text-nowrap',
+        cssDataCell: dataCellMdCss,
         dataCellTemplate: this.dataCellTemplate
-      },
-      {
+      }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
+        cssHeadCell: 'text-nowrap',
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false
