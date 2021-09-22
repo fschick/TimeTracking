@@ -73,17 +73,28 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         const parsedDate = DateTime.fromJSDate(event.date);
         this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
         this.emitValue(parsedDate);
-      })
-    ;
+      });
   }
 
-  public writeValue(obj?: DateTime): void {
-    this.value = obj;
-    this.originTimePart = obj?.isValid
-      ? {hour: obj.hour, minute: obj.minute, second: obj.second, millisecond: obj.millisecond}
+  public writeValue(newValue?: DateTime): void {
+    this.value = newValue;
+    this.originTimePart = newValue?.isValid
+      ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
       : {hour: 0, minute: 0, second: 0, millisecond: 0};
     this.datePicker?.datepicker('update', this.value?.toJSDate());
     this.elementRef.nativeElement.value = this.value?.toFormat(this.format) ?? '';
+  }
+
+  public emitValue(newValue?: DateTime): void {
+    if (newValue?.isValid)
+      newValue = newValue?.set(this.originTimePart);
+
+    if ((!this.value && !newValue) || (newValue && this.value?.equals(newValue)))
+      return;
+
+    this.value = newValue;
+    this.onChange(this.value);
+    this.onTouched();
   }
 
   public registerOnChange(fn: any): void {
@@ -96,18 +107,6 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
-  }
-
-  public emitValue(value?: DateTime): void {
-    if (value?.isValid)
-      value = value?.set(this.originTimePart);
-
-    if ((!this.value && !value) || (value && this.value?.equals(value)))
-      return;
-
-    this.value = value;
-    this.onChange(this.value);
-    this.onTouched();
   }
 
   public ngOnDestroy(): void {
