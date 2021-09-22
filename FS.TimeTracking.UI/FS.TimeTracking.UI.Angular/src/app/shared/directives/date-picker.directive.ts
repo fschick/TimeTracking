@@ -39,6 +39,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       showOnFocus: false,
       assumeNearbyYear: true,
       forceParse: false,
+      keyboardNavigation: false
     };
   }
 
