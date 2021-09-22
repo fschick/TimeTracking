@@ -3,6 +3,7 @@ import {LocalizationService} from '../services/internationalization/localization
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {UtilityService} from '../services/utility.service';
+import {DateObjectUnits} from 'luxon/src/datetime';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -17,6 +18,7 @@ const CUSTOM_VALUE_ACCESSOR: any = {
 export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
   private readonly format: string;
   private value?: DateTime = DateTime.min();
+  private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
   private disabled = false;
   private datePicker: any;
   private datePickerOptions = {};
@@ -75,8 +77,11 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     ;
   }
 
-  public writeValue(obj: DateTime): void {
+  public writeValue(obj?: DateTime): void {
     this.value = obj;
+    this.originTimePart = obj?.isValid
+      ? {hour: obj.hour, minute: obj.minute, second: obj.second, millisecond: obj.millisecond}
+      : {hour: 0, minute: 0, second: 0, millisecond: 0};
     this.datePicker?.datepicker('update', this.value?.toJSDate());
     this.elementRef.nativeElement.value = this.value?.toFormat(this.format) ?? '';
   }
@@ -94,6 +99,9 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   }
 
   public emitValue(value?: DateTime): void {
+    if (value?.isValid)
+      value = value?.set(this.originTimePart);
+
     if ((!this.value && !value) || (value && this.value?.equals(value)))
       return;
 
