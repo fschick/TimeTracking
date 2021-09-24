@@ -65,7 +65,7 @@ export class EntityService {
   private updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
     switch (changedEvent?.action) {
       case 'created':
-        entities.push(changedEvent.entity);
+        entities.unshift(changedEvent.entity);
         break;
       case 'updated':
         const idxUpdated = entities.findIndex(x => x[key] === changedEvent.entity[key]);
