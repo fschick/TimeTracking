@@ -27,6 +27,19 @@ export class LocalizationService {
     this.numberFormats = new NumberFormats(this.storageService, this.language);
   }
 
+  public removeLanguage() {
+    this.storageService.remove(this.languageKey);
+  }
+
+  public clearUserSettings() {
+    this.removeLanguage();
+    this.dateTime.removeDateFormat();
+    this.dateTime.removeTimeFormat();
+    this.dateTime.removeDateTimeFormat();
+    this.numbers.removeDecimalSymbol();
+    this.numbers.removeDigitGroupingSymbol();
+  }
+
   public get dateTime(): DateTimeFormats {
     return this.dateTimeFormats;
   }
@@ -155,12 +168,20 @@ class NumberFormats {
     this.storageService.set(this.decimalSymbolKey, value);
   }
 
+  public removeDecimalSymbol() {
+    this.storageService.remove(this.decimalSymbolKey);
+  }
+
   public get digitGroupingSymbol(): string {
     return this.storageService.get(this.digitGroupingSymbolKey, this.guessDigitGroupingSymbol());
   }
 
   public set digitGroupingSymbol(value: string) {
     this.storageService.set(this.digitGroupingSymbolKey, value);
+  }
+
+  public removeDigitGroupingSymbol() {
+    this.storageService.remove(this.digitGroupingSymbolKey);
   }
 
   private guessDecimalSymbol(): string {

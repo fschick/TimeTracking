@@ -13,6 +13,10 @@ describe('DatePipe', () => {
     pipe = TestBed.inject(DatePipe);
   });
 
+  afterEach(() => {
+    localizationService.clearUserSettings();
+  });
+
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });

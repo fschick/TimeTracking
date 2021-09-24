@@ -13,6 +13,10 @@ describe('UtilityService', () => {
     service = TestBed.inject(UtilityService);
   });
 
+  afterEach(() => {
+    localizationService.clearUserSettings();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
