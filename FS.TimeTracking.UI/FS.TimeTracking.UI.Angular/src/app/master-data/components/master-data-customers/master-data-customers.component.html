@@ -1,30 +1,23 @@
-<div class="card">
-  <h5 class="card-header d-flex justify-content-between align-items-center">
-    <ng-container i18n="@@Page.MasterData.Customers.Title">
-      [i18n] Customers
-    </ng-container>
-    <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
-      <ts-icon icon="bi bi-plus-circle" class="me-1"></ts-icon>
-      <ng-container i18n="@@Common.New">[i18n] New</ng-container>
-    </button>
-  </h5>
-  <div class="card-body">
-    <ts-simple-table
-      [columns]="columns"
-      [rows]="rows$ | ngrxPush"
-      [configuration]="configuration"
-      (dataCellClick)="dataCellClick($event)">
-    </ts-simple-table>
-  </div>
+<div class="d-flex justify-content-between align-items-start mb-2">
+  <h4 i18n="@@Page.MasterData.Customers.Title">
+    [i18n] Customers
+  </h4>
+  <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
+    <ts-icon icon="bi bi-plus-circle" class="me-1"></ts-icon>
+    <ng-container i18n="@@Common.New">[i18n] New</ng-container>
+  </button>
 </div>
 
+<ts-simple-table
+  [columns]="columns"
+  [rows]="rows$ | ngrxPush"
+  [configuration]="configuration">
+</ts-simple-table>
+
 <ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
-  <a class="text-decoration-none"
-     [ngClass]="{'text-secondary': row.hidden, 'text-body': !row.hidden}"
-     [routerLink]="row.id"
-     (click)="$event.stopPropagation()">
+  <span [ngClass]="{'text-secondary text-decoration-line-through': row.hidden}">
     {{table.getCellValue(row, column)}}
-  </a>
+  </span>
 </ng-template>
 
 <ng-template #actionCellTemplate let-row="row">

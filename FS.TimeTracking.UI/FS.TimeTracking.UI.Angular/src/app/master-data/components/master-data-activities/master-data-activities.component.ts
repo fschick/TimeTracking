@@ -6,7 +6,6 @@ import {LocalizationService} from '../../../shared/services/internationalization
 import {
   Column,
   Configuration,
-  DataCellClickEvent,
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
@@ -47,51 +46,42 @@ export class MasterDataActivitiesComponent implements OnInit {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover align-middle text-break',
+      cssTable: 'table table-card table-sm align-middle text-break border',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
     };
 
-    const dataCellCss = (row: ActivityListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
-    const headCellMdCss = 'd-none d-md-table-cell';
-    const dataCellMdCss = (row: ActivityListDto) => `${dataCellCss(row)} ${headCellMdCss}`;
+    const cssHeadCell = 'border-0 text-nowrap';
+    const cssHeadCellMd = 'd-none d-md-table-cell';
+    const cssDataCellMd = () => cssHeadCellMd;
     this.columns = [
       {
         title: $localize`:@@DTO.ActivityListDto.Title:[i18n] Activity`,
         prop: 'title',
-        cssHeadCell: 'text-nowrap',
-        cssDataCell: dataCellCss,
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@DTO.ActivityListDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
-        cssHeadCell: 'text-nowrap',
-        cssDataCell: dataCellCss,
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@DTO.ActivityListDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
-        cssHeadCell: headCellMdCss + ' text-nowrap',
-        cssDataCell: dataCellMdCss,
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
+        cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
-        cssHeadCell: 'text-nowrap',
+        cssHeadCell: cssHeadCell,
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false
       },
     ];
-  }
-
-  public dataCellClick($event: DataCellClickEvent<ActivityListDto>): void {
-    if ($event.column.customId !== 'delete') {
-      // noinspection JSIgnoredPromiseFromCall
-      this.router.navigate([$event.row.id], {relativeTo: this.route});
-    }
   }
 
   public deleteItem(id: string): void {

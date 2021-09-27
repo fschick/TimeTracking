@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   Column,
   Configuration,
-  DataCellClickEvent,
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
@@ -47,31 +46,29 @@ export class MasterDataProjectsComponent implements OnInit {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover align-middle text-break',
+      cssTable: 'table table-card table-sm align-middle text-break border',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
     };
 
-    const dataCellCss = (row: ProjectListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
+    const cssHeadCell = 'border-0 text-nowrap';
     this.columns = [
       {
         title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`,
         prop: 'title',
-        cssHeadCell: 'text-nowrap',
-        cssDataCell: dataCellCss,
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
-        cssHeadCell: 'text-nowrap',
-        cssDataCell: dataCellCss,
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
-        cssHeadCell: 'text-nowrap',
+        cssHeadCell: cssHeadCell,
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false
@@ -81,13 +78,6 @@ export class MasterDataProjectsComponent implements OnInit {
 
   public getDataCellValue(row: ProjectListDto, column: Column<ProjectListDto>): string {
     return this.projectTable?.getCellValue(row, column) ?? '';
-  }
-
-  public dataCellClick($event: DataCellClickEvent<ProjectListDto>): void {
-    if ($event.column.customId !== 'delete') {
-      // noinspection JSIgnoredPromiseFromCall
-      this.router.navigate([$event.row.id], {relativeTo: this.route});
-    }
   }
 
   public deleteItem(id: string): void {

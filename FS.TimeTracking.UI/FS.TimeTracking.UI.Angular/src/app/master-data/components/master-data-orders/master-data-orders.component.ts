@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   Column,
   Configuration,
-  DataCellClickEvent,
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
@@ -49,42 +48,45 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-borderless table-hover align-middle text-break',
+      cssTable: 'table table-card table-sm align-middle text-break border',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
     };
 
-    const dataCellCss = (row: OrderListDto) => row.hidden ? 'text-secondary text-decoration-line-through' : '';
-    const headCellMdCss = 'd-none d-md-table-cell';
-    const dataCellMdCss = (row: OrderListDto) => `${dataCellCss(row)} ${headCellMdCss}`;
+    const cssHeadCell = 'border-0 text-nowrap';
+    const cssHeadCellMd = 'd-none d-md-table-cell';
+    const cssDataCellMd = () => cssHeadCellMd;
     this.columns = [
-      {title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`, prop: 'title', cssDataCell: dataCellCss, dataCellTemplate: this.dataCellTemplate},
       {
+        title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`,
+        cssHeadCell: cssHeadCell,
+        prop: 'title',
+        dataCellTemplate: this.dataCellTemplate
+      }, {
         title: $localize`:@@DTO.OrderListDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
-        cssHeadCell: 'text-nowrap',
-        cssDataCell: dataCellCss,
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: $localize`:@@DTO.OrderListDto.StartDate:[i18n] Start Date`,
         prop: 'startDate',
-        cssHeadCell: headCellMdCss + ' text-nowrap',
-        cssDataCell: dataCellMdCss,
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
+        cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
         title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due Date`,
         prop: 'dueDate',
-        cssHeadCell: headCellMdCss + ' text-nowrap',
-        cssDataCell: dataCellMdCss,
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
+        cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.dueDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
         title: $localize`:@@Common.Action:[i18n] Action`,
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
-        cssHeadCell: 'text-nowrap',
+        cssHeadCell: cssHeadCell,
         cssDataCell: 'text-nowrap action-cell',
         width: '1px',
         sortable: false
@@ -98,13 +100,6 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
   public getDataCellValue(row: OrderListDto, column: Column<OrderListDto>): string {
     return this.orderTable?.getCellValue(row, column) ?? '';
-  }
-
-  public dataCellClick($event: DataCellClickEvent<OrderListDto>): void {
-    if ($event.column.customId !== 'delete') {
-      // noinspection JSIgnoredPromiseFromCall
-      this.router.navigate([$event.row.id], {relativeTo: this.route});
-    }
   }
 
   public deleteItem(id: string): void {

@@ -63,6 +63,46 @@ ts-icon {
 }
 
 /* ----------------------------------------- */
+/* Table-Card
+/* ----------------------------------------- */
+.table-card {
+  thead {
+    tr {
+      & > * {
+        padding-top: $card-cap-padding-y !important;
+        padding-bottom: $card-cap-padding-y !important;;
+      }
+
+      color: $card-cap-color;
+      background-color: $card-cap-bg;
+      border-bottom: $card-border-width solid $card-border-color;
+    }
+  }
+
+
+  > * > * > *:first-child {
+    padding-left: $card-cap-padding-x !important;;
+  }
+
+  > * > * > *:last-child {
+    padding-right: $card-cap-padding-x !important;
+  }
+}
+
+/* ----------------------------------------- */
+/* bootstrap-icons
+/* ----------------------------------------- */
+ts-icon {
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
+
+  svg {
+    vertical-align: -.125em;
+  }
+}
+
+/* ----------------------------------------- */
 /* bootstrap-datepicker
 /* ----------------------------------------- */
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
