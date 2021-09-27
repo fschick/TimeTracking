@@ -7,8 +7,8 @@
     <ng-container *ngTemplateOutlet="configuration.filterRowTemplate ? configuration.filterRowTemplate : defaultFilterRowTemplate; context: getHeaderRowContext()"></ng-container>
     <ng-container *ngTemplateOutlet="configuration.dataRowTemplate ? configuration.dataRowTemplate : defaultDataRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tbody>
-    <tfoot>
-    <ng-container *ngTemplateOutlet="configuration.footRowTemplate ? configuration.footRowTemplate : defaultFooterRowTemplate; context: getHeaderRowContext()"></ng-container>
+    <tfoot *ngIf="configuration.footRowTemplate">
+    <ng-container *ngTemplateOutlet="configuration.footRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tfoot>
   </table>
 </div>
@@ -50,9 +50,6 @@
       <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: getDataCellContext(row, column, index, count, first, last,even, odd)"></ng-container>
     </td>
   </tr>
-</ng-template>
-
-<ng-template #defaultFooterRowTemplate>
 </ng-template>
 
 <ng-template #defaultHeadCellTemplate let-column="column">
