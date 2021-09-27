@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 
 @Component({
@@ -6,14 +6,10 @@ import {environment} from '../../../../environments/environment';
   templateUrl: './page-navigation.component.html',
   styleUrls: ['./page-navigation.component.scss']
 })
-export class PageNavigationComponent implements OnInit {
+export class PageNavigationComponent {
   isDevelopment: boolean;
 
   constructor() {
     this.isDevelopment = !environment.production;
   }
-
-  ngOnInit(): void {
-  }
-
 }
