@@ -24,24 +24,28 @@
       "MasterData": "Master Data",
       "Customers": {
         "Title": "Customers",
+        "New": "New Customer",
         "Edit": "Edit Customer",
         "Delete": "Delete Customer",
         "DeleteMessage": "Are you sure you want to delete this customer? This cannot be undone."
       },
       "Projects": {
         "Title": "Projects",
+        "New": "New Project",
         "Edit": "Edit Project",
         "Delete": "Delete Project",
         "DeleteMessage": "Are you sure you want to delete this project? This cannot be undone."
       },
       "Orders": {
         "Title": "Orders",
+        "New": "New Order",
         "Edit": "Edit Order",
         "Delete": "Delete Order",
         "DeleteMessage": "Are you sure you want to delete this order? This cannot be undone."
       },
       "Activities": {
         "Title": "Activities",
+        "New": "New Activity",
         "Edit": "Edit Activity",
         "Delete": "Delete Activity",
         "DeleteMessage": "Are you sure you want to delete this activity? This cannot be undone."

@@ -11,7 +11,6 @@ export class SimpleConfirmComponent implements OnDestroy {
   @Input() public disabled = false;
   @Input() public title = '';
   @Input() public message = '';
-  @Input() public actionIcon = '';
   @Input() public actionText = '';
 
   @Output() public confirmed = new EventEmitter<MouseEvent>();

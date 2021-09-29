@@ -24,24 +24,28 @@
       "MasterData": "Stammdaten",
       "Customers": {
         "Title": "Kunden",
+        "New": "Neuer Kunde",
         "Edit": "Kunde bearbeiten",
         "Delete": "Kunde löschen",
         "DeleteMessage": "Wollen Sie diesen Kunden wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
       "Projects": {
         "Title": "Projekte",
+        "New": "Neues Projekt",
         "Edit": "Projekt bearbeiten",
         "Delete": "Projekt löschen",
         "DeleteMessage": "Wollen Sie dieses Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
       "Orders": {
         "Title": "Aufträge",
+        "New": "Neuer Auftrag",
         "Edit": "Auftrag bearbeiten",
         "Delete": "Auftrag löschen",
         "DeleteMessage": "Wollen Sie diesen Auftrag wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
       "Activities": {
         "Title": "Tätigkeiten",
+        "New": "Neue Tätigkeit",
         "Edit": "Tätigkeit bearbeiten",
         "Delete": "Tätigkeit löschen",
         "DeleteMessage": "Wollen Sie diese Tätigkeit wirklich löschen? Dies kann nicht rückgängig gemacht werden."

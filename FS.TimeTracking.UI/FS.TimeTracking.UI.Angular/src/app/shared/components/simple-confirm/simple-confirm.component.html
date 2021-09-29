@@ -14,11 +14,11 @@
       </div>
       <div class="modal-footer">
         <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
-          <ts-icon *ngIf="actionIcon" icon="bi bi-x-circle-fill" class="me-1"></ts-icon>
           <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
         </button>
         <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" #confirmSubmit>
-          <ts-icon *ngIf="actionIcon" [icon]="actionIcon" class="me-1"></ts-icon>{{actionText}}</button>
+          {{actionText}}
+        </button>
       </div>
     </div>
   </div>
