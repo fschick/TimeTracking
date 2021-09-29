@@ -53,7 +53,7 @@ export class MasterDataCustomersComponent implements OnInit {
 
     const cssHeadCell = 'border-0 text-nowrap';
     const cssHeadCellMd = 'd-none d-md-table-cell';
-    const cssDataCellMd = () => cssHeadCellMd;
+    const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
         title: $localize`:@@DTO.CustomerDto.Title:[i18n] Title`,

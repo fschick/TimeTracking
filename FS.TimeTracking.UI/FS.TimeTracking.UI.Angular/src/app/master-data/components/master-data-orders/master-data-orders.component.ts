@@ -56,7 +56,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
     const cssHeadCell = 'border-0 text-nowrap';
     const cssHeadCellMd = 'd-none d-md-table-cell';
-    const cssDataCellMd = () => cssHeadCellMd;
+    const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
         title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`,
