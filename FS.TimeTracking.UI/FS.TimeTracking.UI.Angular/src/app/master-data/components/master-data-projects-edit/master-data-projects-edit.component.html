@@ -16,6 +16,7 @@
               <!--suppress XmlInvalidId -->
               <label for="customerName" class="form-label" i18n="@@DTO.ProjectDto.Customer">[i18n] Customer</label>
               <ng-select [items]="customers$ | ngrxPush"
+                         dropdownPosition="bottom"
                          bindValue="id"
                          bindLabel="value"
                          labelForId="customerName"
