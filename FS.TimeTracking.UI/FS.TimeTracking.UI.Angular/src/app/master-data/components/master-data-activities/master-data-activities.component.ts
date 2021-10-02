@@ -24,12 +24,12 @@ export class MasterDataActivitiesComponent implements OnInit {
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ActivityListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ActivityListDto>;
 
+  public guidService = GuidService;
   public rows$: Observable<ActivityListDto[]>;
   public columns!: Column<ActivityListDto>[];
   public configuration?: Partial<Configuration<ActivityListDto>>;
 
   constructor(
-    public guidService: GuidService,
     private entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,

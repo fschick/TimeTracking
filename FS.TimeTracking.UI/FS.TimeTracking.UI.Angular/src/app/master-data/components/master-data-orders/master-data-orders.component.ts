@@ -24,6 +24,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderListDto>;
 
+  public guidService = GuidService;
   public rows$: Observable<OrderListDto[]>;
   public columns!: Column<OrderListDto>[];
   public configuration?: Partial<Configuration<OrderListDto>>;
@@ -31,7 +32,6 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public guidService: GuidService,
     private entityService: EntityService,
     private router: Router,
     private route: ActivatedRoute,

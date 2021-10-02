@@ -28,12 +28,11 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private entityService: EntityService,
-    private guidService: GuidService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === this.guidService.guidEmpty;
-    this.orderForm = this.formValidationService.getFormGroup<OrderDto>('OrderDto', {id: this.guidService.guidEmpty, hidden: false});
+    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.orderForm = this.formValidationService.getFormGroup<OrderDto>('OrderDto', {id: GuidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.orderService

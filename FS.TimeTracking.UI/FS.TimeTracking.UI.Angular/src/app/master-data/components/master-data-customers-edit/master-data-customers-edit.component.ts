@@ -26,11 +26,10 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private entityService: EntityService,
-    private guidService: GuidService,
     private formValidationService: FormValidationService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === this.guidService.guidEmpty;
-    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: this.guidService.guidEmpty, hidden: false});
+    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: GuidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.customerService
