@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy, Optional} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy} from '@angular/core';
 import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -20,8 +20,19 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   private value?: DateTime = DateTime.min();
   private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
   private disabled = false;
+  private datepickerShown = false;
   private datePicker: any;
-  private datePickerOptions = {};
+  private datePickerOptions: any = {};
+
+  @Input() set startDate(value: DateTime | undefined) {
+    this.datePickerOptions.startDate = value?.toJSDate();
+    this.datePicker?.datepicker('setStartDate', value?.toJSDate());
+  }
+
+  @Input() set endDate(value: DateTime | undefined) {
+    this.datePickerOptions.endDate = value?.toJSDate();
+    this.datePicker?.datepicker('setEndDate', value?.toJSDate());
+  }
 
   constructor(
     private elementRef: ElementRef,
@@ -30,6 +41,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   ) {
     this.format = localizationService.dateTime.dateFormat;
 
+    // noinspection SpellCheckingInspection
     this.datePickerOptions = {
       format: this.toDatePickerFormat(this.format),
       todayHighlight: true,
@@ -52,8 +64,13 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
   @HostListener('blur', ['$event.target.value'])
   public onBlur(rawInput: string | undefined) {
-    const parsedDate = this.utilityService.parseDate(rawInput);
+    if (this.datepickerShown)
+      return;
+
+    let parsedDate = this.utilityService.parseDate(rawInput);
     if (parsedDate?.isValid) {
+      parsedDate = this.adjustToStartEndRange(parsedDate);
+      this.datePicker?.datepicker('setDate', parsedDate.toJSDate());
       this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
       this.emitValue(parsedDate);
     } else {
@@ -66,8 +83,10 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePicker = $(this.elementRef.nativeElement) as any;
     this.datePicker
       .datepicker(this.datePickerOptions)
+      .on('show', () => this.datepickerShown = true)
       .on('hide', () => {
         this.datePicker.focus();
+        this.datepickerShown = false;
       })
       .on('changeDate', (event: any) => {
         const parsedDate = DateTime.fromJSDate(event.date);
@@ -77,6 +96,8 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   }
 
   public writeValue(newValue?: DateTime): void {
+    if (newValue?.isValid)
+      newValue = this.adjustToStartEndRange(newValue);
     this.value = newValue;
     this.originTimePart = newValue?.isValid
       ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
@@ -125,6 +146,18 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       .replace(/MMM/g, 'M')
       .replace(/MM/g, 'mm')
       .replace(/M/g, 'm');
+  }
+
+  private adjustToStartEndRange(value: DateTime): DateTime {
+    const startDate = DateTime.fromJSDate(this.datePickerOptions.startDate);
+    if (value && startDate.isValid && value < startDate)
+      value = value.set({year: startDate.year, month: startDate.month, day: startDate.day});
+
+    const endDate = DateTime.fromJSDate(this.datePickerOptions.endDate);
+    if (value && endDate.isValid && value > endDate)
+      value = value.set({year: endDate.year, month: endDate.month, day: endDate.day});
+
+    return value;
   }
 
   private onChange: (obj: any) => void = (_: any) => {};
