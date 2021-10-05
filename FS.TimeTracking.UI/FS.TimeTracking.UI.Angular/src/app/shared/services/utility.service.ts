@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {LocalizationService} from './internationalization/localization.service';
 import {DateTime} from 'luxon';
+import {DurationInput} from 'luxon/src/duration';
+import {DateObjectUnits} from 'luxon/src/datetime';
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +83,7 @@ export class UtilityService {
     return index;
   }
 
-  public parseDate(rawInput: string | undefined): DateTime | undefined {
+  public parseDate(rawInput: string | undefined, relativeAnchor: 'start' | 'end' = 'start'): DateTime | undefined {
     if (!rawInput)
       return undefined;
 
@@ -99,11 +101,13 @@ export class UtilityService {
     const dayPattern = new RegExp('^\\s*(\\d{1,2})\\s*$');
     const monthAndDayPattern = new RegExp('^\\s*(\\d{1,2})\\D*(\\d{1,2})\\s*$');
     const monthDayAndYearPattern = new RegExp(`^\\s*(\\d${firstPartLength})\\D*(\\d${secondPartLength})\\D*(\\d${thirdPartLength})\\s*$`);
+    const relativePattern = new RegExp('^\\s*(?<mod1>[*/+-])?\\s*(?<mod2>[*/+-])?\\s*(?<value>\\d{1,2})?\\s*(?<mod3>[*/+-])?\\s*(?<mod4>[*/+-])?\\s*$');
 
     const todayParts = rawInput.match(todayPattern);
     const dayValueParts = rawInput.match(dayPattern);
     const monthAndDayValueParts = rawInput.match(monthAndDayPattern);
     const monthDayAndYearValueParts = rawInput.match(monthDayAndYearPattern);
+    const relativeParts = rawInput.match(relativePattern);
 
     if (todayParts)
       return this.parseToday();
@@ -113,6 +117,8 @@ export class UtilityService {
       return this.parseMonthAndDay(formatParts, monthAndDayValueParts);
     if (monthDayAndYearValueParts)
       return this.parseMonthDayAndYear(formatParts, monthDayAndYearValueParts);
+    if (relativeParts)
+      return this.parseRelative(relativeParts, relativeAnchor);
     return undefined;
   }
 
@@ -121,9 +127,51 @@ export class UtilityService {
     return DateTime.local(now.year, now.month, now.day);
   }
 
+  private parseRelative(valueParts: RegExpMatchArray, relativeAnchor: 'start' | 'end'): DateTime {
+    const today = DateTime.now().startOf('day');
+    const [mod1, mod2] = valueParts.groups ? Object.entries(valueParts.groups).filter(([key, val]) => key.startsWith('mod') && val).map(([, val]) => val) : [];
+    const operator = (mod1 === '+' || mod1 === '-') ? mod1 : mod2;
+    const unit = (mod1 === '*' || mod1 === '/') ? mod1 : mod2;
+    const value = valueParts.groups?.value;
+
+    let duration: DurationInput;
+    let dateUnit: DateObjectUnits;
+    if (unit === '*') {
+      const maxMonth = operator ? Number.MAX_SAFE_INTEGER : 12;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.month, maxMonth);
+      duration = {months: val};
+      dateUnit = {month: val};
+    } else if (unit === '/') {
+      const maxWeek = operator ? Number.MAX_SAFE_INTEGER : 53;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.weekNumber, maxWeek);
+      duration = {weeks: val};
+      dateUnit = {weekNumber: val};
+    } else {
+      const maxDay = operator ? Number.MAX_SAFE_INTEGER : today.daysInMonth;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.day, maxDay);
+      duration = {days: val};
+      dateUnit = {day: val};
+    }
+
+    let parsedDate: DateTime;
+    if (operator === '+')
+      parsedDate = today.plus(duration);
+    else if (operator === '-')
+      parsedDate = today.minus(duration);
+    else
+      parsedDate = today.set(dateUnit);
+
+    if (unit === '*')
+      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
+    else if (unit === '/')
+      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('week') : parsedDate.endOf('week');
+
+    return parsedDate;
+  }
+
   private parseDay(valueParts: RegExpMatchArray): DateTime {
     const now = DateTime.now();
-    const day = parseFloat(valueParts[1]);
+    const day = Math.min(parseInt(valueParts[1], 10), now.daysInMonth);
     return DateTime.local(now.year, now.month, day);
   }
 
@@ -133,8 +181,13 @@ export class UtilityService {
     const dayIsFirst = dayPartIndex < monthPartIndex;
 
     const now = DateTime.now();
-    const day = parseFloat(dayIsFirst ? valueParts[1] : valueParts[2]);
-    const month = parseFloat(dayIsFirst ? valueParts[2] : valueParts[1]);
+
+    const maxMonth = 12;
+    const month = Math.min(parseInt(dayIsFirst ? valueParts[2] : valueParts[1], 10), maxMonth);
+
+    const maxDay = now.set({month: month}).daysInMonth;
+    const day = Math.min(parseInt(dayIsFirst ? valueParts[1] : valueParts[2], 10), maxDay);
+
     return DateTime.local(now.year, month, day);
   }
 
@@ -147,7 +200,7 @@ export class UtilityService {
 
     for (let index = 1; index < formatParts.length; index++) {
       const formatPart = formatParts[index];
-      const valuePart = parseFloat(valueParts[index]);
+      const valuePart = parseInt(valueParts[index], 10);
       switch (formatPart) {
         case 'd':
         case 'dd':
@@ -172,6 +225,11 @@ export class UtilityService {
       else
         year = century - 100 + year;
     }
+
+    const maxMonth = 12;
+    month = Math.min(month, maxMonth);
+    const maxDay = now.set({month: month}).daysInMonth;
+    day = Math.min(day, maxDay);
 
     return DateTime.local(year, month, day);
   }

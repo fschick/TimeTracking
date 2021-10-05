@@ -60,7 +60,8 @@ describe('UtilityService', () => {
   });
 
   it('parseDate should work as expected ', () => {
-    const now = DateTime.local();
+    const today = DateTime.local().startOf('day');
+    let input: string;
     let parsedDate: DateTime | undefined;
     let expectedDate: DateTime | undefined;
 
@@ -70,71 +71,216 @@ describe('UtilityService', () => {
     expect(parsedDate?.toString()).toBe(expectedDate);
 
     parsedDate = service.parseDate(' ');
-    expectedDate = DateTime.local(now.year, now.month, now.day);
+    expectedDate = DateTime.local(today.year, today.month, today.day);
     expect(parsedDate?.toString()).toBe(expectedDate.toString());
 
-    // Relative input
+    // Dynamic input
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`${now.day - 1}`);
-    expectedDate = DateTime.local(now.year, now.month, now.day - 1);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    input = `${today.day - 1}`;
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, today.month, today.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`${now.day - 1} ${now.month - 1} `);
-    expectedDate = DateTime.local(now.year, now.month - 1, now.day - 1);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    input = `${today.day - 1} ${today.month - 1} `;
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, today.month - 1, today.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`${now.day - 1} ${now.month - 1} ${now.year - 1} `);
-    expectedDate = DateTime.local(now.year - 1, now.month - 1, now.day - 1);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    input = `${today.day - 1} ${today.month - 1} ${today.year - 1} `;
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year - 1, today.month - 1, today.day - 1);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     // Fixed input, 4-digit year
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`02 04 1938`);
+    input = '02 04 1938';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(1938, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`2 04 1938`);
+    input = '2 04 1938';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(1938, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`02 4 1938`);
+    input = '02 4 1938';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(1938, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(` 2 4 1938`);
+    input = ' 2 4 1938';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(1938, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     // Fixed input, 2-digit year
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`02 04 20`);
+    input = '02 04 20';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(2020, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`02 04 80`);
+    input = '02 04 80';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(1980, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     // Fixed input, partial values
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`020420`);
+    input = '020420';
+    parsedDate = service.parseDate(input);
     expectedDate = DateTime.local(2020, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`0204`);
-    expectedDate = DateTime.local(now.year, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    input = '0204';
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     localizationService.dateTime.dateFormat = 'dd.MM.yyyy';
-    parsedDate = service.parseDate(`024`);
-    expectedDate = DateTime.local(now.year, 4, 2);
-    expect(parsedDate?.toString()).toBe(expectedDate.toString());
+    input = '024';
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, 4, 2);
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    // Relative input, basic operators and units
+    input = '+1';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: 1});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '-1';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: -1});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '+90';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: 90});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '-90';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: -90});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*5';
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, 5, 1).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*5';
+    parsedDate = service.parseDate(input, 'end');
+    expectedDate = DateTime.local(today.year, 5, 1).endOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '/5';
+    parsedDate = service.parseDate(input);
+    expectedDate = DateTime.local(today.year, 1, 1).plus({weeks: 5}).startOf('week');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '/5';
+    parsedDate = service.parseDate(input, 'end');
+    expectedDate = DateTime.local(today.year, 1, 1).plus({weeks: 5}).endOf('week');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    // Relative input, empty unit
+    input = '+';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: 1});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '-';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.minus({days: 1});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '/';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.startOf('week');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '+*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 1}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '-*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.minus({months: 1}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '+/';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({weeks: 1}).startOf('week');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '-/';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.minus({weeks: 1}).startOf('week');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    // Relative input, variant operator and unit position
+    input = '+7';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: 7});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '7+';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({days: 7});
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*7';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.set({month: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '7*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.set({month: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*+7';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '+*7';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '+7*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '*7+';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '7+*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
+
+    input = '7+*';
+    parsedDate = service.parseDate(input);
+    expectedDate = today.plus({months: 7}).startOf('month');
+    expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
   });
 });

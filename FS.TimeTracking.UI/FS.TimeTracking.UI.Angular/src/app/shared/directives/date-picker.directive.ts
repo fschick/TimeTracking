@@ -16,13 +16,7 @@ const CUSTOM_VALUE_ACCESSOR: any = {
   providers: [CUSTOM_VALUE_ACCESSOR],
 })
 export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
-  private readonly format: string;
-  private value?: DateTime = DateTime.min();
-  private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
-  private disabled = false;
-  private datepickerShown = false;
-  private datePicker: any;
-  private datePickerOptions: any = {};
+  @Input() relativeAnchor: 'start' | 'end' = 'start';
 
   @Input() set startDate(value: DateTime | undefined) {
     this.datePickerOptions.startDate = value?.toJSDate();
@@ -33,6 +27,14 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePickerOptions.endDate = value?.toJSDate();
     this.datePicker?.datepicker('setEndDate', value?.toJSDate());
   }
+
+  private readonly format: string;
+  private value?: DateTime = DateTime.min();
+  private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
+  private disabled = false;
+  private datepickerShown = false;
+  private datePicker: any;
+  private datePickerOptions: any = {};
 
   constructor(
     private elementRef: ElementRef,
@@ -67,7 +69,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     if (this.datepickerShown)
       return;
 
-    let parsedDate = this.utilityService.parseDate(rawInput);
+    let parsedDate = this.utilityService.parseDate(rawInput, this.relativeAnchor);
     if (parsedDate?.isValid) {
       parsedDate = this.adjustToStartEndRange(parsedDate);
       this.datePicker?.datepicker('setDate', parsedDate.toJSDate());
