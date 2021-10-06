@@ -2,8 +2,8 @@ import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, O
 import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {UtilityService} from '../services/utility.service';
 import {DateObjectUnits} from 'luxon/src/datetime';
+import {DateParserService} from '../services/date-parser.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -39,7 +39,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   constructor(
     private elementRef: ElementRef,
     private localizationService: LocalizationService,
-    private utilityService: UtilityService,
+    private dateParserService: DateParserService,
   ) {
     this.format = localizationService.dateTime.dateFormat;
 
@@ -69,7 +69,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     if (this.datepickerShown)
       return;
 
-    let parsedDate = this.utilityService.parseDate(rawInput, this.relativeAnchor);
+    let parsedDate = this.dateParserService.parseDate(rawInput, this.relativeAnchor);
     if (parsedDate?.isValid) {
       parsedDate = this.adjustToStartEndRange(parsedDate);
       this.datePicker?.datepicker('setDate', parsedDate.toJSDate());
