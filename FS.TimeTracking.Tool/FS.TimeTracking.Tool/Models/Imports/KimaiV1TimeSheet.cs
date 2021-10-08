@@ -58,6 +58,6 @@ namespace FS.TimeTracking.Tool.Models.Imports
         /// <summary>
         /// Gets or sets a value indicating whether this item is billable.
         /// </summary>
-        public bool? Billable { get; set; }
+        public int? Billable { get; set; }
     }
 }

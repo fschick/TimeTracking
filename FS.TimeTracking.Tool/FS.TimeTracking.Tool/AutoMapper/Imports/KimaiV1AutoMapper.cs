@@ -49,7 +49,7 @@ namespace FS.TimeTracking.Tool.AutoMapper.Imports
                 .ForMember(x => x.StartDate, config => config.MapFrom(x => DateTimeOffset.FromUnixTimeSeconds(x.Start)))
                 .ForMember(x => x.EndDate, config => config.MapFrom(x => x.End != 0 ? DateTimeOffset.FromUnixTimeSeconds(x.End) : (DateTimeOffset?)null))
                 .ForMember(x => x.Issue, config => config.MapFrom(x => x.TrackingNumber))
-                .ForMember(x => x.Billable, config => config.MapFrom(x => x.Billable ?? true))
+                .ForMember(x => x.Billable, config => config.MapFrom(x => !x.Billable.HasValue || x.Billable > 0))
                 .ForMember(x => x.ProjectId, config => config.Ignore())
                 .ForMember(x => x.ActivityId, config => config.Ignore())
                 .ForMember(x => x.Created, config => config.MapFrom(x => utcNow))
