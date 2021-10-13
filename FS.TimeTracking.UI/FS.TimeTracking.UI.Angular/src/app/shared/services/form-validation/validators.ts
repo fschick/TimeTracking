@@ -27,7 +27,7 @@ export class Validators {
       const field = control.get(fieldName as string);
       const otherField = control.get(otherFieldName as string);
 
-      if (!field || !otherField)
+      if (!field || !otherField || !field.value || !otherField.value)
         return null;
 
       let isValid: boolean;
