@@ -1,7 +1,7 @@
 ﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using System;
 
-namespace FS.TimeTracking.Tests.Services
+namespace FS.TimeTracking.Shared.Tests.Services
 {
     public static class FakeEntityFactory
     {

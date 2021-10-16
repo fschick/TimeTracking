@@ -2,7 +2,7 @@
 using FS.TimeTracking.Application.AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FS.TimeTracking.Application.Tests.Tests
+namespace FS.TimeTracking.Application.Tests.Tests.AutoMapper
 {
     [TestClass]
     public class AutoMapperConfigurationTests

@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FS.TimeTracking.Api.REST.Controllers;
 using FS.TimeTracking.Shared.Models.Configuration;
+using FS.TimeTracking.Shared.Tests.Services;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

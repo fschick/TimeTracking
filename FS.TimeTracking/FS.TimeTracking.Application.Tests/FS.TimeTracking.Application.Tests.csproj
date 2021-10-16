@@ -3,6 +3,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
   </ItemGroup>
 

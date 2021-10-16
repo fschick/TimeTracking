@@ -12,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Application.Tests.Tests
+namespace FS.TimeTracking.Application.Tests.Tests.Services
 {
     [TestClass]
     public class ValidationDescriptionServiceTests
