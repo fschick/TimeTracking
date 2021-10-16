@@ -35,7 +35,7 @@ export class MasterDataCustomersComponent implements OnInit {
     private customerService: CustomerService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.customerService.list()
+    this.rows$ = this.customerService.list({})
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService)
@@ -90,7 +90,7 @@ export class MasterDataCustomersComponent implements OnInit {
 
   public deleteItem(id: string): void {
     this.customerService
-      .delete(id)
+      .delete({id})
       .pipe(single())
       .subscribe(() => {
         this.entityService.customerChanged.next({entity: {id} as CustomerDto, action: 'deleted'});

@@ -38,7 +38,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.orderService.list()
+    this.rows$ = this.orderService.list({})
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService)
@@ -104,7 +104,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
   public deleteItem(id: string): void {
     this.orderService
-      .delete(id)
+      .delete({id})
       .pipe(single())
       .subscribe(() => {
         this.entityService.orderChanged.next({entity: {id} as OrderListDto, action: 'deleted'});

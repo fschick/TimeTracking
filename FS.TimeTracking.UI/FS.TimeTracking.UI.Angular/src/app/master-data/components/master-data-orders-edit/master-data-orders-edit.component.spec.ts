@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {OrderService, TypeaheadService} from '../../../shared/services/api';
+import {OrderService, TypeaheadGetProjectsRequestParams, TypeaheadService} from '../../../shared/services/api';
 import {Observable, of} from 'rxjs';
 import {MasterDataOrdersEditComponent} from './master-data-orders-edit.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
@@ -15,7 +15,7 @@ const fakeOrderService = {
 } as Partial<OrderService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any[]> => of([])
+  getCustomers: (_: TypeaheadGetProjectsRequestParams): Observable<any[]> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({

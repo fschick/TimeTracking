@@ -1,5 +1,6 @@
 {
   "enumPropertyNaming": "camelCase",
   "supportsES6": true,
-  "withInterfaces": false
+  "withInterfaces": false,
+  "useSingleRequestParameter": true
 }

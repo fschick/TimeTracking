@@ -13,7 +13,7 @@ export type CrudDto = {
 };
 
 export type CrudService<TDto> = {
-  list: (id: string) => Observable<TDto[]>;
+  list: (requestParameters: { id: string }) => Observable<TDto[]>;
 };
 
 @Injectable({
@@ -54,7 +54,7 @@ export class EntityService {
         }
 
         return crudService
-          .list(changedEvent.entity.id)
+          .list({id: changedEvent.entity.id})
           .pipe(single(), map(entity => {
             changedEvent.entity = entity[0];
             return changedEvent;

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CustomerDto, ProjectService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
+import {ProjectService, TypeaheadGetProjectsRequestParams, TypeaheadService} from '../../../shared/services/api';
 import {Observable, of} from 'rxjs';
 import {MasterDataProjectsEditComponent} from './master-data-projects-edit.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveComponentModule} from '@ngrx/component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {NgSelectModule} from '@ng-select/ng-select';
 
 const fakeProjectService = {
@@ -15,7 +15,7 @@ const fakeProjectService = {
 } as Partial<ProjectService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any[]> => of([])
+  getCustomers: (_: TypeaheadGetProjectsRequestParams): Observable<any[]> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({

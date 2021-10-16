@@ -36,7 +36,7 @@ export class MasterDataActivitiesComponent implements OnInit {
     private activityService: ActivityService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.activityService.list()
+    this.rows$ = this.activityService.list({})
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.activityChanged, this.activityService)
@@ -86,7 +86,7 @@ export class MasterDataActivitiesComponent implements OnInit {
 
   public deleteItem(id: string): void {
     this.activityService
-      .delete(id)
+      .delete({id})
       .pipe(single())
       .subscribe(() => {
         this.entityService.activityChanged.next({entity: {id} as ActivityListDto, action: 'deleted'});

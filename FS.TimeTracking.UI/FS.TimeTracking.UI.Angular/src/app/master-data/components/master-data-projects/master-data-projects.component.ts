@@ -36,7 +36,7 @@ export class MasterDataProjectsComponent implements OnInit {
     private projectService: ProjectService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.projectService.list()
+    this.rows$ = this.projectService.list({})
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService)
@@ -82,7 +82,7 @@ export class MasterDataProjectsComponent implements OnInit {
 
   public deleteItem(id: string): void {
     this.projectService
-      .delete(id)
+      .delete({id})
       .pipe(single())
       .subscribe(() => {
         this.entityService.projectChanged.next({entity: {id} as ProjectListDto, action: 'deleted'});

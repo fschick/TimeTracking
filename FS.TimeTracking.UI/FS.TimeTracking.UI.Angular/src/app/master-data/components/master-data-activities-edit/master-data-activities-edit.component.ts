@@ -37,12 +37,12 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
 
     if (!this.isNewRecord)
       this.activityService
-        .get(this.route.snapshot.params.id)
+        .get({id: this.route.snapshot.params.id})
         .pipe(single())
         .subscribe(activity => this.activityForm.patchValue(activity));
 
-    this.customers$ = typeaheadService.getCustomers(true);
-    this.projects$ = typeaheadService.getProjects(true);
+    this.customers$ = typeaheadService.getCustomers({showHidden: true});
+    this.projects$ = typeaheadService.getProjects({showHidden: true});
   }
 
   public ngAfterViewInit(): void {
@@ -57,8 +57,8 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
       return;
 
     const apiAction = this.isNewRecord
-      ? this.activityService.create(this.activityForm.value)
-      : this.activityService.update(this.activityForm.value);
+      ? this.activityService.create({activityDto: this.activityForm.value})
+      : this.activityService.update({activityDto: this.activityForm.value});
 
     const activityChangedAction = this.isNewRecord
       ? 'created'

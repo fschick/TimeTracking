@@ -36,11 +36,11 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
 
     if (!this.isNewRecord)
       this.orderService
-        .get(this.route.snapshot.params.id)
+        .get({id: this.route.snapshot.params.id})
         .pipe(single())
         .subscribe(order => this.orderForm.patchValue(order));
 
-    this.customers$ = typeaheadService.getCustomers(true);
+    this.customers$ = typeaheadService.getCustomers({showHidden: true});
   }
 
   public ngAfterViewInit(): void {
@@ -55,8 +55,8 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
       return;
 
     const apiAction = this.isNewRecord
-      ? this.orderService.create(this.orderForm.value)
-      : this.orderService.update(this.orderForm.value);
+      ? this.orderService.create({orderDto: this.orderForm.value})
+      : this.orderService.update({orderDto: this.orderForm.value});
 
     const orderChangedAction = this.isNewRecord
       ? 'created'

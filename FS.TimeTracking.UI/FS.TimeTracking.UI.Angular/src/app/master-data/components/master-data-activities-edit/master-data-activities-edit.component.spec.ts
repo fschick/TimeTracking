@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivityService, TypeaheadService} from '../../../shared/services/api';
+import {ActivityService, TypeaheadGetProjectsRequestParams, TypeaheadService} from '../../../shared/services/api';
 import {Observable, of} from 'rxjs';
 import {MasterDataActivitiesEditComponent} from './master-data-activities-edit.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
@@ -15,8 +15,8 @@ const fakeActivityService = {
 } as Partial<ActivityService>;
 
 const fakeTypeaheadService = {
-  getCustomers: (): Observable<any[]> => of([]),
-  getProjects: (): Observable<any[]> => of([])
+  getCustomers: (_: TypeaheadGetProjectsRequestParams): Observable<any> => of([]),
+  getProjects: (_: TypeaheadGetProjectsRequestParams): Observable<any> => of([])
 } as Partial<TypeaheadService>;
 
 @Component({

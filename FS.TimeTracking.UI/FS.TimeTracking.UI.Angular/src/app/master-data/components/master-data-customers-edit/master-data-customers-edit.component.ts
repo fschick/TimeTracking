@@ -33,7 +33,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
 
     if (!this.isNewRecord)
       this.customerService
-        .get(this.route.snapshot.params.id)
+        .get({id: this.route.snapshot.params.id})
         .pipe(single())
         .subscribe(customer => this.customerForm.patchValue(customer));
   }
@@ -50,8 +50,8 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
       return;
 
     const apiAction = this.isNewRecord
-      ? this.customerService.create(this.customerForm.value)
-      : this.customerService.update(this.customerForm.value);
+      ? this.customerService.create({customerDto: this.customerForm.value})
+      : this.customerService.update({customerDto: this.customerForm.value});
 
     const customerChangedAction = this.isNewRecord
       ? 'created'
