@@ -57,48 +57,6 @@ export class DateParserService {
     return DateTime.local(now.year, now.month, now.day);
   }
 
-  private parseRelative(valueParts: RegExpMatchArray, relativeAnchor: 'start' | 'end'): DateTime {
-    const today = DateTime.now().startOf('day');
-    const [mod1, mod2] = valueParts.groups ? Object.entries(valueParts.groups).filter(([key, val]) => key.startsWith('mod') && val).map(([, val]) => val) : [];
-    const operator = (mod1 === '+' || mod1 === '-') ? mod1 : mod2;
-    const unit = (mod1 === '*' || mod1 === '/') ? mod1 : mod2;
-    const value = valueParts.groups?.value;
-
-    let duration: DurationInput;
-    let dateUnit: DateObjectUnits;
-    if (unit === '*') {
-      const maxMonth = operator ? Number.MAX_SAFE_INTEGER : 12;
-      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.month, maxMonth);
-      duration = {months: val};
-      dateUnit = {month: val};
-    } else if (unit === '/') {
-      const maxWeek = operator ? Number.MAX_SAFE_INTEGER : 53;
-      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.weekNumber, maxWeek);
-      duration = {weeks: val};
-      dateUnit = {weekNumber: val};
-    } else {
-      const maxDay = operator ? Number.MAX_SAFE_INTEGER : today.daysInMonth;
-      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.day, maxDay);
-      duration = {days: val};
-      dateUnit = {day: val};
-    }
-
-    let parsedDate: DateTime;
-    if (operator === '+')
-      parsedDate = today.plus(duration);
-    else if (operator === '-')
-      parsedDate = today.minus(duration);
-    else
-      parsedDate = today.set(dateUnit);
-
-    if (unit === '*')
-      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
-    else if (unit === '/')
-      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('week') : parsedDate.endOf('week');
-
-    return parsedDate;
-  }
-
   private parseDay(valueParts: RegExpMatchArray): DateTime {
     const now = DateTime.now();
     const day = Math.min(parseInt(valueParts[1], 10), now.daysInMonth);
@@ -162,5 +120,47 @@ export class DateParserService {
     day = Math.min(day, maxDay);
 
     return DateTime.local(year, month, day);
+  }
+
+  private parseRelative(valueParts: RegExpMatchArray, relativeAnchor: 'start' | 'end'): DateTime {
+    const today = DateTime.now().startOf('day');
+    const [mod1, mod2] = valueParts.groups ? Object.entries(valueParts.groups).filter(([key, val]) => key.startsWith('mod') && val).map(([, val]) => val) : [];
+    const operator = (mod1 === '+' || mod1 === '-') ? mod1 : mod2;
+    const unit = (mod1 === '*' || mod1 === '/') ? mod1 : mod2;
+    const value = valueParts.groups?.value;
+
+    let duration: DurationInput;
+    let dateUnit: DateObjectUnits;
+    if (unit === '*') {
+      const maxMonth = operator ? Number.MAX_SAFE_INTEGER : 12;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.month, maxMonth);
+      duration = {months: val};
+      dateUnit = {month: val};
+    } else if (unit === '/') {
+      const maxWeek = operator ? Number.MAX_SAFE_INTEGER : 53;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.weekNumber, maxWeek);
+      duration = {weeks: val};
+      dateUnit = {weekNumber: val};
+    } else {
+      const maxDay = operator ? Number.MAX_SAFE_INTEGER : today.daysInMonth;
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.day, maxDay);
+      duration = {days: val};
+      dateUnit = {day: val};
+    }
+
+    let parsedDate: DateTime;
+    if (operator === '+')
+      parsedDate = today.plus(duration);
+    else if (operator === '-')
+      parsedDate = today.minus(duration);
+    else
+      parsedDate = today.set(dateUnit);
+
+    if (unit === '*')
+      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
+    else if (unit === '/')
+      parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('week') : parsedDate.endOf('week');
+
+    return parsedDate;
   }
 }
