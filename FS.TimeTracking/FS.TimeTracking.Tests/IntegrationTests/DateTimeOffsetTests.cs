@@ -7,12 +7,13 @@ using FS.TimeTracking.Tests.Services;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.IntegrationTests
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class DateTimeOffsetTests
     {
         [DataTestMethod, TestDatabases]

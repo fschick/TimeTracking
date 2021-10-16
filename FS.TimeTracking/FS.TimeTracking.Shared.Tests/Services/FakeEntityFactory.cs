@@ -1,8 +1,10 @@
 ﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Shared.Tests.Services
 {
+    [ExcludeFromCodeCoverage]
     public static class FakeEntityFactory
     {
         public static CustomerDto CreateCustomer(string prefix = "Test", bool hidden = false)

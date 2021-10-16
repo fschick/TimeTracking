@@ -8,13 +8,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class ValidationDescriptionServiceTests
     {
         [TestMethod]

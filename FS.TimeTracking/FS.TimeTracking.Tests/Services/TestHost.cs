@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.Services
 {
+    [ExcludeFromCodeCoverage]
     public sealed class TestHost : IHost, IAsyncDisposable
     {
         private readonly IHost _testServer;

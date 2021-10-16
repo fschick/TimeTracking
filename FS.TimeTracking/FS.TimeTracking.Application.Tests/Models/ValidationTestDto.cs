@@ -2,10 +2,12 @@
 using FS.TimeTracking.Shared.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Application.Tests.Models
 {
     [ValidationDescription]
+    [ExcludeFromCodeCoverage]
     public class ValidationTestDto
     {
         [Required]
@@ -101,6 +103,7 @@ namespace FS.TimeTracking.Application.Tests.Models
     }
 
     [ValidationDescription]
+    [ExcludeFromCodeCoverage]
     public class TestNestedOuterDto
     {
         [Required]

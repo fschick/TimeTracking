@@ -8,11 +8,12 @@ using FS.TimeTracking.Shared.Models.TimeTracking;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Repository.Tests.Tests
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class RepositoryTests
     {
         [TestMethod]

@@ -6,10 +6,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Shared.Tests
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class CompareToAttributeTests
     {
         [DataTestMethod]

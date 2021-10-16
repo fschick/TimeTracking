@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
 namespace FS.TimeTracking.Tests.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ControllerExtensions
     {
         public static string GetRoute<TController>(Expression<Action<TController>> controllerAction, IApiDescriptionGroupCollectionProvider apiDescriptionProvider)

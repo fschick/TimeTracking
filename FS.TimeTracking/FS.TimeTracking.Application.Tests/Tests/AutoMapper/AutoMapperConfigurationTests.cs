@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Application.AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Application.Tests.Tests.AutoMapper
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class AutoMapperConfigurationTests
     {
         [TestMethod]
