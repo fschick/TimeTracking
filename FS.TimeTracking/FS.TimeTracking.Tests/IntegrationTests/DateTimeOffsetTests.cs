@@ -23,10 +23,10 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             await using var testHost = await TestHost.Create(configuration);
             using var client = testHost.GetTestClient();
 
-            var newCustomer = FakeEntityFactory.CreateCustomer();
-            var newProject = FakeEntityFactory.CreateProject(newCustomer.Id);
-            var newActivity = FakeEntityFactory.CreateActivity();
-            var newTimeSheet = FakeEntityFactory.CreateTimeSheet(newProject.Id, newActivity.Id);
+            var newCustomer = FakeEntityFactory.CreateCustomerDto();
+            var newProject = FakeEntityFactory.CreateProjectDto(newCustomer.Id);
+            var newActivity = FakeEntityFactory.CreateActivityDto();
+            var newTimeSheet = FakeEntityFactory.CreateTimeSheetDto(newProject.Id, newActivity.Id);
 
             // Act
             newTimeSheet.StartDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(-4));

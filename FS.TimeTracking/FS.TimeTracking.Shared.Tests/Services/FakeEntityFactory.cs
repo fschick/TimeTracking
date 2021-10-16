@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Shared.Tests.Services
     [ExcludeFromCodeCoverage]
     public static class FakeEntityFactory
     {
-        public static CustomerDto CreateCustomer(string prefix = "Test", bool hidden = false)
+        public static CustomerDto CreateCustomerDto(string prefix = "Test", bool hidden = false)
             => new CustomerDto
             {
                 Id = Guid.NewGuid(),
@@ -21,7 +21,7 @@ namespace FS.TimeTracking.Shared.Tests.Services
                 Hidden = hidden,
             };
 
-        public static ProjectDto CreateProject(Guid customerId, string prefix = "Test", bool hidden = false)
+        public static ProjectDto CreateProjectDto(Guid customerId, string prefix = "Test", bool hidden = false)
             => new ProjectDto
             {
                 Id = Guid.NewGuid(),
@@ -31,7 +31,7 @@ namespace FS.TimeTracking.Shared.Tests.Services
                 Hidden = hidden
             };
 
-        public static ActivityDto CreateActivity(Guid? projectId = null, string prefix = "Test", bool hidden = false)
+        public static ActivityDto CreateActivityDto(Guid? projectId = null, string prefix = "Test", bool hidden = false)
             => new ActivityDto
             {
                 Id = Guid.NewGuid(),
@@ -41,7 +41,7 @@ namespace FS.TimeTracking.Shared.Tests.Services
                 Hidden = hidden
             };
 
-        public static TimeSheetDto CreateTimeSheet(Guid projectId, Guid activityId, Guid? orderId = null, string prefix = "Test")
+        public static TimeSheetDto CreateTimeSheetDto(Guid projectId, Guid activityId, Guid? orderId = null, string prefix = "Test")
             => new TimeSheetDto
             {
                 Id = Guid.NewGuid(),

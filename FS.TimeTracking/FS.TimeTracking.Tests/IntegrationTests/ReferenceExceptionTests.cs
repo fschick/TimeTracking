@@ -23,11 +23,11 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             using var client = testHost.GetTestClient();
 
             // Act
-            var newCustomer = FakeEntityFactory.CreateCustomer();
+            var newCustomer = FakeEntityFactory.CreateCustomerDto();
             var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
             await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
 
-            var newProject = FakeEntityFactory.CreateProject(newCustomer.Id);
+            var newProject = FakeEntityFactory.CreateProjectDto(newCustomer.Id);
             var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
             await client.PostAsJsonAsync(projectCreateRoute, newProject);
 

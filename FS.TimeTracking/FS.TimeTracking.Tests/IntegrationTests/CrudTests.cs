@@ -22,7 +22,7 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             await using var testHost = await TestHost.Create(configuration);
             using var client = testHost.GetTestClient();
 
-            var newCustomer = FakeEntityFactory.CreateCustomer(hidden: true);
+            var newCustomer = FakeEntityFactory.CreateCustomerDto(hidden: true);
 
             // Act
             var createRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));

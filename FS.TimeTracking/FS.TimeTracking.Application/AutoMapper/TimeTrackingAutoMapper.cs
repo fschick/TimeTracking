@@ -17,6 +17,7 @@ namespace FS.TimeTracking.Application.AutoMapper
         public TimeTrackingAutoMapper()
         {
             ClearPrefixes();
+
             CreateMap<Customer, CustomerDto>()
                 .ReverseMap();
 
