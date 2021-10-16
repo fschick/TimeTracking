@@ -3,7 +3,7 @@
   <Import Project="../../Build/build_version.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

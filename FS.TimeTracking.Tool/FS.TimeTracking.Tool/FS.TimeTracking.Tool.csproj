@@ -12,10 +12,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Mono.Options" Version="6.12.0.148" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="5.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0-alpha.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
