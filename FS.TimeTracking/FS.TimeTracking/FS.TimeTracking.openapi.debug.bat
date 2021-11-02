@@ -1,0 +1,3 @@
+set TargetName=FS.TimeTracking
+set AngularDirectory=../../FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+npx %AngularDirectory%/node_modules/.bin/openapi-generator-cli generate -c %AngularDirectory%/openapi-generator/config.json -g typescript-angular --template-dir %AngularDirectory%/openapi-generator/templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i %TargetName%.openapi.json -o %AngularDirectory%/src/app/shared/services/api --global-property debugModels,debugOperations,debugSupportingFiles
