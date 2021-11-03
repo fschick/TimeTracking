@@ -11,14 +11,18 @@ param (
 
 Push-Location $PSScriptRoot/..
 
+$projectName="FS.$projectName"
 $fileVersion=$version -replace '(\d+(?:\.\d+)*)(.*)', '$1'
 $targetFramework="net5.0"
 $configuration="Release"
-$msBuildPublishDir="$projectName/bin/$configuration/$targetFramework/$runtime/publish"
-$msBuildOutDir="$projectName/bin/$configuration/$targetFramework"
+$msBuildOutDir="FS.TimeTracking/FS.TimeTracking/bin/$configuration/$targetFramework"
+$msBuildPublishDir="$msBuildOutDir/$runtime/publish"
 
 Npm-Restore
-Publish-Rest-Services -projectName $projectName -configuration $configuration -targetFramework $targetFramework -runtime $runtime -version $version -fileVersion $fileVersion -publshFolder $publshFolder -msBuildPublishDir $msBuildPublishDir
+Clean-Folder -folder $publshFolder
+Clean-Folder -folder $msBuildPublishDir
+Publish-Rest-Services -configuration $configuration -targetFramework $targetFramework -runtime $runtime -version $version -fileVersion $fileVersion -msBuildPublishDir $msBuildPublishDir
+Publish-Tool -configuration $configuration -targetFramework $targetFramework -runtime $runtime -version $version -fileVersion $fileVersion -msBuildPublishDir $msBuildPublishDir
 Publish-Ui -msBuildPublishDir $msBuildPublishDir
 Publish-Merge-To-Artifact-Folder -projectName $projectName -runtime $runtime -publshFolder $publshFolder -msBuildPublishDir $msBuildPublishDir
 

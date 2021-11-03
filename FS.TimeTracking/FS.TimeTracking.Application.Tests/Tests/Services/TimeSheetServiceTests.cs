@@ -1,6 +1,4 @@
 ﻿using Autofac.Extras.FakeItEasy;
-using FakeItEasy;
-using FluentAssertions;
 using FS.TimeTracking.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
@@ -10,6 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FakeItEasy;
+using FluentAssertions;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services
 {

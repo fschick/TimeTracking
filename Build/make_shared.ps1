@@ -95,26 +95,42 @@ function Test-Ui {
 #
 #region Publish
 #
-function Publish-Rest-Services([String] $projectName, [String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $publshFolder, [String] $msBuildPublishDir) {
-    # Publish back-end
-	& dotnet publish $projectName --configuration $configuration --framework $targetFramework --self-contained --runtime $runtime -p:Version=$version -p:FileVersion=$fileVersion
+function Clean-Folder([String] $folder) {
+	Remove-Item $folder -Recurse -ErrorAction Ignore -Force
+}
+
+function Publish-Rest-Services([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $publshFolder, [String] $msBuildPublishDir) {
+    # Generate Open API spec, Angular client and validation spec by running runtime independent build
+	& dotnet build FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration
+	if(!$?) {
+		exit $LASTEXITCODE
+	}
+	
+	# Publish back-end
+	& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework --self-contained --runtime $runtime -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
 		exit $LASTEXITCODE
 	}
 
-	# Clean existing artifacts publish folder
-	Remove-Item $publshFolder -Recurse -ErrorAction Ignore -Force
+	Remove-Item $msBuildPublishDir/FS.TimeTracking.config.Development.json -ErrorAction Ignore
+}
 
-	if (Test-Path $msBuildPublishDir/$projectName.config.Development.json){
-		Remove-Item $msBuildPublishDir/$projectName.config.Development.json
+function Publish-Tool([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $msBuildPublishDir) {
+    # Publish back-end
+	& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework --self-contained --runtime $runtime -p:Version=$version -p:FileVersion=$fileVersion
+	if(!$?) {
+		exit $LASTEXITCODE
 	}
+
+	# Move Tool to publish folder
+	mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
 }
 
 function Publish-Ui([String] $msBuildPublishDir) {
 	Build-Ui
 
 	# Move SPA to publish folder
-	mv FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/UI
+	mv FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/UI
 }
 
 function Publish-Merge-To-Artifact-Folder([String] $projectName, [String] $runtime, [String] $publshFolder, [String] $msBuildPublishDir) {
