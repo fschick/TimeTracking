@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable, of, Subject} from 'rxjs';
-import {ActivityListDto, CustomerDto, OrderListDto, ProjectListDto} from '../api';
+import {ActivityListDto, CustomerDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
 import {map, single, switchMap, tap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
@@ -24,6 +24,7 @@ export class EntityService {
   public projectChanged: Subject<EntityChanged<ProjectListDto>> = new Subject<EntityChanged<ProjectListDto>>();
   public orderChanged: Subject<EntityChanged<OrderListDto>> = new Subject<EntityChanged<OrderListDto>>();
   public activityChanged: Subject<EntityChanged<ActivityListDto>> = new Subject<EntityChanged<ActivityListDto>>();
+  public timesheetChanged: Subject<EntityChanged<TimeSheetListDto>> = new Subject<EntityChanged<TimeSheetListDto>>();
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (sourceList: Observable<TDto[]>) => {

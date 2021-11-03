@@ -86,7 +86,7 @@ namespace FS.TimeTracking.Application.Services
                 .Generate(Math.Min(amount, DevelopmentActivities.Activities.Count))
                 .ToList();
 
-            var timeZone = TZConvert.GetTimeZoneInfo(timeZoneId);
+            var timeZone = timeZoneId != null ? TZConvert.GetTimeZoneInfo(timeZoneId) : TimeZoneInfo.Utc;
             var referenceDate = DateTime.UtcNow.Date.AddYears(amount / 10 * -1);
             var orderDate = referenceDate.AddDays(random.Next(-15, 15));
             var orders = new Faker<Order>(locale)

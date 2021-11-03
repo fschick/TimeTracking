@@ -1,0 +1,23 @@
+#extendedFilterControl {
+  cursor: pointer;
+
+  &.collapsed {
+    .text-expand {
+      display: inline-block;
+    }
+
+    .text-collapse {
+      display: none;
+    }
+  }
+
+  &:not(.collapsed) {
+    .text-expand {
+      display: none;
+    }
+
+    .text-collapse {
+      display: inline-block;
+    }
+  }
+}

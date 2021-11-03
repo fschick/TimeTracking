@@ -18,11 +18,28 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         /// <inheritdoc cref="TimeSheet.EndDate"/>
         public DateTimeOffset? EndDate { get; set; }
 
-        /// <inheritdoc cref="TimeSheet.Billable"/>
-        [Required]
-        public bool Billable { get; set; }
+        /// <summary>
+        /// Gets the duration.
+        /// </summary>
+        public TimeSpan? Duration { get; set; }
 
         /// <inheritdoc cref="TimeSheet.Comment"/>
         public string Comment { get; set; }
+
+        /// <inheritdoc cref="TimeSheet.Issue"/>
+        public string Issue { get; set; }
+
+        /// <inheritdoc cref="Customer.Title"/>
+        public string CustomerTitle { get; set; }
+
+        /// <inheritdoc cref="Project.Title"/>
+        public string ProjectTitle { get; set; }
+
+        /// <inheritdoc cref="Activity.Title"/>
+        public string ActivityTitle { get; set; }
+
+        /// <inheritdoc cref="TimeSheet.Billable"/>
+        [Required]
+        public bool Billable { get; set; }
     }
 }

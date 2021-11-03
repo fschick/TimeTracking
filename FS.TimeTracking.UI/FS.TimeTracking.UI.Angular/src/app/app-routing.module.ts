@@ -9,6 +9,7 @@ import {MasterDataProjectsEditComponent} from './master-data/components/master-d
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
+import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,10 @@ const routes: Routes = [
     path: 'master-data/activities', component: MasterDataActivitiesComponent,
     children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
   },
-  {path: '', component: TimesheetComponent},
+  {
+    path: '', component: TimesheetComponent,
+    children: [{path: ':id', component: TimesheetEditComponent}]
+  },
 ];
 
 @NgModule({

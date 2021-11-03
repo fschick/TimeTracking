@@ -8,7 +8,13 @@
     "Cancel": "Cancel",
     "Delete": "Delete",
     "Edit": "Edit",
-    "Action": "Action"
+    "Action": "Action",
+    "Expand": "Expand",
+    "Collapse": "Collapse"
+  },
+  "Abbreviations": {
+    "Hours": "h",
+    "Days": "days"
   },
   "API": {
     "NotFound": "The record could not be found",
@@ -18,7 +24,14 @@
   },
   "Page": {
     "Timesheet": {
-      "Timesheet": "Timesheet"
+      "Title": "Timesheet",
+      "ShowDetails": "Show details",
+      "New": "New Entry",
+      "Edit": "Edit Entry",
+      "Delete": "Delete Entry",
+      "DeleteMessage": "Are you sure you want to delete this entry? This cannot be undone.",
+      "Worked": "worked",
+      "ReducedDisplayData": "Not all data could be displayed. Change the filter to display hidden data."
     },
     "MasterData": {
       "MasterData": "Master Data",
@@ -53,6 +66,18 @@
     }
   },
   "Component": {
+    "Filter": {
+      "Title": "Filter",
+      "Clear": "Clear Filter",
+      "From": "From",
+      "To": "To",
+      "Customer": "Customer",
+      "Project": "Project",
+      "Activity": "Activity",
+      "Order": "Order",
+      "Issue": "Issue",
+      "Comment": "Comment"
+    },
     "NgSelect": {
       "AddTagText": "Add item",
       "LoadingText": "Loading...",
@@ -121,6 +146,31 @@
       "Title": "Title",
       "ProjectTitle": "Project",
       "CustomerTitle": "Customer"
+    },
+    "TimeSheetDto": {
+      "StartDate": "Start Date",
+      "StartTime": "Start Time",
+      "EndDate": "End Time",
+      "EndTime": "End Time",
+      "ProjectId": "Project",
+      "ActivityId": "Activity",
+      "OrderId": "Order",
+      "Issue": "Issue",
+      "Billable": "Billable",
+      "Comment": "Comment"
+    },
+    "TimeSheetListDto": {
+      "Date": "Date",
+      "Time": "Time",
+      "StartDate": "From",
+      "EndDate": "To",
+      "Duration": "Duration",
+      "Customer": "Customer",
+      "Project": "Project",
+      "Activity": "Activity",
+      "Billable": "Billable",
+      "Issue": "Issue",
+      "Comment": "Comment"
     }
   },
   "Validation": {

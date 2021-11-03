@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.Attributes;
+﻿using FS.FilterExpressionCreator.Mvc.Attributes;
+using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -7,10 +8,12 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 {
     /// <inheritdoc cref="Order"/>
     [ValidationDescription]
+    [FilterEntity(Prefix = nameof(Order))]
     public class OrderDto
     {
         /// <inheritdoc cref="Order.Id"/>
         [Required]
+        [Filter(Visible = false)]
         public Guid Id { get; set; }
 
         /// <inheritdoc cref="Order.Title"/>
@@ -27,6 +30,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 
         /// <inheritdoc cref="Order.CustomerId"/>
         [Required]
+        [Filter(Visible = false)]
         public Guid CustomerId { get; set; }
 
         /// <inheritdoc cref="Order.StartDate"/>

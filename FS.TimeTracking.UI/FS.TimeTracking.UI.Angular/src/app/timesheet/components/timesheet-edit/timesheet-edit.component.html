@@ -1,0 +1,105 @@
+<div class="modal" #timesheetEdit tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit Entry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="timesheetForm" [formGroup]="timesheetForm" (ngSubmit)="save()" #form="ngForm">
+          <div class="row g-3 mb-3">
+            <div class="col-6 col-lg-3 order-1 order-lg-1">
+              <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start Date</label>
+              <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off" #startDate>
+            </div>
+            <div class="col-6 col-lg-3 order-3 order-lg-2">
+              <label for="startTime" class="form-label" i18n="@@DTO.TimeSheetDto.StartTime">[i18n] Start Time</label>
+              <input id="startTime" type="time" tsTime class="form-control" formControlName="startTime" autocomplete="off">
+            </div>
+            <div class="col-6 col-lg-3 order-2 order-lg-3">
+              <label for="endDate" class="form-label" i18n="@@DTO.TimeSheetDto.EndDate">[i18n] End Date</label>
+              <input id="endDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="endDate" autocomplete="off">
+            </div>
+            <div class="col-6 col-lg-3 order-4 order-lg-4">
+              <label for="endTime" class="form-label" i18n="@@DTO.TimeSheetDto.EndTime">[i18n] End Time</label>
+              <input id="endTime" type="time" tsTime class="form-control" formControlName="endTime" autocomplete="off">
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-lg-12">
+              <label for="comment" class="form-label" i18n="@@DTO.TimeSheetDto.Comment">[i18n] Comment</label>
+              <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
+            </div>
+            <div class="col-lg-6">
+              <!--suppress XmlInvalidId -->
+              <label for="projectId" class="form-label" i18n="@@DTO.TimeSheetDto.ProjectId">[i18n] Project</label>
+              <ng-select [items]="projects$ | ngrxPush"
+                         dropdownPosition="bottom"
+                         bindValue="id"
+                         bindLabel="value"
+                         labelForId="projectId"
+                         appendTo="body"
+                         formControlName="projectId">
+                <ng-template ng-option-tmp let-item="item">
+                  <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="col-lg-6">
+              <!--suppress XmlInvalidId -->
+              <label for="activityId" class="form-label" i18n="@@DTO.TimeSheetDto.ActivityId">[i18n] Activity</label>
+              <ng-select [items]="activities$ | ngrxPush"
+                         dropdownPosition="bottom"
+                         bindValue="id"
+                         bindLabel="value"
+                         labelForId="activityId"
+                         appendTo="body"
+                         formControlName="activityId">
+                <ng-template ng-option-tmp let-item="item">
+                  <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="col-lg-6">
+              <label for="issue" class="form-label" i18n="@@DTO.TimeSheetDto.Issue">[i18n] Issue</label>
+              <input id="issue" type="text" class="form-control" formControlName="issue" #title>
+            </div>
+            <div class="col-lg-6">
+              <!--suppress XmlInvalidId -->
+              <label for="orderId" class="form-label" i18n="@@DTO.TimeSheetDto.OrderId">[i18n] Order</label>
+              <ng-select [items]="orders$ | ngrxPush"
+                         dropdownPosition="bottom"
+                         bindValue="id"
+                         bindLabel="value"
+                         labelForId="orderId"
+                         appendTo="body"
+                         formControlName="orderId">
+                <ng-template ng-option-tmp let-item="item">
+                  <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="billable" formControlName="billable">
+                <label class="form-check-label" for="billable" i18n="@@DTO.TimeSheetDto.Billable">
+                  [i18n] Billable
+                </label>
+              </div>
+            </div>
+          </div>
+          <hr class="text-secondary" *ngIf="form.submitted && form.invalid"/>
+          <ts-form-validation-errors></ts-form-validation-errors>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button form="timesheetForm" type="button" class="btn btn-outline-secondary" (click)="close()">
+          <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+        </button>
+        <button form="timesheetForm" type="submit" class="btn btn-primary">
+          <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

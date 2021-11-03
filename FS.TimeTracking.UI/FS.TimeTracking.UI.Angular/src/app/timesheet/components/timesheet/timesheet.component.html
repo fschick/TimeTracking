@@ -1,1 +1,152 @@
-<p>timesheet works!</p>
+<!-- Filter -->
+<ts-timesheet-filter (filterChanged)="filterChanged.next($event)">
+</ts-timesheet-filter>
+
+<hr/>
+
+<ng-container *ngIf="overview$ | ngrxPush as overview">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <div>
+      <h4 class="d-inline-block">
+        <ng-container i18n="@@Page.Timesheet.Title">[i18n] TimeSheet</ng-container>
+      </h4>
+      ({{overview.workTime | number:'1.0-1'}}
+      <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container>
+      {{' '}}
+      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>)
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="form-check d-inline-block me-3">
+        <input class="form-check-input" type="checkbox" id="showDetails" [(ngModel)]="showDetails">
+        <label class="form-check-label" for="showDetails" i18n="@@Page.Timesheet.ShowDetails">
+          [i18n] Show details
+        </label>
+      </div>
+      <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
+        <ng-container i18n="@@Page.Timesheet.New">[i18n] New Entry</ng-container>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="border">
+    <div class="row row-header mb-1 mx-0">
+      <div class="col-4 col-md-3 col-xl-auto">
+        <div class="row gx-2">
+          <strong class="col-12 col-xl-auto col-date" i18n="@@DTO.TimeSheetListDto.Date">[i18n] Date</strong>
+          <strong class="col-12 col-xl-auto col-start-end" i18n="@@DTO.TimeSheetListDto.Time">[i18n] Time</strong>
+          <strong class="col-12 col-xl-auto col-duration" i18n="@@DTO.TimeSheetListDto.Duration">[i18n] Duration</strong>
+        </div>
+      </div>
+      <div class="col-6 col-md">
+        <div class="row">
+          <strong class="col-12 col-lg-3" i18n="@@DTO.TimeSheetListDto.Customer">[i18n] Customer</strong>
+          <strong class="col-12 col-lg-4" i18n="@@DTO.TimeSheetListDto.Project">[i18n] Project</strong>
+          <strong class="col-12 col-lg-5" i18n="@@DTO.TimeSheetListDto.Activity">[i18n] Activity</strong>
+        </div>
+      </div>
+      <div class="col-2 col-md-auto col-action">
+        <strong class="text-nowrap" i18n="@@Common.Action">[i18n] Action</strong>
+      </div>
+    </div>
+
+
+    <!-- Data -->
+    <ng-container *ngFor="let workDay of overview.workDays; trackBy:timeSheetDayGroupKey;">
+      <!-- Workday header -->
+      <div class="row row-day-header border-top py-1 mx-0">
+          <span class="col text-muted">
+            {{workDay.date | tsDate}}
+            ({{workDay.workTime.toFormat('hh:mm')}}
+            <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>)
+          </span>
+      </div>
+
+      <!-- Workday entries -->
+      <div *ngFor="let timeSheet of workDay.timeSheets; let last=last; let odd=odd; trackBy:timeSheetListKey;"
+           class="py-1 border-top"
+           [ngClass]="{'row-running': !timeSheet.endDate}">
+
+        <!-- Timesheet row main -->
+        <div class="row align-items-center mx-0">
+          <div class="col-4 col-md-3 col-xl-auto">
+            <div class="row gx-2">
+              <div class="col-12 col-xl-auto col-date">{{timeSheet.startDate | tsDate}}</div>
+              <div class="col-12 col-xl-auto col-start-end">{{timeSheet.startDate| tsTime}}
+                <ng-container *ngIf="timeSheet.endDate"> - {{timeSheet.endDate | tsTime}}</ng-container>
+              </div>
+              <div class="col-12 col-xl-auto col-duration">{{timeSheet.duration | tsDuration}}
+                <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md">
+            <div class="row">
+              <div class="col-12 col-lg-3">{{timeSheet.customerTitle}}</div>
+              <div class="col-12 col-lg-4">{{timeSheet.projectTitle}}</div>
+              <div class="col-12 col-lg-5">{{timeSheet.activityTitle}}</div>
+            </div>
+          </div>
+          <div class="col-2 col-md-auto col-action">
+            <span class="d-block d-md-inline me-2">
+              <a class="text-success" (click)="restartTimeSheet(timeSheet.id)">
+                <ts-icon *ngIf="timeSheet.endDate" icon="bi bi-play-circle" class="action-icon"></ts-icon>
+              </a>
+              <a class="text-danger" (click)="stopTimeSheet(timeSheet.id)">
+                <ts-icon *ngIf="!timeSheet.endDate" icon="bi bi-stop-circle" class="action-icon"></ts-icon>
+              </a>
+            </span>
+            <a class="d-block d-md-inline text-secondary me-2"
+               title="[i18n] Edit Activity"
+               i18n-title="@@Page.Timesheet.Edit"
+               [routerLink]="timeSheet.id">
+              <ts-icon icon="bi bi-pencil-square" class="action-icon"></ts-icon>
+            </a>
+            <ts-simple-confirm
+              title="[i18n] Delete Entry"
+              i18n-title="@@Page.Timesheet.Delete"
+              message="[i18n] Are you sure you want to delete this entry? This cannot be undone."
+              i18n-message="@@Page.Timesheet.DeleteMessage"
+              actionText="[i18n] Delete Entry"
+              i18n-actionText="@@Page.Timesheet.Delete"
+              color="danger"
+              (confirmed)="deleteItem(timeSheet.id)">
+              <a class="text-danger">
+                <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
+              </a>
+            </ts-simple-confirm>
+          </div>
+        </div>
+
+        <!-- Timesheet row detail -->
+        <div *ngIf="showDetails" class="row align-items-center mx-0" [ngClass]="{'row-running': !timeSheet.endDate}">
+          <small class="col text-muted">
+            <ng-container *ngIf="timeSheet.issue">
+              {{timeSheet.issue}}
+            </ng-container>
+            <ng-container *ngIf="timeSheet.issue && timeSheet.comment">| </ng-container>
+            <ng-container *ngIf="timeSheet.comment">
+              {{timeSheet.comment}}
+            </ng-container>
+            &nbsp;
+          </small>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Footer -->
+    <div *ngIf="overview.displayDataReduced" class="row">
+      <div class="col">
+        <div class="alert alert-warning" role="alert" i18n="@@Page.Timesheet.ReducedDisplayData">
+          [i18n] Not all data could be displayed. Change the filter to display desired data as nessesary.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</ng-container>
+
+<router-outlet></router-outlet>

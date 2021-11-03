@@ -21,6 +21,7 @@ namespace FS.TimeTracking.Api.REST.Startup
                     o.Filters.Add<AddRequestIdToHeaderFilter>();
                     o.Filters.Add<ExceptionToHttpResultFilter>();
                 })
+                .AddFilterExpressionCreators()
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter());

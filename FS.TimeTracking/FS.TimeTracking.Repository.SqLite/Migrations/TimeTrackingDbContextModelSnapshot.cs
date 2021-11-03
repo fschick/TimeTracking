@@ -287,22 +287,28 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Activity", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Order", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", null)
+                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>

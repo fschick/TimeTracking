@@ -7,35 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FS.TimeTracking.Shared.Models.TimeTracking
 {
     /// <summary>
-    /// TimeSheet.
+    /// Time sheet position.
     /// </summary>
     public class TimeSheet : IEntityModel
     {
         /// <inheritdoc />
         [Required]
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Project"/>.
-        /// </summary>
-        [Required]
-        public Guid ProjectId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Activity"/>.
-        /// </summary>
-        [Required]
-        public Guid ActivityId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Order"/>.
-        /// </summary>
-        public Guid? OrderId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the related issue/ticket/... .
-        /// </summary>
-        public string Issue { get; set; }
 
         /// <summary>
         /// Gets the start date in local time.
@@ -79,15 +57,46 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         }
 
         /// <summary>
+        /// Gets or sets a comment.
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the related issue/ticket/... .
+        /// </summary>
+        public string Issue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier to the related <see cref="Project"/>.
+        /// </summary>
+        [Required]
+        public Guid ProjectId { get; set; }
+
+        /// <inheritdoc cref="TimeTracking.Project"/>
+        public Project Project { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier to the related <see cref="Activity"/>.
+        /// </summary>
+        [Required]
+        public Guid ActivityId { get; set; }
+
+        /// <inheritdoc cref="TimeTracking.Activity"/>
+        public Activity Activity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier to the related <see cref="Order"/>.
+        /// </summary>
+        public Guid? OrderId { get; set; }
+
+        /// <inheritdoc cref="TimeTracking.Order"/>
+        public Order Order { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this item is billable.
         /// </summary>
         [Required]
         public bool Billable { get; set; }
-
-        /// <summary>
-        /// Gets or sets a comment.
-        /// </summary>
-        public string Comment { get; set; }
 
         /// <inheritdoc />
         [Required]

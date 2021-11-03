@@ -79,4 +79,27 @@ export class UtilityService {
 
     return index;
   }
+
+  // https://stackoverflow.com/a/38327540/1271211
+  /**
+   * @description
+   * Takes an Array<V>, and a grouping function, and returns a Map of the array grouped by the grouping function.
+   *
+   * @param array An array of type V.
+   * @param keyFunc A Function that takes the the Array type V as an input, and returns a value of type K. K is generally intended to be a property key of V.
+   *
+   * @returns Map of the array grouped by the grouping function.
+   */
+  public groupBy<V, K>(array: Array<V>, keyFunc: (input: V) => K): Map<K, Array<V>> {
+    const result = new Map<K, Array<V>>();
+    array.forEach((item) => {
+      const key = keyFunc(item);
+      const collection = result.get(key);
+      if (!collection)
+        result.set(key, [item]);
+      else
+        collection.push(item);
+    });
+    return result;
+  }
 }

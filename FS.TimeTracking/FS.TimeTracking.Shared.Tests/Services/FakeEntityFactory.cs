@@ -1,4 +1,7 @@
-﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
+﻿using AutoMapper;
+using FS.TimeTracking.Application.AutoMapper;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -7,6 +10,8 @@ namespace FS.TimeTracking.Shared.Tests.Services
     [ExcludeFromCodeCoverage]
     public static class FakeEntityFactory
     {
+        public static readonly IMapper Mapper = new MapperConfiguration(cfg => cfg.AddProfile<TimeTrackingAutoMapper>()).CreateMapper();
+
         public static CustomerDto CreateCustomerDto(string prefix = "Test", bool hidden = false)
             => new CustomerDto
             {
@@ -41,8 +46,8 @@ namespace FS.TimeTracking.Shared.Tests.Services
                 Hidden = hidden
             };
 
-        public static TimeSheetDto CreateTimeSheetDto(Guid projectId, Guid activityId, Guid? orderId = null, string prefix = "Test")
-            => new TimeSheetDto
+        public static TimeSheet CreateTimeSheet(Guid projectId, Guid activityId, Guid? orderId = null, string prefix = "Test")
+            => new TimeSheet
             {
                 Id = Guid.NewGuid(),
                 ProjectId = projectId,
@@ -53,5 +58,8 @@ namespace FS.TimeTracking.Shared.Tests.Services
                 Billable = true,
                 Comment = $"{prefix}Comment",
             };
+
+        public static TimeSheetDto CreateTimeSheetDto(Guid projectId, Guid activityId, Guid? orderId = null, string prefix = "Test")
+            => Mapper.Map<TimeSheetDto>(CreateTimeSheet(projectId, activityId, orderId, prefix));
     }
 }

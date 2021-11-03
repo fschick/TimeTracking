@@ -139,21 +139,21 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .ToTable("TimeSheets");
 
             timeSheetBuilder
-                .HasOne<Project>()
+                .HasOne(x => x.Project)
                 .WithMany()
                 .HasForeignKey(timeSheet => timeSheet.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             timeSheetBuilder
-                .HasOne<Activity>()
+                .HasOne(x => x.Activity)
                 .WithMany()
                 .HasForeignKey(timeSheet => timeSheet.ActivityId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             timeSheetBuilder
-                .HasOne<Order>()
+                .HasOne(x => x.Order)
                 .WithMany()
                 .HasForeignKey(timeSheet => timeSheet.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);

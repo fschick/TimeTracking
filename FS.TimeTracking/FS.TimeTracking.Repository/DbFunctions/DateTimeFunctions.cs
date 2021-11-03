@@ -3,7 +3,6 @@ using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Data.Common;
 using System.Linq;
@@ -43,17 +42,9 @@ namespace FS.TimeTracking.Repository.DbFunctions
 
             modelBuilder
                 .HasDbFunction(toUtc)
-                .HasTranslation(arguments
-                    => new SqlFunctionExpression(
-                        schema: GetFunctionSchema(databaseType),
-                        functionName: GetFunctionName(nameof(DateTimeExtensions.ToUtc), databaseType),
-                        arguments: arguments,
-                        nullable: false,
-                        argumentsPropagateNullability: new[] { false, false },
-                        type: typeof(DateTime),
-                        typeMapping: null
-                    )
-                );
+                .HasSchema(GetFunctionSchema(databaseType))
+                .HasName(GetFunctionName(nameof(DateTimeExtensions.ToUtc), databaseType))
+                .IsNullable(false);
         }
 
         private static void RegisterMethodToUtcNullable(this ModelBuilder modelBuilder, DatabaseType databaseType)
@@ -64,18 +55,11 @@ namespace FS.TimeTracking.Repository.DbFunctions
 
             modelBuilder
                 .HasDbFunction(toUtc)
-                .HasTranslation(arguments
-                    => new SqlFunctionExpression(
-                        schema: GetFunctionSchema(databaseType),
-                        functionName: GetFunctionName(nameof(DateTimeExtensions.ToUtc), databaseType),
-                        arguments: arguments,
-                        nullable: true,
-                        argumentsPropagateNullability: new[] { true, false },
-                        type: typeof(DateTime?),
-                        typeMapping: null
-                    )
-                );
+                .HasSchema(GetFunctionSchema(databaseType))
+                .HasName(GetFunctionName(nameof(DateTimeExtensions.ToUtc), databaseType))
+                .IsNullable(true);
         }
+
         private static string GetFunctionSchema(DatabaseType databaseType)
             => databaseType switch
             {

@@ -43,7 +43,9 @@ import {TimePipe} from './shared/pipes/time.pipe';
 import {DatePipe} from './shared/pipes/date.pipe';
 import {DurationPipe} from './shared/pipes/duration.pipe';
 import {IconComponent} from './shared/components/icon/icon.component';
+import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
+import {TimesheetFilterComponent} from './timesheet/components/timesheet-filter/timesheet-filter.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import {TimeDirective} from './shared/directives/time.directive';
     TimePipe,
     DurationPipe,
     IconComponent,
+    TimesheetEditComponent,
     TimeDirective,
+    TimesheetFilterComponent,
   ],
   imports: [
     BrowserModule,

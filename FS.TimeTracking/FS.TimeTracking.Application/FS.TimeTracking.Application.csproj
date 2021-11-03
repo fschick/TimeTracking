@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/build_core.props" />
   <Import Project="../../Build/build_version.props" />
   <Import Project="../../Build/build_xml_documentation.props" />
@@ -13,6 +13,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="TimeZoneConverter" Version="3.5.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,13 @@
     "Cancel": "Abbrechen",
     "Delete": "Löschen",
     "Edit": "Bearbeiten",
-    "Action": "Aktion"
+    "Action": "Aktion",
+    "Expand": "Aufklappen",
+    "Collapse": "Reduzieren"
+  },
+  "Abbreviations": {
+    "Hours": "Std.",
+    "Days": "Tage"
   },
   "API": {
     "NotFound": "Der Datensatz konnte nicht gefunden werden",
@@ -18,7 +24,14 @@
   },
   "Page": {
     "Timesheet": {
-      "Timesheet": "Zeiterfassung"
+      "Title": "Zeiterfassung",
+      "ShowDetails": "Details anzeigen",
+      "New": "Neuer Eintrag",
+      "Edit": "Eintrag bearbeiten",
+      "Delete": "Eintrag löschen",
+      "DeleteMessage": "Wollen Sie diesen Eintrag wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+      "Worked": "gearbeitet",
+      "ReducedDisplayData": "Es können nicht alle Daten angezeigt werden. Ändern Sie den Filter, um ausgeblendete Daten anzuzeigen."
     },
     "MasterData": {
       "MasterData": "Stammdaten",
@@ -53,6 +66,18 @@
     }
   },
   "Component": {
+    "Filter": {
+      "Title": "Filter",
+      "Clear": "Filter leeren",
+      "From": "von",
+      "To": "bis",
+      "Customer": "Kunde",
+      "Project": "Projekt",
+      "Activity": "Tätigkeit",
+      "Order": "Auftrag",
+      "Issue": "Ticket",
+      "Comment": "Kommentar"
+    },
     "NgSelect": {
       "AddTagText": "Element hinzufügen",
       "LoadingText": "Lade...",
@@ -123,6 +148,31 @@
       "Title": "Titel",
       "ProjectTitle": "Projekt",
       "CustomerTitle": "Kunde"
+    },
+    "TimeSheetDto": {
+      "StartDate": "Startdatum",
+      "StartTime": "Startzeit",
+      "EndDate": "Enddatum",
+      "EndTime": "Endzeit",
+      "ProjectId": "Projekt",
+      "ActivityId": "Tätigkeit",
+      "OrderId": "Auftrag",
+      "Issue": "Ticket",
+      "Billable": "Verrechenbar",
+      "Comment": "Kommentar"
+    },
+    "TimeSheetListDto": {
+      "Date": "Datum",
+      "StartDate": "Von",
+      "EndDate": "Bis",
+      "Time": "Zeit",
+      "Duration": "Dauer",
+      "Customer": "Kunde",
+      "Project": "Projekt",
+      "Activity": "Tätigkeit",
+      "Billable": "Verrechenbar",
+      "Issue": "Ticket",
+      "Comment": "Kommentar"
     }
   },
   "Validation": {

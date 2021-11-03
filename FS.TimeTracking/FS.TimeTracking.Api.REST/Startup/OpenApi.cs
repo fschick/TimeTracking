@@ -34,10 +34,13 @@ namespace FS.TimeTracking.Api.REST.Startup
                 .AddSwaggerGenNewtonsoftSupport()
                 .AddSwaggerGen(c =>
                 {
+                    var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
+                    var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
                     c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
-                    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml"));
-                    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml"));
+                    c.IncludeXmlComments(restXmlDoc);
+                    c.IncludeXmlComments(sharedXmlDoc);
                     c.OperationFilter<AddCSharpActionFilter>();
+                    c.AddFilterExpressionCreators(restXmlDoc, sharedXmlDoc);
                 });
 
         internal static void GenerateOpenApiSpec(this IHost host, string outFile)

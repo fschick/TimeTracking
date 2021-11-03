@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.Attributes;
+﻿using FS.FilterExpressionCreator.Mvc.Attributes;
+using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 {
     /// <inheritdoc cref="TimeSheet"/>
     [ValidationDescription]
+    [FilterEntity(Prefix = "")]
     public class TimeSheetDto
     {
         /// <inheritdoc cref="TimeSheet.Id"/>
@@ -32,6 +34,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         public DateTimeOffset StartDate { get; set; }
 
         /// <inheritdoc cref="TimeSheet.EndDate"/>
+        [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
         public DateTimeOffset? EndDate { get; set; }
 
         /// <inheritdoc cref="TimeSheet.Billable"/>

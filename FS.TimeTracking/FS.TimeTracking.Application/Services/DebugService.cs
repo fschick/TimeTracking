@@ -27,6 +27,7 @@ namespace FS.TimeTracking.Application.Services
             var d1 = await _repository.Get((Order x) => x.StartDateLocal, cancellationToken: cancellationToken);
             var d2 = await _repository.Get((Order x) => x.StartDateLocal.ToUtc(120), cancellationToken: cancellationToken);
             var d3 = await _repository.Get((Order x) => x.StartDateLocal.ToUtc(x.StartDateOffset), cancellationToken: cancellationToken);
+            var d4 = await _repository.Get((TimeSheet x) => x.EndDateLocal.ToUtc(x.EndDateOffset.Value), cancellationToken: cancellationToken);
             return Task.FromResult<object>(1);
         }
     }

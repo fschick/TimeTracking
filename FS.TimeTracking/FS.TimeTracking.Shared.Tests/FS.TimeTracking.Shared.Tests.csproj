@@ -2,6 +2,7 @@
   <Import Project="../../Build/build_tests.props" />
 
   <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
   </ItemGroup>
 

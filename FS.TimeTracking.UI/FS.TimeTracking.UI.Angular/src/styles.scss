@@ -27,39 +27,21 @@ $enable-negative-margins: true;
 /* ----------------------------------------- */
 /* Custom extensions
 /* ----------------------------------------- */
-.accordion-button {
-  cursor: pointer;
-}
-
-ts-icon {
-  height: 1rem;
-  width: 1rem;
-  display: inline-block;
-}
-
-.btn, td {
-  ts-icon svg {
-    vertical-align: -0.125em;
-  }
-}
-
-.row {
-  ts-icon svg {
-    vertical-align: -0.25em;
-  }
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
 
-.action-cell {
+td.action-cell {
   padding: 0 $table-cell-padding-x !important;
 }
 
 .action-icon {
   height: 1.2rem;
   width: 1.2rem;
+}
+
+a {
+  cursor: pointer;
 }
 
 /* ----------------------------------------- */
@@ -106,7 +88,7 @@ ts-icon {
 /* bootstrap-datepicker
 /* ----------------------------------------- */
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
-.datepicker table tr td.disabled,.datepicker table tr td.disabled:hover {
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
   color: #E0E0E0;
 }
 

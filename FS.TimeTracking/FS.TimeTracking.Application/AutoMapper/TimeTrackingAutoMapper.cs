@@ -46,7 +46,9 @@ namespace FS.TimeTracking.Application.AutoMapper
             CreateMap<Activity, ActivityListDto>()
                 .ForMember(x => x.CustomerTitle, x => x.MapFrom(activity => activity.Project.Customer.Title));
 
-            CreateMap<TimeSheet, TimeSheetListDto>();
+            CreateMap<TimeSheet, TimeSheetListDto>()
+                .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
+                .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
         }
     }
 }

@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.Startup;
@@ -16,6 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NLog.Web;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking
 {
@@ -95,11 +95,11 @@ namespace FS.TimeTracking
         private static void AddConfigurationFromEnvironment(this IConfigurationBuilder configurationBuilder, string[] commandLineArgs)
         {
             configurationBuilder
-            .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
-                .AddJsonFile($"{CONFIG_BASE_NAME}.Development.json", true, true)
-                .AddJsonFile($"{CONFIG_BASE_NAME}.User.json", true, true)
-                .AddEnvironmentVariables()
-                .AddCommandLine(commandLineArgs);
+                .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
+                    .AddJsonFile($"{CONFIG_BASE_NAME}.Development.json", true, true)
+                    .AddJsonFile($"{CONFIG_BASE_NAME}.User.json", true, true)
+                    .AddEnvironmentVariables()
+                    .AddCommandLine(commandLineArgs);
         }
 
         private static void AddConfigurationFromBluePrint(this IConfigurationBuilder configurationBuilder, TimeTrackingConfiguration configuration)
@@ -126,8 +126,9 @@ namespace FS.TimeTracking
             services
                 .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
                 .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
-                .RegisterApplicationServices()
                 .RegisterTimeTrackingAutoMapper()
+                .RegisterFilterExpressionInterceptor()
+                .RegisterApplicationServices()
                 .RegisterOpenApiController()
                 .RegisterRestApiController()
                 .RegisterSpaStaticFiles(context.HostingEnvironment);
