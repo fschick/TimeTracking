@@ -28,16 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="FS.TimeTracking.config.Development.json">
+    <Content Update="config\FS.TimeTracking.config.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="FS.TimeTracking.config.json">
+    <Content Update="config\FS.TimeTracking.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="FS.TimeTracking.config.User.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Update="FS.TimeTracking.config.nlog">
+    <None Update="config\FS.TimeTracking.config.nlog">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

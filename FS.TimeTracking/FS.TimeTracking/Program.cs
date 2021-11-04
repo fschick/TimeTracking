@@ -21,6 +21,7 @@ namespace FS.TimeTracking
 {
     internal static class Program
     {
+        private const string CONFIG_FOLDER = "config";
         private const string CONFIG_BASE_NAME = "FS.TimeTracking.config";
         private const string NLOG_CONFIGURATION_FILE = CONFIG_BASE_NAME + ".nlog";
 
@@ -51,7 +52,7 @@ namespace FS.TimeTracking
             }
             catch (Exception exception)
             {
-                using var loggerFactory = NLogBuilder.ConfigureNLog(NLOG_CONFIGURATION_FILE);
+                using var loggerFactory = NLogBuilder.ConfigureNLog(Path.Combine(CONFIG_FOLDER, NLOG_CONFIGURATION_FILE));
                 loggerFactory
                     .GetCurrentClassLogger()
                     .Error(exception, "Program stopped due to an exception");
@@ -95,9 +96,8 @@ namespace FS.TimeTracking
         private static void AddConfigurationFromEnvironment(this IConfigurationBuilder configurationBuilder, string[] commandLineArgs)
         {
             configurationBuilder
-                .AddJsonFile($"{CONFIG_BASE_NAME}.json", false, true)
-                    .AddJsonFile($"{CONFIG_BASE_NAME}.Development.json", true, true)
-                    .AddJsonFile($"{CONFIG_BASE_NAME}.User.json", true, true)
+                .AddJsonFile($"{Path.Combine(CONFIG_FOLDER, CONFIG_BASE_NAME)}.json", false, true)
+                    .AddJsonFile($"{Path.Combine(CONFIG_FOLDER, CONFIG_BASE_NAME)}.Development.json", true, true)
                     .AddEnvironmentVariables()
                     .AddCommandLine(commandLineArgs);
         }
@@ -116,7 +116,7 @@ namespace FS.TimeTracking
                     logging
                         .ClearProviders()
                         .SetMinimumLevel(LogLevel.Trace)
-                        .AddNLog(NLOG_CONFIGURATION_FILE)
+                        .AddNLog(Path.Combine(CONFIG_FOLDER, NLOG_CONFIGURATION_FILE))
                 )
                 .UseNLog();
 

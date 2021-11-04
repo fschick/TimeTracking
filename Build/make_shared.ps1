@@ -112,7 +112,7 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 		exit $LASTEXITCODE
 	}
 
-	Remove-Item $msBuildPublishDir/FS.TimeTracking.config.Development.json -ErrorAction Ignore
+	Remove-Item $msBuildPublishDir/config/FS.TimeTracking.config.Development.json -ErrorAction Ignore
 }
 
 function Publish-Tool([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $msBuildPublishDir) {
