@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NLog.Web;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -123,7 +124,6 @@ namespace FS.TimeTracking
 
         private static void ConfigureServerServices(WebHostBuilderContext context, IServiceCollection services)
         {
-            //FS.TimeTracking.Application.Startup.AutoMapper.RegisterAutoMapper();
             services
                 .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
                 .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
@@ -169,6 +169,7 @@ namespace FS.TimeTracking
                 IsProduction = hostEnvironment.IsProduction(),
             });
 
+        [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
         private static IServiceCollection RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
         {
             //if (hostEnvironment.IsProduction())
@@ -184,6 +185,7 @@ namespace FS.TimeTracking
             return services;
         }
 
+        [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Temporarily required, see commented code")]
         private static IApplicationBuilder RegisterSpaRoutes(this IApplicationBuilder applicationBuilder, IHostEnvironment hostEnvironment)
         {
             //if (hostEnvironment.IsProduction())

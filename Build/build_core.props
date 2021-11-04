@@ -4,10 +4,15 @@
     <DefineConstants Condition="'$(TargetFramework)' == 'net5.0'">$(DefineConstants);NET_CORE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>1701;1702;IDE0079</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="IDisposableAnalyzers" Version="3.4.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
 </Project>
