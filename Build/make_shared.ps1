@@ -123,6 +123,7 @@ function Publish-Tool([String] $configuration, [String] $targetFramework, [Strin
 	}
 
 	# Move Tool to publish folder
+	mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool $msBuildPublishDir
 	mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
 }
 
