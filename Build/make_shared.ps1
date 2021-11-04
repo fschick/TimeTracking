@@ -130,7 +130,7 @@ function Publish-Ui([String] $msBuildPublishDir) {
 	Build-Ui
 
 	# Move SPA to publish folder
-	mv FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/UI
+	mv FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/webui
 }
 
 function Publish-Merge-To-Artifact-Folder([String] $projectName, [String] $runtime, [String] $publshFolder, [String] $msBuildPublishDir) {

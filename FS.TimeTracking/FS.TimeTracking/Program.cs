@@ -21,6 +21,7 @@ namespace FS.TimeTracking
 {
     internal static class Program
     {
+        private const string WEB_UI_FOLDER = "webui";
         private const string CONFIG_FOLDER = "config";
         private const string CONFIG_BASE_NAME = "FS.TimeTracking.config";
         private const string NLOG_CONFIGURATION_FILE = CONFIG_BASE_NAME + ".nlog";
@@ -171,12 +172,12 @@ namespace FS.TimeTracking
         private static IServiceCollection RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
         {
             //if (hostEnvironment.IsProduction())
-            //    services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, "UI"));
+            //    services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, WEB_UI_FOLDER));
 
             services
                 .AddSpaStaticFiles(configuration =>
                     configuration.RootPath = hostEnvironment.IsProduction()
-                        ? Path.Combine(_executablePath, "UI")
+                        ? Path.Combine(_executablePath, WEB_UI_FOLDER)
                         : "../FS.TimeTracking.UI.Angular/dist/TimeTracking"
                 );
 
