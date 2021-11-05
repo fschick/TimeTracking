@@ -15,7 +15,7 @@
 }
 
 .row-running {
-  $background-color: shift-color($success, $table-bg-scale);
+  $background-color: shift-color($warning, $table-bg-scale);
   color: color-contrast(opaque($body-bg, $background-color));
   background-color: $background-color;
 }

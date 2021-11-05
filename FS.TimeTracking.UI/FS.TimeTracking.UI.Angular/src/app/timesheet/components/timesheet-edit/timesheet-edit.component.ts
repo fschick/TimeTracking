@@ -19,7 +19,7 @@ import {FormControl} from '@angular/forms';
 export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('timesheetEdit') private timesheetEdit?: ElementRef;
-  @ViewChild('startDate') private startDate?: ElementRef;
+  @ViewChild('comment') private comment?: ElementRef;
 
   public orders$: Observable<StringTypeaheadDto[]>;
   public projects$: Observable<StringTypeaheadDto[]>;
@@ -55,7 +55,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     this.modal = new bootstrap.Modal(this.timesheetEdit?.nativeElement);
     this.timesheetEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
-    this.timesheetEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.startDate?.nativeElement.focus());
+    this.timesheetEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.comment?.nativeElement.focus());
     this.modal.show();
   }
 
@@ -103,10 +103,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
       );
 
     const formControls = timesheetForm.controls;
-    const startDateToTimeSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
-    const startTimeToDateSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
-    const endDateToTimeSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
-    const endTimeToDateSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
+    const startDateToTimeSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startTime'].patchValue(x, {emitEvent: false}));
+    const startTimeToDateSync = formControls['startTime'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
+    const endDateToTimeSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endTime'].patchValue(x, {emitEvent: false}));
+    const endTimeToDateSync = formControls['endTime'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
     this.subscriptions.add(startDateToTimeSync);
     this.subscriptions.add(startTimeToDateSync);
     this.subscriptions.add(endDateToTimeSync);

@@ -164,6 +164,7 @@
       "Time": "Time",
       "StartDate": "From",
       "EndDate": "To",
+      "Now": "now" ,
       "Duration": "Duration",
       "Customer": "Customer",
       "Project": "Project",

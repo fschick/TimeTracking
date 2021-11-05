@@ -38,6 +38,10 @@ td.action-cell {
 .action-icon {
   height: 1.2rem;
   width: 1.2rem;
+
+  svg {
+    vertical-align: -0.25rem;
+  }
 }
 
 a {
@@ -61,6 +65,9 @@ a {
     }
   }
 
+  & > :not(:first-child){
+    border-top: none !important;
+  }
 
   > * > * > *:first-child {
     padding-left: $card-cap-padding-x !important;;
@@ -78,10 +85,6 @@ ts-icon {
   height: 1rem;
   width: 1rem;
   display: inline-block;
-
-  svg {
-    vertical-align: -.125em;
-  }
 }
 
 /* ----------------------------------------- */

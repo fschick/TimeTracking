@@ -75,7 +75,8 @@
             <div class="row gx-2">
               <div class="col-12 col-xl-auto col-date">{{timeSheet.startDate | tsDate}}</div>
               <div class="col-12 col-xl-auto col-start-end">{{timeSheet.startDate| tsTime}}
-                <ng-container *ngIf="timeSheet.endDate"> - {{timeSheet.endDate | tsTime}}</ng-container>
+                <ng-container *ngIf="timeSheet.endDate">- {{timeSheet.endDate | tsTime}}</ng-container>
+                <ng-container *ngIf="!timeSheet.endDate">- <ng-container i18n="@@DTO.TimeSheetListDto.Now">[i18n] jetzt</ng-container></ng-container>
               </div>
               <div class="col-12 col-xl-auto col-duration">{{timeSheet.duration | tsDuration}}
                 <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>
@@ -102,7 +103,7 @@
                title="[i18n] Edit Activity"
                i18n-title="@@Page.Timesheet.Edit"
                [routerLink]="timeSheet.id">
-              <ts-icon icon="bi bi-pencil-square" class="action-icon"></ts-icon>
+              <ts-icon icon="bi bi-pencil" class="action-icon"></ts-icon>
             </a>
             <ts-simple-confirm
               title="[i18n] Delete Entry"

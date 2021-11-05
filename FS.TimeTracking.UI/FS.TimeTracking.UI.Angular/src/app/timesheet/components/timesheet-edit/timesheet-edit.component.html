@@ -10,7 +10,7 @@
           <div class="row g-3 mb-3">
             <div class="col-6 col-lg-3 order-1 order-lg-1">
               <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start Date</label>
-              <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off" #startDate>
+              <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
             </div>
             <div class="col-6 col-lg-3 order-3 order-lg-2">
               <label for="startTime" class="form-label" i18n="@@DTO.TimeSheetDto.StartTime">[i18n] Start Time</label>
@@ -28,7 +28,7 @@
           <div class="row g-3">
             <div class="col-lg-12">
               <label for="comment" class="form-label" i18n="@@DTO.TimeSheetDto.Comment">[i18n] Comment</label>
-              <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
+              <textarea id="comment" class="form-control" formControlName="comment" rows="3" #comment></textarea>
             </div>
             <div class="col-lg-6">
               <!--suppress XmlInvalidId -->
