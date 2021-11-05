@@ -56,6 +56,8 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       .pipe(
         tap(timeSheetFilter => this.storageService.set(this.timeSheetFilterStorageKey, JSON.stringify(timeSheetFilter))),
         startWith(this.filterForm.value as TimeSheetFilterDto),
+        map(timeSheetFilter => this.replaceArraysByJoinedValues(timeSheetFilter)),
+        map(timeSheetFilter => this.replaceEmptyByNull(timeSheetFilter)),
         shareReplay(1),
       );
 
@@ -65,7 +67,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       ));
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     const filterChangedEmitter = this.onFilterChanged.subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
     this.subscriptions.add(filterChangedEmitter);
   }
@@ -124,5 +126,25 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.add(endDateChanged);
 
     return filterForm;
+  }
+
+  private replaceArraysByJoinedValues(obj: any) {
+    const arrayProperties = Object.entries(obj)
+      .filter(([key]) => Array.isArray(obj[key]));
+
+    for (const [key, value] of arrayProperties)
+      obj[key] = (value as []).join();
+
+    return obj;
+  }
+
+  private replaceEmptyByNull(obj: any) {
+    const emptyStringProperies = Object.entries(obj)
+      .filter(([key, value]) => value === "");
+
+    for (const [key, value] of emptyStringProperies)
+      obj[key] = null;
+
+    return obj;
   }
 }
