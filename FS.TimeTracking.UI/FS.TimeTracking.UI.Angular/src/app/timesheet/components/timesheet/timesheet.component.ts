@@ -5,7 +5,7 @@ import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
@@ -60,7 +60,7 @@ export class TimesheetComponent {
       .pipe(
         switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        // switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
+        switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
   }
