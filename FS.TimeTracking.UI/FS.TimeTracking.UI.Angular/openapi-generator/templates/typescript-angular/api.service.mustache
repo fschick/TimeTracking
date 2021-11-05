@@ -98,7 +98,7 @@ export class {{classname}} {
         httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
         {{/isQueryParamObjectFormatJson}}
         {{^isQueryParamObjectFormatJson}}
-        if (typeof value === "object" && value instanceof DateTime === false) {
+        if (typeof value === "object" && Array.isArray(value) == false && value instanceof DateTime === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
