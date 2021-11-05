@@ -98,7 +98,7 @@ export class {{classname}} {
         httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
         {{/isQueryParamObjectFormatJson}}
         {{^isQueryParamObjectFormatJson}}
-        if (typeof value === "object" && value instanceof Date === false && value instanceof DateTime === false) {
+        if (typeof value === "object" && value instanceof DateTime === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
@@ -125,13 +125,6 @@ export class {{classname}} {
                         (value as DateTime).toISO());
                 } else {
                    throw Error("key may not be null if value is DateTime");
-                }
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key,
-                        (value as Date).toISOString(){{^isDateTime}}.substr(0, 10)){{/isDateTime}};
-                } else {
-                   throw Error("key may not be null if value is Date");
                 }
             } else {
                 Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
