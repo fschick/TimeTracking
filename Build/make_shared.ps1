@@ -49,7 +49,7 @@ function Build-Ui {
 	}
 	
 	# Build SPA
-	& npm run build-prod
+	& npm run build
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE

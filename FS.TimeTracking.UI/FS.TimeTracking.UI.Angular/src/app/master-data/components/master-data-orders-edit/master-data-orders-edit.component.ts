@@ -31,12 +31,12 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.orderForm = this.formValidationService.getFormGroup<OrderDto>('OrderDto', {id: GuidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.orderService
-        .get({id: this.route.snapshot.params.id})
+        .get({id: this.route.snapshot.params['id']})
         .pipe(single())
         .subscribe(order => this.orderForm.patchValue(order));
 

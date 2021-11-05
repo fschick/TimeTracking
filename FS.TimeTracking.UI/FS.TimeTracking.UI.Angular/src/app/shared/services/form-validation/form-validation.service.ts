@@ -71,7 +71,7 @@ export class FormValidationService {
     formControls: ValidationFromControls,
     initialValues: Partial<TType>
   ) {
-    const typeName = validation.class as keyof typeof validationDescriptions;
+    const typeName = validation['class'] as keyof typeof validationDescriptions;
     const nestedFormControlField = formControls[typeName];
     const additionalFormControls = this.isCustomValidationFromControls(nestedFormControlField) ? nestedFormControlField : {};
     return this.getFormGroup(typeName, initialValues[fieldName], additionalFormControls);
@@ -108,19 +108,19 @@ export class FormValidationService {
 
   private getFieldLengthValidators(validation: ValidationDescription): ValidatorFn[] {
     const lengthValidators: ValidatorFn[] = [];
-    if (validation.min !== undefined)
-      lengthValidators.push(AngularValidators.minLength(validation.min));
-    if (validation.max !== undefined)
-      lengthValidators.push(AngularValidators.maxLength(validation.max));
+    if (validation['min'] !== undefined)
+      lengthValidators.push(AngularValidators.minLength(validation['min']));
+    if (validation['max'] !== undefined)
+      lengthValidators.push(AngularValidators.maxLength(validation['max']));
     return lengthValidators;
   }
 
   private getFieldRangeValidators(validation: ValidationDescription): ValidatorFn[] {
     const rangeValidators: ValidatorFn[] = [];
-    if (validation.min !== undefined)
-      rangeValidators.push(AngularValidators.min(validation.min));
-    if (validation.max !== undefined)
-      rangeValidators.push(AngularValidators.max(validation.max));
+    if (validation['min'] !== undefined)
+      rangeValidators.push(AngularValidators.min(validation['min']));
+    if (validation['max'] !== undefined)
+      rangeValidators.push(AngularValidators.max(validation['max']));
     return rangeValidators;
   }
 
@@ -140,9 +140,9 @@ export class FormValidationService {
   private getFormGroupValidator<TType>(fieldName: keyof TType, validation: ValidationDescription): ValidatorFn[] {
     switch (validation.type) {
       case 'compare':
-        return [CustomValidators.compare(fieldName, validation.otherProperty)];
+        return [CustomValidators.compare(fieldName, validation['otherProperty'])];
       case 'compareTo':
-        return [CustomValidators.compareTo(fieldName, validation.otherProperty, validation.comparisonType)];
+        return [CustomValidators.compareTo(fieldName, validation['otherProperty'], validation['comparisonType'])];
       default:
         return [];
     }

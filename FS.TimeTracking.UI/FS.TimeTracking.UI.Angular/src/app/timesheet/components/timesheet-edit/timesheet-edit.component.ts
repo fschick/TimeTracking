@@ -40,10 +40,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   ) {
     this.timesheetForm = this.createTimesheetForm();
 
-    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     if (!this.isNewRecord)
       this.timesheetService
-        .get({id: this.route.snapshot.params.id})
+        .get({id: this.route.snapshot.params['id']})
         .pipe(single())
         .subscribe(timesheet => this.timesheetForm.patchValue(timesheet));
 
@@ -103,10 +103,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
       );
 
     const formControls = timesheetForm.controls;
-    const startDateToTimeSync = formControls.startDate.valueChanges.subscribe(x => formControls.startTime.patchValue(x, {emitEvent: false}));
-    const startTimeToDateSync = formControls.startTime.valueChanges.subscribe(x => formControls.startDate.patchValue(x, {emitEvent: false}));
-    const endDateToTimeSync = formControls.endDate.valueChanges.subscribe(x => formControls.endTime.patchValue(x, {emitEvent: false}));
-    const endTimeToDateSync = formControls.endTime.valueChanges.subscribe(x => formControls.endDate.patchValue(x, {emitEvent: false}));
+    const startDateToTimeSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
+    const startTimeToDateSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
+    const endDateToTimeSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
+    const endTimeToDateSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
     this.subscriptions.add(startDateToTimeSync);
     this.subscriptions.add(startTimeToDateSync);
     this.subscriptions.add(endDateToTimeSync);

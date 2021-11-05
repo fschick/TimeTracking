@@ -110,14 +110,14 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       },
     );
 
-    const startDateChanged = filterForm.controls.startDate.valueChanges.subscribe(newStartDate => {
+    const startDateChanged = filterForm.controls['startDate'].valueChanges.subscribe(newStartDate => {
       if (filterForm.value.endDate < newStartDate)
-        filterForm.controls.endDate.setValue(newStartDate);
+        filterForm.controls['endDate'].setValue(newStartDate);
     });
 
-    const endDateChanged = filterForm.controls.endDate.valueChanges.subscribe(newEndDate => {
+    const endDateChanged = filterForm.controls['endDate'].valueChanges.subscribe(newEndDate => {
       if (filterForm.value.startDate > newEndDate)
-        filterForm.controls.startDate.setValue(newEndDate);
+        filterForm.controls['startDate'].setValue(newEndDate);
     });
 
     this.subscriptions.add(startDateChanged);

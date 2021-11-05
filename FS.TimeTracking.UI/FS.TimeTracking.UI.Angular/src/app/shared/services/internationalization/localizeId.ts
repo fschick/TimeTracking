@@ -1,4 +1,3 @@
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function $localizeId(messageParts: TemplateStringsArray, ...expressions: any[]): string {
   // Create writeable copies
   const messagePartsCopy: any = [...messageParts];

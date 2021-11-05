@@ -53,11 +53,11 @@ export class ApiDateTimeInterceptor implements HttpInterceptor {
 
     return Duration
       .fromObject({
-        days: parseInt(timeSpan.groups?.days ?? '0', 10),
-        hours: parseInt(timeSpan.groups?.hours ?? '0', 10),
-        minutes: parseInt(timeSpan.groups?.minutes ?? '0', 10),
-        seconds: parseInt(timeSpan.groups?.seconds ?? '0', 10),
-        milliseconds: parseInt(timeSpan.groups?.milliseconds ?? '0', 10),
+        days: parseInt(timeSpan.groups?.['days'] ?? '0', 10),
+        hours: parseInt(timeSpan.groups?.['hours'] ?? '0', 10),
+        minutes: parseInt(timeSpan.groups?.['minutes'] ?? '0', 10),
+        seconds: parseInt(timeSpan.groups?.['seconds'] ?? '0', 10),
+        milliseconds: parseInt(timeSpan.groups?.['milliseconds'] ?? '0', 10),
       });
   }
 }

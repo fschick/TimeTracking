@@ -32,12 +32,12 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: GuidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.activityService
-        .get({id: this.route.snapshot.params.id})
+        .get({id: this.route.snapshot.params['id']})
         .pipe(single())
         .subscribe(activity => this.activityForm.patchValue(activity));
 

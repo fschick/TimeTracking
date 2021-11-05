@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {DateTime} from 'luxon';
-import {DurationInput} from 'luxon/src/duration';
 import {DateObjectUnits} from 'luxon/src/datetime';
 import {LocalizationService} from './internationalization/localization.service';
+import {DurationLike} from 'luxon/src/duration';
 
 @Injectable({
   providedIn: 'root'
@@ -127,9 +127,9 @@ export class DateParserService {
     const [mod1, mod2] = valueParts.groups ? Object.entries(valueParts.groups).filter(([key, val]) => key.startsWith('mod') && val).map(([, val]) => val) : [];
     const operator = (mod1 === '+' || mod1 === '-') ? mod1 : mod2;
     const unit = (mod1 === '*' || mod1 === '/') ? mod1 : mod2;
-    const value = valueParts.groups?.value;
+    const value = valueParts.groups?.['value'];
 
-    let duration: DurationInput;
+    let duration: DurationLike;
     let dateUnit: DateObjectUnits;
     if (unit === '*') {
       const maxMonth = operator ? Number.MAX_SAFE_INTEGER : 12;

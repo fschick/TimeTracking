@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import {rematch} from './rematch';
 import {Route, UrlMatchResult, UrlSegment, UrlSegmentGroup} from '@angular/router';
 

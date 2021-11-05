@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
+import {RouterModule, Routes} from '@angular/router';
 import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
-import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
-import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
-import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
-import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
+import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
+import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
+import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
+import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
+import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 
 const routes: Routes = [

@@ -10,14 +10,12 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
+          "tsconfig.json"
         ],
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
@@ -36,22 +34,6 @@
             "prefix": "ts",
             "style": "camelCase"
           }
-        ],
-        "curly": [
-          "off",
-          "multi-or-nest",
-          "consistent"
-        ],
-        "max-len": [
-          "error",
-          {
-            "ignoreTemplateLiterals": true,
-            "code": 160
-          }
-        ],
-        "object-shorthand": [
-          "off",
-          "consistent"
         ]
       }
     },

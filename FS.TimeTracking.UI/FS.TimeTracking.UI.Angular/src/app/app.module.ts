@@ -118,7 +118,6 @@ import {TimesheetFilterComponent} from './timesheet/components/timesheet-filter/
 export class AppModule {
 }
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function configurationLoaderFactory(localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
     let translations: any;
@@ -146,7 +145,6 @@ export function configurationLoaderFactory(localizationService: LocalizationServ
   };
 }
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function localeLoaderFactory(localizationService: LocalizationService) {
   let locale: any;
   switch (localizationService.language) {
@@ -173,7 +171,6 @@ export function localeLoaderFactory(localizationService: LocalizationService) {
  * @param parent String (Optional)  The prefix to add before each key, also used for recursion
  * @param result                    The result (parameter used by recursion)
  **/
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function flattenTranslations<T>(obj: T, parent: string = '', result: { [key: string]: string } = {}): { [key: string]: string } {
 
   for (const [propertyName, property] of Object.entries(obj)) {

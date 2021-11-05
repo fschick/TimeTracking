@@ -1,6 +1,6 @@
 import {Directive, ElementRef, forwardRef, HostListener} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {DateTime, Duration} from 'luxon';
+import {DateTime} from 'luxon';
 import {DateObjectUnits} from 'luxon/src/datetime';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
@@ -27,14 +27,12 @@ export class TimeDirective implements ControlValueAccessor {
 
   @HostListener('blur', ['$event.target.value'])
   public onBlur(rawInput: string | undefined) {
-    const parsed = rawInput;
-
     const timeFormat = /^(?<hour>\d\d):(?<minute>\d\d)$/;
     const timeSpan = rawInput?.match(timeFormat);
     if (!this.value || !timeSpan || !timeSpan.groups)
       return;
 
-    const newValue = this.value.set({hour: parseInt(timeSpan.groups.hour, 10), minute: parseInt(timeSpan.groups.minute, 10)});
+    const newValue = this.value.set({hour: parseInt(timeSpan.groups['hour'], 10), minute: parseInt(timeSpan.groups['minute'], 10)});
     this.emitValue(newValue);
   }
 

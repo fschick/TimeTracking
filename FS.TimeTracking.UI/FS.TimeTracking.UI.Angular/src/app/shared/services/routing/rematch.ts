@@ -1,7 +1,6 @@
 import {UrlMatcher, UrlMatchResult, UrlSegment} from '@angular/router';
 import {pathToRegexp} from 'path-to-regexp';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function rematch(path: string): UrlMatcher {
   return (urlSegments: UrlSegment[]/*, group: UrlSegmentGroup, route: Route*/): UrlMatchResult | null => {
     const paramKeys: any = [];

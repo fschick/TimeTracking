@@ -31,12 +31,12 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params.id === GuidService.guidEmpty;
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.projectForm = this.formValidationService.getFormGroup<ProjectDto>('ProjectDto', {id: GuidService.guidEmpty, hidden: false});
 
     if (!this.isNewRecord)
       this.projectService
-        .get({id: this.route.snapshot.params.id})
+        .get({id: this.route.snapshot.params['id']})
         .pipe(single())
         .subscribe(project => this.projectForm.patchValue(project));
 
