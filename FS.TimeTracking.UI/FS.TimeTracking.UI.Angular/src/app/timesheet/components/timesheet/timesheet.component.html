@@ -138,10 +138,11 @@
     </ng-container>
 
     <!-- Footer -->
-    <div *ngIf="overview.displayDataReduced" class="row">
+
+    <div *ngIf="overview.omittedEntities > 0" class="row">
       <div class="col">
-        <div class="alert alert-warning" role="alert" i18n="@@Page.Timesheet.ReducedDisplayData">
-          [i18n] Not all data could be displayed. Change the filter to display desired data as nessesary.
+        <div class="alert alert-warning m-2" role="alert" i18n="@@Page.Timesheet.OmittedEntities">
+          [i18n] {{overview.omittedEntities //i18n(ph="OMITTED")}} additional entries have been omitted to prevent performance issues.
         </div>
       </div>
     </div>

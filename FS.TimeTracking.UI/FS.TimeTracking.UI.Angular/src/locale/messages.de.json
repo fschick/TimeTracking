@@ -31,7 +31,7 @@
       "Delete": "Eintrag löschen",
       "DeleteMessage": "Wollen Sie diesen Eintrag wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
       "Worked": "gearbeitet",
-      "ReducedDisplayData": "Es können nicht alle Daten angezeigt werden. Ändern Sie den Filter, um ausgeblendete Daten anzuzeigen."
+      "OmittedEntities": "{$OMITTED} weitere Einträge werden zur Vermeidung von Leistungsproblemen nicht angezeigt."
     },
     "MasterData": {
       "MasterData": "Stammdaten",

@@ -31,7 +31,7 @@
       "Delete": "Delete Entry",
       "DeleteMessage": "Are you sure you want to delete this entry? This cannot be undone.",
       "Worked": "worked",
-      "ReducedDisplayData": "Not all data could be displayed. Change the filter to display hidden data."
+      "OmittedEntities": "{$OMITTED} additional entries are omitted to avoid performance problems."
     },
     "MasterData": {
       "MasterData": "Master Data",

@@ -23,7 +23,7 @@ interface TimeSheetDayGroupDto {
 class TimeSheetOverviewDto {
   workTime = 0;
   workDays: TimeSheetDayGroupDto[] = [];
-  displayDataReduced = false;
+  omittedEntities = 0;
 }
 
 @Component({
@@ -131,12 +131,12 @@ export class TimesheetComponent {
 
     const overallWorkTime = timeSheetWorkDayGroups.reduce((duration, timeSheet) => duration.plus(timeSheet.workTime), Duration.fromMillis(0));
     const workDaysToDisplay = this.limitWorkDaysToDisplay(timeSheetWorkDayGroups, 50);
-    const displayDataReduced = workDaysToDisplay.length < timeSheetWorkDayGroups.length;
+    const omittedEntities = timeSheetWorkDayGroups.length - workDaysToDisplay.length;
 
     return {
       workTime: overallWorkTime.as('hours') / 8,
       workDays: workDaysToDisplay,
-      displayDataReduced: displayDataReduced
+      omittedEntities: omittedEntities
     };
   }
 
