@@ -87,6 +87,10 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  public changeValue($event: Event, formControlName: string): void {
+    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
+  }
+
   private createFilterForm(): FormGroup {
     const queryParameterMap = this.route.snapshot.queryParamMap;
     const timeSheetFilter = JSON.parse(this.storageService.get(this.timeSheetFilterStorageKey, '{}'));

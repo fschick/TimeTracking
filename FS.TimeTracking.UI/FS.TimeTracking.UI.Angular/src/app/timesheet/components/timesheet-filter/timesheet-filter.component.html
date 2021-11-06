@@ -135,7 +135,8 @@
                class="form-control"
                placeholder="[i18n] Issue"
                i18n-placeholder="@@Component.Filter.Issue"
-               formControlName="issue">
+               formControlName="issue"
+               (keydown.enter)="changeValue($event, 'issue')">
       </div>
       <div class="col-12 col-md-3">
         <label for="issue" class="visually-hidden" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
@@ -144,7 +145,8 @@
                class="form-control"
                placeholder="[i18n] Comment"
                i18n-placeholder="@@Component.Filter.Comment"
-               formControlName="comment">
+               formControlName="comment"
+               (keydown.enter)="changeValue($event, 'comment')">
       </div>
     </div>
   </div>
