@@ -6,8 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../shared/services/api';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
-import {single} from 'rxjs/operators';
-import {Observable, Subscription} from 'rxjs';
+import {map, single} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
 import {FormControl} from '@angular/forms';
 
@@ -21,9 +21,12 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   @ViewChild('timesheetEdit') private timesheetEdit?: ElementRef;
   @ViewChild('comment') private comment?: ElementRef;
 
-  public orders$: Observable<StringTypeaheadDto[]>;
   public projects$: Observable<StringTypeaheadDto[]>;
+  public selectedProject$: BehaviorSubject<StringTypeaheadDto | undefined>;
   public activities$: Observable<StringTypeaheadDto[]>;
+  public selectedActivity$: BehaviorSubject<StringTypeaheadDto | undefined>;
+  public orders$?: Observable<StringTypeaheadDto[]>;
+  public selectedOrder$: BehaviorSubject<StringTypeaheadDto | undefined>;
 
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
@@ -36,7 +39,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     private timesheetService: TimeSheetService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
-    typeaheadService: TypeaheadService,
+    private typeaheadService: TypeaheadService,
   ) {
     this.timesheetForm = this.createTimesheetForm();
 
@@ -47,9 +50,20 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
         .pipe(single())
         .subscribe(timesheet => this.timesheetForm.patchValue(timesheet));
 
-    this.orders$ = typeaheadService.getOrders({});
     this.projects$ = typeaheadService.getProjects({});
-    this.activities$ = typeaheadService.getActivities({});
+    this.selectedProject$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
+
+    this.activities$ = combineLatest([typeaheadService.getActivities({}), this.selectedProject$])
+      .pipe(map(([activities, project]) =>
+        activities.filter(activity => !project || !activity.extended.projectId || activity.extended.projectId === project.extended.id)
+      ));
+    this.selectedActivity$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
+
+    this.orders$ = combineLatest([this.typeaheadService.getOrders({}), this.selectedProject$])
+      .pipe(map(([orders, project]) =>
+        orders.filter(order => !project || order.extended.customerId === project.extended.customerId)
+      ));
+    this.selectedOrder$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
   }
 
   public ngAfterViewInit(): void {
@@ -59,13 +73,31 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.modal.show();
   }
 
+  public selectedProjectChanged(project?: StringTypeaheadDto): void {
+    const activityProjectId = this.selectedActivity$.value?.extended.projectId;
+    if (activityProjectId && activityProjectId !== project?.id)
+      this.timesheetForm.controls['activityId'].patchValue(undefined);
+
+    const orderCustomerId = this.selectedOrder$.value?.extended.customerId;
+    if (orderCustomerId !== project?.extended.customerId)
+      this.timesheetForm.controls['orderId'].patchValue(undefined);
+
+    this.selectedProject$.next(project);
+  }
+
   public save(): void {
     if (!this.timesheetForm.valid)
       return;
 
+    const timeSheet: TimeSheetDto = {
+      ...this.timesheetForm.value,
+      projectId: this.timesheetForm.value.projectId.id,
+      activityId: this.timesheetForm.value.activityId.id,
+    };
+
     const apiAction = this.isNewRecord
-      ? this.timesheetService.create({timeSheetDto: this.timesheetForm.value})
-      : this.timesheetService.update({timeSheetDto: this.timesheetForm.value});
+      ? this.timesheetService.create({timeSheetDto: timeSheet})
+      : this.timesheetService.update({timeSheetDto: timeSheet});
 
     const timesheetChangedAction = this.isNewRecord
       ? 'created'

@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
+﻿using System;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.TimeTracking;
@@ -36,7 +37,13 @@ namespace FS.TimeTracking.Application.Services
         public async Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    select: (Project x) => TypeaheadDto.Create(x.Id, $"{x.Title} ({x.Customer.Title})", x.Hidden),
+                    select: (Project x) => new TypeaheadDto<string>
+                    {
+                        Id = x.Id,
+                        Value = $"{x.Title} ({x.Customer.Title})",
+                        Hidden = x.Hidden,
+                        Extended = new { x.CustomerId }
+                    },
                     where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title).ThenBy(x => x.Customer.Title),
                     cancellationToken: cancellationToken
@@ -46,7 +53,17 @@ namespace FS.TimeTracking.Application.Services
         public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    select: (Order x) => TypeaheadDto.Create(x.Id, x.Number != null ? $"{x.Title} ({x.Number})" : x.Title, x.Hidden),
+                    select: (Order x) => new TypeaheadDto<string>
+                    {
+                        Id = x.Id,
+                        Value = x.Number != null ? $"{x.Title} ({x.Number})" : x.Title,
+                        Hidden = x.Hidden,
+                        Extended = new
+                        {
+                            IsActive = x.StartDateLocal.Date <= DateTime.UtcNow.Date && x.DueDateLocal >= DateTimeOffset.UtcNow.Date,
+                            x.CustomerId
+                        }
+                    },
                     where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                     cancellationToken: cancellationToken
@@ -56,7 +73,13 @@ namespace FS.TimeTracking.Application.Services
         public async Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    select: (Activity x) => TypeaheadDto.Create(x.Id, x.Title, x.Hidden),
+                    select: (Activity x) => new TypeaheadDto<string>
+                    {
+                        Id = x.Id,
+                        Value = x.Project != null ? $"{x.Title} ({x.Project.Title})" : x.Title,
+                        Hidden = x.Hidden,
+                        Extended = new { x.ProjectId }
+                    },
                     where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                     cancellationToken: cancellationToken
