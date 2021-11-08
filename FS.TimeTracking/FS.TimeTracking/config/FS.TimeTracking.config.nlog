@@ -15,18 +15,6 @@
             layout="${longdate} ${level:uppercase=true}&#009;${message}&#009;${exception:format=tostring}">
     </target>
 
-    <target name="log_to_file"
-            xsi:type="File"
-            archiveAboveSize="33554432"
-            maxArchiveFiles="5"
-            archiveOldFileOnStartup="false"
-            keepFileOpen="true"
-            concurrentWrites="false"
-            openFileCacheTimeout="30"
-            fileName="${basedir}/TimeTracking.log.txt"
-            layout="${longdate}|${level:uppercase=true}|${logger}|${event-properties:item=EventId_Id}|${mdlc:item=RequestId}|${mdlc:item=RequestPath}|${message}|${exception:format=tostring}|${callsite:className=true:fileName=true:includeSourcePath=false:methodName=true:cleanNamesOfAnonymousDelegates=true}|${stacktrace}">
-    </target>
-
     <target name="log_to_csv"
             xsi:type="File"
             archiveAboveSize="33554432"
@@ -62,6 +50,8 @@
             includeNdlc="true">
     </target>
 
+    <target xsi:type="Null" name="black_hole" />
+
   </targets>
 
   <!-- rules to map from logger name to target -->
@@ -91,18 +81,18 @@
     <!-- Discard finally non-critical logs from LinqToDB -->
     <logger name="LinqToDB" maxlevel="Info" final="true" />
 
-    <!-- Discard finally TaskCanceledException exceptions -->
-    <logger name="*">
+    <!-- Discard finally chatty task canceled logs from EF -->
+    <!-- Remove as soon as chatty EF is fixed, see https://github.com/dotnet/efcore/issues/19526 -->
+    <logger name="*" minlevel="Trace" writeTo="black_hole" >
       <filters>
-        <when condition="equals('${exception}', 'TaskCanceledException')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Connection') and equals('${event-properties:item=EventId_Id}', '20004') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Query') and equals('${event-properties:item=EventId_Id}', '10100') and contains('${exception:format=tostring}', 'System.OperationCanceledException')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware') and equals('${event-properties:item=EventId_Id}', '1') and contains('${exception:format=tostring}', 'System.OperationCanceledException')" action="IgnoreFinal" />
       </filters>
     </logger>
 
     <!-- All custom and critical Microsoft logs (non-discarded above) to console -->
     <logger name="*" minlevel="Trace" writeTo="log_to_console" />
-
-    <!-- Logs higher than Warn (Warn, Error, Fatal) and critical Microsoft logs (non-discarded from above) to text file -->
-    <!--<logger name="*" minlevel="Warn" writeTo="log_to_file" />-->
 
     <!-- Logs higher than Warn (Warn, Error, Fatal) and critical Microsoft logs (non-discarded from above) to CSV file -->
     <logger name="*" minlevel="Warn" writeTo="log_to_csv" />
