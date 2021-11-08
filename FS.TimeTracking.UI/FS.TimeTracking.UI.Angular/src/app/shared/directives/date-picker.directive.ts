@@ -11,6 +11,25 @@ const CUSTOM_VALUE_ACCESSOR: any = {
   multi: true,
 };
 
+export type ViewMode = 'days' | 'months' | 'years';
+
+export interface DatePickerOptions {
+  format: string,
+  todayHighlight: boolean,
+  calendarWeeks: boolean,
+  weekStart: number,
+  autoclose: boolean,
+  language: string,
+  todayBtn: boolean | 'linked',
+  showOnFocus: boolean,
+  assumeNearbyYear: boolean,
+  forceParse: boolean,
+  keyboardNavigation: boolean,
+  minViewMode: ViewMode
+  startDate: Date | undefined,
+  endDate: Date | undefined,
+}
+
 @Directive({
   selector: '[tsDatePicker]',
   providers: [CUSTOM_VALUE_ACCESSOR],
@@ -28,24 +47,34 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePicker?.datepicker('setEndDate', value?.toJSDate());
   }
 
-  private readonly format: string;
+  @Input() set format(value: string | undefined) {
+    this.dateFormat = value ?? this.localizationService.dateTime.dateFormat;
+    this.hasCustomDateFormat = !!value;
+  }
+
+  @Input() set minViewMode(value: ViewMode) {
+    this.datePickerOptions = {...this.datePickerOptions, minViewMode: value};
+  }
+
+  private dateFormat: string;
+  private hasCustomDateFormat = false;
   private value?: DateTime = DateTime.min();
   private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
   private disabled = false;
   private datepickerShown = false;
   private datePicker: any;
-  private datePickerOptions: any = {};
+  private datePickerOptions: DatePickerOptions;
 
   constructor(
     private elementRef: ElementRef,
     private localizationService: LocalizationService,
     private dateParserService: DateParserService,
   ) {
-    this.format = localizationService.dateTime.dateFormat;
+    this.dateFormat = localizationService.dateTime.dateFormat;
 
     // noinspection SpellCheckingInspection
     this.datePickerOptions = {
-      format: this.toDatePickerFormat(this.format),
+      format: this.toDatePickerFormat(this.dateFormat),
       todayHighlight: true,
       calendarWeeks: true,
       weekStart: 1,
@@ -55,7 +84,10 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       showOnFocus: false,
       assumeNearbyYear: true,
       forceParse: false,
-      keyboardNavigation: false
+      keyboardNavigation: false,
+      minViewMode: 'days',
+      startDate: undefined,
+      endDate: undefined
     };
   }
 
@@ -66,14 +98,14 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
   @HostListener('blur', ['$event.target.value'])
   public onBlur(rawInput: string | undefined) {
-    if (this.datepickerShown)
+    if (this.datepickerShown || this.hasCustomDateFormat)
       return;
 
     let parsedDate = this.dateParserService.parseDate(rawInput, this.relativeAnchor);
     if (parsedDate?.isValid) {
-      parsedDate = this.adjustToStartEndRange(parsedDate);
+      parsedDate = this.adjustNewValueToStartEndRange(parsedDate);
       this.datePicker?.datepicker('setDate', parsedDate.toJSDate());
-      this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
+      this.elementRef.nativeElement.value = parsedDate.toFormat(this.dateFormat);
       this.emitValue(parsedDate);
     } else {
       this.elementRef.nativeElement.value = '';
@@ -91,21 +123,31 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         this.datepickerShown = false;
       })
       .on('changeDate', (event: any) => {
-        const parsedDate = DateTime.fromJSDate(event.date);
-        this.elementRef.nativeElement.value = parsedDate.toFormat(this.format);
+        let parsedDate = DateTime.fromJSDate(event.date);
+
+        switch (this.datePickerOptions.minViewMode) {
+          case 'months':
+            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
+            break;
+          case 'years':
+            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('year') : parsedDate.endOf('year');
+            break;
+        }
+
+        this.elementRef.nativeElement.value = parsedDate.toFormat(this.dateFormat);
         this.emitValue(parsedDate);
       });
   }
 
   public writeValue(newValue?: DateTime): void {
     if (newValue?.isValid)
-      newValue = this.adjustToStartEndRange(newValue);
+      newValue = this.adjustNewValueToStartEndRange(newValue);
     this.value = newValue;
     this.originTimePart = newValue?.isValid
       ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
       : {hour: 0, minute: 0, second: 0, millisecond: 0};
     this.datePicker?.datepicker('update', this.value?.toJSDate());
-    this.elementRef.nativeElement.value = this.value?.toFormat(this.format) ?? '';
+    this.elementRef.nativeElement.value = this.value?.toFormat(this.dateFormat) ?? '';
   }
 
   public emitValue(newValue?: DateTime): void {
@@ -150,12 +192,14 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       .replace(/M/g, 'm');
   }
 
-  private adjustToStartEndRange(value: DateTime): DateTime {
-    const startDate = DateTime.fromJSDate(this.datePickerOptions.startDate);
+  private adjustNewValueToStartEndRange(value: DateTime): DateTime {
+    const dateTImeInvalid = DateTime.invalid('no value given');
+    const startDate = this.datePickerOptions.startDate ? DateTime.fromJSDate(this.datePickerOptions.startDate) : dateTImeInvalid;
+
     if (value && startDate.isValid && value < startDate)
       value = value.set({year: startDate.year, month: startDate.month, day: startDate.day});
 
-    const endDate = DateTime.fromJSDate(this.datePickerOptions.endDate);
+    const endDate = this.datePickerOptions.endDate ? DateTime.fromJSDate(this.datePickerOptions.endDate) : dateTImeInvalid;
     if (value && endDate.isValid && value > endDate)
       value = value.set({year: endDate.year, month: endDate.month, day: endDate.day});
 
