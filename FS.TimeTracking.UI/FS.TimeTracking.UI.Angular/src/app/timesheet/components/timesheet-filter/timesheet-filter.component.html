@@ -9,7 +9,7 @@
             i18n="@@Component.Filter.Clear">
       [i18n] Clear Filter
     </button>
-    <button id="extendedFilterControl"
+    <button id="extendedFilterToggler"
             type="button"
             class="btn btn-sm btn-outline-secondary collapsed"
             data-bs-toggle="collapse"
@@ -28,28 +28,57 @@
   <div class="row g-3">
     <div class="col-6 col-xl-3">
       <label class="visually-hidden" for="startDate" i18n="@@Component.Filter.From">[i18n] From</label>
-      <input id="startDate"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] From"
-             i18n-placeholder="@@Component.Filter.From"
-             formControlName="startDate"
-             tsDatePicker
-             inputmode="none"
-             autocomplete="off">
+      <div class="input-group">
+        <input id="startMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] From"
+               i18n-placeholder="@@Component.Filter.From"
+               formControlName="startMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               inputmode="none"
+               autocomplete="off">
+        <input id="startDate"
+               type="text"
+               class="form-control"
+               placeholder="[i18n] From"
+               i18n-placeholder="@@Component.Filter.From"
+               formControlName="startDate"
+               tsDatePicker
+               inputmode="none"
+               autocomplete="off">
+      </div>
     </div>
     <div class="col-6 col-xl-3">
       <label class="visually-hidden" for="endDate" i18n="@@Component.Filter.To">[i18n] To</label>
-      <input id="endDate"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] To"
-             i18n-placeholder="@@Component.Filter.To"
-             formControlName="endDate"
-             tsDatePicker
-             relativeAnchor="end"
-             inputmode="none"
-             autocomplete="off">
+      <div class="input-group">
+        <input id="endMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] To"
+               i18n-placeholder="@@Component.Filter.To"
+               formControlName="endMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               relativeAnchor="end"
+               inputmode="none"
+               autocomplete="off">
+        <input id="endDate"
+               type="text"
+               class="form-control"
+               placeholder="[i18n] To"
+               i18n-placeholder="@@Component.Filter.To"
+               formControlName="endDate"
+               tsDatePicker
+               relativeAnchor="end"
+               inputmode="none"
+               autocomplete="off">
+      </div>
     </div>
     <div class="col-12 col-sm-6 col-xl-3">
       <!--suppress XmlInvalidId -->

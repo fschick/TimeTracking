@@ -1,4 +1,4 @@
-#extendedFilterControl {
+#extendedFilterToggler {
   cursor: pointer;
 
   &.collapsed {
@@ -20,4 +20,12 @@
       display: inline-block;
     }
   }
+}
+
+.month-input {
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 4rem;
+  cursor: pointer;
+  background-color: inherit;
 }

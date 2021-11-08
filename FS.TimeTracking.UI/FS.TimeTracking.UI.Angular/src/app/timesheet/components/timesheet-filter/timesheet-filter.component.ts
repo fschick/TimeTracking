@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, OnDestroy, Output} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, merge, Observable, Subscription} from 'rxjs';
 import {StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateTime} from 'luxon';
@@ -61,9 +61,14 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         shareReplay(1),
       );
 
+    const requiredFilters = ['startDate', 'startMonth', 'endDate', 'endMonth'];
     this.isFiltered$ = this.onFilterChanged
       .pipe(map((timeSheetFilter: TimeSheetFilterDto) =>
-        Object.entries(timeSheetFilter).some(([key, value]) => key !== 'startDate' && key !== 'endDate' && value && value?.length !== 0)
+        Object.entries(timeSheetFilter).some(([key, value]) =>
+          !requiredFilters.includes(key) &&
+          value &&
+          value?.length !== 0
+        )
       ));
   }
 
@@ -106,7 +111,9 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     const filterForm = this.formBuilder.group(
       {
         startDate: [startDate, Validators.required],
+        startMonth: [startDate, Validators.required],
         endDate: [endDate, Validators.required],
+        endMonth: [endDate, Validators.required],
         projectCustomerId: [timeSheetFilter.projectCustomerId],
         projectId: [timeSheetFilter.projectId],
         activityId: [timeSheetFilter.activityId],
@@ -116,18 +123,41 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       },
     );
 
-    const startDateChanged = filterForm.controls['startDate'].valueChanges.subscribe(newStartDate => {
+    const startDateChanged = filterForm.controls['startDate'].valueChanges.subscribe((newStartDate: DateTime) => {
       if (filterForm.value.endDate < newStartDate)
         filterForm.controls['endDate'].setValue(newStartDate);
     });
 
-    const endDateChanged = filterForm.controls['endDate'].valueChanges.subscribe(newEndDate => {
+    const startMonthChanged = filterForm.controls['startMonth'].valueChanges.subscribe((newStartDate: DateTime) => {
+      if (filterForm.value.endDate < newStartDate)
+        filterForm.controls['endDate'].setValue(newStartDate.endOf('month'));
+    });
+
+    const endDateChanged = filterForm.controls['endDate'].valueChanges.subscribe((newEndDate: DateTime) => {
       if (filterForm.value.startDate > newEndDate)
         filterForm.controls['startDate'].setValue(newEndDate);
     });
 
+    const endMonthChanged = filterForm.controls['endMonth'].valueChanges.subscribe((newEndDate: DateTime) => {
+      if (filterForm.value.startDate > newEndDate)
+        filterForm.controls['startDate'].setValue(newEndDate.startOf('month'));
+    });
+
     this.subscriptions.add(startDateChanged);
+    this.subscriptions.add(startMonthChanged);
     this.subscriptions.add(endDateChanged);
+    this.subscriptions.add(endMonthChanged);
+
+    const formControls = filterForm.controls;
+    const startDateToMonthSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startMonth'].patchValue(x, {emitEvent: false}));
+    const startMonthToDateSync = formControls['startMonth'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
+    const endDateToMonthSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endMonth'].patchValue(x, {emitEvent: false}));
+    const endMonthToDateSync = formControls['endMonth'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
+
+    this.subscriptions.add(startDateToMonthSync);
+    this.subscriptions.add(startMonthToDateSync);
+    this.subscriptions.add(endDateToMonthSync);
+    this.subscriptions.add(endMonthToDateSync);
 
     return filterForm;
   }
