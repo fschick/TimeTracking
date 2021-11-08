@@ -17,16 +17,16 @@ const routes: Routes = [
     children: [{path: ':id', component: MasterDataCustomersEditComponent}]
   },
   {
-    path: 'master-data/orders', component: MasterDataOrdersComponent,
-    children: [{path: ':id', component: MasterDataOrdersEditComponent}]
-  },
-  {
     path: 'master-data/projects', component: MasterDataProjectsComponent,
     children: [{path: ':id', component: MasterDataProjectsEditComponent}]
   },
   {
     path: 'master-data/activities', component: MasterDataActivitiesComponent,
     children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
+  },
+  {
+    path: 'master-data/orders', component: MasterDataOrdersComponent,
+    children: [{path: ':id', component: MasterDataOrdersEditComponent}]
   },
   {
     path: '', component: TimesheetComponent,
