@@ -6,12 +6,12 @@
     public class EnvironmentConfiguration
     {
         /// <summary>
-        /// Gets or sets a value indicating whether development environment is active.
+        /// Indicates whether development environment is active.
         /// </summary>
         public bool IsDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether production environment is active.
+        /// Indicates whether production environment is active.
         /// </summary>
         public bool IsProduction { get; set; }
     }

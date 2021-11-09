@@ -17,25 +17,25 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets the short/display name.
+        /// The display name of this item.
         /// </summary>
         [Required]
         [StringLength(100)]
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets a description.
+        /// Description of this item.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets the order number.
+        /// The order number.
         /// </summary>
         [StringLength(100)]
         public string Number { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Customer"/>.
+        /// The identifier to the related <see cref="Customer"/>.
         /// </summary>
         [Required]
         public Guid CustomerId { get; set; }
@@ -44,17 +44,17 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Customer Customer { get; set; }
 
         /// <summary>
-        /// Gets the start date in local time.
+        /// The start date in local time.
         /// </summary>
         public DateTime StartDateLocal { get; set; }
 
         /// <summary>
-        /// Gets the start date's timezone offset in hours.
+        /// The start date's timezone offset in hours.
         /// </summary>
         public int StartDateOffset { get; set; }
 
         /// <summary>
-        /// Gets the start date.
+        /// The start date.
         /// </summary>
         [Required]
         [NotMapped]
@@ -65,17 +65,17 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         }
 
         /// <summary>
-        /// Gets the due date in local time.
+        /// The due date in local time.
         /// </summary>
         public DateTime DueDateLocal { get; set; }
 
         /// <summary>
-        /// Gets the due date's timezone offset in hours.
+        /// The due date's timezone offset in hours.
         /// </summary>
         public int DueDateOffset { get; set; }
 
         /// <summary>
-        /// Gets the due date.
+        /// The due date.
         /// </summary>
         [Required]
         [NotMapped]
@@ -87,26 +87,26 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         }
 
         /// <summary>
-        /// Gets the hourly rate.
+        /// The hourly rate.
         /// </summary>
         /// [Required]
         [Range(0, double.PositiveInfinity)]
         public double HourlyRate { get; set; }
 
         /// <summary>
-        /// Gets the budget.
+        /// The available budget.
         /// </summary>
         [Required]
         [Range(0, double.PositiveInfinity)]
         public double Budget { get; set; }
 
         /// <summary>
-        /// Gets or sets a comment.
+        /// Comment for this item.
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this item is hidden.
+        /// Indicates whether this item is hidden.
         /// </summary>
         [Required]
         public bool Hidden { get; set; }

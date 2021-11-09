@@ -12,21 +12,21 @@ namespace FS.TimeTracking.Shared.Extensions
     {
         #region Path
         /// <summary>
-        /// Gets the full path of the current executable.
+        /// Full path of the current executable.
         /// </summary>
         public static string GetProgramPath()
             => Assembly.GetEntryAssembly().GetAssemblyPath();
 
         /// <summary>
-        /// Gets the full path of the assembly calling this method.
+        /// Full path of the assembly calling this method.
         /// </summary>
         public static string GetLibraryPath()
             => Assembly.GetCallingAssembly().GetAssemblyPath();
 
         /// <summary>
-        /// Returns the full path of a given assembly.
+        /// Gets the full path of a given assembly.
         /// </summary>
-        /// <param name="assembly">The assembly to get the full path for</param>
+        /// <param name="assembly">The assembly to get the full path for.</param>
         public static string GetAssemblyPath(this Assembly assembly)
             => assembly.Location;
         #endregion

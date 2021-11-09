@@ -75,7 +75,7 @@ namespace FS.TimeTracking.Application.Services
         }
 
         /// <summary>
-        /// Gets all items as flat list
+        /// Get all items as flat list
         /// </summary>
         /// <param name="id">When specified, only the entity with the given GUID is returned.</param>
         /// <param name="orderBy">A function to order the result.</param>

@@ -9,19 +9,19 @@ namespace FS.TimeTracking.Shared.Interfaces.Models
     public interface IEntityModel
     {
         /// <summary>
-        /// Gets the unique identifier.
+        /// THe unique identifier of the entity.
         /// </summary>
         [Required]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the creation time, in coordinated universal time (UTC), of the current item.
+        /// Creation time, in coordinated universal time (UTC), of the current item.
         /// </summary>
         [Required]
         public DateTime Created { get; set; }
 
         /// <summary>
-        /// Gets or sets the time, in coordinated universal time (UTC), when the current item was last written to.
+        /// The time, in coordinated universal time (UTC), when the current item was last written to.
         /// </summary>
         [Required]
         public DateTime Modified { get; set; }

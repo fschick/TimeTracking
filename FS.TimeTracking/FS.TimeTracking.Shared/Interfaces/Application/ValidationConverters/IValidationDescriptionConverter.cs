@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters
     public interface IValidationDescriptionConverter
     {
         /// <summary>
-        /// Gets the validation attributes convertible to descriptions.
+        /// Validation attributes convertible to descriptions.
         /// </summary>
         IEnumerable<Type> SupportedValidationAttributes { get; }
 

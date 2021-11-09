@@ -10,12 +10,12 @@ namespace FS.TimeTracking.Shared.Models.Configuration
     public class DatabaseConfiguration
     {
         /// <summary>
-        /// Gets or sets the type of the database.
+        /// The type of the database.
         /// </summary>
         public DatabaseType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the connection string.
+        /// The connection string to use.
         /// </summary>
         public string ConnectionString { get; set; }
 

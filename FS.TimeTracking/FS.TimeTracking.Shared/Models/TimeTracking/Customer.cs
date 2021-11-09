@@ -15,55 +15,55 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the short/display name.
+        /// The display name of this item.
         /// </summary>
         [Required]
         [StringLength(100)]
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the company.
+        /// The name of the company.
         /// </summary>
         [StringLength(100)]
         public string CompanyName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the contact.
+        /// The name of the contact.
         /// </summary>
         [StringLength(100)]
         public string ContactName { get; set; }
 
         /// <summary>
-        /// Gets or sets the street.
+        /// The street.
         /// </summary>
         [StringLength(100)]
         public string Street { get; set; }
 
         /// <summary>
-        /// Gets or sets the zip code.
+        /// The zip code.
         /// </summary>
         [StringLength(100)]
         public string ZipCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the city.
+        /// The city.
         /// </summary>
         [StringLength(100)]
         public string City { get; set; }
 
         /// <summary>
-        /// Gets or sets the country.
+        /// The country.
         /// </summary>
         [StringLength(100)]
         public string Country { get; set; }
 
         /// <summary>
-        /// Gets or sets a comment.
+        /// Comment for this item.
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this item is hidden.
+        /// Indicates whether this item is hidden.
         /// </summary>
         [Required]
         public bool Hidden { get; set; }
@@ -77,12 +77,12 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public DateTime Modified { get; set; }
 
         /// <summary>
-        /// Gets or sets the projects related to this customer.
+        /// The projects related to this customer.
         /// </summary>
         public List<Project> Projects { get; set; }
 
         /// <summary>
-        /// Gets or sets the orders related to this customer.
+        /// The orders related to this customer.
         /// </summary>
         public List<Order> Orders { get; set; }
     }

@@ -26,7 +26,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => dateTime?.ToOffset(offset);
 
         /// <summary>
-        /// Gets the dates between two dates.
+        /// Gets all dates between two dates.
         /// </summary>
         /// <param name="from">Start date.</param>
         /// <param name="to">End date.</param>
@@ -36,7 +36,7 @@ namespace FS.TimeTracking.Shared.Extensions
                 .Select(x => from.AddDays(x));
 
         /// <summary>
-        /// Gets a number of dates starting from a date.
+        /// Gets a series of dates starting from given date.
         /// </summary>
         /// <param name="from">Start date.</param>
         /// <param name="days">The count of days to get dates for.</param>

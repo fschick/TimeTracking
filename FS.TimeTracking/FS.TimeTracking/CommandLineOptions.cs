@@ -11,27 +11,27 @@ namespace FS.TimeTracking
     public class CommandLineOptions
     {
         /// <summary>
-        /// Gets or sets the open API spec file path to generate.
+        /// File path to generated OpenAPI spec file
         /// </summary>
         public string OpenApiSpecFile { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether an open API spec file should generated.
+        /// Generates an OpenAPI spec file
         /// </summary>
         public bool GenerateOpenApiSpecFile => !string.IsNullOrWhiteSpace(OpenApiSpecFile);
 
         /// <summary>
-        /// Gets or sets the validation spec file path to generate.
+        /// File path to generated validation spec file
         /// </summary>
         public string ValidationSpecFile { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether an validation spec file should generated.
+        /// Generates an validation spec file
         /// </summary>
         public bool GenerateValidationSpecFile => !string.IsNullOrWhiteSpace(ValidationSpecFile);
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="CommandLineOptions"/> is parsed successfully.
+        /// Indicates whether the command line options were parsed successfully.
         /// </summary>
         public bool Parsed { get; set; }
 

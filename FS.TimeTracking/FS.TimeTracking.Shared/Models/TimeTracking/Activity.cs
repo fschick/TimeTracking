@@ -14,14 +14,14 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the short/display name.
+        /// The display name of this item.
         /// </summary>
         [Required]
         [StringLength(100)]
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier to the related <see cref="Project"/>.
+        /// Identifier to the related <see cref="Project"/>.
         /// </summary>
         public Guid? ProjectId { get; set; }
 
@@ -29,12 +29,12 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public Project Project { get; set; }
 
         /// <summary>
-        /// Gets or sets a comment.
+        /// Comment for this item.
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this item is hidden.
+        /// Indicates whether this item is hidden.
         /// </summary>
         [Required]
         public bool Hidden { get; set; }

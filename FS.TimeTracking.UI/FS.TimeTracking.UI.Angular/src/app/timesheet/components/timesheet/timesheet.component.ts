@@ -60,7 +60,7 @@ export class TimesheetComponent {
       .pipe(
         switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
+        // switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
   }

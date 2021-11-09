@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Shared.Models.REST
     public class ErrorInformation
     {
         /// <summary>
-        /// Gets or sets the unified database error code.
+        /// A unified database error code.
         /// </summary>
         public DatabaseErrorCode DatabaseErrorCode { get; set; }
     }

@@ -19,7 +19,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
-        /// Gets the duration.
+        /// Total working time for this sheet.
         /// </summary>
         public TimeSpan? Duration { get; set; }
 

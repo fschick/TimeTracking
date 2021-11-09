@@ -14,12 +14,12 @@ namespace FS.TimeTracking.Shared.Models.Configuration
         public const string CONFIGURATION_SECTION = "TimeTracking";
 
         /// <summary>
-        /// Gets or sets the working days.
+        /// Working days of a week.
         /// </summary>
         public IEnumerable<DayOfWeek> WorkingDays { get; set; }
 
         /// <summary>
-        /// Gets or sets the database configuration.
+        /// Database specific configuration.
         /// </summary>
         public DatabaseConfiguration Database { get; set; } = new();
     }
