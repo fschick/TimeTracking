@@ -137,6 +137,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         this.elementRef.nativeElement.value = parsedDate.toFormat(this.dateFormat);
         this.emitValue(parsedDate);
       });
+    this.updateDatepickerValue();
   }
 
   public writeValue(newValue?: DateTime): void {
@@ -146,8 +147,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.originTimePart = newValue?.isValid
       ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
       : {hour: 0, minute: 0, second: 0, millisecond: 0};
-    this.datePicker?.datepicker('update', this.value?.toJSDate());
-    this.elementRef.nativeElement.value = this.value?.toFormat(this.dateFormat) ?? '';
+    this.updateDatepickerValue();
   }
 
   public emitValue(newValue?: DateTime): void {
@@ -204,6 +204,11 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       value = value.set({year: endDate.year, month: endDate.month, day: endDate.day});
 
     return value;
+  }
+
+  private updateDatepickerValue() {
+    this.datePicker?.datepicker('update', this.value?.toJSDate());
+    this.elementRef.nativeElement.value = this.value?.toFormat(this.dateFormat) ?? '';
   }
 
   private onChange: (obj: any) => void = (_: any) => {};
