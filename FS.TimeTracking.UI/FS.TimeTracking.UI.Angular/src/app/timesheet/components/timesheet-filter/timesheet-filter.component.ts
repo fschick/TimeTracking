@@ -123,41 +123,36 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       },
     );
 
-    const startDateChanged = filterForm.controls['startDate'].valueChanges.subscribe((newStartDate: DateTime) => {
+    const formControls = filterForm.controls;
+
+    const startDateChanged = formControls['startDate'].valueChanges.subscribe((newStartDate: DateTime) => {
+      formControls['startMonth'].setValue(newStartDate, {emitEvent: false})
       if (filterForm.value.endDate < newStartDate)
-        filterForm.controls['endDate'].setValue(newStartDate);
+        formControls['endDate'].setValue(newStartDate);
     });
 
-    const startMonthChanged = filterForm.controls['startMonth'].valueChanges.subscribe((newStartDate: DateTime) => {
+    const startMonthChanged = formControls['startMonth'].valueChanges.subscribe((newStartDate: DateTime) => {
+      formControls['startDate'].setValue(newStartDate, {emitEvent: false})
       if (filterForm.value.endDate < newStartDate)
-        filterForm.controls['endDate'].setValue(newStartDate.endOf('month'));
+        formControls['endDate'].setValue(newStartDate.endOf('month'));
     });
 
-    const endDateChanged = filterForm.controls['endDate'].valueChanges.subscribe((newEndDate: DateTime) => {
+    const endDateChanged = formControls['endDate'].valueChanges.subscribe((newEndDate: DateTime) => {
+      formControls['endMonth'].setValue(newEndDate, {emitEvent: false})
       if (filterForm.value.startDate > newEndDate)
-        filterForm.controls['startDate'].setValue(newEndDate);
+        formControls['startDate'].setValue(newEndDate);
     });
 
-    const endMonthChanged = filterForm.controls['endMonth'].valueChanges.subscribe((newEndDate: DateTime) => {
+    const endMonthChanged = formControls['endMonth'].valueChanges.subscribe((newEndDate: DateTime) => {
+      formControls['endDate'].setValue(newEndDate, {emitEvent: false})
       if (filterForm.value.startDate > newEndDate)
-        filterForm.controls['startDate'].setValue(newEndDate.startOf('month'));
+        formControls['startDate'].setValue(newEndDate.startOf('month'));
     });
 
     this.subscriptions.add(startDateChanged);
     this.subscriptions.add(startMonthChanged);
     this.subscriptions.add(endDateChanged);
     this.subscriptions.add(endMonthChanged);
-
-    const formControls = filterForm.controls;
-    const startDateToMonthSync = formControls['startDate'].valueChanges.subscribe(x => formControls['startMonth'].patchValue(x, {emitEvent: false}));
-    const startMonthToDateSync = formControls['startMonth'].valueChanges.subscribe(x => formControls['startDate'].patchValue(x, {emitEvent: false}));
-    const endDateToMonthSync = formControls['endDate'].valueChanges.subscribe(x => formControls['endMonth'].patchValue(x, {emitEvent: false}));
-    const endMonthToDateSync = formControls['endMonth'].valueChanges.subscribe(x => formControls['endDate'].patchValue(x, {emitEvent: false}));
-
-    this.subscriptions.add(startDateToMonthSync);
-    this.subscriptions.add(startMonthToDateSync);
-    this.subscriptions.add(endDateToMonthSync);
-    this.subscriptions.add(endMonthToDateSync);
 
     return filterForm;
   }
