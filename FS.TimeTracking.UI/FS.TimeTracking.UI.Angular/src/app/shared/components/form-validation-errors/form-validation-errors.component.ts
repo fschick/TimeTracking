@@ -98,12 +98,12 @@ export class FormValidationErrorsComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private validationErrorConverters: IValidationErrorConverters = {
     // eslint-disable-next-line max-len
-    required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[I18N] The field '${fieldName}:FIELDNAME:' is required`,
-    minlength: (fieldName, error) => $localize`:@@Validation.MinLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
-    maxlength: (fieldName, error) => $localize`:@@Validation.MaxLengthWithField:[I18N] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
-    min: (fieldName, error) => $localize`:@@Validation.MinWithField:[I18N] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,
-    max: (fieldName, error) => $localize`:@@Validation.MaxWithField:[I18N] '${fieldName}:FIELDNAME:' must be lower or equal to ${error.max}:VALUE:`,
-    compare: (_, error) => $localize`:@@Validation.CompareWithField:[I18N] '${this.translateFieldName(error.fieldName)}:FIELDNAME:' and '${this.translateFieldName(error.otherFieldName)}:OTHERFIELDNAME:' does not match`,
+    required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[i18n] The field '${fieldName}:FIELDNAME:' is required`,
+    minlength: (fieldName, error) => $localize`:@@Validation.MinLengthWithField:[i18n] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
+    maxlength: (fieldName, error) => $localize`:@@Validation.MaxLengthWithField:[i18n] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
+    min: (fieldName, error) => $localize`:@@Validation.MinWithField:[i18n] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,
+    max: (fieldName, error) => $localize`:@@Validation.MaxWithField:[i18n] '${fieldName}:FIELDNAME:' must be lower or equal to ${error.max}:VALUE:`,
+    compare: (_, error) => $localize`:@@Validation.CompareWithField:[i18n] '${this.translateFieldName(error.fieldName)}:FIELDNAME:' and '${this.translateFieldName(error.otherFieldName)}:OTHERFIELDNAME:' does not match`,
     compareTo: (_, error) => this.getCompareToErrorMessage(error),
   };
 
@@ -112,17 +112,17 @@ export class FormValidationErrorsComponent implements OnInit {
     const otherFieldName = this.translateFieldName(error.otherFieldName);
     switch (error.comparisonType) {
       case 'equal':
-        return $localize`:@@Validation.CompareToEqualWithField:[I18N] '${fieldName}:FIELDNAME:' and '${otherFieldName}:OTHERFIELDNAME:' must be equal`;
+        return $localize`:@@Validation.CompareToEqualWithField:[i18n] '${fieldName}:FIELDNAME:' and '${otherFieldName}:OTHERFIELDNAME:' must be equal`;
       case 'notEqual':
-        return $localize`:@@Validation.CompareToNotEqualWithField:[I18N] '${fieldName}:FIELDNAME:' and '${otherFieldName}:OTHERFIELDNAME:' must not be equal`;
+        return $localize`:@@Validation.CompareToNotEqualWithField:[i18n] '${fieldName}:FIELDNAME:' and '${otherFieldName}:OTHERFIELDNAME:' must not be equal`;
       case 'lessThan':
-        return $localize`:@@Validation.CompareToLessThanWithField:[I18N] '${fieldName}:FIELDNAME:' must be less than '${otherFieldName}:OTHERFIELDNAME:'`;
+        return $localize`:@@Validation.CompareToLessThanWithField:[i18n] '${fieldName}:FIELDNAME:' must be less than '${otherFieldName}:OTHERFIELDNAME:'`;
       case 'lessThanOrEqual':
-        return $localize`:@@Validation.CompareToLessThanOrEqualWithField:[I18N] '${fieldName}:FIELDNAME:' must be less or equal than '${otherFieldName}:OTHERFIELDNAME:'`;
+        return $localize`:@@Validation.CompareToLessThanOrEqualWithField:[i18n] '${fieldName}:FIELDNAME:' must be less or equal than '${otherFieldName}:OTHERFIELDNAME:'`;
       case 'greaterThan':
-        return $localize`:@@Validation.CompareToGreaterThanWithField:[I18N] '${fieldName}:FIELDNAME:' must be grater than '${otherFieldName}:OTHERFIELDNAME:'`;
+        return $localize`:@@Validation.CompareToGreaterThanWithField:[i18n] '${fieldName}:FIELDNAME:' must be grater than '${otherFieldName}:OTHERFIELDNAME:'`;
       case 'greaterThanOrEqual':
-        return $localize`:@@Validation.CompareToGreaterThanOrEqualWithField:[I18N] '${fieldName}:FIELDNAME:' must be greater or equal than '${otherFieldName}:OTHERFIELDNAME:'`;
+        return $localize`:@@Validation.CompareToGreaterThanOrEqualWithField:[i18n] '${fieldName}:FIELDNAME:' must be greater or equal than '${otherFieldName}:OTHERFIELDNAME:'`;
       default:
         console.error(`No error converter for validation 'compareTo/${error.comparisonType}' found.`);
         return $localize`:@@Validation.Common.InvalidWithField:'${fieldName + '/' + otherFieldName}:FIELDNAME:' is invalid.`;
@@ -133,4 +133,3 @@ export class FormValidationErrorsComponent implements OnInit {
 type IValidationErrorConverters = {
   [validator in string]: (fieldName: string, error: any) => string;
 };
-

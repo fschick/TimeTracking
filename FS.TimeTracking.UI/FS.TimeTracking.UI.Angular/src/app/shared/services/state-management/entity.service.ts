@@ -90,12 +90,12 @@ export class EntityService {
   //         const fieldName = '--fieldName--';
   //         const requiredLength = '--requiredLength--';
   //         const dtoName = $localizeId`${dtoTransUnitId}:TRANSUNITID:`;
-  //         this.toastr.error($localize`:@@Common.DtoSaveError:[I18N] Error while saving ${dtoName}:DTONAME:`);
+  //         this.toastr.error($localize`:@@Common.DtoSaveError:[i18n] Error while saving ${dtoName}:DTONAME:`);
   //         return throwError(err);
   //       }),
   //       map(response => {
   //         const dtoName = $localizeId`${dtoTransUnitId}:TRANSUNITID:`;
-  //         this.toastr.success($localize`:@@Common.DtoSaveSuccess:[I18N] ${dtoName}:DTONAME: saved`);
+  //         this.toastr.success($localize`:@@Common.DtoSaveSuccess:[i18n] ${dtoName}:DTONAME: saved`);
   //         return response.body ?? {} as T;
   //       }),
   //     );

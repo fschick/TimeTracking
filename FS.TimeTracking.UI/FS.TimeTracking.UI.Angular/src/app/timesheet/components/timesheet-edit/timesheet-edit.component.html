@@ -2,26 +2,26 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit Entry</h5>
+        <h5 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit entry</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="timesheetForm" [formGroup]="timesheetForm" (ngSubmit)="save()" #form="ngForm">
           <div class="row g-3 mb-3">
             <div class="col-6 col-lg-3">
-              <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start Date</label>
+              <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start date</label>
               <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
             </div>
             <div class="col-6 col-lg-3">
-              <label for="startTime" class="form-label" i18n="@@DTO.TimeSheetDto.StartTime">[i18n] Start Time</label>
+              <label for="startTime" class="form-label" i18n="@@DTO.TimeSheetDto.StartTime">[i18n] Start time</label>
               <input id="startTime" type="time" tsTime class="form-control" formControlName="startTime" autocomplete="off">
             </div>
             <div class="col-6 col-lg-3">
-              <label for="endDate" class="form-label" i18n="@@DTO.TimeSheetDto.EndDate">[i18n] End Date</label>
+              <label for="endDate" class="form-label" i18n="@@DTO.TimeSheetDto.EndDate">[i18n] End date</label>
               <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="endDate" autocomplete="off">
             </div>
             <div class="col-6 col-lg-3">
-              <label for="endTime" class="form-label" i18n="@@DTO.TimeSheetDto.EndTime">[i18n] End Time</label>
+              <label for="endTime" class="form-label" i18n="@@DTO.TimeSheetDto.EndTime">[i18n] End time</label>
               <input id="endTime" type="time" tsTime class="form-control" formControlName="endTime" autocomplete="off">
             </div>
           </div>
