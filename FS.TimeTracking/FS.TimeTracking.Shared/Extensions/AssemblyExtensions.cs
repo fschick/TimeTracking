@@ -45,7 +45,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyDirectory();
 
         /// <summary>
-        /// Returns the directory of a given assembly.
+        /// Gets the directory of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the directory for</param>
         public static string GetAssemblyDirectory(this Assembly assembly)
@@ -68,7 +68,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyTitle();
 
         /// <summary>
-        /// Returns the title of a given assembly.
+        /// Gets the title of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the title for</param>
         /// <returns>The title of the assembly</returns>
@@ -92,7 +92,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyProduct();
 
         /// <summary>
-        /// Returns the product of a given assembly.
+        /// Gets the product of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the product for</param>
         /// <returns>The product of the assembly</returns>
@@ -116,7 +116,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyDescription();
 
         /// <summary>
-        /// Returns the description of a given assembly.
+        /// Gets the description of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the description for</param>
         /// <returns>The description of the assembly</returns>
@@ -140,7 +140,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyCompany();
 
         /// <summary>
-        /// Returns the company of a given assembly.
+        /// Gets the company of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the company for</param>
         /// <returns>The company of the assembly</returns>
@@ -164,7 +164,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyCopyright();
 
         /// <summary>
-        /// Returns the copyright of a given assembly.
+        /// Gets the copyright of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the copyright for</param>
         /// <returns>The copyright of the assembly</returns>
@@ -188,7 +188,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyTrademark();
 
         /// <summary>
-        /// Returns the trademark of a given assembly.
+        /// Gets the trademark of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the trademark for</param>
         /// <returns>The trademark of the assembly</returns>
@@ -212,7 +212,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyCulture();
 
         /// <summary>
-        /// Returns the culture of a given assembly.
+        /// Gets the culture of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the culture for</param>
         /// <returns>The culture of the assembly</returns>
@@ -236,7 +236,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyProductVersion();
 
         /// <summary>
-        /// Returns the product version of a given assembly.
+        /// Gets the product version of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the product version for</param>
         /// <returns>The product version of the assembly</returns>
@@ -260,7 +260,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyAssemblyVersion();
 
         /// <summary>
-        /// Returns the assembly version of a given assembly.
+        /// Gets the assembly version of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the assembly version for</param>
         /// <returns>The assembly version of the assembly</returns>
@@ -284,7 +284,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => Assembly.GetCallingAssembly().GetAssemblyFileVersion();
 
         /// <summary>
-        /// Returns the file version of a given assembly.
+        /// Gets the file version of a given assembly.
         /// </summary>
         /// <param name="assembly">The assembly to get the file version for</param>
         /// <returns>The file version of the assembly</returns>

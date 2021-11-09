@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Shared.Extensions
     public static class EmptyIfNullExtensions
     {
         /// <summary>
-        /// Returns a new instance of <typeparamref name="T"/>, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
+        /// Creates a new instance of <typeparamref name="T"/>, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object to test.</param>
@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => obj ?? new T();
 
         /// <summary>
-        /// Returns an empty array, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
+        /// Creates an empty array, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object to test.</param>
@@ -25,7 +25,7 @@ namespace FS.TimeTracking.Shared.Extensions
             => obj ?? new T[0];
 
         /// <summary>
-        /// Returns an empty enumerable, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
+        /// Creates an empty enumerable, if the given <paramref name="obj"/> is NULL. Otherwise <paramref name="obj"/> is returned.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object to test.</param>
