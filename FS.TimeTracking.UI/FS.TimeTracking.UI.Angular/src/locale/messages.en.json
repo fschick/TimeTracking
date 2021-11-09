@@ -89,12 +89,14 @@
   "DTO": {
     "CustomerDto": {
       "Title": "Title",
+      "Number": "Customer Number",
       "CompanyName": "Company",
-      "ContactName": "Contact",
+      "Department": "Department",
       "Street": "Street",
       "ZipCode": "Zip",
       "City": "City",
       "Country": "Country",
+      "ContactName": "Contact",
       "Hidden": "Hidden"
     },
     "CustomerListDto": {

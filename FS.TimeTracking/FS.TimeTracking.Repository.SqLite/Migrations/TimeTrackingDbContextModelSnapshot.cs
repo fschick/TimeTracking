@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.4");
+                .HasAnnotation("ProductVersion", "5.0.11");
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
                 {
@@ -79,10 +79,16 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Department")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Hidden")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Modified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Number")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Street")

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FS.TimeTracking.Repository.PostgreSql.Migrations
+namespace FS.TimeTracking.Repository.SqlServer.Migrations
 {
     public partial class Initial : Migration
     {
@@ -11,18 +11,20 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    CompanyName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ContactName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ZipCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ContactName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hidden = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,21 +35,21 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    StartDateOffset = table.Column<int>(type: "integer", nullable: false),
-                    DueDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DueDateOffset = table.Column<int>(type: "integer", nullable: false),
-                    HourlyRate = table.Column<double>(type: "double precision", nullable: false),
-                    Budget = table.Column<double>(type: "double precision", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Number = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDateLocal = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDateOffset = table.Column<int>(type: "int", nullable: false),
+                    DueDateLocal = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DueDateOffset = table.Column<int>(type: "int", nullable: false),
+                    HourlyRate = table.Column<double>(type: "float", nullable: false),
+                    Budget = table.Column<double>(type: "float", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hidden = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,13 +66,13 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hidden = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,13 +89,13 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hidden = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,19 +112,19 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 name: "TimeSheets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ActivityId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Issue = table.Column<string>(type: "text", nullable: true),
-                    StartDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    StartDateOffset = table.Column<int>(type: "integer", nullable: false),
-                    EndDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    EndDateOffset = table.Column<int>(type: "integer", nullable: true),
-                    Billable = table.Column<bool>(type: "boolean", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDateLocal = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDateOffset = table.Column<int>(type: "int", nullable: false),
+                    EndDateLocal = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDateOffset = table.Column<int>(type: "int", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Issue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Billable = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,11 +201,14 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             // EDITED
             migrationBuilder.Sql(@"
-                CREATE FUNCTION toutc(timestamp, int) RETURNS timestamp AS
-	                $$ SELECT $1 + ($2 * interval '1 minute' * -1); $$
-	                LANGUAGE sql
-	                IMMUTABLE
-	                RETURNS NULL ON NULL INPUT;");
+                CREATE FUNCTION dbo.ToUtc (
+	                @date DATETIME2,
+	                @offset INT
+                )
+                RETURNS DATETIME2 AS
+                BEGIN
+	                RETURN DATEADD(MINUTE, @offset * -1, @date)
+                END;");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,7 +230,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             // EDITED
             migrationBuilder.Sql(
-                "DROP FUNCTION toutc(timestamp, int)");
+                "DROP FUNCTION dbo.ToUtc");
         }
     }
 }

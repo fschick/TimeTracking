@@ -13,6 +13,8 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Number = table.Column<string>(type: "TEXT", nullable: true),
+                    Department = table.Column<string>(type: "TEXT", nullable: true),
                     CompanyName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     ContactName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Street = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
@@ -111,16 +113,16 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    OrderId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    Issue = table.Column<string>(type: "TEXT", nullable: true),
                     StartDateLocal = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StartDateOffset = table.Column<int>(type: "INTEGER", nullable: false),
                     EndDateLocal = table.Column<DateTime>(type: "TEXT", nullable: true),
                     EndDateOffset = table.Column<int>(type: "INTEGER", nullable: true),
-                    Billable = table.Column<bool>(type: "INTEGER", nullable: false),
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Issue = table.Column<string>(type: "TEXT", nullable: true),
+                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    OrderId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Billable = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

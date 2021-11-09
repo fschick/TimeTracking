@@ -22,6 +22,16 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         public string Title { get; set; }
 
         /// <summary>
+        /// The customer number.
+        /// </summary>
+        public string Number { get; set; }
+
+        /// <summary>
+        /// The department.
+        /// </summary>
+        public string Department { get; set; }
+
+        /// <summary>
         /// The name of the company.
         /// </summary>
         [StringLength(100)]

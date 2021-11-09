@@ -21,6 +21,12 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking
         [StringLength(100)]
         public string Title { get; init; }
 
+        /// <inheritdoc cref="Customer.Number"/>
+        public string Number { get; set; }
+
+        /// <inheritdoc cref="Customer.Department"/>
+        public string Department { get; set; }
+
         /// <inheritdoc cref="Customer.CompanyName"/>
         [StringLength(100)]
         public string CompanyName { get; init; }

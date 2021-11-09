@@ -89,12 +89,14 @@
   "DTO": {
     "CustomerDto": {
       "Title": "Titel",
+      "Number": "Kundennummer",
       "CompanyName": "Firma",
-      "ContactName": "Kontakt",
+      "Department": "Abteilung",
       "Street": "Straße",
       "ZipCode": "PLZ",
       "City": "Ort",
       "Country": "Land",
+      "ContactName": "Kontakt",
       "Hidden": "Versteckt"
     },
     "CustomerListDto": {
