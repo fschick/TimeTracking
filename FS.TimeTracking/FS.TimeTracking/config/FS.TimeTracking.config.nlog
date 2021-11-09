@@ -86,6 +86,7 @@
     <logger name="*" minlevel="Trace" writeTo="black_hole" >
       <filters>
         <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Connection') and equals('${event-properties:item=EventId_Id}', '20004') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Command') and equals('${event-properties:item=EventId_Id}', '20102') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
         <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Query') and equals('${event-properties:item=EventId_Id}', '10100') and contains('${exception:format=tostring}', 'System.OperationCanceledException')" action="IgnoreFinal" />
         <when condition="equals(logger, 'Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware') and equals('${event-properties:item=EventId_Id}', '1') and contains('${exception:format=tostring}', 'System.OperationCanceledException')" action="IgnoreFinal" />
       </filters>
