@@ -13,6 +13,8 @@ export class SimpleConfirmComponent implements OnDestroy {
   @Input() public message = '';
   @Input() public actionText = '';
 
+  @Output() public opened = new EventEmitter();
+  @Output() public closed = new EventEmitter();
   @Output() public confirmed = new EventEmitter<MouseEvent>();
 
   @ViewChild('confirmDialog') private confirmDialog?: TemplateRef<any>;
@@ -23,6 +25,14 @@ export class SimpleConfirmComponent implements OnDestroy {
   constructor(
     private host: ViewContainerRef,
   ) {
+  }
+
+  public onOpened() {
+    this.opened.emit();
+  }
+
+  public onClosed() {
+    this.closed.emit();
   }
 
   public onConfirmed($event: MouseEvent) {
@@ -36,11 +46,13 @@ export class SimpleConfirmComponent implements OnDestroy {
     this.modalDialog = new bootstrap.Modal(modalDialogElement);
     modalDialogElement.addEventListener('shown.bs.modal', () => modalDialogElement.querySelector('#confirmSubmit').focus());
     this.modalDialog.show();
+    this.onOpened();
   }
 
   public hideConfirmDialog() {
     this.modalDialog?.hide();
     this.modalDialogRef?.destroy();
+    this.onClosed();
   }
 
   public ngOnDestroy(): void {
