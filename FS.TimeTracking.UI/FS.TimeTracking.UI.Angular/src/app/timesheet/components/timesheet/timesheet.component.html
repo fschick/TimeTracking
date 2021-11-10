@@ -113,6 +113,8 @@
               actionText="[i18n] Delete Entry"
               i18n-actionText="@@Page.Timesheet.Delete"
               color="danger"
+              (opened)="allowUpdate=false"
+              (closed)="allowUpdate=true"
               (confirmed)="deleteItem(timeSheet.id)">
               <a class="text-danger">
                 <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {TimeSheetDto, TimeSheetListDto, TimeSheetListFilteredRequestParams, TimeSheetService} from '../../../shared/services/api';
-import {map, single, switchMap} from 'rxjs/operators';
+import {filter, map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -35,6 +35,7 @@ export class TimesheetComponent {
   public guidService = GuidService;
   public overview$?: Observable<TimeSheetOverviewDto>;
   public filterChanged = new Subject<TimeSheetFilterDto>();
+  public allowUpdate = true;
 
   public get showDetails(): boolean {
     return this.storageService.get(this.timeSheetShowDetailsStorageKey, 'false') === 'true';
@@ -61,10 +62,11 @@ export class TimesheetComponent {
         switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
         switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
+        filter(() => this.allowUpdate),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
   }
-
+  
   public deleteItem(id: string) {
     this.timeSheetService
       .delete({id})
