@@ -89,15 +89,9 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     if (!this.timesheetForm.valid)
       return;
 
-    const timeSheet: TimeSheetDto = {
-      ...this.timesheetForm.value,
-      projectId: this.timesheetForm.value.projectId.id,
-      activityId: this.timesheetForm.value.activityId.id,
-    };
-
     const apiAction = this.isNewRecord
-      ? this.timesheetService.create({timeSheetDto: timeSheet})
-      : this.timesheetService.update({timeSheetDto: timeSheet});
+      ? this.timesheetService.create({timeSheetDto: this.timesheetForm.value})
+      : this.timesheetService.update({timeSheetDto: this.timesheetForm.value});
 
     const timesheetChangedAction = this.isNewRecord
       ? 'created'
