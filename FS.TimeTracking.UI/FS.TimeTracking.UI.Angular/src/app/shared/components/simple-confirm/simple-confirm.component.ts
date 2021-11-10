@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ElementRef, EmbeddedViewRef, OnDestroy, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {Modal} from 'bootstrap';
 
 @Component({
@@ -14,10 +14,16 @@ export class SimpleConfirmComponent implements OnDestroy {
   @Input() public actionText = '';
 
   @Output() public confirmed = new EventEmitter<MouseEvent>();
-  @ViewChild('confirmDialog') private confirmDialog?: ElementRef;
-  @ViewChild('confirmSubmit') private confirmSubmit?: ElementRef;
 
-  private modal!: Modal;
+  @ViewChild('confirmDialog') private confirmDialog?: TemplateRef<any>;
+
+  private modalDialog!: Modal;
+  private modalDialogRef?: EmbeddedViewRef<any>;
+
+  constructor(
+    private host: ViewContainerRef,
+  ) {
+  }
 
   public onConfirmed($event: MouseEvent) {
     this.hideConfirmDialog();
@@ -25,13 +31,16 @@ export class SimpleConfirmComponent implements OnDestroy {
   }
 
   public createConfirmDialog() {
-    this.modal = new bootstrap.Modal(this.confirmDialog?.nativeElement);
-    this.confirmDialog?.nativeElement.addEventListener('shown.bs.modal', () => this.confirmSubmit?.nativeElement.focus());
-    this.modal.show();
+    this.modalDialogRef = this.host.createEmbeddedView(this.confirmDialog!);
+    const modalDialogElement = this.modalDialogRef.rootNodes[0];
+    this.modalDialog = new bootstrap.Modal(modalDialogElement);
+    modalDialogElement.addEventListener('shown.bs.modal', () => modalDialogElement.querySelector('#confirmSubmit').focus());
+    this.modalDialog.show();
   }
 
   public hideConfirmDialog() {
-    this.modal?.hide();
+    this.modalDialog?.hide();
+    this.modalDialogRef?.destroy();
   }
 
   public ngOnDestroy(): void {
