@@ -5,12 +5,13 @@ import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subject, timer} from 'rxjs';
+import {EMPTY, NEVER, Observable, of, Subject, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {TimeSheetFilterDto} from '../timesheet-filter/timesheet-filter.component';
+import {environment} from '../../../../environments/environment';
 
 // import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
 
@@ -61,7 +62,7 @@ export class TimesheetComponent {
       .pipe(
         switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        switchMap(timeSheets => timer(0, 5000).pipe(map(() => timeSheets))),
+        switchMap(timeSheets => (environment.production ? timer(0, 5000) : of(1)).pipe(map(() => timeSheets))),
         filter(() => this.allowUpdate),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
