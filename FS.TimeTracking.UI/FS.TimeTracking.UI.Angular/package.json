@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
+    "start-nr": "ng serve --host 0.0.0.0 --disable-host-check --no-live-reload",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers=Chrome",

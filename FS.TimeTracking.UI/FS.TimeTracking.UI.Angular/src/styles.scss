@@ -3,13 +3,14 @@
 /* ----------------------------------------- */
 /* Bootstrap + Icons
 /* ----------------------------------------- */
+// DEV only
+
+@import "styles/theme";
 $accordion-button-active-color: inherit;
 $accordion-button-active-bg: inherit;
-
-// DEV only
+$enable-negative-margins: true;
 //$enable-reduced-motion: false;
 
-$enable-negative-margins: true;
 @import "~bootstrap/scss/bootstrap";
 
 /* ----------------------------------------- */
@@ -65,7 +66,7 @@ a {
     }
   }
 
-  & > :not(:first-child){
+  & > :not(:first-child) {
     border-top: none !important;
   }
 

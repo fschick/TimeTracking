@@ -2,48 +2,51 @@
 @import '~bootstrap/scss/variables.scss';
 @import '~bootstrap/scss/mixins.scss';
 
+//$nav-text: color-contrast($success);
+$nav-text: $gray-100;
+
 // Branding
 .navbar-light .navbar-brand {
-  color: color-contrast($success); // $navbar-light-brand-color
+  color: $nav-text; // $navbar-light-brand-color
 }
 
 // Top link
 .navbar.navbar-light .navbar-nav .nav-link {
-  color: rgba(color-contrast($success), .55); // $navbar-light-color;
+  color: rgba($nav-text, .55); // $navbar-light-color;
 }
 
 // Top link:active
 .navbar-light .navbar-nav .show > .nav-link,
 .navbar-light .navbar-nav .nav-link.active {
-  color: color-contrast($success); // $navbar-light-active-color
+  color: $nav-text; // $navbar-light-active-color
 }
 
 // Top dropdown:active
 .dropdown.active > .dropdown-toggle {
-  color: color-contrast($success) !important; // $navbar-light-active-color
+  color: $nav-text !important; // $navbar-light-active-color
 }
 
 // Top link:hover
 .navbar.navbar-light .navbar-nav .nav-link:hover,
 .navbar.navbar-light .navbar-nav .nav-link:focus {
-  color: color-contrast($success); // $navbar-light-active-color
+  color: $nav-text; // $navbar-light-active-color
 }
 
 // Drop down
 .dropdown-item {
-  color: rgba(color-contrast($success), .55); // $navbar-light-color;
+  color: rgba($nav-text, .55); // $navbar-light-color;
 }
 
 // Drop down:active
 .dropdown-item.active,
 .dropdown-item:active {
-  color: color-contrast($success); // $navbar-light-active-color
+  color: $nav-text; // $navbar-light-active-color
   background-color: inherit;
 }
 
 // Drop down:hover
 .dropdown-item:hover,
 .dropdown-item:focus {
-  color: color-contrast($success); // $navbar-light-active-color
+  color: $nav-text; // $navbar-light-active-color
   background-color: inherit;
 }
