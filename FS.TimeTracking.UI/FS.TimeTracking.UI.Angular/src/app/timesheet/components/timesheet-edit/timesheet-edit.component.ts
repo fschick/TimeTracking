@@ -1,8 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Modal} from 'bootstrap';
-import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../shared/services/api';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
@@ -34,7 +33,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    private location: Location,
+    private router: Router,
     private route: ActivatedRoute,
     private timesheetService: TimeSheetService,
     private entityService: EntityService,
@@ -68,7 +67,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.modal = new bootstrap.Modal(this.timesheetEdit?.nativeElement);
-    this.timesheetEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
+    this.timesheetEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
     this.timesheetEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.comment?.nativeElement.focus());
     this.modal.show();
   }

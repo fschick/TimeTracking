@@ -2,8 +2,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
 import {OrderDto, OrderService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
-import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {Modal} from 'bootstrap';
@@ -24,7 +23,7 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
   private modal!: Modal;
 
   constructor(
-    private location: Location,
+    private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,
     private entityService: EntityService,
@@ -45,7 +44,7 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.modal = new bootstrap.Modal(this.orderEdit?.nativeElement);
-    this.orderEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
+    this.orderEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
     this.orderEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
     this.modal.show();
   }

@@ -1,9 +1,8 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {single} from 'rxjs/operators';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
-import {Location} from '@angular/common';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {Modal} from 'bootstrap';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
@@ -22,7 +21,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
   private modal!: Modal;
 
   constructor(
-    private location: Location,
+    private router: Router,
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private entityService: EntityService,
@@ -40,7 +39,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.modal = new bootstrap.Modal(this.customerEdit?.nativeElement);
-    this.customerEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.location.back());
+    this.customerEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
     this.customerEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
     this.modal.show();
   }
