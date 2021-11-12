@@ -3,15 +3,19 @@
 /* ----------------------------------------- */
 /* Bootstrap + Icons
 /* ----------------------------------------- */
-// DEV only
-
 @import "styles/theme";
 $accordion-button-active-color: inherit;
 $accordion-button-active-bg: inherit;
 $enable-negative-margins: true;
+
+// DEV only
 //$enable-reduced-motion: false;
 
 @import "~bootstrap/scss/bootstrap";
+
+body {
+  background-color: $page-background !important;
+}
 
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar.
