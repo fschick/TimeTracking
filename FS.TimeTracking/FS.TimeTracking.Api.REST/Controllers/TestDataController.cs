@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Routing;
+﻿#if DEBUG
+using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -31,3 +32,4 @@ namespace FS.TimeTracking.Api.REST.Controllers
             => _testDataService.TruncateData();
     }
 }
+#endif
