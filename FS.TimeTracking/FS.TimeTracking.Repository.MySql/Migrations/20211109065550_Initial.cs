@@ -183,34 +183,14 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_Title_Hidden",
-                table: "Activities",
-                columns: new[] { "Title", "Hidden" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_Title_Hidden",
-                table: "Customers",
-                columns: new[] { "Title", "Hidden" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_Title_Hidden",
-                table: "Orders",
-                columns: new[] { "Title", "Hidden" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Projects_CustomerId",
                 table: "Projects",
                 column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_Title_Hidden",
-                table: "Projects",
-                columns: new[] { "Title", "Hidden" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",

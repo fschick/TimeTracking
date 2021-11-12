@@ -46,8 +46,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Activities");
                 });
 
@@ -105,8 +103,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Customers");
                 });
@@ -166,8 +162,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Orders");
                 });
 
@@ -200,8 +194,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Projects");
                 });

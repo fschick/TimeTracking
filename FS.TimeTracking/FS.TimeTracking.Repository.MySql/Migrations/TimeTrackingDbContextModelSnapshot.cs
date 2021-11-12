@@ -47,8 +47,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Activities");
                 });
 
@@ -106,8 +104,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Customers");
                 });
@@ -167,8 +163,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Orders");
                 });
 
@@ -201,8 +195,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Projects");
                 });

@@ -49,8 +49,6 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Activities");
                 });
 
@@ -108,8 +106,6 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Customers");
                 });
@@ -169,8 +165,6 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Title", "Hidden");
-
                     b.ToTable("Orders");
                 });
 
@@ -203,8 +197,6 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("Title", "Hidden");
 
                     b.ToTable("Projects");
                 });
