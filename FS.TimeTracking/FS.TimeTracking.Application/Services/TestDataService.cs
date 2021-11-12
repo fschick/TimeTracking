@@ -45,6 +45,8 @@ namespace FS.TimeTracking.Application.Services
                 .RuleFor(x => x.Id, faker => faker.Random.Uuid())
                 .RuleFor(x => x.CompanyName, faker => faker.Company.CompanyName())
                 .RuleFor(x => x.Title, (_, entity) => Regex.Replace(entity.CompanyName, @"^(\w+).*$", "$1"))
+                .RuleFor(x => x.Number, faker => faker.Random.Replace("######"))
+                .RuleFor(x => x.Department, faker => faker.Commerce.Department(1))
                 .RuleFor(x => x.ContactName, faker => $"{faker.Name.FirstName()} {faker.Name.LastName()}")
                 .RuleFor(x => x.Street, faker => faker.Address.StreetAddress())
                 .RuleFor(x => x.ZipCode, faker => faker.Address.ZipCode())

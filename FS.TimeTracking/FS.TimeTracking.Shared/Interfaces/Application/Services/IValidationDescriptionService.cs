@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services
     public interface IValidationDescriptionService
     {
         /// <summary>
-        /// Gets a JSON object containing the validation rules descriptions of models marked with <see cref="ValidationDescriptionAttribute"/>.
+        /// Gets a JSON with the validation rules of models marked with <see cref="ValidationDescriptionAttribute"/>.
         /// </summary>
         Task<JObject> GetValidationDescriptions();
     }
