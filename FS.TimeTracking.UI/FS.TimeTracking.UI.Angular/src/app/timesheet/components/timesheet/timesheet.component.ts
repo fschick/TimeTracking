@@ -67,7 +67,7 @@ export class TimesheetComponent {
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
   }
-  
+
   public deleteItem(id: string) {
     this.timeSheetService
       .delete({id})
