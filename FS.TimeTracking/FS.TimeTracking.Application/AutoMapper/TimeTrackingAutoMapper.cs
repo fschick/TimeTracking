@@ -18,6 +18,9 @@ namespace FS.TimeTracking.Application.AutoMapper
         {
             ClearPrefixes();
 
+            CreateMap<string, string>()
+                .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);
+
             CreateMap<Customer, CustomerDto>()
                 .ReverseMap();
 
