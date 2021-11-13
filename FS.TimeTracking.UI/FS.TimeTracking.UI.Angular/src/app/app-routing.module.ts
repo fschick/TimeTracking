@@ -10,6 +10,11 @@ import {MasterDataActivitiesComponent} from './master-data/components/master-dat
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
+import {ReportOrdersComponent} from './report/components/report-orders/report-orders.component';
+import {ReportIssuesComponent} from './report/components/report-issues/report-issues.component';
+import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
+import {ReportProjectsComponent} from './report/components/report-projects/report-projects.component';
+import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
 
 const routes: Routes = [
   {
@@ -27,6 +32,21 @@ const routes: Routes = [
   {
     path: 'master-data/orders', component: MasterDataOrdersComponent,
     children: [{path: ':id', component: MasterDataOrdersEditComponent}]
+  },
+  {
+    path: 'report/customers', component: ReportCustomersComponent,
+  },
+  {
+    path: 'report/projects', component: ReportProjectsComponent,
+  },
+  {
+    path: 'report/activities', component: ReportActivitiesComponent,
+  },
+  {
+    path: 'report/issues', component: ReportIssuesComponent,
+  },
+  {
+    path: 'report/orders', component: ReportOrdersComponent,
   },
   {
     path: '', component: TimesheetComponent,

@@ -33,8 +33,26 @@
       "Worked": "worked",
       "OmittedEntities": "{$OMITTED} additional entries are omitted to avoid performance problems."
     },
+    "Report": {
+      "Title": "Reports",
+      "Customers": {
+        "Title": "By customers"
+      },
+      "Projects": {
+        "Title": "By project"
+      },
+      "Activities": {
+        "Title": "By activity"
+      },
+      "Issues": {
+        "Title": "By issue"
+      },
+      "Orders": {
+        "Title": "By order"
+      }
+    },
     "MasterData": {
-      "MasterData": "Master data",
+      "Title": "Master data",
       "Customers": {
         "Title": "Customers",
         "New": "New customer",
@@ -166,7 +184,7 @@
       "Time": "Time",
       "StartDate": "From",
       "EndDate": "To",
-      "Now": "now" ,
+      "Now": "now",
       "Duration": "Duration",
       "Customer": "Customer",
       "Project": "Project",

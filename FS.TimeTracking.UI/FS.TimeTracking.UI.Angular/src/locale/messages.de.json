@@ -33,8 +33,26 @@
       "Worked": "gearbeitet",
       "OmittedEntities": "{$OMITTED} weitere Einträge werden zur Vermeidung von Leistungsproblemen nicht angezeigt."
     },
+    "Report": {
+      "Title": "Reports",
+      "Customers": {
+        "Title": "Nach Kunde"
+      },
+      "Projects": {
+        "Title": "Nach Projekt"
+      },
+      "Activities": {
+        "Title": "Nach Tätigkeit"
+      },
+      "Issues": {
+        "Title": "Nach Issue"
+      },
+      "Orders": {
+        "Title": "Nach Auftrag"
+      }
+    },
     "MasterData": {
-      "MasterData": "Stammdaten",
+      "Title": "Stammdaten",
       "Customers": {
         "Title": "Kunden",
         "New": "Neuer Kunde",

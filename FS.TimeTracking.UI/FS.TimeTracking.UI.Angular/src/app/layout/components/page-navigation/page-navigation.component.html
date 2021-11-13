@@ -26,6 +26,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+
         <li class="nav-item">
           <a class="nav-link"
              data-bs-toggle="collapse"
@@ -36,9 +37,48 @@
             <span i18n="@@Page.Timesheet.Title">[i18n] Timesheet</span>
           </a>
         </li>
+
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a class="nav-link dropdown-toggle" id="reportDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <ng-container i18n="@@Page.Report.Title">[i18n] Reports</ng-container>
+          </a>
+          <ul class="dropdown-menu bg-success" aria-labelledby="reportDropdown">
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Report.Customers.Title"
+                   routerLink="/report/customers"
+                   routerLinkActive="active">[i18n] By customers</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Report.Projects.Title"
+                   routerLink="/report/projects"
+                   routerLinkActive="active">[i18n] By project</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Report.Activities.Title"
+                   routerLink="/report/activities"
+                   routerLinkActive="active">[i18n] By activity</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Report.Issues.Title"
+                   routerLink="/report/issues"
+                   routerLinkActive="active">[i18n] By issue</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Report.Orders.Title"
+                   routerLink="/report/orders"
+                   routerLinkActive="active">[i18n] By order</a></li>
+          </ul>
+        </li>
+
         <li class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <ng-container i18n="@@Page.MasterData.MasterData">[i18n] Master data</ng-container>
+            <ng-container i18n="@@Page.MasterData.Title">[i18n] Master data</ng-container>
           </a>
           <ul class="dropdown-menu bg-success" aria-labelledby="masterDataDropdown">
             <li><a class="dropdown-item"
@@ -67,6 +107,7 @@
                    routerLinkActive="active">[i18n] Orders</a></li>
           </ul>
         </li>
+
       </ul>
     </div>
 
