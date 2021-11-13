@@ -1,5 +1,6 @@
 ﻿using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using System;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
 namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 {

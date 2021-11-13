@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services
 {

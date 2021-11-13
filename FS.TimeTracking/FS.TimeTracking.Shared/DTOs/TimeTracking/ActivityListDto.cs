@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.TimeTracking
 {

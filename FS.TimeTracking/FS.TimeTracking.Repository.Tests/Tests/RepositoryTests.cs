@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Repository.Tests.Tests
 {

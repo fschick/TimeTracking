@@ -3,6 +3,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
 namespace FS.TimeTracking.Api.REST.Controllers
 {

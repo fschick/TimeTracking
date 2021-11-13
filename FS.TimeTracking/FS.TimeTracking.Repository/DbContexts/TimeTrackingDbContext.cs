@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Repository.DbContexts
 {

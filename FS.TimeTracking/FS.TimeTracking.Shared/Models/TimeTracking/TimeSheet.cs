@@ -3,6 +3,7 @@ using FS.TimeTracking.Shared.Interfaces.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Shared.Models.TimeTracking
 {
@@ -72,7 +73,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [Required]
         public Guid ProjectId { get; set; }
 
-        /// <inheritdoc cref="TimeTracking.Project"/>
+        /// <inheritdoc cref="MasterData.Project"/>
         public Project Project { get; set; }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         [Required]
         public Guid ActivityId { get; set; }
 
-        /// <inheritdoc cref="TimeTracking.Activity"/>
+        /// <inheritdoc cref="MasterData.Activity"/>
         public Activity Activity { get; set; }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking
         /// </summary>
         public Guid? OrderId { get; set; }
 
-        /// <inheritdoc cref="TimeTracking.Order"/>
+        /// <inheritdoc cref="MasterData.Order"/>
         public Order Order { get; set; }
 
         /// <summary>

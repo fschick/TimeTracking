@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 
 namespace FS.TimeTracking.Application.AutoMapper

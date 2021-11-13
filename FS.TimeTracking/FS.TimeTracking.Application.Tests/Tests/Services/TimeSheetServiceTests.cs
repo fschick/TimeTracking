@@ -10,6 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
+using FS.TimeTracking.Application.Services.TimeTracking;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services
 {

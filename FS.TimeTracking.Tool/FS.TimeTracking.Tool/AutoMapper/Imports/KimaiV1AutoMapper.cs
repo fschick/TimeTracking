@@ -2,6 +2,7 @@
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using FS.TimeTracking.Tool.Models.Imports;
 using System;
+using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Tool.AutoMapper.Imports
 {

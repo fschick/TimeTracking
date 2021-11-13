@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Application.Services;
+﻿using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tool.AutoMapper.Imports;
