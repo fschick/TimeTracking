@@ -5,106 +5,105 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FS.TimeTracking.Shared.Models.MasterData;
 
-namespace FS.TimeTracking.Shared.Models.TimeTracking
+namespace FS.TimeTracking.Shared.Models.TimeTracking;
+
+/// <summary>
+/// Time sheet position.
+/// </summary>
+public class TimeSheet : IEntityModel
 {
+    /// <inheritdoc />
+    [Required]
+    public Guid Id { get; set; }
+
     /// <summary>
-    /// Time sheet position.
+    /// The start date in local time.
     /// </summary>
-    public class TimeSheet : IEntityModel
+    public DateTime StartDateLocal { get; set; }
+
+    /// <summary>
+    /// The start date's timezone offset in hours.
+    /// </summary>
+    public int StartDateOffset { get; set; }
+
+    /// <summary>
+    /// The start date.
+    /// </summary>
+    [Required]
+    [NotMapped]
+    public DateTimeOffset StartDate
     {
-        /// <inheritdoc />
-        [Required]
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// The start date in local time.
-        /// </summary>
-        public DateTime StartDateLocal { get; set; }
-
-        /// <summary>
-        /// The start date's timezone offset in hours.
-        /// </summary>
-        public int StartDateOffset { get; set; }
-
-        /// <summary>
-        /// The start date.
-        /// </summary>
-        [Required]
-        [NotMapped]
-        public DateTimeOffset StartDate
-        {
-            get => StartDateLocal.ToOffset(TimeSpan.FromMinutes(StartDateOffset));
-            set { StartDateLocal = value.DateTime; StartDateOffset = (int)value.Offset.TotalMinutes; }
-        }
-
-        /// <summary>
-        /// The end date in UTC.
-        /// </summary>
-        public DateTime? EndDateLocal { get; set; }
-
-        /// <summary>
-        /// The end date's timezone offset in hours.
-        /// </summary>
-        public int? EndDateOffset { get; set; }
-
-        /// <summary>
-        /// The end date.
-        /// </summary>
-        [NotMapped]
-        public DateTimeOffset? EndDate
-        {
-            get => EndDateLocal?.ToOffset(TimeSpan.FromMinutes(EndDateOffset!.Value));
-            set { EndDateLocal = value?.DateTime; EndDateOffset = (int?)value?.Offset.TotalMinutes; }
-        }
-
-        /// <summary>
-        /// Comment for this item.
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// The related issue/ticket/... .
-        /// </summary>
-        public string Issue { get; set; }
-
-        /// <summary>
-        /// The identifier to the related <see cref="Project"/>.
-        /// </summary>
-        [Required]
-        public Guid ProjectId { get; set; }
-
-        /// <inheritdoc cref="MasterData.Project"/>
-        public Project Project { get; set; }
-
-        /// <summary>
-        /// The identifier to the related <see cref="Activity"/>.
-        /// </summary>
-        [Required]
-        public Guid ActivityId { get; set; }
-
-        /// <inheritdoc cref="MasterData.Activity"/>
-        public Activity Activity { get; set; }
-
-        /// <summary>
-        /// The identifier to the related <see cref="Order"/>.
-        /// </summary>
-        public Guid? OrderId { get; set; }
-
-        /// <inheritdoc cref="MasterData.Order"/>
-        public Order Order { get; set; }
-
-        /// <summary>
-        /// Indicates whether this item is billable.
-        /// </summary>
-        [Required]
-        public bool Billable { get; set; }
-
-        /// <inheritdoc />
-        [Required]
-        public DateTime Created { get; set; }
-
-        /// <inheritdoc />
-        [Required]
-        public DateTime Modified { get; set; }
+        get => StartDateLocal.ToOffset(TimeSpan.FromMinutes(StartDateOffset));
+        set { StartDateLocal = value.DateTime; StartDateOffset = (int)value.Offset.TotalMinutes; }
     }
+
+    /// <summary>
+    /// The end date in UTC.
+    /// </summary>
+    public DateTime? EndDateLocal { get; set; }
+
+    /// <summary>
+    /// The end date's timezone offset in hours.
+    /// </summary>
+    public int? EndDateOffset { get; set; }
+
+    /// <summary>
+    /// The end date.
+    /// </summary>
+    [NotMapped]
+    public DateTimeOffset? EndDate
+    {
+        get => EndDateLocal?.ToOffset(TimeSpan.FromMinutes(EndDateOffset!.Value));
+        set { EndDateLocal = value?.DateTime; EndDateOffset = (int?)value?.Offset.TotalMinutes; }
+    }
+
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
+    public string Comment { get; set; }
+
+    /// <summary>
+    /// The related issue/ticket/... .
+    /// </summary>
+    public string Issue { get; set; }
+
+    /// <summary>
+    /// The identifier to the related <see cref="Project"/>.
+    /// </summary>
+    [Required]
+    public Guid ProjectId { get; set; }
+
+    /// <inheritdoc cref="MasterData.Project"/>
+    public Project Project { get; set; }
+
+    /// <summary>
+    /// The identifier to the related <see cref="Activity"/>.
+    /// </summary>
+    [Required]
+    public Guid ActivityId { get; set; }
+
+    /// <inheritdoc cref="MasterData.Activity"/>
+    public Activity Activity { get; set; }
+
+    /// <summary>
+    /// The identifier to the related <see cref="Order"/>.
+    /// </summary>
+    public Guid? OrderId { get; set; }
+
+    /// <inheritdoc cref="MasterData.Order"/>
+    public Order Order { get; set; }
+
+    /// <summary>
+    /// Indicates whether this item is billable.
+    /// </summary>
+    [Required]
+    public bool Billable { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public DateTime Created { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public DateTime Modified { get; set; }
 }

@@ -4,21 +4,20 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FS.TimeTracking.Api.REST.Controllers
+namespace FS.TimeTracking.Api.REST.Controllers;
+
+/// <inheritdoc cref="IActivityService" />
+/// <seealso cref="ControllerBase" />
+/// <seealso cref="IActivityService" />
+[V1ApiController]
+public class ActivityController : CrudModelController<ActivityDto, ActivityListDto>, IActivityService
 {
-    /// <inheritdoc cref="IActivityService" />
-    /// <seealso cref="ControllerBase" />
-    /// <seealso cref="IActivityService" />
-    [V1ApiController]
-    public class ActivityController : CrudModelController<ActivityDto, ActivityListDto>, IActivityService
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ActivityController"/> class.
+    /// </summary>
+    /// <param name="modelService">The model service.</param>
+    public ActivityController(IActivityService modelService)
+        : base(modelService)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActivityController"/> class.
-        /// </summary>
-        /// <param name="modelService">The model service.</param>
-        public ActivityController(IActivityService modelService)
-            : base(modelService)
-        {
-        }
     }
 }

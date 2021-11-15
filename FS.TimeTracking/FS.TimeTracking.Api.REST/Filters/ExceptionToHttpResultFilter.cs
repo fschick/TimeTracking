@@ -5,26 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.Common;
 
-namespace FS.TimeTracking.Api.REST.Filters
+namespace FS.TimeTracking.Api.REST.Filters;
+
+internal class ExceptionToHttpResultFilter : IExceptionFilter
 {
-    internal class ExceptionToHttpResultFilter : IExceptionFilter
+    private readonly IDbExceptionService _dbExceptionService;
+
+    public ExceptionToHttpResultFilter(IDbExceptionService dbExceptionService)
+        => _dbExceptionService = dbExceptionService;
+
+    public void OnException(ExceptionContext context)
     {
-        private readonly IDbExceptionService _dbExceptionService;
-
-        public ExceptionToHttpResultFilter(IDbExceptionService dbExceptionService)
-            => _dbExceptionService = dbExceptionService;
-
-        public void OnException(ExceptionContext context)
+        switch (context.Exception)
         {
-            switch (context.Exception)
-            {
-                case DbException dbException when IsForeignKeyViolation(dbException):
-                    context.Result = new ConflictObjectResult(new ErrorInformation { DatabaseErrorCode = DatabaseErrorCode.ForeignKeyViolation });
-                    break;
-            }
+            case DbException dbException when IsForeignKeyViolation(dbException):
+                context.Result = new ConflictObjectResult(new ErrorInformation { DatabaseErrorCode = DatabaseErrorCode.ForeignKeyViolation });
+                break;
         }
-
-        private bool IsForeignKeyViolation(DbException dbException)
-            => _dbExceptionService.TranslateDbException(dbException) == DatabaseErrorCode.ForeignKeyViolation;
     }
+
+    private bool IsForeignKeyViolation(DbException dbException)
+        => _dbExceptionService.TranslateDbException(dbException) == DatabaseErrorCode.ForeignKeyViolation;
 }

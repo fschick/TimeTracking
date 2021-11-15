@@ -5,19 +5,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters;
 
-namespace FS.TimeTracking.Application.ValidationConverters
+namespace FS.TimeTracking.Application.ValidationConverters;
+
+/// <inheritdoc />
+public class RequiredValidationConverter : IValidationDescriptionConverter
 {
     /// <inheritdoc />
-    public class RequiredValidationConverter : IValidationDescriptionConverter
-    {
-        /// <inheritdoc />
-        public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RequiredAttribute) };
+    public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(RequiredAttribute) };
 
-        /// <inheritdoc />
-        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
-            => new JObject
-            {
-                new JProperty("type", "required"),
-            };
-    }
+    /// <inheritdoc />
+    public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
+        => new JObject
+        {
+            new JProperty("type", "required"),
+        };
 }

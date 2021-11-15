@@ -6,28 +6,27 @@ using System.Linq;
 using System.Reflection;
 using FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters;
 
-namespace FS.TimeTracking.Application.ValidationConverters
+namespace FS.TimeTracking.Application.ValidationConverters;
+
+/// <inheritdoc />
+public class StringLengthValidationConverter : IValidationDescriptionConverter
 {
     /// <inheritdoc />
-    public class StringLengthValidationConverter : IValidationDescriptionConverter
+    public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(StringLengthAttribute) };
+
+    /// <inheritdoc />
+    public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
     {
-        /// <inheritdoc />
-        public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(StringLengthAttribute) };
-
-        /// <inheritdoc />
-        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
+        var result = new JObject
         {
-            var result = new JObject
-            {
-                new JProperty("type", "length")
-            };
+            new JProperty("type", "length")
+        };
 
-            var minArgument = attribute.NamedArguments!.FirstOrDefault(x => x.MemberName == nameof(StringLengthAttribute.MinimumLength)).TypedValue.Value;
-            if (minArgument != null)
-                result.Add(new JProperty("min", (int)minArgument));
-            result.Add(new JProperty("max", (int)attribute.ConstructorArguments[0].Value!));
+        var minArgument = attribute.NamedArguments!.FirstOrDefault(x => x.MemberName == nameof(StringLengthAttribute.MinimumLength)).TypedValue.Value;
+        if (minArgument != null)
+            result.Add(new JProperty("min", (int)minArgument));
+        result.Add(new JProperty("max", (int)attribute.ConstructorArguments[0].Value!));
 
-            return result;
-        }
+        return result;
     }
 }

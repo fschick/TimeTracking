@@ -9,37 +9,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 
-namespace FS.TimeTracking.Api.REST.Controllers
+namespace FS.TimeTracking.Api.REST.Controllers;
+
+/// <inheritdoc cref="ITimeSheetService" />
+/// <seealso cref="ControllerBase" />
+/// <seealso cref="ITimeSheetService" />
+[V1ApiController]
+public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetListDto>, ITimeSheetService
 {
-    /// <inheritdoc cref="ITimeSheetService" />
-    /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ITimeSheetService" />
-    [V1ApiController]
-    public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetListDto>, ITimeSheetService
-    {
-        private readonly ITimeSheetService _timeSheetService;
+    private readonly ITimeSheetService _timeSheetService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSheetController"/> class.
-        /// </summary>
-        /// <param name="modelService">The model service.</param>
-        public TimeSheetController(ITimeSheetService modelService)
-            : base(modelService)
-            => _timeSheetService = modelService;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TimeSheetController"/> class.
+    /// </summary>
+    /// <param name="modelService">The model service.</param>
+    public TimeSheetController(ITimeSheetService modelService)
+        : base(modelService)
+        => _timeSheetService = modelService;
 
-        /// <inheritdoc />
-        [HttpGet]
-        public Task<List<TimeSheetListDto>> ListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
-            => _timeSheetService.ListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
+    /// <inheritdoc />
+    [HttpGet]
+    public Task<List<TimeSheetListDto>> ListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+        => _timeSheetService.ListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
 
-        /// <inheritdoc />
-        [HttpPut]
-        public Task<TimeSheetDto> StartSimilarTimeSheetEntry(Guid copyFromTimesheetId, DateTimeOffset startDateTime)
-            => _timeSheetService.StartSimilarTimeSheetEntry(copyFromTimesheetId, startDateTime);
+    /// <inheritdoc />
+    [HttpPut]
+    public Task<TimeSheetDto> StartSimilarTimeSheetEntry(Guid copyFromTimesheetId, DateTimeOffset startDateTime)
+        => _timeSheetService.StartSimilarTimeSheetEntry(copyFromTimesheetId, startDateTime);
 
-        /// <inheritdoc />
-        [HttpPut]
-        public Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
-            => _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);
-    }
+    /// <inheritdoc />
+    [HttpPut]
+    public Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
+        => _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);
 }

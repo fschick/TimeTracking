@@ -1,13 +1,12 @@
-﻿namespace FS.TimeTracking.Shared.Interfaces.Repository.Services
+﻿namespace FS.TimeTracking.Shared.Interfaces.Repository.Services;
+
+/// <summary>
+/// Services to truncate whole database without removing the database itself
+/// </summary>
+public interface ITruncateDbService
 {
     /// <summary>
-    /// Services to truncate whole database without removing the database itself
+    /// Truncates the database without removing itself.
     /// </summary>
-    public interface ITruncateDbService
-    {
-        /// <summary>
-        /// Truncates the database without removing itself.
-        /// </summary>
-        void TruncateDatabase();
-    }
+    void TruncateDatabase();
 }

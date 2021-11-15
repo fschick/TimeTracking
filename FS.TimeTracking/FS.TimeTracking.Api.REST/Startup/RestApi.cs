@@ -4,33 +4,32 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 
-namespace FS.TimeTracking.Api.REST.Startup
+namespace FS.TimeTracking.Api.REST.Startup;
+
+internal static class RestApi
 {
-    internal static class RestApi
+    public static WebApplication RegisterRestApiRoutes(this WebApplication webApplication)
     {
-        public static WebApplication RegisterRestApiRoutes(this WebApplication webApplication)
-        {
-            webApplication
-                .UseEndpoints(endpoints => endpoints.MapControllers());
-            return webApplication;
-        }
+        webApplication
+            .UseEndpoints(endpoints => endpoints.MapControllers());
+        return webApplication;
+    }
 
-        public static IServiceCollection RegisterRestApiController(this IServiceCollection services)
-        {
-            services
-                .AddControllers(o =>
-                {
-                    o.OutputFormatters.RemoveType<StringOutputFormatter>();
-                    o.Filters.Add<AddRequestIdToHeaderFilter>();
-                    o.Filters.Add<ExceptionToHttpResultFilter>();
-                })
-                .AddFilterExpressionCreators()
-                .AddNewtonsoftJson(opts =>
-                {
-                    opts.SerializerSettings.Converters.Add(new StringEnumConverter());
-                });
+    public static IServiceCollection RegisterRestApiController(this IServiceCollection services)
+    {
+        services
+            .AddControllers(o =>
+            {
+                o.OutputFormatters.RemoveType<StringOutputFormatter>();
+                o.Filters.Add<AddRequestIdToHeaderFilter>();
+                o.Filters.Add<ExceptionToHttpResultFilter>();
+            })
+            .AddFilterExpressionCreators()
+            .AddNewtonsoftJson(opts =>
+            {
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
 
-            return services;
-        }
+        return services;
     }
 }

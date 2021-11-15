@@ -1,40 +1,39 @@
 ﻿using FS.TimeTracking.Shared.Attributes;
 
-namespace FS.TimeTracking.Shared.Models.Shared
+namespace FS.TimeTracking.Shared.Models.Shared;
+
+/// <summary>
+/// Enum to describe relation between validated properties of <see cref="CompareToAttribute"/>
+/// </summary>
+public enum ComparisonType
 {
     /// <summary>
-    /// Enum to describe relation between validated properties of <see cref="CompareToAttribute"/>
+    /// Properties are equal
     /// </summary>
-    public enum ComparisonType
-    {
-        /// <summary>
-        /// Properties are equal
-        /// </summary>
-        Equal,
+    Equal,
 
-        /// <summary>
-        /// Properties are not equal
-        /// </summary>
-        NotEqual,
+    /// <summary>
+    /// Properties are not equal
+    /// </summary>
+    NotEqual,
 
-        /// <summary>
-        /// Validated property is less than other property
-        /// </summary>
-        LessThan,
+    /// <summary>
+    /// Validated property is less than other property
+    /// </summary>
+    LessThan,
 
-        /// <summary>
-        /// Validated property is less than or equal to other property
-        /// </summary>
-        LessThanOrEqual,
+    /// <summary>
+    /// Validated property is less than or equal to other property
+    /// </summary>
+    LessThanOrEqual,
 
-        /// <summary>
-        /// Validated property is greater than other property
-        /// </summary>
-        GreaterThan,
+    /// <summary>
+    /// Validated property is greater than other property
+    /// </summary>
+    GreaterThan,
 
-        /// <summary>
-        /// Validated property is greater than or equal to other property
-        /// </summary>
-        GreaterThanOrEqual,
-    }
+    /// <summary>
+    /// Validated property is greater than or equal to other property
+    /// </summary>
+    GreaterThanOrEqual,
 }

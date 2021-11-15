@@ -11,54 +11,53 @@ using System;
 using System.IO;
 using AssemblyExtensions = FS.TimeTracking.Shared.Extensions.AssemblyExtensions;
 
-namespace FS.TimeTracking.Api.REST.Startup
+namespace FS.TimeTracking.Api.REST.Startup;
+
+internal static class OpenApi
 {
-    internal static class OpenApi
+    public const string OPEN_API_UI_ROUTE = "openapi/";
+    public const string OPEN_API_SPEC = "openapi.json";
+    public const string SWAGGER_UI_ROUTE = "swagger/";
+
+    internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
     {
-        public const string OPEN_API_UI_ROUTE = "openapi/";
-        public const string OPEN_API_SPEC = "openapi.json";
-        public const string SWAGGER_UI_ROUTE = "swagger/";
+        webApplication
+            .UseSwagger(c => c.RouteTemplate = $"{OPEN_API_UI_ROUTE}{{documentName}}/{OPEN_API_SPEC}")
+            .UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
+                c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
+                c.DisplayRequestDuration();
+            });
 
-        internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
-        {
-            webApplication
-                .UseSwagger(c => c.RouteTemplate = $"{OPEN_API_UI_ROUTE}{{documentName}}/{OPEN_API_SPEC}")
-                .UseSwaggerUI(c =>
-                {
-                    c.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
-                    c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
-                    c.DisplayRequestDuration();
-                });
+        return webApplication;
+    }
 
-            return webApplication;
-        }
+    internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
+        => services
+            .AddSwaggerGenNewtonsoftSupport()
+            .AddSwaggerGen(c =>
+            {
+                var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
+                var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
+                c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
+                c.IncludeXmlComments(restXmlDoc);
+                c.IncludeXmlComments(sharedXmlDoc);
+                c.OperationFilter<AddCSharpActionFilter>();
+                c.AddFilterExpressionCreators(restXmlDoc, sharedXmlDoc);
+            });
 
-        internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
-            => services
-                .AddSwaggerGenNewtonsoftSupport()
-                .AddSwaggerGen(c =>
-                {
-                    var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
-                    var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
-                    c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
-                    c.IncludeXmlComments(restXmlDoc);
-                    c.IncludeXmlComments(sharedXmlDoc);
-                    c.OperationFilter<AddCSharpActionFilter>();
-                    c.AddFilterExpressionCreators(restXmlDoc, sharedXmlDoc);
-                });
+    internal static void GenerateOpenApiSpec(this IHost host, string outFile)
+    {
+        if (string.IsNullOrWhiteSpace(outFile))
+            throw new ArgumentException("No destination file for generated OpenAPI document given.");
 
-        internal static void GenerateOpenApiSpec(this IHost host, string outFile)
-        {
-            if (string.IsNullOrWhiteSpace(outFile))
-                throw new ArgumentException("No destination file for generated OpenAPI document given.");
+        var openApiJson = host
+            .Services
+            .GetRequiredService<ISwaggerProvider>()
+            .GetSwagger(V1ApiController.API_VERSION)
+            .SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
 
-            var openApiJson = host
-                .Services
-                .GetRequiredService<ISwaggerProvider>()
-                .GetSwagger(V1ApiController.API_VERSION)
-                .SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
-
-            File.WriteAllText(outFile, openApiJson);
-        }
+        File.WriteAllText(outFile, openApiJson);
     }
 }

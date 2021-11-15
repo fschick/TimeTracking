@@ -6,21 +6,20 @@ using System.IO;
 using System.Threading.Tasks;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
-namespace FS.TimeTracking.Api.REST.Startup
-{
-    internal static class ValidationDescription
-    {
-        internal static async Task GenerateValidationSpec(this IHost host, string outFile)
-        {
-            if (string.IsNullOrWhiteSpace(outFile))
-                throw new ArgumentException("No destination file for generated validation document given.");
+namespace FS.TimeTracking.Api.REST.Startup;
 
-            var validationDescriptionService = host.Services.GetRequiredService<IValidationDescriptionService>();
-            var validationSpec = await validationDescriptionService.GetValidationDescriptions();
-            var outDirectory = Path.GetDirectoryName(outFile);
-            if (outDirectory != null && !Directory.Exists(outDirectory))
-                Directory.CreateDirectory(outDirectory);
-            await File.WriteAllTextAsync(outFile, validationSpec.ToString(Newtonsoft.Json.Formatting.Indented));
-        }
+internal static class ValidationDescription
+{
+    internal static async Task GenerateValidationSpec(this IHost host, string outFile)
+    {
+        if (string.IsNullOrWhiteSpace(outFile))
+            throw new ArgumentException("No destination file for generated validation document given.");
+
+        var validationDescriptionService = host.Services.GetRequiredService<IValidationDescriptionService>();
+        var validationSpec = await validationDescriptionService.GetValidationDescriptions();
+        var outDirectory = Path.GetDirectoryName(outFile);
+        if (outDirectory != null && !Directory.Exists(outDirectory))
+            Directory.CreateDirectory(outDirectory);
+        await File.WriteAllTextAsync(outFile, validationSpec.ToString(Newtonsoft.Json.Formatting.Indented));
     }
 }

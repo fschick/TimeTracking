@@ -7,26 +7,25 @@ using System.Collections.Generic;
 using System.Reflection;
 using FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters;
 
-namespace FS.TimeTracking.Application.ValidationConverters
+namespace FS.TimeTracking.Application.ValidationConverters;
+
+/// <inheritdoc />
+public class CompareToValidationConverter : IValidationDescriptionConverter
 {
     /// <inheritdoc />
-    public class CompareToValidationConverter : IValidationDescriptionConverter
+    public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(CompareToAttribute) };
+
+    /// <inheritdoc />
+    public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
     {
-        /// <inheritdoc />
-        public IEnumerable<Type> SupportedValidationAttributes { get; } = new[] { typeof(CompareToAttribute) };
+        var comparisonType = (ComparisonType)attribute.ConstructorArguments[0].Value!;
+        var otherProperty = ((string)attribute.ConstructorArguments[1].Value).LowercaseFirstChar();
 
-        /// <inheritdoc />
-        public JObject Convert(CustomAttributeData attribute, string errorI18NPrefix)
+        return new JObject
         {
-            var comparisonType = (ComparisonType)attribute.ConstructorArguments[0].Value!;
-            var otherProperty = ((string)attribute.ConstructorArguments[1].Value).LowercaseFirstChar();
-
-            return new JObject
-            {
-                new JProperty("type", "compareTo"),
-                new JProperty("comparisonType", comparisonType.ToString().LowercaseFirstChar()),
-                new JProperty("otherProperty", otherProperty),
-            };
-        }
+            new JProperty("type", "compareTo"),
+            new JProperty("comparisonType", comparisonType.ToString().LowercaseFirstChar()),
+            new JProperty("otherProperty", otherProperty),
+        };
     }
 }

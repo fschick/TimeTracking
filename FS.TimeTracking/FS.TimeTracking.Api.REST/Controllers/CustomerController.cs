@@ -4,21 +4,20 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FS.TimeTracking.Api.REST.Controllers
+namespace FS.TimeTracking.Api.REST.Controllers;
+
+/// <inheritdoc cref="ICustomerService" />
+/// <seealso cref="ControllerBase" />
+/// <seealso cref="ICustomerService" />
+[V1ApiController]
+public class CustomerController : CrudModelController<CustomerDto, CustomerListDto>, ICustomerService
 {
-    /// <inheritdoc cref="ICustomerService" />
-    /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ICustomerService" />
-    [V1ApiController]
-    public class CustomerController : CrudModelController<CustomerDto, CustomerListDto>, ICustomerService
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CustomerController"/> class.
+    /// </summary>
+    /// <param name="modelService">The model service.</param>
+    public CustomerController(ICustomerService modelService)
+        : base(modelService)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerController"/> class.
-        /// </summary>
-        /// <param name="modelService">The model service.</param>
-        public CustomerController(ICustomerService modelService)
-            : base(modelService)
-        {
-        }
     }
 }

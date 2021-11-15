@@ -4,21 +4,20 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FS.TimeTracking.Api.REST.Controllers
+namespace FS.TimeTracking.Api.REST.Controllers;
+
+/// <inheritdoc cref="IProjectService" />
+/// <seealso cref="ControllerBase" />
+/// <seealso cref="IProjectService" />
+[V1ApiController]
+public class ProjectController : CrudModelController<ProjectDto, ProjectListDto>, IProjectService
 {
-    /// <inheritdoc cref="IProjectService" />
-    /// <seealso cref="ControllerBase" />
-    /// <seealso cref="IProjectService" />
-    [V1ApiController]
-    public class ProjectController : CrudModelController<ProjectDto, ProjectListDto>, IProjectService
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProjectController"/> class.
+    /// </summary>
+    /// <param name="modelService">The model service.</param>
+    public ProjectController(IProjectService modelService)
+        : base(modelService)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectController"/> class.
-        /// </summary>
-        /// <param name="modelService">The model service.</param>
-        public ProjectController(IProjectService modelService)
-            : base(modelService)
-        {
-        }
     }
 }

@@ -1,18 +1,17 @@
-﻿namespace FS.TimeTracking.Shared.Models.Configuration
+﻿namespace FS.TimeTracking.Shared.Models.Configuration;
+
+/// <summary>
+/// Global environment configurations
+/// </summary>
+public class EnvironmentConfiguration
 {
     /// <summary>
-    /// Global environment configurations
+    /// Indicates whether development environment is active.
     /// </summary>
-    public class EnvironmentConfiguration
-    {
-        /// <summary>
-        /// Indicates whether development environment is active.
-        /// </summary>
-        public bool IsDevelopment { get; set; }
+    public bool IsDevelopment { get; set; }
 
-        /// <summary>
-        /// Indicates whether production environment is active.
-        /// </summary>
-        public bool IsProduction { get; set; }
-    }
+    /// <summary>
+    /// Indicates whether production environment is active.
+    /// </summary>
+    public bool IsProduction { get; set; }
 }
