@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 {
     public partial class Initial : Migration
@@ -23,8 +25,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     Country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,16 +42,16 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     Number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    StartDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
                     StartDateOffset = table.Column<int>(type: "integer", nullable: false),
-                    DueDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DueDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
                     DueDateOffset = table.Column<int>(type: "integer", nullable: false),
                     HourlyRate = table.Column<double>(type: "double precision", nullable: false),
                     Budget = table.Column<double>(type: "double precision", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,8 +73,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,8 +96,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     ProjectId = table.Column<Guid>(type: "uuid", nullable: true),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,9 +115,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    StartDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
                     StartDateOffset = table.Column<int>(type: "integer", nullable: false),
-                    EndDateLocal = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    EndDateLocal = table.Column<DateTime>(type: "timestamp", nullable: true),
                     EndDateOffset = table.Column<int>(type: "integer", nullable: true),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Issue = table.Column<string>(type: "text", nullable: true),
@@ -123,8 +125,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     ActivityId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: true),
                     Billable = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Modified = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,7 +206,6 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
-
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION toutc(timestamp, int)");

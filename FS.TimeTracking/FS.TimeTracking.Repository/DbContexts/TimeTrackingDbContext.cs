@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Repository.DbFunctions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Models.Configuration;
+using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Repository.DbContexts
 {
@@ -59,6 +59,7 @@ namespace FS.TimeTracking.Repository.DbContexts
                     optionsBuilder.UseSqlServer(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 case DatabaseType.PostgreSql:
+                    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                     optionsBuilder.UseNpgsql(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                     break;
                 case DatabaseType.MySql:
@@ -105,7 +106,7 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .IsRequired();
         }
 
-        private static void ConfigureOrder(EntityTypeBuilder<Order> orderBuilder)
+        private void ConfigureOrder(EntityTypeBuilder<Order> orderBuilder)
         {
             orderBuilder
                 .ToTable("Orders");
@@ -116,6 +117,17 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .HasForeignKey(project => project.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+
+            if (_databaseType == DatabaseType.PostgreSql)
+            {
+                orderBuilder
+                    .Property(x => x.StartDateLocal)
+                    .HasColumnType("timestamp");
+
+                orderBuilder
+                    .Property(x => x.DueDateLocal)
+                    .HasColumnType("timestamp");
+            }
         }
 
         private static void ConfigureActivity(EntityTypeBuilder<Activity> activityBuilder)
@@ -130,7 +142,7 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
-        private static void ConfigureTimeSheet(EntityTypeBuilder<TimeSheet> timeSheetBuilder)
+        private void ConfigureTimeSheet(EntityTypeBuilder<TimeSheet> timeSheetBuilder)
         {
             timeSheetBuilder
                 .ToTable("TimeSheets");
@@ -154,6 +166,17 @@ namespace FS.TimeTracking.Repository.DbContexts
                 .WithMany()
                 .HasForeignKey(timeSheet => timeSheet.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            if (_databaseType == DatabaseType.PostgreSql)
+            {
+                timeSheetBuilder
+                    .Property(x => x.StartDateLocal)
+                    .HasColumnType("timestamp");
+
+                timeSheetBuilder
+                    .Property(x => x.EndDateLocal)
+                    .HasColumnType("timestamp");
+            }
         }
 
         // https://stackoverflow.com/a/61243301/1271211

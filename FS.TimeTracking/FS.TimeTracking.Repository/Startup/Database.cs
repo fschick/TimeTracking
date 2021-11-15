@@ -12,9 +12,9 @@ namespace FS.TimeTracking.Repository.Startup
 {
     internal static class Database
     {
-        public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder applicationBuilder)
+        public static IApplicationBuilder MigrateDatabase(this WebApplication webApplication)
         {
-            var serviceFactory = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            var serviceFactory = webApplication.Services.GetRequiredService<IServiceScopeFactory>();
             using var serviceScope = serviceFactory.CreateScope();
             var databaseConfiguration = serviceScope.ServiceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value.Database;
             using var dbContext = serviceScope.ServiceProvider.GetRequiredService<TimeTrackingDbContext>();
@@ -26,7 +26,7 @@ namespace FS.TimeTracking.Repository.Startup
 
             var pendingMigrations = dbContext.Database.GetPendingMigrations().ToList();
             if (pendingMigrations.Count == 0)
-                return applicationBuilder;
+                return webApplication;
 
             logger.LogInformation("Apply migrations to database. Please be patient ...");
             foreach (var pendingMigration in pendingMigrations)
@@ -46,7 +46,7 @@ namespace FS.TimeTracking.Repository.Startup
 #endif
             logger.LogInformation("Database migration finished.");
 
-            return applicationBuilder;
+            return webApplication;
         }
     }
 }

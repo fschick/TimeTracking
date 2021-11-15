@@ -19,8 +19,9 @@ namespace FS.TimeTracking.Api.REST.Startup
         public const string OPEN_API_SPEC = "openapi.json";
         public const string SWAGGER_UI_ROUTE = "swagger/";
 
-        internal static IApplicationBuilder RegisterOpenApiRoutes(this IApplicationBuilder applicationBuilder)
-            => applicationBuilder
+        internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
+        {
+            webApplication
                 .UseSwagger(c => c.RouteTemplate = $"{OPEN_API_UI_ROUTE}{{documentName}}/{OPEN_API_SPEC}")
                 .UseSwaggerUI(c =>
                 {
@@ -28,6 +29,9 @@ namespace FS.TimeTracking.Api.REST.Startup
                     c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
                     c.DisplayRequestDuration();
                 });
+
+            return webApplication;
+        }
 
         internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
             => services

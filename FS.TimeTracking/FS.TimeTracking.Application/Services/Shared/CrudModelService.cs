@@ -1,13 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Shared.Interfaces.Models;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Models;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 
 namespace FS.TimeTracking.Application.Services.Shared
 {
@@ -45,8 +44,8 @@ namespace FS.TimeTracking.Application.Services.Shared
         public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
             => await Repository
                 .FirstOrDefault(
-                    @select: (TModel model) => Mapper.Map<TDto>(model),
-                    @where: model => model.Id == id,
+                    select: (TModel model) => Mapper.Map<TDto>(model),
+                    where: model => model.Id == id,
                     cancellationToken: cancellationToken
                 );
 
@@ -82,7 +81,7 @@ namespace FS.TimeTracking.Application.Services.Shared
         protected async Task<List<TListDto>> ListInternal(Guid? id = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, CancellationToken cancellationToken = default)
             => await Repository
                 .Get<TModel, TListDto>(
-                    @where: id.HasValue ? x => x.Id == id : null,
+                    where: id.HasValue ? x => x.Id == id : null,
                     orderBy: orderBy,
                     cancellationToken: cancellationToken
                 );

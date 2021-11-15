@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.TimeTracking
 {
@@ -27,7 +26,7 @@ namespace FS.TimeTracking.Application.Services.TimeTracking
         public override async Task<List<TimeSheetListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
             => await Repository
                 .Get<TimeSheet, TimeSheetListDto>(
-                    @where: id.HasValue ? x => x.Id == id : null,
+                    where: id.HasValue ? x => x.Id == id : null,
                     orderBy: o => o.OrderByDescending(x => x.StartDateLocal),
                     cancellationToken: cancellationToken
                 );
@@ -46,7 +45,7 @@ namespace FS.TimeTracking.Application.Services.TimeTracking
 
             return await Repository
                 .Get<TimeSheet, TimeSheetListDto>(
-                    @where: filter,
+                    where: filter,
                     orderBy: o => o.OrderByDescending(x => x.StartDateLocal),
                     cancellationToken: cancellationToken
                 );

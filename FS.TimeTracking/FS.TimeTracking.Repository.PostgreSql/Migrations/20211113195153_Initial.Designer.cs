@@ -7,21 +7,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+#nullable disable
+
 namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20211109065522_Initial")]
+    [Migration("20211113195153_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,13 +34,13 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
@@ -51,12 +54,10 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("Title", "Hidden");
-
-                    b.ToTable("Activities");
+                    b.ToTable("Activities", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +83,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Department")
                         .HasColumnType("text");
@@ -91,7 +92,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Number")
                         .HasColumnType("text");
@@ -111,12 +112,10 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title", "Hidden");
-
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +128,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
@@ -138,7 +137,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DueDateLocal")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("DueDateOffset")
                         .HasColumnType("integer");
@@ -150,14 +149,14 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Number")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("StartDateOffset")
                         .HasColumnType("integer");
@@ -171,12 +170,10 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Title", "Hidden");
-
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,7 +183,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
@@ -195,7 +192,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -206,9 +203,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Title", "Hidden");
-
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
@@ -227,10 +222,10 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDateLocal")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp");
 
                     b.Property<int?>("EndDateOffset")
                         .HasColumnType("integer");
@@ -239,7 +234,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uuid");
@@ -248,7 +243,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("StartDateOffset")
                         .HasColumnType("integer");
@@ -261,12 +256,12 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("TimeSheets");
+                    b.ToTable("TimeSheets", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Activity", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -274,9 +269,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -285,9 +280,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Project", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Customer", "Customer")
                         .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -298,18 +293,18 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Activity", "Activity")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Order", "Order")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.TimeTracking.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -322,7 +317,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Customer", b =>
                 {
                     b.Navigation("Orders");
 

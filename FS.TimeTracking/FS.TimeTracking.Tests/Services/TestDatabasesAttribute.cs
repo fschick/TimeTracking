@@ -10,8 +10,8 @@ using System.Reflection;
 
 namespace FS.TimeTracking.Tests.Services
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [ExcludeFromCodeCoverage]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class TestDatabasesAttribute : Attribute, ITestDataSource
     {
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)

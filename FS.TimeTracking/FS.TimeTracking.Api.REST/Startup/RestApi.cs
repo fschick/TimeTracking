@@ -8,9 +8,12 @@ namespace FS.TimeTracking.Api.REST.Startup
 {
     internal static class RestApi
     {
-        public static IApplicationBuilder RegisterRestApiRoutes(this IApplicationBuilder applicationBuilder)
-            => applicationBuilder
+        public static WebApplication RegisterRestApiRoutes(this WebApplication webApplication)
+        {
+            webApplication
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+            return webApplication;
+        }
 
         public static IServiceCollection RegisterRestApiController(this IServiceCollection services)
         {

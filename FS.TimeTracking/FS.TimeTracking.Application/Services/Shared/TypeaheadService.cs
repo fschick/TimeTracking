@@ -1,14 +1,12 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Shared.Models.MasterData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 
 namespace FS.TimeTracking.Application.Services.Shared
 {
@@ -29,8 +27,8 @@ namespace FS.TimeTracking.Application.Services.Shared
         public async Task<List<TypeaheadDto<string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    @select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title, x.Hidden),
-                    @where: x => showHidden || !x.Hidden,
+                    select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title, x.Hidden),
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
@@ -39,14 +37,14 @@ namespace FS.TimeTracking.Application.Services.Shared
         public async Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    @select: (Project x) => new TypeaheadDto<string>
+                    select: (Project x) => new TypeaheadDto<string>
                     {
                         Id = x.Id,
                         Value = $"{x.Title} ({x.Customer.Title})",
                         Hidden = x.Hidden,
                         Extended = new { x.CustomerId }
                     },
-                    @where: x => showHidden || !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title).ThenBy(x => x.Customer.Title),
                     cancellationToken: cancellationToken
                 );
@@ -55,7 +53,7 @@ namespace FS.TimeTracking.Application.Services.Shared
         public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    @select: (Order x) => new TypeaheadDto<string>
+                    select: (Order x) => new TypeaheadDto<string>
                     {
                         Id = x.Id,
                         Value = x.Number != null ? $"{x.Title} ({x.Number})" : x.Title,
@@ -66,7 +64,7 @@ namespace FS.TimeTracking.Application.Services.Shared
                             x.CustomerId
                         }
                     },
-                    @where: x => showHidden || !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
@@ -75,14 +73,14 @@ namespace FS.TimeTracking.Application.Services.Shared
         public async Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
             => await _repository
                 .Get(
-                    @select: (Activity x) => new TypeaheadDto<string>
+                    select: (Activity x) => new TypeaheadDto<string>
                     {
                         Id = x.Id,
                         Value = x.Project != null ? $"{x.Title} ({x.Project.Title})" : x.Title,
                         Hidden = x.Hidden,
                         Extended = new { x.ProjectId }
                     },
-                    @where: x => showHidden || !x.Hidden,
+                    where: x => showHidden || !x.Hidden,
                     orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                     cancellationToken: cancellationToken
                 );
