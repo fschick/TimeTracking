@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 import { DateTime }                                          from 'luxon';
+import { Duration }                                          from 'luxon';
 
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -123,6 +124,13 @@ export class {{classname}} {
                 if (key != null) {
                     httpParams = httpParams.append(key,
                         (value as DateTime).toISO());
+                } else {
+                   throw Error("key may not be null if value is DateTime");
+                }
+            } else if (value instanceof Duration) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Duration).toISOTime());
                 } else {
                    throw Error("key may not be null if value is DateTime");
                 }

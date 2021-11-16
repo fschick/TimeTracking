@@ -11,30 +11,50 @@ export class ApiDateTimeInterceptor implements HttpInterceptor {
   private dotNetTimeSpanFormat = /^(?:(?<days>\d+)\.)?(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{3})\d*)?$/;
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(map((val: HttpEvent<any>) => {
-      if (val instanceof HttpResponse) {
-        const body = val.body;
-        this.convert(body);
+
+    const convertedBody = this.convertRequestBody(request.body);
+    const nextRequest = request.clone({body: convertedBody});
+
+    return next.handle(nextRequest).pipe(map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse && typeof event.body === 'object') {
+        const convertedBody = this.convertResponseBody(event.body);
+        event.clone({body: convertedBody});
       }
-      return val;
+      return event;
     }));
   }
 
-  private convert(body: any) {
+  private convertRequestBody(body: any): object {
+    if (body === null || body === undefined || typeof body !== 'object')
+      return body;
+
+    for (const [key, value] of Object.entries(body)) {
+      if (value instanceof Duration) {
+        body[key] = value.toISOTime();
+      } else if (typeof value === 'object') {
+        this.convertRequestBody(value);
+      }
+    }
+
+    return body;
+  }
+
+  private convertResponseBody(body: any): object {
     if (body === null || body === undefined || typeof body !== 'object')
       return body;
 
     let duration: Duration | null;
-    for (const key of Object.keys(body)) {
-      const value = body[key];
+    for (const [key, value] of Object.entries(body)) {
       if (typeof value === 'object') {
-        this.convert(value);
+        this.convertResponseBody(value);
       } else if (this.isIsoDateString(value)) {
-        body[key] = DateTime.fromISO(value);
+        body[key] = DateTime.fromISO(value as string);
       } else if ((duration = this.parseDuration(value)) !== null) {
         body[key] = duration;
       }
     }
+
+    return body;
   }
 
   private isIsoDateString(value: any): boolean {

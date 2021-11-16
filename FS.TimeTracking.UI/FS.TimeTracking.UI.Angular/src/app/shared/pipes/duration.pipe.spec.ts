@@ -1,6 +1,6 @@
 import {DurationPipe} from './duration.pipe';
 import {TestBed} from '@angular/core/testing';
-import {DateTime, Duration} from 'luxon';
+import {Duration} from 'luxon';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;
