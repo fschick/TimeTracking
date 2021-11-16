@@ -67,6 +67,13 @@
         "Delete": "Projekt löschen",
         "DeleteMessage": "Wollen Sie dieses Projekt wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
+      "Activities": {
+        "Title": "Tätigkeiten",
+        "New": "Neue Tätigkeit",
+        "Edit": "Tätigkeit bearbeiten",
+        "Delete": "Tätigkeit löschen",
+        "DeleteMessage": "Wollen Sie diese Tätigkeit wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      },
       "Orders": {
         "Title": "Aufträge",
         "New": "Neuer Auftrag",
@@ -74,12 +81,16 @@
         "Delete": "Auftrag löschen",
         "DeleteMessage": "Wollen Sie diesen Auftrag wirklich löschen? Dies kann nicht rückgängig gemacht werden."
       },
-      "Activities": {
-        "Title": "Tätigkeiten",
-        "New": "Neue Tätigkeit",
-        "Edit": "Tätigkeit bearbeiten",
-        "Delete": "Tätigkeit löschen",
-        "DeleteMessage": "Wollen Sie diese Tätigkeit wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      "Holidays": {
+        "Title": "Urlaub",
+        "New": "Neuer Urlaub",
+        "Edit": "Urlaub bearbeiten",
+        "Delete": "Urlaub löschen",
+        "DeleteMessage": "Wollen Sie diesen Urlaub wirklich löschen? Dies kann nicht rückgängig gemacht werden."
+      },
+      "Settings": {
+        "Title": "Einstellungen",
+        "WorkingHoursPerWeekDay": "Arbeitsstunden pro Wochentag"
       }
     }
   },
@@ -105,6 +116,25 @@
     }
   },
   "DTO": {
+    "SettingDto": {
+      "Monday": "Montag",
+      "Tuesday": "Dienstag",
+      "Wednesday": "Mittwoch",
+      "Thursday": "Donnerstag",
+      "Friday": "Freitag",
+      "Saturday": "Samstag",
+      "Sunday": "Sonntag"
+    },
+    "HolidayDto": {
+      "Title": "Titel",
+      "StartDate": "Startdatum",
+      "EndDate": "Enddatum"
+    },
+    "HolidayListDto": {
+      "Title": "Titel",
+      "StartDate": "Startdatum",
+      "EndDate": "Enddatum"
+    },
     "CustomerDto": {
       "Title": "Titel",
       "Number": "Kundennummer",

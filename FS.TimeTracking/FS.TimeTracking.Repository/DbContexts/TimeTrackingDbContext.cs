@@ -78,6 +78,8 @@ public class TimeTrackingDbContext : DbContext
 
         modelBuilder.RegisterDateTimeFunctions(_databaseType);
 
+        ConfigureSetting(modelBuilder.Entity<Setting>());
+        ConfigureHoliday(modelBuilder.Entity<Holiday>());
         ConfigureCustomer(modelBuilder.Entity<Customer>());
         ConfigureProject(modelBuilder.Entity<Project>());
         ConfigureActivity(modelBuilder.Entity<Activity>());
@@ -85,6 +87,34 @@ public class TimeTrackingDbContext : DbContext
         ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
 
         RegisterDateTimeAsUtcConverter(modelBuilder);
+    }
+
+    private static void ConfigureSetting(EntityTypeBuilder<Setting> settingsBuilder)
+    {
+        settingsBuilder
+            .ToTable("Settings")
+            .HasKey(x => x.Key);
+
+        settingsBuilder
+            .HasIndex(x => x.Key)
+            .IsUnique();
+    }
+
+    private void ConfigureHoliday(EntityTypeBuilder<Holiday> holidayBuilder)
+    {
+        holidayBuilder
+            .ToTable("Holidays");
+
+        if (_databaseType == DatabaseType.PostgreSql)
+        {
+            holidayBuilder
+                .Property(x => x.StartDateLocal)
+                .HasColumnType("timestamp");
+
+            holidayBuilder
+                .Property(x => x.EndDateLocal)
+                .HasColumnType("timestamp");
+        }
     }
 
     private static void ConfigureCustomer(EntityTypeBuilder<Customer> customerBuilder)

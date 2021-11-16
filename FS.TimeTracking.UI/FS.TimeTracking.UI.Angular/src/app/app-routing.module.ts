@@ -15,6 +15,9 @@ import {ReportIssuesComponent} from './report/components/report-issues/report-is
 import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
 import {ReportProjectsComponent} from './report/components/report-projects/report-projects.component';
 import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
+import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
+import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
+import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 
 const routes: Routes = [
   {
@@ -32,6 +35,13 @@ const routes: Routes = [
   {
     path: 'master-data/orders', component: MasterDataOrdersComponent,
     children: [{path: ':id', component: MasterDataOrdersEditComponent}]
+  },
+  {
+    path: 'master-data/holidays', component: MasterDataHolidaysComponent,
+    children: [{path: ':id', component: MasterDataHolidaysEditComponent}]
+  },
+  {
+    path: 'master-data/settings', component: MasterDataSettingsComponent,
   },
   {
     path: 'report/customers', component: ReportCustomersComponent,

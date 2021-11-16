@@ -34,6 +34,39 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    StartDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    StartDateOffset = table.Column<int>(type: "integer", nullable: false),
+                    EndDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    EndDateOffset = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Key = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -167,6 +200,12 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Settings_Key",
+                table: "Settings",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",
                 table: "TimeSheets",
                 column: "ActivityId");
@@ -193,6 +232,12 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Holidays");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
+
+            migrationBuilder.DropTable(
                 name: "TimeSheets");
 
             migrationBuilder.DropTable(
@@ -206,6 +251,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION toutc(timestamp, int)");

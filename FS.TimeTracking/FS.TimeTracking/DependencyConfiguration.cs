@@ -1,12 +1,10 @@
-﻿using FS.TimeTracking.Application.Services;
-using FS.TimeTracking.Application.Services.MasterData;
+﻿using FS.TimeTracking.Application.Services.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
@@ -27,9 +25,11 @@ internal static class DependencyConfiguration
 
         services.AddSingleton<IWorkDaysService, WorkDaysService>();
         services.AddScoped<IInformationService, InformationService>();
-        services.AddScoped<IActivityService, ActivityService>();
+        services.AddScoped<ISettingService, SettingService>();
+        services.AddScoped<IHolidayService, HolidayService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IActivityService, ActivityService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<ITimeSheetService, TimeSheetService>();
         services.AddScoped<ITestDataService, TestDataService>();

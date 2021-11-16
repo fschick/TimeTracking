@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace FS.TimeTracking.Repository.MySql.Migrations
 {
     public partial class Initial : Migration
@@ -42,6 +44,45 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Title = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StartDateLocal = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    StartDateOffset = table.Column<int>(type: "int", nullable: false),
+                    EndDateLocal = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndDateOffset = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Key = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.Key);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -193,6 +234,12 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Settings_Key",
+                table: "Settings",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",
                 table: "TimeSheets",
                 column: "ActivityId");
@@ -218,6 +265,12 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Holidays");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
+
+            migrationBuilder.DropTable(
                 name: "TimeSheets");
 
             migrationBuilder.DropTable(
@@ -231,6 +284,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION ToUtc");

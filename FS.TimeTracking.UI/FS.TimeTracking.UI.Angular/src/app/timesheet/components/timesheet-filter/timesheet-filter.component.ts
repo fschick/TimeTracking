@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, OnDestroy, Output} from '@angular/core';
-import {combineLatest, merge, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateTime} from 'luxon';
@@ -169,9 +169,9 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
 
   private replaceEmptyByNull(obj: any) {
     const emptyStringProperies = Object.entries(obj)
-      .filter(([key, value]) => value === "");
+      .filter(([, value]) => value === "");
 
-    for (const [key, value] of emptyStringProperies)
+    for (const [key] of emptyStringProperies)
       obj[key] = null;
 
     return obj;

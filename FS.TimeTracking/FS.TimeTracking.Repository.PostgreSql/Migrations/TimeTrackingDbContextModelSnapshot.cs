@@ -113,6 +113,40 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Holiday", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDateLocal")
+                        .HasColumnType("timestamp");
+
+                    b.Property<int>("EndDateOffset")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartDateLocal")
+                        .HasColumnType("timestamp");
+
+                    b.Property<int>("StartDateOffset")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Holidays", (string)null);
+                });
+
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -202,6 +236,34 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Setting", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>

@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between align-items-start mb-2">
-  <h4 i18n="@@Page.MasterData.Customers.Title">
-    [i18n] Customers
+  <h4 i18n="@@Page.MasterData.Holidays.Title">
+    [i18n] Holidays
   </h4>
   <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
-    <ng-container i18n="@@Page.MasterData.Customers.New">[i18n] New customer</ng-container>
+    <ng-container i18n="@@Page.MasterData.Holidays.New">[i18n] New holiday</ng-container>
   </button>
 </div>
 
@@ -21,18 +21,18 @@
 
 <ng-template #actionCellTemplate let-row="row">
   <a class="text-secondary me-2"
-     title="[i18n] Edit Customer"
-     i18n-title="@@Page.MasterData.Customers.Edit"
+     title="[i18n] Edit holiday"
+     i18n-title="@@Page.MasterData.Holidays.Edit"
      [routerLink]="row.id">
     <ts-icon icon="bi bi-pencil" class="action-icon"></ts-icon>
   </a>
   <ts-simple-confirm
-    title="[i18n] Delete customer"
-    i18n-title="@@Page.MasterData.Customers.Delete"
-    message="[i18n] Are you sure you want to delete this customer?. This cannot be undone."
-    i18n-message="@@Page.MasterData.Customers.DeleteMessage"
-    actionText="[i18n] Delete customer"
-    i18n-actionText="@@Page.MasterData.Customers.Delete"
+    title="[i18n] Delete holiday"
+    i18n-title="@@Page.MasterData.Holidays.Delete"
+    message="[i18n] Are you sure you want to delete this holiday?. This cannot be undone."
+    i18n-message="@@Page.MasterData.Holidays.DeleteMessage"
+    actionText="[i18n] Delete Holiday"
+    i18n-actionText="@@Page.MasterData.Holidays.Delete"
     color="danger"
     (confirmed)="deleteItem(row.id)">
     <a class="text-danger">

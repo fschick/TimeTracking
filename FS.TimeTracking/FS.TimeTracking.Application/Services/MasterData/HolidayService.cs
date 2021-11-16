@@ -12,23 +12,22 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
-/// <inheritdoc cref="ICustomerService" />
-public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerListDto>, ICustomerService
+/// <inheritdoc cref="IHolidayService" />
+public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayListDto>, IHolidayService
 {
     /// <inheritdoc />
-    public CustomerService(IRepository repository, IMapper mapper)
+    public HolidayService(IRepository repository, IMapper mapper)
         : base(repository, mapper)
     { }
 
     /// <inheritdoc />
-    public override async Task<List<CustomerListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
+    public override async Task<List<HolidayListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
         => await ListInternal(
             id,
             o => o
-                .OrderBy(x => x.Hidden)
-                .ThenBy(x => x.Title)
-                .ThenBy(x => x.CompanyName)
-                .ThenBy(x => x.ContactName),
+                .OrderByDescending(x => x.StartDateLocal)
+                .ThenByDescending(x => x.EndDateLocal)
+                .ThenBy(x => x.Title),
             cancellationToken
         );
 }

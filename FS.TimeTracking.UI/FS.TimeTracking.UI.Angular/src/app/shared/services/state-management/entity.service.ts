@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable, of, Subject} from 'rxjs';
-import {ActivityListDto, CustomerDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
+import {ActivityListDto, CustomerDto, HolidayDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
 import {map, single, switchMap, tap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
@@ -20,11 +20,12 @@ export type CrudService<TDto> = {
   providedIn: 'root'
 })
 export class EntityService {
-  public customerChanged: Subject<EntityChanged<CustomerDto>> = new Subject<EntityChanged<CustomerDto>>();
-  public projectChanged: Subject<EntityChanged<ProjectListDto>> = new Subject<EntityChanged<ProjectListDto>>();
+  public timesheetChanged: Subject<EntityChanged<TimeSheetListDto>> = new Subject<EntityChanged<TimeSheetListDto>>();
   public orderChanged: Subject<EntityChanged<OrderListDto>> = new Subject<EntityChanged<OrderListDto>>();
   public activityChanged: Subject<EntityChanged<ActivityListDto>> = new Subject<EntityChanged<ActivityListDto>>();
-  public timesheetChanged: Subject<EntityChanged<TimeSheetListDto>> = new Subject<EntityChanged<TimeSheetListDto>>();
+  public projectChanged: Subject<EntityChanged<ProjectListDto>> = new Subject<EntityChanged<ProjectListDto>>();
+  public customerChanged: Subject<EntityChanged<CustomerDto>> = new Subject<EntityChanged<CustomerDto>>();
+  public holidayChanged: Subject<EntityChanged<HolidayDto>> = new Subject<EntityChanged<HolidayDto>>();
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (sourceList: Observable<TDto[]>) => {

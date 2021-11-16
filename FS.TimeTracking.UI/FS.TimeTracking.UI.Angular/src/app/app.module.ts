@@ -51,6 +51,9 @@ import { ReportActivitiesComponent } from './report/components/report-activities
 import { ReportIssuesComponent } from './report/components/report-issues/report-issues.component';
 import { ReportProjectsComponent } from './report/components/report-projects/report-projects.component';
 import { ReportOrdersComponent } from './report/components/report-orders/report-orders.component';
+import { MasterDataHolidaysComponent } from './master-data/components/master-data-holidays/master-data-holidays.component';
+import { MasterDataSettingsComponent } from './master-data/components/master-data-settings/master-data-settings.component';
+import { MasterDataHolidaysEditComponent } from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +87,9 @@ import { ReportOrdersComponent } from './report/components/report-orders/report-
     ReportIssuesComponent,
     ReportProjectsComponent,
     ReportOrdersComponent,
+    MasterDataHolidaysComponent,
+    MasterDataSettingsComponent,
+    MasterDataHolidaysEditComponent,
   ],
   imports: [
     BrowserModule,

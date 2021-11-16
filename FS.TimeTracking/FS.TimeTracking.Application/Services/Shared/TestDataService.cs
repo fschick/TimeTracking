@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Bogus;
+using Bogus.Extensions;
+using FS.TimeTracking.Shared.Extensions;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Shared.Models.MasterData;
+using FS.TimeTracking.Shared.Models.TimeTracking;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Bogus;
-using Bogus.Extensions;
-using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 using TimeZoneConverter;
 
 namespace FS.TimeTracking.Application.Services.Shared;
@@ -176,8 +175,8 @@ public class TestDataService : ITestDataService
 
         await _repository.BulkAddRange(customers);
         await _repository.BulkAddRange(projects);
-        await _repository.BulkAddRange(orders);
         await _repository.BulkAddRange(activities);
+        await _repository.BulkAddRange(orders);
         await _repository.BulkAddRange(timesSheets);
 
         scope.Complete();
@@ -189,10 +188,12 @@ public class TestDataService : ITestDataService
         using var scope = _repository.CreateTransactionScope();
 
         await _repository.Remove<TimeSheet>();
-        await _repository.Remove<Activity>();
         await _repository.Remove<Order>();
+        await _repository.Remove<Activity>();
         await _repository.Remove<Project>();
         await _repository.Remove<Customer>();
+        await _repository.Remove<Holiday>();
+        await _repository.Remove<Setting>();
 
         scope.Complete();
     }

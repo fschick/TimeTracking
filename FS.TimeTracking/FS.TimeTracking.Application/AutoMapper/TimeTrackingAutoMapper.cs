@@ -2,6 +2,11 @@
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 
@@ -22,10 +27,24 @@ public class TimeTrackingAutoMapper : Profile
         CreateMap<string, string>()
             .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);
 
+        CreateMap<List<Setting>, SettingDto>()
+            .ConvertUsing<SettingsToDtoMapper>();
+
+        CreateMap<SettingDto, List<Setting>>()
+            .ConvertUsing<SettingsFromDtoMapper>();
+
+        CreateMap<Holiday, HolidayDto>()
+            .ReverseMap()
+            .ForMember(x => x.StartDateOffset, x => x.Ignore())
+            .ForMember(x => x.EndDateOffset, x => x.Ignore());
+
         CreateMap<Customer, CustomerDto>()
             .ReverseMap();
 
         CreateMap<Project, ProjectDto>()
+            .ReverseMap();
+
+        CreateMap<Activity, ActivityDto>()
             .ReverseMap();
 
         CreateMap<Order, OrderDto>()
@@ -33,25 +52,45 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.DueDateOffset, x => x.Ignore());
 
-        CreateMap<Activity, ActivityDto>()
-            .ReverseMap();
-
         CreateMap<TimeSheet, TimeSheetDto>()
             .ReverseMap()
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
+        CreateMap<Holiday, HolidayListDto>();
+
         CreateMap<Customer, CustomerListDto>();
 
         CreateMap<Project, ProjectListDto>();
 
-        CreateMap<Order, OrderListDto>();
-
         CreateMap<Activity, ActivityListDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(activity => activity.Project.Customer.Title));
+
+        CreateMap<Order, OrderListDto>();
 
         CreateMap<TimeSheet, TimeSheetListDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
     }
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    private class SettingsToDtoMapper : ITypeConverter<List<Setting>, SettingDto>
+    {
+        public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
+            => new()
+            {
+                WorkingHours = JsonConvert.DeserializeObject<Dictionary<DayOfWeek, TimeSpan>>(source.First(x => x.Key == nameof(SettingDto.WorkingHours)).Value)
+            };
+    }
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    private class SettingsFromDtoMapper : ITypeConverter<SettingDto, List<Setting>>
+    {
+        public List<Setting> Convert(SettingDto source, List<Setting> destination, ResolutionContext context)
+            => new()
+            {
+                new Setting { Key = nameof(SettingDto.WorkingHours), Value = JsonConvert.SerializeObject(source.WorkingHours) }
+            };
+    }
 }
+
