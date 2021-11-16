@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Shared.Models.MasterData;
 /// <summary>
 /// Project
 /// </summary>
-public class Project : IEntityModel
+public class Project : IIdEntityModel
 {
     /// <inheritdoc />
     [Required]

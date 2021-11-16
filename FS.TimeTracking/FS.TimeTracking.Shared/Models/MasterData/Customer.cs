@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Shared.Models.MasterData;
 /// <summary>
 /// Customer
 /// </summary>
-public class Customer : IEntityModel
+public class Customer : IIdEntityModel
 {
     /// <inheritdoc />
     [Required]

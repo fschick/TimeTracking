@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
 public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelService<TDto, TListDto>
-    where TModel : class, IEntityModel, new()
+    where TModel : class, IIdEntityModel, new()
 {
     /// <summary>
     /// The repository.

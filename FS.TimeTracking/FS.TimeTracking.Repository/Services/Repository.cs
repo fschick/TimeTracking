@@ -48,7 +48,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
         => GetInternal(x => x.Select(select), where, orderBy, null, includes, distinct, skip, take, tracked)
             .ToListAsyncEF(cancellationToken);
 
@@ -62,7 +62,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
     {
         return GetInternal(x => x, where, orderBy, null, includes, distinct, skip, take, tracked)
             .ProjectTo<TResult>(_mapper.ConfigurationProvider)
@@ -81,7 +81,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
         => GetInternal(x => x.GroupBy(groupBy).Select(select), where, null, orderBy, includes, distinct, skip, take, tracked)
             .ToListAsyncEF(cancellationToken);
 
@@ -94,7 +94,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         int? skip = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
         => GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
             .FirstOrDefaultAsyncEF(cancellationToken);
 
@@ -104,7 +104,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         Expression<Func<TEntity, bool>> where = null,
         bool distinct = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
         => GetInternal(x => x.Select(select), where, null, null, null, distinct, null, null, false)
             .LongCountAsyncEF(cancellationToken);
 
@@ -113,7 +113,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
         => GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
             .AnyAsyncEF(cancellationToken);
 
@@ -157,17 +157,17 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     }
 
     /// <inheritdoc />
-    public TEntity Remove<TEntity>(TEntity entity) where TEntity : class, IEntityModel
+    public TEntity Remove<TEntity>(TEntity entity) where TEntity : class
         => _dbContext.Remove(entity).Entity;
 
     /// <inheritdoc />
-    public List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel
+    public List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class
         => entities
             .Select(entity => _dbContext.Remove(entity).Entity)
             .ToList();
 
     /// <inheritdoc />
-    public async Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class, IEntityModel
+    public async Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class
     {
         var query = _dbContext
             .Set<TEntity>()
@@ -200,7 +200,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         int? skip,
         int? take,
         bool tracked
-    ) where TEntity : class, IEntityModel
+    ) where TEntity : class
     {
         var query = _dbContext
             .Set<TEntity>()

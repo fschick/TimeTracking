@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Shared.Models.MasterData;
 /// <summary>
 /// Project
 /// </summary>
-public class Order : IEntityModel
+public class Order : IIdEntityModel
 {
     /// <inheritdoc />
     [Required]

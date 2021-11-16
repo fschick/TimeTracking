@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking;
 /// <summary>
 /// Time sheet position.
 /// </summary>
-public class TimeSheet : IEntityModel
+public class TimeSheet : IIdEntityModel
 {
     /// <inheritdoc />
     [Required]

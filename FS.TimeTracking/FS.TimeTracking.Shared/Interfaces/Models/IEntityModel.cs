@@ -9,12 +9,6 @@ namespace FS.TimeTracking.Shared.Interfaces.Models;
 public interface IEntityModel
 {
     /// <summary>
-    /// THe unique identifier of the entity.
-    /// </summary>
-    [Required]
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// Creation time, in coordinated universal time (UTC), of the current item.
     /// </summary>
     [Required]

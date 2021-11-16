@@ -37,7 +37,7 @@ public interface IRepository
         int? skip = null, int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Gets a projection of entities from database using <see cref="AutoMapper"/>.
@@ -61,7 +61,7 @@ public interface IRepository
         int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Gets a projection of entities from database grouped by given key(s).
@@ -91,7 +91,7 @@ public interface IRepository
         int? take = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Gets the first projection of entities from database.
@@ -114,7 +114,7 @@ public interface IRepository
         int? skip = null,
         bool tracked = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Counts a projection of entities from database.
@@ -131,7 +131,7 @@ public interface IRepository
         Expression<Func<TEntity, bool>> where = null,
         bool distinct = false,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Test, if a projection of entities from database exists.
@@ -146,7 +146,7 @@ public interface IRepository
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntityModel;
+    ) where TEntity : class;
 
     /// <summary>
     /// Adds the specified entity to database.
@@ -189,7 +189,7 @@ public interface IRepository
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <param name="entity">The entity to remove.</param>
     /// <returns></returns>
-    TEntity Remove<TEntity>(TEntity entity) where TEntity : class, IEntityModel;
+    TEntity Remove<TEntity>(TEntity entity) where TEntity : class;
 
     /// <summary>
     /// Removes a range of specified entities from database.
@@ -197,14 +197,14 @@ public interface IRepository
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <param name="entities">The entities to remove.</param>
     /// <returns></returns>
-    List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class, IEntityModel;
+    List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class;
 
     /// <summary>
     /// Removes a range of entities specified by a predicate.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <param name="where">Filters the entities based on a predicate.</param>
-    Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class, IEntityModel;
+    Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class;
 
     /// <summary>
     /// Creates a new transaction scope. Transaction scopes can be nested.
