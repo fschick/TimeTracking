@@ -255,9 +255,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
                     b.HasKey("Key");
 
-                    b.HasIndex("Key")
-                        .IsUnique();
-
                     b.ToTable("Settings", (string)null);
                 });
 

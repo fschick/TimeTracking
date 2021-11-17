@@ -257,9 +257,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.HasKey("Key");
 
-                    b.HasIndex("Key")
-                        .IsUnique();
-
                     b.ToTable("Settings", (string)null);
                 });
 

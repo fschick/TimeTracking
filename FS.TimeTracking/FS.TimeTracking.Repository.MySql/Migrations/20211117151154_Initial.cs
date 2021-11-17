@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
@@ -232,12 +232,6 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                 name: "IX_Projects_CustomerId",
                 table: "Projects",
                 column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Settings_Key",
-                table: "Settings",
-                column: "Key",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",

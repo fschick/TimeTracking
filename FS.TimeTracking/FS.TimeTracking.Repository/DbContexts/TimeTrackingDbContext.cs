@@ -94,10 +94,6 @@ public class TimeTrackingDbContext : DbContext
         settingsBuilder
             .ToTable("Settings")
             .HasKey(x => x.Key);
-
-        settingsBuilder
-            .HasIndex(x => x.Key)
-            .IsUnique();
     }
 
     private void ConfigureHoliday(EntityTypeBuilder<Holiday> holidayBuilder)

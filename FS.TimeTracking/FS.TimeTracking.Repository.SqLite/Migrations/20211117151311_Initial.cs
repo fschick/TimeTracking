@@ -200,12 +200,6 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Settings_Key",
-                table: "Settings",
-                column: "Key",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_ActivityId",
                 table: "TimeSheets",
                 column: "ActivityId");
