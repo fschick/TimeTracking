@@ -11,7 +11,6 @@ import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {TimeSheetFilterDto} from '../timesheet-filter/timesheet-filter.component';
-import {environment} from '../../../../environments/environment';
 
 // import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
 
@@ -62,7 +61,7 @@ export class TimesheetComponent {
       .pipe(
         switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        switchMap(timeSheets => (environment.production ? timer(0, 5000) : of(1)).pipe(map(() => timeSheets))),
+        switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
         filter(() => this.allowUpdate),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       );
@@ -94,7 +93,8 @@ export class TimesheetComponent {
   }
 
   public timeSheetDayGroupKey(index: number, item: TimeSheetDayGroupDto) {
-    return item.date;
+    // see https://moment.github.io/luxon/api-docs/index.html#datetimeequals
+    return +item.date;
   }
 
   public timeSheetListKey(index: number, item: TimeSheetListDto) {
