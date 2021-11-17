@@ -13,7 +13,7 @@ Push-Location $PSScriptRoot/..
 
 $projectName="FS.$projectName"
 $fileVersion=$version -replace '(\d+(?:\.\d+)*)(.*)', '$1'
-$targetFramework="net5.0"
+$targetFramework="net6.0"
 $configuration="Release"
 $msBuildOutDir="FS.TimeTracking/FS.TimeTracking/bin/$configuration/$targetFramework"
 $msBuildPublishDir="$msBuildOutDir/$runtime/publish"
