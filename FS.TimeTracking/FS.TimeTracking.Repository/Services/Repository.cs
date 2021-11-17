@@ -153,7 +153,9 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     public TEntity Update<TEntity>(TEntity entity) where TEntity : class, IEntityModel
     {
         entity.Modified = DateTime.UtcNow;
-        return _dbContext.Update(entity).Entity;
+        var result = _dbContext.Update(entity);
+        result.Property(x => x.Created).IsModified = false;
+        return result.Entity;
     }
 
     /// <inheritdoc />
