@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable, of, Subject} from 'rxjs';
 import {ActivityListDto, CustomerDto, HolidayDto, HolidayListDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
-import {map, single, switchMap, tap} from 'rxjs/operators';
+import {filter, map, single, switchMap, tap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {
-  entity: TDto;
-  action: 'created' | 'updated' | 'deleted';
+  entity?: TDto;
+  action: 'created' | 'updated' | 'deleted' | 'reloadAll';
 }
 
 export type CrudDto = {
@@ -13,7 +13,7 @@ export type CrudDto = {
 };
 
 export type CrudService<TDto> = {
-  list: (requestParameters: { id: string }) => Observable<TDto[]>;
+  list: (requestParameters: { id?: string }) => Observable<TDto[]>;
 };
 
 @Injectable({
@@ -29,53 +29,71 @@ export class EntityService {
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (sourceList: Observable<TDto[]>) => {
-      let bufferedSourceList: TDto[] = [];
+      let cachedSourceList: TDto[] = [];
 
-      const tappedSourceList = sourceList
-        .pipe(tap(list => bufferedSourceList = list));
+      const cachedSourceList$ = sourceList
+        .pipe(tap(list => cachedSourceList = list));
 
-      const updatedSourceList = entityChanged
+      const updatedSourceList$ = entityChanged
         .pipe(
+          filter(x => x.action !== 'reloadAll'),
           this.replaceEntityWithListDto(crudService),
           map(changedEvent => {
-            const updatedDtos = this.updateCollection(bufferedSourceList, 'id', changedEvent);
-            bufferedSourceList = [...updatedDtos];
-            return bufferedSourceList;
+            const updatedDtos = this.updateCollection(cachedSourceList, 'id', changedEvent);
+            cachedSourceList = [...updatedDtos];
+            return cachedSourceList;
           }));
 
-      return merge(tappedSourceList, updatedSourceList);
+      const reloadedSourceList$ = entityChanged.pipe(
+        filter(x => x.action === 'reloadAll'),
+        switchMap(() => crudService.list({}).pipe(single()))
+      );
+
+      return merge(cachedSourceList$, updatedSourceList$, reloadedSourceList$);
     };
   }
 
   private replaceEntityWithListDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
     return (source: Observable<EntityChanged<TDto>>) =>
-      source.pipe(switchMap((changedEvent: EntityChanged<TDto>) => {
-        if (changedEvent.action === 'deleted') {
-          changedEvent.entity = {id: changedEvent.entity.id} as TDto;
-          return of(changedEvent);
-        }
+      source.pipe(
+        switchMap((changedEvent: EntityChanged<TDto>) => {
+          if (changedEvent.entity === undefined)
+            throw Error("No entity given");
 
-        return crudService
-          .list({id: changedEvent.entity.id})
-          .pipe(single(), map(entity => {
-            changedEvent.entity = entity[0];
-            return changedEvent;
-          }));
-      }));
+          if (changedEvent.action === 'deleted') {
+            changedEvent.entity = {id: changedEvent.entity.id} as TDto;
+            return of(changedEvent);
+          }
+
+          return crudService
+            .list({id: changedEvent.entity.id})
+            .pipe(
+              single(),
+              map(entity => {
+                changedEvent.entity = entity[0];
+                return changedEvent;
+              })
+            );
+        })
+      );
   }
 
   private updateCollection<TDto>(entities: TDto[], key: keyof TDto, changedEvent: EntityChanged<TDto>): TDto[] {
+    if (!changedEvent.entity)
+      throw Error("No entity given");
+
+    const changedEntity = changedEvent.entity;
     switch (changedEvent?.action) {
       case 'created':
-        entities.unshift(changedEvent.entity);
+        entities.unshift(changedEntity);
         break;
       case 'updated':
-        const idxUpdated = entities.findIndex(x => x[key] === changedEvent.entity[key]);
+        const idxUpdated = entities.findIndex(x => x[key] === changedEntity[key]);
         if (idxUpdated >= 0)
           entities[idxUpdated] = changedEvent?.entity;
         break;
       case 'deleted':
-        const idxDeleted = entities.findIndex(x => x[key] === changedEvent.entity[key]);
+        const idxDeleted = entities.findIndex(x => x[key] === changedEntity[key]);
         if (idxDeleted >= 0)
           entities.splice(idxDeleted, 1);
         break;
