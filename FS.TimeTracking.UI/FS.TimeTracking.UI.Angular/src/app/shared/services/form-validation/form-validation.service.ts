@@ -13,12 +13,12 @@ import {Validators as CustomValidators} from './validators';
 type ValidationDescription = { [key: string]: any; type: string };
 type TypeValidationFromControls<TType> = { [key in keyof TType]: AbstractControl; };
 
-export type ValidationFromControls = { [key: string]: AbstractControl | ValidationFromControls };
+export type ValidationFromControls = { [key: string]: AbstractControl };
 
 export class ValidationFormGroup extends FormGroup {
   constructor(
-    public typeName: keyof typeof validationDescriptions,
-    controls: { [key: string]: AbstractControl },
+    public typeName: keyof typeof validationDescriptions | string,
+    controls: ValidationFromControls,
     validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
     asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   ) {
