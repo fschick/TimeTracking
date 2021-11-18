@@ -2,9 +2,14 @@
   <h4 i18n="@@Page.MasterData.Holidays.Title">
     [i18n] Holidays
   </h4>
-  <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
-    <ng-container i18n="@@Page.MasterData.Holidays.New">[i18n] New holiday</ng-container>
-  </button>
+  <div>
+    <button type="button" class="btn btn-sm btn-outline-secondary me-3" [routerLink]="'import'">
+      <ng-container i18n="@@Page.MasterData.Holidays.Import">[i18n] Import</ng-container>
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
+      <ng-container i18n="@@Page.MasterData.Holidays.New">[i18n] New holiday</ng-container>
+    </button>
+  </div>
 </div>
 
 <ts-simple-table

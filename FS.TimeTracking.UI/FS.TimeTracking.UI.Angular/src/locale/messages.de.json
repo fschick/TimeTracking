@@ -83,6 +83,7 @@
       },
       "Holidays": {
         "Title": "Urlaub",
+        "Import": "Import",
         "New": "Neuer Urlaub",
         "Edit": "Urlaub bearbeiten",
         "Delete": "Urlaub löschen",
@@ -122,25 +123,31 @@
     }
   },
   "DTO": {
-    "SettingDto": {
-      "Monday": "Montag",
-      "Tuesday": "Dienstag",
-      "Wednesday": "Mittwoch",
-      "Thursday": "Donnerstag",
-      "Friday": "Freitag",
-      "Saturday": "Samstag",
-      "Sunday": "Sonntag"
-    },
-    "HolidayDto": {
-      "Title": "Titel",
+    "TimeSheetDto": {
       "StartDate": "Startdatum",
+      "StartTime": "Startzeit",
       "EndDate": "Enddatum",
-      "Type": "Typ"
+      "EndTime": "Endzeit",
+      "ProjectId": "Projekt",
+      "ActivityId": "Tätigkeit",
+      "OrderId": "Auftrag",
+      "Issue": "Ticket",
+      "Billable": "Verrechenbar",
+      "Comment": "Kommentar"
     },
-    "HolidayListDto": {
-      "Title": "Titel",
-      "StartDate": "Startdatum",
-      "EndDate": "Enddatum"
+    "TimeSheetListDto": {
+      "Date": "Datum",
+      "StartDate": "Von",
+      "EndDate": "Bis",
+      "Now": "jetzt",
+      "Time": "Zeit",
+      "Duration": "Dauer",
+      "Customer": "Kunde",
+      "Project": "Projekt",
+      "Activity": "Tätigkeit",
+      "Billable": "Verrechenbar",
+      "Issue": "Ticket",
+      "Comment": "Kommentar"
     },
     "CustomerDto": {
       "Title": "Titel",
@@ -172,6 +179,20 @@
       "CustomerTitle": "Kunde",
       "Hidden": "Versteckt"
     },
+    "ActivityDto": {
+      "Title": "Titel",
+      "CustomerId": "Kunde",
+      "Customer": "Kunde",
+      "ProjectId": "Projekt",
+      "Project": "Projekt",
+      "Comment": "Kommentar",
+      "Hidden": "Versteckt"
+    },
+    "ActivityListDto": {
+      "Title": "Titel",
+      "ProjectTitle": "Projekt",
+      "CustomerTitle": "Kunde"
+    },
     "OrderDto": {
       "Title": "Titel",
       "Description": "Beschreibung",
@@ -192,45 +213,29 @@
       "DueDate": "Fälligkeitsdatum",
       "Hidden": "Versteckt"
     },
-    "ActivityDto": {
+    "HolidayDto": {
       "Title": "Titel",
-      "CustomerId": "Kunde",
-      "Customer": "Kunde",
-      "ProjectId": "Projekt",
-      "Project": "Projekt",
-      "Comment": "Kommentar",
-      "Hidden": "Versteckt"
-    },
-    "ActivityListDto": {
-      "Title": "Titel",
-      "ProjectTitle": "Projekt",
-      "CustomerTitle": "Kunde"
-    },
-    "TimeSheetDto": {
       "StartDate": "Startdatum",
-      "StartTime": "Startzeit",
       "EndDate": "Enddatum",
-      "EndTime": "Endzeit",
-      "ProjectId": "Projekt",
-      "ActivityId": "Tätigkeit",
-      "OrderId": "Auftrag",
-      "Issue": "Ticket",
-      "Billable": "Verrechenbar",
-      "Comment": "Kommentar"
+      "Type": "Typ"
     },
-    "TimeSheetListDto": {
-      "Date": "Datum",
-      "StartDate": "Von",
-      "EndDate": "Bis",
-      "Now": "jetzt",
-      "Time": "Zeit",
-      "Duration": "Dauer",
-      "Customer": "Kunde",
-      "Project": "Projekt",
-      "Activity": "Tätigkeit",
-      "Billable": "Verrechenbar",
-      "Issue": "Ticket",
-      "Comment": "Kommentar"
+    "HolidayListDto": {
+      "Title": "Titel",
+      "StartDate": "Startdatum",
+      "EndDate": "Enddatum"
+    },
+    "HolidayImportDto": {
+      "File": "iCal-Datei",
+      "Type": "Typ"
+    },
+    "SettingDto": {
+      "Monday": "Montag",
+      "Tuesday": "Dienstag",
+      "Wednesday": "Mittwoch",
+      "Thursday": "Donnerstag",
+      "Friday": "Freitag",
+      "Saturday": "Samstag",
+      "Sunday": "Sonntag"
     }
   },
   "Validation": {

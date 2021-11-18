@@ -46,14 +46,15 @@ import {IconComponent} from './shared/components/icon/icon.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
 import {TimesheetFilterComponent} from './timesheet/components/timesheet-filter/timesheet-filter.component';
-import { ReportCustomersComponent } from './report/components/report-customers/report-customers.component';
-import { ReportActivitiesComponent } from './report/components/report-activities/report-activities.component';
-import { ReportIssuesComponent } from './report/components/report-issues/report-issues.component';
-import { ReportProjectsComponent } from './report/components/report-projects/report-projects.component';
-import { ReportOrdersComponent } from './report/components/report-orders/report-orders.component';
-import { MasterDataHolidaysComponent } from './master-data/components/master-data-holidays/master-data-holidays.component';
-import { MasterDataSettingsComponent } from './master-data/components/master-data-settings/master-data-settings.component';
-import { MasterDataHolidaysEditComponent } from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
+import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
+import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
+import {ReportIssuesComponent} from './report/components/report-issues/report-issues.component';
+import {ReportProjectsComponent} from './report/components/report-projects/report-projects.component';
+import {ReportOrdersComponent} from './report/components/report-orders/report-orders.component';
+import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
+import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
+import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
+import { MasterDataHolidaysImportComponent } from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { MasterDataHolidaysEditComponent } from './master-data/components/master
     MasterDataHolidaysComponent,
     MasterDataSettingsComponent,
     MasterDataHolidaysEditComponent,
+    MasterDataHolidaysImportComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,7 @@ import {ReportCustomersComponent} from './report/components/report-customers/rep
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
+import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,10 @@ const routes: Routes = [
   },
   {
     path: 'master-data/holidays', component: MasterDataHolidaysComponent,
-    children: [{path: ':id', component: MasterDataHolidaysEditComponent}]
+    children: [
+      {path: 'import', component: MasterDataHolidaysImportComponent},
+      {path: ':id', component: MasterDataHolidaysEditComponent},
+    ]
   },
   {
     path: 'master-data/settings', component: MasterDataSettingsComponent,
