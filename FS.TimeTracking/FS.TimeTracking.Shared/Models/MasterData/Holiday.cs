@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using System;
@@ -65,6 +66,12 @@ public class Holiday : IIdEntityModel
         get => EndDateLocal.ToOffset(TimeSpan.FromMinutes(EndDateOffset));
         set { EndDateLocal = value.DateTime; EndDateOffset = (int)value.Offset.TotalMinutes; }
     }
+
+    /// <summary>
+    /// The reason for holiday.
+    /// </summary>
+    [Required]
+    public HolidayType Type { get; set; }
 
     /// <inheritdoc />
     [Required]

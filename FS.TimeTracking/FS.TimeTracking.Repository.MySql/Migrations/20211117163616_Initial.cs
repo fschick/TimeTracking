@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -58,6 +58,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     StartDateOffset = table.Column<int>(type: "int", nullable: false),
                     EndDateLocal = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EndDateOffset = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },

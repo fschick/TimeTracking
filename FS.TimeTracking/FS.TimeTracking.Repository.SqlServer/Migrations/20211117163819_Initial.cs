@@ -43,6 +43,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     StartDateOffset = table.Column<int>(type: "int", nullable: false),
                     EndDateLocal = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDateOffset = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

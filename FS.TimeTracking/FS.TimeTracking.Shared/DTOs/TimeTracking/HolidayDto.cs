@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Models.MasterData;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -29,4 +30,8 @@ public record HolidayDto
     [Required]
     [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
     public DateTimeOffset EndDate { get; set; }
+
+    /// <inheritdoc cref="Holiday.Type"/>
+    [Required]
+    public HolidayType Type { get; set; }
 }

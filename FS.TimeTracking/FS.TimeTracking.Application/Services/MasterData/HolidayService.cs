@@ -25,8 +25,8 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayListD
         => await ListInternal(
             id,
             o => o
-                .OrderByDescending(x => x.StartDateLocal)
-                .ThenByDescending(x => x.EndDateLocal)
+                .OrderBy(x => x.StartDateLocal)
+                .ThenBy(x => x.EndDateLocal)
                 .ThenBy(x => x.Title),
             cancellationToken
         );

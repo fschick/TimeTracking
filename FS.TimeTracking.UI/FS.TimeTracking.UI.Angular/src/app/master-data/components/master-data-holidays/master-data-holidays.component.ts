@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HolidayDto, HolidayService} from '../../../shared/services/api';
+import {HolidayListDto, HolidayService} from '../../../shared/services/api';
 import {Observable} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
@@ -19,14 +19,14 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   styleUrls: ['./master-data-holidays.component.scss']
 })
 export class MasterDataHolidaysComponent implements OnInit {
-  @ViewChild(SimpleTableComponent) private holidayTable?: SimpleTableComponent<HolidayDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<HolidayDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<HolidayDto>;
+  @ViewChild(SimpleTableComponent) private holidayTable?: SimpleTableComponent<HolidayListDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<HolidayListDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<HolidayListDto>;
 
   public guidService = GuidService;
-  public rows$: Observable<HolidayDto[]>;
-  public columns!: Column<HolidayDto>[];
-  public configuration?: Partial<Configuration<HolidayDto>>;
+  public rows$: Observable<HolidayListDto[]>;
+  public columns!: Column<HolidayListDto>[];
+  public configuration?: Partial<Configuration<HolidayListDto>>;
 
   constructor(
     private entityService: EntityService,
@@ -56,19 +56,19 @@ export class MasterDataHolidaysComponent implements OnInit {
     const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
-        title: $localize`:@@DTO.HolidayDto.Title:[i18n] Title`,
+        title: $localize`:@@DTO.HolidayListDto.Title:[i18n] Title`,
         prop: 'title',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.HolidayDto.StartDate:[i18n] Start date`,
+        title: $localize`:@@DTO.HolidayListDto.StartDate:[i18n] Start date`,
         prop: 'startDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
-        title: $localize`:@@DTO.HolidayDto.EndDate:[i18n] End date`,
+        title: $localize`:@@DTO.HolidayListDto.EndDate:[i18n] End date`,
         prop: 'endDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
@@ -86,7 +86,7 @@ export class MasterDataHolidaysComponent implements OnInit {
     ];
   }
 
-  public getDataCellValue(row: HolidayDto, column: Column<HolidayDto>): string {
+  public getDataCellValue(row: HolidayListDto, column: Column<HolidayListDto>): string {
     return this.holidayTable?.getCellValue(row, column) ?? '';
   }
 
@@ -95,7 +95,7 @@ export class MasterDataHolidaysComponent implements OnInit {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.holidayChanged.next({entity: {id} as HolidayDto, action: 'deleted'});
+        this.entityService.holidayChanged.next({entity: {id} as HolidayListDto, action: 'deleted'});
       });
   }
 }

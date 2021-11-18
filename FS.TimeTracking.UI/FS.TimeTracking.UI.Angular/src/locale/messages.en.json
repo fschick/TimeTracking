@@ -115,6 +115,12 @@
       "TypeToSearchText": "Type to search"
     }
   },
+  "Enum": {
+    "HolidayType": {
+      "Holiday": "Holidays / Vacation",
+      "PublicHoliday": "Public holiday"
+    }
+  },
   "DTO": {
     "SettingDto": {
       "Monday": "Monday",
@@ -128,7 +134,8 @@
     "HolidayDto": {
       "Title": "Title",
       "StartDate": "Start date",
-      "EndDate": "End date"
+      "EndDate": "End date",
+      "Type": "Type"
     },
     "HolidayListDto": {
       "Title": "Title",

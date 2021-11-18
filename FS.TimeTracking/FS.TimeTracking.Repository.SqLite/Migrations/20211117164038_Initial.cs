@@ -43,6 +43,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     StartDateOffset = table.Column<int>(type: "INTEGER", nullable: false),
                     EndDateLocal = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndDateOffset = table.Column<int>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Modified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

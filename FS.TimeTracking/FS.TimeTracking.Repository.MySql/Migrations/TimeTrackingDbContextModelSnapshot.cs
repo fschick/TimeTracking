@@ -139,6 +139,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);

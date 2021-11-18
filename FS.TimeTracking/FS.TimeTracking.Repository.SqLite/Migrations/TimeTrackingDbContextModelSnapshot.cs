@@ -137,6 +137,9 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);

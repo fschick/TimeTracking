@@ -28,7 +28,7 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty});
+    this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty, type: 'Holiday'});
 
     if (!this.isNewRecord)
       this.holidayService

@@ -43,6 +43,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     StartDateOffset = table.Column<int>(type: "integer", nullable: false),
                     EndDateLocal = table.Column<DateTime>(type: "timestamp", nullable: false),
                     EndDateOffset = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
