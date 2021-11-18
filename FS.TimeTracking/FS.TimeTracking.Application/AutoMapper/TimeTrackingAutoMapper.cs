@@ -2,11 +2,7 @@
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 
@@ -72,25 +68,4 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
     }
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    private class SettingsToDtoMapper : ITypeConverter<List<Setting>, SettingDto>
-    {
-        public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
-            => new()
-            {
-                WorkingHours = JsonConvert.DeserializeObject<Dictionary<DayOfWeek, TimeSpan>>(source.First(x => x.Key == nameof(SettingDto.WorkingHours)).Value)
-            };
-    }
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    private class SettingsFromDtoMapper : ITypeConverter<SettingDto, List<Setting>>
-    {
-        public List<Setting> Convert(SettingDto source, List<Setting> destination, ResolutionContext context)
-            => new()
-            {
-                new Setting { Key = nameof(SettingDto.WorkingHours), Value = JsonConvert.SerializeObject(source.WorkingHours) }
-            };
-    }
 }
-

@@ -1,18 +1,12 @@
 import {Component} from '@angular/core';
-import {SettingDto, SettingDtoWorkingHours, SettingService} from '../../../shared/services/api';
-import {Observable} from 'rxjs';
+import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../shared/services/api';
 import {map, single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
-interface WorkingHours {
-  monday: DateTime;
-  tuesday: DateTime;
-  wednesday: DateTime;
-  thursday: DateTime;
-  friday: DateTime;
-  saturday: DateTime;
-  sunday: DateTime;
+interface Settings {
+  workHoursPerWorkday: DateTime;
+  workdays: SettingDtoWorkdays;
 }
 
 @Component({
@@ -22,63 +16,52 @@ interface WorkingHours {
 })
 export class MasterDataSettingsComponent {
 
-  public workingHoursForm: FormGroup;
+  public settingsForm: FormGroup;
 
   constructor(
     private settingService: SettingService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
-    this.workingHoursForm = this.createWorkingHoursForm();
+    this.settingsForm = this.createSettingsForm();
 
-    this.settingService
-      .get()
-      .pipe(
-        single(),
-        map(settings => this.toWorkingHours(settings.workingHours))
-      )
-      .subscribe(workingHours => this.workingHoursForm.patchValue(workingHours));
+    this.settingService.get().pipe(single())
+      .subscribe(settingsDto => {
+        const settings = this.convertTimeSpans(settingsDto);
+        this.settingsForm.patchValue(settings)
+      });
   }
 
   public save(): void {
-    if (!this.workingHoursForm.valid)
+    if (!this.settingsForm.valid)
       return;
 
-    const settingDto = {
-      workingHours: {
-        Monday: this.toDuration(this.workingHoursForm.value.monday),
-        Tuesday: this.toDuration(this.workingHoursForm.value.tuesday),
-        Wednesday: this.toDuration(this.workingHoursForm.value.wednesday),
-        Thursday: this.toDuration(this.workingHoursForm.value.thursday),
-        Friday: this.toDuration(this.workingHoursForm.value.friday),
-        Saturday: this.toDuration(this.workingHoursForm.value.saturday),
-        Sunday: this.toDuration(this.workingHoursForm.value.sunday),
-      }
+    const settingDto: SettingDto = {
+      workdays: this.settingsForm.value.workdays,
+      workHoursPerWorkday: this.toDuration(this.settingsForm.value.workHoursPerWorkday)
     }
 
     this.settingService.update({settingDto}).pipe(single()).subscribe();
   }
 
-  private createWorkingHoursForm(): FormGroup {
+  private createSettingsForm(): FormGroup {
     return this.formBuilder.group({
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-      sunday: [],
+      workdays: this.formBuilder.group({
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+        Saturday: [],
+        Sunday: [],
+      }),
+      workHoursPerWorkday: [],
     });
   }
 
-  private toWorkingHours(workingHours: SettingDtoWorkingHours): WorkingHours {
+  private convertTimeSpans(settings: SettingDto): Settings {
     return {
-      monday: this.toDateTime(workingHours.Monday!),
-      tuesday: this.toDateTime(workingHours.Tuesday!),
-      wednesday: this.toDateTime(workingHours.Wednesday!),
-      thursday: this.toDateTime(workingHours.Thursday!),
-      friday: this.toDateTime(workingHours.Friday!),
-      saturday: this.toDateTime(workingHours.Saturday!),
-      sunday: this.toDateTime(workingHours.Sunday!),
+      workdays: settings.workdays,
+      workHoursPerWorkday: this.toDateTime(settings.workHoursPerWorkday)
     };
   }
 

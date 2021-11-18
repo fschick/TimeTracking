@@ -91,7 +91,8 @@
       },
       "Settings": {
         "Title": "Settings",
-        "WorkingHoursPerWeekDay": "Working hours per week day"
+        "Workdays": "Workdays",
+        "WorkHoursPerWorkday": "Working hours / workday"
       }
     }
   },

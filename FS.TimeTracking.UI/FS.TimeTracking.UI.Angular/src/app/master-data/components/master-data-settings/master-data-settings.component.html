@@ -1,53 +1,56 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
-  <h4 i18n="@@Page.MasterData.Settings.WorkingHoursPerWeekDay">
-    [i18n] Working hours per week day
+  <h4 i18n="@@Page.MasterData.Settings.Title">
+    [i18n] Settings
   </h4>
 </div>
 
-<form id="workingHoursForm" [formGroup]="workingHoursForm" (ngSubmit)="save()" #form="ngForm">
-  <div class="row mb-3">
-    <label for="monday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
-    <div class="col-auto">
-      <input id="monday" type="time" tsTime class="form-control" formControlName="monday" autocomplete="off">
+<form id="workingHoursForm" [formGroup]="settingsForm" (ngSubmit)="save()" #form="ngForm">
+  <div class="row">
+    <div class="col-6 col-md-4 col-lg-3 col-xxl-2" formGroupName="workdays">
+      <h6 class="form-label" i18n="@@Page.MasterData.Settings.Workdays">
+        [i18n] Workdays
+      </h6>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="monday" formControlName="Monday">
+        <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="tuesday" formControlName="Tuesday">
+        <label class="form-check-label" for="tuesday" i18n="@@DTO.SettingDto.Tuesday">[i18n] Tuesday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="wednesday" formControlName="Wednesday">
+        <label class="form-check-label" for="wednesday" i18n="@@DTO.SettingDto.Wednesday">[i18n] Wednesday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="thursday" formControlName="Thursday">
+        <label class="form-check-label" for="thursday" i18n="@@DTO.SettingDto.Thursday">[i18n] Thursday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="friday" formControlName="Friday">
+        <label class="form-check-label" for="friday" i18n="@@DTO.SettingDto.Friday">[i18n] Friday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="saturday" formControlName="Saturday">
+        <label class="form-check-label" for="saturday" i18n="@@DTO.SettingDto.Saturday">[i18n] Saturday</label>
+      </div>
+      <div class="form-check form-check">
+        <input class="form-check-input" type="checkbox" id="sunday" formControlName="Sunday">
+        <label class="form-check-label" for="sunday" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3">
+      <h6 class="form-label" i18n="@@Page.MasterData.Settings.WorkHoursPerWorkday">
+        [i18n] Working hours / weekday
+      </h6>
+      <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkday" autocomplete="off">
     </div>
   </div>
-  <div class="row mb-3">
-    <label for="tuesday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Tuesday">[i18n] Tuesday</label>
-    <div class="col-auto">
-      <input id="tuesday" type="time" tsTime class="form-control" formControlName="tuesday" autocomplete="off">
+  <div class="row mt-4">
+    <div class="col">
+      <button form="workingHoursForm" type="submit" class="btn btn-primary">
+        <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+      </button>
     </div>
   </div>
-  <div class="row mb-3">
-    <label for="wednesday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Wednesday">[i18n] Wednesday</label>
-    <div class="col-auto">
-      <input id="wednesday" type="time" tsTime class="form-control" formControlName="wednesday" autocomplete="off">
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label for="thursday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Thursday">[i18n] Thursday</label>
-    <div class="col-auto">
-      <input id="thursday" type="time" tsTime class="form-control" formControlName="thursday" autocomplete="off">
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label for="friday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Friday">[i18n] Friday</label>
-    <div class="col-auto">
-      <input id="friday" type="time" tsTime class="form-control" formControlName="friday" autocomplete="off">
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label for="saturday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Saturday">[i18n] Saturday</label>
-    <div class="col-auto">
-      <input id="saturday" type="time" tsTime class="form-control" formControlName="saturday" autocomplete="off">
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label for="sunday" class="col-3 col-lg-2 col-form-label" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
-    <div class="col-auto">
-      <input id="sunday" type="time" tsTime class="form-control" formControlName="sunday" autocomplete="off">
-    </div>
-  </div>
-  <button form="workingHoursForm" type="submit" class="btn btn-primary">
-    <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
-  </button>
 </form>

@@ -13,17 +13,23 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
 public record SettingDto
 {
     /// <summary>
-    /// Working hours per day of week.
+    /// Workdays
     /// </summary>
     [Required]
-    public Dictionary<DayOfWeek, TimeSpan> WorkingHours { get; set; } = new()
+    public Dictionary<DayOfWeek, bool> Workdays { get; set; } = new()
     {
-        { DayOfWeek.Monday, TimeSpan.FromHours(8) },
-        { DayOfWeek.Tuesday, TimeSpan.FromHours(8) },
-        { DayOfWeek.Wednesday, TimeSpan.FromHours(8) },
-        { DayOfWeek.Thursday, TimeSpan.FromHours(8) },
-        { DayOfWeek.Friday, TimeSpan.FromHours(8) },
-        { DayOfWeek.Saturday, TimeSpan.Zero },
-        { DayOfWeek.Sunday, TimeSpan.Zero },
+        { DayOfWeek.Monday, true },
+        { DayOfWeek.Tuesday, true },
+        { DayOfWeek.Wednesday, true },
+        { DayOfWeek.Thursday, true },
+        { DayOfWeek.Friday, true },
+        { DayOfWeek.Saturday, false },
+        { DayOfWeek.Sunday, false },
     };
+
+    /// <summary>
+    /// The average working hours per workday
+    /// </summary>
+    [Required]
+    public TimeSpan WorkHoursPerWorkday = TimeSpan.FromHours(8);
 }
