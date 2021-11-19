@@ -17,6 +17,11 @@ public class CommandLineOptions
     public bool ImportKimaiV1 { get; set; }
 
     /// <summary>
+    /// Import TimeTracking database.
+    /// </summary>
+    public bool ImportTimeTracking { get; set; }
+
+    /// <summary>
     /// The connection string of the source database.
     /// </summary>
     public string SourceConnectionString { get; set; }
@@ -62,9 +67,10 @@ public class CommandLineOptions
 
         var optionSet = new OptionSet {
             { "import-kimai-v1", "Import Kimai V1 database", x => ImportKimaiV1 = x != null },
+            { "import-time-tracking", "Import TimeTracking database", x => ImportTimeTracking = x != null },
             { "source-connection-string=", "The connection string of the source database", x => SourceConnectionString = x },
             { "source-database-type=", "The type of source database", (DatabaseType x) => SourceDatabaseType = x },
-            { "source-table-prefix=", "The prefix for table names in source database", x => SourceTablePrefix = x },
+            { "source-table-prefix=", "The prefix for table names in (Kimai) source database", x => SourceTablePrefix = x },
             { "destination-connection-string=", "The connection string of the destination database", x => DestinationConnectionString = x },
             { "destination-database-type=", "The type of destination database", (DatabaseType x) => DestinationDatabaseType = x },
             { "truncate-before-import", "Truncate database before import", x => TruncateBeforeImport = x != null },

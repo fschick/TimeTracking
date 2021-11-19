@@ -31,8 +31,8 @@ public class KimaiV1DbContext : DbContext
     public KimaiV1DbContext(ILoggerFactory loggerFactory, IOptions<KimaiV1ImportConfiguration> configuration, EnvironmentConfiguration environment)
     {
         _loggerFactory = loggerFactory;
-        _connectionString = configuration.Value.ConnectionString;
-        _databaseType = configuration.Value.DatabaseType;
+        _connectionString = configuration.Value.SourceConnectionString;
+        _databaseType = configuration.Value.SourceDatabaseType;
         _tablePrefix = configuration.Value.TablePrefix.TrimEnd('_');
         _environment = environment;
     }

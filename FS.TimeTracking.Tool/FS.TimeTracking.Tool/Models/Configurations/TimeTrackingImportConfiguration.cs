@@ -2,7 +2,7 @@
 
 namespace FS.TimeTracking.Tool.Models.Configurations;
 
-public class KimaiV1ImportConfiguration
+public class TimeTrackingImportConfiguration
 {
     /// <summary>
     /// The connection string of the database.
@@ -13,11 +13,6 @@ public class KimaiV1ImportConfiguration
     /// The type of database.
     /// </summary>
     public DatabaseType SourceDatabaseType { get; set; }
-
-    /// <summary>
-    /// The prefix for table names in kimai database.
-    /// </summary>
-    public string TablePrefix { get; set; }
 
     /// <summary>
     /// Truncate database before import.

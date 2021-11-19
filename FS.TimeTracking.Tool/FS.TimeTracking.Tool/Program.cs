@@ -28,6 +28,14 @@ public class Program
                 .GetRequiredService<IKimaiV1ImportService>()
                 .Import();
         }
+
+        if (options.ImportTimeTracking)
+        {
+            MigrateDatabase(serviceProvider);
+            await serviceProvider
+                .GetRequiredService<ITimeTrackingImportService>()
+                .Import();
+        }
     }
 
     private static void MigrateDatabase(IServiceProvider serviceProvider)
