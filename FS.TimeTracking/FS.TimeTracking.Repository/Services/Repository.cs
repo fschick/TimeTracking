@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using EFCore.BulkExtensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -138,13 +136,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     /// <inheritdoc />
     public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
     {
-        var bulkConfig = new BulkConfig
-        {
-            EnableShadowProperties = true,
-            SqlBulkCopyOptions = SqlBulkCopyOptions.KeepIdentity | SqlBulkCopyOptions.CheckConstraints
-        };
-
-        var bulkCopyOptions = new BulkCopyOptions { KeepIdentity = true };
+        var bulkCopyOptions = new BulkCopyOptions { KeepIdentity = true, CheckConstraints = true };
         await _dbContext.BulkCopyAsync(bulkCopyOptions, entities, cancellationToken);
         return entities;
     }
