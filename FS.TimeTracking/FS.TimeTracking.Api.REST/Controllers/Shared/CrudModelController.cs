@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Api.REST.Filters;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,9 +7,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
-namespace FS.TimeTracking.Api.REST.Controllers;
+namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
 /// <inheritdoc cref="ICrudModelService{TDto, TListDto}" />
 /// <seealso cref="ControllerBase" />

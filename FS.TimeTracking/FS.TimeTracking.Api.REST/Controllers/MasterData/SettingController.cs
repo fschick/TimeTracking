@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Api.REST.Controllers;
+namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
 /// <inheritdoc cref="ISettingService" />
 /// <seealso cref="ControllerBase" />

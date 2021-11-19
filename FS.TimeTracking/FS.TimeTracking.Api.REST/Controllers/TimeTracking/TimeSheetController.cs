@@ -1,15 +1,15 @@
 ﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 
-namespace FS.TimeTracking.Api.REST.Controllers;
+namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 
 /// <inheritdoc cref="ITimeSheetService" />
 /// <seealso cref="ControllerBase" />

@@ -2,7 +2,7 @@
 using FS.TimeTracking.Api.REST.Startup;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FS.TimeTracking.Api.REST.Controllers;
+namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
 /// <summary>
 /// No services.

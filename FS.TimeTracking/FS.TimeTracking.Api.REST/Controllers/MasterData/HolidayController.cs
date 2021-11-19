@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Routing;
+﻿using FS.TimeTracking.Api.REST.Controllers.Shared;
+using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
@@ -8,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Api.REST.Controllers;
+namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
 /// <inheritdoc cref="IHolidayService" />
 /// <seealso cref="ControllerBase" />

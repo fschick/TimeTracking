@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using FS.TimeTracking.Api.REST.Controllers;
+using FS.TimeTracking.Api.REST.Controllers.MasterData;
+using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Tests.Services;
