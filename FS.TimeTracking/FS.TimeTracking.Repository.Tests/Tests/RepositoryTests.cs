@@ -4,13 +4,12 @@ using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
-using FS.TimeTracking.Shared.Models.TimeTracking;
+using FS.TimeTracking.Shared.Models.MasterData;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Repository.Tests.Tests
 {
@@ -22,12 +21,12 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } }));
+            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking.test.sqlite", Type = DatabaseType.SqLite } }));
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act
             var repository = autoFake.Resolve<IRepository>();
-            var customer = new Customer();
+            var customer = new Customer { Id = Guid.NewGuid() };
             var addedCustomer = await repository.Add(customer);
 
             // Check
@@ -41,12 +40,12 @@ namespace FS.TimeTracking.Repository.Tests.Tests
         {
             // Prepare
             using var autoFake = new AutoFake();
-            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking" } }));
+            autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking.test.sqlite", Type = DatabaseType.SqLite } }));
             autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
             // Act
             var repository = autoFake.Resolve<IRepository>();
-            var customer = new Customer();
+            var customer = new Customer { Id = Guid.NewGuid() };
             var addedCustomer = await repository.Add(customer);
             addedCustomer.Title = "TestName";
             var updatedCustomer = repository.Update(customer);

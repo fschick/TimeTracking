@@ -87,6 +87,7 @@ public class TimeTrackingDbContext : DbContext
         ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
 
         RegisterDateTimeAsUtcConverter(modelBuilder);
+        RegisterSqLiteGuidToStringConverter(modelBuilder);
     }
 
     private static void ConfigureSetting(EntityTypeBuilder<Setting> settingsBuilder)
@@ -223,5 +224,45 @@ public class TimeTrackingDbContext : DbContext
 
         foreach (var property in properties)
             property.SetValueConverter(dateTimeConverter);
+    }
+
+    // https://stackoverflow.com/a/61243301/1271211
+    private void RegisterSqLiteGuidToStringConverter(ModelBuilder modelBuilder)
+    {
+        if (_databaseType != DatabaseType.SqLite)
+            return;
+
+        var guidToStringConverter = new ValueConverter<Guid, string>
+        (
+            v => v.ToString("D"),
+            v => Guid.Parse(v)
+        );
+
+        var guidProperties = modelBuilder.Model
+            .GetEntityTypes()
+            .Where(x => x.ClrType.GetInterface(nameof(IEntityModel)) != null)
+            .SelectMany(entityType => entityType.GetProperties())
+            .Where(x => x.ClrType == typeof(Guid))
+            .ToList();
+
+        foreach (var property in guidProperties)
+            property.SetValueConverter(guidToStringConverter);
+
+
+        var nullableGuidProperties = modelBuilder.Model
+            .GetEntityTypes()
+            .Where(x => x.ClrType.GetInterface(nameof(IEntityModel)) != null)
+            .SelectMany(entityType => entityType.GetProperties())
+            .Where(x => x.ClrType == typeof(Guid?))
+            .ToList();
+
+        var nullableGuidToStringConverter = new ValueConverter<Guid?, string>
+        (
+            v => v != null ? v.Value.ToString("D") : null,
+            v => v != null ? Guid.Parse(v) : null
+        );
+
+        foreach (var property in nullableGuidProperties)
+            property.SetValueConverter(nullableGuidToStringConverter);
     }
 }

@@ -303,3 +303,4 @@ __pycache__/
 /FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.openapi.json
 /FS.TimeTracking/FS.TimeTracking/config/FS.TimeTracking.config.Development.json
 /FS.TimeTracking/FS.TimeTracking/timetracking.sqlite
+/FS.TimeTracking/FS.TimeTracking/timetracking.sqlite-*
