@@ -14,62 +14,61 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace FS.TimeTracking.Tool
+namespace FS.TimeTracking.Tool;
+
+internal static class DependencyConfiguration
 {
-    internal static class DependencyConfiguration
+    public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, CommandLineOptions commandLineOptions)
+        => services
+            .AddSingleton(commandLineOptions)
+            .AddLogging(c => c.AddConsole())
+            .RegisterConfiguration(commandLineOptions)
+            .RegisterTimeTrackingAutoMapper()
+            .RegisterKimaiV1AutoMapper()
+            .AddDbContext<TimeTrackingDbContext>()
+            .AddDbContext<KimaiV1DbContext>()
+            .AddScoped<IRepository, Repository<TimeTrackingDbContext>>()
+            .AddScoped<IKimaiV1Repository, KimaiV1Repository>()
+            .AddScoped<IWorkDaysService, WorkDaysService>()
+            .AddScoped<ITestDataService, TestDataService>()
+            .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>();
+
+    private static IServiceCollection RegisterConfiguration(this IServiceCollection services, CommandLineOptions commandLineOptions)
+        => services
+            .AddSingleton(CreateEnvironmentConfiguration())
+            .AddSingleton(commandLineOptions.CreateTimeTrackingOptions())
+            .AddSingleton(commandLineOptions.CreateKimaiV1ImportConfiguration());
+
+    private static IServiceCollection RegisterKimaiV1AutoMapper(this IServiceCollection services)
+        => services.AddAutoMapper(typeof(KimaiV1AutoMapper));
+
+    private static IOptions<TimeTrackingConfiguration> CreateTimeTrackingOptions(this CommandLineOptions commandLineOptions)
     {
-        public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, CommandLineOptions commandLineOptions)
-            => services
-                .AddSingleton(commandLineOptions)
-                .AddLogging(c => c.AddConsole())
-                .RegisterConfiguration(commandLineOptions)
-                .RegisterTimeTrackingAutoMapper()
-                .RegisterKimaiV1AutoMapper()
-                .AddDbContext<TimeTrackingDbContext>()
-                .AddDbContext<KimaiV1DbContext>()
-                .AddScoped<IRepository, Repository<TimeTrackingDbContext>>()
-                .AddScoped<IKimaiV1Repository, KimaiV1Repository>()
-                .AddScoped<IWorkDaysService, WorkDaysService>()
-                .AddScoped<ITestDataService, TestDataService>()
-                .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>();
-
-        private static IServiceCollection RegisterConfiguration(this IServiceCollection services, CommandLineOptions commandLineOptions)
-            => services
-                .AddSingleton(CreateEnvironmentConfiguration())
-                .AddSingleton(commandLineOptions.CreateTimeTrackingOptions())
-                .AddSingleton(commandLineOptions.CreateKimaiV1ImportConfiguration());
-
-        private static IServiceCollection RegisterKimaiV1AutoMapper(this IServiceCollection services)
-            => services.AddAutoMapper(typeof(KimaiV1AutoMapper));
-
-        private static IOptions<TimeTrackingConfiguration> CreateTimeTrackingOptions(this CommandLineOptions commandLineOptions)
+        var timeTrackingConfiguration = new TimeTrackingConfiguration
         {
-            var timeTrackingConfiguration = new TimeTrackingConfiguration
+            Database =
             {
-                Database =
-                {
-                    ConnectionString = commandLineOptions.DestinationConnectionString,
-                    Type = commandLineOptions.DestinationDatabaseType
-                }
-            };
+                ConnectionString = commandLineOptions.DestinationConnectionString,
+                Type = commandLineOptions.DestinationDatabaseType
+            }
+        };
 
-            return Options.Create(timeTrackingConfiguration);
-        }
-
-        private static IOptions<KimaiV1ImportConfiguration> CreateKimaiV1ImportConfiguration(this CommandLineOptions commandLineOptions)
-        {
-            var timeTrackingConfiguration = new KimaiV1ImportConfiguration
-            {
-                ConnectionString = commandLineOptions.SourceConnectionString,
-                DatabaseType = commandLineOptions.SourceDatabaseType,
-                TablePrefix = commandLineOptions.SourceTablePrefix,
-                TruncateBeforeImport = commandLineOptions.TruncateBeforeImport,
-            };
-
-            return Options.Create(timeTrackingConfiguration);
-        }
-
-        private static EnvironmentConfiguration CreateEnvironmentConfiguration()
-            => new EnvironmentConfiguration { IsDevelopment = true, IsProduction = false };
+        return Options.Create(timeTrackingConfiguration);
     }
+
+    private static IOptions<KimaiV1ImportConfiguration> CreateKimaiV1ImportConfiguration(this CommandLineOptions commandLineOptions)
+    {
+        var timeTrackingConfiguration = new KimaiV1ImportConfiguration
+        {
+            ConnectionString = commandLineOptions.SourceConnectionString,
+            DatabaseType = commandLineOptions.SourceDatabaseType,
+            TablePrefix = commandLineOptions.SourceTablePrefix,
+            TruncateBeforeImport = commandLineOptions.TruncateBeforeImport,
+        };
+
+        return Options.Create(timeTrackingConfiguration);
+    }
+
+    private static EnvironmentConfiguration CreateEnvironmentConfiguration()
+        => new EnvironmentConfiguration { IsDevelopment = true, IsProduction = false };
 }
