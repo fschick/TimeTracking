@@ -104,7 +104,7 @@ export class TimesheetComponent {
   private loadData(timeSheetFilter: TimeSheetFilterDto): Observable<TimeSheetListDto[]> {
     const filter: TimeSheetListFilteredRequestParams = {
       ...timeSheetFilter,
-      startDate: `${timeSheetFilter.startDate.toFormat('yyyy-MM-dd')}_${timeSheetFilter.endDate.toFormat('yyyy-MM-dd')}`,
+      startDate: `${timeSheetFilter.startDate.toFormat('yyyy-MM-ddZZ')}_${timeSheetFilter.endDate.toFormat('yyyy-MM-ddZZ')}`,
       endDate: undefined
     };
 
