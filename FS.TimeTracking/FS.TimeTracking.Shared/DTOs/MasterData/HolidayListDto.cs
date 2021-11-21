@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Shared.Models.MasterData;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.MasterData;
 
-namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
+namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Holiday"/>
 public record HolidayListDto

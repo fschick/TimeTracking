@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 

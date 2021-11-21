@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Tests.IntegrationTests
 {

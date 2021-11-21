@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.Shared;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;

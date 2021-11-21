@@ -1,8 +1,7 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Application.Services;
-using System;
+﻿using System;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
-namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
+namespace FS.TimeTracking.Shared.DTOs.Shared;
 
 /// <summary>
 /// Non-generic factory for <see cref="TypeaheadDto{TValue}"/>.

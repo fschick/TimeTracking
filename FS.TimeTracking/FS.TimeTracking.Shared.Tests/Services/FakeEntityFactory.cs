@@ -4,6 +4,7 @@ using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Shared.Tests.Services
 {

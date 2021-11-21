@@ -1,11 +1,10 @@
-﻿using FS.FilterExpressionCreator.Mvc.Attributes;
-using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Models.TimeTracking;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FS.FilterExpressionCreator.Mvc.Attributes;
+using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.MasterData;
 
-namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
+namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Project"/>
 [ValidationDescription]

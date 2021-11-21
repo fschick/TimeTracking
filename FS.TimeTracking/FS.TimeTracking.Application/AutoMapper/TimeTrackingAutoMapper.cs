@@ -3,6 +3,7 @@ using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System.Collections.Generic;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 

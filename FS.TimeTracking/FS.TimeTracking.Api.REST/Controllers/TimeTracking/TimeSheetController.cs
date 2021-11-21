@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 

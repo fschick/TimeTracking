@@ -4,6 +4,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 

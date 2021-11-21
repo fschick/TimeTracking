@@ -5,6 +5,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
