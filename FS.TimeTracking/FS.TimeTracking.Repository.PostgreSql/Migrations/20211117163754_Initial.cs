@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
@@ -218,10 +218,17 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
             // EDITED
             migrationBuilder.Sql(@"
                 CREATE FUNCTION toutc(timestamp, int) RETURNS timestamp AS
-	                $$ SELECT $1 + ($2 * interval '1 minute' * -1); $$
+	                $$ SELECT $1 + ($2 * INTERVAL '1 minute' * -1); $$
 	                LANGUAGE sql
 	                IMMUTABLE
 	                RETURNS NULL ON NULL INPUT;");
+
+            // EDITED
+            migrationBuilder.Sql(@"
+                CREATE function diffseconds(timestamp, int, timestamp) RETURNS numeric(20,0) AS
+                    $$ SELECT CAST(EXTRACT(EPOCH FROM (COALESCE($3, NOW() AT TIME ZONE 'utc' + ($2 * INTERVAL '1 minute')) - $1)) AS NUMERIC(20,0)); $$
+                    LANGUAGE sql
+                    IMMUTABLE;");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -250,6 +257,10 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION toutc(timestamp, int)");
+
+            // EDITED
+            migrationBuilder.Sql(
+                "DROP FUNCTION diffseconds(timestamp, int, timestamp)");
         }
     }
 }

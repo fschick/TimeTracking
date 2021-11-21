@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
@@ -225,6 +225,18 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                 BEGIN
 	                RETURN DATEADD(MINUTE, @offset * -1, @date)
                 END;");
+
+            // EDITED
+            migrationBuilder.Sql(@"
+                CREATE FUNCTION dbo.DiffSeconds (
+	                @fromDate DATETIME2,
+	                @offset INT,
+	                @toDate DATETIME2
+                )
+                RETURNS DECIMAL(20,0) AS
+                BEGIN
+	                RETURN CAST(DATEDIFF_BIG(SECOND, @fromDate, COALESCE(@toDate, DATEADD(MINUTE, @offset, GETUTCDATE()))) AS DECIMAL(20,0))
+                END;");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -253,6 +265,10 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION dbo.ToUtc");
+
+            // EDITED
+            migrationBuilder.Sql(
+                "DROP FUNCTION dbo.DiffSeconds");
         }
     }
 }

@@ -30,6 +30,7 @@ import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.in
 import {ReactiveComponentModule} from '@ngrx/component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
+import {NgxEchartsModule} from 'ngx-echarts';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {ApiDateTimeInterceptor} from './shared/services/error-handling/api-date-time.interceptor';
@@ -109,6 +110,7 @@ import { MasterDataHolidaysImportComponent } from './master-data/components/mast
     ApiModule.forRoot(() =>
       new Configuration({basePath: environment.apiBasePath})
     ),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')})
   ],
   providers: [
     DatePipe,

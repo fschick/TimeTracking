@@ -25,6 +25,7 @@ public static class DateTimeFunctions
     {
         RegisterMethodToUtc(modelBuilder, databaseType);
         RegisterMethodToUtcNullable(modelBuilder, databaseType);
+        RegisterMethodDiffSeconds(modelBuilder, databaseType);
     }
 
     /// <summary>
@@ -60,6 +61,19 @@ public static class DateTimeFunctions
             .IsNullable(true);
     }
 
+    private static void RegisterMethodDiffSeconds(this ModelBuilder modelBuilder, DatabaseType databaseType)
+    {
+        var diffSeconds = typeof(DateTimeExtensions)
+            .GetMethods()
+            .Single(x => x.Name == nameof(DateTimeExtensions.DiffSeconds));
+
+        modelBuilder
+            .HasDbFunction(diffSeconds)
+            .HasSchema(GetFunctionSchema(databaseType))
+            .HasName(GetFunctionName(nameof(DateTimeExtensions.DiffSeconds), databaseType))
+            .IsNullable(false);
+    }
+
     private static string GetFunctionSchema(DatabaseType databaseType)
         => databaseType switch
         {
@@ -87,6 +101,7 @@ public static class DateTimeFunctions
             base.ConnectionOpened(connection, eventData);
             CreateFunctionToUtc((SqliteConnection)connection);
             CreateFunctionToUtcNullable((SqliteConnection)connection);
+            CreateFunctionDiffSeconds((SqliteConnection)connection);
         }
 
         public override Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default)
@@ -94,6 +109,7 @@ public static class DateTimeFunctions
             var result = base.ConnectionOpenedAsync(connection, eventData, cancellationToken);
             CreateFunctionToUtc((SqliteConnection)connection);
             CreateFunctionToUtcNullable((SqliteConnection)connection);
+            CreateFunctionDiffSeconds((SqliteConnection)connection);
             return result;
         }
 
@@ -102,5 +118,8 @@ public static class DateTimeFunctions
 
         private static void CreateFunctionToUtcNullable(SqliteConnection connection)
             => connection.CreateFunction(nameof(DateTimeExtensions.ToUtc), (Func<DateTime?, int, DateTime?>)DateTimeExtensions.ToUtc, isDeterministic: true);
+
+        private static void CreateFunctionDiffSeconds(SqliteConnection connection)
+            => connection.CreateFunction(nameof(DateTimeExtensions.DiffSeconds), (Func<DateTime, int, DateTime?, ulong>)DateTimeExtensions.DiffSeconds, isDeterministic: true);
     }
 }

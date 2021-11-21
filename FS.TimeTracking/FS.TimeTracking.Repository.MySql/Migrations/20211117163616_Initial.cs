@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
@@ -255,6 +255,13 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 	                RETURNS datetime(6) 
 	                DETERMINISTIC
 	                RETURN (SELECT date + INTERVAL offset * -1 MINUTE);");
+
+            // EDITED
+            migrationBuilder.Sql(@"
+                CREATE FUNCTION DiffSeconds(fromDate datetime(6), offset int, toDate datetime(6))
+                    RETURNS bigint unsigned
+                    DETERMINISTIC
+                    RETURN (SELECT TIMESTAMPDIFF(SECOND , fromDate, COALESCE (toDate, UTC_TIMESTAMP() +  INTERVAL offset  MINUTE)));");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -283,6 +290,10 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
             // EDITED
             migrationBuilder.Sql(
                 "DROP FUNCTION ToUtc");
+
+            // EDITED
+            migrationBuilder.Sql(
+                "DROP FUNCTION DiffSeconds");
         }
     }
 }

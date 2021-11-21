@@ -90,4 +90,16 @@ public static class DateTimeExtensions
         var offset = timeZone.GetUtcOffset(convertedDateTime);
         return new DateTimeOffset(convertedDateTime, offset);
     }
+
+    /// <summary>
+    /// Calculates the difference of two dates in seconds.
+    /// </summary>
+    /// <param name="fromDate">Start date.</param>
+    /// <param name="offset">The offset of start date from UTC in minutes</param>
+    /// <param name="toDate">End date.</param>
+    public static ulong DiffSeconds(this DateTime fromDate, int offset, DateTime? toDate)
+    {
+        toDate ??= DateTime.UtcNow.AddMinutes(offset);
+        return (ulong)(toDate.Value - fromDate).TotalSeconds;
+    }
 }

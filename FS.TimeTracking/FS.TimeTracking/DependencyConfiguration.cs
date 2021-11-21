@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Application.Services.MasterData;
+using FS.TimeTracking.Application.Services.Report;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
@@ -6,6 +7,7 @@ using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
@@ -25,16 +27,19 @@ internal static class DependencyConfiguration
 
         services.AddSingleton<IWorkDaysService, WorkDaysService>();
         services.AddScoped<IInformationService, InformationService>();
-        services.AddScoped<ISettingService, SettingService>();
-        services.AddScoped<IHolidayService, HolidayService>();
+        services.AddScoped<ITestDataService, TestDataService>();
+        services.AddScoped<ITypeaheadService, TypeaheadService>();
+        services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
+
+        services.AddScoped<ITimeSheetService, TimeSheetService>();
+        services.AddScoped<IReportService, ReportService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();
         services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<ITimeSheetService, TimeSheetService>();
-        services.AddScoped<ITestDataService, TestDataService>();
-        services.AddScoped<ITypeaheadService, TypeaheadService>();
-        services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
+        services.AddScoped<IHolidayService, HolidayService>();
+        services.AddScoped<ISettingService, SettingService>();
+
 #if DEBUG
         services.AddScoped<IDebugService, DebugService>();
 #endif
