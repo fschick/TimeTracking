@@ -1,15 +1,18 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using FS.FilterExpressionCreator.Mvc.Attributes;
+﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Holiday"/>
 [ValidationDescription]
 [FilterEntity(Prefix = nameof(Holiday))]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record HolidayDto
 {
     /// <inheritdoc cref="Holiday.Id"/>
@@ -34,4 +37,8 @@ public record HolidayDto
     /// <inheritdoc cref="Holiday.Type"/>
     [Required]
     public HolidayType Type { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} ({StartDate:d} - {EndDate:d})";
 }

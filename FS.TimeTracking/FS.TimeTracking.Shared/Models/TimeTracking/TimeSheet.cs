@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,7 @@ namespace FS.TimeTracking.Shared.Models.TimeTracking;
 /// <summary>
 /// Time sheet position.
 /// </summary>
+[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheet : IIdEntityModel
 {
     /// <inheritdoc />
@@ -106,4 +108,11 @@ public class TimeSheet : IIdEntityModel
     /// <inheritdoc />
     [Required]
     public DateTime Modified { get; set; }
+
+    [JsonIgnore]
+    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}"
+        + (Project?.Customer != null ? $", {Project.Customer.Title}" : string.Empty)
+        + (Project != null ? $", {Project.Title}" : string.Empty)
+        + (Activity != null ? $", {Activity.Title}" : string.Empty);
 }

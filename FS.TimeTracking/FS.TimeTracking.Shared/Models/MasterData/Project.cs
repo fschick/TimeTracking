@@ -1,12 +1,15 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Interfaces.Models;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Interfaces.Models;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.Models.MasterData;
 
 /// <summary>
 /// Project
 /// </summary>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Project : IIdEntityModel
 {
     /// <inheritdoc />
@@ -47,4 +50,8 @@ public class Project : IIdEntityModel
     /// <inheritdoc />
     [Required]
     public DateTime Modified { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} {(Customer != null ? $"({Customer.Title})" : string.Empty)}";
 }

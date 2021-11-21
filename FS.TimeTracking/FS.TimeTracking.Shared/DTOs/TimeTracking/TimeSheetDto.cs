@@ -1,14 +1,17 @@
 ﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheet"/>
 [ValidationDescription]
 [FilterEntity(Prefix = "")]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetDto
 {
     /// <inheritdoc cref="TimeSheet.Id"/>
@@ -43,4 +46,8 @@ public class TimeSheetDto
 
     /// <inheritdoc cref="TimeSheet.Comment"/>
     public string Comment { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}";
 }

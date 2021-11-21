@@ -1,15 +1,18 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using FS.TimeTracking.Shared.Attributes;
+﻿using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
+using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.Models.MasterData;
 
 /// <summary>
 /// Project
 /// </summary>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Order : IIdEntityModel
 {
     /// <inheritdoc />
@@ -118,4 +121,8 @@ public class Order : IIdEntityModel
     /// <inheritdoc />
     [Required]
     public DateTime Modified { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} ({Number})";
 }

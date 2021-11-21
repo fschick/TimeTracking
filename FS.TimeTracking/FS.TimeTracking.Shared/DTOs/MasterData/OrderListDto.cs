@@ -1,10 +1,13 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Models.MasterData;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Order"/>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class OrderListDto
 {
     /// <inheritdoc cref="Order.Id"/>
@@ -28,4 +31,8 @@ public class OrderListDto
 
     /// <inheritdoc cref="Order.Hidden"/>
     public bool Hidden { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title}";
 }

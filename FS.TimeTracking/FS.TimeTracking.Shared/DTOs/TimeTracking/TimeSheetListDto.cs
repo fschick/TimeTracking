@@ -1,11 +1,13 @@
 ﻿using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheet"/>
+[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetListDto
 {
     /// <inheritdoc cref="TimeSheet.Id"/>
@@ -42,4 +44,11 @@ public class TimeSheetListDto
     /// <inheritdoc cref="TimeSheet.Billable"/>
     [Required]
     public bool Billable { get; set; }
+
+    [JsonIgnore]
+    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}"
+        + (CustomerTitle != null ? $", {CustomerTitle}" : string.Empty)
+        + (ProjectTitle != null ? $", {ProjectTitle}" : string.Empty)
+        + (ActivityTitle != null ? $", {ActivityTitle}" : string.Empty);
 }

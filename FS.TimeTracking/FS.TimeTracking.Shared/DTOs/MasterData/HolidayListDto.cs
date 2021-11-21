@@ -1,10 +1,13 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Models.MasterData;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Holiday"/>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record HolidayListDto
 {
     /// <inheritdoc cref="Holiday.Id"/>
@@ -22,4 +25,8 @@ public record HolidayListDto
     /// <inheritdoc cref="Holiday.EndDate"/>
     [Required]
     public DateTimeOffset EndDate { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} ({StartDate:d} - {EndDate:d})";
 }

@@ -1,14 +1,17 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using FS.FilterExpressionCreator.Mvc.Attributes;
+﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Order"/>
 [ValidationDescription]
 [FilterEntity(Prefix = nameof(Order))]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class OrderDto
 {
     /// <inheritdoc cref="Order.Id"/>
@@ -58,4 +61,8 @@ public class OrderDto
     /// <inheritdoc cref="Order.Hidden"/>
     [Required]
     public bool Hidden { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} ({Number})";
 }

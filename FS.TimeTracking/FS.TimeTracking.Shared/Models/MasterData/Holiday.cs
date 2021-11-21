@@ -2,15 +2,18 @@
 using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Models;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.Models.MasterData;
 
 /// <summary>
 /// Holiday
 /// </summary>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Holiday : IIdEntityModel
 {
     /// <inheritdoc />
@@ -80,4 +83,8 @@ public class Holiday : IIdEntityModel
     /// <inheritdoc />
     [Required]
     public DateTime Modified { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} ({StartDate:d} - {EndDate:d})";
 }

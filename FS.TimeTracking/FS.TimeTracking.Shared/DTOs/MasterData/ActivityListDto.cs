@@ -1,10 +1,12 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Models.MasterData;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Models.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
 /// <inheritdoc cref="Project"/>
+[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class ActivityListDto
 {
     /// <inheritdoc cref="Activity.Id"/>
@@ -22,4 +24,8 @@ public class ActivityListDto
 
     /// <inheritdoc cref="Project.Hidden"/>
     public bool Hidden { get; set; }
+
+    [JsonIgnore]
+    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title} {(CustomerTitle != null ? $"({CustomerTitle})" : string.Empty)}";
 }

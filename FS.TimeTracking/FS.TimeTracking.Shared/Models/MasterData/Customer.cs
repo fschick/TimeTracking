@@ -1,13 +1,16 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Interfaces.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Interfaces.Models;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Shared.Models.MasterData;
 
 /// <summary>
 /// Customer
 /// </summary>
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Customer : IIdEntityModel
 {
     /// <inheritdoc />
@@ -95,4 +98,8 @@ public class Customer : IIdEntityModel
     /// The orders related to this customer.
     /// </summary>
     public List<Order> Orders { get; set; }
+
+    [JsonIgnore]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => $"{Title}";
 }
