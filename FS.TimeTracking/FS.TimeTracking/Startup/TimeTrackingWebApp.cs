@@ -98,9 +98,9 @@ internal static class TimeTrackingWebApp
             webApplication.UseDeveloperExceptionPage();
             webApplication
                 .UseCors(policy => policy
-                             .AllowAnyOrigin()
-                             .AllowAnyMethod()
-                             .AllowAnyHeader()
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
                 );
 #endif
         }
@@ -111,7 +111,8 @@ internal static class TimeTrackingWebApp
 
         webApplication.UseRouting();
         //webApplication.UseAuthorization();
-        webApplication.RegisterOpenApiRoutes()
+        webApplication
+            .RegisterOpenApiRoutes()
             .RegisterRestApiRoutes()
             .RegisterSpaRoutes()
             .MigrateDatabase();
@@ -131,9 +132,9 @@ internal static class TimeTrackingWebApp
 
         services
             .AddSpaStaticFiles(configuration =>
-                                   configuration.RootPath = hostEnvironment.IsProduction()
-                                       ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
-                                       : "../FS.TimeTracking.UI.Angular/dist/TimeTracking"
+                configuration.RootPath = hostEnvironment.IsProduction()
+                    ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
+                    : "../FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking"
             );
     }
 
