@@ -1,6 +1,5 @@
 {
   "TimeTracking": {
-    "WorkingDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
     "Database": {
       "Type": "SqLite",
       "ConnectionString": "Data Source=TimeTracking.sqlite"

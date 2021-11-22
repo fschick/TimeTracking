@@ -6,7 +6,6 @@ using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
@@ -14,7 +13,7 @@ using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FS.TimeTracking;
+namespace FS.TimeTracking.Startup;
 
 internal static class DependencyConfiguration
 {
@@ -26,7 +25,7 @@ internal static class DependencyConfiguration
         services.AddSingleton<IDbExceptionService, DbExceptionService>();
         services.AddScoped<ITruncateDbService, TruncateDbService>();
 
-        services.AddSingleton<IWorkDaysService, WorkDaysService>();
+        services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IInformationService, InformationService>();
         services.AddScoped<ITestDataService, TestDataService>();
         services.AddScoped<ITypeaheadService, TypeaheadService>();

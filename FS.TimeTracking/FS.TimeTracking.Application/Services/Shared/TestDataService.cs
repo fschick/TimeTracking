@@ -19,14 +19,14 @@ namespace FS.TimeTracking.Application.Services.Shared;
 public class TestDataService : ITestDataService
 {
     private readonly IRepository _repository;
-    private readonly IWorkDaysService _workDaysService;
+    private readonly IWorkdayService _workDaysService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TestDataService"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
     /// <param name="workDaysService">The work days service.</param>
-    public TestDataService(IRepository repository, IWorkDaysService workDaysService)
+    public TestDataService(IRepository repository, IWorkdayService workDaysService)
     {
         _repository = repository;
         _workDaysService = workDaysService;
@@ -136,7 +136,7 @@ public class TestDataService : ITestDataService
         var timesSheets = new List<TimeSheet>();
         var minDate = orders.Min(x => x.StartDateLocal);
         var maxDate = orders.Max(x => x.DueDateLocal);
-        var workingDays = _workDaysService.GetWorkDays(minDate, maxDate);
+        var workingDays = await _workDaysService.GetWorkDays(minDate, maxDate);
         var randomizer = new Randomizer();
 
         foreach (var workDay in workingDays)
