@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FS.TimeTracking.Shared.DTOs.Shared;
+using System;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
@@ -10,52 +10,52 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 public interface IWorkdayService
 {
     /// <summary>
-    /// Gets the working days for a given date/time range.
+    /// Gets the workdays for a given date/time range.
     /// </summary>
-    /// <param name="startDate">The start date to get the working days for.</param>
-    /// <param name="endDate">The end date to get the working days for.</param>
+    /// <param name="startDate">The start date to get the workdays for.</param>
+    /// <param name="endDate">The end date to get the workdays for.</param>
     /// <returns>Enumerable with one entry per per working day.</returns>
-    Task<IEnumerable<DateTime>> GetWorkDays(DateTime startDate, DateTime endDate);
+    Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate);
 
     ///// <summary>
-    ///// Gets the count of working days of a given month.
+    ///// Gets the count of workdays of a given month.
     ///// </summary>
-    ///// <param name="startDate">The start date to get the working days for.</param>
-    ///// <param name="endDate">The end date to get the working days for.</param>
-    ///// <returns>The count of working days.</returns>
+    ///// <param name="startDate">The start date to get the workdays for.</param>
+    ///// <param name="endDate">The end date to get the workdays for.</param>
+    ///// <returns>The count of workdays.</returns>
     //Task<int> GetWorkDaysCount(DateTime startDate, DateTime endDate);
 
     ///// <summary>
-    ///// Gets the working days for a given month.
+    ///// Gets the workdays for a given month.
     ///// </summary>
-    ///// <param name="year">The year to get the working days for.</param>
-    ///// <param name="month">The month to get the working days for.</param>
+    ///// <param name="year">The year to get the workdays for.</param>
+    ///// <param name="month">The month to get the workdays for.</param>
     ///// <returns>Enumerable with one entry per per working day.</returns>
     //Task<IEnumerable<DateTime>> GetWorkDaysOfMonth(int year, int month);
 
     ///// <summary>
-    ///// Gets the count of working days for a given month.
+    ///// Gets the count of workdays for a given month.
     ///// </summary>
-    ///// <param name="year">The year to get the count of working days for.</param>
-    ///// <param name="month">The month to get the count of working days for.</param>
-    ///// <returns>The count of working days.</returns>
+    ///// <param name="year">The year to get the count of workdays for.</param>
+    ///// <param name="month">The month to get the count of workdays for.</param>
+    ///// <returns>The count of workdays.</returns>
     //Task<int> GetWorkDaysCountOfMonth(int year, int month);
 
     ///// <summary>
-    ///// Gets the working days for a given month till a specific day of the month.
+    ///// Gets the workdays for a given month till a specific day of the month.
     ///// </summary>
-    ///// <param name="year">Year the working days are retrieved for.</param>
-    ///// <param name="month">Month the working days are retrieved for.</param>
-    ///// <param name="day">The day till working days are retrieved.</param>
+    ///// <param name="year">Year the workdays are retrieved for.</param>
+    ///// <param name="month">Month the workdays are retrieved for.</param>
+    ///// <param name="day">The day till workdays are retrieved.</param>
     ///// <returns>Enumerable with one entry per per working day.</returns>
     //Task<IEnumerable<DateTime>> GetWorkDaysOfMonthTillDay(int year, int month, int day);
 
     ///// <summary>
-    ///// Gets the count of working days for a given month till a specific day of the month.
+    ///// Gets the count of workdays for a given month till a specific day of the month.
     ///// </summary>
-    ///// <param name="year">Year the working days are retrieved for.</param>
-    ///// <param name="month">Month the working days are retrieved for.</param>
-    ///// <param name="day">The day till working days are retrieved.</param>
-    ///// <returns>The count of working days.</returns>
+    ///// <param name="year">Year the workdays are retrieved for.</param>
+    ///// <param name="month">Month the workdays are retrieved for.</param>
+    ///// <param name="day">The day till workdays are retrieved.</param>
+    ///// <returns>The count of workdays.</returns>
     //Task<int> GetWorkDaysCountOfMonthTillDay(int year, int month, int day);
 }

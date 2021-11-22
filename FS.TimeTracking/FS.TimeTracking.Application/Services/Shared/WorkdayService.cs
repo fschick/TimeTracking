@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.Shared;
+using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
@@ -28,8 +30,8 @@ public class WorkdayService : IWorkdayService
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<DateTime>> GetWorkDays(DateTime startDate, DateTime endDate)
-        => GetWorkDays(startDate.GetDays(endDate));
+    public Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate)
+        => GetWorkdays(startDate.GetDays(endDate));
 
     ///// <inheritdoc />
     //public async Task<int> GetWorkDaysCount(DateTime startDate, DateTime endDate)
@@ -51,12 +53,39 @@ public class WorkdayService : IWorkdayService
     //public async Task<int> GetWorkDaysCountOfMonthTillDay(int year, int month, int day)
     //    => (await GetWorkDaysOfMonthTillDay(year, month, day)).Count();
 
-    private async Task<IEnumerable<DateTime>> GetWorkDays(IEnumerable<DateTime> dates)
+    private async Task<WorkdaysDto> GetWorkdays(IEnumerable<DateTime> dates)
     {
         var settings = _mapper.Map<SettingDto>(await _repository.Get((Setting x) => x));
-        var workdays = settings.Workdays.Where(x => x.Value).Select(x => x.Key);
 
-        return dates
-            .Where(x => workdays.EmptyIfNull().Contains(x.DayOfWeek));
+        var workdays = settings.Workdays
+            .Where(x => x.Value).Select(x => x.Key);
+
+        var holidays = await _repository.Get<Holiday, HolidayDto>();
+
+        var publicHolidayDates = holidays
+            .Where(x => x.Type == HolidayType.PublicHoliday)
+            .SelectMany(x => x.StartDate.Date.GetDays(x.EndDate.Date))
+            .Distinct();
+
+        var personalHolidayDates = holidays
+            .Where(x => x.Type == HolidayType.Holiday)
+            .SelectMany(x => x.StartDate.Date.GetDays(x.EndDate.Date))
+            .Distinct();
+
+        var publicWorkdays = dates
+            .Where(date => workdays.Contains(date.DayOfWeek))
+            .Where(date => !publicHolidayDates.Contains(date))
+            .ToList();
+
+        var personalWorkdays = publicWorkdays
+            .Where(date => workdays.Contains(date.DayOfWeek))
+            .Where(date => !personalHolidayDates.Contains(date))
+            .ToList();
+
+        return new WorkdaysDto
+        {
+            PublicWorkdays = publicWorkdays,
+            PersonalWorkdays = personalWorkdays
+        };
     }
 }

@@ -136,10 +136,10 @@ public class TestDataService : ITestDataService
         var timesSheets = new List<TimeSheet>();
         var minDate = orders.Min(x => x.StartDateLocal);
         var maxDate = orders.Max(x => x.DueDateLocal);
-        var workingDays = await _workDaysService.GetWorkDays(minDate, maxDate);
+        var workingDays = await _workDaysService.GetWorkdays(minDate, maxDate);
         var randomizer = new Randomizer();
 
-        foreach (var workDay in workingDays)
+        foreach (var workDay in workingDays.PublicWorkdays)
         {
             var minStartOfWOrk = (int)TimeSpan.FromHours(5).TotalMinutes; // 5 o'clock in the morning
             var maxStartOfWOrk = (int)TimeSpan.FromHours(9).TotalMinutes; // 9 o'clock in the morning
