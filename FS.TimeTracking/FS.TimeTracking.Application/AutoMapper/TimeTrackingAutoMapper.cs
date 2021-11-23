@@ -25,7 +25,7 @@ public class TimeTrackingAutoMapper : Profile
             .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);
 
         CreateMap<List<Setting>, SettingDto>()
-            .ConvertUsing<SettingsToDtoMapper>();
+            .ConvertUsing<SettingsDtoMapper>();
 
         CreateMap<SettingDto, List<Setting>>()
             .ConvertUsing<SettingsFromDtoMapper>();

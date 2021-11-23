@@ -1,24 +1,37 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Models.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-internal class SettingsToDtoMapper : ITypeConverter<List<Setting>, SettingDto>
+internal class SettingsDtoMapper : ITypeConverter<List<Setting>, SettingDto>
 {
     public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
-        => new()
+    {
+        var defaults = SettingDto.Defaults;
+
+        var workdaysSrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.Workdays))?.Value;
+        var workdays = workdaysSrc != null
+            ? JsonConvert.DeserializeObject<Dictionary<DayOfWeek, bool>>(workdaysSrc)
+            : defaults.Workdays;
+
+        var workHoursPerWorkdaySrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.WorkHoursPerWorkday))?.Value;
+        var workHoursPerWorkday = workHoursPerWorkdaySrc != null
+            ? JsonConvert.DeserializeObject<TimeSpan>(workHoursPerWorkdaySrc)
+            : defaults.WorkHoursPerWorkday;
+
+        return new SettingDto
         {
-            Workdays = JsonConvert.DeserializeObject<Dictionary<DayOfWeek, bool>>(source.First(x => x.Key == nameof(SettingDto.Workdays)).Value),
-            WorkHoursPerWorkday = JsonConvert.DeserializeObject<TimeSpan>(source.First(x => x.Key == nameof(SettingDto.WorkHoursPerWorkday)).Value),
+            Workdays = workdays,
+            WorkHoursPerWorkday = workHoursPerWorkday
         };
+    }
 }
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using FS.FilterExpressionCreator.Mvc.Attributes;
+﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Models.MasterData;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
@@ -32,4 +32,9 @@ public record SettingDto
     /// </summary>
     [Required]
     public TimeSpan WorkHoursPerWorkday = TimeSpan.FromHours(8);
+
+    /// <summary>
+    /// The default settings.
+    /// </summary>
+    public static SettingDto Defaults => new();
 }
