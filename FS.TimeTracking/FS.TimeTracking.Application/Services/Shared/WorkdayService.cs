@@ -6,6 +6,7 @@ using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.MasterData;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace FS.TimeTracking.Application.Services.Shared;
 /// <inheritdoc />
 public class WorkdayService : IWorkdayService
 {
-    private readonly IRepository _repository;
-    private readonly IMapper _mapper;
+    private readonly AsyncLazy<SettingDto> _settings;
+    private readonly AsyncLazy<List<HolidayDto>> _holidays;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WorkdayService" /> class.
@@ -25,8 +26,8 @@ public class WorkdayService : IWorkdayService
     /// <param name="mapper">The mapper.</param>
     public WorkdayService(IRepository repository, IMapper mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
+        _settings = new AsyncLazy<SettingDto>(async () => mapper.Map<SettingDto>(await repository.Get((Setting x) => x)));
+        _holidays = new AsyncLazy<List<HolidayDto>>(async () => await repository.Get<Holiday, HolidayDto>());
     }
 
     /// <inheritdoc />
@@ -55,12 +56,13 @@ public class WorkdayService : IWorkdayService
 
     private async Task<WorkdaysDto> GetWorkdays(IEnumerable<DateTime> dates)
     {
-        var settings = _mapper.Map<SettingDto>(await _repository.Get((Setting x) => x));
+        var settings = await _settings;
+        var holidays = await _holidays;
 
         var workdays = settings.Workdays
-            .Where(x => x.Value).Select(x => x.Key);
-
-        var holidays = await _repository.Get<Holiday, HolidayDto>();
+            .Where(x => x.Value)
+            .Select(x => x.Key)
+            .ToList();
 
         var publicHolidayDates = holidays
             .Where(x => x.Type == HolidayType.PublicHoliday)
@@ -74,12 +76,11 @@ public class WorkdayService : IWorkdayService
 
         var publicWorkdays = dates
             .Where(date => workdays.Contains(date.DayOfWeek))
-            .Where(date => !publicHolidayDates.Contains(date))
+            .Except(publicHolidayDates)
             .ToList();
 
         var personalWorkdays = publicWorkdays
-            .Where(date => workdays.Contains(date.DayOfWeek))
-            .Where(date => !personalHolidayDates.Contains(date))
+            .Except(personalHolidayDates)
             .ToList();
 
         return new WorkdaysDto

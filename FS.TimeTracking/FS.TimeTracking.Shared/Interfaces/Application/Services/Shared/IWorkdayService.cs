@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Shared.DTOs.Shared;
+﻿using FS.FilterExpressionCreator.Models;
+using FS.TimeTracking.Shared.DTOs.Shared;
 using System;
 using System.Threading.Tasks;
 
@@ -16,6 +17,14 @@ public interface IWorkdayService
     /// <param name="endDate">The end date to get the workdays for.</param>
     /// <returns>Enumerable with one entry per per working day.</returns>
     Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate);
+
+    /// <summary>
+    /// Gets the workdays for a given date/time span.
+    /// </summary>
+    /// <param name="dateTimeSpan">The date time span to get the workdays for.</param>
+    /// <returns>Enumerable with one entry per per working day.</returns>
+    Task<WorkdaysDto> GetWorkdays(DateTimeSpan? dateTimeSpan)
+        => dateTimeSpan != null ? GetWorkdays(dateTimeSpan.Value.Start.Date, dateTimeSpan.Value.End.Date) : null;
 
     ///// <summary>
     ///// Gets the count of workdays of a given month.
