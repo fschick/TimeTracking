@@ -31,15 +31,15 @@ public class WorkdayService : IWorkdayService
     }
 
     /// <inheritdoc />
-    public Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate)
-        => GetWorkdays(startDate.GetDays(endDate));
+    public async Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate)
+        => await GetWorkdays(startDate.GetDays(endDate));
 
     ///// <inheritdoc />
     //public async Task<int> GetWorkDaysCount(DateTime startDate, DateTime endDate)
     //    => (await GetWorkDays(startDate, endDate)).Count();
 
     ///// <inheritdoc />
-    //public Task<IEnumerable<DateTime>> GetWorkDaysOfMonth(int year, int month)
+    //public async Task<IEnumerable<DateTime>> GetWorkDaysOfMonth(int year, int month)
     //    => GetWorkingDays(new DateTime(year, month, 1).GetDaysOfMonth());
 
     ///// <inheritdoc />
@@ -47,7 +47,7 @@ public class WorkdayService : IWorkdayService
     //    => (await GetWorkDaysOfMonth(year, month)).Count();
 
     ///// <inheritdoc />
-    //public Task<IEnumerable<DateTime>> GetWorkDaysOfMonthTillDay(int year, int month, int day)
+    //public async Task<IEnumerable<DateTime>> GetWorkDaysOfMonthTillDay(int year, int month, int day)
     //    => GetWorkingDays(new DateTime(year, month, day).GetDaysOfMonthTillDay());
 
     ///// <inheritdoc />

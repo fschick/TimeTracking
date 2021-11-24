@@ -22,6 +22,6 @@ public class ReportController : ControllerBase, IReportService
 
     /// <inheritdoc />
     [HttpGet]
-    public Task GetWorkTimesPerCustomer()
-        => _reportService.GetWorkTimesPerCustomer();
+    public async Task GetWorkTimesPerCustomer()
+        => await _reportService.GetWorkTimesPerCustomer();
 }

@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+using FluentAssertions;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Tests.Services;
@@ -9,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Tests.IntegrationTests
 {
@@ -97,3 +98,4 @@ namespace FS.TimeTracking.Tests.IntegrationTests
         }
     }
 }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed

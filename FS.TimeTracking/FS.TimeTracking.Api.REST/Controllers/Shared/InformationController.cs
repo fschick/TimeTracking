@@ -23,16 +23,16 @@ public class InformationController : ControllerBase, IInformationService
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<string> GetProductName(CancellationToken cancellationToken = default)
-        => _informationService.GetProductName(cancellationToken);
+    public async Task<string> GetProductName(CancellationToken cancellationToken = default)
+        => await _informationService.GetProductName(cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<string> GetProductVersion(CancellationToken cancellationToken = default)
-        => _informationService.GetProductVersion(cancellationToken);
+    public async Task<string> GetProductVersion(CancellationToken cancellationToken = default)
+        => await _informationService.GetProductVersion(cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<string> GetProductCopyright(CancellationToken cancellationToken = default)
-        => _informationService.GetProductCopyright(cancellationToken);
+    public async Task<string> GetProductCopyright(CancellationToken cancellationToken = default)
+        => await _informationService.GetProductCopyright(cancellationToken);
 }

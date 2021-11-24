@@ -1,6 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 
@@ -30,16 +30,16 @@ public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetLi
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<List<TimeSheetListDto>> ListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
-        => _timeSheetService.ListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
+    public async Task<List<TimeSheetListDto>> ListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+        => await _timeSheetService.ListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
 
     /// <inheritdoc />
     [HttpPut]
-    public Task<TimeSheetDto> StartSimilarTimeSheetEntry(Guid copyFromTimesheetId, DateTimeOffset startDateTime)
-        => _timeSheetService.StartSimilarTimeSheetEntry(copyFromTimesheetId, startDateTime);
+    public async Task<TimeSheetDto> StartSimilarTimeSheetEntry(Guid copyFromTimesheetId, DateTimeOffset startDateTime)
+        => await _timeSheetService.StartSimilarTimeSheetEntry(copyFromTimesheetId, startDateTime);
 
     /// <inheritdoc />
     [HttpPut]
-    public Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
-        => _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);
+    public async Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
+        => await _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);
 }

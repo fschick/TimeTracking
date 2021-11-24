@@ -24,8 +24,8 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
 
         /// <inheritdoc />
         [HttpGet]
-        public Task<object> TestMethod(CancellationToken cancellationToken = default)
-            => _debugService.TestMethod(cancellationToken);
+        public async Task<object> TestMethod(CancellationToken cancellationToken = default)
+            => await _debugService.TestMethod(cancellationToken);
     }
 }
 #endif

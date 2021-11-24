@@ -6,6 +6,7 @@ using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
 {
     private readonly TDbContext _dbContext;
     private readonly IMapper _mapper;
-    private readonly object _saveChangesLock = new object();
+    private readonly AsyncLock _saveChangesLock = new AsyncLock();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Repository{TDbContext}"/> class.
@@ -36,7 +37,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     }
 
     /// <inheritdoc />
-    public Task<List<TResult>> Get<TEntity, TResult>(
+    public async Task<List<TResult>> Get<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -47,11 +48,11 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         bool tracked = false,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => GetInternal(x => x.Select(select), where, orderBy, null, includes, distinct, skip, take, tracked)
+        => await GetInternal(x => x.Select(select), where, orderBy, null, includes, distinct, skip, take, tracked)
             .ToListAsyncEF(cancellationToken);
 
     /// <inheritdoc />
-    public Task<List<TResult>> Get<TEntity, TResult>(
+    public async Task<List<TResult>> Get<TEntity, TResult>(
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string[] includes = null,
@@ -61,14 +62,12 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         bool tracked = false,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-    {
-        return GetInternal(x => x, where, orderBy, null, includes, distinct, skip, take, tracked)
+        => await GetInternal(x => x, where, orderBy, null, includes, distinct, skip, take, tracked)
             .ProjectTo<TResult>(_mapper.ConfigurationProvider)
             .ToListAsyncEF(cancellationToken);
-    }
 
     /// <inheritdoc />
-    public Task<List<TResult>> GetGrouped<TEntity, TGroupByKey, TResult>(
+    public async Task<List<TResult>> GetGrouped<TEntity, TGroupByKey, TResult>(
         Expression<Func<TEntity, TGroupByKey>> groupBy,
         Expression<Func<IGrouping<TGroupByKey, TEntity>, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
@@ -80,11 +79,11 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         bool tracked = false,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => GetInternal(x => x.GroupBy(groupBy).Select(select), where, null, orderBy, includes, distinct, skip, take, tracked)
+        => await GetInternal(x => x.GroupBy(groupBy).Select(select), where, null, orderBy, includes, distinct, skip, take, tracked)
             .ToListAsyncEF(cancellationToken);
 
     /// <inheritdoc />
-    public Task<TResult> FirstOrDefault<TEntity, TResult>(
+    public async Task<TResult> FirstOrDefault<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -93,26 +92,26 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         bool tracked = false,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
+        => await GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
             .FirstOrDefaultAsyncEF(cancellationToken);
 
     /// <inheritdoc />
-    public Task<long> Count<TEntity, TResult>(
+    public async Task<long> Count<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         bool distinct = false,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => GetInternal(x => x.Select(select), where, null, null, null, distinct, null, null, false)
+        => await GetInternal(x => x.Select(select), where, null, null, null, distinct, null, null, false)
             .LongCountAsyncEF(cancellationToken);
 
     /// <inheritdoc />
-    public Task<bool> Exists<TEntity, TResult>(
+    public async Task<bool> Exists<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
+        => await GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
             .AnyAsyncEF(cancellationToken);
 
     /// <inheritdoc />
@@ -178,10 +177,10 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         => new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
     /// <inheritdoc />
-    public Task<int> SaveChanges(CancellationToken cancellationToken = default)
+    public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
     {
-        lock (_saveChangesLock)
-            return _dbContext.SaveChangesAsync(cancellationToken);
+        using (await _saveChangesLock.LockAsync())
+            return await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private IQueryable<TResult> GetInternal<TEntity, TResult>(

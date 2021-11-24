@@ -104,13 +104,12 @@ public static class DateTimeFunctions
             CreateFunctionDiffSeconds((SqliteConnection)connection);
         }
 
-        public override Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default)
+        public override async Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default)
         {
-            var result = base.ConnectionOpenedAsync(connection, eventData, cancellationToken);
+            await base.ConnectionOpenedAsync(connection, eventData, cancellationToken);
             CreateFunctionToUtc((SqliteConnection)connection);
             CreateFunctionToUtcNullable((SqliteConnection)connection);
             CreateFunctionDiffSeconds((SqliteConnection)connection);
-            return result;
         }
 
         private static void CreateFunctionToUtc(SqliteConnection connection)

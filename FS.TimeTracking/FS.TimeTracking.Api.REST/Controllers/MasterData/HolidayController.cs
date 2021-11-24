@@ -1,6 +1,6 @@
 ﻿using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
@@ -32,6 +31,6 @@ public class HolidayController : CrudModelController<HolidayDto, HolidayListDto>
 
     /// <inheritdoc />
     [HttpPost]
-    public Task Import([Required] IFormFile file, [Required] HolidayType type, CancellationToken cancellationToken = default)
-        => _holidayService.Import(file, type, cancellationToken);
+    public async Task Import([Required] IFormFile file, [Required] HolidayType type, CancellationToken cancellationToken = default)
+        => await _holidayService.Import(file, type, cancellationToken);
 }

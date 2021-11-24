@@ -1,11 +1,10 @@
 ﻿using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
@@ -27,11 +26,11 @@ public class SettingController : ISettingService
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet]
-    public Task<SettingDto> Get(CancellationToken cancellationToken = default)
-        => _modelService.Get(cancellationToken);
+    public async Task<SettingDto> Get(CancellationToken cancellationToken = default)
+        => await _modelService.Get(cancellationToken);
 
     /// <inheritdoc />
     [HttpPut]
-    public Task Update(SettingDto settings)
-        => _modelService.Update(settings);
+    public async Task Update(SettingDto settings)
+        => await _modelService.Update(settings);
 }

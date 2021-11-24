@@ -23,13 +23,13 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
 
         /// <inheritdoc />
         [HttpPost]
-        public Task SeedTestData(int amount = 10, string timeZoneId = null, bool truncateBeforeSeed = false)
-            => _testDataService.SeedTestData(amount, timeZoneId, truncateBeforeSeed);
+        public async Task SeedTestData(int amount = 10, string timeZoneId = null, bool truncateBeforeSeed = false)
+            => await _testDataService.SeedTestData(amount, timeZoneId, truncateBeforeSeed);
 
         /// <inheritdoc />
         [HttpDelete]
-        public Task TruncateData()
-            => _testDataService.TruncateData();
+        public async Task TruncateData()
+            => await _testDataService.TruncateData();
     }
 }
 #endif

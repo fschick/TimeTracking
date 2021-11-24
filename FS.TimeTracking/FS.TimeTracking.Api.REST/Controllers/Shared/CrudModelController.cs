@@ -26,29 +26,29 @@ public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICru
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
-        => _modelService.List(id, cancellationToken);
+    public async Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
+        => await _modelService.List(id, cancellationToken);
 
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet("{id}", Name = "[controller]_[action]")]
-    public Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
-        => _modelService.Get(id, cancellationToken);
+    public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
+        => await _modelService.Get(id, cancellationToken);
 
     /// <inheritdoc />
     [HttpPost]
-    public Task<TDto> Create(TDto dto)
-        => _modelService.Create(dto);
+    public async Task<TDto> Create(TDto dto)
+        => await _modelService.Create(dto);
 
     /// <inheritdoc />
     [HttpPut]
-    public Task<TDto> Update(TDto dto)
-        => _modelService.Update(dto);
+    public async Task<TDto> Update(TDto dto)
+        => await _modelService.Update(dto);
 
     /// <inheritdoc />
     [HttpDelete("{id}", Name = "[controller]_[action]")]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ErrorInformation), (int)HttpStatusCode.Conflict)]
-    public Task<long> Delete(Guid id)
-        => _modelService.Delete(id);
+    public async Task<long> Delete(Guid id)
+        => await _modelService.Delete(id);
 }

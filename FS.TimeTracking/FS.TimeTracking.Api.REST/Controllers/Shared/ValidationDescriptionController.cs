@@ -21,6 +21,6 @@ public class ValidationDescriptionController : ControllerBase, IValidationDescri
 
     /// <inheritdoc />
     [HttpGet]
-    public Task<JObject> GetValidationDescriptions()
-        => _validationDescriptionService.GetValidationDescriptions();
+    public async Task<JObject> GetValidationDescriptions()
+        => await _validationDescriptionService.GetValidationDescriptions();
 }
