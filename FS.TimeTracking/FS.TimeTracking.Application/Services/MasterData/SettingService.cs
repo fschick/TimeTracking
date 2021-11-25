@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.MasterData;
+using Nito.AsyncEx;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
@@ -15,6 +16,7 @@ public class SettingService : ISettingService
 {
     private readonly IRepository _repository;
     private readonly IMapper _mapper;
+    private AsyncLazy<SettingDto> _settingsCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingService"/> class.
@@ -25,16 +27,13 @@ public class SettingService : ISettingService
     {
         _repository = repository;
         _mapper = mapper;
+
+        _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
     }
 
     /// <inheritdoc />
     public async Task<SettingDto> Get(CancellationToken cancellationToken = default)
-    {
-        var settings = await _repository.Get((Setting x) => x, cancellationToken: cancellationToken);
-        if (settings.Count == 0)
-            return new SettingDto();
-        return _mapper.Map<SettingDto>(settings);
-    }
+        => await _settingsCache;
 
     /// <inheritdoc />
     public async Task Update(SettingDto settings)
@@ -49,5 +48,14 @@ public class SettingService : ISettingService
         }
 
         await _repository.SaveChanges();
+        _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
+    }
+
+    private async Task<SettingDto> LoadSettings()
+    {
+        var settings = await _repository.Get((Setting x) => x);
+        return settings.Any()
+            ? _mapper.Map<SettingDto>(settings)
+            : new SettingDto();
     }
 }
