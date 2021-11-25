@@ -2,9 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TimesheetComponent} from './timesheet.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ReactiveComponentModule} from '@ngrx/component';
-import {NgSelectModule} from '@ng-select/ng-select';
 
 describe('TimesheetComponent', () => {
   let component: TimesheetComponent;
