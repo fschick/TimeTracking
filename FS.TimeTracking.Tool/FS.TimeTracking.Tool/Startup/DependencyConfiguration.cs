@@ -1,7 +1,9 @@
-﻿using FS.TimeTracking.Application.Services.Shared;
+﻿using FS.TimeTracking.Application.Services.MasterData;
+using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
@@ -15,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace FS.TimeTracking.Tool;
+namespace FS.TimeTracking.Tool.Startup;
 
 internal static class DependencyConfiguration
 {
@@ -33,6 +35,7 @@ internal static class DependencyConfiguration
             .AddScoped<IKimaiV1Repository, KimaiV1Repository>()
             .AddScoped<ITimeTrackingImportRepository, TimeTrackingImportRepository>()
             .AddScoped<IWorkdayService, WorkdayService>()
+            .AddScoped<ISettingService, SettingService>()
             .AddScoped<ITestDataService, TestDataService>()
             .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>()
             .AddScoped<ITimeTrackingImportService, TimeTrackingImportService>();
