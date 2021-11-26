@@ -13,10 +13,6 @@ $enable-negative-margins: true;
 
 @import "~bootstrap/scss/bootstrap";
 
-body {
-  background-color: $page-background !important;
-}
-
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar.
 /* Currently done by bootstrap.
