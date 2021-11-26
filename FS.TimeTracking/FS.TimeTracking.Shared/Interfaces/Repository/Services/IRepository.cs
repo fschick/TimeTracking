@@ -1,4 +1,25 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Models;
+﻿// The MIT License (MIT)
+// Copyright (c) 2021 © Florian Schick, 2021 all rights reserved
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+// OR OTHER DEALINGS IN THE SOFTWARE.
+
+using FS.TimeTracking.Shared.Interfaces.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +64,7 @@ public interface IRepository
     /// Gets a projection of entities from database using <see cref="AutoMapper"/>.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <typeparam name="TDto">The type of the DTO to return.</typeparam>
     /// <param name="where">Filters the entities based on a predicate.</param>
     /// <param name="orderBy">A function to order the result.</param>
     /// <param name="includes">The names of the navigation properties to include in result.</param>
@@ -52,7 +73,7 @@ public interface IRepository
     /// <param name="take">Returns a specified number of contiguous elements from the result.</param>
     /// <param name="tracked">if set to <c>true</c>, selected entities are tracked for later operations.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    Task<List<TResult>> Get<TEntity, TResult>(
+    Task<List<TDto>> Get<TEntity, TDto>(
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string[] includes = null,
@@ -96,8 +117,8 @@ public interface IRepository
     /// <summary>
     /// Gets the first projection of entities from database.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="select">Projects each entity into desired result.</param>
     /// <param name="where">Filters the entities based on a predicate.</param>
     /// <param name="orderBy">A function to order the result.</param>
@@ -108,6 +129,27 @@ public interface IRepository
     /// <returns></returns>
     Task<TResult> FirstOrDefault<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        string[] includes = null,
+        int? skip = null,
+        bool tracked = false,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class;
+
+    /// <summary>
+    /// Gets the first projection of entities from database using <see cref="AutoMapper"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TDto">The type of the DTO to return.</typeparam>
+    /// <param name="where">Filters the entities based on a predicate.</param>
+    /// <param name="orderBy">A function to order the result.</param>
+    /// <param name="includes">The names of the navigation properties to include in result.</param>
+    /// <param name="skip">Bypasses a specified number of elements.</param>
+    /// <param name="tracked">if set to <c>true</c>, selected entities are tracked for later operations.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns></returns>
+    Task<TDto> FirstOrDefault<TEntity, TDto>(
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string[] includes = null,

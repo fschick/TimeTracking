@@ -52,7 +52,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
             .ToListAsyncEF(cancellationToken);
 
     /// <inheritdoc />
-    public async Task<List<TResult>> Get<TEntity, TResult>(
+    public async Task<List<TDto>> Get<TEntity, TDto>(
         Expression<Func<TEntity, bool>> where = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string[] includes = null,
@@ -63,7 +63,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         CancellationToken cancellationToken = default
     ) where TEntity : class
         => await GetInternal(x => x, where, orderBy, null, includes, distinct, skip, take, tracked)
-            .ProjectTo<TResult>(_mapper.ConfigurationProvider)
+            .ProjectTo<TDto>(_mapper.ConfigurationProvider)
             .ToListAsyncEF(cancellationToken);
 
     /// <inheritdoc />
@@ -93,6 +93,19 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         CancellationToken cancellationToken = default
     ) where TEntity : class
         => await GetInternal(x => x.Select(select), where, orderBy, null, includes, false, skip, null, tracked)
+            .FirstOrDefaultAsyncEF(cancellationToken);
+
+    /// <inheritdoc />
+    public Task<TDto> FirstOrDefault<TEntity, TDto>(
+        Expression<Func<TEntity, bool>> where = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        string[] includes = null,
+        int? skip = null,
+        bool tracked = false,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class
+        => GetInternal(x => x, where, orderBy, null, includes, false, skip, null, tracked)
+            .ProjectTo<TDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsyncEF(cancellationToken);
 
     /// <inheritdoc />
