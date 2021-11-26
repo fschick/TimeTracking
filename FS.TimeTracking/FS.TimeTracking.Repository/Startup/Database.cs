@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Repository.Startup;
 
 internal static class Database
 {
-    public static IApplicationBuilder MigrateDatabase(this WebApplication webApplication)
+    public static WebApplication MigrateDatabase(this WebApplication webApplication)
     {
         var serviceFactory = webApplication.Services.GetRequiredService<IServiceScopeFactory>();
         using var serviceScope = serviceFactory.CreateScope();

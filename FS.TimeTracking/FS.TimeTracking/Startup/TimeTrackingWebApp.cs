@@ -1,6 +1,5 @@
 ﻿using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
-using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -114,8 +113,7 @@ internal static class TimeTrackingWebApp
         webApplication
             .RegisterOpenApiRoutes()
             .RegisterRestApiRoutes()
-            .RegisterSpaRoutes()
-            .MigrateDatabase();
+            .RegisterSpaRoutes();
     }
 
     private static IServiceCollection CreateAndRegisterEnvironmentConfiguration(this IServiceCollection services, IHostEnvironment hostEnvironment)

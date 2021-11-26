@@ -248,7 +248,6 @@ public class TimeTrackingDbContext : DbContext
         foreach (var property in guidProperties)
             property.SetValueConverter(guidToStringConverter);
 
-
         var nullableGuidProperties = modelBuilder.Model
             .GetEntityTypes()
             .Where(x => x.ClrType.GetInterface(nameof(IEntityModel)) != null)

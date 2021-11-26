@@ -4,10 +4,13 @@
   <Import Project="../../Build/build_xml_documentation.props" />
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="linq2db" Version="3.6.0" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.6.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />

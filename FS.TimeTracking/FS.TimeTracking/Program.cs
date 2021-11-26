@@ -1,4 +1,5 @@
 using FS.TimeTracking.Api.REST.Startup;
+using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Startup;
 using Microsoft.AspNetCore.Builder;
 using NLog.Web;
@@ -31,7 +32,9 @@ internal class Program
             else if (options.GenerateValidationSpecFile)
                 await webApp.GenerateValidationSpec(options.ValidationSpecFile);
             else
-                await webApp.RunAsync();
+                await webApp
+                    .MigrateDatabase()
+                    .RunAsync();
         }
         catch (Exception exception)
         {
