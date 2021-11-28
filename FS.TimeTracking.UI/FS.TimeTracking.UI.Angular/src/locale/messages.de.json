@@ -92,7 +92,8 @@
       "Settings": {
         "Title": "Einstellungen",
         "Workdays": "Werktage",
-        "WorkHoursPerWorkday": "Arbeitsstunden / Werktag"
+        "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
+        "Currency": "Währung"
       }
     }
   },

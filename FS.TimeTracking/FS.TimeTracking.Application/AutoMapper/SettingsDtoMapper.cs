@@ -26,10 +26,16 @@ internal class SettingsDtoMapper : ITypeConverter<List<Setting>, SettingDto>
             ? JsonConvert.DeserializeObject<TimeSpan>(workHoursPerWorkdaySrc)
             : defaults.WorkHoursPerWorkday;
 
+        var currencySrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.Currency))?.Value;
+        var currency = currencySrc != null
+            ? JsonConvert.DeserializeObject<string>(currencySrc)
+            : defaults.Currency;
+
         return new SettingDto
         {
             Workdays = workdays,
-            WorkHoursPerWorkday = workHoursPerWorkday
+            WorkHoursPerWorkday = workHoursPerWorkday,
+            Currency = currency
         };
     }
 }
@@ -41,6 +47,7 @@ internal class SettingsFromDtoMapper : ITypeConverter<SettingDto, List<Setting>>
         => new()
         {
             new Setting { Key = nameof(SettingDto.Workdays), Value = JsonConvert.SerializeObject(source.Workdays) },
-            new Setting { Key = nameof(SettingDto.WorkHoursPerWorkday), Value = JsonConvert.SerializeObject(source.WorkHoursPerWorkday) }
+            new Setting { Key = nameof(SettingDto.WorkHoursPerWorkday), Value = JsonConvert.SerializeObject(source.WorkHoursPerWorkday) },
+            new Setting { Key = nameof(SettingDto.Currency), Value = JsonConvert.SerializeObject(source.Currency) },
         };
 }

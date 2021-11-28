@@ -34,6 +34,12 @@ public record SettingDto
     public TimeSpan WorkHoursPerWorkday = TimeSpan.FromHours(8);
 
     /// <summary>
+    /// The currency to use
+    /// </summary>
+    [Required]
+    public string Currency = "€";
+
+    /// <summary>
     /// The default settings.
     /// </summary>
     public static SettingDto Defaults => new();

@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../shared/services/api';
-import {map, single} from 'rxjs/operators';
+import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../shared/services/api';
 
 interface Settings {
-  workHoursPerWorkday: DateTime;
   workdays: SettingDtoWorkdays;
+  workHoursPerWorkday: DateTime;
+  currency: string;
 }
 
 @Component({
@@ -37,7 +38,8 @@ export class MasterDataSettingsComponent {
 
     const settingDto: SettingDto = {
       workdays: this.settingsForm.value.workdays,
-      workHoursPerWorkday: this.toDuration(this.settingsForm.value.workHoursPerWorkday)
+      workHoursPerWorkday: this.toDuration(this.settingsForm.value.workHoursPerWorkday),
+      currency: this.settingsForm.value.currency,
     }
 
     this.settingService.update({settingDto}).pipe(single()).subscribe();
@@ -55,13 +57,15 @@ export class MasterDataSettingsComponent {
         Sunday: [],
       }),
       workHoursPerWorkday: [],
+      currency: ['', Validators.required]
     });
   }
 
   private convertTimeSpans(settings: SettingDto): Settings {
     return {
       workdays: settings.workdays,
-      workHoursPerWorkday: this.toDateTime(settings.workHoursPerWorkday)
+      workHoursPerWorkday: this.toDateTime(settings.workHoursPerWorkday),
+      currency: settings.currency,
     };
   }
 
