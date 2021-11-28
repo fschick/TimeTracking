@@ -64,17 +64,28 @@ public class ValidationDescriptionService<TModelAssembly, TConverterAssembly> : 
     {
         var propertyResult = new JArray();
 
+        AddPropertyValidations(property, propertyResult);
+        AddNestedValidations(property.PropertyType, propertyResult);
+
+        var propertyName = property.Name.LowercaseFirstChar();
+        return new JProperty(propertyName, propertyResult);
+    }
+
+    private void AddPropertyValidations(PropertyInfo property, JArray propertyResult)
+    {
         var validationDescriptions = property
-            .CustomAttributes
-            .Select(GetValidationDescriptions)
-            .Where(x => x != null)
-            .ToList();
+                    .CustomAttributes
+                    .Select(GetAttributeValidationDescriptions)
+                    .Where(x => x != null)
+                    .ToList();
 
         propertyResult.Add(validationDescriptions);
+    }
 
-        var propertyType = property.PropertyType;
-        var hasNestedValidationType = HasValidationDescriptionAttribute(propertyType);
-        if (hasNestedValidationType)
+    private static void AddNestedValidations(Type propertyType, JArray propertyResult)
+    {
+        var isNestedValidationType = HasValidationDescriptionAttribute(propertyType);
+        if (isNestedValidationType)
         {
             propertyResult.Add(new JObject
             {
@@ -83,11 +94,23 @@ public class ValidationDescriptionService<TModelAssembly, TConverterAssembly> : 
             });
         }
 
-        var propertyName = property.Name.LowercaseFirstChar();
-        return new JProperty(propertyName, propertyResult);
+        var isNestedList = propertyType.IsGenericType && typeof(IEnumerable<object>).IsAssignableFrom(propertyType);
+        if (isNestedList)
+        {
+            var nestedListType = propertyType.GetGenericArguments()[0];
+            var isNestedValidationList = HasValidationDescriptionAttribute(nestedListType);
+            if (isNestedValidationList)
+            {
+                propertyResult.Add(new JObject
+                {
+                    new JProperty("type", "list"),
+                    new JProperty("class", nestedListType.Name)
+                });
+            }
+        }
     }
 
-    private JObject GetValidationDescriptions(CustomAttributeData attribute)
+    private JObject GetAttributeValidationDescriptions(CustomAttributeData attribute)
     {
         var converter = ValidationDescriptionConverters
             .FirstOrDefault(x => x.SupportedValidationAttributes.Any(a => a.FullName == attribute.AttributeType.FullName));
