@@ -129,7 +129,7 @@ export class SimpleTableComponent<TRow> {
 
   public filters: Filters<TRow> = {} as Filters<TRow>;
   public filteredRows: TRow[];
-  private sortOrder: Map<keyof TRow, SortOrder> = new Map();
+  private sortOrder: Map<string | number | symbol, SortOrder> = new Map();
   private originRowOrder: any[];
 
   constructor() {
@@ -183,10 +183,11 @@ export class SimpleTableComponent<TRow> {
   }
 
   public getCssSortOrder(column: Column<TRow>): string {
-    if (column.prop === undefined)
+    const sortKey = this.getSortKey(column);
+    if (sortKey === undefined)
       return '';
 
-    const columnSortOrder = this.sortOrder.get(column.prop);
+    const columnSortOrder = this.sortOrder.get(sortKey);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
         ? this.configuration.cssSortAsc
@@ -195,10 +196,11 @@ export class SimpleTableComponent<TRow> {
   }
 
   public getGlyphSortOrder(column: Column<TRow>) {
-    if (column.prop === undefined)
+    const sortKey = this.getSortKey(column);
+    if (sortKey === undefined)
       return '';
 
-    const columnSortOrder = this.sortOrder.get(column.prop);
+    const columnSortOrder = this.sortOrder.get(sortKey);
     return columnSortOrder !== undefined
       ? columnSortOrder === 'asc'
         ? this.configuration.glyphSortAsc
@@ -206,9 +208,9 @@ export class SimpleTableComponent<TRow> {
       : '';
   }
 
-  public getCellValue(row: TRow, column: Column<TRow>): string | undefined {
-    if (column.format)
-      return column.format(row, column);
+  public getCellValue(row: TRow, column: Column<TRow>): string {
+    if (typeof column.format === 'function')
+      return column.format(row, column) ?? '';
 
     return column.prop !== undefined
       ? this.toString(row[column.prop])
@@ -220,18 +222,19 @@ export class SimpleTableComponent<TRow> {
     if ($event.defaultPrevented)
       return;
 
-    if (column.sortable === false || column.prop === undefined)
+    const sortKey = this.getSortKey(column);
+    if (column.sortable === false || sortKey === undefined)
       return;
 
-    let columnSortOrder = this.sortOrder.get(column.prop);
+    let columnSortOrder = this.sortOrder.get(sortKey);
     if (!this.configuration.multiSort)
       this.sortOrder.clear();
 
     columnSortOrder = columnSortOrder === undefined ? 'asc' : columnSortOrder === 'asc' ? 'desc' : undefined;
     if (columnSortOrder === undefined)
-      this.sortOrder.delete(column.prop);
+      this.sortOrder.delete(sortKey);
     else
-      this.sortOrder.set(column.prop, columnSortOrder);
+      this.sortOrder.set(sortKey, columnSortOrder);
 
     this.sortRows();
     this.applyFilter();
@@ -292,17 +295,22 @@ export class SimpleTableComponent<TRow> {
     }
   }
 
+  private getSortKey(column: Column<TRow>): string | number | symbol | undefined {
+    return column.prop ?? column.customId;
+  }
+
   private sortRows(): void {
     this.rows.sort((rowA, rowB) => {
       // Compare/sort by column.
-      for (const [prop, direction] of this.sortOrder) {
+      for (const [sortKey, direction] of this.sortOrder) {
         let columnResult = 0;
-        const column = this.columns.find(x => x.prop === prop);
+        const prop = sortKey as keyof TRow;
+        const column = this.columns.find(x => x.prop === sortKey || x.customId === sortKey)!;
         const columnSortFn = column?.sort;
-        if (columnSortFn)
+        if (typeof columnSortFn === 'function')
           columnResult = columnSortFn(rowA, rowB) * (direction === 'asc' ? 1 : -1);
-        else if (column?.sortType === undefined || column.sortType === 'string')
-          columnResult = this.toString(rowA[prop]).localeCompare(this.toString(rowB[prop])) * (direction === 'asc' ? 1 : -1);
+        else if (column.sortType === undefined || column.sortType === 'string')
+          columnResult = this.getCellValue(rowA, column).localeCompare(this.getCellValue(rowB, column)) * (direction === 'asc' ? 1 : -1)
         else if (rowA[prop] > rowB[prop])
           columnResult = direction === 'asc' ? 1 : -1;
         else if (rowA[prop] < rowB[prop])
@@ -338,7 +346,7 @@ export class SimpleTableComponent<TRow> {
         if (column.filter && !column.filter(row, filterValue)) {
           return false;
         } else {
-          const cellValue = this.getCellValue(row, column)?.toLowerCase();
+          const cellValue = this.getCellValue(row, column).toLowerCase();
           const filterMatches = column.filterable === 'startWith'
             ? cellValue?.startsWith(filterValue)
             : cellValue?.includes(filterValue);
