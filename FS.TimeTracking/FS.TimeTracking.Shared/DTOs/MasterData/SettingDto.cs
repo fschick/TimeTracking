@@ -38,9 +38,4 @@ public record SettingDto
     /// </summary>
     [Required]
     public string Currency = "€";
-
-    /// <summary>
-    /// The default settings.
-    /// </summary>
-    public static SettingDto Defaults => new();
 }

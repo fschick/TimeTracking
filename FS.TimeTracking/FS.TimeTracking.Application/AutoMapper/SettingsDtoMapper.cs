@@ -14,7 +14,7 @@ internal class SettingsDtoMapper : ITypeConverter<List<Setting>, SettingDto>
 {
     public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
     {
-        var defaults = SettingDto.Defaults;
+        var defaults = new SettingDto();
 
         var workdaysSrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.Workdays))?.Value;
         var workdays = workdaysSrc != null

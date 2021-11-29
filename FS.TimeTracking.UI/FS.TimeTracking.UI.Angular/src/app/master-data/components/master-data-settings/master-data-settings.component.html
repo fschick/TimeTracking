@@ -40,18 +40,20 @@
       </div>
     </div>
     <div class="col-6 col-md-4 col-lg-3">
-      <h6 class="form-label" i18n="@@Page.MasterData.Settings.WorkHoursPerWorkday">
+      <h6 class="form-label" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">
         [i18n] Working hours / weekday
       </h6>
       <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkday" autocomplete="off">
     </div>
     <div class="col-6 col-md-4 col-lg-3">
-      <h6 class="form-label" i18n="@@Page.MasterData.Settings.Currency">
+      <h6 class="form-label" i18n="@@DTO.SettingDto.Currency">
         [i18n] Currency
       </h6>
       <input id="currency" type="text" class="form-control w-auto" formControlName="currency">
     </div>
   </div>
+  <hr class="text-secondary" *ngIf="form.submitted && form.invalid"/>
+  <ts-form-validation-errors></ts-form-validation-errors>
   <div class="row mt-4">
     <div class="col">
       <button form="workingHoursForm" type="submit" class="btn btn-primary">

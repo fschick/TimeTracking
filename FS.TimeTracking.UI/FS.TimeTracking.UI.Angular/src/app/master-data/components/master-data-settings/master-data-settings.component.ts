@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../shared/services/api';
+import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 
 interface Settings {
   workdays: SettingDtoWorkdays;
@@ -17,7 +18,7 @@ interface Settings {
 })
 export class MasterDataSettingsComponent {
 
-  public settingsForm: FormGroup;
+  public settingsForm: ValidationFormGroup;
 
   constructor(
     private settingService: SettingService,
@@ -45,8 +46,8 @@ export class MasterDataSettingsComponent {
     this.settingService.update({settingDto}).pipe(single()).subscribe();
   }
 
-  private createSettingsForm(): FormGroup {
-    return this.formBuilder.group({
+  private createSettingsForm(): ValidationFormGroup {
+    const form = this.formBuilder.group({
       workdays: this.formBuilder.group({
         Monday: [],
         Tuesday: [],
@@ -59,6 +60,8 @@ export class MasterDataSettingsComponent {
       workHoursPerWorkday: [],
       currency: ['', Validators.required]
     });
+
+    return new ValidationFormGroup('SettingDto', form.controls);
   }
 
   private convertTimeSpans(settings: SettingDto): Settings {

@@ -91,9 +91,7 @@
       },
       "Settings": {
         "Title": "Einstellungen",
-        "Workdays": "Werktage",
-        "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
-        "Currency": "Währung"
+        "Workdays": "Werktage"
       }
     }
   },
@@ -237,7 +235,9 @@
       "Thursday": "Donnerstag",
       "Friday": "Freitag",
       "Saturday": "Samstag",
-      "Sunday": "Sonntag"
+      "Sunday": "Sonntag",
+      "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
+      "Currency": "Währung"
     }
   },
   "Validation": {
