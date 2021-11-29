@@ -106,12 +106,14 @@ export class SimpleTableComponent<TRow> {
   @Input('rows') set setRows(rows: TRow[] | null | undefined) {
     this.rows = rows ?? [];
     this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
+    this.guessColumnsSortType();
     this.sortRows();
     this.applyFilter();
   };
 
   @Input('columns') set setColumns(columns: Column<TRow>[] | null | undefined) {
     this.columns = columns ?? [];
+    this.guessColumnsSortType();
     this.updateFiltersWithChangedColumns();
     this.sortRows();
     this.applyFilter();
@@ -276,6 +278,20 @@ export class SimpleTableComponent<TRow> {
       delete this.filters[filter];
   }
 
+  private guessColumnsSortType(): void {
+    if (this.rows.length === 0 || this.columns.length === 0)
+      return;
+
+    const columnsWithMissingSortType = this.columns.filter(col => col.prop && !col.sortType);
+    for (const column of columnsWithMissingSortType) {
+      const propValue = this.rows[0][column.prop!];
+      if (propValue instanceof Date)
+        column.sortType = 'date';
+      else if (typeof propValue === 'number')
+        column.sortType = 'number';
+    }
+  }
+
   private sortRows(): void {
     this.rows.sort((rowA, rowB) => {
       // Compare/sort by column.
@@ -285,7 +301,7 @@ export class SimpleTableComponent<TRow> {
         const columnSortFn = column?.sort;
         if (columnSortFn)
           columnResult = columnSortFn(rowA, rowB) * (direction === 'asc' ? 1 : -1);
-        if (column?.sortType === undefined || column.sortType === 'string')
+        else if (column?.sortType === undefined || column.sortType === 'string')
           columnResult = this.toString(rowA[prop]).localeCompare(this.toString(rowB[prop])) * (direction === 'asc' ? 1 : -1);
         else if (rowA[prop] > rowB[prop])
           columnResult = direction === 'asc' ? 1 : -1;
