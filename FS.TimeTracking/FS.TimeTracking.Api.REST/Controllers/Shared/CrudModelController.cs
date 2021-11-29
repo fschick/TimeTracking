@@ -46,7 +46,7 @@ public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICru
         => await _modelService.Update(dto);
 
     /// <inheritdoc />
-    [HttpDelete("{id}", Name = "[controller]_[action]")]
+    [HttpDelete("{id:guid}", Name = "[controller]_[action]")]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ErrorInformation), (int)HttpStatusCode.Conflict)]
     public async Task<long> Delete(Guid id)
