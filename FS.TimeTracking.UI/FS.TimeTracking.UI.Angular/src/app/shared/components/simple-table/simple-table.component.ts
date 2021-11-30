@@ -16,6 +16,11 @@ export type DataCellClickEvent<TRow> = {
   table: SimpleTableComponent<TRow>;
 };
 
+export type RowChangedEvent<TRow> = {
+  rows: Array<TRow>;
+  table: SimpleTableComponent<TRow>;
+};
+
 export type RowTemplate<TRow> = TemplateRef<{
   columns: Column<TRow>[];
   table: SimpleTableComponent<TRow>;
@@ -99,29 +104,28 @@ export class SimpleTableComponent<TRow> {
     this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
     if (!this.configuration.filterRow)
       this.resetFilter();
-    this.sortRows();
-    this.applyFilter();
+    this.sortAndFilterRows();
   };
 
   @Input('rows') set setRows(rows: TRow[] | null | undefined) {
     this.rows = rows ?? [];
     this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
     this.guessColumnsSortType();
-    this.sortRows();
-    this.applyFilter();
+    this.sortAndFilterRows();
   };
 
   @Input('columns') set setColumns(columns: Column<TRow>[] | null | undefined) {
     this.columns = columns ?? [];
     this.guessColumnsSortType();
     this.updateFiltersWithChangedColumns();
-    this.sortRows();
-    this.applyFilter();
+    this.sortAndFilterRows();
   }
 
   @Output() headerCellClick = new EventEmitter<HeaderCellClickEvent<TRow>>();
 
   @Output() dataCellClick = new EventEmitter<DataCellClickEvent<TRow>>();
+
+  @Output() rowsChanged = new EventEmitter<RowChangedEvent<TRow>>();
 
   public configuration: Configuration<TRow>;
   public rows: TRow[];
@@ -149,7 +153,7 @@ export class SimpleTableComponent<TRow> {
   }
 
   public getFilterCellContext(column: Column<TRow>) {
-    return {column, filters: this.filters, applyFilter: () => this.applyFilter(), table: this};
+    return {column, filters: this.filters, applyFilter: () => this.sortAndFilterRows(), table: this};
   }
 
   public getDataCellContext(row: TRow, column: Column<TRow>, index: number, count: number, first: boolean, last: boolean, even: boolean, odd: boolean) {
@@ -236,12 +240,7 @@ export class SimpleTableComponent<TRow> {
     else
       this.sortOrder.set(sortKey, columnSortOrder);
 
-    this.sortRows();
-    this.applyFilter();
-  }
-
-  public applyFilter(): void {
-    this.filteredRows = this.filterRows(this.rows);
+    this.sortAndFilterRows();
   }
 
   public onDataCellClick(row: TRow, column: Column<TRow>, $event: MouseEvent) {
@@ -299,6 +298,12 @@ export class SimpleTableComponent<TRow> {
     return column.prop ?? column.customId;
   }
 
+  private sortAndFilterRows() {
+    this.sortRows();
+    this.applyFilter();
+    this.rowsChanged.emit({rows: this.filteredRows, table: this});
+  }
+
   private sortRows(): void {
     this.rows.sort((rowA, rowB) => {
       // Compare/sort by column.
@@ -328,10 +333,8 @@ export class SimpleTableComponent<TRow> {
     });
   }
 
-  private resetFilter(): void {
-    const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
-    for (const property of filterProperties)
-      this.filters[property] = '';
+  private applyFilter(): void {
+    this.filteredRows = this.filterRows(this.rows);
   }
 
   private filterRows(rows: TRow[]): TRow[] {
@@ -357,5 +360,11 @@ export class SimpleTableComponent<TRow> {
 
       return true;
     });
+  }
+
+  private resetFilter(): void {
+    const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
+    for (const property of filterProperties)
+      this.filters[property] = '';
   }
 }
