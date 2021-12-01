@@ -1,45 +1,41 @@
-<div class="modal" #holidayEdit tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="m-0" i18n="@@Page.MasterData.Holidays.Edit">[i18n] Edit holiday</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="holidayForm" [formGroup]="holidayForm" (ngSubmit)="save()" #form="ngForm">
-          <div class="row g-3">
-            <div class="col-lg-12">
-              <label for="title" class="form-label" i18n="@@DTO.HolidayDto.Title">[i18n] Short description</label>
-              <input id="title" type="text" class="form-control" formControlName="title" #title>
-            </div>
-            <div class="col-lg-3">
-              <label for="startDate" class="form-label" i18n="@@DTO.HolidayDto.StartDate">[i18n] Start date</label>
-              <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
-            </div>
-            <div class="col-lg-3">
-              <label for="endDate" class="form-label" i18n="@@DTO.HolidayDto.EndDate">[i18n] End date</label>
-              <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="endDate" autocomplete="off">
-            </div>
-            <div class="col-lg-6">
-              <label for="type" class="form-label" i18n="@@DTO.HolidayDto.Type">[i18n] Type</label>
-              <select id="type" class="form-select" formControlName="type">
-                <option value="Holiday" i18n="@@Enum.HolidayType.Holiday" >[i18n] Holidays / Vacation</option>
-                <option value="PublicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</option>
-              </select>
-            </div>
-          </div>
-          <hr class="text-secondary" *ngIf="form.submitted && form.invalid"/>
-          <ts-form-validation-errors></ts-form-validation-errors>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button form="holidayForm" type="button" class="btn btn-outline-secondary" (click)="close()">
-          <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
-        </button>
-        <button form="holidayForm" type="submit" class="btn btn-primary">
-          <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
-        </button>
-      </div>
-    </div>
+<ng-template #holidayEdit let-modal>
+  <div class="modal-header">
+    <h5 class="m-0" i18n="@@Page.MasterData.Holidays.Edit">[i18n] Edit holiday</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
-</div>
+  <div class="modal-body">
+    <form id="holidayForm" [formGroup]="holidayForm" (ngSubmit)="save()" #form="ngForm">
+      <div class="row g-3">
+        <div class="col-lg-12">
+          <label for="title" class="form-label" i18n="@@DTO.HolidayDto.Title">[i18n] Short description</label>
+          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+        </div>
+        <div class="col-lg-3">
+          <label for="startDate" class="form-label" i18n="@@DTO.HolidayDto.StartDate">[i18n] Start date</label>
+          <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
+        </div>
+        <div class="col-lg-3">
+          <label for="endDate" class="form-label" i18n="@@DTO.HolidayDto.EndDate">[i18n] End date</label>
+          <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="endDate" autocomplete="off">
+        </div>
+        <div class="col-lg-6">
+          <label for="type" class="form-label" i18n="@@DTO.HolidayDto.Type">[i18n] Type</label>
+          <select id="type" class="form-select" formControlName="type">
+            <option value="Holiday" i18n="@@Enum.HolidayType.Holiday" >[i18n] Holidays / Vacation</option>
+            <option value="PublicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</option>
+          </select>
+        </div>
+      </div>
+      <hr class="text-secondary" *ngIf="form.submitted && form.invalid"/>
+      <ts-form-validation-errors></ts-form-validation-errors>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button form="holidayForm" type="button" class="btn btn-outline-secondary" (click)="modal.close()">
+      <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+    </button>
+    <button form="holidayForm" type="submit" class="btn btn-primary">
+      <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+    </button>
+  </div>
+</ng-template>

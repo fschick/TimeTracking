@@ -55,9 +55,3 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-
-// TODO: Remove as soon as import of '@types/bootstrap' is fixed / handled.
-declare global {
-  // @ts-ignore
-  const bootstrap: any;
-}

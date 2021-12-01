@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
 import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Modal} from 'bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,6 +7,7 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 import {single} from 'rxjs/operators';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ts-master-data-holidays-import',
@@ -14,11 +15,11 @@ import {HttpClient, HttpParams} from '@angular/common/http';
   styleUrls: ['./master-data-holidays-import.component.scss']
 })
 export class MasterDataHolidaysImportComponent implements AfterViewInit {
-  @ViewChild('holidayImport') private holidayImport?: ElementRef;
-  @ViewChild('title') private title?: ElementRef;
-
   public holidayForm: ValidationFormGroup;
-  private modal!: Modal;
+
+  @ViewChild('holidayImport') private holidayImport?: TemplateRef<any>;
+
+  private modal?: NgbModalRef
   private icsImportFile?: File;
 
   constructor(
@@ -28,6 +29,7 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
     private holidayService: HolidayService,
     private httpClient: HttpClient,
     private entityService: EntityService,
+    private modalService: NgbModal
   ) {
 
     this.holidayForm = new ValidationFormGroup('HolidayImportDto', {
@@ -37,12 +39,9 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new bootstrap.Modal(this.holidayImport?.nativeElement);
-    this.holidayImport?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
-    this.holidayImport?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
-    this.modal.show();
+    this.modal = this.modalService.open(this.holidayImport, {size: 'lg', scrollable: true});
+    this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
-
 
   handleFileInput(event$: Event | null) {
     this.icsImportFile = (event$?.target as HTMLInputElement).files?.[0];
@@ -73,12 +72,8 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
       )
       .pipe(single())
       .subscribe(() => {
-        this.close();
+        this.modal?.close();
         this.entityService.holidayChanged.next({action: 'reloadAll'});
       });
-  }
-
-  public close(): void {
-    this.modal?.hide();
   }
 }

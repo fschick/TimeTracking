@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {single} from 'rxjs/operators';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {Modal} from 'bootstrap';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ts-master-data-customers-edit',
@@ -13,12 +13,12 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   styleUrls: ['./master-data-customers-edit.component.scss']
 })
 export class MasterDataCustomersEditComponent implements AfterViewInit {
-  @ViewChild('customerEdit') private customerEdit?: ElementRef;
-  @ViewChild('title') private title?: ElementRef;
-
   public customerForm: ValidationFormGroup;
   public isNewRecord: boolean;
-  private modal!: Modal;
+
+  @ViewChild('customerEdit') private customerEdit?: TemplateRef<any>;
+
+  private modal?: NgbModalRef
 
   constructor(
     private router: Router,
@@ -26,6 +26,7 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private customerService: CustomerService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
+    private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: GuidService.guidEmpty, hidden: false});
@@ -38,10 +39,8 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new bootstrap.Modal(this.customerEdit?.nativeElement);
-    this.customerEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
-    this.customerEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
-    this.modal.show();
+    this.modal = this.modalService.open(this.customerEdit, {size: 'lg', scrollable: true});
+    this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
   public save(): void {
@@ -59,12 +58,8 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     apiAction
       .pipe(single())
       .subscribe(customer => {
-        this.close();
+        this.modal?.close();
         this.entityService.customerChanged.next({entity: customer, action: customerChangedAction});
       });
-  }
-
-  public close(): void {
-    this.modal?.hide();
   }
 }

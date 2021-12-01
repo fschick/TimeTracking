@@ -1,27 +1,21 @@
-<div class="d-inline-block cursor-pointer" (click)="createConfirmDialog()" aria-label="Confirm dialog">
+<div class="d-inline-block cursor-pointer" (click)="createConfirmDialog(confirmDialog)" aria-label="Confirm dialog">
   <ng-content></ng-content>
 </div>
 
 <ng-template #confirmDialog>
-  <div class="modal" #confirmDialogModal tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="m-0">{{title}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-wrap">
-          {{message}}
-        </div>
-        <div class="modal-footer">
-          <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
-            <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
-          </button>
-          <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)">
-            {{actionText}}
-          </button>
-        </div>
-      </div>
-    </div>
+  <div class="modal-header">
+    <h5 class="m-0">{{title}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body text-wrap">
+    {{message}}
+  </div>
+  <div class="modal-footer">
+    <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
+      <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+    </button>
+    <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" ngbAutofocus>
+      {{actionText}}
+    </button>
   </div>
 </ng-template>

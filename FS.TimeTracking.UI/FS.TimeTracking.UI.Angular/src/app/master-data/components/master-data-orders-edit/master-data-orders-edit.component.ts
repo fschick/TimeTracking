@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
 import {OrderDto, OrderService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
@@ -7,6 +7,7 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 import {single} from 'rxjs/operators';
 import {Modal} from 'bootstrap';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ts-master-data-orders-edit',
@@ -14,13 +15,13 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   styleUrls: ['./master-data-orders-edit.component.scss']
 })
 export class MasterDataOrdersEditComponent implements AfterViewInit {
-  @ViewChild('orderEdit') private orderEdit?: ElementRef;
-  @ViewChild('title') private title?: ElementRef;
-
   public orderForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public customers$: Observable<StringTypeaheadDto[]>;
-  private modal!: Modal;
+
+  @ViewChild('orderEdit') private orderEdit?: TemplateRef<any>;
+
+  private modal?: NgbModalRef
 
   constructor(
     private router: Router,
@@ -29,6 +30,7 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
+    private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.orderForm = this.formValidationService.getFormGroup<OrderDto>('OrderDto', {id: GuidService.guidEmpty, hidden: false});
@@ -43,10 +45,8 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new bootstrap.Modal(this.orderEdit?.nativeElement);
-    this.orderEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
-    this.orderEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
-    this.modal.show();
+    this.modal = this.modalService.open(this.orderEdit, {size: 'lg', scrollable: true});
+    this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
   public save(): void {
@@ -64,12 +64,8 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     apiAction
       .pipe(single())
       .subscribe(order => {
-        this.close();
+        this.modal?.close();
         this.entityService.orderChanged.next({entity: order, action: orderChangedAction});
       });
-  }
-
-  public close(): void {
-    this.modal?.hide();
   }
 }

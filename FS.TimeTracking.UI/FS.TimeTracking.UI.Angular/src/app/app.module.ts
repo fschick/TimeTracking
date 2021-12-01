@@ -55,7 +55,8 @@ import {ReportOrdersComponent} from './report/components/report-orders/report-or
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
-import { MasterDataHolidaysImportComponent } from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
+import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { MasterDataHolidaysImportComponent } from './master-data/components/mast
     BrowserAnimationsModule,
     ReactiveComponentModule,
     NgSelectModule,
+    NgbModalModule,
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'

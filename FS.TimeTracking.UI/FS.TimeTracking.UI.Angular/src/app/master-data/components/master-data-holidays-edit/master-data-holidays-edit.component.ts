@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {HolidayDto, HolidayService} from '../../../shared/services/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {single} from 'rxjs/operators';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {Modal} from 'bootstrap';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ts-master-data-holidays-edit',
@@ -13,12 +13,12 @@ import {GuidService} from '../../../shared/services/state-management/guid.servic
   styleUrls: ['./master-data-holidays-edit.component.scss']
 })
 export class MasterDataHolidaysEditComponent implements AfterViewInit {
-  @ViewChild('holidayEdit') private holidayEdit?: ElementRef;
-  @ViewChild('title') private title?: ElementRef;
-
   public holidayForm: ValidationFormGroup;
   public isNewRecord: boolean;
-  private modal!: Modal;
+
+  @ViewChild('holidayEdit') private holidayEdit?: TemplateRef<any>;
+
+  private modal?: NgbModalRef
 
   constructor(
     private router: Router,
@@ -26,6 +26,7 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
     private holidayService: HolidayService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
+    private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty, type: 'Holiday'});
@@ -38,10 +39,8 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new bootstrap.Modal(this.holidayEdit?.nativeElement);
-    this.holidayEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
-    this.holidayEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.title?.nativeElement.focus());
-    this.modal.show();
+    this.modal = this.modalService.open(this.holidayEdit, {size: 'lg', scrollable: true});
+    this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
   public save(): void {
@@ -59,12 +58,8 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
     apiAction
       .pipe(single())
       .subscribe(holiday => {
-        this.close();
+        this.modal?.close();
         this.entityService.holidayChanged.next({entity: holiday, action: holidayChangedAction});
       });
-  }
-
-  public close(): void {
-    this.modal?.hide();
   }
 }

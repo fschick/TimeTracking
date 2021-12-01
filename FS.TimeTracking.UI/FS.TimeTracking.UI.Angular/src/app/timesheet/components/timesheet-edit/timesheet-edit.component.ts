@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
-import {Modal} from 'bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../shared/services/api';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
@@ -9,6 +8,7 @@ import {map, single} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
 import {FormControl} from '@angular/forms';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ts-timesheet-edit',
@@ -16,20 +16,18 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./timesheet-edit.component.scss']
 })
 export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
-
-  @ViewChild('timesheetEdit') private timesheetEdit?: ElementRef;
-  @ViewChild('comment') private comment?: ElementRef;
-
   public projects$: Observable<StringTypeaheadDto[]>;
   public selectedProject$: BehaviorSubject<StringTypeaheadDto | undefined>;
   public activities$: Observable<StringTypeaheadDto[]>;
   public selectedActivity$: BehaviorSubject<StringTypeaheadDto | undefined>;
   public orders$?: Observable<StringTypeaheadDto[]>;
   public selectedOrder$: BehaviorSubject<StringTypeaheadDto | undefined>;
-
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
-  private modal!: Modal;
+
+  @ViewChild('timesheetEdit') private timesheetEdit?: TemplateRef<any>;
+
+  private modal?: NgbModalRef
   private subscriptions = new Subscription();
 
   constructor(
@@ -39,6 +37,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     private typeaheadService: TypeaheadService,
+    private modalService: NgbModal
   ) {
     this.timesheetForm = this.createTimesheetForm();
 
@@ -66,10 +65,8 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new bootstrap.Modal(this.timesheetEdit?.nativeElement);
-    this.timesheetEdit?.nativeElement.addEventListener('hide.bs.modal', () => this.router.navigate(['..'], {relativeTo: this.route}));
-    this.timesheetEdit?.nativeElement.addEventListener('shown.bs.modal', () => this.comment?.nativeElement.focus());
-    this.modal.show();
+    this.modal = this.modalService.open(this.timesheetEdit, {size: 'lg', scrollable: true});
+    this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
   public selectedProjectChanged(project?: StringTypeaheadDto): void {
@@ -99,13 +96,9 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     apiAction
       .pipe(single())
       .subscribe(timesheet => {
-        this.close();
+        this.modal?.close();
         this.entityService.timesheetChanged.next({entity: timesheet, action: timesheetChangedAction});
       });
-  }
-
-  public close(): void {
-    this.modal?.hide();
   }
 
   public ngOnDestroy(): void {
