@@ -8,7 +8,7 @@ import {DateTime, Duration} from 'luxon';
 export class ApiDateTimeInterceptor implements HttpInterceptor {
 
   private isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+\-]\d{2}:\d{2})?$/;
-  private dotNetTimeSpanFormat = /^(?:(?<days>\d+)\.)?(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{3})\d*)?$/;
+  private dotNetTimeSpanFormat = /^(?<sign>[+-]?)(?:(?<days>\d+)\.)?(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{3})\d*)?$/;
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -71,7 +71,7 @@ export class ApiDateTimeInterceptor implements HttpInterceptor {
     if (timeSpan === null)
       return null;
 
-    return Duration
+    let duration = Duration
       .fromObject({
         days: parseInt(timeSpan.groups?.['days'] ?? '0', 10),
         hours: parseInt(timeSpan.groups?.['hours'] ?? '0', 10),
@@ -79,5 +79,10 @@ export class ApiDateTimeInterceptor implements HttpInterceptor {
         seconds: parseInt(timeSpan.groups?.['seconds'] ?? '0', 10),
         milliseconds: parseInt(timeSpan.groups?.['milliseconds'] ?? '0', 10),
       });
+
+    const isNegative = timeSpan.groups?.['sign'] === '-';
+    return isNegative
+      ? duration.negate()
+      : duration;
   }
 }
