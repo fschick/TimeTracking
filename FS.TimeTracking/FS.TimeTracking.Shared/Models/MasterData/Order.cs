@@ -82,7 +82,7 @@ public class Order : IIdEntityModel
     /// </summary>
     [Required]
     [NotMapped]
-    [CompareTo(Shared.ComparisonType.GreaterThan, nameof(StartDate))]
+    [CompareTo(Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset DueDate
     {
         get => DueDateLocal.ToOffset(TimeSpan.FromMinutes(DueDateOffset));

@@ -63,7 +63,7 @@ public class Holiday : IIdEntityModel
     /// </summary>
     [Required]
     [NotMapped]
-    [CompareTo(Shared.ComparisonType.GreaterThan, nameof(StartDate))]
+    [CompareTo(Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset EndDate
     {
         get => EndDateLocal.ToOffset(TimeSpan.FromMinutes(EndDateOffset));

@@ -42,7 +42,7 @@ public class OrderDto
 
     /// <inheritdoc cref="Order.DueDate"/>
     [Required]
-    [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
+    [CompareTo(Models.Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset DueDate { get; set; }
 
     /// <inheritdoc cref="Order.HourlyRate"/>

@@ -31,7 +31,7 @@ public record HolidayDto
 
     /// <inheritdoc cref="Holiday.EndDate"/>
     [Required]
-    [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
+    [CompareTo(Models.Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset EndDate { get; set; }
 
     /// <inheritdoc cref="Holiday.Type"/>
