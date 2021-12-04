@@ -5,13 +5,12 @@ import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of, Subject, timer} from 'rxjs';
+import {Observable, Subject, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {TimeSheetFilterDto} from '../timesheet-filter/timesheet-filter.component';
-import {FormatService} from '../../../shared/services/format.service';
 
 // import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
 

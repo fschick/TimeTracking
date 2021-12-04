@@ -10,7 +10,8 @@
     "Edit": "Edit",
     "Action": "Action",
     "Expand": "Expand",
-    "Collapse": "Collapse"
+    "Collapse": "Collapse",
+    "Details": "Details"
   },
   "Abbreviations": {
     "Hours": "h",
@@ -35,20 +36,31 @@
     },
     "Report": {
       "Title": "Reports",
+      "Common": {
+        "Days": "Days",
+        "Hours": "Hours",
+        "Budget": "Budget",
+        "Worked": "Worked",
+        "Used": "Used",
+        "Planned": "Planned",
+        "Done": "Done",
+        "Remain": "Remain",
+        "Ratio": "Ratio"
+      },
       "Customers": {
-        "Title": "By customers"
+        "Title": "Planned/actual by  customers"
       },
       "Projects": {
-        "Title": "By project"
+        "Title": "Planned/actual by  project"
       },
       "Activities": {
-        "Title": "By activity"
+        "Title": "Planned/actual by  activity"
       },
       "Issues": {
-        "Title": "By issue"
+        "Title": "Planned/actual by  issue"
       },
       "Orders": {
-        "Title": "By order"
+        "Title": "Planned/actual by order"
       }
     },
     "MasterData": {
@@ -210,6 +222,28 @@
       "StartDate": "Start date",
       "DueDate": "Due date",
       "Hidden": "Hidden"
+    },
+    "WorkTimeDto": {
+      "OrderTitle": "Order",
+      "OrderNumber": "Order number",
+      "CustomerTitle": "Customer",
+      "DaysWorked": "Days worked",
+      "DaysPlanned": "Days planned",
+      "DaysDifference": "Days difference",
+      "TimeWorked": "Time worked",
+      "TimePlanned": "Time planned",
+      "TimeDifference": "Difference",
+      "BudgetWorked": "Budget used",
+      "BudgetPlanned": "Budget planned",
+      "BudgetDifference": "Budget left",
+      "RatioFinished": "Finished",
+      "RatioTotalWorked": "Ratio worked",
+      "RatioTotalPlanned": "Ratio planned",
+      "PlannedStart": "Planned from",
+      "PlannedEnd": "Planned to",
+      "OrderPeriod": "Order period",
+      "HourlyRate": "Hourly rate",
+      "Currency": "Currency"
     },
     "HolidayDto": {
       "Title": "Title",

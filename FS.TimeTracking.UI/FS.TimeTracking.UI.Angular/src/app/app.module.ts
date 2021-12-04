@@ -15,7 +15,7 @@ import localeEN from '@angular/common/locales/en';
 import localeDeDE from '@angular/common/locales/de';
 import localeDeCH from '@angular/common/locales/de-CH';
 import localeDeAT from '@angular/common/locales/de-AT';
-import {registerLocaleData} from '@angular/common';
+import {DecimalPipe, registerLocaleData} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
 import {FormSubmitDirective} from './shared/directives/form-submit.directive';
@@ -30,7 +30,6 @@ import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.in
 import {ReactiveComponentModule} from '@ngrx/component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
-import {NgxEchartsModule} from 'ngx-echarts';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {ApiDateTimeInterceptor} from './shared/services/error-handling/api-date-time.interceptor';
@@ -56,6 +55,7 @@ import {MasterDataHolidaysComponent} from './master-data/components/master-data-
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
+import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -104,6 +104,7 @@ import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     ReactiveComponentModule,
     NgSelectModule,
+    NgApexchartsModule,
     NgbModalModule,
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
@@ -112,10 +113,10 @@ import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
     ApiModule.forRoot(() =>
       new Configuration({basePath: environment.apiBasePath})
     ),
-    NgxEchartsModule.forRoot({echarts: () => import('echarts')})
   ],
   providers: [
     DatePipe,
+    DecimalPipe,
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,

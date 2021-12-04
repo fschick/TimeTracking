@@ -10,7 +10,8 @@
     "Edit": "Bearbeiten",
     "Action": "Aktion",
     "Expand": "Aufklappen",
-    "Collapse": "Reduzieren"
+    "Collapse": "Reduzieren",
+    "Details": "Details"
   },
   "Abbreviations": {
     "Hours": "Std.",
@@ -35,20 +36,31 @@
     },
     "Report": {
       "Title": "Reports",
+      "Common": {
+        "Days": "Tage",
+        "Hours": "Stunden",
+        "Budget": "Budget",
+        "Worked": "geleistet",
+        "Used": "verwendet",
+        "Planned": "geplant",
+        "Done": "erledigt",
+        "Remain": "verbleiben",
+        "Ratio": "Anteil"
+      },
       "Customers": {
-        "Title": "Nach Kunde"
+        "Title": "Soll/Ist nach Kunde"
       },
       "Projects": {
-        "Title": "Nach Projekt"
+        "Title": "Soll/Ist nach Projekt"
       },
       "Activities": {
-        "Title": "Nach Tätigkeit"
+        "Title": "Soll/Ist nach Tätigkeit"
       },
       "Issues": {
-        "Title": "Nach Issue"
+        "Title": "Soll/Ist nach Issue"
       },
       "Orders": {
-        "Title": "Nach Auftrag"
+        "Title": "Soll/Ist nach Auftrag"
       }
     },
     "MasterData": {
@@ -212,6 +224,28 @@
       "StartDate": "Startdatum",
       "DueDate": "Fälligkeitsdatum",
       "Hidden": "Versteckt"
+    },
+    "WorkTimeDto": {
+      "OrderTitle": "Auftrag",
+      "OrderNumber": "Auftragsnummer",
+      "CustomerTitle": "Kunde",
+      "DaysWorked": "geleistet",
+      "DaysPlanned": "geplant",
+      "DaysDifference": "Differenz in Tagen",
+      "TimeWorked": "geleistet",
+      "TimePlanned": "geplant",
+      "TimeDifference": "Differenz",
+      "BudgetWorked": "Budget verwendet",
+      "BudgetPlanned": "Budget geplant",
+      "BudgetDifference": "Budget übrig",
+      "RatioFinished": "erledigt",
+      "RatioTotalWorked": "Anteil gearbeitet",
+      "RatioTotalPlanned": "Anteil geplant",
+      "PlannedStart": "Geplant von",
+      "PlannedEnd": "Geplant bis",
+      "OrderPeriod": "Auftragszeitraum",
+      "HourlyRate": "Stundensatz",
+      "Currency": "Währung"
     },
     "HolidayDto": {
       "Title": "Titel",

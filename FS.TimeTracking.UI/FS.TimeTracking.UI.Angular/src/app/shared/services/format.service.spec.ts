@@ -1,9 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { FormatService } from './format.service';
-import {DatePipe} from '../pipes/date.pipe';
+import {TestBed} from '@angular/core/testing';
+import {FormatService} from './format.service';
 import {DecimalPipe} from '@angular/common';
 
-describe('FormatService', () => {
+describe('FormatServiceService', () => {
   let service: FormatService;
 
   beforeEach(() => {

@@ -1,4 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.Report;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 
@@ -10,5 +16,22 @@ public interface IReportService
     /// <summary>
     /// Gets the work times grouped by customer.
     /// </summary>
-    Task GetWorkTimesPerCustomer();
+    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
+    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
+    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
+    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
+    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets the work times grouped by order.
+    /// </summary>
+    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
+    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
+    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
+    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
+    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default);
 }

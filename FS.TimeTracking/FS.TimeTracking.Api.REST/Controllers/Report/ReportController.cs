@@ -1,6 +1,12 @@
-﻿using FS.TimeTracking.Api.REST.Routing;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Api.REST.Routing;
+using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.Report;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Report;
@@ -22,6 +28,11 @@ public class ReportController : ControllerBase, IReportService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task GetWorkTimesPerCustomer()
-        => await _reportService.GetWorkTimesPerCustomer();
+    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+        => await _reportService.GetWorkTimesPerCustomer(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<List<WorkTimeDto>> GetWorkTimesPerOrder([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+        => await _reportService.GetWorkTimesPerOrder(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
 }

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {DateTime, DateTimeFormatOptions, Duration} from 'luxon';
-import {DatePipe} from '../pipes/date.pipe';
 import {DecimalPipe} from '@angular/common';
 import {LocalizationService} from './internationalization/localization.service';
 

@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import {Subject} from 'rxjs';
-import {TimeSheetFilterDto} from '../../../timesheet/components/timesheet-filter/timesheet-filter.component';
 
 @Component({
   selector: 'ts-report-customers',
@@ -8,7 +6,6 @@ import {TimeSheetFilterDto} from '../../../timesheet/components/timesheet-filter
   styleUrls: ['./report-customers.component.scss']
 })
 export class ReportCustomersComponent {
-  public filterChanged = new Subject<TimeSheetFilterDto>();
 
   constructor() { }
 
