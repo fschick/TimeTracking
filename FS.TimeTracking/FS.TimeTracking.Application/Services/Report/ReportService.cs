@@ -174,7 +174,7 @@ public class ReportService : IReportService
                     HourlyRate = x.Min(f => f.Order.HourlyRate),
                     CustomerTitle = x.Min(f => f.Project.Customer.Title),
                 },
-                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
+                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.Billable && x.OrderId != null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 
