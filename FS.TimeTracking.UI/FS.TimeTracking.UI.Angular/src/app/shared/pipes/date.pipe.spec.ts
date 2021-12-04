@@ -2,13 +2,14 @@ import {DatePipe} from './date.pipe';
 import {TestBed} from '@angular/core/testing';
 import {DateTime} from 'luxon';
 import {LocalizationService} from '../services/internationalization/localization.service';
+import {DecimalPipe} from '@angular/common';
 
 describe('DatePipe', () => {
   let localizationService: LocalizationService;
   let pipe: DatePipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [DatePipe]});
+    TestBed.configureTestingModule({providers: [DatePipe, DecimalPipe]});
     localizationService = TestBed.inject(LocalizationService);
     pipe = TestBed.inject(DatePipe);
   });

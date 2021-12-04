@@ -59,7 +59,7 @@
       <div class="row row-day-header border-top py-1 mx-0">
           <span class="col text-muted">
             {{workDay.date | tsDate}}
-            ({{workDay.workTime.toFormat('hh:mm')}}
+            ({{workDay.workTime | tsDuration}}
             <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>)
           </span>
       </div>
