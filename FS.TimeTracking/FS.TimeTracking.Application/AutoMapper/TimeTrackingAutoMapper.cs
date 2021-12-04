@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
+using System;
 using System.Collections.Generic;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 
@@ -25,13 +26,15 @@ public class TimeTrackingAutoMapper : Profile
             .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);
 
         CreateMap<List<Setting>, SettingDto>()
-            .ConvertUsing<SettingsDtoMapper>();
+            .ConvertUsing<SettingsDtoConverter>();
 
         CreateMap<SettingDto, List<Setting>>()
             .ConvertUsing<SettingsFromDtoMapper>();
 
         CreateMap<Holiday, HolidayDto>()
             .ReverseMap()
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
@@ -46,11 +49,15 @@ public class TimeTrackingAutoMapper : Profile
 
         CreateMap<Order, OrderDto>()
             .ReverseMap()
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.DueDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.DueDateOffset, x => x.Ignore());
 
         CreateMap<TimeSheet, TimeSheetDto>()
             .ReverseMap()
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToMinuteConverter, DateTimeOffset>())
+            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateNullableToMinuteConverter, DateTimeOffset?>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 

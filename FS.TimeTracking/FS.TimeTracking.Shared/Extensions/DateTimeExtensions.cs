@@ -26,6 +26,22 @@ public static class DateTimeExtensions
         => dateTime?.ToOffset(offset);
 
     /// <summary>
+    /// Truncates a date to a specific precision
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    /// <param name="roundTicks">Use <see cref="TimeSpan.TicksPerMinute"/> to truncate to full minute, <see cref="TimeSpan.TicksPerHour"/> to truncate to full hour, etc.</param>
+    public static DateTimeOffset Truncate(this DateTimeOffset date, long roundTicks)
+        => new(date.Ticks - date.Ticks % roundTicks, date.Offset);
+
+    /// <summary>
+    /// Truncates a date to a specific precision
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    /// <param name="roundTicks">Use <see cref="TimeSpan.TicksPerMinute"/> to truncate to full minute, <see cref="TimeSpan.TicksPerHour"/> to truncate to full hour, etc.</param>
+    public static DateTimeOffset? Truncate(this DateTimeOffset? date, long roundTicks)
+        => date?.Truncate(roundTicks);
+
+    /// <summary>
     /// Gets all dates between two dates.
     /// </summary>
     /// <param name="from">Start date.</param>

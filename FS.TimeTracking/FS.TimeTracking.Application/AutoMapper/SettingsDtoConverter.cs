@@ -10,7 +10,7 @@ using System.Linq;
 namespace FS.TimeTracking.Application.AutoMapper;
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-internal class SettingsDtoMapper : ITypeConverter<List<Setting>, SettingDto>
+internal class SettingsDtoConverter : ITypeConverter<List<Setting>, SettingDto>
 {
     public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
     {
