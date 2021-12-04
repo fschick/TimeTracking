@@ -15,7 +15,8 @@
       ({{overview.workTime | number:'1.0-1'}}
       <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container>
       {{' '}}
-      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>)
+      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>
+      )
     </div>
     <div class="d-flex align-items-center">
       <div class="form-check d-inline-block me-3">
@@ -60,7 +61,8 @@
           <span class="col text-muted">
             {{workDay.date | tsDate}}
             ({{workDay.workTime | tsDuration}}
-            <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>)
+            <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>),
+            {{workDay.date | tsDate:'ccc'}}
           </span>
       </div>
 
@@ -76,7 +78,9 @@
               <div class="col-12 col-xl-auto col-date">{{timeSheet.startDate | tsDate}}</div>
               <div class="col-12 col-xl-auto col-start-end">{{timeSheet.startDate| tsTime}}
                 <ng-container *ngIf="timeSheet.endDate">- {{timeSheet.endDate | tsTime}}</ng-container>
-                <ng-container *ngIf="!timeSheet.endDate">- <ng-container i18n="@@DTO.TimeSheetListDto.Now">[i18n] jetzt</ng-container></ng-container>
+                <ng-container *ngIf="!timeSheet.endDate">-
+                  <ng-container i18n="@@DTO.TimeSheetListDto.Now">[i18n] jetzt</ng-container>
+                </ng-container>
               </div>
               <div class="col-12 col-xl-auto col-duration">{{timeSheet.duration | tsDuration}}
                 <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container>
@@ -129,7 +133,7 @@
             <ng-container *ngIf="timeSheet.issue">
               {{timeSheet.issue}}
             </ng-container>
-            <ng-container *ngIf="timeSheet.issue && timeSheet.comment">| </ng-container>
+            <ng-container *ngIf="timeSheet.issue && timeSheet.comment">|</ng-container>
             <ng-container *ngIf="timeSheet.comment">
               {{timeSheet.comment}}
             </ng-container>
