@@ -70,7 +70,7 @@ public class TimeSheet : IIdEntityModel
     public string Issue { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="Project"/>.
+    /// The identifier to the related <see cref="MasterData.Project"/>.
     /// </summary>
     [Required]
     public Guid ProjectId { get; set; }
@@ -79,7 +79,7 @@ public class TimeSheet : IIdEntityModel
     public Project Project { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="Activity"/>.
+    /// The identifier to the related <see cref="MasterData.Activity"/>.
     /// </summary>
     [Required]
     public Guid ActivityId { get; set; }
@@ -88,7 +88,7 @@ public class TimeSheet : IIdEntityModel
     public Activity Activity { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="Order"/>.
+    /// The identifier to the related <see cref="MasterData.Order"/>.
     /// </summary>
     public Guid? OrderId { get; set; }
 

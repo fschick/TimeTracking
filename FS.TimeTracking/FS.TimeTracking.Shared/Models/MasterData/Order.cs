@@ -38,7 +38,7 @@ public class Order : IIdEntityModel
     public string Number { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="Customer"/>.
+    /// The identifier to the related <see cref="MasterData.Customer"/>.
     /// </summary>
     [Required]
     public Guid CustomerId { get; set; }

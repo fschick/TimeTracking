@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable, of, Subject} from 'rxjs';
-import {ActivityListDto, CustomerDto, HolidayDto, HolidayListDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
+import {ActivityListDto, CustomerDto, HolidayListDto, OrderListDto, ProjectListDto, TimeSheetListDto} from '../api';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
 
 export interface EntityChanged<TDto> {

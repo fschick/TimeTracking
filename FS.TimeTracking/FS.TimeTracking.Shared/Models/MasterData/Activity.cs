@@ -24,7 +24,7 @@ public class Activity : IIdEntityModel
     public string Title { get; set; }
 
     /// <summary>
-    /// Identifier to the related <see cref="Project"/>.
+    /// Identifier to the related <see cref="MasterData.Project"/>.
     /// </summary>
     public Guid? ProjectId { get; set; }
 

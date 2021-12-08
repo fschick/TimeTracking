@@ -1,4 +1,5 @@
-﻿using FS.FilterExpressionCreator.Filters;
+﻿using System;
+using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.Report;
@@ -28,7 +29,7 @@ public class ReportController : ControllerBase, IReportService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer([FromQuery]EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery]EntityFilter<ProjectDto> projectFilter, [FromQuery]EntityFilter<CustomerDto> customerFilter, [FromQuery]EntityFilter<ActivityDto> activityFilter, [FromQuery]EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
         => await _reportService.GetWorkTimesPerCustomer(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, cancellationToken);
 
     /// <inheritdoc />

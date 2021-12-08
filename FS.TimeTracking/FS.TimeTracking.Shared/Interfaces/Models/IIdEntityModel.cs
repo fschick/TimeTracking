@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Shared.Interfaces.Models;
 public interface IIdEntityModel : IEntityModel
 {
     /// <summary>
-    /// THe unique identifier of the entity.
+    /// The unique identifier of the entity.
     /// </summary>
     [Required]
     public Guid Id { get; set; }

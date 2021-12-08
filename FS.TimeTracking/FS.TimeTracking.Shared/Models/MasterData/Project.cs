@@ -24,7 +24,7 @@ public class Project : IIdEntityModel
     public string Title { get; set; }
 
     /// <summary>
-    /// Identifier to the related <see cref="Customer"/>.
+    /// Identifier to the related <see cref="MasterData.Customer"/>.
     /// </summary>
     [Required]
     public Guid CustomerId { get; set; }
