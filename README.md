@@ -1,24 +1,80 @@
 # FS.TimeTracking
 
-Time tracking software for freelancers. Still under active development.
+Time tracking for freelancers and people who work on projects based on an hourly quota.
 
-### Configuration files
+## Demo
+
+https://timetracking-demo.schick-software.de/
+
+## Status
+
+Currently in development, unfinished. 
+
+First release is planned for Q1/2022.
+
+## Development
+
+### Pre requirements
+
+[.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
+
+[Node.js 16.x](https://nodejs.org/en/)
+
+[OpenJDK](https://docs.microsoft.com/en-us/java/openjdk/download) (required to generate Angular REST client via OpenAPI Generator)
+
+### Run
+
+Download or clone repository
+
+```bash
+git clone https://github.com/fschick/TimeTracking.git
+cd TimeTracking
+```
+
+Install NPM packages
+
+```bash
+cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+npm install
+cd ../..
+```
+
+Run server
+
+```
+dotnet run --project FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj
+```
+
+Run UI
+
+```
+cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+npm run start
+```
+
+Open web browser:
+
+http://localhost:4200/
+
+### Publish
+
+See publish script `Build/make_publish.ps1`
+
+## Configuration files
 
 ##### Application / Service / Kestrel configuration
 
-./FS.TimeTracking.config.json
+./config/FS.TimeTracking.config.json
 
 ##### Logging configuration
 
-./FS.TimeTracking.config.nlog
+./config/FS.TimeTracking.config.nlog
 
 ##### OpenAPI specification
 
 ./FS.TimeTracking.openapi.json
 
-
-
-### Run from command line
+## Run from command line
 
 ```shell
 # Windows
@@ -29,9 +85,7 @@ chmod +x ./FS.TimeTracking
 ./FS.TimeTracking
 ```
 
-
-
-### Install as service on Windows
+## Install as service on Windows
 
 ```bash
 # Copy the content of publish folder to suitable location
@@ -48,9 +102,7 @@ C:\Services\FS.TimeTracking\FS.TimeTracking.WindowsService.Install.bat
 C:\Services\FS.TimeTracking\FS.TimeTracking.WindowsService.Uninstall.bat
 ```
 
-
-
-### Install as service on Linux
+## Install as service on Linux
 
 ```bash
 # Copy files
