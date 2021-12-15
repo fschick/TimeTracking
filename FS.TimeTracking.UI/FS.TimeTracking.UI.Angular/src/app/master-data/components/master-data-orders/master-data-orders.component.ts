@@ -5,20 +5,21 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {OrderListDto, OrderService} from '../../../shared/services/api';
-import {Observable, Subscription} from 'rxjs';
+import {ActivityListDto, OrderListDto, OrderService} from '../../../shared/services/api';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {single} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-orders',
   templateUrl: './master-data-orders.component.html',
   styleUrls: ['./master-data-orders.component.scss']
 })
-export class MasterDataOrdersComponent implements OnInit, OnDestroy {
+export class MasterDataOrdersComponent implements OnInit {
 
   @ViewChild(SimpleTableComponent) private orderTable?: SimpleTableComponent<OrderListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
@@ -28,8 +29,8 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   public rows$: Observable<OrderListDto[]>;
   public columns!: Column<OrderListDto>[];
   public configuration?: Partial<Configuration<OrderListDto>>;
-
-  private subscriptions = new Subscription();
+  public filters: (Filter | FilterName)[];
+  public filterChanged = new Subject<FilteredRequestParams>();
 
   constructor(
     private entityService: EntityService,
@@ -38,10 +39,17 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.orderService.list({})
+    this.filters = [
+      {name: 'orderStartDate'},
+      {name: 'orderDueDate'},
+      {name: 'orderId', showHidden: true},
+      {name: 'customerId', showHidden: true},
+    ];
+
+    this.rows$ = this.filterChanged
       .pipe(
-        single(),
-        this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService)
+        switchMap(filter => this.loadData(filter)),
+        this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService),
       );
   }
 
@@ -94,8 +102,9 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  private loadData(filter: FilteredRequestParams): Observable<OrderListDto[]> {
+    return this.orderService.getListFiltered(filter)
+      .pipe(single());
   }
 
   public getDataCellValue(row: OrderListDto, column: Column<OrderListDto>): string {

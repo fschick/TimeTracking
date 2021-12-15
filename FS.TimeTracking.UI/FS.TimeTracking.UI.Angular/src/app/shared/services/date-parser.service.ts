@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {DateTime} from 'luxon';
+import {DateTime, Duration} from 'luxon';
 import {DateObjectUnits} from 'luxon/src/datetime';
 import {LocalizationService} from './internationalization/localization.service';
 import {DurationLike} from 'luxon/src/duration';
@@ -8,6 +8,9 @@ import {DurationLike} from 'luxon/src/duration';
   providedIn: 'root'
 })
 export class DateParserService {
+
+  private isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+\-]\d{2}:\d{2})?$/;
+  private dotNetTimeSpanFormat = /^(?<sign>[+-]?)(?:(?<days>\d+)\.)?(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{3})\d*)?$/;
 
   constructor(
     private localizationService: LocalizationService,
@@ -50,6 +53,24 @@ export class DateParserService {
     if (relativeParts)
       return this.parseRelative(relativeParts, relativeAnchor);
     return undefined;
+  }
+
+  public convertJsStringsToLuxon(body: any): any {
+    if (body === null || body === undefined || typeof body !== 'object')
+      return body;
+
+    let duration: Duration | null;
+    for (const [key, value] of Object.entries(body)) {
+      if (typeof value === 'object') {
+        this.convertJsStringsToLuxon(value);
+      } else if (this.isIsoDateString(value)) {
+        body[key] = DateTime.fromISO(value as string);
+      } else if ((duration = this.parseDuration(value)) !== null) {
+        body[key] = duration;
+      }
+    }
+
+    return body;
   }
 
   private parseToday(): DateTime {
@@ -162,5 +183,34 @@ export class DateParserService {
       parsedDate = relativeAnchor === 'start' ? parsedDate.startOf('week') : parsedDate.endOf('week');
 
     return parsedDate;
+  }
+
+  private isIsoDateString(value: any): boolean {
+    if (value === null || value === undefined || typeof value !== 'string')
+      return false;
+    return this.isoDateFormat.test(value);
+  }
+
+  private parseDuration(value: any): Duration | null {
+    if (value === null || value === undefined || typeof value !== 'string')
+      return null;
+
+    const timeSpan = value.match(this.dotNetTimeSpanFormat);
+    if (timeSpan === null)
+      return null;
+
+    let duration = Duration
+      .fromObject({
+        days: parseInt(timeSpan.groups?.['days'] ?? '0', 10),
+        hours: parseInt(timeSpan.groups?.['hours'] ?? '0', 10),
+        minutes: parseInt(timeSpan.groups?.['minutes'] ?? '0', 10),
+        seconds: parseInt(timeSpan.groups?.['seconds'] ?? '0', 10),
+        milliseconds: parseInt(timeSpan.groups?.['milliseconds'] ?? '0', 10),
+      });
+
+    const isNegative = timeSpan.groups?.['sign'] === '-';
+    return isNegative
+      ? duration.negate()
+      : duration;
   }
 }

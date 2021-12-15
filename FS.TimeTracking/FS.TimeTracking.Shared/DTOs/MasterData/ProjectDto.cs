@@ -16,7 +16,6 @@ public class ProjectDto
 {
     /// <inheritdoc cref="Project.Id"/>
     [Required]
-    [Filter(Visible = false)]
     public Guid Id { get; set; }
 
     /// <inheritdoc cref="Project.Title"/>
@@ -26,6 +25,7 @@ public class ProjectDto
 
     /// <inheritdoc cref="Project.CustomerId"/>
     [Required]
+    [Filter(Visible = false)]
     public Guid CustomerId { get; set; }
 
     /// <inheritdoc cref="Project.Comment"/>

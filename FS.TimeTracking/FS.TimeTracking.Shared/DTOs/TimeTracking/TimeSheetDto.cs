@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Shared.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheet"/>
 [ValidationDescription]
-[FilterEntity(Prefix = "")]
+[FilterEntity(Prefix = nameof(TimeSheet))]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetDto
 {
@@ -20,13 +20,16 @@ public class TimeSheetDto
 
     /// <inheritdoc cref="TimeSheet.ProjectId"/>
     [Required]
+    [Filter(Visible = false)]
     public Guid ProjectId { get; set; }
 
     /// <inheritdoc cref="TimeSheet.ActivityId"/>
     [Required]
+    [Filter(Visible = false)]
     public Guid ActivityId { get; set; }
 
     /// <inheritdoc cref="TimeSheet.OrderId"/>
+    [Filter(Visible = false)]
     public Guid? OrderId { get; set; }
 
     /// <inheritdoc cref="TimeSheet.Issue"/>

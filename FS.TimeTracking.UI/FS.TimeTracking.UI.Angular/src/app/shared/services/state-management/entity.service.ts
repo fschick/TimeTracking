@@ -13,7 +13,8 @@ export type CrudDto = {
 };
 
 export type CrudService<TDto> = {
-  list: (requestParameters: { id?: string }) => Observable<TDto[]>;
+  getListItem: (requestParameters: { id: string }) => Observable<TDto>;
+  getListFiltered: (requestParameters: {}) => Observable<TDto[]>;
 };
 
 @Injectable({
@@ -46,7 +47,7 @@ export class EntityService {
 
       const reloadedSourceList$ = entityChanged.pipe(
         filter(x => x.action === 'reloadAll'),
-        switchMap(() => crudService.list({}).pipe(single()))
+        switchMap(() => crudService.getListFiltered({}).pipe(single()))
       );
 
       return merge(cachedSourceList$, updatedSourceList$, reloadedSourceList$);
@@ -66,11 +67,11 @@ export class EntityService {
           }
 
           return crudService
-            .list({id: changedEvent.entity.id})
+            .getListItem({id: changedEvent.entity.id})
             .pipe(
               single(),
               map(entity => {
-                changedEvent.entity = entity[0];
+                changedEvent.entity = entity;
                 return changedEvent;
               })
             );

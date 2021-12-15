@@ -1,6 +1,6 @@
 <!-- Filter -->
-<ts-timesheet-filter (filterChanged)="filterChanged.next($event)">
-</ts-timesheet-filter>
+<ts-filter (filterChanged)="filterChanged.next($event)">
+</ts-filter>
 
 <hr>
 
@@ -15,8 +15,7 @@
       ({{overview.workTime | number:'1.0-1'}}
       <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container>
       {{' '}}
-      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>
-      )
+      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>)
     </div>
     <div class="d-flex align-items-center">
       <div class="form-check d-inline-block me-3">

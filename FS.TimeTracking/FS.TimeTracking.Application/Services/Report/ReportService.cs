@@ -2,6 +2,7 @@
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
 using FS.FilterExpressionCreator.Models;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.Report;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
@@ -42,9 +43,9 @@ public class ReportService : IReportService
     }
 
     /// <inheritdoc />
-    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter);
+        var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerCustomer = await GetWorkedTimesPerCustomer(filter, cancellationToken);
         var plannedTimesPerCustomer = await GetPlannedTimesPerCustomer(filter, cancellationToken);
 
@@ -68,9 +69,9 @@ public class ReportService : IReportService
     }
 
     /// <inheritdoc />
-    public async Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+    public async Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter);
+        var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerOrder = await GetWorkedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerOrder = await GetPlannedTimesPerOrder(filter, cancellationToken);
 
@@ -235,37 +236,10 @@ public class ReportService : IReportService
         return TimeSpan.FromHours(orderWorkHours * ratio);
     }
 
-    private static Filter CreateFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter)
+    private static Filter CreateFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
     {
-        var projectFilterCast = projectFilter.Cast<Project>();
-        var timeSheetProjectIdFilter = timeSheetFilter.GetPropertyFilter(timeSheet => timeSheet.ProjectId);
-        if (timeSheetProjectIdFilter != null)
-        {
-            projectFilterCast
-                .Replace(x => x.Id, timeSheetProjectIdFilter);
-        }
-
-        var projectCustomerFilter = projectFilterCast
-            .Replace(x => x.Customer, customerFilter.Cast<Customer>());
-
-        var customerProjectFilter = customerFilter.Cast<Customer>()
-            .Replace(x => x.Projects, projectFilterCast);
-
-        var workedTimesFilter = timeSheetFilter
-            .Cast<TimeSheet>()
-            .Replace(x => x.Project, projectCustomerFilter)
-            .Replace(x => x.Activity, activityFilter.Cast<Activity>())
-            .Replace(x => x.Order, orderFilter.Cast<Order>());
-
-        var plannedTimesFilter = orderFilter.Cast<Order>()
-            .Replace(x => x.Customer, customerProjectFilter);
-
-        var timeSheetOrderIdFilter = timeSheetFilter.GetPropertyFilter(timeSheet => timeSheet.OrderId);
-        if (timeSheetOrderIdFilter != null)
-        {
-            plannedTimesFilter
-                .Replace(x => x.Id, timeSheetOrderIdFilter);
-        }
+        var workedTimesFilter = EntityFilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var plannedTimesFilter = EntityFilterExtensions.CreateOrderFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         var timeSheetStartFilter = workedTimesFilter.GetPropertyFilter(x => x.StartDate);
         var startEndIsFiltered = timeSheetStartFilter.TryConvertStringToDateTimeSpan(DateTimeOffset.Now, out var filterStartEnd);

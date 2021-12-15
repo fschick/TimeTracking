@@ -21,8 +21,9 @@ public interface IReportService
     /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
     /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
     /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default);
+    Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the work times grouped by order.
@@ -32,6 +33,7 @@ public interface IReportService
     /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
     /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
     /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default);
+    Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
 }

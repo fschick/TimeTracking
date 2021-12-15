@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -8,10 +8,11 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {single} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-customers',
@@ -27,6 +28,8 @@ export class MasterDataCustomersComponent implements OnInit {
   public rows$: Observable<CustomerDto[]>;
   public columns!: Column<CustomerDto>[];
   public configuration?: Partial<Configuration<CustomerDto>>;
+  public filters: (Filter | FilterName)[];
+  public filterChanged = new Subject<FilteredRequestParams>();
 
   constructor(
     private entityService: EntityService,
@@ -35,10 +38,17 @@ export class MasterDataCustomersComponent implements OnInit {
     private customerService: CustomerService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.customerService.list({})
+    this.filters = [
+      {name: 'customerId', showHidden: true},
+      {name: 'customerNumber'},
+      {name: 'customerCompanyName'},
+      {name: 'customerHidden'},
+    ];
+
+    this.rows$ = this.filterChanged
       .pipe(
-        single(),
-        this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService)
+        switchMap(filter => this.loadData(filter)),
+        this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService),
       );
   }
 
@@ -86,6 +96,11 @@ export class MasterDataCustomersComponent implements OnInit {
 
   public getDataCellValue(row: CustomerDto, column: Column<CustomerDto>): string {
     return this.customerTable?.getCellValue(row, column) ?? '';
+  }
+
+  private loadData(filter: FilteredRequestParams): Observable<CustomerDto[]> {
+    return this.customerService.getListFiltered(filter)
+      .pipe(single());
   }
 
   public deleteItem(id: string): void {

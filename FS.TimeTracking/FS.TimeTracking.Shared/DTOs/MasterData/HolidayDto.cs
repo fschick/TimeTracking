@@ -17,7 +17,6 @@ public record HolidayDto
 {
     /// <inheritdoc cref="Holiday.Id"/>
     [Required]
-    [Filter(Visible = false)]
     public Guid Id { get; init; }
 
     /// <inheritdoc cref="Holiday.Title"/>

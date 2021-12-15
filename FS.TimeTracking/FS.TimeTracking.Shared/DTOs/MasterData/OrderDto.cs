@@ -16,7 +16,6 @@ public class OrderDto
 {
     /// <inheritdoc cref="Order.Id"/>
     [Required]
-    [Filter(Visible = false)]
     public Guid Id { get; set; }
 
     /// <inheritdoc cref="Order.Title"/>

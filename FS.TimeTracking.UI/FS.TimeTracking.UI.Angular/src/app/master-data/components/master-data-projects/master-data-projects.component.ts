@@ -5,13 +5,14 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {ProjectListDto, ProjectService} from '../../../shared/services/api';
-import {Observable} from 'rxjs';
+import {ActivityListDto, ProjectListDto, ProjectService} from '../../../shared/services/api';
+import {Observable, Subject} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {single} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-projects',
@@ -28,6 +29,8 @@ export class MasterDataProjectsComponent implements OnInit {
   public rows$: Observable<ProjectListDto[]>;
   public columns!: Column<ProjectListDto>[];
   public configuration?: Partial<Configuration<ProjectListDto>>;
+  public filters: (Filter | FilterName)[];
+  public filterChanged = new Subject<FilteredRequestParams>();
 
   constructor(
     private entityService: EntityService,
@@ -36,10 +39,16 @@ export class MasterDataProjectsComponent implements OnInit {
     private projectService: ProjectService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.projectService.list({})
+    this.filters = [
+      {name: 'projectId', showHidden: true},
+      {name: 'customerId', showHidden: true},
+      {name: 'projectHidden'},
+    ];
+
+    this.rows$ = this.filterChanged
       .pipe(
-        single(),
-        this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService)
+        switchMap(filter => this.loadData(filter)),
+        this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService),
       );
   }
 
@@ -74,6 +83,11 @@ export class MasterDataProjectsComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  private loadData(filter: FilteredRequestParams): Observable<ProjectListDto[]> {
+    return this.projectService.getListFiltered(filter)
+      .pipe(single());
   }
 
   public getDataCellValue(row: ProjectListDto, column: Column<ProjectListDto>): string {

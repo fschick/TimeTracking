@@ -1,3 +1,10 @@
+<!-- Filter -->
+<ts-filter [filters]="filters"
+           (filterChanged)="filterChanged.next($event)">
+</ts-filter>
+
+<hr>
+
 <div class="d-flex justify-content-between align-items-start mb-2">
   <h4 i18n="@@Page.MasterData.Orders.Title">
     [i18n] Orders

@@ -1,0 +1,443 @@
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-start mb-2">
+  <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Filter</h4>
+  <div>
+    <button *ngIf="isFiltered$ | ngrxPush"
+            (click)="clearFilterForm()"
+            type="button"
+            class="btn btn-sm btn-danger"
+            i18n="@@Component.Filter.Clear">
+      [i18n] Clear Filter
+    </button>
+    <button *ngIf="secondaryFilters && secondaryFilters.length"
+            id="extendedFilterToggler"
+            type="button"
+            class="btn btn-sm btn-outline-secondary collapsed ms-2"
+            data-bs-toggle="collapse"
+            data-bs-target="#extendedFilter"
+            aria-expanded="false"
+            aria-controls="extendedFilter">
+      <span class="text-expand" i18n="@@Common.Expand">[i18n] Expand</span>
+      <span class="text-collapse" i18n="@@Common.Collapse">[i18n] Collapse</span>
+    </button>
+  </div>
+</div>
+
+<form *ngIf="filterForm" id="filterForm" [formGroup]="filterForm">
+
+  <ng-container *ngIf="filterTemplates">
+    <!-- Standard filter -->
+    <div class="row g-3">
+      <ng-container *ngFor="let filter of primaryFilters">
+        <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
+      </ng-container>
+    </div>
+
+    <!-- Extended filter -->
+    <div id="extendedFilter" class="collapse">
+      <div class="row g-3 my-0">
+        <ng-container *ngFor="let filter of secondaryFilters">
+          <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #timeSheetStartDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <div class="input-group">
+        <input id="timeSheetStartMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] From"
+               i18n-placeholder="@@Component.Filter.From"
+               formControlName="timeSheetStartMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               [clearBtn]="isRequired('timeSheetStartDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="timeSheetStartDate"
+               type="text"
+               class="form-control"
+               formControlName="timeSheetStartDate"
+               tsDatePicker
+               [clearBtn]="isRequired('timeSheetStartDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #timeSheetEndDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <div class="input-group">
+        <input id="timeSheetEndMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] To"
+               i18n-placeholder="@@Component.Filter.To"
+               formControlName="timeSheetEndMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               relativeAnchor="end"
+               [clearBtn]="isRequired('timeSheetEndDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="timeSheetEndDate"
+               type="text"
+               class="form-control"
+               formControlName="timeSheetEndDate"
+               tsDatePicker
+               relativeAnchor="end"
+               [clearBtn]="isRequired('timeSheetEndDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #orderStartDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <div class="input-group">
+        <input id="orderStartMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] From"
+               i18n-placeholder="@@Component.Filter.From"
+               formControlName="orderStartMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               [clearBtn]="isRequired('orderStartDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="orderStartDate"
+               type="text"
+               class="form-control"
+               formControlName="orderStartDate"
+               tsDatePicker
+               [clearBtn]="isRequired('orderStartDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #orderDueDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <div class="input-group">
+        <input id="orderDueMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] To"
+               i18n-placeholder="@@Component.Filter.To"
+               formControlName="orderDueMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               relativeAnchor="end"
+               [clearBtn]="isRequired('orderDueDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="orderDueDate"
+               type="text"
+               class="form-control"
+               formControlName="orderDueDate"
+               tsDatePicker
+               relativeAnchor="end"
+               [clearBtn]="isRequired('orderDueDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #holidayStartDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <div class="input-group">
+        <input id="holidayStartMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] From"
+               i18n-placeholder="@@Component.Filter.From"
+               formControlName="holidayStartMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               [clearBtn]="isRequired('holidayStartDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="holidayStartDate"
+               type="text"
+               class="form-control"
+               formControlName="holidayStartDate"
+               tsDatePicker
+               [clearBtn]="isRequired('holidayStartDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #holidayEndDate>
+    <div class="col-6 col-xl-3">
+      <label class="visually-hidden" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <div class="input-group">
+        <input id="holidayEndMonth"
+               type="text"
+               class="form-control month-input"
+               readonly
+               placeholder="[i18n] To"
+               i18n-placeholder="@@Component.Filter.To"
+               formControlName="holidayEndMonth"
+               tsDatePicker
+               format="MMM"
+               minViewMode="months"
+               relativeAnchor="end"
+               [clearBtn]="isRequired('holidayEndDate')"
+               inputmode="none"
+               autocomplete="off"
+               tabindex="-1">
+        <input id="holidayEndDate"
+               type="text"
+               class="form-control"
+               formControlName="holidayEndDate"
+               tsDatePicker
+               relativeAnchor="end"
+               [clearBtn]="isRequired('holidayEndDate')"
+               inputmode="none"
+               autocomplete="off">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #customerId>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <!--suppress XmlInvalidId -->
+      <label for="customerTitle" class="visually-hidden" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
+      <ng-select [items]="customers$ | ngrxPush"
+                 [multiple]="true"
+                 dropdownPosition="bottom"
+                 placeholder="[i18n] Customer"
+                 i18n-placeholder="@@Component.Filter.Customer"
+                 bindValue="id"
+                 bindLabel="value"
+                 labelForId="customerTitle"
+                 appendTo="body"
+                 formControlName="customerId">
+        <ng-template ng-option-tmp let-item="item">
+          <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #projectId>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <!--suppress XmlInvalidId -->
+      <label for="projectTitle" class="visually-hidden" i18n="@@Component.Filter.Project">[i18n] Project</label>
+      <ng-select [items]="projects$ | ngrxPush"
+                 [multiple]="true"
+                 dropdownPosition="bottom"
+                 bindValue="id"
+                 bindLabel="value"
+                 placeholder="[i18n] Project"
+                 i18n-placeholder="@@Component.Filter.Project"
+                 labelForId="projectTitle"
+                 appendTo="body"
+                 formControlName="projectId">
+        <ng-template ng-option-tmp let-item="item">
+          <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #activityId>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="activityTitle" class="visually-hidden" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
+      <ng-select [items]="activities$ | ngrxPush"
+                 [multiple]="true"
+                 dropdownPosition="bottom"
+                 bindValue="id"
+                 bindLabel="value"
+                 placeholder="[i18n] Activity"
+                 i18n-placeholder="@@Component.Filter.Activity"
+                 labelForId="activityTitle"
+                 appendTo="body"
+                 formControlName="activityId">
+        <ng-template ng-option-tmp let-item="item">
+          <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #orderId>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="orderTitle" class="visually-hidden" i18n="@@Component.Filter.Order">[i18n] Order</label>
+      <ng-select [items]="orders$ | ngrxPush"
+                 [multiple]="true"
+                 dropdownPosition="bottom"
+                 placeholder="[i18n] Order"
+                 i18n-placeholder="@@Component.Filter.Order"
+                 bindValue="id"
+                 bindLabel="value"
+                 labelForId="orderTitle"
+                 appendTo="body"
+                 formControlName="orderId">
+        <ng-template ng-option-tmp let-item="item">
+          <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #timeSheetIssue>
+    <div class="col-12 col-md-3">
+      <label for="timeSheetIssue" class="visually-hidden" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
+      <input id="timeSheetIssue"
+             type="text"
+             class="form-control"
+             placeholder="[i18n] Issue"
+             i18n-placeholder="@@Component.Filter.Issue"
+             formControlName="timeSheetIssue"
+             (keydown.enter)="changeValue($event, 'timeSheetIssue')">
+    </div>
+  </ng-template>
+
+  <ng-template #customerNumber>
+    <div class="col-12 col-md-3">
+      <label for="customerNumber" class="visually-hidden" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
+      <input id="customerNumber"
+             type="text"
+             class="form-control"
+             placeholder="[i18n] Number"
+             i18n-placeholder="@@Component.Filter.CustomerNumber"
+             formControlName="customerNumber"
+             (keydown.enter)="changeValue($event, 'customerNumber')">
+    </div>
+  </ng-template>
+
+  <ng-template #customerCompanyName>
+    <div class="col-12 col-md-3">
+      <label for="customerCompanyName" class="visually-hidden" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
+      <input id="customerCompanyName"
+             type="text"
+             class="form-control"
+             placeholder="[i18n] Company"
+             i18n-placeholder="@@Component.Filter.CustomerCompanyName"
+             formControlName="customerCompanyName"
+             (keydown.enter)="changeValue($event, 'customerCompanyName')">
+    </div>
+  </ng-template>
+
+  <ng-template #timeSheetComment>
+    <div class="col-12 col-md-3">
+      <label for="timeSheetComment" class="visually-hidden" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
+      <input id="timeSheetComment"
+             type="text"
+             class="form-control"
+             placeholder="[i18n] Comment"
+             i18n-placeholder="@@Component.Filter.Comment"
+             formControlName="timeSheetComment"
+             (keydown.enter)="changeValue($event, 'timeSheetComment')">
+    </div>
+  </ng-template>
+
+  <ng-template #holidayTitle>
+    <div class="col-12 col-md-3">
+      <label for="holidayTitle" class="visually-hidden" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
+      <input id="holidayTitle"
+             type="text"
+             class="form-control"
+             placeholder="[i18n] Title"
+             i18n-placeholder="@@Component.Filter.HolidayTitle"
+             formControlName="holidayTitle"
+             (keydown.enter)="changeValue($event, 'holidayTitle')">
+    </div>
+  </ng-template>
+
+  <ng-template #activityHidden>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="activityHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <ng-select placeholder="[i18n] Hidden"
+                 i18n-placeholder="@@Component.Filter.Hidden"
+                 labelForId="activityHidden"
+                 formControlName="activityHidden">
+        <ng-option [value]="true" i18n="@@Common.Yes">[i18n] Yes</ng-option>
+        <ng-option [value]="false" i18n="@@Common.No">[i18n] No</ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #customerHidden>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="customerHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <ng-select placeholder="[i18n] Hidden"
+                 i18n-placeholder="@@Component.Filter.Hidden"
+                 labelForId="customerHidden"
+                 formControlName="customerHidden">
+        <ng-option [value]="true" i18n="@@Common.Yes">[i18n] Yes</ng-option>
+        <ng-option [value]="false" i18n="@@Common.No">[i18n] No</ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #projectHidden>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="projectHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <ng-select placeholder="[i18n] Hidden"
+                 i18n-placeholder="@@Component.Filter.Hidden"
+                 labelForId="projectHidden"
+                 formControlName="projectHidden">
+        <ng-option [value]="true" i18n="@@Common.Yes">[i18n] Yes</ng-option>
+        <ng-option [value]="false" i18n="@@Common.No">[i18n] No</ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #holidayType>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="holidayType" class="visually-hidden" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
+      <ng-select placeholder="[i18n] Type"
+                 i18n-placeholder="@@Component.Filter.HolidayType"
+                 labelForId="holidayType"
+                 formControlName="holidayType">
+        <ng-option value="Holiday" i18n="@@Enum.HolidayType.Holiday">[i18n] Holidays / Vacation</ng-option>
+        <ng-option value="PublicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <ng-template #filterNotImplemented>
+    <div class="col-12 col-md-3">
+      <label for="filterNotImplemented" class="visually-hidden">FILTER NOT IMPLEMENTED</label>
+      <input type="text" readonly class="form-control-plaintext" id="filterNotImplemented" value="FILTER NOT IMPLEMENTED">
+    </div>
+  </ng-template>
+</form>

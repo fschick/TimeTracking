@@ -1,12 +1,12 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {BehaviorSubject, Observable, share, Subject} from 'rxjs';
-import {ReportService, TimeSheetListFilteredRequestParams, WorkTimeDto} from '../../../shared/services/api';
-import {TimeSheetFilterDto} from '../../../timesheet/components/timesheet-filter/timesheet-filter.component';
+import {ReportService, WorkTimeDto} from '../../../shared/services/api';
 import {map, single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormatService} from '../../../shared/services/format.service';
+import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -41,7 +41,7 @@ type ChartOptions = {
 export class ReportOrdersComponent implements OnInit {
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<WorkTimeDto>;
 
-  public filterChanged = new Subject<TimeSheetFilterDto>();
+  public filterChanged = new Subject<FilteredRequestParams>();
   public chartOptions: ChartOptions;
   public chartSeries$: Observable<ApexAxisChartSeries>;
 
@@ -53,7 +53,6 @@ export class ReportOrdersComponent implements OnInit {
   public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
   public localizedHours = $localize`:@@Abbreviations.Hours:[i18n] h`;
 
-
   constructor(
     public formatService: FormatService,
     private reportService: ReportService,
@@ -62,7 +61,7 @@ export class ReportOrdersComponent implements OnInit {
   ) {
     this.tableRows$ = this.filterChanged
       .pipe(
-        switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
+        switchMap(filter => this.loadData(filter)),
         share()
       );
 
@@ -92,15 +91,8 @@ export class ReportOrdersComponent implements OnInit {
     });
   }
 
-  private loadData(timeSheetFilter: TimeSheetFilterDto): Observable<WorkTimeDto[]> {
-    const filter: TimeSheetListFilteredRequestParams = {
-      ...timeSheetFilter,
-      startDate: `${timeSheetFilter.startDate.toFormat('yyyy-MM-ddZZ')}_${timeSheetFilter.endDate.toFormat('yyyy-MM-ddZZ')}`,
-      endDate: undefined
-    };
-
-    return this.reportService.getWorkTimesPerOrder(filter)
-      .pipe(single());
+  private loadData(filter: FilteredRequestParams): Observable<WorkTimeDto[]> {
+    return this.reportService.getWorkTimesPerOrder(filter).pipe(single());
   }
 
   private createSeries(workTimes: WorkTimeDto[]): ApexAxisChartSeries {

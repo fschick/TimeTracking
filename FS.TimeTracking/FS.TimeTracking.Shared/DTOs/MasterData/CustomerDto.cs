@@ -16,7 +16,6 @@ public record CustomerDto
 {
     /// <inheritdoc cref="Customer.Id"/>
     [Required]
-    [Filter(Visible = false)]
     public Guid Id { get; init; }
 
     /// <inheritdoc cref="Customer.Title"/>

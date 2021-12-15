@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,14 +39,21 @@ public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelServi
     }
 
     /// <inheritdoc />
-    public virtual async Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
-        => await ListInternal(id, null, cancellationToken);
-
-    /// <inheritdoc />
     public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
         => await Repository
             .FirstOrDefault(
                 select: (TModel model) => Mapper.Map<TDto>(model),
+                where: model => model.Id == id,
+                cancellationToken: cancellationToken
+            );
+
+    /// <inheritdoc />
+    public abstract Task<List<TListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc />
+    public async Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default)
+        => await Repository
+            .FirstOrDefault<TModel, TListDto>(
                 where: model => model.Id == id,
                 cancellationToken: cancellationToken
             );
@@ -71,18 +80,4 @@ public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelServi
         await Repository.Remove<TModel>(x => x.Id == id);
         return await Repository.SaveChanges();
     }
-
-    /// <summary>
-    /// Get all items as flat list
-    /// </summary>
-    /// <param name="id">When specified, only the entity with the given GUID is returned.</param>
-    /// <param name="orderBy">A function to order the result.</param>
-    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    protected async Task<List<TListDto>> ListInternal(Guid? id = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, CancellationToken cancellationToken = default)
-        => await Repository
-            .Get<TModel, TListDto>(
-                where: id.HasValue ? x => x.Id == id : null,
-                orderBy: orderBy,
-                cancellationToken: cancellationToken
-            );
 }

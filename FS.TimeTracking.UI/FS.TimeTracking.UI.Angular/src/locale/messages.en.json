@@ -11,7 +11,9 @@
     "Action": "Action",
     "Expand": "Expand",
     "Collapse": "Collapse",
-    "Details": "Details"
+    "Details": "Details",
+    "Yes": "Yes",
+    "No": "No"
   },
   "Abbreviations": {
     "Hours": "h",
@@ -114,11 +116,16 @@
       "From": "From",
       "To": "To",
       "Customer": "Customer",
+      "CustomerNumber": "Number",
+      "CustomerCompanyName": "Company",
       "Project": "Project",
       "Activity": "Activity",
       "Order": "Order",
+      "HolidayTitle": "Title",
+      "HolidayType": "Type",
       "Issue": "Issue",
-      "Comment": "Comment"
+      "Comment": "Comment",
+      "Hidden": "Hidden"
     },
     "NgSelect": {
       "AddTagText": "Add item",

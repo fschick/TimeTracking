@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HolidayListDto, HolidayService} from '../../../shared/services/api';
-import {Observable} from 'rxjs';
+import {ActivityListDto, HolidayListDto, HolidayService} from '../../../shared/services/api';
+import {Observable, Subject} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -8,10 +8,11 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {single} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-holidays',
@@ -27,6 +28,8 @@ export class MasterDataHolidaysComponent implements OnInit {
   public rows$: Observable<HolidayListDto[]>;
   public columns!: Column<HolidayListDto>[];
   public configuration?: Partial<Configuration<HolidayListDto>>;
+  public filters: (Filter | FilterName)[];
+  public filterChanged = new Subject<FilteredRequestParams>();
 
   constructor(
     private entityService: EntityService,
@@ -35,10 +38,17 @@ export class MasterDataHolidaysComponent implements OnInit {
     private holidayService: HolidayService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.holidayService.list({})
+    this.filters = [
+      {name: 'holidayStartDate'},
+      {name: 'holidayEndDate'},
+      {name: 'holidayTitle'},
+      {name: 'holidayType'},
+    ];
+
+    this.rows$ = this.filterChanged
       .pipe(
-        single(),
-        this.entityService.withUpdatesFrom(this.entityService.holidayChanged, this.holidayService)
+        switchMap(filter => this.loadData(filter)),
+        this.entityService.withUpdatesFrom(this.entityService.holidayChanged, this.holidayService),
       );
   }
 
@@ -84,6 +94,11 @@ export class MasterDataHolidaysComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  private loadData(filter: FilteredRequestParams): Observable<HolidayListDto[]> {
+    return this.holidayService.getListFiltered(filter)
+      .pipe(single());
   }
 
   public getDataCellValue(row: HolidayListDto, column: Column<HolidayListDto>): string {

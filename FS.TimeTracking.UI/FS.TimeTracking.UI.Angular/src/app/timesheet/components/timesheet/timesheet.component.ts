@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TimeSheetDto, TimeSheetListDto, TimeSheetListFilteredRequestParams, TimeSheetService} from '../../../shared/services/api';
+import {TimeSheetDto, TimeSheetListDto, TimeSheetService} from '../../../shared/services/api';
 import {filter, map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -10,7 +10,7 @@ import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {TimeSheetFilterDto} from '../timesheet-filter/timesheet-filter.component';
+import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
 
 // import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
 
@@ -34,7 +34,7 @@ class TimeSheetOverviewDto {
 export class TimesheetComponent {
   public guidService = GuidService;
   public overview$?: Observable<TimeSheetOverviewDto>;
-  public filterChanged = new Subject<TimeSheetFilterDto>();
+  public filterChanged = new Subject<FilteredRequestParams>();
   public allowUpdate = true;
 
   public get showDetails(): boolean {
@@ -59,7 +59,7 @@ export class TimesheetComponent {
   ) {
     this.overview$ = this.filterChanged
       .pipe(
-        switchMap(timeSheetFilter => this.loadData(timeSheetFilter)),
+        switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
         switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
         filter(() => this.allowUpdate),
@@ -101,14 +101,8 @@ export class TimesheetComponent {
     return item.id;
   }
 
-  private loadData(timeSheetFilter: TimeSheetFilterDto): Observable<TimeSheetListDto[]> {
-    const filter: TimeSheetListFilteredRequestParams = {
-      ...timeSheetFilter,
-      startDate: `${timeSheetFilter.startDate.toFormat('yyyy-MM-ddZZ')}_${timeSheetFilter.endDate.toFormat('yyyy-MM-ddZZ')}`,
-      endDate: undefined
-    };
-
-    return this.timeSheetService.listFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<TimeSheetListDto[]> {
+    return this.timeSheetService.getListFiltered(filter)
       .pipe(single());
   }
 

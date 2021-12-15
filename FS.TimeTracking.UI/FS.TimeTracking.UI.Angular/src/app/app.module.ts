@@ -45,7 +45,6 @@ import {DurationPipe} from './shared/pipes/duration.pipe';
 import {IconComponent} from './shared/components/icon/icon.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
-import {TimesheetFilterComponent} from './timesheet/components/timesheet-filter/timesheet-filter.component';
 import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
 import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
 import {ReportIssuesComponent} from './report/components/report-issues/report-issues.component';
@@ -57,6 +56,7 @@ import {MasterDataHolidaysEditComponent} from './master-data/components/master-d
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 
 @NgModule({
   declarations: [

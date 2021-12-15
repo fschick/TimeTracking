@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,18 +16,30 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 public interface ICrudModelService<TDto, TListDto>
 {
     /// <summary>
-    /// Gets all items as flat list
-    /// </summary>
-    /// <param name="id">When specified, only the entity with the given GUID is returned.</param>
-    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Gets the item specified by <paramref name="id"/>.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     Task<TDto> Get(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets items as flat filtered list.
+    /// </summary>
+    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
+    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
+    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
+    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
+    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<List<TListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a single flat list item.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified item.

@@ -11,7 +11,9 @@
     "Action": "Aktion",
     "Expand": "Aufklappen",
     "Collapse": "Reduzieren",
-    "Details": "Details"
+    "Details": "Details",
+    "Yes": "Ja",
+    "No": "Nein"
   },
   "Abbreviations": {
     "Hours": "Std.",
@@ -114,11 +116,16 @@
       "From": "von",
       "To": "bis",
       "Customer": "Kunde",
+      "CustomerNumber": "Nummer",
+      "CustomerCompanyName": "Firma",
       "Project": "Projekt",
       "Activity": "Tätigkeit",
       "Order": "Auftrag",
+      "HolidayTitle": "Titel",
+      "HolidayType": "Typ",
       "Issue": "Ticket",
-      "Comment": "Kommentar"
+      "Comment": "Kommentar",
+      "Hidden": "Versteckt"
     },
     "NgSelect": {
       "AddTagText": "Element hinzufügen",
@@ -276,7 +283,7 @@
   },
   "Validation": {
     "RequiredWithField": "'{$FIELDNAME}' ist erforderlich",
-    "MinLengthWithField": "'{$FIELDNAME}' Muss mindesten {$VALUE} Zeichen haben",
+    "MinLengthWithField": "'{$FIELDNAME}' muss mindesten {$VALUE} Zeichen haben",
     "MaxLengthWithField": "'{$FIELDNAME}' darf nicht mehr als {$VALUE} Zeichen haben",
     "MinWithField": "'{$FIELDNAME}' muss größer oder gleich {$VALUE} sein",
     "MaxWithField": "'{$FIELDNAME}' muss kleiner oder gleich {$VALUE} sein",

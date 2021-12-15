@@ -33,7 +33,7 @@ namespace FS.TimeTracking.Tests.IntegrationTests
             //// Act
             var newTimeSheet = FakeEntityFactory.CreateTimeSheetDto(newProject.Id, newActivity.Id);
             var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
-            var readTimeSheet = await testHost.Get<List<TimeSheetListDto>>("api/v1/TimeSheet/ListFiltered?startDate=2000-01-01_2010-01-01");
+            var readTimeSheet = await testHost.Get<List<TimeSheetListDto>>("api/v1/TimeSheet/GetListFiltered?timeSheetStartDate=2000-01-01_2010-01-01");
 
             // Check
             readTimeSheet.Should().NotBeNull();

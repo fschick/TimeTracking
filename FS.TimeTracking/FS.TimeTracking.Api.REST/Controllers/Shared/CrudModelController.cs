@@ -1,4 +1,7 @@
-﻿using FS.TimeTracking.Api.REST.Filters;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Api.REST.Filters;
+using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;
@@ -25,15 +28,22 @@ public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICru
         => _modelService = modelService;
 
     /// <inheritdoc />
-    [HttpGet]
-    public async Task<List<TListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
-        => await _modelService.List(id, cancellationToken);
+    [NotFoundWhenEmpty]
+    [HttpGet("{id:guid}", Name = "[controller]_[action]")]
+    public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
+        => await _modelService.Get(id, cancellationToken);
 
     /// <inheritdoc />
     [NotFoundWhenEmpty]
-    [HttpGet("{id}", Name = "[controller]_[action]")]
-    public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
-        => await _modelService.Get(id, cancellationToken);
+    [HttpGet]
+    public async Task<List<TListDto>> GetListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+        => await _modelService.GetListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+
+    /// <inheritdoc />
+    [NotFoundWhenEmpty]
+    [HttpGet("{id:guid}", Name = "[controller]_[action]")]
+    public async Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default)
+        => await _modelService.GetListItem(id, cancellationToken);
 
     /// <inheritdoc />
     [HttpPost]

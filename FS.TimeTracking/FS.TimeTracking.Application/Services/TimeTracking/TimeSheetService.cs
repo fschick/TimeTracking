@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.MasterData;
 using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Application.Services.TimeTracking;
 
@@ -24,25 +24,9 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     { }
 
     /// <inheritdoc />
-    public override async Task<List<TimeSheetListDto>> List(Guid? id = null, CancellationToken cancellationToken = default)
-        => await Repository
-            .Get<TimeSheet, TimeSheetListDto>(
-                where: id.HasValue ? x => x.Id == id : null,
-                orderBy: o => o.OrderByDescending(x => x.StartDateLocal),
-                cancellationToken: cancellationToken
-            );
-
-    /// <inheritdoc />
-    public async Task<List<TimeSheetListDto>> ListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<TimeSheetListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var projectCustomerFilter = projectFilter.Cast<Project>()
-            .Replace(x => x.Customer, customerFilter.Cast<Customer>());
-
-        var filter = timeSheetFilter
-            .Cast<TimeSheet>()
-            .Replace(x => x.Project, projectCustomerFilter)
-            .Replace(x => x.Activity, activityFilter.Cast<Activity>())
-            .Replace(x => x.Order, orderFilter.Cast<Order>());
+        var filter = EntityFilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         return await Repository
             .Get<TimeSheet, TimeSheetListDto>(

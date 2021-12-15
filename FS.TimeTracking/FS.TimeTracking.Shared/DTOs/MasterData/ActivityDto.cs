@@ -15,7 +15,6 @@ public class ActivityDto
 {
     /// <inheritdoc cref="Activity.Id"/>
     [Required]
-    [Filter(Visible = false)]
     public Guid Id { get; set; }
 
     /// <inheritdoc cref="Activity.Title"/>

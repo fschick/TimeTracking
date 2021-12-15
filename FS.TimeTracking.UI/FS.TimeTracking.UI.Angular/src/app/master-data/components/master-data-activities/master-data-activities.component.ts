@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActivityListDto, ActivityService, CustomerDto} from '../../../shared/services/api';
+import {ActivityListDto, ActivityService, TimeSheetListDto} from '../../../shared/services/api';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -9,9 +9,10 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {Observable} from 'rxjs';
-import {single} from 'rxjs/operators';
+import {Observable, Subject, timer} from 'rxjs';
+import {filter, map, single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-activities',
@@ -28,6 +29,8 @@ export class MasterDataActivitiesComponent implements OnInit {
   public rows$: Observable<ActivityListDto[]>;
   public columns!: Column<ActivityListDto>[];
   public configuration?: Partial<Configuration<ActivityListDto>>;
+  public filters: (Filter | FilterName)[];
+  public filterChanged = new Subject<FilteredRequestParams>();
 
   constructor(
     private entityService: EntityService,
@@ -36,10 +39,17 @@ export class MasterDataActivitiesComponent implements OnInit {
     private activityService: ActivityService,
     private localizationService: LocalizationService,
   ) {
-    this.rows$ = this.activityService.list({})
+    this.filters = [
+      {name: 'activityId', showHidden: true},
+      {name: 'projectId', showHidden: true},
+      {name: 'customerId', showHidden: true},
+      {name: 'activityHidden'},
+    ];
+
+    this.rows$ = this.filterChanged
       .pipe(
-        single(),
-        this.entityService.withUpdatesFrom(this.entityService.activityChanged, this.activityService)
+        switchMap(filter => this.loadData(filter)),
+        this.entityService.withUpdatesFrom(this.entityService.activityChanged, this.activityService),
       );
   }
 
@@ -82,6 +92,11 @@ export class MasterDataActivitiesComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  private loadData(filter: FilteredRequestParams): Observable<ActivityListDto[]> {
+    return this.activityService.getListFiltered(filter)
+      .pipe(single());
   }
 
   public deleteItem(id: string): void {
