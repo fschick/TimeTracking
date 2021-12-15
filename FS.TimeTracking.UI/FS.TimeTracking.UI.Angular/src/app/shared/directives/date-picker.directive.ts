@@ -21,6 +21,7 @@ export interface DatePickerOptions {
   autoclose: boolean,
   language: string,
   todayBtn: boolean | 'linked',
+  clearBtn: boolean,
   showOnFocus: boolean,
   assumeNearbyYear: boolean,
   forceParse: boolean,
@@ -56,6 +57,10 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePickerOptions = {...this.datePickerOptions, minViewMode: value};
   }
 
+  @Input() set clearBtn(value: boolean) {
+    this.datePickerOptions = {...this.datePickerOptions, clearBtn: value};
+  }
+
   private dateFormat: string;
   private hasCustomDateFormat = false;
   private value?: DateTime = DateTime.min();
@@ -81,6 +86,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       autoclose: true,
       language: this.localizationService.language,
       todayBtn: 'linked',
+      clearBtn: false,
       showOnFocus: false,
       assumeNearbyYear: true,
       forceParse: false,
@@ -123,6 +129,12 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         this.datepickerShown = false;
       })
       .on('changeDate', (event: any) => {
+        if (event.date === undefined) {
+          this.elementRef.nativeElement.value = '';
+          this.emitValue(undefined);
+          return;
+        }
+
         let parsedDate = DateTime.fromJSDate(event.date);
 
         switch (this.datePickerOptions.minViewMode) {
