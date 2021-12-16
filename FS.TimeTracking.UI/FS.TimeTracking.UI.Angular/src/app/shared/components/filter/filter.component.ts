@@ -161,9 +161,12 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       this.filters = [
         {name: 'timeSheetStartDate', required: true, defaultValue: defaultStartDate},
         {name: 'timeSheetEndDate', required: true, defaultValue: defaultEndDate},
-        {name: 'customerId'}, {name: 'projectId'},
-        {name: 'activityId'}, {name: 'orderId'},
-        {name: 'timeSheetIssue'}, {name: 'timeSheetComment'}
+        {name: 'customerId'},
+        {name: 'projectId'},
+        {name: 'activityId'},
+        {name: 'orderId'},
+        {name: 'timeSheetIssue'},
+        {name: 'timeSheetComment'}
       ];
 
     this.changeDetector.detectChanges();
