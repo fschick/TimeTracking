@@ -115,6 +115,12 @@ public class WorkTimeDto
     [Required]
     public DateTimeOffset PlannedEnd { get; set; }
 
+    /// <summary>
+    /// Indicates whether order period is only partially matched by selected period.
+    /// </summary>
+    [Required]
+    public bool PlannedIsPartial { get; set; }
+
     /// <inheritdoc cref="Order.HourlyRate"/>
     [Required]
     public double HourlyRate { get; set; }

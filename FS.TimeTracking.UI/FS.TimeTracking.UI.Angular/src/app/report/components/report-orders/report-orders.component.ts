@@ -6,7 +6,7 @@ import {Column, Configuration, DataCellTemplate} from '../../../shared/component
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormatService} from '../../../shared/services/format.service';
-import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -40,10 +40,14 @@ type ChartOptions = {
 })
 export class ReportOrdersComponent implements OnInit {
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<WorkTimeDto>;
+  @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<WorkTimeDto>;
+  @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<WorkTimeDto>;
 
   public filterChanged = new Subject<FilteredRequestParams>();
+  public filters: (Filter | FilterName)[];
   public chartOptions: ChartOptions;
   public chartSeries$: Observable<ApexAxisChartSeries>;
+  public plannedArePartial$: Observable<boolean>;
 
   public tableConfiguration: Partial<Configuration<WorkTimeDto>>;
   public tableColumns?: Column<WorkTimeDto>[];
@@ -59,6 +63,17 @@ export class ReportOrdersComponent implements OnInit {
     private localizationService: LocalizationService,
     private modalService: NgbModal,
   ) {
+    this.filters = [
+      {name: 'timeSheetStartDate'},
+      {name: 'timeSheetEndDate'},
+      {name: 'customerId'},
+      {name: 'projectId'},
+      {name: 'activityId'},
+      {name: 'orderId'},
+      {name: 'timeSheetIssue'},
+      {name: 'timeSheetComment'}
+    ];
+
     this.tableRows$ = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
@@ -66,6 +81,11 @@ export class ReportOrdersComponent implements OnInit {
       );
 
     this.tableSortedRows$ = new BehaviorSubject<WorkTimeDto[]>([]);
+
+    this.plannedArePartial$ = this.tableSortedRows$
+      .pipe(
+        map(rows => rows.some(r => r.plannedIsPartial))
+      );
 
     this.chartOptions = this.createChartOptions();
     this.chartSeries$ = this.tableSortedRows$
@@ -191,9 +211,7 @@ export class ReportOrdersComponent implements OnInit {
 
   private createTableColumns(): Column<WorkTimeDto>[] {
     const cssHeadCell = 'border-0 text-nowrap';
-    const cssHeadCellLg = 'd-none d-lg-table-cell';
     const cssHeadCellMd = 'd-none d-md-table-cell';
-    const cssDataCellLg = cssHeadCellLg;
     const cssDataCellMd = cssHeadCellMd;
 
     return [
@@ -203,10 +221,10 @@ export class ReportOrdersComponent implements OnInit {
         cssHeadCell: cssHeadCell,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,
-        cssHeadCell: `${cssHeadCell} ${cssHeadCellLg}`,
-        cssDataCell: cssDataCellLg,
+        cssHeadCell: `${cssHeadCell}`,
         prop: 'plannedStart',
-        format: row => `${this.formatService.formatDate(row.plannedStart)} - ${this.formatService.formatDate(row.plannedEnd)}`,
+        headCellTemplate: this.orderPeriodHeadTemplate,
+        dataCellTemplate: this.orderPeriodDataTemplate,
       }, {
         title: $localize`:@@Page.Report.Common.Worked:[i18n] Worked`,
         prop: 'daysWorked',

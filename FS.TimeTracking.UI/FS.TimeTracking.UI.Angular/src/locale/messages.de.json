@@ -47,7 +47,8 @@
         "Planned": "geplant",
         "Done": "erledigt",
         "Remain": "verbleiben",
-        "Ratio": "Anteil"
+        "Ratio": "Anteil",
+        "PartialPlannedValues": "Der Auftragszeitraum ist größer als der ausgewählte Zeitraum. Die Werte werden anteilig dargestellt."
       },
       "Customers": {
         "Title": "Soll/Ist nach Kunde"

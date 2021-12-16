@@ -47,7 +47,8 @@
         "Planned": "Planned",
         "Done": "Done",
         "Remain": "Remain",
-        "Ratio": "Ratio"
+        "Ratio": "Ratio",
+        "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {
         "Title": "Planned/actual by  customers"

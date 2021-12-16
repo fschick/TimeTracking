@@ -83,28 +83,35 @@ public class ReportService : IReportService
                 plannedTimesPerOrder,
                 worked => worked.Id,
                 planned => planned.Id,
-                (worked, planned) => new WorkTimeDto
+                (worked, planned) =>
                 {
-                    Id = worked?.Id ?? planned?.Id ?? throw new InvalidOperationException($"Both {nameof(WorkTimeDto.Id)} are null"),
-                    OrderTitle = worked?.Title ?? planned?.Title ?? throw new InvalidOperationException($"Both {nameof(WorkTimeDto.OrderTitle)} are null"),
-                    OrderNumber = worked?.Number ?? planned.Number,
-                    CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle ?? throw new InvalidOperationException($"Both {nameof(WorkTimeDto.CustomerTitle)} are null"),
-                    TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
-                    DaysWorked = worked?.WorkedDays ?? 0,
-                    RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
-                    BudgetWorked = worked?.WorkedBudget ?? 0,
-                    TimePlanned = planned?.PlannedTime ?? TimeSpan.Zero,
-                    DaysPlanned = planned?.PlannedDays ?? 0,
-                    RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : 0,
-                    BudgetPlanned = planned?.PlannedBudget ?? 0,
-                    // ReSharper disable ConstantNullCoalescingCondition
-                    // ReSharper disable ConstantConditionalAccessQualifier
-                    PlannedStart = planned?.PlannedStart ?? throw new InvalidOperationException($"{nameof(WorkTimeDto.PlannedStart)} is null"),
-                    PlannedEnd = planned?.PlannedEnd ?? throw new InvalidOperationException($"{nameof(WorkTimeDto.PlannedEnd)} is null"),
-                    HourlyRate = planned?.HourlyRate ?? throw new InvalidOperationException($"{nameof(WorkTimeDto.HourlyRate)} is null"),
-                    Currency = planned?.Currency ?? throw new InvalidOperationException($"{nameof(WorkTimeDto.Currency)} is null"),
-                    // ReSharper restore ConstantConditionalAccessQualifier
-                    // ReSharper restore ConstantNullCoalescingCondition
+                    if (worked == null && planned == null)
+                        throw new InvalidOperationException("Planned and worked entities are null");
+                    if (planned == null)
+                        throw new InvalidOperationException("Planned entity is null");
+
+                    var plannedTimeSpan = new DateTimeSpan(planned.PlannedStart, planned.PlannedEnd);
+                    return new WorkTimeDto
+                    {
+                        Id = worked?.Id ?? planned.Id,
+                        OrderTitle = worked?.Title ?? planned.Title,
+                        OrderNumber = worked?.Number ?? planned.Number,
+                        CustomerTitle = worked?.CustomerTitle ?? planned.CustomerTitle,
+                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
+                        DaysWorked = worked?.WorkedDays ?? 0,
+                        RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
+                        BudgetWorked = worked?.WorkedBudget ?? 0,
+                        TimePlanned = planned.PlannedTime,
+                        DaysPlanned = planned.PlannedDays,
+                        RatioTotalPlanned = totalPlannedDays != 0 ? planned.PlannedDays / totalPlannedDays : 0,
+                        BudgetPlanned = planned.PlannedBudget,
+                        PlannedStart = planned.PlannedStart,
+                        PlannedEnd = planned.PlannedEnd,
+                        // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable
+                        PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
+                        HourlyRate = planned.HourlyRate,
+                        Currency = planned.Currency,
+                    };
                 })
             .OrderBy(x => x.PlannedStart)
             .ThenBy(x => x.CustomerTitle)
@@ -200,7 +207,7 @@ public class ReportService : IReportService
         var plannedTimesPerOrder = await orders
             .SelectAsync(async order =>
             {
-                var plannedTime = await GetPlannedTimeForPeriod(order, filter.StartEnd);
+                var plannedTime = await GetPlannedTimeForPeriod(order, filter.SelectedPeriod);
                 return new OrderWorkTime
                 {
                     Id = order.Id,
@@ -221,13 +228,13 @@ public class ReportService : IReportService
         return plannedTimesPerOrder;
     }
 
-    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, DateTimeSpan period)
+    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, DateTimeSpan selectedPeriod)
     {
         var orderPeriod = new DateTimeSpan(order.StartDate, order.DueDate.AddDays(1));
         var orderWorkdays = await _workdayService.GetWorkdays(orderPeriod);
         var orderWorkHours = order.HourlyRate != 0 ? order.Budget / order.HourlyRate : 0;
 
-        var planningPeriod = orderPeriod.Intersection(period);
+        var planningPeriod = orderPeriod.Intersection(selectedPeriod);
         var plannedWorkDays = await _workdayService.GetWorkdays(planningPeriod) ?? orderWorkdays;
 
         var ratio = orderWorkdays.PersonalWorkdays.Count != 0
@@ -240,22 +247,41 @@ public class ReportService : IReportService
     {
         var workedTimesFilter = EntityFilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var plannedTimesFilter = EntityFilterExtensions.CreateOrderFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var selectedPeriod = GetSelectedPeriod(timeSheetFilter);
 
-        var timeSheetStartFilter = workedTimesFilter.GetPropertyFilter(x => x.StartDate);
-        var startEndIsFiltered = timeSheetStartFilter.TryConvertStringToDateTimeSpan(DateTimeOffset.Now, out var filterStartEnd);
-        if (startEndIsFiltered)
-        {
-            plannedTimesFilter = plannedTimesFilter
-                .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, filterStartEnd.Start)
-                .Replace(x => x.StartDate, FilterOperator.LessThan, filterStartEnd.End);
-        }
+        plannedTimesFilter = plannedTimesFilter
+            .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, selectedPeriod.Start)
+            .Replace(x => x.StartDate, FilterOperator.LessThan, selectedPeriod.End);
 
-        return new Filter(workedTimesFilter, plannedTimesFilter, filterStartEnd);
+        return new Filter(workedTimesFilter, plannedTimesFilter, selectedPeriod);
     }
 
-    private record struct Filter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, DateTimeSpan StartEnd)
+    private static DateTimeSpan GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter)
     {
-        public readonly DateTimeSpan StartEnd = StartEnd;
+        // Let space for later timezone conversions.
+        var minValue = DateTimeOffset.MinValue.AddDays(1);
+        var maxValue = DateTimeOffset.MaxValue.AddDays(-1);
+
+        var selectedPeriodFilter = timeSheetFilter.GetPropertyFilter(x => x.StartDate);
+        if (selectedPeriodFilter == null)
+            return new DateTimeSpan(minValue, maxValue);
+
+        var selectedPeriodValueFilter = ValueFilter.Create(selectedPeriodFilter);
+        selectedPeriodValueFilter.Values.First().TryConvertStringToDateTimeSpan(DateTimeOffset.Now, out var filterPeriod);
+        var selectedPeriod = selectedPeriodValueFilter.Operator switch
+        {
+            FilterOperator.Default => filterPeriod,
+            FilterOperator.LessThan => new DateTimeSpan(minValue, filterPeriod.Start),
+            FilterOperator.GreaterThanOrEqual => new DateTimeSpan(filterPeriod.Start, maxValue),
+            _ => throw new ArgumentOutOfRangeException(nameof(selectedPeriodValueFilter.Operator), selectedPeriodValueFilter.Operator, "")
+        };
+
+        return selectedPeriod;
+    }
+
+    private record struct Filter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, DateTimeSpan SelectedPeriod)
+    {
+        public readonly DateTimeSpan SelectedPeriod = SelectedPeriod;
         public readonly EntityFilter<TimeSheet> WorkedTimes = WorkedTimes;
         public readonly EntityFilter<Order> PlannedTimes = PlannedTimes;
     }
