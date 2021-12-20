@@ -10,7 +10,7 @@ import {
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
 import {Observable, Subject, Subscription, timer} from 'rxjs';
-import {filter, map, single, switchMap} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 

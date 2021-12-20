@@ -119,6 +119,15 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
             .LongCountAsyncEF(cancellationToken);
 
     /// <inheritdoc />
+    public async Task<long> Sum<TEntity>(
+        Expression<Func<TEntity, long>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class
+        => await GetInternal(x => x, where, null, null, null, false, null, null, false)
+            .SumAsyncEF(select, cancellationToken);
+
+    /// <inheritdoc />
     public async Task<bool> Exists<TEntity, TResult>(
         Expression<Func<TEntity, TResult>> select,
         Expression<Func<TEntity, bool>> where = null,

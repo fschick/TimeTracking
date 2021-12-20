@@ -176,6 +176,20 @@ public interface IRepository
     ) where TEntity : class;
 
     /// <summary>
+    /// Computes the sum of the sequence of values that is obtained by invoking a projection function on  each element of the input sequence.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <param name="select">Projects each entity into desired result.</param>
+    /// <param name="where">Filters the entities based on a predicate.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns></returns>
+    Task<long> Sum<TEntity>(
+        Expression<Func<TEntity, long>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class;
+
+    /// <summary>
     /// Test, if a projection of entities from database exists.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>

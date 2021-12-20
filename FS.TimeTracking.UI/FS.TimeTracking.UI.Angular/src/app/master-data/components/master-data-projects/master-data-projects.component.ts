@@ -5,7 +5,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {ActivityListDto, ProjectListDto, ProjectService} from '../../../shared/services/api';
+import {ProjectListDto, ProjectService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';

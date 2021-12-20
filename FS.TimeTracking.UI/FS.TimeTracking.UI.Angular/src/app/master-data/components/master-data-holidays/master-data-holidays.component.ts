@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivityListDto, HolidayListDto, HolidayService} from '../../../shared/services/api';
+import {HolidayListDto, HolidayService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
