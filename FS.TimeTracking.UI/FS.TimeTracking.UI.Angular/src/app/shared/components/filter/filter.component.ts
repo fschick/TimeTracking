@@ -199,7 +199,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
   }
 
-  private convertToFilteredRequestParams(filter: any): FilteredRequestParams {
+  private convertToFilteredRequestParams(filter: Record<FilterControlName, any>): FilteredRequestParams {
     if (!this._filters)
       return {};
 
@@ -216,31 +216,21 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         if (typeof value === 'number')
           return [name, value.toFixed(15)];
         if (name === 'timeSheetStartDate')
-          return this.createDateFilterParam(filter, name, 'timeSheetStartDate', 'timeSheetEndDate');
+          return ['timeSheetEndDate', `>=${filter.timeSheetStartDate.toISO()},ISNULL`];
         if (name === 'timeSheetEndDate')
-          return [name, undefined];
+          return ['timeSheetStartDate', `<${filter.timeSheetEndDate.toISO()}`];
         if (name === 'orderStartDate')
-          return this.createDateFilterParam(filter, name, 'orderStartDate', 'orderDueDate');
+          return ['orderDueDate', `>=${filter.orderStartDate.toISO()}`];
         if (name === 'orderDueDate')
-          return [name, undefined];
+          return ['orderStartDate', `<${filter.orderDueDate.toISO()}`];
         if (name === 'holidayStartDate')
-          return this.createDateFilterParam(filter, name, 'holidayStartDate', 'holidayEndDate');
+          return ['holidayEndDate', `>=${filter.holidayStartDate.toISO()}`];
         if (name === 'holidayEndDate')
-          return [name, undefined];
+          return ['holidayStartDate', `<${filter.holidayEndDate.toISO()}`];
         return [name, value];
       });
 
     return Object.fromEntries(filterRequestParams);
-  }
-
-  private createDateFilterParam(filter: any, name: string, from: string, to: string): [string, string | undefined] {
-    if (filter[from] && filter[to])
-      return [name, `${filter[from].toFormat('yyyy-MM-ddZZ')}_${filter[to].toFormat('yyyy-MM-ddZZ')}`];
-    if (filter[from])
-      return [name, `>=${filter[from].toFormat('yyyy-MM-ddZZ')}`];
-    if (filter[to])
-      return [name, `<${filter[to].toFormat('yyyy-MM-ddZZ')}`];
-    return [name, undefined];
   }
 
   private saveFilterFormValue(filter: any) {
