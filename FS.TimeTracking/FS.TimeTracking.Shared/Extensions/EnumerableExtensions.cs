@@ -50,11 +50,25 @@ public static class EnumerableExtensions
         => (await SelectAsync(source, selector, concurrency)).SelectMany(x => x);
 
     /// <summary>
+    /// Returns the input typed as <see cref="IEnumerable{T}"/>.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public static async Task<IEnumerable<T>> AsEnumerableAsync<T>(this Task<List<T>> source)
+        => (await source).AsEnumerable();
+
+    /// <summary>
     /// Creates a <see cref="List{T}"/> from an <see cref="IEnumerable{T}"/>.
     /// </summary>
     /// <param name="source">The source.</param>
     public static async Task<List<T>> ToListAsync<T>(this Task<IEnumerable<T>> source)
         => (await source).ToList();
+
+    /// <summary>
+    /// Returns the first element of a sequence.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> source)
+        => (await source).First();
 
     /// <summary>
     /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.

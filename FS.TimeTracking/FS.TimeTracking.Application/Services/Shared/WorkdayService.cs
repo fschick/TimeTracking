@@ -1,12 +1,16 @@
-﻿using FS.FilterExpressionCreator.Models;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.FilterExpressionCreator.Models;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.Shared;
+using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Enums;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.MasterData;
+using FS.TimeTracking.Shared.Models.TimeTracking;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
@@ -18,6 +22,7 @@ namespace FS.TimeTracking.Application.Services.Shared;
 /// <inheritdoc />
 public class WorkdayService : IWorkdayService
 {
+    private readonly IRepository _repository;
     private readonly ISettingService _settingService;
     private readonly AsyncLazy<List<HolidayDto>> _holidays;
 
@@ -28,8 +33,46 @@ public class WorkdayService : IWorkdayService
     /// <param name="settingService">The setting service.</param>
     public WorkdayService(IRepository repository, ISettingService settingService)
     {
+        _repository = repository;
         _settingService = settingService;
         _holidays = new AsyncLazy<List<HolidayDto>>(async () => await repository.Get<Holiday, HolidayDto>());
+    }
+
+    /// <inheritdoc />
+    public async Task<WorkedDaysInfoDto> GetWorkedDaysInfo(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    {
+        var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+
+        var workedTime = await _repository
+            .GetGrouped(
+                groupBy: (TimeSheet x) => (object)null,
+                select: x => new
+                {
+                    MinStartDate = x.Min(timeSheet => timeSheet.StartDate),
+                    MaxEndDate = x.Max(timeSheet => timeSheet.EndDate),
+                    Duration = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
+                },
+                where: filter,
+                cancellationToken: cancellationToken
+            )
+            .AsEnumerableAsync()
+            .FirstAsync();
+
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter);
+
+        var minStart = DateTimeOffset.MinValue.AddDays(1);
+        var maxEnd = DateTimeOffset.MaxValue.AddDays(-1);
+        var startDate = selectedPeriod.Start > minStart ? selectedPeriod.Start : workedTime.MinStartDate;
+        var endDate = selectedPeriod.End < maxEnd ? selectedPeriod.End : workedTime.MaxEndDate!.Value;
+
+        selectedPeriod = Section.Create(startDate, endDate);
+
+        var workDays = await GetWorkdays(selectedPeriod.Start.Date.GetDays(selectedPeriod.End.Date), cancellationToken);
+        return new WorkedDaysInfoDto
+        {
+            PublicWorkdays = workDays.PublicWorkdays.Count,
+            PersonalWorkdays = workDays.PersonalWorkdays.Count,
+        };
     }
 
     /// <inheritdoc />
@@ -38,27 +81,9 @@ public class WorkdayService : IWorkdayService
 
     /// <inheritdoc />
     public async Task<WorkdaysDto> GetWorkdays(Section<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken = default)
-        => dateTimeSection != null ? await GetWorkdays(dateTimeSection.Start.Date, dateTimeSection.End.Date, cancellationToken) : null;
-
-    ///// <inheritdoc />
-    //public async Task<int> GetWorkDaysCount(DateTime startDate, DateTime endDate)
-    //    => (await GetWorkDays(startDate, endDate)).Count();
-
-    ///// <inheritdoc />
-    //public async Task<IEnumerable<DateTime>> GetWorkDaysOfMonth(int year, int month)
-    //    => GetWorkingDays(new DateTime(year, month, 1).GetDaysOfMonth());
-
-    ///// <inheritdoc />
-    //public async Task<int> GetWorkDaysCountOfMonth(int year, int month)
-    //    => (await GetWorkDaysOfMonth(year, month)).Count();
-
-    ///// <inheritdoc />
-    //public async Task<IEnumerable<DateTime>> GetWorkDaysOfMonthTillDay(int year, int month, int day)
-    //    => GetWorkingDays(new DateTime(year, month, day).GetDaysOfMonthTillDay());
-
-    ///// <inheritdoc />
-    //public async Task<int> GetWorkDaysCountOfMonthTillDay(int year, int month, int day)
-    //    => (await GetWorkDaysOfMonthTillDay(year, month, day)).Count();
+        => dateTimeSection != null
+            ? await GetWorkdays(dateTimeSection.Start.Date, dateTimeSection.End.Date, cancellationToken)
+            : null;
 
     private async Task<WorkdaysDto> GetWorkdays(IEnumerable<DateTime> dates, CancellationToken cancellationToken = default)
     {
