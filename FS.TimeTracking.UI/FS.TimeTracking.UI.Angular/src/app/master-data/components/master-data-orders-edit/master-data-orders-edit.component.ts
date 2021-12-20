@@ -33,7 +33,12 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    this.orderForm = this.formValidationService.getFormGroup<OrderDto>('OrderDto', {id: GuidService.guidEmpty, hidden: false});
+    this.orderForm = this.formValidationService
+      .getFormGroup<OrderDto>('OrderDto', {
+        id: GuidService.guidEmpty,
+        hourlyRate: 0,
+        hidden: false
+      });
 
     if (!this.isNewRecord)
       this.orderService

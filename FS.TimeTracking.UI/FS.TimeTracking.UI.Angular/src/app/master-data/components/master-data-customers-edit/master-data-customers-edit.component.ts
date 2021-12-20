@@ -29,7 +29,12 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    this.customerForm = this.formValidationService.getFormGroup<CustomerDto>('CustomerDto', {id: GuidService.guidEmpty, hidden: false});
+    this.customerForm = this.formValidationService
+      .getFormGroup<CustomerDto>('CustomerDto', {
+        id: GuidService.guidEmpty,
+        hourlyRate: 0,
+        hidden: false
+      });
 
     if (!this.isNewRecord)
       this.customerService

@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
@@ -85,6 +85,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("double");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime(6)");

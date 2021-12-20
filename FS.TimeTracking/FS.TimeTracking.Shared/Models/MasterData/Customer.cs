@@ -47,6 +47,13 @@ public class Customer : IIdEntityModel
     public string ContactName { get; set; }
 
     /// <summary>
+    /// The hourly rate.
+    /// </summary>
+    [Required]
+    [Range(0, double.PositiveInfinity)]
+    public double HourlyRate { get; set; }
+
+    /// <summary>
     /// The street.
     /// </summary>
     [StringLength(100)]

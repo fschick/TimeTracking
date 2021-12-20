@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -27,6 +27,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    HourlyRate = table.Column<double>(type: "double", nullable: false),
                     Street = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ZipCode = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)

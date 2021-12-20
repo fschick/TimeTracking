@@ -37,6 +37,11 @@ public record CustomerDto
     [StringLength(100)]
     public string ContactName { get; init; }
 
+    /// <inheritdoc cref="Customer.HourlyRate"/>
+    [Required]
+    [Range(0, double.PositiveInfinity)]
+    public double HourlyRate { get; set; }
+
     /// <inheritdoc cref="Customer.Street"/>
     [StringLength(100)]
     public string Street { get; init; }
@@ -52,6 +57,9 @@ public record CustomerDto
     /// <inheritdoc cref="Customer.Country"/>
     [StringLength(100)]
     public string Country { get; init; }
+
+    /// <inheritdoc cref="Customer.Comment"/>
+    public string Comment { get; set; }
 
     /// <inheritdoc cref="Customer.Hidden"/>
     [Required]

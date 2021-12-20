@@ -11,16 +11,20 @@
           <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
         </div>
         <div class="col-lg-6">
-          <label for="number" class="form-label" i18n="@@DTO.CustomerDto.Number">[i18n] Cusomer number</label>
-          <input id="number" type="text" class="form-control" formControlName="number">
-        </div>
-        <div class="col-lg-6">
           <label for="companyName" class="form-label" i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
           <input id="companyName" type="text" class="form-control" formControlName="companyName">
         </div>
         <div class="col-lg-6">
           <label for="department" class="form-label" i18n="@@DTO.CustomerDto.Department">[i18n] Department</label>
           <input id="department" type="text" class="form-control" formControlName="department">
+        </div>
+        <div class="col-lg-3">
+          <label for="number" class="form-label" i18n="@@DTO.CustomerDto.Number">[i18n] Cusomer number</label>
+          <input id="number" type="text" class="form-control" formControlName="number">
+        </div>
+        <div class="col-lg-3">
+          <label for="hourlyRate" class="form-label" i18n="@@DTO.CustomerDto.HourlyRate">[i18n] Hourly rate</label>
+          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{ fractionDigits:2}" class="form-control" formControlName="hourlyRate">
         </div>
         <div class="col-lg-6">
           <label for="street" class="form-label" i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>

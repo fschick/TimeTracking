@@ -92,7 +92,7 @@ public class Order : IIdEntityModel
     /// <summary>
     /// The hourly rate.
     /// </summary>
-    /// [Required]
+    [Required]
     [Range(0, double.PositiveInfinity)]
     public double HourlyRate { get; set; }
 

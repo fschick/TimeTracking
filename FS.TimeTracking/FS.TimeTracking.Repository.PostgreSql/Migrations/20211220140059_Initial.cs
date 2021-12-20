@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -19,6 +19,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     Department = table.Column<string>(type: "text", nullable: true),
                     CompanyName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     ContactName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    HourlyRate = table.Column<double>(type: "double precision", nullable: false),
                     Street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     ZipCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),

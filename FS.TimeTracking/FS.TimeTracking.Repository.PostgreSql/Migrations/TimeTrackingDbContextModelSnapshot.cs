@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -88,6 +88,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("boolean");
+
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("timestamp with time zone");

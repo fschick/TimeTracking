@@ -179,6 +179,8 @@
       "City": "Ort",
       "Country": "Land",
       "ContactName": "Kontakt",
+      "HourlyRate": "Stundensatz",
+      "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
     "CustomerListDto": {

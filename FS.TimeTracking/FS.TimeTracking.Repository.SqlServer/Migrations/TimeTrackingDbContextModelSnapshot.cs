@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -88,6 +88,9 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("bit");
+
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");

@@ -11,17 +11,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FS.TimeTracking.Repository.SqLite.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20211117164038_Initial")]
+    [Migration("20211220135545_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -37,7 +37,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<string>("ProjectId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -54,7 +54,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -86,6 +86,9 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<bool>("Hidden")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("REAL");
+
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
@@ -112,7 +115,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Holiday", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -149,7 +152,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -162,7 +165,8 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -207,7 +211,7 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Project", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -217,7 +221,8 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Hidden")
@@ -265,11 +270,12 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ActivityId")
+                    b.Property<string>("ActivityId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Billable")
@@ -293,10 +299,11 @@ namespace FS.TimeTracking.Repository.SqLite.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<string>("OrderId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ProjectId")
+                    b.Property<string>("ProjectId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("StartDateLocal")

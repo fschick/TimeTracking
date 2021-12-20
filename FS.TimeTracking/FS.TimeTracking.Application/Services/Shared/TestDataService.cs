@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Bogus.Extensions;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
@@ -49,6 +48,7 @@ public class TestDataService : ITestDataService
             .RuleFor(x => x.Number, faker => faker.Random.Replace("######"))
             .RuleFor(x => x.Department, faker => faker.Commerce.Department(1))
             .RuleFor(x => x.ContactName, faker => $"{faker.Name.FirstName()} {faker.Name.LastName()}")
+            .RuleFor(x => x.HourlyRate, faker => faker.Random.Number(50, 150))
             .RuleFor(x => x.Street, faker => faker.Address.StreetAddress())
             .RuleFor(x => x.ZipCode, faker => faker.Address.ZipCode())
             .RuleFor(x => x.City, faker => faker.Address.City())
