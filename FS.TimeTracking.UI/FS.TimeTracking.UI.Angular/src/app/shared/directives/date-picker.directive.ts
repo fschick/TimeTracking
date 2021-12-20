@@ -64,7 +64,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   private dateFormat: string;
   private hasCustomDateFormat = false;
   private value?: DateTime = DateTime.min();
-  private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
+  // private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
   private disabled = false;
   private datepickerShown = false;
   private datePicker: any;
@@ -138,6 +138,9 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         let parsedDate = DateTime.fromJSDate(event.date);
 
         switch (this.datePickerOptions.minViewMode) {
+          case 'days':
+            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('day') : parsedDate.endOf('day');
+            break;
           case 'months':
             parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
             break;
@@ -156,15 +159,15 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     if (newValue?.isValid)
       newValue = this.adjustNewValueToStartEndRange(newValue);
     this.value = newValue;
-    this.originTimePart = newValue?.isValid
-      ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
-      : {hour: 0, minute: 0, second: 0, millisecond: 0};
+    // this.originTimePart = newValue?.isValid
+    //   ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
+    //   : {hour: 0, minute: 0, second: 0, millisecond: 0};
     this.updateDatepickerValue();
   }
 
   public emitValue(newValue?: DateTime): void {
-    if (newValue?.isValid)
-      newValue = newValue?.set(this.originTimePart);
+    // if (newValue?.isValid)
+    //   newValue = newValue?.set(this.originTimePart);
 
     if ((!this.value && !newValue) || (newValue && this.value?.equals(newValue)))
       return;
