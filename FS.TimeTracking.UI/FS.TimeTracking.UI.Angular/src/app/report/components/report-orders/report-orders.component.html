@@ -26,8 +26,9 @@
 </div>
 
 <ts-simple-table
+  *ngIf="tableRows"
   [columns]="tableColumns"
-  [rows]="tableRows$ | ngrxPush"
+  [rows]="tableRows"
   [configuration]="tableConfiguration"
   (rowsChanged)="tableRowsChanged($event.rows)">
 </ts-simple-table>
@@ -36,7 +37,9 @@
   <div class="col p-0">
     <div class="alert alert-warning m-2" role="alert">
       <ts-icon icon="bi bi-exclamation-triangle" class="me-1"></ts-icon>
-      <ng-container i18n="@@Page.Report.Common.PartialPlannedValues">[i18n] The order period is greater than selected period. The values are displayed proportionally.</ng-container>
+      <ng-container i18n="@@Page.Report.Common.PartialPlannedValues">
+        [i18n] The order period is greater than selected period. The values are displayed proportionally.
+      </ng-container>
     </div>
   </div>
 </div>

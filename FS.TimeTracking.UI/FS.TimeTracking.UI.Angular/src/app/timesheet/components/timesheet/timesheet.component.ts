@@ -1,16 +1,16 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {TimeSheetDto, TimeSheetListDto, TimeSheetService} from '../../../shared/services/api';
 import {filter, map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subject, timer} from 'rxjs';
+import {Observable, Subject, Subscription, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
 // import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
 
@@ -31,10 +31,11 @@ class TimeSheetOverviewDto {
   templateUrl: './timesheet.component.html',
   styleUrls: ['./timesheet.component.scss']
 })
-export class TimesheetComponent {
+export class TimesheetComponent implements OnDestroy {
   public guidService = GuidService;
-  public overview$?: Observable<TimeSheetOverviewDto>;
+  public overview?: TimeSheetOverviewDto;
   public filterChanged = new Subject<FilteredRequestParams>();
+  public filters: (Filter | FilterName)[];
   public allowUpdate = true;
 
   public get showDetails(): boolean {
@@ -46,6 +47,7 @@ export class TimesheetComponent {
   };
 
   private readonly timeSheetShowDetailsStorageKey = 'timeSheetShowDetails';
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private entityService: EntityService,
@@ -57,14 +59,35 @@ export class TimesheetComponent {
     private storageService: StorageService,
     private utilityService: UtilityService,
   ) {
-    this.overview$ = this.filterChanged
+    const defaultEndDate = DateTime.now().startOf('day');
+    const defaultStartDate = defaultEndDate.startOf('month');
+
+    const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
         switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
         filter(() => this.allowUpdate),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
-      );
+      )
+      .subscribe(timeSheets => this.overview = timeSheets);
+
+    this.subscriptions.add(filterChanged);
+
+    this.filters = [
+      {name: 'timeSheetStartDate', required: true, defaultValue: defaultStartDate},
+      {name: 'timeSheetEndDate', required: true, defaultValue: defaultEndDate},
+      {name: 'customerId'},
+      {name: 'projectId'},
+      {name: 'activityId'},
+      {name: 'orderId'},
+      {name: 'timeSheetIssue'},
+      {name: 'timeSheetComment'}
+    ];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public deleteItem(id: string) {

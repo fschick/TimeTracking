@@ -1,11 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewChild,} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Observable, shareReplay, Subscription, map, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetListFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {StorageService} from '../../services/storage/storage.service';
-import {map, shareReplay, startWith, tap} from 'rxjs/operators';
 import {DateParserService} from '../../services/date-parser.service';
 
 export type FilteredRequestParams = TimeSheetGetListFilteredRequestParams;
@@ -99,18 +98,17 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     this.onFilterChanged = this.filterForm.valueChanges
       .pipe(
         tap(filter => this.saveFilterFormValue(filter)),
-        startWith(this.filterForm.value),
         map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)),
         shareReplay(1),
       );
+
+    const filterChangedEmitter = this.onFilterChanged.subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
+    this.subscriptions.add(filterChangedEmitter);
 
     this.isFiltered$ = this.onFilterChanged.pipe(map(filter => this.isFiltered(filter)));
   }
 
   public ngAfterViewInit(): void {
-    const filterChangedEmitter = this.onFilterChanged.subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
-    this.subscriptions.add(filterChangedEmitter);
-
     this.filterTemplates = {
       timeSheetId: this.filterNotImplemented,
       timeSheetIssue: this.timeSheetIssue,
@@ -153,21 +151,6 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       holidayEndDate: this.holidayEndDate,
       holidayType: this.holidayType,
     };
-
-    const defaultEndDate = DateTime.now().startOf('day');
-    const defaultStartDate = defaultEndDate.startOf('month');
-
-    if (!this.primaryFilters)
-      this.filters = [
-        {name: 'timeSheetStartDate', required: true, defaultValue: defaultStartDate},
-        {name: 'timeSheetEndDate', required: true, defaultValue: defaultEndDate},
-        {name: 'customerId'},
-        {name: 'projectId'},
-        {name: 'activityId'},
-        {name: 'orderId'},
-        {name: 'timeSheetIssue'},
-        {name: 'timeSheetComment'}
-      ];
 
     this.changeDetector.detectChanges();
   }

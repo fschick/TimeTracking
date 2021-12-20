@@ -1,5 +1,5 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {BehaviorSubject, Observable, share, Subject} from 'rxjs';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {BehaviorSubject, Observable, share, Subject, Subscription} from 'rxjs';
 import {ReportService, WorkTimeDto} from '../../../shared/services/api';
 import {map, single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
@@ -19,6 +19,7 @@ import {
   ApexStates,
   ApexLegend
 } from "ng-apexcharts";
+import {DateTime} from 'luxon';
 
 type ChartOptions = {
   chart: ApexChart;
@@ -38,7 +39,7 @@ type ChartOptions = {
   templateUrl: './report-orders.component.html',
   styleUrls: ['./report-orders.component.scss']
 })
-export class ReportOrdersComponent implements OnInit {
+export class ReportOrdersComponent implements OnInit, OnDestroy {
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<WorkTimeDto>;
   @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<WorkTimeDto>;
   @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<WorkTimeDto>;
@@ -51,8 +52,9 @@ export class ReportOrdersComponent implements OnInit {
 
   public tableConfiguration: Partial<Configuration<WorkTimeDto>>;
   public tableColumns?: Column<WorkTimeDto>[];
-  public tableRows$: Observable<WorkTimeDto[]>;
+  public tableRows?: WorkTimeDto[];
   private tableSortedRows$: BehaviorSubject<WorkTimeDto[]>;
+  private readonly subscriptions = new Subscription();
 
   public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
   public localizedHours = $localize`:@@Abbreviations.Hours:[i18n] h`;
@@ -63,9 +65,12 @@ export class ReportOrdersComponent implements OnInit {
     private localizationService: LocalizationService,
     private modalService: NgbModal,
   ) {
+    const defaultEndDate = DateTime.now().startOf('day');
+    const defaultStartDate = defaultEndDate.startOf('month');
+
     this.filters = [
-      {name: 'timeSheetStartDate'},
-      {name: 'timeSheetEndDate'},
+      {name: 'timeSheetStartDate', required: true, defaultValue: defaultStartDate},
+      {name: 'timeSheetEndDate', required: true, defaultValue: defaultEndDate},
       {name: 'customerId'},
       {name: 'projectId'},
       {name: 'activityId'},
@@ -74,11 +79,14 @@ export class ReportOrdersComponent implements OnInit {
       {name: 'timeSheetComment'}
     ];
 
-    this.tableRows$ = this.filterChanged
+    const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         share()
-      );
+      )
+      .subscribe(x => this.tableRows = x);
+
+    this.subscriptions.add(filterChanged);
 
     this.tableSortedRows$ = new BehaviorSubject<WorkTimeDto[]>([]);
 
@@ -98,6 +106,10 @@ export class ReportOrdersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.tableColumns = this.createTableColumns();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public tableRowsChanged(rows: Array<WorkTimeDto>): void {

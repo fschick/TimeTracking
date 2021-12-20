@@ -15,8 +15,9 @@
 </div>
 
 <ts-simple-table
+  *ngIf="rows"
   [columns]="columns"
-  [rows]="rows$ | ngrxPush"
+  [rows]="rows"
   [configuration]="configuration">
 </ts-simple-table>
 

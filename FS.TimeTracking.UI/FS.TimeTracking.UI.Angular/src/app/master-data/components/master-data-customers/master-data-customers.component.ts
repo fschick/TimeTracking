@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CustomerDto, CustomerService} from '../../../shared/services/api';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -19,17 +19,18 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
   templateUrl: './master-data-customers.component.html',
   styleUrls: ['./master-data-customers.component.scss']
 })
-export class MasterDataCustomersComponent implements OnInit {
+export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<CustomerDto>;
 
   public guidService = GuidService;
-  public rows$: Observable<CustomerDto[]>;
+  public rows?: CustomerDto[];
   public columns!: Column<CustomerDto>[];
   public configuration?: Partial<Configuration<CustomerDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private entityService: EntityService,
@@ -45,11 +46,14 @@ export class MasterDataCustomersComponent implements OnInit {
       {name: 'customerHidden'},
     ];
 
-    this.rows$ = this.filterChanged
+    const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService),
-      );
+      )
+      .subscribe(rows => this.rows = rows);
+
+    this.subscriptions.add(filterChanged);
   }
 
   public ngOnInit(): void {
@@ -92,6 +96,10 @@ export class MasterDataCustomersComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public getDataCellValue(row: CustomerDto, column: Column<CustomerDto>): string {

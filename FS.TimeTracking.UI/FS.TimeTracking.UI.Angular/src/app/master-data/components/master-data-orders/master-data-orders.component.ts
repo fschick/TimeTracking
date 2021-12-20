@@ -19,18 +19,19 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
   templateUrl: './master-data-orders.component.html',
   styleUrls: ['./master-data-orders.component.scss']
 })
-export class MasterDataOrdersComponent implements OnInit {
+export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
   @ViewChild(SimpleTableComponent) private orderTable?: SimpleTableComponent<OrderListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderListDto>;
 
   public guidService = GuidService;
-  public rows$: Observable<OrderListDto[]>;
+  public rows?: OrderListDto[];
   public columns!: Column<OrderListDto>[];
   public configuration?: Partial<Configuration<OrderListDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private entityService: EntityService,
@@ -46,11 +47,14 @@ export class MasterDataOrdersComponent implements OnInit {
       {name: 'customerId', showHidden: true},
     ];
 
-    this.rows$ = this.filterChanged
+    const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService),
-      );
+      )
+      .subscribe(rows => this.rows = rows);
+
+    this.subscriptions.add(filterChanged);
   }
 
   public ngOnInit(): void {
@@ -100,6 +104,10 @@ export class MasterDataOrdersComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private loadData(filter: FilteredRequestParams): Observable<OrderListDto[]> {

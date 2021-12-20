@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   Column,
   Configuration,
@@ -6,7 +6,7 @@ import {
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
 import {ActivityListDto, ProjectListDto, ProjectService} from '../../../shared/services/api';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -19,18 +19,19 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
   templateUrl: './master-data-projects.component.html',
   styleUrls: ['./master-data-projects.component.scss']
 })
-export class MasterDataProjectsComponent implements OnInit {
+export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
   @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectListDto>;
   @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectListDto>;
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectListDto>;
 
   public guidService = GuidService;
-  public rows$: Observable<ProjectListDto[]>;
+  public rows?: ProjectListDto[];
   public columns!: Column<ProjectListDto>[];
   public configuration?: Partial<Configuration<ProjectListDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private entityService: EntityService,
@@ -45,11 +46,14 @@ export class MasterDataProjectsComponent implements OnInit {
       {name: 'projectHidden'},
     ];
 
-    this.rows$ = this.filterChanged
+    const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService),
-      );
+      )
+      .subscribe(rows => this.rows = rows);
+
+    this.subscriptions.add(filterChanged);
   }
 
   public ngOnInit(): void {
@@ -83,6 +87,10 @@ export class MasterDataProjectsComponent implements OnInit {
         sortable: false
       },
     ];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private loadData(filter: FilteredRequestParams): Observable<ProjectListDto[]> {
