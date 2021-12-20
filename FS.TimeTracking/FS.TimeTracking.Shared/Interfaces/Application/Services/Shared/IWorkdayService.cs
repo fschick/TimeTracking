@@ -26,7 +26,7 @@ public interface IWorkdayService
     /// <param name="dateTimeSpan">The date time span to get the workdays for.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>Enumerable with one entry per per working day.</returns>
-    Task<WorkdaysDto> GetWorkdays(DateTimeSpan? dateTimeSpan, CancellationToken cancellationToken = default);
+    Task<WorkdaysDto> GetWorkdays(Section<DateTimeOffset> dateTimeSpan, CancellationToken cancellationToken = default);
 
     ///// <summary>
     ///// Gets the count of workdays of a given month.

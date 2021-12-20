@@ -14,25 +14,25 @@ namespace FS.TimeTracking.Application.FilterExpressionInterceptors;
 internal class DateTimeOffsetInterceptor : IPropertyFilterInterceptor
 {
     [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
-    public Expression<Func<TEntity, bool>> CreatePropertyFilter<TEntity>(PropertyInfo propertyInfo, ValueFilter filter, FilterConfiguration filterConfiguration)
+    public Expression<Func<TEntity, bool>> CreatePropertyFilter<TEntity>(PropertyInfo propertyInfo, ValueFilter[] filters, FilterConfiguration filterConfiguration)
     {
         if (typeof(TEntity) == typeof(TimeSheet) && propertyInfo.Name == nameof(TimeSheet.StartDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((TimeSheet x) => x.StartDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((TimeSheet x) => x.StartDateLocal, filters, filterConfiguration);
 
         if (typeof(TEntity) == typeof(TimeSheet) && propertyInfo.Name == nameof(TimeSheet.EndDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((TimeSheet x) => x.EndDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((TimeSheet x) => x.EndDateLocal, filters, filterConfiguration);
 
         if (typeof(TEntity) == typeof(Order) && propertyInfo.Name == nameof(Order.StartDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Order x) => x.StartDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Order x) => x.StartDateLocal, filters, filterConfiguration);
 
         if (typeof(TEntity) == typeof(Order) && propertyInfo.Name == nameof(Order.DueDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Order x) => x.DueDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Order x) => x.DueDateLocal, filters, filterConfiguration);
 
         if (typeof(TEntity) == typeof(Holiday) && propertyInfo.Name == nameof(Holiday.StartDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Holiday x) => x.StartDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Holiday x) => x.StartDateLocal, filters, filterConfiguration);
 
         if (typeof(TEntity) == typeof(Holiday) && propertyInfo.Name == nameof(Holiday.EndDate))
-            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Holiday x) => x.EndDateLocal, filter, filterConfiguration);
+            return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpressionCreator.CreateFilter((Holiday x) => x.EndDateLocal, filters, filterConfiguration);
 
         return null;
 

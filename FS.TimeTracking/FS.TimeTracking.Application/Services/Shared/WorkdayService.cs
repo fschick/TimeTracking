@@ -37,8 +37,8 @@ public class WorkdayService : IWorkdayService
         => await GetWorkdays(startDate.GetDays(endDate), cancellationToken);
 
     /// <inheritdoc />
-    public async Task<WorkdaysDto> GetWorkdays(DateTimeSpan? dateTimeSpan, CancellationToken cancellationToken = default)
-        => dateTimeSpan != null ? await GetWorkdays(dateTimeSpan.Value.Start.Date, dateTimeSpan.Value.End.Date, cancellationToken) : null;
+    public async Task<WorkdaysDto> GetWorkdays(Section<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken = default)
+        => dateTimeSection != null ? await GetWorkdays(dateTimeSection.Start.Date, dateTimeSection.End.Date, cancellationToken) : null;
 
     ///// <inheritdoc />
     //public async Task<int> GetWorkDaysCount(DateTime startDate, DateTime endDate)

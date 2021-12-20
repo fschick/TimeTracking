@@ -90,7 +90,7 @@ public class ReportService : IReportService
                     if (planned == null)
                         throw new InvalidOperationException("Planned entity is null");
 
-                    var plannedTimeSpan = new DateTimeSpan(planned.PlannedStart, planned.PlannedEnd);
+                    var plannedTimeSpan = new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd);
                     return new WorkTimeDto
                     {
                         Id = worked?.Id ?? planned.Id,
@@ -228,9 +228,9 @@ public class ReportService : IReportService
         return plannedTimesPerOrder;
     }
 
-    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, DateTimeSpan selectedPeriod)
+    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Section<DateTimeOffset> selectedPeriod)
     {
-        var orderPeriod = new DateTimeSpan(order.StartDate, order.DueDate.AddDays(1));
+        var orderPeriod = new Section<DateTimeOffset>(order.StartDate, order.DueDate.AddDays(1));
         var orderWorkdays = await _workdayService.GetWorkdays(orderPeriod);
         var orderWorkHours = order.HourlyRate != 0 ? order.Budget / order.HourlyRate : 0;
 
@@ -247,7 +247,7 @@ public class ReportService : IReportService
     {
         var workedTimesFilter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var plannedTimesFilter = FilterExtensions.CreateOrderFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
-        var selectedPeriod = GetSelectedPeriod(timeSheetFilter);
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter);
 
         plannedTimesFilter = plannedTimesFilter
             .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, selectedPeriod.Start)
@@ -256,32 +256,9 @@ public class ReportService : IReportService
         return new Filter(workedTimesFilter, plannedTimesFilter, selectedPeriod);
     }
 
-    private static DateTimeSpan GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter)
+    private record struct Filter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, Section<DateTimeOffset> SelectedPeriod)
     {
-        // Let space for later timezone conversions.
-        var minValue = DateTimeOffset.MinValue.AddDays(1);
-        var maxValue = DateTimeOffset.MaxValue.AddDays(-1);
-
-        var selectedPeriodFilter = timeSheetFilter.GetPropertyFilter(x => x.StartDate);
-        if (selectedPeriodFilter == null)
-            return new DateTimeSpan(minValue, maxValue);
-
-        var selectedPeriodValueFilter = ValueFilter.Create(selectedPeriodFilter);
-        selectedPeriodValueFilter.Values.First().TryConvertStringToDateTimeSpan(DateTimeOffset.Now, out var filterPeriod);
-        var selectedPeriod = selectedPeriodValueFilter.Operator switch
-        {
-            FilterOperator.Default => filterPeriod,
-            FilterOperator.LessThan => new DateTimeSpan(minValue, filterPeriod.Start),
-            FilterOperator.GreaterThanOrEqual => new DateTimeSpan(filterPeriod.Start, maxValue),
-            _ => throw new ArgumentOutOfRangeException(nameof(selectedPeriodValueFilter.Operator), selectedPeriodValueFilter.Operator, "")
-        };
-
-        return selectedPeriod;
-    }
-
-    private record struct Filter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, DateTimeSpan SelectedPeriod)
-    {
-        public readonly DateTimeSpan SelectedPeriod = SelectedPeriod;
+        public readonly Section<DateTimeOffset> SelectedPeriod = SelectedPeriod;
         public readonly EntityFilter<TimeSheet> WorkedTimes = WorkedTimes;
         public readonly EntityFilter<Order> PlannedTimes = PlannedTimes;
     }
