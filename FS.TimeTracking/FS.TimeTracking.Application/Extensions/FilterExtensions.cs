@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Application.Extensions
     /// <summary>
     /// Extensions to create filters.
     /// </summary>
-    public static class EntityFilterExtensions
+    public static class FilterExtensions
     {
         /// <summary>
         /// Creates the filter for <see cref="Activity"/>.

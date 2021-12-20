@@ -25,7 +25,7 @@ public class ProjectService : CrudModelService<Project, ProjectDto, ProjectListD
     /// <inheritdoc />
     public override async Task<List<ProjectListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var filter = EntityFilterExtensions.CreateProjectFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var filter = FilterExtensions.CreateProjectFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         return await Repository
             .Get<Project, ProjectListDto>(
