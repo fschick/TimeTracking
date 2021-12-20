@@ -64,10 +64,10 @@ export class TimesheetComponent implements OnDestroy {
 
     const filterChanged = this.filterChanged
       .pipe(
+        filter(() => this.allowUpdate),
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
         switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
-        filter(() => this.allowUpdate),
         map(timeSheets => this.createTimeSheetOverview(timeSheets)),
       )
       .subscribe(timeSheets => this.overview = timeSheets);
