@@ -81,8 +81,8 @@ public class ReportService : IReportService
         return workedTimesPerOrder
             .CrossJoin(
                 plannedTimesPerOrder,
-                worked => worked.Id,
-                planned => planned.Id,
+                worked => worked.OrderId,
+                planned => planned.OrderId,
                 (worked, planned) =>
                 {
                     if (worked == null && planned == null)
@@ -93,9 +93,9 @@ public class ReportService : IReportService
                     var plannedTimeSpan = new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd);
                     return new WorkTimeDto
                     {
-                        Id = worked?.Id ?? planned.Id,
-                        OrderTitle = worked?.Title ?? planned.Title,
-                        OrderNumber = worked?.Number ?? planned.Number,
+                        Id = worked?.OrderId ?? planned.OrderId,
+                        OrderTitle = worked?.OrderTitle ?? planned.OrderTitle,
+                        OrderNumber = worked?.OrderNumber ?? planned.OrderNumber,
                         CustomerTitle = worked?.CustomerTitle ?? planned.CustomerTitle,
                         TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
                         DaysWorked = worked?.WorkedDays ?? 0,
@@ -175,9 +175,9 @@ public class ReportService : IReportService
                 groupBy: x => new { x.OrderId, x.Order.Title, x.Order.Number },
                 select: x => new OrderWorkTime
                 {
-                    Id = x.Key.OrderId.Value,
-                    Title = x.Key.Title,
-                    Number = x.Key.Number,
+                    OrderId = x.Key.OrderId.Value,
+                    OrderTitle = x.Key.Title,
+                    OrderNumber = x.Key.Number,
                     WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
                     HourlyRate = x.Min(f => f.Order.HourlyRate),
                     CustomerTitle = x.Min(f => f.Project.Customer.Title),
@@ -210,9 +210,9 @@ public class ReportService : IReportService
                 var plannedTime = await GetPlannedTimeForPeriod(order, filter.SelectedPeriod);
                 return new OrderWorkTime
                 {
-                    Id = order.Id,
-                    Title = order.Title,
-                    Number = order.Number,
+                    OrderId = order.Id,
+                    OrderTitle = order.Title,
+                    OrderNumber = order.Number,
                     CustomerId = order.CustomerId,
                     CustomerTitle = order.Customer.Title,
                     PlannedTime = plannedTime,

@@ -8,22 +8,21 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Tests.IntegrationTests
+namespace FS.TimeTracking.Tests.IntegrationTests;
+
+[TestClass, ExcludeFromCodeCoverage]
+public class ComplexSqlOperationTests
 {
-    [TestClass, ExcludeFromCodeCoverage]
-    public class ComplexSqlOperationTests
+    [DataTestMethod, TestDatabases]
+    public async Task WhenReportWorkedTimesPerOrderIsQueried_SqlGetsTranslatedAndNoExceptionIsThrown(DatabaseConfiguration configuration)
     {
-        [DataTestMethod, TestDatabases]
-        public async Task WhenReportWorkedTimesPerOrderIsQueried_SqlGetsTranslatedAndNoExceptionIsThrown(DatabaseConfiguration configuration)
-        {
-            // Prepare
-            await using var testHost = await TestHost.Create(configuration);
+        // Prepare
+        await using var testHost = await TestHost.Create(configuration);
 
-            // Act
-            var workTimesPerOrder = await testHost.Get<ReportController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default, default, default, default, default, default));
+        // Act
+        var workTimesPerOrder = await testHost.Get<ReportController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default, default, default, default, default, default));
 
-            // Check
-            workTimesPerOrder.Should().NotBeNull();
-        }
+        // Check
+        workTimesPerOrder.Should().NotBeNull();
     }
 }
