@@ -209,7 +209,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     const filterRequestParams = Object.entries(filter)
       .filter((([name]) => filterToUse.includes(name)))
       .map(([name, value]) => {
-        if (value === '')
+        if (value === '' || value == null)
           return [name, undefined];
         if (Array.isArray(value))
           return [name, value.length > 0 ? value.join() : undefined];
@@ -230,7 +230,8 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         if (name === 'holidayEndDate')
           return ['holidayStartDate', `<${filter.holidayEndDate.toISO()}`];
         return [name, value];
-      });
+      })
+      .filter(([, value]) => value !== undefined);
 
     return Object.fromEntries(filterRequestParams);
   }
