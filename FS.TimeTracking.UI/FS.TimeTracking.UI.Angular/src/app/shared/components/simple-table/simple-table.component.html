@@ -1,4 +1,4 @@
-<div [class]="configuration.cssWrapper">
+<div *ngIf="columns" [class]="configuration.cssWrapper">
   <table [class]="configuration.cssTable">
     <thead>
     <ng-container *ngTemplateOutlet="configuration.headRowTemplate ? configuration.headRowTemplate : defaultHeadRowTemplate; context: getHeaderRowContext()"></ng-container>

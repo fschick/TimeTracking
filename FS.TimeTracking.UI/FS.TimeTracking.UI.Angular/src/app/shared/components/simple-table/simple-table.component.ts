@@ -99,7 +99,11 @@ export type Column<TRow> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleTableComponent<TRow> {
-  @Input('configuration') set setConfiguration(configuration: Partial<Configuration<TRow>> | null | undefined) {
+
+  public configuration: Configuration<TRow>;
+
+  @Input('configuration')
+  public set setConfiguration(configuration: Partial<Configuration<TRow>> | null | undefined) {
     this.configuration = {...new Configuration<TRow>(), ...configuration};
     this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
     if (!this.configuration.filterRow)
@@ -107,29 +111,31 @@ export class SimpleTableComponent<TRow> {
     this.sortAndFilterRows();
   };
 
-  @Input('rows') set setRows(rows: TRow[] | null | undefined) {
+  public rows: TRow[];
+
+  @Input('rows')
+  public set setRows(rows: TRow[] | null | undefined) {
     this.rows = rows ?? [];
     this.originRowOrder = this.rows.map((row, index) => this.configuration.trackBy(index, row));
     this.guessColumnsSortType();
     this.sortAndFilterRows();
   };
 
-  @Input('columns') set setColumns(columns: Column<TRow>[] | null | undefined) {
+  public columns?: Column<TRow>[];
+
+  @Input('columns')
+  public set setColumns(columns: Column<TRow>[] | null | undefined) {
     this.columns = columns ?? [];
     this.guessColumnsSortType();
-    this.updateFiltersWithChangedColumns();
+    this.updateFiltersWithChangedColumns(this.columns);
     this.sortAndFilterRows();
   }
 
-  @Output() headerCellClick = new EventEmitter<HeaderCellClickEvent<TRow>>();
+  @Output() private headerCellClick = new EventEmitter<HeaderCellClickEvent<TRow>>();
 
-  @Output() dataCellClick = new EventEmitter<DataCellClickEvent<TRow>>();
+  @Output() private dataCellClick = new EventEmitter<DataCellClickEvent<TRow>>();
 
-  @Output() rowsChanged = new EventEmitter<RowChangedEvent<TRow>>();
-
-  public configuration: Configuration<TRow>;
-  public rows: TRow[];
-  public columns: Column<TRow>[];
+  @Output() private rowsChanged = new EventEmitter<RowChangedEvent<TRow>>();
 
   public filters: Filters<TRow> = {} as Filters<TRow>;
   public filteredRows: TRow[];
@@ -139,7 +145,6 @@ export class SimpleTableComponent<TRow> {
   constructor() {
     this.configuration = new Configuration();
     this.rows = [];
-    this.columns = [];
     this.filteredRows = [];
     this.originRowOrder = [];
   }
@@ -265,10 +270,10 @@ export class SimpleTableComponent<TRow> {
     return String(value);
   }
 
-  private updateFiltersWithChangedColumns(): void {
+  private updateFiltersWithChangedColumns(columns: Column<TRow>[]): void {
     const filterProperties = Object.keys(this.filters) as (keyof TRow)[];
 
-    const filterableColumns = this.columns.filter(x => x.filterable !== 'no');
+    const filterableColumns = columns.filter(x => x.filterable !== 'no');
 
     const missingFilters = filterableColumns.filter(col => !filterProperties.some(filterProp => filterProp === col.prop));
     for (const column of missingFilters)
@@ -281,7 +286,7 @@ export class SimpleTableComponent<TRow> {
   }
 
   private guessColumnsSortType(): void {
-    if (this.rows.length === 0 || this.columns.length === 0)
+    if (this.rows.length === 0 || !this.columns || this.columns.length === 0)
       return;
 
     const columnsWithMissingSortType = this.columns.filter(col => col.prop && !col.sortType);
@@ -299,6 +304,9 @@ export class SimpleTableComponent<TRow> {
   }
 
   private sortAndFilterRows() {
+    if (!this.columns)
+      return;
+    
     this.sortRows();
     this.applyFilter();
     this.rowsChanged.emit({rows: this.filteredRows, table: this});
@@ -308,9 +316,13 @@ export class SimpleTableComponent<TRow> {
     this.rows.sort((rowA, rowB) => {
       // Compare/sort by column.
       for (const [sortKey, direction] of this.sortOrder) {
-        let columnResult = 0;
+        const column = this.columns?.find(x => x.prop === sortKey || x.customId === sortKey);
+        if (column === undefined)
+          continue;
+
         const prop = sortKey as keyof TRow;
-        const column = this.columns.find(x => x.prop === sortKey || x.customId === sortKey)!;
+        let columnResult = 0;
+
         const columnSortFn = column?.sort;
         if (typeof columnSortFn === 'function')
           columnResult = columnSortFn(rowA, rowB) * (direction === 'asc' ? 1 : -1);
@@ -320,6 +332,7 @@ export class SimpleTableComponent<TRow> {
           columnResult = direction === 'asc' ? 1 : -1;
         else if (rowA[prop] < rowB[prop])
           columnResult = direction === 'asc' ? -1 : 1;
+
         if (columnResult !== 0)
           return columnResult;
       }
@@ -338,6 +351,9 @@ export class SimpleTableComponent<TRow> {
   }
 
   private filterRows(rows: TRow[]): TRow[] {
+    if (!this.columns)
+      return rows;
+
     const columns = Object.fromEntries(this.columns.map(col => ([col.prop, col])));
     const filters = Object.entries(this.filters) as [keyof TRow, any];
     const activeFilters = filters
