@@ -93,7 +93,6 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     private dateParserService: DateParserService,
   ) {
     this.filterForm = this.createFilterForm();
-    this.updateFilterFromQueryParams();
 
     this.onFilterChanged = this.filterForm.valueChanges
       .pipe(
@@ -102,10 +101,11 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         shareReplay(1),
       );
 
-    const filterChangedEmitter = this.onFilterChanged.subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
-    this.subscriptions.add(filterChangedEmitter);
-
     this.isFiltered$ = this.onFilterChanged.pipe(map(filter => this.isFiltered(filter)));
+
+    const filterChangedEmitter = this.onFilterChanged
+      .subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
+    this.subscriptions.add(filterChangedEmitter);
   }
 
   public ngAfterViewInit(): void {
@@ -162,16 +162,15 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
   }
 
   private createFilterForm(): FormGroup {
-    const filter = this.loadFilterFormValue();
+    const filter = this.getInitialFilterValues();
 
     const updateOnBlurFilter: FilterName[] = ['timeSheetIssue', 'timeSheetComment', 'projectTitle', 'projectComment', 'customerTitle', 'customerNumber', 'customerDepartment', 'customerCompanyName', 'customerContactName', 'customerStreet', 'customerZipCode', 'customerCity', 'customerCountry', 'activityTitle', 'activityComment', 'orderTitle', 'orderDescription', 'orderNumber', 'orderHourlyRate', 'orderBudget', 'orderComment', 'holidayTitle'];
     const formControlsConfigMap = Object.entries(filter)
-      .map(([key, value]) => [key, [value, {updateOn: updateOnBlurFilter.some(x => x === key) ? 'blur' : 'change'}]]);
-    const formControlsConfig: Record<FilterControlName, [0]> = Object.fromEntries(formControlsConfigMap);
-
+      .map(([filterName, value]) => [filterName, [value, {updateOn: updateOnBlurFilter.includes(filterName as FilterName) ? 'blur' : 'change'}]]);
+    const formControlsConfig = Object.fromEntries(formControlsConfigMap);
     const filterForm = this.formBuilder.group(formControlsConfig);
-    const formControls = filterForm.controls as FilterControls;
 
+    const formControls = filterForm.controls as FilterControls;
     this.registerDateSync(formControls, 'timeSheetStartDate', 'timeSheetEndDate', 'timeSheetStartMonth', 'timeSheetEndMonth');
     this.registerDateSync(formControls, 'orderStartDate', 'orderDueDate', 'orderStartMonth', 'orderDueMonth');
     this.registerDateSync(formControls, 'holidayStartDate', 'holidayEndDate', 'holidayStartMonth', 'holidayEndMonth');
@@ -179,138 +178,11 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return filterForm;
   }
 
-  public clearFilterForm(): void {
-    if (!this._filters)
-      return;
-
-    const nonClearableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
-    const requiredFilters = this._filters.filter(x => x.required).map(x => x.name as string);
-    const filterToClear = Object.keys(this.filterForm.value).filter(name => !requiredFilters.includes(name) && !nonClearableFilter.includes(name as FilterControlName));
-
-    const emptyFilter: { [name: string]: any } = {};
-    for (const key of filterToClear)
-      emptyFilter[key] = null;
-    this.filterForm.patchValue(emptyFilter);
-  }
-
-  public isRequired(filterName: FilterName): boolean {
-    return !this._filters?.filter(x => x.name === filterName)[0]?.required;
-  }
-
-  public changeValue($event: Event, formControlName: FilterName): void {
-    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
-  }
-
-  private convertToFilteredRequestParams(filter: Record<FilterControlName, any>): FilteredRequestParams {
-    if (!this._filters)
-      return {};
-
-    const filterToUse = this._filters.map(x => x.name) as any;
-    const filterRequestParams = Object.entries(filter)
-      .filter((([name]) => filterToUse.includes(name)))
-      .map(([name, value]) => {
-        if (value === '' || value == null)
-          return [name, undefined];
-        if (Array.isArray(value))
-          return [name, value.length > 0 ? value.join() : undefined];
-        if (typeof value === 'boolean')
-          return [name, value ? 'true' : 'false'];
-        if (typeof value === 'number')
-          return [name, value.toFixed(15)];
-        if (name === 'timeSheetStartDate')
-          return ['timeSheetEndDate', `>=${filter.timeSheetStartDate.toISO()},ISNULL`];
-        if (name === 'timeSheetEndDate')
-          return ['timeSheetStartDate', `<${filter.timeSheetEndDate.toISO()}`];
-        if (name === 'orderStartDate')
-          return ['orderDueDate', `>=${filter.orderStartDate.toISO()}`];
-        if (name === 'orderDueDate')
-          return ['orderStartDate', `<${filter.orderDueDate.toISO()}`];
-        if (name === 'holidayStartDate')
-          return ['holidayEndDate', `>=${filter.holidayStartDate.toISO()}`];
-        if (name === 'holidayEndDate')
-          return ['holidayStartDate', `<${filter.holidayEndDate.toISO()}`];
-        return [name, value];
-      })
-      .filter(([, value]) => value !== undefined);
-
-    return Object.fromEntries(filterRequestParams);
-  }
-
-  private saveFilterFormValue(filter: any) {
-    this.storageService.set(this.filterStorageKey, JSON.stringify(filter))
-  }
-
-  private loadFilterFormValue(): Record<FilterControlName, any> {
+  private getInitialFilterValues(): Record<FilterControlName, any> {
     const emptyFilter = this.getEmptyFilter();
-    const rawFilter = JSON.parse(this.storageService.get(this.filterStorageKey, '{}'));
-    const savedFilter = this.dateParserService.convertJsStringsToLuxon(rawFilter);
-    return {...emptyFilter, ...savedFilter};
-  }
-
-  private isFiltered(filter: FilteredRequestParams): boolean {
-    if (!this._filters)
-      return false;
-
-    const requiredFilters = this._filters.filter(x => x.required).map(x => x.name);
-    return Object.entries(filter)
-      .some(([name, value]: [any, string]) =>
-        !requiredFilters.includes(name) &&
-        value && value?.length !== 0
-      );
-  }
-
-  private updateFilterFromQueryParams(): void {
-    const queryParameterMap: ParamMap = this.route.snapshot.queryParamMap;
-    const formControls = this.filterForm.controls as FilterControls;
-
-    for (const property of Object.entries(formControls)) {
-      const key = property[0] as FilterControlName;
-      if (!queryParameterMap.has(key))
-        continue;
-
-      const queryParamValue = queryParameterMap.get(key);
-      const filterValue = property[1].value;
-
-      if (queryParamValue === '')
-        formControls[key]?.patchValue(null);
-      else if (typeof filterValue === 'number' && queryParamValue)
-        formControls[key]?.patchValue(parseFloat(queryParamValue));
-      else if (typeof filterValue === 'boolean' && queryParamValue)
-        formControls[key]?.patchValue(this.booleanTrueRegex.test(queryParamValue));
-      else if (filterValue instanceof DateTime && queryParamValue)
-        formControls[key]?.patchValue(DateTime.fromISO(queryParamValue));
-    }
-  }
-
-  private registerDateSync(formControls: FilterControls, fromDate: FilterControlName, toDate: FilterControlName, fromMonth: FilterControlName, toMonth: FilterControlName) {
-    const startDateChanged = formControls[fromDate].valueChanges.subscribe((newStartDate: DateTime) => {
-      formControls[fromMonth].setValue(newStartDate, {emitEvent: false})
-      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
-        formControls[toDate].setValue(newStartDate);
-    });
-
-    const startMonthChanged = formControls[fromMonth].valueChanges.subscribe((newStartDate: DateTime) => {
-      formControls[fromDate].setValue(newStartDate, {emitEvent: false})
-      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
-        formControls[toDate].setValue(newStartDate.endOf('month'));
-    });
-
-    const endDateChanged = formControls[toDate].valueChanges.subscribe((newEndDate: DateTime) => {
-      formControls[toMonth].setValue(newEndDate, {emitEvent: false})
-      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
-        formControls[fromDate].setValue(newEndDate);
-    });
-
-    const endMonthChanged = formControls[toMonth].valueChanges.subscribe((newEndDate: DateTime) => {
-      formControls[toDate].setValue(newEndDate, {emitEvent: false})
-      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
-        formControls[fromDate].setValue(newEndDate.startOf('month'));
-    });
-
-    this.subscriptions.add(startDateChanged);
-    this.subscriptions.add(startMonthChanged);
-    this.subscriptions.add(endDateChanged);
-    this.subscriptions.add(endMonthChanged);
+    const savedFilter = this.loadSavedFilter();
+    const queryFilter = this.getFilterFromQuery(emptyFilter);
+    return {...emptyFilter, ...savedFilter, ...queryFilter};
   }
 
   private getEmptyFilter(): Record<FilterControlName, null> {
@@ -364,6 +236,142 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       holidayEndMonth: null,
       holidayType: null,
     }
+  }
+
+  private loadSavedFilter(): Record<FilterControlName, any> {
+    const rawSavedFilter = JSON.parse(this.storageService.get(this.filterStorageKey, '{}'));
+    return this.dateParserService.convertJsStringsToLuxon(rawSavedFilter);
+  }
+
+  private getFilterFromQuery(emptyFilter: Record<FilterControlName, null>): Partial<Record<FilterControlName, any>> {
+    const queryParameterMap: ParamMap = this.route.snapshot.queryParamMap;
+    const booleanFilters: FilterName[] = ['timeSheetBillable', 'projectHidden', 'customerHidden', 'activityHidden', 'orderHidden'];
+    const numericFilters: FilterName[] = ['customerHourlyRate', 'orderHourlyRate', 'orderBudget'];
+    const dateTimeFilters: FilterName[] = ['timeSheetStartDate', 'timeSheetEndDate', 'orderStartDate', 'orderDueDate', 'holidayStartDate', 'holidayEndDate'];
+
+    const filterableQueryParams = Object
+      .entries(emptyFilter)
+      .filter(([key]) => queryParameterMap.has(key))
+      .map(([key]) => ({key: key as FilterName, value: queryParameterMap.get(key) as string}))
+      .map(filter => {
+        if (booleanFilters.includes(filter.key))
+          return [filter.key, this.booleanTrueRegex.test(filter.value)];
+        else if (numericFilters.includes(filter.key))
+          return [filter.key, parseFloat(filter.value)];
+        else if (dateTimeFilters.includes(filter.key))
+          return [filter.key, DateTime.fromISO(filter.value)];
+        else
+          return [filter.key, filter.value];
+      });
+
+    return Object.fromEntries(filterableQueryParams);
+  }
+
+  public clearFilterForm(): void {
+    if (!this._filters)
+      return;
+
+    const nonClearableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
+    const requiredFilterNames = this._filters
+      .filter(x => x.required || nonClearableFilter.includes(x.name))
+      .map(x => x.name as string);
+
+    const filterToClear = Object.keys(this.filterForm.value)
+      .filter(filterName => !requiredFilterNames.includes(filterName))
+      .map(filterName => [filterName, null]);
+
+    const emptyFilter = Object.fromEntries(filterToClear);
+    this.filterForm.patchValue(emptyFilter);
+  }
+
+  public isRequired(filterName: FilterName): boolean {
+    return !this._filters?.filter(x => x.name === filterName)[0]?.required;
+  }
+
+  public setFormValue($event: Event, formControlName: FilterName): void {
+    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
+  }
+
+  private saveFilterFormValue(filter: any) {
+    this.storageService.set(this.filterStorageKey, JSON.stringify(filter))
+  }
+
+  private convertToFilteredRequestParams(filter: Record<FilterControlName, any>): FilteredRequestParams {
+    if (!this._filters)
+      return {};
+
+    const filterToUse = this._filters.map(x => x.name) as any;
+    const filterRequestParams = Object.entries(filter)
+      .filter((([name]) => filterToUse.includes(name)))
+      .map(([name, value]) => {
+        if (value === '' || value == null)
+          return [name, undefined];
+        if (Array.isArray(value))
+          return [name, value.length > 0 ? value.join() : undefined];
+        if (typeof value === 'boolean')
+          return [name, value ? 'true' : 'false'];
+        if (typeof value === 'number')
+          return [name, value.toFixed(15)];
+        if (name === 'timeSheetStartDate')
+          return ['timeSheetEndDate', `>=${filter.timeSheetStartDate.toISO()},ISNULL`];
+        if (name === 'timeSheetEndDate')
+          return ['timeSheetStartDate', `<${filter.timeSheetEndDate.toISO()}`];
+        if (name === 'orderStartDate')
+          return ['orderDueDate', `>=${filter.orderStartDate.toISO()}`];
+        if (name === 'orderDueDate')
+          return ['orderStartDate', `<${filter.orderDueDate.toISO()}`];
+        if (name === 'holidayStartDate')
+          return ['holidayEndDate', `>=${filter.holidayStartDate.toISO()}`];
+        if (name === 'holidayEndDate')
+          return ['holidayStartDate', `<${filter.holidayEndDate.toISO()}`];
+        return [name, value];
+      })
+      .filter(([, value]) => value !== undefined);
+
+    return Object.fromEntries(filterRequestParams);
+  }
+
+  private isFiltered(filter: FilteredRequestParams): boolean {
+    if (!this._filters)
+      return false;
+
+    const requiredFilters = this._filters.filter(x => x.required).map(x => x.name);
+    return Object.entries(filter)
+      .some(([name, value]: [any, string]) =>
+        !requiredFilters.includes(name) &&
+        value && value?.length !== 0
+      );
+  }
+
+  private registerDateSync(formControls: FilterControls, fromDate: FilterControlName, toDate: FilterControlName, fromMonth: FilterControlName, toMonth: FilterControlName) {
+    const startDateChanged = formControls[fromDate].valueChanges.subscribe((newStartDate: DateTime) => {
+      formControls[fromMonth].setValue(newStartDate, {emitEvent: false})
+      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
+        formControls[toDate].setValue(newStartDate);
+    });
+
+    const startMonthChanged = formControls[fromMonth].valueChanges.subscribe((newStartDate: DateTime) => {
+      formControls[fromDate].setValue(newStartDate, {emitEvent: false})
+      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
+        formControls[toDate].setValue(newStartDate.endOf('month'));
+    });
+
+    const endDateChanged = formControls[toDate].valueChanges.subscribe((newEndDate: DateTime) => {
+      formControls[toMonth].setValue(newEndDate, {emitEvent: false})
+      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
+        formControls[fromDate].setValue(newEndDate);
+    });
+
+    const endMonthChanged = formControls[toMonth].valueChanges.subscribe((newEndDate: DateTime) => {
+      formControls[toDate].setValue(newEndDate, {emitEvent: false})
+      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
+        formControls[fromDate].setValue(newEndDate.startOf('month'));
+    });
+
+    this.subscriptions.add(startDateChanged);
+    this.subscriptions.add(startMonthChanged);
+    this.subscriptions.add(endDateChanged);
+    this.subscriptions.add(endMonthChanged);
   }
 
   private updateFilterSources(filters: Filter[]) {

@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<form *ngIf="filterForm" id="filterForm" [formGroup]="filterForm">
+<form id="filterForm" [formGroup]="filterForm">
 
   <ng-container *ngIf="filterTemplates">
     <!-- Standard filter -->
@@ -322,7 +322,7 @@
              placeholder="[i18n] Issue"
              i18n-placeholder="@@Component.Filter.Issue"
              formControlName="timeSheetIssue"
-             (keydown.enter)="changeValue($event, 'timeSheetIssue')">
+             (keydown.enter)="setFormValue($event, 'timeSheetIssue')">
     </div>
   </ng-template>
 
@@ -335,7 +335,7 @@
              placeholder="[i18n] Number"
              i18n-placeholder="@@Component.Filter.CustomerNumber"
              formControlName="customerNumber"
-             (keydown.enter)="changeValue($event, 'customerNumber')">
+             (keydown.enter)="setFormValue($event, 'customerNumber')">
     </div>
   </ng-template>
 
@@ -348,7 +348,7 @@
              placeholder="[i18n] Company"
              i18n-placeholder="@@Component.Filter.CustomerCompanyName"
              formControlName="customerCompanyName"
-             (keydown.enter)="changeValue($event, 'customerCompanyName')">
+             (keydown.enter)="setFormValue($event, 'customerCompanyName')">
     </div>
   </ng-template>
 
@@ -361,7 +361,7 @@
              placeholder="[i18n] Comment"
              i18n-placeholder="@@Component.Filter.Comment"
              formControlName="timeSheetComment"
-             (keydown.enter)="changeValue($event, 'timeSheetComment')">
+             (keydown.enter)="setFormValue($event, 'timeSheetComment')">
     </div>
   </ng-template>
 
@@ -374,7 +374,7 @@
              placeholder="[i18n] Title"
              i18n-placeholder="@@Component.Filter.HolidayTitle"
              formControlName="holidayTitle"
-             (keydown.enter)="changeValue($event, 'holidayTitle')">
+             (keydown.enter)="setFormValue($event, 'holidayTitle')">
     </div>
   </ng-template>
 
