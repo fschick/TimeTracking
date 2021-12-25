@@ -190,16 +190,13 @@ public interface IRepository
     ) where TEntity : class;
 
     /// <summary>
-    /// Test, if a projection of entities from database exists.
+    /// Tests if entities exists.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <param name="select">Projects each entity into desired result.</param>
     /// <param name="where">Filters the entities based on a predicate.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns></returns>
-    Task<bool> Exists<TEntity, TResult>(
-        Expression<Func<TEntity, TResult>> select,
+    Task<bool> Exists<TEntity>(
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
     ) where TEntity : class;

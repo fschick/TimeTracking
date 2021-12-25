@@ -128,12 +128,11 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
             .SumAsyncEF(select, cancellationToken);
 
     /// <inheritdoc />
-    public async Task<bool> Exists<TEntity, TResult>(
-        Expression<Func<TEntity, TResult>> select,
+    public Task<bool> Exists<TEntity>(
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
     ) where TEntity : class
-        => await GetInternal(x => x.Select(select), where, null, null, null, false, null, null, false)
+        => GetInternal(x => x.Select(_ => default(object)), where, null, null, null, false, null, null, false)
             .AnyAsyncEF(cancellationToken);
 
     /// <inheritdoc />
