@@ -33,7 +33,7 @@
   (rowsChanged)="tableRowsChanged($event.rows)">
 </ts-simple-table>
 
-<div *ngIf="plannedArePartial$ | ngrxPush" class="row">
+<div *ngIf="plannedArePartial" class="row">
   <div class="col p-0">
     <div class="alert alert-warning m-2" role="alert">
       <ts-icon icon="bi bi-exclamation-triangle" class="me-1"></ts-icon>

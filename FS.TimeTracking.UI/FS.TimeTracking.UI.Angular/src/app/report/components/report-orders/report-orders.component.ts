@@ -25,7 +25,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
   public filters: (Filter | FilterName)[];
   public chartOptions: ChartOptions;
   public chartSeries$: Observable<ApexAxisChartSeries>;
-  public plannedArePartial$: Observable<boolean>;
+  public plannedArePartial: boolean = false;
 
   public tableConfiguration: Partial<Configuration<WorkTimeDto>>;
   public tableColumns?: Column<WorkTimeDto>[];
@@ -67,11 +67,6 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     this.subscriptions.add(filterChanged);
 
     this.tableSortedRows$ = new BehaviorSubject<WorkTimeDto[]>([]);
-
-    this.plannedArePartial$ = this.tableSortedRows$
-      .pipe(
-        map(rows => rows.some(r => r.plannedIsPartial))
-      );
 
     this.chartOptions = this.reportChartService.createChartOptions();
     this.chartSeries$ = this.tableSortedRows$
