@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {BehaviorSubject, Observable, share, startWith, Subject, Subscription} from 'rxjs';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {ReportService, WorkTimeDto} from '../../../shared/services/api';
-import {map, single, switchMap} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -24,13 +24,12 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
   public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
   public chartOptions: ChartOptions;
-  public chartSeries$: Observable<ApexAxisChartSeries>;
+  public chartSeries?: ApexAxisChartSeries;
   public plannedArePartial: boolean = false;
 
   public tableConfiguration: Partial<Configuration<WorkTimeDto>>;
   public tableColumns?: Column<WorkTimeDto>[];
-  public tableRows?: WorkTimeDto[];
-  private tableSortedRows$: BehaviorSubject<WorkTimeDto[]>;
+  public tableRows: WorkTimeDto[] = [];
   private readonly subscriptions = new Subscription();
 
   public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
@@ -41,7 +40,8 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     private reportService: ReportService,
     private localizationService: LocalizationService,
     private modalService: NgbModal,
-    private reportChartService: ReportChartService
+    private reportChartService: ReportChartService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     const defaultEndDate = DateTime.now().startOf('day');
     const defaultStartDate = defaultEndDate.startOf('month');
@@ -58,22 +58,12 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     ];
 
     const filterChanged = this.filterChanged
-      .pipe(
-        switchMap(filter => this.loadData(filter)),
-        share()
-      )
+      .pipe(switchMap(filter => this.loadData(filter)))
       .subscribe(x => this.tableRows = x);
 
     this.subscriptions.add(filterChanged);
 
-    this.tableSortedRows$ = new BehaviorSubject<WorkTimeDto[]>([]);
-
     this.chartOptions = this.reportChartService.createChartOptions();
-    this.chartSeries$ = this.tableSortedRows$
-      .pipe(
-        map((workTimes: WorkTimeDto[]) => this.createSeries(workTimes))
-      );
-
     this.tableConfiguration = this.createTableConfiguration();
   }
 
@@ -86,7 +76,9 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
   }
 
   public tableRowsChanged(rows: Array<WorkTimeDto>): void {
-    this.tableSortedRows$.next(rows);
+    this.chartSeries = this.createSeries(rows);
+    this.plannedArePartial = rows.some(r => r.plannedIsPartial);
+    this.changeDetector.detectChanges();
   }
 
   public openInfoDetail(infoDetailDialog: TemplateRef<any>) {

@@ -9,24 +9,23 @@
 <h4 class="d-inline-block" i18n="@@Page.Report.Orders.Title">
   [i18n] TimeSheet
 </h4>
-<div *ngIf="chartSeries$ | ngrxPush as chartSeries" id="chart">
-  <apx-chart
-    [series]="chartSeries"
-    [chart]="chartOptions.chart"
-    [dataLabels]="chartOptions.dataLabels"
-    [plotOptions]="chartOptions.plotOptions"
-    [xaxis]="chartOptions.xAxis"
-    [yaxis]="chartOptions.yAxis"
-    [colors]="chartOptions.colors"
-    [stroke]="chartOptions.stroke"
-    [tooltip]="chartOptions.tooltip"
-    [states]="chartOptions.states"
-    [legend]="chartOptions.legend"
-  ></apx-chart>
+<div id="chart" *ngIf="chartSeries">
+    <apx-chart
+      [series]="chartSeries"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xAxis"
+      [yaxis]="chartOptions.yAxis"
+      [colors]="chartOptions.colors"
+      [stroke]="chartOptions.stroke"
+      [tooltip]="chartOptions.tooltip"
+      [states]="chartOptions.states"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
 </div>
 
 <ts-simple-table
-  *ngIf="tableRows"
   [columns]="tableColumns"
   [rows]="tableRows"
   [configuration]="tableConfiguration"
