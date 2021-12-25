@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {BehaviorSubject, Observable, share, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, share, startWith, Subject, Subscription} from 'rxjs';
 import {ReportService, WorkTimeDto} from '../../../shared/services/api';
 import {map, single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
@@ -7,32 +7,9 @@ import {LocalizationService} from '../../../shared/services/internationalization
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormatService} from '../../../shared/services/format.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexXAxis,
-  ApexYAxis,
-  ApexStroke,
-  ApexTooltip,
-  ApexStates,
-  ApexLegend
-} from "ng-apexcharts";
+import {ApexAxisChartSeries,} from "ng-apexcharts";
 import {DateTime} from 'luxon';
-
-type ChartOptions = {
-  chart: ApexChart;
-  colors: string[],
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  xAxis: ApexXAxis;
-  yAxis: ApexYAxis;
-  tooltip: ApexTooltip;
-  stroke: ApexStroke;
-  states: ApexStates;
-  legend: ApexLegend;
-};
+import {ChartOptions, ReportChartService} from '../../services/report-chart.service';
 
 @Component({
   selector: 'ts-report-orders',
@@ -64,6 +41,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     private reportService: ReportService,
     private localizationService: LocalizationService,
     private modalService: NgbModal,
+    private reportChartService: ReportChartService
   ) {
     const defaultEndDate = DateTime.now().startOf('day');
     const defaultStartDate = defaultEndDate.startOf('month');
@@ -95,7 +73,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         map(rows => rows.some(r => r.plannedIsPartial))
       );
 
-    this.chartOptions = this.createChartOptions();
+    this.chartOptions = this.reportChartService.createChartOptions();
     this.chartSeries$ = this.tableSortedRows$
       .pipe(
         map((workTimes: WorkTimeDto[]) => this.createSeries(workTimes))
@@ -146,69 +124,6 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         }))
       },
     ];
-  }
-
-  private createChartOptions(): ChartOptions {
-    return {
-      chart: {
-        type: 'bar',
-        height: 350
-      },
-      legend: {
-        position: 'top',
-      },
-      xAxis: {
-        crosshairs: {
-          fill: {
-            type: 'solid',
-            color: '#F2F2F2'
-          },
-        },
-      },
-      yAxis: {
-        title: {
-          text: $localize`:@@Page.Report.Common.Days:[i18n] Days`,
-        },
-        labels: {
-          formatter: (value: number) => this.formatService.formatDays(value)
-        }
-      },
-      colors: ['#0D3B66', '#93B7BE'],
-      plotOptions: {
-        bar: {
-          dataLabels: {},
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: (value: number) => this.formatService.formatDays(value)
-      },
-      stroke: {
-        show: true,
-        width: 10,
-        colors: ['transparent']
-      },
-      tooltip: {
-        followCursor: true,
-        shared: true,
-        intersect: false,
-        onDatasetHover: {highlightDataSeries: false},
-        y: {
-          formatter: (value, {dataPointIndex, seriesIndex, w}) => {
-            const days = this.formatService.formatDays(value);
-            const time = this.formatService.formatDuration(w.config.series[seriesIndex].data[dataPointIndex].meta.time);
-            return `${days} ${this.localizedDays} (${time} ${this.localizedHours})`;
-          }
-        }
-      },
-      states: {
-        hover: {
-          filter: {
-            type: 'none',
-          }
-        }
-      },
-    };
   }
 
   private createTableConfiguration(): Partial<Configuration<WorkTimeDto>> {
