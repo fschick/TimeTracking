@@ -13,7 +13,7 @@ export type FilterName = keyof FilteredRequestParams;
 export interface Filter {
   name: FilterName;
   showHidden?: boolean;
-  required?: boolean;
+  resettable?: boolean;
   defaultValue?: any;
 }
 
@@ -272,20 +272,20 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       return;
 
     const nonClearableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
-    const requiredFilterNames = this._filters
-      .filter(x => x.required || nonClearableFilter.includes(x.name))
+    const resettableFilterNames = this._filters
+      .filter(x => x.resettable !== false || nonClearableFilter.includes(x.name))
       .map(x => x.name as string);
 
     const filterToClear = Object.keys(this.filterForm.value)
-      .filter(filterName => !requiredFilterNames.includes(filterName))
+      .filter(filterName => resettableFilterNames.includes(filterName))
       .map(filterName => [filterName, null]);
 
     const emptyFilter = Object.fromEntries(filterToClear);
     this.filterForm.patchValue(emptyFilter);
   }
 
-  public isRequired(filterName: FilterName): boolean {
-    return !this._filters?.filter(x => x.name === filterName)[0]?.required;
+  public isResettable(filterName: FilterName): boolean {
+    return this._filters?.filter(x => x.name === filterName)[0]?.resettable !== false;
   }
 
   public setFormValue($event: Event, formControlName: FilterName): void {
@@ -335,10 +335,10 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     if (!this._filters)
       return false;
 
-    const requiredFilters = this._filters.filter(x => x.required).map(x => x.name);
+    const resettableFilters = this._filters.filter(x => x.resettable !== false).map(x => x.name);
     return Object.entries(filter)
       .some(([name, value]: [any, string]) =>
-        !requiredFilters.includes(name) &&
+        resettableFilters.includes(name) &&
         value && value?.length !== 0
       );
   }

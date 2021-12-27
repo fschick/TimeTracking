@@ -47,8 +47,8 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     const defaultStartDate = defaultEndDate.startOf('month');
 
     this.filters = [
-      {name: 'timeSheetStartDate', required: true, defaultValue: defaultStartDate},
-      {name: 'timeSheetEndDate', required: true, defaultValue: defaultEndDate},
+      {name: 'timeSheetStartDate', resettable: false, defaultValue: defaultStartDate},
+      {name: 'timeSheetEndDate', resettable: false, defaultValue: defaultEndDate},
       {name: 'customerId'},
       {name: 'projectId'},
       {name: 'activityId'},
