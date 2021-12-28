@@ -180,11 +180,11 @@ public static class FilterExtensions
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : maxValue;
+            : minValue;
 
         var endDate = startDateFilter != null
             ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : minValue;
+            : maxValue;
 
         return Section.Create(startDate, endDate);
     }

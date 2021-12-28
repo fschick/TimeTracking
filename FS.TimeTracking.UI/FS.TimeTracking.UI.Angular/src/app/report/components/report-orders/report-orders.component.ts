@@ -43,8 +43,8 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     private reportChartService: ReportChartService,
     private changeDetector: ChangeDetectorRef,
   ) {
-    const defaultEndDate = DateTime.now().startOf('day');
-    const defaultStartDate = defaultEndDate.startOf('month');
+    const defaultStartDate = DateTime.now().startOf('year');
+    const defaultEndDate = DateTime.now().endOf('year');
 
     this.filters = [
       {name: 'timeSheetStartDate', resettable: false, defaultValue: defaultStartDate},

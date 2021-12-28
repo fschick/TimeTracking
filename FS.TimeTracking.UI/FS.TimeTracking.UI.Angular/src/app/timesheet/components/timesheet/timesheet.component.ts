@@ -59,8 +59,8 @@ export class TimesheetComponent implements OnDestroy {
     private storageService: StorageService,
     private utilityService: UtilityService,
   ) {
-    const defaultEndDate = DateTime.now().startOf('day');
-    const defaultStartDate = defaultEndDate.startOf('month');
+    const defaultStartDate = DateTime.now().startOf('month');
+    const defaultEndDate = DateTime.now().endOf('month');
 
     const filterChanged = this.filterChanged
       .pipe(
