@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
-import {Observable, shareReplay, Subscription, map, tap} from 'rxjs';
+import {map, Observable, shareReplay, Subscription, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetListFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
@@ -17,7 +17,7 @@ export interface Filter {
   defaultValue?: any;
 }
 
-type FilterTemplates = { [key in FilterName]: TemplateRef<any> };
+type FilterTemplates = Record<FilterName, TemplateRef<any>>;
 type FilterControlName = keyof FilterControls;
 type FilterControls =
   Record<keyof FilteredRequestParams, AbstractControl>
@@ -81,7 +81,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
 
   private readonly booleanTrueRegex = /^\s*(true|1|on)\s*$/i;
   private readonly filterStorageKey = 'timeSheetFilter';
-  private readonly onFilterChanged: Observable<FilteredRequestParams>;
+  private readonly onFilterChanged: Observable<any>;
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -96,14 +96,15 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
 
     this.onFilterChanged = this.filterForm.valueChanges
       .pipe(
+        map(filter => this.unifyEmptyValues(filter)),
         tap(filter => this.saveFilterFormValue(filter)),
-        map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)),
         shareReplay(1),
       );
 
     this.isFiltered$ = this.onFilterChanged.pipe(map(filter => this.isFiltered(filter)));
 
     const filterChangedEmitter = this.onFilterChanged
+      .pipe(map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)))
       .subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
     this.subscriptions.add(filterChangedEmitter);
   }
@@ -161,6 +162,31 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public resetFilterForm(): void {
+    if (!this._filters)
+      return;
+
+    const nonResettableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
+    const resettableFilterNames = this._filters
+      .filter(x => x.resettable !== false || nonResettableFilter.includes(x.name))
+      .map(x => x.name as string);
+
+    const filterToClear = this._filters
+      .filter(filter => resettableFilterNames.includes(filter.name))
+      .map(filter => [filter.name, filter.defaultValue]);
+
+    const defaultFilter = Object.fromEntries(filterToClear);
+    this.filterForm.patchValue(defaultFilter);
+  }
+
+  public isResettable(filterName: FilterName): boolean {
+    return this._filters?.filter(x => x.name === filterName)[0]?.resettable !== false;
+  }
+
+  public setFormValue($event: Event, formControlName: FilterName): void {
+    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
+  }
+
   private createFilterForm(): FormGroup {
     const filter = this.getInitialFilterValues();
 
@@ -185,56 +211,56 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return {...emptyFilter, ...savedFilter, ...queryFilter};
   }
 
-  private getEmptyFilter(): Record<FilterControlName, null> {
+  private getEmptyFilter(): Record<FilterControlName, undefined> {
     return {
-      timeSheetId: null,
-      timeSheetIssue: null,
-      timeSheetStartDate: null,
-      timeSheetStartMonth: null,
-      timeSheetEndDate: null,
-      timeSheetEndMonth: null,
-      timeSheetBillable: null,
-      timeSheetComment: null,
-      projectId: null,
-      projectTitle: null,
-      projectComment: null,
-      projectHidden: null,
-      customerId: null,
-      customerTitle: null,
-      customerNumber: null,
-      customerDepartment: null,
-      customerCompanyName: null,
-      customerContactName: null,
-      customerHourlyRate: null,
-      customerStreet: null,
-      customerZipCode: null,
-      customerCity: null,
-      customerCountry: null,
-      customerComment: null,
-      customerHidden: null,
-      activityId: null,
-      activityTitle: null,
-      activityComment: null,
-      activityHidden: null,
-      orderId: null,
-      orderTitle: null,
-      orderDescription: null,
-      orderNumber: null,
-      orderStartDate: null,
-      orderStartMonth: null,
-      orderDueDate: null,
-      orderDueMonth: null,
-      orderHourlyRate: null,
-      orderBudget: null,
-      orderComment: null,
-      orderHidden: null,
-      holidayId: null,
-      holidayTitle: null,
-      holidayStartDate: null,
-      holidayStartMonth: null,
-      holidayEndDate: null,
-      holidayEndMonth: null,
-      holidayType: null,
+      timeSheetId: undefined,
+      timeSheetIssue: undefined,
+      timeSheetStartDate: undefined,
+      timeSheetStartMonth: undefined,
+      timeSheetEndDate: undefined,
+      timeSheetEndMonth: undefined,
+      timeSheetBillable: undefined,
+      timeSheetComment: undefined,
+      projectId: undefined,
+      projectTitle: undefined,
+      projectComment: undefined,
+      projectHidden: undefined,
+      customerId: undefined,
+      customerTitle: undefined,
+      customerNumber: undefined,
+      customerDepartment: undefined,
+      customerCompanyName: undefined,
+      customerContactName: undefined,
+      customerHourlyRate: undefined,
+      customerStreet: undefined,
+      customerZipCode: undefined,
+      customerCity: undefined,
+      customerCountry: undefined,
+      customerComment: undefined,
+      customerHidden: undefined,
+      activityId: undefined,
+      activityTitle: undefined,
+      activityComment: undefined,
+      activityHidden: undefined,
+      orderId: undefined,
+      orderTitle: undefined,
+      orderDescription: undefined,
+      orderNumber: undefined,
+      orderStartDate: undefined,
+      orderStartMonth: undefined,
+      orderDueDate: undefined,
+      orderDueMonth: undefined,
+      orderHourlyRate: undefined,
+      orderBudget: undefined,
+      orderComment: undefined,
+      orderHidden: undefined,
+      holidayId: undefined,
+      holidayTitle: undefined,
+      holidayStartDate: undefined,
+      holidayStartMonth: undefined,
+      holidayEndDate: undefined,
+      holidayEndMonth: undefined,
+      holidayType: undefined,
     }
   }
 
@@ -243,7 +269,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return this.dateParserService.convertJsStringsToLuxon(rawSavedFilter);
   }
 
-  private getFilterFromQuery(emptyFilter: Record<FilterControlName, null>): Partial<Record<FilterControlName, any>> {
+  private getFilterFromQuery(emptyFilter: Record<FilterControlName, undefined>): Partial<Record<FilterControlName, any>> {
     const queryParameterMap: ParamMap = this.route.snapshot.queryParamMap;
     const booleanFilters: FilterName[] = ['timeSheetBillable', 'projectHidden', 'customerHidden', 'activityHidden', 'orderHidden'];
     const numericFilters: FilterName[] = ['customerHourlyRate', 'orderHourlyRate', 'orderBudget'];
@@ -267,29 +293,20 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return Object.fromEntries(filterableQueryParams);
   }
 
-  public clearFilterForm(): void {
-    if (!this._filters)
-      return;
+  private unifyEmptyValues(filter: Record<FilterControlName, any>): Record<FilterControlName, any> {
+    for (const name of Object.keys(filter)) {
+      const filterName = name as FilterControlName;
+      const hasEmptyValue =
+        filter[filterName] === undefined ||
+        filter[filterName] === null ||
+        filter[filterName] === '' ||
+        (Array.isArray(filter[filterName]) && filter[filterName].length === 0);
 
-    const nonClearableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
-    const resettableFilterNames = this._filters
-      .filter(x => x.resettable !== false || nonClearableFilter.includes(x.name))
-      .map(x => x.name as string);
+      if (hasEmptyValue)
+        filter[filterName] = this._filters?.find(x => x.name === filterName)?.defaultValue === undefined ? undefined : null;
+    }
 
-    const filterToClear = Object.keys(this.filterForm.value)
-      .filter(filterName => resettableFilterNames.includes(filterName))
-      .map(filterName => [filterName, null]);
-
-    const emptyFilter = Object.fromEntries(filterToClear);
-    this.filterForm.patchValue(emptyFilter);
-  }
-
-  public isResettable(filterName: FilterName): boolean {
-    return this._filters?.filter(x => x.name === filterName)[0]?.resettable !== false;
-  }
-
-  public setFormValue($event: Event, formControlName: FilterName): void {
-    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
+    return filter;
   }
 
   private saveFilterFormValue(filter: any) {
@@ -331,16 +348,13 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return Object.fromEntries(filterRequestParams);
   }
 
-  private isFiltered(filter: FilteredRequestParams): boolean {
+  private isFiltered(filter: any): boolean {
     if (!this._filters)
       return false;
 
-    const resettableFilters = this._filters.filter(x => x.resettable !== false).map(x => x.name);
-    return Object.entries(filter)
-      .some(([name, value]: [any, string]) =>
-        resettableFilters.includes(name) &&
-        value && value?.length !== 0
-      );
+    return this._filters
+      .filter(x => x.resettable !== false && filter[x.name] !== x.defaultValue)
+      .length > 0;
   }
 
   private registerDateSync(formControls: FilterControls, fromDate: FilterControlName, toDate: FilterControlName, fromMonth: FilterControlName, toMonth: FilterControlName) {
@@ -394,13 +408,10 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
   }
 
   private applyFilterValues(filters: Filter[]) {
-    const formControls = this.filterForm.controls;
+    const initialFilterValues = this.getInitialFilterValues();
     const defaultValues = filters
       .filter(filter => filter.defaultValue !== undefined) // Filters having default value
-      .filter(filter => {
-        const currentValue = formControls[filter.name]?.value;
-        return currentValue === '' || currentValue === undefined || currentValue === null
-      })
+      .filter(filter => initialFilterValues[filter.name] === undefined)
       .map(filter => [filter.name, filter.defaultValue]);
 
     this.filterForm.patchValue(Object.fromEntries(defaultValues));

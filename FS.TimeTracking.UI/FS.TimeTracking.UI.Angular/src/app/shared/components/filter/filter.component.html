@@ -3,11 +3,11 @@
   <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Filter</h4>
   <div>
     <button *ngIf="isFiltered$ | ngrxPush"
-            (click)="clearFilterForm()"
+            (click)="resetFilterForm()"
             type="button"
             class="btn btn-sm btn-danger"
-            i18n="@@Component.Filter.Clear">
-      [i18n] Clear Filter
+            i18n="@@Component.Filter.Reset">
+      [i18n] Reset filter
     </button>
     <button *ngIf="secondaryFilters && secondaryFilters.length"
             id="extendedFilterToggler"

@@ -113,7 +113,7 @@
   "Component": {
     "Filter": {
       "Title": "Filter",
-      "Clear": "Clear filter",
+      "Reset": "Reset filter",
       "From": "From",
       "To": "To",
       "Customer": "Customer",
@@ -126,7 +126,8 @@
       "HolidayType": "Type",
       "Issue": "Issue",
       "Comment": "Comment",
-      "Hidden": "Hidden"
+      "Hidden": "Hidden",
+      "Billable": "Billable"
     },
     "NgSelect": {
       "AddTagText": "Add item",
