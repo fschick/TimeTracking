@@ -420,6 +420,20 @@
     </div>
   </ng-template>
 
+  <ng-template #timeSheetBillable>
+    <div class="col-12 col-md-3">
+      <!--suppress XmlInvalidId -->
+      <label for="timeSheetBillable" class="visually-hidden" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
+      <ng-select placeholder="[i18n] Billable"
+                 i18n-placeholder="@@Component.Filter.Billable"
+                 labelForId="timeSheetBillable"
+                 formControlName="timeSheetBillable">
+        <ng-option [value]="true" i18n="@@Common.Yes">[i18n] Yes</ng-option>
+        <ng-option [value]="false" i18n="@@Common.No">[i18n] No</ng-option>
+      </ng-select>
+    </div>
+  </ng-template>
+
   <ng-template #holidayType>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->

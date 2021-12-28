@@ -64,6 +64,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
   @ViewChild('holidayEndDate') private holidayEndDate!: TemplateRef<any>;
   @ViewChild('holidayTitle') private holidayTitle!: TemplateRef<any>;
   @ViewChild('holidayType') private holidayType!: TemplateRef<any>;
+  @ViewChild('timeSheetBillable') private timeSheetBillable!: TemplateRef<any>;
   @ViewChild('filterNotImplemented') private filterNotImplemented!: TemplateRef<any>;
 
   public get primaryFilters(): Filter[] | undefined { return this._filters?.slice(0, 4); }
@@ -115,7 +116,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       timeSheetIssue: this.timeSheetIssue,
       timeSheetStartDate: this.timeSheetStartDate,
       timeSheetEndDate: this.timeSheetEndDate,
-      timeSheetBillable: this.filterNotImplemented,
+      timeSheetBillable: this.timeSheetBillable,
       timeSheetComment: this.timeSheetComment,
       projectId: this.projectId,
       projectTitle: this.filterNotImplemented,
