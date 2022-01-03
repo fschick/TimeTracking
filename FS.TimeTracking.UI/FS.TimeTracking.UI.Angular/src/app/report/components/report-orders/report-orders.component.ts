@@ -139,6 +139,18 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         prop: 'plannedStart',
         headCellTemplate: this.orderPeriodHeadTemplate,
         dataCellTemplate: this.orderPeriodDataTemplate,
+      },{
+        title: $localize`:@@Page.Report.Common.Planned:[i18n] Planned`,
+        prop: 'daysPlanned',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
+        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        format: row => `${this.formatService.formatDays(row.daysPlanned)} ${this.localizedDays}`,
+      }, {
+        title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
+        prop: 'ratioTotalPlanned',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
+        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        format: row => `${this.formatService.formatRatio(row.ratioTotalPlanned)} %`,
       }, {
         title: $localize`:@@Page.Report.Common.Worked:[i18n] Worked`,
         prop: 'daysWorked',
@@ -146,29 +158,23 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         cssDataCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
       }, {
-        title: $localize`:@@Page.Report.Common.Planned:[i18n] Planned`,
-        prop: 'daysPlanned',
+        title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
+        prop: 'ratioTotalWorked',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => `${this.formatService.formatDays(row.daysPlanned)} ${this.localizedDays}`,
-      }, {
-        title: $localize`:@@Page.Report.Common.Done:[i18n] Done`,
-        prop: 'ratioFinished',
-        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
-        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => `${this.formatService.formatRatio(row.ratioFinished)} %`,
-      }, {
+        format: row => `${this.formatService.formatRatio(row.ratioTotalWorked)} %`,
+      },  {
         title: $localize`:@@Page.Report.Common.Remain:[i18n] Remain`,
         prop: 'daysDifference',
         cssHeadCell: `${cssHeadCell} text-end`,
         cssDataCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysDifference)} ${this.localizedDays}`,
       }, {
-        title: $localize`:@@Page.Report.Common.Ratio:[i18n] Ratio`,
-        prop: 'ratioTotalPlanned',
+        title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
+        prop: 'percentDifference',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => `${this.formatService.formatRatio(row.ratioTotalPlanned)} %`,
+        format: row => `${this.formatService.formatRatio(row.percentDifference)} %`,
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',

@@ -1,1 +1,137 @@
-<p>report-customers works!</p>
+<!-- Filter -->
+<ts-filter [filters]="filters"
+           (filterChanged)="filterChanged.next($event)">
+</ts-filter>
+
+<hr>
+
+<!-- Chart -->
+<h4 class="d-inline-block" i18n="@@Page.Report.Customers.Title">
+  [i18n] Planned/actual by  customers
+</h4>
+<div id="chart" *ngIf="chartSeries">
+  <apx-chart
+    [series]="chartSeries"
+    [chart]="chartOptions.chart"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xAxis"
+    [yaxis]="chartOptions.yAxis"
+    [colors]="chartOptions.colors"
+    [stroke]="chartOptions.stroke"
+    [tooltip]="chartOptions.tooltip"
+    [states]="chartOptions.states"
+    [legend]="chartOptions.legend"
+  ></apx-chart>
+</div>
+
+<ts-simple-table
+  [columns]="tableColumns"
+  [rows]="tableRows"
+  [configuration]="tableConfiguration"
+  (rowsChanged)="tableRowsChanged($event.rows)">
+</ts-simple-table>
+
+<div *ngIf="plannedArePartial" class="row">
+  <div class="col p-0">
+    <div class="alert alert-warning m-2" role="alert">
+      <ts-icon icon="bi bi-exclamation-triangle" class="me-1"></ts-icon>
+      <ng-container i18n="@@Page.Report.Common.PartialPlannedValues">
+        [i18n] The order period is greater than selected period. The values are displayed proportionally.
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #orderPeriodHeadTemplate let-table="table" let-column="column">
+  <span class="d-none d-lg-inline">{{column.title}}</span>
+  <span class="d-none d-lg-inline" [class]="table.getCssSortOrder(column)">{{table.getGlyphSortOrder(column)}}</span>
+</ng-template>
+
+<ng-template #orderPeriodDataTemplate let-row="row">
+  <span class="d-none d-lg-inline">{{formatService.formatDate(row.plannedStart)}} - {{formatService.formatDate(row.plannedEnd)}}</span>
+  <ts-icon *ngIf="row.plannedIsPartial" icon="bi bi-exclamation-triangle" class="action-icon text-warning ms-1"></ts-icon>
+</ng-template>
+
+<ng-template #infoCellTemplate let-row="row">
+  <a class="text-secondary ms-2" (click)="openInfoDetail(infoDetailDialog)">
+    <ts-icon icon="bi bi-box-arrow-up-right" class="action-icon"></ts-icon>
+  </a>
+
+  <ng-template #infoDetailDialog let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" ngbAutofocus>
+        <ng-container i18n="@@DTO.WorkTimeDto.OrderTitle">[i18n] Order</ng-container>
+        {{row.orderTitle}} ({{row.orderNumber}}, {{formatService.formatRatio(row.ratioFinished)}} %)
+      </h5>
+      <button type="button" class="btn-close" (click)="modal.close()" i18n-aria-label="@@Common.Close" aria-label="[i18n] Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row g-3">
+        <!-- Days -->
+        <div class="col">
+          <table>
+            <tr>
+              <th scope="row" colspan="2" i18n="@@Page.Report.Common.Days">[i18n] Days</th>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Worked">[i18n] Worked</td>
+              <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{localizedDays}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Planned">[i18n] Planned</td>
+              <td class="text-nowrap text-end">{{formatService.formatDays(row.daysPlanned)}} {{localizedDays}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Remain">[i18n] Remain</td>
+              <td class="text-nowrap text-end">{{formatService.formatDays(row.daysDifference)}} {{localizedDays}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Hours/Time -->
+        <div class="col">
+          <table>
+            <tr>
+              <th scope="row" colspan="3" i18n="@@Page.Report.Common.Hours">[i18n] Hours</th>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Worked">[i18n] Worked</td>
+              <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{localizedHours}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Planned">[i18n] Planned</td>
+              <td class="text-nowrap text-end">{{row.timePlanned | tsDuration}} {{localizedHours}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Remain">[i18n] Remain</td>
+              <td class="text-nowrap text-end">{{row.timeDifference | tsDuration}} {{localizedHours}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Budget -->
+        <div class="col">
+          <table>
+            <tr>
+              <th scope="row" colspan="2" i18n="@@Page.Report.Common.Budget">[i18n] Budget</th>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Used">[i18n] Used</td>
+              <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetWorked)}} {{row.currency}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Planned">[i18n] Planned</td>
+              <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetPlanned)}} {{row.currency}}</td>
+            </tr>
+            <tr>
+              <td class="pe-2" i18n="@@Page.Report.Common.Remain">[i18n] Remain</td>
+              <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetDifference)}} {{row.currency}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</ng-template>

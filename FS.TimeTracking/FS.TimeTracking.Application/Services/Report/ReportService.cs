@@ -45,32 +45,57 @@ public class ReportService : IReportService
     /// <inheritdoc />
     public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
+        var settings = await _settingService.Get(cancellationToken);
         var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerCustomer = await GetWorkedTimesPerCustomer(filter, cancellationToken);
         var plannedTimesPerCustomer = await GetPlannedTimesPerCustomer(filter, cancellationToken);
 
-        return workedTimesPerCustomer
+        var totalWorkedDays = workedTimesPerCustomer.Sum(x => x.WorkedDays);
+        var totalPlannedDays = plannedTimesPerCustomer.Sum(x => x.PlannedDays);
+
+        var result = workedTimesPerCustomer
             .CrossJoin(
                 plannedTimesPerCustomer,
-                worked => worked.Id,
-                planned => planned.Id,
-                (worked, planned) => new WorkTimeDto
+                worked => worked.CustomerId,
+                planned => planned.CustomerId,
+                (worked, planned) =>
                 {
-                    Id = worked?.Id ?? planned?.Id ?? throw new InvalidOperationException(),
-                    CustomerTitle = worked?.Title ?? planned?.Title ?? throw new InvalidOperationException(),
-                    TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
-                    DaysWorked = worked?.WorkedDays ?? 0,
-                    TimePlanned = planned?.PlannedTime ?? TimeSpan.Zero,
-                    DaysPlanned = planned?.PlannedDays ?? 0
-                }
-            )
-            .OrderBy(x => x.CustomerTitle)
+                    if (worked == null && planned == null)
+                        throw new InvalidOperationException("Planned and worked entities are null");
+
+                    var plannedTimeSpan = planned != null ? new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
+                    return new WorkTimeDto
+                    {
+                        Id = worked?.CustomerId ?? planned.CustomerId,
+                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle ?? throw new InvalidOperationException($"Unable to get {nameof(WorkTimeDto.CustomerTitle)}"),
+                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
+                        DaysWorked = worked?.WorkedDays ?? 0,
+                        RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
+                        BudgetWorked = worked?.WorkedBudget ?? 0,
+                        TimePlanned = planned?.PlannedTime,
+                        DaysPlanned = planned?.PlannedDays,
+                        RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
+                        BudgetPlanned = planned?.PlannedBudget,
+                        PlannedHourlyRate = planned?.HourlyRate,
+                        Currency = settings.Currency,
+                        PlannedStart = planned?.PlannedStart,
+                        PlannedEnd = planned?.PlannedEnd,
+                        PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
+                    };
+                })
+            .OrderBy(x => x.PlannedStart == null)
+            .ThenBy(x => x.PlannedStart)
+            .ThenBy(x => x.CustomerTitle)
+            .ThenBy(x => x.OrderNumber)
             .ToList();
+
+        return result;
     }
 
     /// <inheritdoc />
     public async Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
+        var settings = await _settingService.Get(cancellationToken);
         var filter = CreateFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerOrder = await GetWorkedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerOrder = await GetPlannedTimesPerOrder(filter, cancellationToken);
@@ -107,10 +132,9 @@ public class ReportService : IReportService
                         BudgetPlanned = planned.PlannedBudget,
                         PlannedStart = planned.PlannedStart,
                         PlannedEnd = planned.PlannedEnd,
-                        // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable
                         PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
-                        HourlyRate = planned.HourlyRate,
-                        Currency = planned.Currency,
+                        PlannedHourlyRate = planned.HourlyRate,
+                        Currency = settings.Currency,
                     };
                 })
             .OrderBy(x => x.PlannedStart)
@@ -122,48 +146,96 @@ public class ReportService : IReportService
     private async Task<List<CustomerWorkTime>> GetWorkedTimesPerCustomer(Filter filter, CancellationToken cancellationToken)
     {
         var settings = await _settingService.Get(cancellationToken);
+        var workedTimesWithOrder = await GetWorkedTimesWithOrderPerCustomer(filter, cancellationToken);
+        var workedTimesWithoutOrder = await GetWorkedTimesWithoutOrderPerCustomer(filter, cancellationToken);
 
-        var workedTimesPerCustomer = await _repository
-            .GetGrouped(
-                groupBy: (TimeSheet x) => new { x.Project.CustomerId, x.Project.Customer.Title },
-                select: x => new CustomerWorkTime
+        var workedTimesPerCustomer = workedTimesWithOrder
+            .CrossJoin(
+                workedTimesWithoutOrder,
+                x => x.CustomerId,
+                x => x.CustomerId,
+                (withOrder, withoutOrder) =>
                 {
-                    Id = x.Key.CustomerId,
-                    Title = x.Key.Title,
-                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
-                },
-                where: filter.WorkedTimes,
-                cancellationToken: cancellationToken
-            );
+                    var workTimes = new[] { withOrder, withoutOrder }.Where(x => x != null).ToList();
+                    return new CustomerWorkTime
+                    {
+                        CustomerId = withOrder?.CustomerId ?? withoutOrder.CustomerId,
+                        CustomerTitle = withOrder?.CustomerTitle ?? withoutOrder.CustomerTitle,
+                        WorkedTime = workTimes.Sum(x => x.WorkedTime),
+                        HourlyRate = GetAverageHourlyRate(workTimes, x => x?.WorkedTime),
+                    };
+                }
+            )
+            .ToList();
 
-        foreach (var customerWorkTime in workedTimesPerCustomer)
-            customerWorkTime.WorkedDays = customerWorkTime.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+        foreach (var workTime in workedTimesPerCustomer)
+            workTime.WorkedDays = workTime.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
 
         return workedTimesPerCustomer;
     }
+
+    private async Task<List<CustomerWorkTime>> GetWorkedTimesWithOrderPerCustomer(Filter filter, CancellationToken cancellationToken)
+    {
+        var workedTimesPerOrder = await GetWorkedTimesPerOrder(filter, cancellationToken);
+        var workTimesWithOrder = workedTimesPerOrder
+            .GroupBy(x => x.CustomerId)
+            .Select(orderWorkItems => new CustomerWorkTime
+            {
+                CustomerId = orderWorkItems.Key,
+                CustomerTitle = orderWorkItems.First().CustomerTitle,
+                WorkedTime = orderWorkItems.Sum(x => x.WorkedTime),
+                HourlyRate = GetAverageHourlyRate(orderWorkItems.ToList(), x => x?.WorkedTime)
+            })
+            .ToList();
+        return workTimesWithOrder;
+    }
+
+    private async Task<List<CustomerWorkTime>> GetWorkedTimesWithoutOrderPerCustomer(Filter filter, CancellationToken cancellationToken)
+        => await _repository
+            .GetGrouped(
+                groupBy: x => new { x.Project.Customer.Id, x.Project.Customer.Title },
+                select: x => new CustomerWorkTime
+                {
+                    CustomerId = x.Key.Id,
+                    CustomerTitle = x.Key.Title,
+                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    HourlyRate = x.Min(t => t.Project.Customer.HourlyRate),
+                },
+                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
+                cancellationToken: cancellationToken
+            );
 
     private async Task<List<CustomerWorkTime>> GetPlannedTimesPerCustomer(Filter filter, CancellationToken cancellationToken)
     {
         var settings = await _settingService.Get(cancellationToken);
 
         var plannedTimesPerOrder = await GetPlannedTimesPerOrder(filter, cancellationToken);
-
         var plannedTimesPerCustomer = plannedTimesPerOrder
-            .GroupBy(order => new { order.CustomerId, order.CustomerTitle })
-            .Select(orderGroup =>
+            .GroupBy(x => x.CustomerId)
+            .Select(orderWorkItems => new CustomerWorkTime
             {
-                var plannedTime = orderGroup.Sum(order => order.PlannedTime);
-                return new CustomerWorkTime
-                {
-                    Id = orderGroup.Key.CustomerId,
-                    Title = orderGroup.Key.CustomerTitle,
-                    PlannedTime = plannedTime,
-                    PlannedDays = plannedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours,
-                };
+                CustomerId = orderWorkItems.Key,
+                CustomerTitle = orderWorkItems.First().CustomerTitle,
+                PlannedTime = orderWorkItems.Sum(x => x.PlannedTime),
+                HourlyRate = GetAverageHourlyRate(orderWorkItems.ToList(), x => x?.PlannedTime),
+                PlannedStart = orderWorkItems.Min(x => x.PlannedStart),
+                PlannedEnd = orderWorkItems.Max(x => x.PlannedEnd)
             })
             .ToList();
 
+        foreach (var workTime in plannedTimesPerCustomer)
+            workTime.PlannedDays = workTime.PlannedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+
         return plannedTimesPerCustomer;
+    }
+
+    private static double GetAverageHourlyRate(IReadOnlyCollection<WorkTime> workTimes, Func<WorkTime, TimeSpan?> timeSelector)
+    {
+        var times = workTimes.Select(x => new { Hours = timeSelector(x) ?? TimeSpan.Zero, x.HourlyRate }).ToList();
+        var hours = times.Sum(o => o.Hours.TotalHours);
+        var budget = times.Sum(o => o.Hours.TotalHours * o.HourlyRate);
+        var averageHourlyRate = hours != 0 ? budget / hours : 0;
+        return averageHourlyRate;
     }
 
     private async Task<List<OrderWorkTime>> GetWorkedTimesPerOrder(Filter filter, CancellationToken cancellationToken)
@@ -179,15 +251,16 @@ public class ReportService : IReportService
                     OrderTitle = x.Key.Title,
                     OrderNumber = x.Key.Number,
                     WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
-                    HourlyRate = x.Min(f => f.Order.HourlyRate),
-                    CustomerTitle = x.Min(f => f.Project.Customer.Title),
+                    HourlyRate = x.FirstOrDefault().Order.HourlyRate,
+                    CustomerId = x.FirstOrDefault().Project.Customer.Id,
+                    CustomerTitle = x.FirstOrDefault().Project.Customer.Title,
                 },
                 where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 
-        foreach (var order in workedTimesPerOrder)
-            order.WorkedDays = order.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+        foreach (var workTime in workedTimesPerOrder)
+            workTime.WorkedDays = workTime.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
 
         return workedTimesPerOrder;
     }
@@ -220,7 +293,6 @@ public class ReportService : IReportService
                     HourlyRate = order.HourlyRate,
                     PlannedStart = order.StartDate,
                     PlannedEnd = order.DueDate,
-                    Currency = settings.Currency,
                 };
             })
             .ToListAsync();

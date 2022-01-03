@@ -45,7 +45,7 @@ export class FormatService {
     return this.decimalPipe.transform(value, digitsInfo) ?? '0';
   }
 
-  public formatRatio(value: number, digitsInfo: string = '1.1-1'): string {
+  public formatRatio(value: number, digitsInfo: string = '1.0-0'): string {
     return this.decimalPipe.transform(value * 100, digitsInfo) ?? '0';
   }
 }

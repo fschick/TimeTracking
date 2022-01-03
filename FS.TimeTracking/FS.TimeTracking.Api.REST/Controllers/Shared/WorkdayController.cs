@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
 /// <inheritdoc cref="IWorkdayService" />
 /// <seealso cref="Controller" />
-/// <seealso cref="IInformationService" />
+/// <seealso cref="IWorkdayService" />
 [V1ApiController]
 public class WorkdayController : Controller, IWorkdayService
 {

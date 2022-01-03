@@ -45,22 +45,21 @@
         "Worked": "Worked",
         "Used": "Used",
         "Planned": "Planned",
-        "Done": "Done",
         "Remain": "Remain",
-        "Ratio": "Ratio",
+        "Ratio": "%",
         "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {
-        "Title": "Planned/actual by  customers"
+        "Title": "Planned/actual by customers"
       },
       "Projects": {
-        "Title": "Planned/actual by  project"
+        "Title": "Planned/actual by project"
       },
       "Activities": {
-        "Title": "Planned/actual by  activity"
+        "Title": "Planned/actual by activity"
       },
       "Issues": {
-        "Title": "Planned/actual by  issue"
+        "Title": "Planned/actual by issue"
       },
       "Orders": {
         "Title": "Planned/actual by order"

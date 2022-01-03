@@ -41,13 +41,13 @@ public class WorkTimeDto
     /// Time planned in work days.
     /// </summary>
     [Required]
-    public double DaysPlanned { get; set; }
+    public double? DaysPlanned { get; set; }
 
     /// <summary>
     /// Difference between worked and planned days.
     /// </summary>
     [Required]
-    public double DaysDifference => DaysPlanned - DaysWorked;
+    public double? DaysDifference => DaysPlanned - DaysWorked;
 
     /// <summary>
     /// Time worked.
@@ -59,13 +59,13 @@ public class WorkTimeDto
     /// Time planned.
     /// </summary>
     [Required]
-    public TimeSpan TimePlanned { get; set; }
+    public TimeSpan? TimePlanned { get; set; }
 
     /// <summary>
     /// Difference between time worked and planned.
     /// </summary>
     [Required]
-    public TimeSpan TimeDifference => TimePlanned - TimeWorked;
+    public TimeSpan? PlannedDifference => TimePlanned - TimeWorked;
 
     /// <summary>
     /// Consumed budget.
@@ -77,19 +77,19 @@ public class WorkTimeDto
     /// Planned budget.
     /// </summary>
     [Required]
-    public double BudgetPlanned { get; set; }
+    public double? BudgetPlanned { get; set; }
 
     /// <summary>
     /// Difference between consumed and planned budget.
     /// </summary>
     [Required]
-    public double BudgetDifference => BudgetPlanned - BudgetWorked;
+    public double? BudgetDifference => BudgetPlanned - BudgetWorked;
 
     /// <summary>
     /// Ratio between worked and planned days/time/budget.
     /// </summary>
     [Required]
-    public double RatioFinished => DaysPlanned != 0 ? DaysWorked / DaysPlanned : 1;
+    public double? PercentDifference => DaysPlanned != null ? 1 - (DaysPlanned != 0 ? DaysWorked / DaysPlanned : 1) : null;
 
     /// <summary>
     /// Ratio of worked time related to sibling <see cref="WorkTimeDto"/>.
@@ -101,19 +101,17 @@ public class WorkTimeDto
     /// Ratio of time planned related to sibling <see cref="WorkTimeDto"/>.
     /// </summary>
     [Required]
-    public double RatioTotalPlanned { get; set; }
+    public double? RatioTotalPlanned { get; set; }
 
     /// <summary>
     /// Start date of planned time.
     /// </summary>
-    [Required]
-    public DateTimeOffset PlannedStart { get; set; }
+    public DateTimeOffset? PlannedStart { get; set; }
 
     /// <summary>
     /// End date of planned time.
     /// </summary>
-    [Required]
-    public DateTimeOffset PlannedEnd { get; set; }
+    public DateTimeOffset? PlannedEnd { get; set; }
 
     /// <summary>
     /// Indicates whether order period is only partially matched by selected period.
@@ -123,7 +121,7 @@ public class WorkTimeDto
 
     /// <inheritdoc cref="Order.HourlyRate"/>
     [Required]
-    public double HourlyRate { get; set; }
+    public double? PlannedHourlyRate { get; set; }
 
     /// <summary>
     /// The currency of the order.
