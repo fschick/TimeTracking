@@ -3,7 +3,6 @@ using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,11 +35,9 @@ internal static class TimeTrackingWebApp
         var options = new WebApplicationOptions { Args = args, ContentRootPath = _pathToContentRoot };
         var webAppBuilder = WebApplication.CreateBuilder(options);
 
-        webAppBuilder.Configuration.ClearConfiguration();
-        webAppBuilder.Configuration.AddConfigurationFromEnvironment(args);
-
+        webAppBuilder.CreateServerConfiguration(args);
         webAppBuilder.ConfigureNlog();
-        webAppBuilder.WebHost.ConfigureServices(ConfigureServerServices);
+        webAppBuilder.ConfigureServerServices();
 
         webAppBuilder.Host
             .UseWindowsService()
@@ -66,6 +63,19 @@ internal static class TimeTrackingWebApp
             .AddCommandLine(commandLineArgs);
     }
 
+    private static void CreateServerConfiguration(this WebApplicationBuilder builder, string[] args)
+    {
+        builder.Configuration.ClearConfiguration();
+        builder.Configuration.AddConfigurationFromEnvironment(args);
+
+        builder.WebHost.ConfigureServices((context, services) =>
+        {
+            services
+                .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
+                .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION));
+        });
+    }
+
     private static void ConfigureNlog(this WebApplicationBuilder builder)
     {
         builder.Logging
@@ -76,17 +86,18 @@ internal static class TimeTrackingWebApp
         builder.Host.UseNLog();
     }
 
-    private static void ConfigureServerServices(WebHostBuilderContext context, IServiceCollection services)
+    private static void ConfigureServerServices(this WebApplicationBuilder builder)
     {
-        services
-            .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
-            .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION))
-            .RegisterTimeTrackingAutoMapper()
-            .RegisterFilterExpressionInterceptor()
-            .RegisterApplicationServices()
-            .RegisterOpenApiController()
-            .RegisterRestApiController()
-            .RegisterSpaStaticFiles(context.HostingEnvironment);
+        builder.WebHost.ConfigureServices((context, services) =>
+        {
+            services
+                .RegisterTimeTrackingAutoMapper()
+                .RegisterFilterExpressionInterceptor()
+                .RegisterApplicationServices()
+                .RegisterOpenApiController()
+                .RegisterRestApiController()
+                .RegisterSpaStaticFiles(context.HostingEnvironment);
+        });
     }
 
     private static void ConfigureServerApplication(this WebApplication webApplication)
@@ -137,7 +148,7 @@ internal static class TimeTrackingWebApp
     }
 
     [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required, see commented code")]
-    private static WebApplication RegisterSpaRoutes(this WebApplication webApplication)
+    private static void RegisterSpaRoutes(this WebApplication webApplication)
     {
         //if (webApplication.Environment.IsProduction())
         //{
@@ -152,6 +163,6 @@ internal static class TimeTrackingWebApp
         webApplication.UseSpaStaticFiles();
         webApplication.UseSpa(_ => { });
 
-        return webApplication;
+        //return webApplication;
     }
 }
