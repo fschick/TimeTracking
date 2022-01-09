@@ -3,12 +3,12 @@ using FS.FilterExpressionCreator.Filters;
 using FS.FilterExpressionCreator.Models;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 using System;
 using System.Linq;
 
-namespace FS.TimeTracking.Application.Extensions;
+namespace FS.TimeTracking.Shared.Extensions;
 
 /// <summary>
 /// Extensions to create filters.

@@ -1,12 +1,12 @@
-﻿using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Interfaces.Models;
-using FS.TimeTracking.Shared.Models.MasterData;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FS.TimeTracking.Shared.Extensions;
+using FS.TimeTracking.Shared.Interfaces.Models;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using Newtonsoft.Json;
 
-namespace FS.TimeTracking.Shared.Models.TimeTracking;
+namespace FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 /// <summary>
 /// Time sheet position.

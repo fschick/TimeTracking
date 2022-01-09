@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
+﻿using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 using FS.TimeTracking.Tool.Interfaces.Import;
 using FS.TimeTracking.Tool.Models.Configurations;
 using Microsoft.Extensions.Options;
@@ -15,15 +14,13 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
     private readonly IRepository _repository;
     private readonly ITimeTrackingImportRepository _importRepository;
     private readonly ITestDataService _testDataService;
-    private readonly IMapper _mapper;
     private readonly TimeTrackingImportConfiguration _importConfiguration;
 
-    public TimeTrackingImportService(IRepository repository, ITimeTrackingImportRepository importRepository, ITestDataService testDataService, IMapper mapper, IOptions<TimeTrackingImportConfiguration> importConfiguration)
+    public TimeTrackingImportService(IRepository repository, ITimeTrackingImportRepository importRepository, ITestDataService testDataService, IOptions<TimeTrackingImportConfiguration> importConfiguration)
     {
         _repository = repository;
         _importRepository = importRepository;
         _testDataService = testDataService;
-        _mapper = mapper;
         _importConfiguration = importConfiguration.Value;
     }
 

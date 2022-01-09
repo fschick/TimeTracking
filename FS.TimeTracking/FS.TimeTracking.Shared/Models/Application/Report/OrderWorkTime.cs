@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Shared.Models.MasterData;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
-namespace FS.TimeTracking.Shared.Models.Report;
+namespace FS.TimeTracking.Shared.Models.Application.Report;
 
 /// <summary>
 /// Work times per order.

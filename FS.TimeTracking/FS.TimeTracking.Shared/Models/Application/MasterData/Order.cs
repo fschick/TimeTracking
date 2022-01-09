@@ -1,13 +1,13 @@
-﻿using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Interfaces.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Shared.Extensions;
+using FS.TimeTracking.Shared.Interfaces.Models;
+using Newtonsoft.Json;
 
-namespace FS.TimeTracking.Shared.Models.MasterData;
+namespace FS.TimeTracking.Shared.Models.Application.MasterData;
 
 /// <summary>
 /// Project

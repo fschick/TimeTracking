@@ -2,12 +2,12 @@
 using FS.FilterExpressionCreator.Interfaces;
 using FS.FilterExpressionCreator.Models;
 using FS.FilterExpressionCreator.PropertyFilterExpressionCreators;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 namespace FS.TimeTracking.Application.FilterExpressionInterceptors;
 

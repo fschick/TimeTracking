@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 using System;
 using System.Collections.Generic;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 

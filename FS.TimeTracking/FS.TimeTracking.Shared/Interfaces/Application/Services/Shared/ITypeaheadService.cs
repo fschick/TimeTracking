@@ -3,8 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FS.TimeTracking.Shared.DTOs.Shared;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 

@@ -1,7 +1,7 @@
-﻿using FS.TimeTracking.Shared.Models.MasterData;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 

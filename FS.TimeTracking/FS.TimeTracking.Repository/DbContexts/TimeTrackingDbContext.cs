@@ -1,8 +1,6 @@
 ﻿using FS.TimeTracking.Repository.DbFunctions;
 using FS.TimeTracking.Shared.Interfaces.Models;
 using FS.TimeTracking.Shared.Models.Configuration;
-using FS.TimeTracking.Shared.Models.MasterData;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -11,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 namespace FS.TimeTracking.Repository.DbContexts;
 
