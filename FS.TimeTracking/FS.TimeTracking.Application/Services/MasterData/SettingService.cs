@@ -2,12 +2,12 @@
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.MasterData;
 using Nito.AsyncEx;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 

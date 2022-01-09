@@ -1,9 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Models.MasterData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 

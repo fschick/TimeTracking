@@ -1,13 +1,13 @@
 ﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Models.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 
-/// <inheritdoc cref="Models.MasterData.Activity"/>
+/// <inheritdoc cref="Activity"/>
 [ValidationDescription]
 [FilterEntity(Prefix = nameof(Activity))]
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]

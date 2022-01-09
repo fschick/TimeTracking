@@ -1,11 +1,11 @@
 ﻿using FS.FilterExpressionCreator.Mvc.Attributes;
 using FS.TimeTracking.Shared.Attributes;
 using FS.TimeTracking.Shared.Enums;
-using FS.TimeTracking.Shared.Models.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.MasterData;
 

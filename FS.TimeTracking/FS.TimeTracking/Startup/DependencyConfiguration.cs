@@ -32,7 +32,8 @@ internal static class DependencyConfiguration
         services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 
         services.AddScoped<ITimeSheetService, TimeSheetService>();
-        services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<ICustomerReportService, CustomerReportService>();
+        services.AddScoped<IOrderReportService, OrderReportService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();

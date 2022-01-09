@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FS.TimeTracking.Shared.Interfaces.Models;
 
-namespace FS.TimeTracking.Shared.Models.MasterData;
+namespace FS.TimeTracking.Shared.Models.Application.MasterData;
 
 /// <summary>
 /// Settings

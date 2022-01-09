@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
-import {ReportService, WorkTimeDto} from '../../../shared/services/api';
+import {CustomerReportService, WorkTimeDto} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ChartOptions, ReportChartService} from '../../services/report-chart.service';
@@ -37,7 +37,7 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
 
   constructor(
     public formatService: FormatService,
-    private reportService: ReportService,
+    private reportService: CustomerReportService,
     private localizationService: LocalizationService,
     private modalService: NgbModal,
     private reportChartService: ReportChartService,

@@ -35,7 +35,7 @@ public class CustomDbFunctionTests
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
-        var readTimeSheet = await testHost.Get<ReportController, List<WorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default, default, default, default, default, default));
+        var readTimeSheet = await testHost.Get<CustomerReportController, List<WorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default, default, default, default, default, default));
 
         // Check
         readTimeSheet.Should().HaveCount(1);

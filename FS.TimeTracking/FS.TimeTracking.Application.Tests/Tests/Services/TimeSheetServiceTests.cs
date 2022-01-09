@@ -2,7 +2,6 @@
 using FS.TimeTracking.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Application.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.TimeTracking;
 using FS.TimeTracking.Shared.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,6 +11,7 @@ using FakeItEasy;
 using FluentAssertions;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
+using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
 

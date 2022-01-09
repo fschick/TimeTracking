@@ -4,12 +4,12 @@ using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
-using FS.TimeTracking.Shared.Models.MasterData;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Repository.Tests.Tests;
 
