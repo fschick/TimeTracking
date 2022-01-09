@@ -45,7 +45,7 @@
 
   <ng-template #timeSheetStartDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <label class="form-label" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <div class="input-group">
         <input id="timeSheetStartMonth"
                type="text"
@@ -75,7 +75,7 @@
 
   <ng-template #timeSheetEndDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <label class="form-label" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <div class="input-group">
         <input id="timeSheetEndMonth"
                type="text"
@@ -107,7 +107,7 @@
 
   <ng-template #orderStartDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <label class="form-label" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <div class="input-group">
         <input id="orderStartMonth"
                type="text"
@@ -137,7 +137,7 @@
 
   <ng-template #orderDueDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <label class="form-label" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <div class="input-group">
         <input id="orderDueMonth"
                type="text"
@@ -169,7 +169,7 @@
 
   <ng-template #holidayStartDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
+      <label class="form-label" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <div class="input-group">
         <input id="holidayStartMonth"
                type="text"
@@ -199,7 +199,7 @@
 
   <ng-template #holidayEndDate>
     <div class="col-6 col-xl-3">
-      <label class="visually-hidden" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
+      <label class="form-label" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <div class="input-group">
         <input id="holidayEndMonth"
                type="text"
@@ -232,7 +232,7 @@
   <ng-template #customerId>
     <div class="col-12 col-sm-6 col-xl-3">
       <!--suppress XmlInvalidId -->
-      <label for="customerTitle" class="visually-hidden" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
+      <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
       <ng-select [items]="customers$ | ngrxPush"
                  [multiple]="true"
                  dropdownPosition="bottom"
@@ -253,7 +253,7 @@
   <ng-template #projectId>
     <div class="col-12 col-sm-6 col-xl-3">
       <!--suppress XmlInvalidId -->
-      <label for="projectTitle" class="visually-hidden" i18n="@@Component.Filter.Project">[i18n] Project</label>
+      <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
       <ng-select [items]="projects$ | ngrxPush"
                  [multiple]="true"
                  dropdownPosition="bottom"
@@ -274,7 +274,7 @@
   <ng-template #activityId>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="activityTitle" class="visually-hidden" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
+      <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
       <ng-select [items]="activities$ | ngrxPush"
                  [multiple]="true"
                  dropdownPosition="bottom"
@@ -295,7 +295,7 @@
   <ng-template #orderId>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="orderTitle" class="visually-hidden" i18n="@@Component.Filter.Order">[i18n] Order</label>
+      <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
       <ng-select [items]="orders$ | ngrxPush"
                  [multiple]="true"
                  dropdownPosition="bottom"
@@ -315,7 +315,7 @@
 
   <ng-template #timeSheetIssue>
     <div class="col-12 col-md-3">
-      <label for="timeSheetIssue" class="visually-hidden" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
+      <label for="timeSheetIssue" class="form-label" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
       <input id="timeSheetIssue"
              type="text"
              class="form-control"
@@ -328,7 +328,7 @@
 
   <ng-template #customerNumber>
     <div class="col-12 col-md-3">
-      <label for="customerNumber" class="visually-hidden" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
+      <label for="customerNumber" class="form-label" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
       <input id="customerNumber"
              type="text"
              class="form-control"
@@ -341,7 +341,7 @@
 
   <ng-template #customerCompanyName>
     <div class="col-12 col-md-3">
-      <label for="customerCompanyName" class="visually-hidden" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
+      <label for="customerCompanyName" class="form-label" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
       <input id="customerCompanyName"
              type="text"
              class="form-control"
@@ -354,7 +354,7 @@
 
   <ng-template #timeSheetComment>
     <div class="col-12 col-md-3">
-      <label for="timeSheetComment" class="visually-hidden" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
+      <label for="timeSheetComment" class="form-label" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
       <input id="timeSheetComment"
              type="text"
              class="form-control"
@@ -367,7 +367,7 @@
 
   <ng-template #holidayTitle>
     <div class="col-12 col-md-3">
-      <label for="holidayTitle" class="visually-hidden" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
+      <label for="holidayTitle" class="form-label" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
       <input id="holidayTitle"
              type="text"
              class="form-control"
@@ -381,7 +381,7 @@
   <ng-template #activityHidden>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="activityHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <label for="activityHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
       <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="activityHidden"
@@ -395,7 +395,7 @@
   <ng-template #customerHidden>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="customerHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <label for="customerHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
       <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="customerHidden"
@@ -409,7 +409,7 @@
   <ng-template #projectHidden>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="projectHidden" class="visually-hidden" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
+      <label for="projectHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
       <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="projectHidden"
@@ -423,7 +423,7 @@
   <ng-template #timeSheetBillable>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="timeSheetBillable" class="visually-hidden" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
+      <label for="timeSheetBillable" class="form-label" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
       <ng-select placeholder="[i18n] Billable"
                  i18n-placeholder="@@Component.Filter.Billable"
                  labelForId="timeSheetBillable"
@@ -437,7 +437,7 @@
   <ng-template #holidayType>
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
-      <label for="holidayType" class="visually-hidden" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
+      <label for="holidayType" class="form-label" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
       <ng-select placeholder="[i18n] Type"
                  i18n-placeholder="@@Component.Filter.HolidayType"
                  labelForId="holidayType"
