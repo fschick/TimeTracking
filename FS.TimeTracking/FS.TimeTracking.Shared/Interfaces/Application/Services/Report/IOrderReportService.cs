@@ -2,10 +2,10 @@
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.Report;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
+using FS.TimeTracking.Shared.Models.Application.Report;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Models.Application.Report;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 
@@ -14,6 +14,18 @@ namespace FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 /// </summary>
 public interface IOrderReportService
 {
+    /// <summary>
+    /// Gets the work times grouped by order.
+    /// </summary>
+    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
+    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
+    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
+    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
+    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<List<OrderWorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Gets the planned times per order.
     /// </summary>
@@ -27,16 +39,4 @@ public interface IOrderReportService
     /// <param name="filter">The filter to use.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     Task<List<OrderWorkTime>> GetWorkedTimesPerOrder(ReportServiceFilter filter, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Gets the work times grouped by order.
-    /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
 }

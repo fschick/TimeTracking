@@ -1,36 +1,14 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Models;
+﻿using FS.TimeTracking.Shared.Models.Application.MasterData;
 using System;
 using System.ComponentModel.DataAnnotations;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Shared.DTOs.Report;
 
 /// <summary>
 /// Work times for an entity.
 /// </summary>
-public class WorkTimeDto
+public abstract class WorkTimeDto
 {
-    /// <inheritdoc cref="IIdEntityModel.Id"/>
-    [Required]
-    public Guid Id { get; set; }
-
-    /// <summary>
-    /// The title of this entity (e.g. customer name).
-    /// </summary>
-    [Required]
-    public string OrderTitle { get; set; }
-
-    /// <summary>
-    /// The number of this entity (e.g. customer or order number).
-    /// </summary>
-    [Required]
-    public string OrderNumber { get; set; }
-
-    /// <summary>
-    /// The title of the customer related to this entity.
-    /// </summary>
-    public string CustomerTitle { get; set; }
-
     /// <summary>
     /// Time worked in work days.
     /// </summary>

@@ -9,12 +9,12 @@ using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Shared.Models.Application.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Models.Application.Report;
 
 namespace FS.TimeTracking.Application.Services.Report;
 
@@ -40,7 +40,7 @@ public class CustomerReportService : ICustomerReportService
     }
 
     /// <inheritdoc />
-    public async Task<List<WorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public async Task<List<CustomerWorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var settings = await _settingService.Get(cancellationToken);
         var filter = ReportServiceFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
@@ -61,10 +61,10 @@ public class CustomerReportService : ICustomerReportService
                         throw new InvalidOperationException("Planned and worked entities are null");
 
                     var plannedTimeSpan = planned != null ? new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
-                    return new WorkTimeDto
+                    return new CustomerWorkTimeDto
                     {
-                        Id = worked?.CustomerId ?? planned.CustomerId,
-                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle ?? throw new InvalidOperationException($"Unable to get {nameof(WorkTimeDto.CustomerTitle)}"),
+                        CustomerId = worked?.CustomerId ?? planned.CustomerId,
+                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle ?? throw new InvalidOperationException($"Unable to get {nameof(CustomerWorkTimeDto.CustomerTitle)}"),
                         TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
                         DaysWorked = worked?.WorkedDays ?? 0,
                         RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
@@ -83,7 +83,6 @@ public class CustomerReportService : ICustomerReportService
             .OrderBy(x => x.PlannedStart == null)
             .ThenBy(x => x.PlannedStart)
             .ThenBy(x => x.CustomerTitle)
-            .ThenBy(x => x.OrderNumber)
             .ToList();
 
         return result;

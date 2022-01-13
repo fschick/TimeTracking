@@ -41,7 +41,7 @@ public class OrderReportService : IOrderReportService
     }
 
     /// <inheritdoc />
-    public async Task<List<WorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public async Task<List<OrderWorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var settings = await _settingService.Get(cancellationToken);
         var filter = ReportServiceFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
@@ -64,9 +64,9 @@ public class OrderReportService : IOrderReportService
                         throw new InvalidOperationException("Planned entity is null");
 
                     var plannedTimeSpan = new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd);
-                    return new WorkTimeDto
+                    return new OrderWorkTimeDto
                     {
-                        Id = worked?.OrderId ?? planned.OrderId,
+                        OrderId = worked?.OrderId ?? planned.OrderId,
                         OrderTitle = worked?.OrderTitle ?? planned.OrderTitle,
                         OrderNumber = worked?.OrderNumber ?? planned.OrderNumber,
                         CustomerTitle = worked?.CustomerTitle ?? planned.CustomerTitle,

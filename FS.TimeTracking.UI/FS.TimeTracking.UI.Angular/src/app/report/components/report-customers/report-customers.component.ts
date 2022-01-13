@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
-import {CustomerReportService, WorkTimeDto} from '../../../shared/services/api';
+import {CustomerReportService, CustomerWorkTimeDto} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ChartOptions, ReportChartService} from '../../services/report-chart.service';
@@ -17,9 +17,9 @@ import {single, switchMap} from 'rxjs/operators';
   styleUrls: ['./report-customers.component.scss']
 })
 export class ReportCustomersComponent implements OnInit, OnDestroy {
-  @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<WorkTimeDto>;
-  @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<WorkTimeDto>;
-  @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<WorkTimeDto>;
+  @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<CustomerWorkTimeDto>;
+  @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<CustomerWorkTimeDto>;
+  @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<CustomerWorkTimeDto>;
 
   public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
@@ -27,9 +27,9 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
   public chartSeries?: ApexAxisChartSeries;
   public plannedArePartial: boolean = false;
 
-  public tableConfiguration: Partial<Configuration<WorkTimeDto>>;
-  public tableColumns?: Column<WorkTimeDto>[];
-  public tableRows: WorkTimeDto[] = [];
+  public tableConfiguration: Partial<Configuration<CustomerWorkTimeDto>>;
+  public tableColumns?: Column<CustomerWorkTimeDto>[];
+  public tableRows: CustomerWorkTimeDto[] = [];
   private readonly subscriptions = new Subscription();
 
   public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
@@ -75,7 +75,7 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public tableRowsChanged(rows: Array<WorkTimeDto>): void {
+  public tableRowsChanged(rows: Array<CustomerWorkTimeDto>): void {
     this.chartSeries = this.createSeries(rows);
     this.plannedArePartial = rows.some(r => r.plannedIsPartial);
     this.changeDetector.detectChanges();
@@ -88,11 +88,11 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<WorkTimeDto[]> {
+  private loadData(filter: FilteredRequestParams): Observable<CustomerWorkTimeDto[]> {
     return this.reportService.getWorkTimesPerCustomer(filter).pipe(single());
   }
 
-  private createSeries(workTimes: WorkTimeDto[]): ApexAxisChartSeries {
+  private createSeries(workTimes: CustomerWorkTimeDto[]): ApexAxisChartSeries {
     return [
       {
         name: $localize`:@@Page.Report.Common.Worked:[i18n] Worked`,
@@ -113,7 +113,7 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
     ];
   }
 
-  private createTableConfiguration(): Partial<Configuration<WorkTimeDto>> {
+  private createTableConfiguration(): Partial<Configuration<CustomerWorkTimeDto>> {
     return {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-card table-sm align-middle text-break border',
@@ -123,7 +123,7 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createTableColumns(): Column<WorkTimeDto>[] {
+  private createTableColumns(): Column<CustomerWorkTimeDto>[] {
     const cssHeadCell = 'border-0 text-nowrap';
     const cssHeadCellMd = 'd-none d-md-table-cell';
     const cssDataCellMd = cssHeadCellMd;
