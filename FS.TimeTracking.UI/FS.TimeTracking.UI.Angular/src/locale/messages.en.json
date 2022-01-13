@@ -50,16 +50,16 @@
         "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {
-        "Title": "Planned/actual by customers"
+        "Title": "Planned/actual by customer"
       },
       "Projects": {
-        "Title": "Planned/actual by project"
+        "Title": "By project"
       },
       "Activities": {
-        "Title": "Planned/actual by activity"
+        "Title": "By activity"
       },
       "Issues": {
-        "Title": "Planned/actual by issue"
+        "Title": "By issue"
       },
       "Orders": {
         "Title": "Planned/actual by order"
@@ -237,6 +237,7 @@
       "OrderTitle": "Order",
       "OrderNumber": "Order number",
       "CustomerTitle": "Customer",
+      "ProjectTitle": "Project",
       "DaysWorked": "Days worked",
       "DaysPlanned": "Days planned",
       "DaysDifference": "Days difference",
