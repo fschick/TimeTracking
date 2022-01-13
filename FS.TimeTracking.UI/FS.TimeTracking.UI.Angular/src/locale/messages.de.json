@@ -53,13 +53,13 @@
         "Title": "Soll/Ist nach Kunde"
       },
       "Projects": {
-        "Title": "Soll/Ist nach Projekt"
+        "Title": "Nach Projekt"
       },
       "Activities": {
-        "Title": "Soll/Ist nach Tätigkeit"
+        "Title": "Nach Tätigkeit"
       },
       "Issues": {
-        "Title": "Soll/Ist nach Issue"
+        "Title": "Nach Issue"
       },
       "Orders": {
         "Title": "Soll/Ist nach Auftrag"
@@ -239,6 +239,7 @@
       "OrderTitle": "Auftrag",
       "OrderNumber": "Auftragsnummer",
       "CustomerTitle": "Kunde",
+      "ProjectTitle": "Projekt",
       "DaysWorked": "geleistet",
       "DaysPlanned": "geplant",
       "DaysDifference": "Differenz in Tagen",
