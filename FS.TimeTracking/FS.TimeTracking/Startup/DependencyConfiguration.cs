@@ -35,6 +35,7 @@ internal static class DependencyConfiguration
         services.AddScoped<ICustomerReportService, CustomerReportService>();
         services.AddScoped<IOrderReportService, OrderReportService>();
         services.AddScoped<IProjectReportService, ProjectReportService>();
+        services.AddScoped<IIssueReportService, IssueReportService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();

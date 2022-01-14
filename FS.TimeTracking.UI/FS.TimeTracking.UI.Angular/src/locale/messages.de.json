@@ -240,6 +240,7 @@
       "OrderNumber": "Auftragsnummer",
       "CustomerTitle": "Kunde",
       "ProjectTitle": "Projekt",
+      "Issue": "Ticket",
       "DaysWorked": "geleistet",
       "DaysPlanned": "geplant",
       "DaysDifference": "Differenz in Tagen",

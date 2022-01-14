@@ -55,9 +55,7 @@ public class ProjectReportService : IProjectReportService
                 BudgetWorked = worked.WorkedBudget,
                 Currency = settings.Currency,
             })
-            .OrderBy(x => x.PlannedStart == null)
-            .ThenBy(x => x.PlannedStart)
-            .ThenBy(x => x.ProjectTitle)
+            .OrderBy(x => x.ProjectTitle)
             .ThenBy(x => x.CustomerTitle)
             .ToList();
 
