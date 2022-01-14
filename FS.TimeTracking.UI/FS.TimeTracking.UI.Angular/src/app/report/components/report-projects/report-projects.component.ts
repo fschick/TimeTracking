@@ -17,7 +17,6 @@ import {single, switchMap} from 'rxjs/operators';
   styleUrls: ['./report-projects.component.scss']
 })
 export class ReportProjectsComponent implements OnInit, OnDestroy {
-
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<ProjectWorkTimeDto>;
   @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<ProjectWorkTimeDto>;
   @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<ProjectWorkTimeDto>;

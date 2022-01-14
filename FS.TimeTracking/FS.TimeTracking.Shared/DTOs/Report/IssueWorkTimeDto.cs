@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Shared.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Models.Application.TimeTracking;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Shared.DTOs.Report;
@@ -7,11 +7,15 @@ namespace FS.TimeTracking.Shared.DTOs.Report;
 /// <summary>
 /// Work times for a project.
 /// </summary>
-public class IssueWorkTimeDto : WorkTimeDto
+public class ProjectWorkTimeDto : WorkTimeDto
 {
-    /// <inheritdoc cref="TimeSheet.Issue"/>
+    /// <inheritdoc cref="Customer.Id"/>
     [Required]
-    public string Issue { get; set; }
+    public Guid ProjectId { get; set; }
+
+    /// <inheritdoc cref="Customer.Title"/>
+    [Required]
+    public string ProjectTitle { get; set; }
 
     /// <inheritdoc cref="Customer.Title"/>
     [Required]
