@@ -43,7 +43,7 @@ public abstract class WorkTimeDto
     /// Difference between time worked and planned.
     /// </summary>
     [Required]
-    public TimeSpan? PlannedDifference => TimePlanned - TimeWorked;
+    public TimeSpan? TimeDifference => TimePlanned - TimeWorked;
 
     /// <summary>
     /// Consumed budget.
