@@ -61,7 +61,6 @@
   <ng-template #infoDetailDialog let-modal>
     <div class="modal-header">
       <h5 class="modal-title" ngbAutofocus>
-        <ng-container i18n="@@DTO.WorkTimeDto.CustomerTitle">[i18n] Customer</ng-container>
         {{row.customerTitle}}
       </h5>
       <button type="button" class="btn-close" (click)="modal.close()" i18n-aria-label="@@Common.Close" aria-label="[i18n] Close"></button>
