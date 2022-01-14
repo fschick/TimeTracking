@@ -238,6 +238,7 @@
       "OrderNumber": "Order number",
       "CustomerTitle": "Customer",
       "ProjectTitle": "Project",
+      "ActivityTitle": "Activity",
       "Issue": "Issue",
       "DaysWorked": "Days worked",
       "DaysPlanned": "Days planned",
