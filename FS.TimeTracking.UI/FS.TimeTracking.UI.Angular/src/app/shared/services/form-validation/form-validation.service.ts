@@ -35,7 +35,7 @@ export class FormValidationService {
 
   public getFormGroup<TType>(
     typeName: keyof typeof validationDescriptions,
-    initialValues: Partial<TType> | undefined,
+    initialValues?: Partial<TType>,
     additionalFormControls: ValidationFromControls = {},
     additionalFormValidators: ValidatorFn[] = []
   ): ValidationFormGroup {
