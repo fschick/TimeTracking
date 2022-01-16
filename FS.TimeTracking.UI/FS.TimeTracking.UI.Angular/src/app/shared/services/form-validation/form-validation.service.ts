@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {
   AbstractControl,
-  AbstractControlOptions, AsyncValidatorFn, FormArray,
+  AbstractControlOptions,
+  AsyncValidatorFn,
+  FormArray,
   FormControl,
   FormGroup,
   ValidatorFn,
@@ -33,7 +35,7 @@ export class FormValidationService {
 
   public getFormGroup<TType>(
     typeName: keyof typeof validationDescriptions,
-    initialValues: Partial<TType> = {},
+    initialValues?: Partial<TType>,
     additionalFormControls: ValidationFromControls = {},
     additionalFormValidators: ValidatorFn[] = []
   ): ValidationFormGroup {
@@ -49,7 +51,7 @@ export class FormValidationService {
   private getFormControls<TType>(
     typeName: keyof typeof validationDescriptions,
     additionalFormControls: ValidationFromControls,
-    initialValues: Partial<TType>
+    initialValues: Partial<TType> | undefined
   ): Partial<TypeValidationFromControls<TType>> {
     const typeValidations = validationDescriptions[typeName];
     const validationFormControls: Partial<TypeValidationFromControls<TType>> = {};
@@ -59,14 +61,15 @@ export class FormValidationService {
       const nestedTypeValidation = validations.find(x => x.type === 'nested');
       const nestedListValidation = validations.find(x => x.type === 'list');
 
+      const initialValue = initialValues ? initialValues[fieldName] : undefined;
       if (nestedTypeValidation !== undefined) {
-        validationFormControls[fieldName] = this.getNestedFormGroup(nestedTypeValidation, additionalFormControls, initialValues[fieldName]);
+        validationFormControls[fieldName] = this.getNestedFormGroup(nestedTypeValidation, additionalFormControls, initialValue);
       } else if (nestedListValidation !== undefined) {
-        const initialValueList = (initialValues[fieldName] ?? [{}]) as Partial<TType>[keyof TType][];
-        const nestedFormGroups = initialValueList.map(initialValue =>  this.getNestedFormGroup(nestedListValidation, additionalFormControls, initialValue));
+        const initialValueList = (initialValue ?? [{}]) as Partial<TType>[keyof TType][];
+        const nestedFormGroups = initialValueList.map(initialValue => this.getNestedFormGroup(nestedListValidation, additionalFormControls, initialValue));
         validationFormControls[fieldName] = new FormArray(nestedFormGroups);
       } else {
-        validationFormControls[fieldName] = this.getFormControl(validations, initialValues[fieldName]);
+        validationFormControls[fieldName] = this.getFormControl(validations, initialValue);
       }
     }
 
@@ -76,7 +79,7 @@ export class FormValidationService {
   private getNestedFormGroup<TType>(
     validation: ValidationDescription,
     formControls: ValidationFromControls,
-    initialValue: Partial<TType>[keyof TType]
+    initialValue: Partial<TType>[keyof TType] | undefined
   ) {
     const typeName = validation['class'] as keyof typeof validationDescriptions;
     const nestedFormControlField = formControls[typeName];
@@ -92,7 +95,7 @@ export class FormValidationService {
 
   private getFormControl<TType>(
     validations: ValidationDescription[],
-    initialValue: Partial<TType>[keyof TType]
+    initialValue: Partial<TType>[keyof TType] | undefined
   ) {
     const validators = validations.flatMap(validation => this.getFieldValidators(validation));
     return new FormControl(initialValue, validators);
