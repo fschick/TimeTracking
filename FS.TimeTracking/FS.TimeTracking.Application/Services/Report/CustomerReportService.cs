@@ -64,7 +64,7 @@ public class CustomerReportService : ICustomerReportService
                     return new CustomerWorkTimeDto
                     {
                         CustomerId = worked?.CustomerId ?? planned.CustomerId,
-                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle ?? throw new InvalidOperationException($"Unable to get {nameof(CustomerWorkTimeDto.CustomerTitle)}"),
+                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
                         TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
                         DaysWorked = worked?.WorkedDays ?? 0,
                         RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
@@ -73,11 +73,11 @@ public class CustomerReportService : ICustomerReportService
                         DaysPlanned = planned?.PlannedDays,
                         RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
-                        PlannedHourlyRate = planned?.HourlyRate,
-                        Currency = settings.Currency,
                         PlannedStart = planned?.PlannedStart,
                         PlannedEnd = planned?.PlannedEnd,
                         PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
+                        PlannedHourlyRate = planned?.HourlyRate,
+                        Currency = settings.Currency,
                     };
                 })
             .OrderBy(x => x.PlannedStart == null)
