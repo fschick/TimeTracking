@@ -60,28 +60,26 @@ public class OrderReportService : IOrderReportService
                 {
                     if (worked == null && planned == null)
                         throw new InvalidOperationException("Planned and worked entities are null");
-                    if (planned == null)
-                        throw new InvalidOperationException("Planned entity is null");
 
-                    var plannedTimeSpan = new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd);
+                    var plannedTimeSpan = planned != null ? new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
                     return new OrderWorkTimeDto
                     {
                         OrderId = worked?.OrderId ?? planned.OrderId,
-                        OrderTitle = worked?.OrderTitle ?? planned.OrderTitle,
-                        OrderNumber = worked?.OrderNumber ?? planned.OrderNumber,
-                        CustomerTitle = worked?.CustomerTitle ?? planned.CustomerTitle,
+                        OrderTitle = worked?.OrderTitle ?? planned?.OrderTitle,
+                        OrderNumber = worked?.OrderNumber ?? planned?.OrderNumber,
+                        CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
                         TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
                         DaysWorked = worked?.WorkedDays ?? 0,
                         RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
                         BudgetWorked = worked?.WorkedBudget ?? 0,
-                        TimePlanned = planned.PlannedTime,
-                        DaysPlanned = planned.PlannedDays,
-                        RatioTotalPlanned = totalPlannedDays != 0 ? planned.PlannedDays / totalPlannedDays : 0,
-                        BudgetPlanned = planned.PlannedBudget,
-                        PlannedStart = planned.PlannedStart,
-                        PlannedEnd = planned.PlannedEnd,
-                        PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
-                        PlannedHourlyRate = planned.HourlyRate,
+                        TimePlanned = planned?.PlannedTime,
+                        DaysPlanned = planned?.PlannedDays,
+                        RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
+                        BudgetPlanned = planned?.PlannedBudget,
+                        PlannedStart = planned?.PlannedStart,
+                        PlannedEnd = planned?.PlannedEnd,
+                        PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
+                        PlannedHourlyRate = planned?.HourlyRate,
                         Currency = settings.Currency,
                     };
                 })
