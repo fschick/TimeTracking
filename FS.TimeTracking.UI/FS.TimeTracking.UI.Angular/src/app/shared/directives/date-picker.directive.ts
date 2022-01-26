@@ -2,7 +2,6 @@ import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, O
 import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {DateObjectUnits} from 'luxon/src/datetime';
 import {DateParserService} from '../services/date-parser.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
@@ -36,13 +35,16 @@ export interface DatePickerOptions {
   providers: [CUSTOM_VALUE_ACCESSOR],
 })
 export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  /* Should partial inputs adjusted to start or end of period (2000-12 => 2000-12-01 or 2000-12-31) */
   @Input() relativeAnchor: 'start' | 'end' = 'start';
 
+  /* The earliest date that may be selected */
   @Input() set startDate(value: DateTime | undefined) {
     this.datePickerOptions.startDate = value?.toJSDate();
     this.datePicker?.datepicker('setStartDate', value?.toJSDate());
   }
 
+  /* The latest date that may be selected */
   @Input() set endDate(value: DateTime | undefined) {
     this.datePickerOptions.endDate = value?.toJSDate();
     this.datePicker?.datepicker('setEndDate', value?.toJSDate());
@@ -109,6 +111,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
     let parsedDate = this.dateParserService.parseDate(rawInput, this.relativeAnchor);
     if (parsedDate?.isValid) {
+      parsedDate = this.adjustToAnchor(parsedDate);
       parsedDate = this.adjustNewValueToStartEndRange(parsedDate);
       this.datePicker?.datepicker('setDate', parsedDate.toJSDate());
       this.elementRef.nativeElement.value = parsedDate.toFormat(this.dateFormat);
@@ -136,18 +139,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
         }
 
         let parsedDate = DateTime.fromJSDate(event.date);
-
-        switch (this.datePickerOptions.minViewMode) {
-          case 'days':
-            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('day') : parsedDate.endOf('day');
-            break;
-          case 'months':
-            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('month') : parsedDate.endOf('month');
-            break;
-          case 'years':
-            parsedDate = this.relativeAnchor === 'start' ? parsedDate.startOf('year') : parsedDate.endOf('year');
-            break;
-        }
+        parsedDate = this.adjustToAnchor(parsedDate);
 
         this.elementRef.nativeElement.value = parsedDate.toFormat(this.dateFormat);
         this.emitValue(parsedDate);
@@ -205,6 +197,17 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       .replace(/MMM/g, 'M')
       .replace(/MM/g, 'mm')
       .replace(/M/g, 'm');
+  }
+
+  private adjustToAnchor(date: DateTime): DateTime {
+    switch (this.datePickerOptions.minViewMode) {
+      case 'days':
+        return this.relativeAnchor === 'start' ? date.startOf('day') : date.endOf('day');
+      case 'months':
+        return this.relativeAnchor === 'start' ? date.startOf('month') : date.endOf('month');
+      case 'years':
+        return this.relativeAnchor === 'start' ? date.startOf('year') : date.endOf('year');
+    }
   }
 
   private adjustNewValueToStartEndRange(value: DateTime): DateTime {
