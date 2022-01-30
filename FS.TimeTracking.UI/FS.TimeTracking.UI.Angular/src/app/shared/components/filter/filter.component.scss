@@ -25,3 +25,11 @@
     }
   }
 }
+
+.filtered {
+  &:empty,
+  &::ng-deep .ng-select-container {
+    border-left-color: $warning;
+    box-shadow: -0.2rem 0px 0px 0px $warning;
+  }
+}

@@ -93,7 +93,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         shareReplay(1),
       );
 
-    this.isFiltered$ = this.onFilterChanged.pipe(map(filter => this.isFiltered(filter)));
+    this.isFiltered$ = this.onFilterChanged.pipe(map(_ => this.isFormFiltered()));
 
     const filterChangedEmitter = this.onFilterChanged
       .pipe(map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)))
@@ -172,6 +172,24 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
 
   public isResettable(filterName: FilterName): boolean {
     return this._filters?.filter(x => x.name === filterName)[0]?.resettable !== false;
+  }
+
+  public isFiltered(filterName: FilterName): boolean {
+    const filter = this._filters?.find(x => x.name === filterName);
+    if (filter === undefined)
+      return false;
+
+    return this.filterForm.value[filter.name] != filter.defaultValue;
+  }
+
+  public isFormFiltered(): boolean {
+    if (!this._filters)
+      return false;
+
+    const filterValues = this.filterForm.value;
+    return this._filters
+      .filter(filter => filter.resettable !== false && filterValues[filter.name] != filter.defaultValue)
+      .length > 0;
   }
 
   public setFormValue($event: Event, formControlName: FilterName): void {
@@ -331,15 +349,6 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       .filter(([, value]) => value !== undefined);
 
     return Object.fromEntries(filterRequestParams);
-  }
-
-  private isFiltered(filter: any): boolean {
-    if (!this._filters)
-      return false;
-
-    return this._filters
-      .filter(x => x.resettable !== false && filter[x.name] !== x.defaultValue)
-      .length > 0;
   }
 
   private registerDateSync(formControls: FilterControls, startDate: FilterControlName, endDate: FilterControlName) {
