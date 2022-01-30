@@ -19,16 +19,7 @@ export interface Filter {
 
 type FilterTemplates = Record<FilterName, TemplateRef<any>>;
 type FilterControlName = keyof FilterControls;
-type FilterControls =
-  Record<keyof FilteredRequestParams, AbstractControl>
-  & {
-  timeSheetStartMonth: AbstractControl;
-  timeSheetEndMonth: AbstractControl,
-  orderStartMonth: AbstractControl,
-  orderDueMonth: AbstractControl,
-  holidayStartMonth: AbstractControl,
-  holidayEndMonth: AbstractControl,
-};
+type FilterControls = Record<keyof FilteredRequestParams, AbstractControl>;
 
 @Component({
   selector: 'ts-filter',
@@ -167,9 +158,8 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     if (!this._filters)
       return;
 
-    const nonResettableFilter: FilterControlName[] = ['timeSheetStartMonth', 'timeSheetEndMonth', 'orderStartMonth', 'orderDueMonth', 'holidayStartMonth', 'holidayEndMonth'];
     const resettableFilterNames = this._filters
-      .filter(x => x.resettable !== false || nonResettableFilter.includes(x.name))
+      .filter(x => x.resettable !== false)
       .map(x => x.name as string);
 
     const filterToClear = this._filters
@@ -198,9 +188,9 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     const filterForm = this.formBuilder.group(formControlsConfig);
 
     const formControls = filterForm.controls as FilterControls;
-    this.registerDateSync(formControls, 'timeSheetStartDate', 'timeSheetEndDate', 'timeSheetStartMonth', 'timeSheetEndMonth');
-    this.registerDateSync(formControls, 'orderStartDate', 'orderDueDate', 'orderStartMonth', 'orderDueMonth');
-    this.registerDateSync(formControls, 'holidayStartDate', 'holidayEndDate', 'holidayStartMonth', 'holidayEndMonth');
+    this.registerDateSync(formControls, 'timeSheetStartDate', 'timeSheetEndDate');
+    this.registerDateSync(formControls, 'orderStartDate', 'orderDueDate');
+    this.registerDateSync(formControls, 'holidayStartDate', 'holidayEndDate');
 
     return filterForm;
   }
@@ -217,9 +207,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       timeSheetId: undefined,
       timeSheetIssue: undefined,
       timeSheetStartDate: undefined,
-      timeSheetStartMonth: undefined,
       timeSheetEndDate: undefined,
-      timeSheetEndMonth: undefined,
       timeSheetBillable: undefined,
       timeSheetComment: undefined,
       projectId: undefined,
@@ -248,9 +236,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       orderDescription: undefined,
       orderNumber: undefined,
       orderStartDate: undefined,
-      orderStartMonth: undefined,
       orderDueDate: undefined,
-      orderDueMonth: undefined,
       orderHourlyRate: undefined,
       orderBudget: undefined,
       orderComment: undefined,
@@ -258,9 +244,7 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       holidayId: undefined,
       holidayTitle: undefined,
       holidayStartDate: undefined,
-      holidayStartMonth: undefined,
       holidayEndDate: undefined,
-      holidayEndMonth: undefined,
       holidayType: undefined,
     }
   }
@@ -358,35 +342,25 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
       .length > 0;
   }
 
-  private registerDateSync(formControls: FilterControls, fromDate: FilterControlName, toDate: FilterControlName, fromMonth: FilterControlName, toMonth: FilterControlName) {
-    const startDateChanged = formControls[fromDate].valueChanges.subscribe((newStartDate: DateTime) => {
-      formControls[fromMonth].setValue(newStartDate, {emitEvent: false})
-      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
-        formControls[toDate].setValue(newStartDate);
+  private registerDateSync(formControls: FilterControls, startDate: FilterControlName, endDate: FilterControlName) {
+    const startDateChanged = formControls[startDate].valueChanges.subscribe((newStartDate: DateTime) => {
+      if (formControls[endDate].value && formControls[endDate].value < newStartDate) {
+        if (newStartDate.day === 1)
+          newStartDate = newStartDate.endOf('month');
+        formControls[endDate].setValue(newStartDate);
+      }
     });
 
-    const startMonthChanged = formControls[fromMonth].valueChanges.subscribe((newStartDate: DateTime) => {
-      formControls[fromDate].setValue(newStartDate, {emitEvent: false})
-      if (formControls[toDate].value && formControls[toDate].value < newStartDate)
-        formControls[toDate].setValue(newStartDate.endOf('month'));
-    });
-
-    const endDateChanged = formControls[toDate].valueChanges.subscribe((newEndDate: DateTime) => {
-      formControls[toMonth].setValue(newEndDate, {emitEvent: false})
-      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
-        formControls[fromDate].setValue(newEndDate);
-    });
-
-    const endMonthChanged = formControls[toMonth].valueChanges.subscribe((newEndDate: DateTime) => {
-      formControls[toDate].setValue(newEndDate, {emitEvent: false})
-      if (formControls[fromDate].value && formControls[fromDate].value > newEndDate)
-        formControls[fromDate].setValue(newEndDate.startOf('month'));
+    const endDateChanged = formControls[endDate].valueChanges.subscribe((newEndDate: DateTime) => {
+      if (formControls[startDate].value && formControls[startDate].value > newEndDate) {
+        if (newEndDate.equals(newEndDate.endOf('month')))
+          newEndDate = newEndDate.startOf('month');
+        formControls[startDate].setValue(newEndDate);
+      }
     });
 
     this.subscriptions.add(startDateChanged);
-    this.subscriptions.add(startMonthChanged);
     this.subscriptions.add(endDateChanged);
-    this.subscriptions.add(endMonthChanged);
   }
 
   private updateFilterSources(filters: Filter[]) {

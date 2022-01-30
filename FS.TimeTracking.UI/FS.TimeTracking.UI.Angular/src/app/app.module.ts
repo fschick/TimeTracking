@@ -57,6 +57,7 @@ import {MasterDataHolidaysImportComponent} from './master-data/components/master
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
+import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import {TimesheetFilterComponent} from './shared/components/filter/filter.compon
     MasterDataSettingsComponent,
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
+    DateMonthPickerComponent,
   ],
   imports: [
     BrowserModule,

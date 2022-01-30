@@ -1,0 +1,32 @@
+<div class="input-group">
+  <input id="timeSheetStartMonth"
+         type="text"
+         class="form-control month-input"
+         readonly
+         [placeholder]="placeholder"
+         [ngModel]="value"
+         (ngModelChange)="valueChanged($event)"
+         tsDatePicker
+         format="MMM"
+         minViewMode="months"
+         [relativeAnchor]="relativeAnchor"
+         [clearBtn]="clearBtn"
+         [startDate]="startDate"
+         [endDate]="endDate"
+         inputmode="none"
+         autocomplete="off"
+         tabindex="-1">
+  <input id="timeSheetStartDate"
+         type="text"
+         class="form-control"
+         [ngModel]="value"
+         (ngModelChange)="valueChanged($event)"
+         tsDatePicker
+         [format]="format"
+         [relativeAnchor]="relativeAnchor"
+         [clearBtn]="clearBtn"
+         [startDate]="startDate"
+         [endDate]="endDate"
+         inputmode="none"
+         autocomplete="off">
+</div>
