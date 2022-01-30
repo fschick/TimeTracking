@@ -18,7 +18,7 @@ $enable-negative-margins: true;
 /* Currently done by bootstrap.
 /* ----------------------------------------- */
 html {
-  // Fix flickering after modal dialog is opened and (page) scrollbar disappears.
+  // Fix flickering when page scrollbar appears/disappears (e.g. modal dialog is opened).
   // See https://stackoverflow.com/a/59407573/1271211, https://aykevl.nl/2014/09/fix-jumping-scrollbar
   margin-left: calc(100vw - 100%);
   margin-right: 0;
