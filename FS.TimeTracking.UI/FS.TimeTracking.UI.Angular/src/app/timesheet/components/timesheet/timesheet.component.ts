@@ -75,8 +75,8 @@ export class TimesheetComponent implements OnDestroy {
     this.subscriptions.add(filterChanged);
 
     this.filters = [
-      {name: 'timeSheetStartDate', resettable: false, defaultValue: defaultStartDate},
-      {name: 'timeSheetEndDate', resettable: false, defaultValue: defaultEndDate},
+      {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
+      {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
       {name: 'customerId'},
       {name: 'projectId'},
       {name: 'activityId'},

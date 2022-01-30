@@ -47,8 +47,8 @@ export class ReportCustomersComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().endOf('year');
 
     this.filters = [
-      {name: 'timeSheetStartDate', resettable: false, defaultValue: defaultStartDate},
-      {name: 'timeSheetEndDate', resettable: false, defaultValue: defaultEndDate},
+      {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
+      {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
       {name: 'timeSheetBillable', defaultValue: true},
       {name: 'customerId'},
       {name: 'activityId'},

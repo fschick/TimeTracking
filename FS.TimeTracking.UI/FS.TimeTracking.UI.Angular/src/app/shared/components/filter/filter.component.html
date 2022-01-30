@@ -10,7 +10,7 @@
       [i18n] Reset filter
     </button>
     <button *ngIf="secondaryFilters && secondaryFilters.length"
-            id="extendedFilterToggler"
+            id="extended-filter-toggler"
             type="button"
             class="btn btn-sm btn-outline-secondary collapsed ms-2"
             data-bs-toggle="collapse"
@@ -48,6 +48,7 @@
       <label class="form-label" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="timeSheetStartDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('timeSheetStartDate') }"
         placeholder="[i18n] From"
         i18n-placeholder="@@Component.Filter.From"
         formControlName="timeSheetStartDate"
@@ -61,6 +62,7 @@
       <label class="form-label" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="timeSheetEndDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('timeSheetEndDate') }"
         placeholder="[i18n] To"
         i18n-placeholder="@@Component.Filter.To"
         formControlName="timeSheetEndDate"
@@ -75,6 +77,7 @@
       <label class="form-label" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="orderStartDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('orderStartDate') }"
         placeholder="[i18n] From"
         i18n-placeholder="@@Component.Filter.From"
         formControlName="orderStartDate"
@@ -88,6 +91,7 @@
       <label class="form-label" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="orderDueDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('orderDueDate') }"
         placeholder="[i18n] To"
         i18n-placeholder="@@Component.Filter.To"
         formControlName="orderDueDate"
@@ -102,6 +106,7 @@
       <label class="form-label" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="holidayStartDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('holidayStartDate') }"
         placeholder="[i18n] From"
         i18n-placeholder="@@Component.Filter.From"
         formControlName="holidayStartDate"
@@ -115,6 +120,7 @@
       <label class="form-label" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="holidayEndDate"
+        [ngClass]="{ 'filtered': isFieldFiltered('holidayEndDate') }"
         placeholder="[i18n] To"
         i18n-placeholder="@@Component.Filter.To"
         formControlName="holidayEndDate"
@@ -130,7 +136,7 @@
       <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
       <ng-select [items]="customers$ | ngrxPush"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFiltered('customerId') }"
+                 [ngClass]="{ 'filtered': isFieldFiltered('customerId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Customer"
                  i18n-placeholder="@@Component.Filter.Customer"
@@ -152,7 +158,7 @@
       <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
       <ng-select [items]="projects$ | ngrxPush"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFiltered('projectId') }"
+                 [ngClass]="{ 'filtered': isFieldFiltered('projectId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -174,7 +180,7 @@
       <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
       <ng-select [items]="activities$ | ngrxPush"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFiltered('activityId') }"
+                 [ngClass]="{ 'filtered': isFieldFiltered('activityId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -196,7 +202,7 @@
       <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
       <ng-select [items]="orders$ | ngrxPush"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFiltered('orderId') }"
+                 [ngClass]="{ 'filtered': isFieldFiltered('orderId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Order"
                  i18n-placeholder="@@Component.Filter.Order"
@@ -216,7 +222,7 @@
     <div class="col-12 col-md-3">
       <label for="timeSheetIssue" class="form-label" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
       <input id="timeSheetIssue"
-             [ngClass]="{ 'filtered': isFiltered('timeSheetIssue') }"
+             [ngClass]="{ 'filtered': isFieldFiltered('timeSheetIssue') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Issue"
@@ -230,7 +236,7 @@
     <div class="col-12 col-md-3">
       <label for="customerNumber" class="form-label" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
       <input id="customerNumber"
-             [ngClass]="{ 'filtered': isFiltered('customerNumber') }"
+             [ngClass]="{ 'filtered': isFieldFiltered('customerNumber') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Number"
@@ -244,7 +250,7 @@
     <div class="col-12 col-md-3">
       <label for="customerCompanyName" class="form-label" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
       <input id="customerCompanyName"
-             [ngClass]="{ 'filtered': isFiltered('customerCompanyName') }"
+             [ngClass]="{ 'filtered': isFieldFiltered('customerCompanyName') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Company"
@@ -258,7 +264,7 @@
     <div class="col-12 col-md-3">
       <label for="timeSheetComment" class="form-label" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
       <input id="timeSheetComment"
-             [ngClass]="{ 'filtered': isFiltered('timeSheetComment') }"
+             [ngClass]="{ 'filtered': isFieldFiltered('timeSheetComment') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Comment"
@@ -272,7 +278,7 @@
     <div class="col-12 col-md-3">
       <label for="holidayTitle" class="form-label" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
       <input id="holidayTitle"
-             [ngClass]="{ 'filtered': isFiltered('holidayTitle') }"
+             [ngClass]="{ 'filtered': isFieldFiltered('holidayTitle') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Title"
@@ -286,7 +292,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="activityHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFiltered('activityHidden') }"
+      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('activityHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="activityHidden"
@@ -301,7 +307,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="customerHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFiltered('customerHidden') }"
+      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('customerHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="customerHidden"
@@ -316,7 +322,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="projectHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFiltered('projectHidden') }"
+      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('projectHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="projectHidden"
@@ -331,7 +337,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="timeSheetBillable" class="form-label" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
-      <ng-select [ngClass]="{ 'filtered': isFiltered('timeSheetBillable') }"
+      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('timeSheetBillable') }"
                  placeholder="[i18n] Billable"
                  i18n-placeholder="@@Component.Filter.Billable"
                  labelForId="timeSheetBillable"
@@ -346,7 +352,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="holidayType" class="form-label" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
-      <ng-select [ngClass]="{ 'filtered': isFiltered('holidayType') }"
+      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('holidayType') }"
                  placeholder="[i18n] Type"
                  i18n-placeholder="@@Component.Filter.HolidayType"
                  labelForId="holidayType"

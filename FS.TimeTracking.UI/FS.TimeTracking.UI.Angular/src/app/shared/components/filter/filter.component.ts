@@ -75,6 +75,8 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
   private readonly filterStorageKey = 'timeSheetFilter';
   private readonly onFilterChanged: Observable<any>;
   private readonly subscriptions = new Subscription();
+  private readonly startDateFields: FilterControlName[] = ['timeSheetStartDate', 'orderStartDate', 'holidayStartDate'];
+  private readonly endDateFields: FilterControlName[] = ['timeSheetEndDate', 'orderDueDate', 'holidayEndDate'];
 
   constructor(
     private route: ActivatedRoute,
@@ -158,12 +160,8 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     if (!this._filters)
       return;
 
-    const resettableFilterNames = this._filters
-      .filter(x => x.resettable !== false)
-      .map(x => x.name as string);
-
     const filterToClear = this._filters
-      .filter(filter => resettableFilterNames.includes(filter.name))
+      .filter(x => this.isFiltered(x))
       .map(filter => [filter.name, filter.defaultValue]);
 
     const defaultFilter = Object.fromEntries(filterToClear);
@@ -174,26 +172,38 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     return this._filters?.filter(x => x.name === filterName)[0]?.resettable !== false;
   }
 
-  public isFiltered(filterName: FilterName): boolean {
-    const filter = this._filters?.find(x => x.name === filterName);
-    if (filter === undefined)
-      return false;
-
-    return this.filterForm.value[filter.name] != filter.defaultValue;
+  public setFormValue($event: Event, formControlName: FilterName): void {
+    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
   }
 
   public isFormFiltered(): boolean {
     if (!this._filters)
       return false;
 
-    const filterValues = this.filterForm.value;
     return this._filters
-      .filter(filter => filter.resettable !== false && filterValues[filter.name] != filter.defaultValue)
+      .filter(filter => this.isFiltered(filter))
       .length > 0;
   }
 
-  public setFormValue($event: Event, formControlName: FilterName): void {
-    this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
+  public isFieldFiltered(filterName: FilterName): boolean {
+    const filter = this._filters?.find(x => x.name === filterName);
+    return this.isFiltered(filter);
+  }
+
+  private isFiltered(filter: Filter | undefined): boolean {
+    if (filter === undefined)
+      return false;
+
+    if (filter.resettable === false)
+      return false;
+
+    if (this.startDateFields.includes(filter.name))
+      return this.filterForm.value[filter.name] > DateTime.now();
+
+    if (this.endDateFields.includes(filter.name))
+      return this.filterForm.value[filter.name] < DateTime.now();
+
+    return this.filterForm.value[filter.name] != filter.defaultValue;
   }
 
   private createFilterForm(): FormGroup {
