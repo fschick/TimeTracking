@@ -17,13 +17,13 @@ $enable-negative-margins: true;
 /* Fix flickering on show/hide scrollbar.
 /* Currently done by bootstrap.
 /* ----------------------------------------- */
-//html {
-//  // Fix flickering after modal dialog is opened and (page) scrollbar disappears.
-//  // See https://stackoverflow.com/a/59407573/1271211, https://aykevl.nl/2014/09/fix-jumping-scrollbar
-//  margin-left: calc(100vw - 100%);
-//  margin-right: 0;
-//  overflow-y: scroll;
-//}
+html {
+  // Fix flickering after modal dialog is opened and (page) scrollbar disappears.
+  // See https://stackoverflow.com/a/59407573/1271211, https://aykevl.nl/2014/09/fix-jumping-scrollbar
+  margin-left: calc(100vw - 100%);
+  margin-right: 0;
+  overflow-y: scroll;
+}
 
 /* ----------------------------------------- */
 /* Custom extensions

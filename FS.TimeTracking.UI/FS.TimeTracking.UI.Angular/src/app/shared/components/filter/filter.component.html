@@ -5,7 +5,7 @@
     <button *ngIf="isFiltered$ | ngrxPush"
             (click)="resetFilterForm()"
             type="button"
-            class="btn btn-sm btn-danger"
+            class="btn btn-sm btn-warning"
             i18n="@@Component.Filter.Reset">
       [i18n] Reset filter
     </button>
@@ -59,27 +59,27 @@
   <ng-template #timeSheetEndDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
-        <ts-date-month-picker
-          id="timeSheetEndDate"
-          placeholder="[i18n] To"
-          i18n-placeholder="@@Component.Filter.To"
-          formControlName="timeSheetEndDate"
-          relativeAnchor="end"
-          [clearBtn]="isResettable('timeSheetEndDate')">
-        </ts-date-month-picker>
+      <ts-date-month-picker
+        id="timeSheetEndDate"
+        placeholder="[i18n] To"
+        i18n-placeholder="@@Component.Filter.To"
+        formControlName="timeSheetEndDate"
+        relativeAnchor="end"
+        [clearBtn]="isResettable('timeSheetEndDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #orderStartDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
-        <ts-date-month-picker
-          id="orderStartDate"
-          placeholder="[i18n] From"
-          i18n-placeholder="@@Component.Filter.From"
-          formControlName="orderStartDate"
-          [clearBtn]="isResettable('orderStartDate')">
-        </ts-date-month-picker>
+      <ts-date-month-picker
+        id="orderStartDate"
+        placeholder="[i18n] From"
+        i18n-placeholder="@@Component.Filter.From"
+        formControlName="orderStartDate"
+        [clearBtn]="isResettable('orderStartDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 
@@ -130,6 +130,7 @@
       <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
       <ng-select [items]="customers$ | ngrxPush"
                  [multiple]="true"
+                 [ngClass]="{ 'filtered': isFiltered('customerId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Customer"
                  i18n-placeholder="@@Component.Filter.Customer"
@@ -151,6 +152,7 @@
       <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
       <ng-select [items]="projects$ | ngrxPush"
                  [multiple]="true"
+                 [ngClass]="{ 'filtered': isFiltered('projectId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -172,6 +174,7 @@
       <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
       <ng-select [items]="activities$ | ngrxPush"
                  [multiple]="true"
+                 [ngClass]="{ 'filtered': isFiltered('activityId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -193,6 +196,7 @@
       <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
       <ng-select [items]="orders$ | ngrxPush"
                  [multiple]="true"
+                 [ngClass]="{ 'filtered': isFiltered('orderId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Order"
                  i18n-placeholder="@@Component.Filter.Order"
@@ -212,6 +216,7 @@
     <div class="col-12 col-md-3">
       <label for="timeSheetIssue" class="form-label" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
       <input id="timeSheetIssue"
+             [ngClass]="{ 'filtered': isFiltered('timeSheetIssue') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Issue"
@@ -225,6 +230,7 @@
     <div class="col-12 col-md-3">
       <label for="customerNumber" class="form-label" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
       <input id="customerNumber"
+             [ngClass]="{ 'filtered': isFiltered('customerNumber') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Number"
@@ -238,6 +244,7 @@
     <div class="col-12 col-md-3">
       <label for="customerCompanyName" class="form-label" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
       <input id="customerCompanyName"
+             [ngClass]="{ 'filtered': isFiltered('customerCompanyName') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Company"
@@ -251,6 +258,7 @@
     <div class="col-12 col-md-3">
       <label for="timeSheetComment" class="form-label" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
       <input id="timeSheetComment"
+             [ngClass]="{ 'filtered': isFiltered('timeSheetComment') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Comment"
@@ -264,6 +272,7 @@
     <div class="col-12 col-md-3">
       <label for="holidayTitle" class="form-label" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
       <input id="holidayTitle"
+             [ngClass]="{ 'filtered': isFiltered('holidayTitle') }"
              type="text"
              class="form-control"
              placeholder="[i18n] Title"
@@ -277,7 +286,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="activityHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select placeholder="[i18n] Hidden"
+      <ng-select [ngClass]="{ 'filtered': isFiltered('activityHidden') }"
+                 placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="activityHidden"
                  formControlName="activityHidden">
@@ -291,7 +301,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="customerHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select placeholder="[i18n] Hidden"
+      <ng-select [ngClass]="{ 'filtered': isFiltered('customerHidden') }"
+                 placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="customerHidden"
                  formControlName="customerHidden">
@@ -305,7 +316,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="projectHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select placeholder="[i18n] Hidden"
+      <ng-select [ngClass]="{ 'filtered': isFiltered('projectHidden') }"
+                 placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="projectHidden"
                  formControlName="projectHidden">
@@ -319,7 +331,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="timeSheetBillable" class="form-label" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
-      <ng-select placeholder="[i18n] Billable"
+      <ng-select [ngClass]="{ 'filtered': isFiltered('timeSheetBillable') }"
+                 placeholder="[i18n] Billable"
                  i18n-placeholder="@@Component.Filter.Billable"
                  labelForId="timeSheetBillable"
                  formControlName="timeSheetBillable">
@@ -333,7 +346,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="holidayType" class="form-label" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
-      <ng-select placeholder="[i18n] Type"
+      <ng-select [ngClass]="{ 'filtered': isFiltered('holidayType') }"
+                 placeholder="[i18n] Type"
                  i18n-placeholder="@@Component.Filter.HolidayType"
                  labelForId="holidayType"
                  formControlName="holidayType">
