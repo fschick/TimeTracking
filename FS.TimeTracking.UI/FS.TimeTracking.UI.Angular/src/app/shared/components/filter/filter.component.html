@@ -46,186 +46,81 @@
   <ng-template #timeSheetStartDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
-      <div class="input-group">
-        <input id="timeSheetStartMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] From"
-               i18n-placeholder="@@Component.Filter.From"
-               formControlName="timeSheetStartMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               [clearBtn]="isResettable('timeSheetStartDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="timeSheetStartDate"
-               type="text"
-               class="form-control"
-               formControlName="timeSheetStartDate"
-               tsDatePicker
-               [clearBtn]="isResettable('timeSheetStartDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+      <ts-date-month-picker
+        id="timeSheetStartDate"
+        placeholder="[i18n] From"
+        i18n-placeholder="@@Component.Filter.From"
+        formControlName="timeSheetStartDate"
+        [clearBtn]="isResettable('timeSheetStartDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #timeSheetEndDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
-      <div class="input-group">
-        <input id="timeSheetEndMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] To"
-               i18n-placeholder="@@Component.Filter.To"
-               formControlName="timeSheetEndMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               relativeAnchor="end"
-               [clearBtn]="isResettable('timeSheetEndDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="timeSheetEndDate"
-               type="text"
-               class="form-control"
-               formControlName="timeSheetEndDate"
-               tsDatePicker
-               relativeAnchor="end"
-               [clearBtn]="isResettable('timeSheetEndDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+        <ts-date-month-picker
+          id="timeSheetEndDate"
+          placeholder="[i18n] To"
+          i18n-placeholder="@@Component.Filter.To"
+          formControlName="timeSheetEndDate"
+          relativeAnchor="end"
+          [clearBtn]="isResettable('timeSheetEndDate')">
+        </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #orderStartDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
-      <div class="input-group">
-        <input id="orderStartMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] From"
-               i18n-placeholder="@@Component.Filter.From"
-               formControlName="orderStartMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               [clearBtn]="isResettable('orderStartDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="orderStartDate"
-               type="text"
-               class="form-control"
-               formControlName="orderStartDate"
-               tsDatePicker
-               [clearBtn]="isResettable('orderStartDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+        <ts-date-month-picker
+          id="orderStartDate"
+          placeholder="[i18n] From"
+          i18n-placeholder="@@Component.Filter.From"
+          formControlName="orderStartDate"
+          [clearBtn]="isResettable('orderStartDate')">
+        </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #orderDueDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
-      <div class="input-group">
-        <input id="orderDueMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] To"
-               i18n-placeholder="@@Component.Filter.To"
-               formControlName="orderDueMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               relativeAnchor="end"
-               [clearBtn]="isResettable('orderDueDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="orderDueDate"
-               type="text"
-               class="form-control"
-               formControlName="orderDueDate"
-               tsDatePicker
-               relativeAnchor="end"
-               [clearBtn]="isResettable('orderDueDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+      <ts-date-month-picker
+        id="orderDueDate"
+        placeholder="[i18n] To"
+        i18n-placeholder="@@Component.Filter.To"
+        formControlName="orderDueDate"
+        relativeAnchor="end"
+        [clearBtn]="isResettable('orderDueDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #holidayStartDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
-      <div class="input-group">
-        <input id="holidayStartMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] From"
-               i18n-placeholder="@@Component.Filter.From"
-               formControlName="holidayStartMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               [clearBtn]="isResettable('holidayStartDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="holidayStartDate"
-               type="text"
-               class="form-control"
-               formControlName="holidayStartDate"
-               tsDatePicker
-               [clearBtn]="isResettable('holidayStartDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+      <ts-date-month-picker
+        id="holidayStartDate"
+        placeholder="[i18n] From"
+        i18n-placeholder="@@Component.Filter.From"
+        formControlName="holidayStartDate"
+        [clearBtn]="isResettable('holidayStartDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 
   <ng-template #holidayEndDate>
     <div class="col-6 col-xl-3">
       <label class="form-label" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
-      <div class="input-group">
-        <input id="holidayEndMonth"
-               type="text"
-               class="form-control month-input"
-               readonly
-               placeholder="[i18n] To"
-               i18n-placeholder="@@Component.Filter.To"
-               formControlName="holidayEndMonth"
-               tsDatePicker
-               format="MMM"
-               minViewMode="months"
-               relativeAnchor="end"
-               [clearBtn]="isResettable('holidayEndDate')"
-               inputmode="none"
-               autocomplete="off"
-               tabindex="-1">
-        <input id="holidayEndDate"
-               type="text"
-               class="form-control"
-               formControlName="holidayEndDate"
-               tsDatePicker
-               relativeAnchor="end"
-               [clearBtn]="isResettable('holidayEndDate')"
-               inputmode="none"
-               autocomplete="off">
-      </div>
+      <ts-date-month-picker
+        id="holidayEndDate"
+        placeholder="[i18n] To"
+        i18n-placeholder="@@Component.Filter.To"
+        formControlName="holidayEndDate"
+        relativeAnchor="end"
+        [clearBtn]="isResettable('holidayEndDate')">
+      </ts-date-month-picker>
     </div>
   </ng-template>
 

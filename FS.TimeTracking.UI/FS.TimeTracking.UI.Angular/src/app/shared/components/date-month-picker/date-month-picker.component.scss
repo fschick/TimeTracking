@@ -1,0 +1,11 @@
+@import '~bootstrap/scss/functions.scss';
+@import '~bootstrap/scss/variables.scss';
+@import '~bootstrap/scss/mixins.scss';
+
+.month-input {
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 4rem;
+  cursor: pointer;
+  background-color: $input-bg;
+}
