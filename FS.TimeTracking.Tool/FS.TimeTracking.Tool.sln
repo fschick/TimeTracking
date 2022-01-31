@@ -11,21 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD
 		Build\build_xml_documentation.props = Build\build_xml_documentation.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "..\FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tool", "FS.TimeTracking.Tool\FS.TimeTracking.Tool\FS.TimeTracking.Tool.csproj", "{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tool", "FS.TimeTracking.Tool\FS.TimeTracking.Tool.csproj", "{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "FS.TimeTracking\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository", "..\FS.TimeTracking\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj", "{971E7C7B-2CE0-4AA5-86F7-EF616BF56CE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A886F314-5C81-4D42-AB9C-48F81086F365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Application", "..\FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj", "{A886F314-5C81-4D42-AB9C-48F81086F365}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.MySql", "..\FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj", "{4C4C5BC6-E0C4-496D-B41E-23BE93DDEE25}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{9C393428-23C0-4B08-A03B-54771ACE966F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "..\FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{9C393428-23C0-4B08-A03B-54771ACE966F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "FS.TimeTracking\FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "..\FS.TimeTracking\FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{08567BE9-1BDB-457B-ACB4-17F394CFB9E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{938C4D52-50AA-469B-809A-46783C6D852B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "..\FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{938C4D52-50AA-469B-809A-46783C6D852B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
