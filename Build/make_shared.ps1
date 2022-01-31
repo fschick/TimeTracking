@@ -21,21 +21,33 @@ function Npm-Restore {
 #region Build
 #
 function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion = "0.0.0") {
+	# Switch to backend project
+	Push-Location FS.TimeTracking
+	
 	# Build back-end
-	& dotnet build FS.TimeTracking.sln -warnaserror --configuration Debug
-	& dotnet build FS.TimeTracking.sln -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
+	& dotnet build -warnaserror --configuration Debug
+	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
+		Pop-Location
 		exit $LASTEXITCODE
 	}
+	
+	Pop-Location
 }
 
 function Build-Tool([String] $version = "0.0.0", [String] $fileVersion = "0.0.0") {
+	# Switch to tool project
+	Push-Location FS.TimeTracking.Tool
+	
 	# Build back-end
-	& dotnet build FS.TimeTracking.Tool.sln -warnaserror --configuration Debug
-	& dotnet build FS.TimeTracking.Tool.sln -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
+	& dotnet build -warnaserror --configuration Debug
+	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
+		Pop-Location
 		exit $LASTEXITCODE
 	}
+	
+	Pop-Location
 }
 
 function Build-Ui {
@@ -63,19 +75,31 @@ function Build-Ui {
 #region Tests
 #
 function Test-Rest-Services {
+	# Switch to backend project
+	Push-Location FS.TimeTracking
+	
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
-	& dotnet test FS.TimeTracking.sln --configuration Release --logger:trx --logger:html
+	& dotnet test --configuration Release --logger:trx --logger:html
 	if(!$?) {
+		Pop-Location
 		exit $LASTEXITCODE
 	}
+	
+	Pop-Location
 }
 
 function Test-Tool {
+	# Switch to tool project
+	Push-Location FS.TimeTracking.Tool
+	
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
-	& dotnet test FS.TimeTracking.Tool.sln --configuration Release --logger:trx --logger:html
+	& dotnet test --configuration Release --logger:trx --logger:html
 	if(!$?) {
+		Pop-Location
 		exit $LASTEXITCODE
 	}
+	
+	Pop-Location
 }
 
 function Test-Ui {
