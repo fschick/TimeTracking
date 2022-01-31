@@ -136,14 +136,11 @@ internal static class TimeTrackingWebApp
 
     private static void RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
     {
-        //if (hostEnvironment.IsProduction())
-        //    services.AddSpaStaticFiles(configuration => configuration.RootPath = Path.Combine(_executablePath, WEB_UI_FOLDER));
-
         services
             .AddSpaStaticFiles(configuration =>
                 configuration.RootPath = hostEnvironment.IsProduction()
                     ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
-                    : "../FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking"
+                    : "../../FS.TimeTracking.UI.Angular/dist/TimeTracking"
             );
     }
 
