@@ -53,8 +53,8 @@ test_job:
   artifacts:
     name: "test-results"
     paths:
-      - ./*/TestResults/*.trx
-      - ./*/TestResults/*.html
+      - ./**/TestResults/*.trx
+      - ./**/TestResults/*.html
     expire_in: 1 week
     when: always
 

@@ -5,7 +5,7 @@
 #
 function Npm-Restore {
     # Switch to UI project
-	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI.Angular
 	
 	# Restore npm packages
 	& npm install --prefer-offline --no-audit --silent
@@ -52,7 +52,7 @@ function Build-Tool([String] $version = "0.0.0", [String] $fileVersion = "0.0.0"
 
 function Build-Ui {
     # Switch to UI project
-	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI.Angular
 	
 	& npm run lint
 	if(!$?) {
@@ -104,7 +104,7 @@ function Test-Tool {
 
 function Test-Ui {
 	# Switch to UI project
-	Push-Location FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+	Push-Location FS.TimeTracking.UI.Angular
 	
 	& npm run test-headless
 	if(!$?) {
@@ -155,7 +155,7 @@ function Publish-Ui([String] $msBuildPublishDir) {
 	Build-Ui
 
 	# Move SPA to publish folder
-	mv FS.TimeTracking.UI/FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/webui
+	mv FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/webui
 }
 
 function Publish-Merge-To-Artifact-Folder([String] $projectName, [String] $runtime, [String] $publshFolder, [String] $msBuildPublishDir) {

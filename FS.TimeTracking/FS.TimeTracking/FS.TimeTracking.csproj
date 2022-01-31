@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AngularDirectory>../../FS.TimeTracking.UI/FS.TimeTracking.UI.Angular</AngularDirectory>
+    <AngularDirectory>../../FS.TimeTracking.UI.Angular</AngularDirectory>
   </PropertyGroup>
 
   <Target Name="DetectIfRuntimeSpecificBuild" AfterTargets="AfterBuild" Condition="$(RuntimeIdentifier) != '' OR $(RuntimeIdentifiers) != ''">
