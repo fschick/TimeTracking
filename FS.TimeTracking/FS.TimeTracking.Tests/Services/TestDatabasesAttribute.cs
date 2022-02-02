@@ -12,8 +12,10 @@ namespace FS.TimeTracking.Tests.Services;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class TestDatabasesAttribute : Attribute, ITestDataSource
+public class TestDatabasesAttribute : TestCategoryBaseAttribute, ITestDataSource
 {
+    public override IList<string> TestCategories => new List<string> { "DatabaseRequired" };
+
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
         var testDatabasesFile = Environment.GetEnvironmentVariable("TestDatabases");
