@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.PostgreSql", "FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj", "{57FB49AA-2C3F-4583-B2B8-CF92FC1B8161}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqLite", "FS.TimeTracking.Repository.SqLite\FS.TimeTracking.Repository.SqLite.csproj", "{9E9A7492-72BC-47B9-B1F4-8E485453C077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.Sqlite", "FS.TimeTracking.Repository.Sqlite\FS.TimeTracking.Repository.Sqlite.csproj", "{9E9A7492-72BC-47B9-B1F4-8E485453C077}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{F2871F13-0E8F-4C0D-94E3-0500DE3B55B1}"
 EndProject

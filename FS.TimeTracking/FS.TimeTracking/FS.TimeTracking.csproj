@@ -21,7 +21,7 @@
     <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj" />
-    <ProjectReference Include="..\FS.TimeTracking.Repository.Sqlite\FS.TimeTracking.Repository.SqLite.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Repository.Sqlite\FS.TimeTracking.Repository.Sqlite.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository\FS.TimeTracking.Repository.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />

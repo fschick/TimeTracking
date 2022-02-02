@@ -87,7 +87,7 @@ public class TruncateDbService : ITruncateDbService
     private string GetTableSchemaSelectionString()
         => _configuration.Database.Type switch
         {
-            DatabaseType.SqLite => "SELECT 'main', name FROM main.sqlite_master WHERE type = 'table'",
+            DatabaseType.Sqlite => "SELECT 'main', name FROM main.sqlite_master WHERE type = 'table'",
             DatabaseType.SqlServer => "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES",
             DatabaseType.PostgreSql => "SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'",
 #pragma warning disable IDISP004 // Don't ignore created IDisposable.
@@ -134,7 +134,7 @@ public class TruncateDbService : ITruncateDbService
     private string GetFunctionsSelectionString()
         => _configuration.Database.Type switch
         {
-            DatabaseType.SqLite => null,
+            DatabaseType.Sqlite => null,
             DatabaseType.SqlServer => @"
                     SELECT '[dbo]' AS [Schema], '[' + name + ']' AS [Name]
                     FROM sys.sql_modules m 

@@ -32,8 +32,8 @@ public static class DateTimeFunctions
     /// Registers interceptors for custom date time functions in SQLite.
     /// </summary>
     /// <param name="optionsBuilder">The options builder.</param>
-    public static void RegisterSqLiteDateTimeFunctions(this DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.AddInterceptors(new SqLiteDateTimeFunctionsInterceptor());
+    public static void RegisterSqliteDateTimeFunctions(this DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.AddInterceptors(new SqliteDateTimeFunctionsInterceptor());
 
     private static void RegisterMethodToUtc(this ModelBuilder modelBuilder, DatabaseType databaseType)
     {
@@ -77,7 +77,7 @@ public static class DateTimeFunctions
     private static string GetFunctionSchema(DatabaseType databaseType)
         => databaseType switch
         {
-            DatabaseType.SqLite => null,
+            DatabaseType.Sqlite => null,
             DatabaseType.SqlServer => "dbo",
             DatabaseType.PostgreSql => null,
             DatabaseType.MySql => null,
@@ -87,14 +87,14 @@ public static class DateTimeFunctions
     private static string GetFunctionName(string functionName, DatabaseType databaseType)
         => databaseType switch
         {
-            DatabaseType.SqLite => functionName,
+            DatabaseType.Sqlite => functionName,
             DatabaseType.SqlServer => functionName,
             DatabaseType.MySql => functionName,
             DatabaseType.PostgreSql => functionName.ToLowerInvariant(),
             _ => throw new ArgumentOutOfRangeException(nameof(databaseType), databaseType, null)
         };
 
-    private class SqLiteDateTimeFunctionsInterceptor : DbConnectionInterceptor
+    private class SqliteDateTimeFunctionsInterceptor : DbConnectionInterceptor
     {
         public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
         {

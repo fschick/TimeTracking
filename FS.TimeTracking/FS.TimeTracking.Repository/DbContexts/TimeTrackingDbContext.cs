@@ -51,9 +51,9 @@ public class TimeTrackingDbContext : DbContext
 
         switch (_databaseType)
         {
-            case DatabaseType.SqLite:
+            case DatabaseType.Sqlite:
                 optionsBuilder.UseSqlite(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
-                optionsBuilder.RegisterSqLiteDateTimeFunctions();
+                optionsBuilder.RegisterSqliteDateTimeFunctions();
                 break;
             case DatabaseType.SqlServer:
                 optionsBuilder.UseSqlServer(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
@@ -87,7 +87,7 @@ public class TimeTrackingDbContext : DbContext
         ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
 
         RegisterDateTimeAsUtcConverter(modelBuilder);
-        RegisterSqLiteGuidToStringConverter(modelBuilder);
+        RegisterSqliteGuidToStringConverter(modelBuilder);
     }
 
     private static void ConfigureSetting(EntityTypeBuilder<Setting> settingsBuilder)
@@ -227,9 +227,9 @@ public class TimeTrackingDbContext : DbContext
     }
 
     // https://stackoverflow.com/a/61243301/1271211
-    private void RegisterSqLiteGuidToStringConverter(ModelBuilder modelBuilder)
+    private void RegisterSqliteGuidToStringConverter(ModelBuilder modelBuilder)
     {
-        if (_databaseType != DatabaseType.SqLite)
+        if (_databaseType != DatabaseType.Sqlite)
             return;
 
         var guidToStringConverter = new ValueConverter<Guid, string>

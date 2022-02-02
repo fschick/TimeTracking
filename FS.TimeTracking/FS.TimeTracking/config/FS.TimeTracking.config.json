@@ -1,7 +1,7 @@
 {
   "TimeTracking": {
     "Database": {
-      "Type": "SqLite",
+      "Type": "Sqlite",
       "ConnectionString": "Data Source=TimeTracking.sqlite"
 
       //"Type": "SqlServer",

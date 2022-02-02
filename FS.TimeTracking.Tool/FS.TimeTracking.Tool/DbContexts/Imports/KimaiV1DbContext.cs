@@ -48,7 +48,7 @@ public class KimaiV1DbContext : DbContext
 
         switch (_databaseType)
         {
-            case DatabaseType.SqLite:
+            case DatabaseType.Sqlite:
                 optionsBuilder.UseSqlite(_connectionString);
                 break;
             case DatabaseType.SqlServer:

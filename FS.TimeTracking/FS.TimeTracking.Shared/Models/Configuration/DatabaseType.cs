@@ -8,7 +8,7 @@ public enum DatabaseType
     /// <summary>
     /// SQLite
     /// </summary>
-    SqLite,
+    Sqlite,
 
     /// <summary>
     /// Microsoft Sql Server
