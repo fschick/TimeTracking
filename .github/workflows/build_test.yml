@@ -1,0 +1,57 @@
+name: Build and Test
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup Node 16.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'microsoft'
+        java-version: '17'  
+    - name: Build
+      shell: pwsh
+      run: Build/make_build.ps1 -version "0.0.0.0"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Use Node 16.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+    - name: Use Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'microsoft'
+        java-version: '17'  
+    - name: Test
+      shell: pwsh
+      run: Build/make_test.ps1
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: |
+          ./**/TestResults/*.trx
+          ./**/TestResults/*.html
+        retention-days: 10
+      if: ${{ always() }}

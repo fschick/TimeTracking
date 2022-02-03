@@ -8,7 +8,7 @@ function Npm-Restore {
 	Push-Location FS.TimeTracking.UI.Angular
 	
 	# Restore npm packages
-	& npm install --prefer-offline --no-audit --silent
+	& npm ci --prefer-offline --no-audit --silent
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE
@@ -74,12 +74,16 @@ function Build-Ui {
 #
 #region Tests
 #
-function Test-Rest-Services {
+function Test-Rest-Services([String] $filter) {
 	# Switch to backend project
 	Push-Location FS.TimeTracking
 	
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
-	& dotnet test --configuration Release --logger:trx --logger:html
+	if ($filter) {
+		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
+	} else {
+		& dotnet test --configuration Release --logger:trx --logger:html
+	}
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE
@@ -88,12 +92,16 @@ function Test-Rest-Services {
 	Pop-Location
 }
 
-function Test-Tool {
+function Test-Tool([String] $filter) {
 	# Switch to tool project
 	Push-Location FS.TimeTracking.Tool
 	
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
-	& dotnet test --configuration Release --logger:trx --logger:html
+	if ($filter) {
+		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
+	} else {
+		& dotnet test --configuration Release --logger:trx --logger:html
+	}
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE

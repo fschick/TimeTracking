@@ -5,9 +5,11 @@
 Push-Location $PSScriptRoot\..
 
 Npm-Restore
-Build-Rest-Services
-Test-Rest-Services
-Build-Tool
+if ($env:GITHUB_ACTION) {
+	Test-Rest-Services -filter TestCategory!=DatabaseRequired
+} else {
+	Test-Rest-Services
+}
 Test-Tool
 Test-Ui
 
