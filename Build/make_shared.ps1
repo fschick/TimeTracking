@@ -131,7 +131,11 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 	}
 	
 	# Publish back-end
-	& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework --self-contained --runtime $runtime -p:Version=$version -p:FileVersion=$fileVersion
+	if ($runtime) {
+		& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained --runtime $runtime 
+	} else {
+		& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained false
+	}
 	if(!$?) {
 		exit $LASTEXITCODE
 	}
@@ -140,15 +144,25 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 }
 
 function Publish-Tool([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $msBuildPublishDir) {
-    # Publish back-end
-	& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework --self-contained --runtime $runtime -p:Version=$version -p:FileVersion=$fileVersion
+    # Publish tool
+	if ($runtime) {
+		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained --runtime $runtime
+	} else {
+		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained false
+	}
+	
 	if(!$?) {
 		exit $LASTEXITCODE
 	}
 
 	# Move Tool to publish folder
-	mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool $msBuildPublishDir
-	mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
+	if ($runtime) {
+		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
+		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
+	} else {
+		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
+		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
+	}
 }
 
 function Publish-Ui([String] $msBuildPublishDir) {
@@ -160,7 +174,9 @@ function Publish-Ui([String] $msBuildPublishDir) {
 
 function Publish-Merge-To-Artifact-Folder([String] $projectName, [String] $runtime, [String] $publshFolder, [String] $msBuildPublishDir) {
 	# Move application to publish folder
-	if ($runtime.StartsWith("win")) {
+	if (!$runtime) {
+		mv $msBuildPublishDir $publshFolder
+	} elseif ($runtime.StartsWith("win")) {
 		mv $msBuildPublishDir $publshFolder
 		cp $PSScriptRoot/service_windows.install.bat $publshFolder/$projectName.WindowsService.Install.bat
 		cp $PSScriptRoot/service_windows.uninstall.bat $publshFolder/$projectName.WindowsService.Uninstall.bat

@@ -4,7 +4,7 @@ param (
   [Parameter(Mandatory=$true)][String]$projectName,
   [Parameter(Mandatory=$true)][String]$version,
   [Parameter(Mandatory=$true)][String]$publshFolder,
-  [Parameter(Mandatory=$true)][String]$runtime
+  [Parameter(Mandatory=$false)][String]$runtime
 )
 
 . $PSScriptRoot/make_shared.ps1
