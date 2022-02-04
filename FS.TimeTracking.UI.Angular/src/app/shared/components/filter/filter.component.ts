@@ -197,13 +197,23 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
     if (filter.resettable === false)
       return false;
 
-    if (this.startDateFields.includes(filter.name))
-      return this.filterForm.value[filter.name] > DateTime.now();
+    const filterValue = this.filterForm.value[filter.name];
 
-    if (this.endDateFields.includes(filter.name))
-      return this.filterForm.value[filter.name] < DateTime.now();
+    if (this.startDateFields.includes(filter.name)) {
+      const now = DateTime.now();
+      return filter.defaultValue == undefined
+        ? filterValue != undefined
+        : filterValue != filter.defaultValue && filterValue > now;
+    }
 
-    return this.filterForm.value[filter.name] != filter.defaultValue;
+    if (this.endDateFields.includes(filter.name)) {
+      const now = DateTime.now();
+      return filter.defaultValue == undefined
+        ? filterValue != undefined
+        : filterValue != filter.defaultValue && filterValue < now;
+    }
+
+    return filterValue != filter.defaultValue;
   }
 
   private createFilterForm(): FormGroup {
