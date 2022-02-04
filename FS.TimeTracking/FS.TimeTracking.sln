@@ -5,10 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
-		Build\build_core.props = Build\build_core.props
-		Build\build_tests.props = Build\build_tests.props
-		Build\build_version.props = Build\build_version.props
-		Build\build_xml_documentation.props = Build\build_xml_documentation.props
+		..\Build\build_core.props = ..\Build\build_core.props
+		..\Build\build_standard.props = ..\Build\build_standard.props
+		..\Build\build_tests.props = ..\Build\build_tests.props
+		..\Build\build_version.props = ..\Build\build_version.props
+		..\Build\build_xml_documentation.props = ..\Build\build_xml_documentation.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
