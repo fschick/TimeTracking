@@ -65,7 +65,7 @@ export class FormValidationService {
       if (nestedTypeValidation !== undefined) {
         validationFormControls[fieldName] = this.getNestedFormGroup(nestedTypeValidation, additionalFormControls, initialValue);
       } else if (nestedListValidation !== undefined) {
-        const initialValueList = (initialValue ?? [{}]) as Partial<TType>[keyof TType][];
+        const initialValueList = (initialValue ?? []) as Partial<TType>[keyof TType][];
         const nestedFormGroups = initialValueList.map(initialValue => this.getNestedFormGroup(nestedListValidation, additionalFormControls, initialValue));
         validationFormControls[fieldName] = new FormArray(nestedFormGroups);
       } else {
