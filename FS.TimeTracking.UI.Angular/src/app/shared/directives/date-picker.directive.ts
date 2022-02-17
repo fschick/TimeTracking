@@ -3,6 +3,7 @@ import {LocalizationService} from '../services/internationalization/localization
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {DateParserService} from '../services/date-parser.service';
+import {DateObjectUnits} from 'luxon/src/datetime';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -66,7 +67,7 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
   private dateFormat: string;
   private hasCustomDateFormat = false;
   private value?: DateTime = DateTime.min();
-  // private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
+  private originTimePart: DateObjectUnits = {hour: 0, minute: 0, second: 0, millisecond: 0};
   private disabled = false;
   private datepickerShown = false;
   private datePicker: any;
@@ -151,15 +152,15 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     if (newValue?.isValid)
       newValue = this.adjustNewValueToStartEndRange(newValue);
     this.value = newValue;
-    // this.originTimePart = newValue?.isValid
-    //   ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
-    //   : {hour: 0, minute: 0, second: 0, millisecond: 0};
+    this.originTimePart = newValue?.isValid
+      ? {hour: newValue.hour, minute: newValue.minute, second: newValue.second, millisecond: newValue.millisecond}
+      : {hour: 0, minute: 0, second: 0, millisecond: 0};
     this.updateDatepickerValue();
   }
 
   public emitValue(newValue?: DateTime): void {
-    // if (newValue?.isValid)
-    //   newValue = newValue?.set(this.originTimePart);
+    if (newValue?.isValid)
+      newValue = newValue?.set(this.originTimePart);
 
     if ((!this.value && !newValue) || (newValue && this.value?.equals(newValue)))
       return;
