@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Api.REST.Routing;
+using FS.TimeTracking.Shared.DTOs.Shared;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -20,6 +21,11 @@ public class InformationController : ControllerBase, IInformationService
     /// <param name="informationService">The information service.</param>
     public InformationController(IInformationService informationService)
         => _informationService = informationService;
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<ProductInformationDto> GetProductInformation(CancellationToken cancellationToken = default)
+        => await _informationService.GetProductInformation(cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
