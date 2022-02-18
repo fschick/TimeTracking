@@ -1,6 +1,6 @@
-﻿using FS.FilterExpressionCreator.Extensions;
+﻿using FS.FilterExpressionCreator.Abstractions.Models;
+using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
-using FS.FilterExpressionCreator.Models;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using FS.TimeTracking.Shared.Models.Application.MasterData;

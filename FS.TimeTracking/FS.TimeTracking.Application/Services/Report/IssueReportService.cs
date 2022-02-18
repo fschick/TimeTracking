@@ -1,4 +1,4 @@
-﻿using FS.FilterExpressionCreator.Extensions;
+﻿using FS.FilterExpressionCreator.Abstractions.Extensions;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.DTOs.MasterData;
