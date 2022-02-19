@@ -134,7 +134,7 @@
     <div class="col-12 col-sm-6 col-xl-3">
       <!--suppress XmlInvalidId -->
       <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
-      <ng-select [items]="customers$ | ngrxPush"
+      <ng-select [items]="customers$ | ngrxPush | tsNullWhenUndefined"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('customerId') }"
                  dropdownPosition="bottom"
@@ -156,7 +156,7 @@
     <div class="col-12 col-sm-6 col-xl-3">
       <!--suppress XmlInvalidId -->
       <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
-      <ng-select [items]="projects$ | ngrxPush"
+      <ng-select [items]="projects$ | ngrxPush | tsNullWhenUndefined"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('projectId') }"
                  dropdownPosition="bottom"
@@ -178,7 +178,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
-      <ng-select [items]="activities$ | ngrxPush"
+      <ng-select [items]="activities$ | ngrxPush | tsNullWhenUndefined"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('activityId') }"
                  dropdownPosition="bottom"
@@ -200,7 +200,7 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
-      <ng-select [items]="orders$ | ngrxPush"
+      <ng-select [items]="orders$ | ngrxPush | tsNullWhenUndefined"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('orderId') }"
                  dropdownPosition="bottom"

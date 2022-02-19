@@ -20,7 +20,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   public selectedProject$: BehaviorSubject<StringTypeaheadDto | undefined>;
   public activities$: Observable<StringTypeaheadDto[]>;
   public selectedActivity$: BehaviorSubject<StringTypeaheadDto | undefined>;
-  public orders$?: Observable<StringTypeaheadDto[]>;
+  public orders$: Observable<StringTypeaheadDto[]>;
   public selectedOrder$: BehaviorSubject<StringTypeaheadDto | undefined>;
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;

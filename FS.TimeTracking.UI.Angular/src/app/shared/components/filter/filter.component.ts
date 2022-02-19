@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
-import {map, Observable, shareReplay, Subscription, tap} from 'rxjs';
+import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetListFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
@@ -63,10 +63,10 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
   public get secondaryFilters(): Filter[] | undefined { return this._filters?.slice(4); }
 
   public _filters?: Filter[];
-  public customers$?: Observable<StringTypeaheadDto[]>;
-  public projects$?: Observable<StringTypeaheadDto[]>;
-  public orders$?: Observable<StringTypeaheadDto[]>;
-  public activities$?: Observable<StringTypeaheadDto[]>;
+  public customers$: Observable<StringTypeaheadDto[]> = EMPTY;
+  public projects$: Observable<StringTypeaheadDto[]> = EMPTY;
+  public orders$: Observable<StringTypeaheadDto[]> = EMPTY;
+  public activities$: Observable<StringTypeaheadDto[]> = EMPTY;
   public isFiltered$: Observable<boolean>;
   public filterForm: FormGroup;
   public filterTemplates?: FilterTemplates;

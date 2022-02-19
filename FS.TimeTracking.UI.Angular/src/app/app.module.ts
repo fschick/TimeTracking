@@ -58,6 +58,7 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
+import { NullWhenUndefinedPipe } from './shared/pipes/null-when-undefined.pipe';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { DateMonthPickerComponent } from './shared/components/date-month-picker/
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
+    NullWhenUndefinedPipe,
   ],
   imports: [
     BrowserModule,
