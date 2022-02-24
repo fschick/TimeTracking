@@ -353,17 +353,17 @@ export class TimesheetFilterComponent implements AfterViewInit, OnDestroy {
         if (typeof value === 'number')
           return [name, value.toFixed(15)];
         if (name === 'timeSheetStartDate')
-          return ['timeSheetEndDate', `>=${filter.timeSheetStartDate.toISO()},ISNULL`];
+          return ['timeSheetEndDate', `>=${filter.timeSheetStartDate.startOf('day').toISO()},ISNULL`];
         if (name === 'timeSheetEndDate')
-          return ['timeSheetStartDate', `<${filter.timeSheetEndDate.toISO()}`];
+          return ['timeSheetStartDate', `<${filter.timeSheetEndDate.plus({day:1}).startOf('day').toISO()}`];
         if (name === 'orderStartDate')
-          return ['orderDueDate', `>=${filter.orderStartDate.toISO()}`];
+          return ['orderDueDate', `>=${filter.orderStartDate.startOf('day').toISO()}`];
         if (name === 'orderDueDate')
-          return ['orderStartDate', `<${filter.orderDueDate.toISO()}`];
+          return ['orderStartDate', `<${filter.orderDueDate.plus({day:1}).startOf('day').toISO()}`];
         if (name === 'holidayStartDate')
-          return ['holidayEndDate', `>=${filter.holidayStartDate.toISO()}`];
+          return ['holidayEndDate', `>=${filter.holidayStartDate.startOf('day').toISO()}`];
         if (name === 'holidayEndDate')
-          return ['holidayStartDate', `<${filter.holidayEndDate.toISO()}`];
+          return ['holidayStartDate', `<${filter.holidayEndDate.plus({day:1}).startOf('day').toISO()}`];
         return [name, value];
       })
       .filter(([, value]) => value !== undefined);
