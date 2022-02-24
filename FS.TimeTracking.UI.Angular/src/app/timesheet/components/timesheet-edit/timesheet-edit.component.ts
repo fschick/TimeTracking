@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../shared/services/api';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
-import {map, single} from 'rxjs/operators';
+import {filter, map, pairwise, single, startWith} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
 import {FormControl} from '@angular/forms';
@@ -42,11 +42,16 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.timesheetForm = this.createTimesheetForm();
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    if (!this.isNewRecord)
+    if (this.isNewRecord)
+      this.setTimeToNowWhenEmptyEndDateIsFilled();
+    else
       this.timesheetService
         .get({id: this.route.snapshot.params['id']})
         .pipe(single())
-        .subscribe(timesheet => this.timesheetForm.patchValue(timesheet));
+        .subscribe(timesheet => {
+          this.timesheetForm.patchValue(timesheet);
+          this.setTimeToNowWhenEmptyEndDateIsFilled();
+        });
 
     this.projects$ = typeaheadService.getProjects({});
     this.selectedProject$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
@@ -105,7 +110,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private createTimesheetForm() {
+  private createTimesheetForm(): ValidationFormGroup {
     const timesheetForm = this.formValidationService
       .getFormGroup<TimeSheetDto>(
         'TimeSheetDto',
@@ -131,5 +136,24 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.add(endTimeToDateSync);
 
     return timesheetForm;
+  }
+
+  private setTimeToNowWhenEmptyEndDateIsFilled(): void {
+    const endDateChanged = this.timesheetForm.controls['endDate'].valueChanges
+      .pipe(
+        startWith(null),
+        pairwise(),
+        filter(([prev, current]) => prev == null && current != null),
+        map(([, current]) => current)
+      )
+      .subscribe((newValue: DateTime) => {
+        const now = DateTime.now();
+        const startOfDay = now.startOf('day');
+        const todayTimePart = now.toMillis() - startOfDay.toMillis();
+        newValue = newValue.startOf('day').plus(todayTimePart);
+        this.timesheetForm.controls['endDate'].patchValue(newValue);
+      });
+
+    this.subscriptions.add(endDateChanged);
   }
 }
