@@ -9,14 +9,16 @@
 
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-start mb-2">
-    <div>
+    <div id="timeSheetTableCaption">
       <h4 class="d-inline-block">
         <ng-container i18n="@@Page.Timesheet.Title">[i18n] TimeSheet</ng-container>
       </h4>
-      ({{overview.workTime | number:'1.0-1'}}
-      <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container>
-      {{' '}}
-      <ng-container i18n="@@Page.Timesheet.Worked">[i18n] worked</ng-container>)
+      ({{overview.workedDays | number:'1.0-1'}}
+      <ng-container i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</ng-container>{{', '}}
+      {{overview.workdays | number:'1.0-1'}}
+      <ng-container i18n="@@Page.Timesheet.Workdays">[i18n] workdays</ng-container>{{', '}}
+      {{overview.holidays | number:'1.0-1'}}
+      <ng-container i18n="@@Page.Timesheet.Holidays">[i18n] holidays</ng-container>)
     </div>
     <div class="d-flex align-items-center">
       <div class="form-check d-inline-block me-3">
@@ -54,7 +56,7 @@
     </div>
 
     <!-- Data -->
-    <ng-container *ngFor="let workDay of overview.workDays; trackBy:timeSheetDayGroupKey;">
+    <ng-container *ngFor="let workDay of overview.workDayTimeSheets; trackBy:timeSheetDayGroupKey;">
       <!-- Workday header -->
       <div class="row row-day-header border-top py-1 mx-0">
           <span class="col text-muted">
@@ -116,8 +118,6 @@
               actionText="[i18n] Delete Entry"
               i18n-actionText="@@Page.Timesheet.Delete"
               color="danger"
-              (opened)="allowUpdate=false"
-              (closed)="allowUpdate=true"
               (confirmed)="deleteItem(timeSheet.id)">
               <a class="text-danger">
                 <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
@@ -143,11 +143,10 @@
     </ng-container>
 
     <!-- Footer -->
-
-    <div *ngIf="overview.omittedEntities > 0" class="row">
+    <div *ngIf="overview.omittedTimeSheets > 0" class="row">
       <div class="col">
         <div class="alert alert-warning m-2" role="alert" i18n="@@Page.Timesheet.OmittedEntities">
-          [i18n] {{overview.omittedEntities //i18n(ph="OMITTED")}} additional entries have been omitted to prevent performance issues.
+          [i18n] {{overview.omittedTimeSheets //i18n(ph="OMITTED")}} additional entries have been omitted to prevent performance issues.
         </div>
       </div>
     </div>

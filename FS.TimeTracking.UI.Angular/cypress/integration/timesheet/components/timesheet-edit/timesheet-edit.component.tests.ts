@@ -2,12 +2,6 @@
 
 describe('Date picker', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/v1/Information/GetProductInformation', {fixture: 'dto/ProductInformationDto.default.json'}).as('default');
-    cy.intercept('GET', '/api/v1/TimeSheet/GetListFiltered**', {fixture: 'generic/array.empty.json'}).as('empty');
-    cy.intercept('GET', '/api/v1/Typeahead/GetCustomers', {fixture: 'generic/array.empty.json'}).as('empty');
-    cy.intercept('GET', '/api/v1/Typeahead/GetProjects', {fixture: 'generic/array.empty.json'}).as('empty');
-    cy.intercept('GET', '/api/v1/Typeahead/GetActivities', {fixture: 'generic/array.empty.json'}).as('empty');
-    cy.intercept('GET', '/api/v1/Typeahead/GetOrders', {fixture: 'generic/array.empty.json'}).as('empty');
     cy.intercept('GET', '/api/v1/TimeSheet/Get/88dd9b02-9db0-4e0d-ce5f-08d9f7c722f1', {fixture: 'dto/TimeSheetDto.default.json'}).as('default');
   })
 

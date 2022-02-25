@@ -1,0 +1,14 @@
+[
+  {
+    "id": "08d9f48d-8e31-4ed0-8f0e-f9eba75f5b1a",
+    "startDate": "2022-02-20T08:00:00",
+    "endDate": "2022-02-20T14:30:00",
+    "duration": "06:30:00.0000000",
+    "comment": "",
+    "issue": null,
+    "customerTitle": "Customer One",
+    "projectTitle": "Project One",
+    "activityTitle": "Documentation",
+    "billable": true
+  }
+]

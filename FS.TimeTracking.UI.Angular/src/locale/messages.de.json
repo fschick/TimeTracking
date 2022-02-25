@@ -33,7 +33,9 @@
       "Edit": "Eintrag bearbeiten",
       "Delete": "Eintrag löschen",
       "DeleteMessage": "Wollen Sie diesen Eintrag wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-      "Worked": "gearbeitet",
+      "WorkedDays": "Tage gearbeitet",
+      "Workdays": "Arbeitstage",
+      "Holidays": "Urlaubstage",
       "OmittedEntities": "{$OMITTED} weitere Einträge werden zur Vermeidung von Leistungsproblemen nicht angezeigt."
     },
     "Report": {

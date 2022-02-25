@@ -38,24 +38,29 @@ public class WorkdayService : IWorkdayService
     }
 
     /// <inheritdoc />
-    public async Task<WorkedDaysInfoDto> GetWorkedDaysInfo(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public async Task<WorkedTimeInfoDto> GetWorkedDaysInfo(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
-        var workedTime = await _repository
+        var workedTimes = await _repository
             .GetGrouped(
-                groupBy: (TimeSheet x) => (object)null,
+                groupBy: (TimeSheet x) => 1,
                 select: x => new
                 {
-                    MinStartDate = x.Min(timeSheet => timeSheet.StartDate),
-                    MaxEndDate = x.Max(timeSheet => timeSheet.EndDate),
-                    Duration = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
+                    MinStartDate = x.Min(timeSheet => timeSheet.StartDateLocal),
+                    MaxEndDate = x.Max(timeSheet => timeSheet.EndDateLocal),
+                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
                 },
                 where: filter,
                 cancellationToken: cancellationToken
-            )
-            .AsEnumerableAsync()
-            .FirstAsync();
+            );
+
+        var workedTime = workedTimes.SingleOrDefault() ?? new
+        {
+            MinStartDate = DateTime.MinValue.AddDays(1),
+            MaxEndDate = (DateTime?)DateTime.MaxValue.AddDays(-1),
+            WorkedTime = TimeSpan.Zero
+        };
 
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter);
 
@@ -66,11 +71,15 @@ public class WorkdayService : IWorkdayService
 
         selectedPeriod = Section.Create(startDate, endDate);
 
-        var workDays = await GetWorkdays(selectedPeriod.Start.Date.GetDays(selectedPeriod.End.Date), cancellationToken);
-        return new WorkedDaysInfoDto
+        var settings = await _settingService.Get(cancellationToken);
+
+        var workDays = await GetWorkdays(selectedPeriod, cancellationToken);
+        return new WorkedTimeInfoDto
         {
             PublicWorkdays = workDays.PublicWorkdays.Count,
             PersonalWorkdays = workDays.PersonalWorkdays.Count,
+            WorkHoursPerWorkday = settings.WorkHoursPerWorkday,
+            WorkedTime = workedTime.WorkedTime,
         };
     }
 
