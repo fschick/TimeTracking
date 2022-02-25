@@ -135,14 +135,12 @@ internal static class TimeTrackingWebApp
         });
 
     private static void RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
-    {
-        services
-            .AddSpaStaticFiles(configuration =>
-                configuration.RootPath = hostEnvironment.IsProduction()
-                    ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
-                    : "../../FS.TimeTracking.UI.Angular/dist/TimeTracking"
-            );
-    }
+        => services.AddSpaStaticFiles(configuration => configuration.RootPath = GetWebRootPath(hostEnvironment));
+
+    private static string GetWebRootPath(IHostEnvironment hostEnvironment)
+        => hostEnvironment.IsProduction()
+            ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
+            : "../../FS.TimeTracking.UI.Angular/dist/TimeTracking".Replace('/', Path.DirectorySeparatorChar);
 
     [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required, see commented code")]
     private static void RegisterSpaRoutes(this WebApplication webApplication)

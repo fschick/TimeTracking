@@ -1,4 +1,4 @@
-# Ensure unsigned powershell script execution ist allowed: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+# Ensure unsigned powershell script execution is allowed: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 . $PSScriptRoot/make_shared.ps1
 

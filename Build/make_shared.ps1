@@ -8,7 +8,7 @@ function Npm-Restore {
 	Push-Location FS.TimeTracking.UI.Angular
 	
 	# Restore npm packages
-	& npm ci --prefer-offline --no-audit --silent
+	& npm ci --prefer-offline --no-audit
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE
@@ -114,7 +114,13 @@ function Test-Ui {
 	# Switch to UI project
 	Push-Location FS.TimeTracking.UI.Angular
 	
-	& npm run test-headless
+	& npm run test:headless
+	if(!$?) {
+		Pop-Location
+		exit $LASTEXITCODE
+	}
+	
+	& npm run test:e2e
 	if(!$?) {
 		Pop-Location
 		exit $LASTEXITCODE

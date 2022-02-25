@@ -305,3 +305,5 @@ __pycache__/
 /FS.TimeTracking/FS.TimeTracking/timetracking.sqlite
 /FS.TimeTracking/FS.TimeTracking/timetracking.sqlite-*
 /switcher.json
+/FS.TimeTracking.UI.Angular/cypress/integration/samples
+/FS.TimeTracking.UI.Angular/cypress/fixtures/example.json

@@ -5,7 +5,7 @@
     <Description>Time Tracking</Description>
     <Authors>Florian Schick</Authors>
     <Company>Schick Software Entwicklung</Company>
-    <Copyright>© Florian Schick, 2021 all rights reserved</Copyright>
+    <Copyright>© Florian Schick, 2021-2022 all rights reserved</Copyright>
     <Tags></Tags>
     <PackageDescription>$(Description)</PackageDescription>
     <Owners>$(Company)</Owners>

@@ -55,6 +55,8 @@ jobs:
         path: |
           ./**/TestResults/*.trx
           ./**/TestResults/*.html
+          ./FS.TimeTracking.UI.Angular/cypress/screenshots
+          ./FS.TimeTracking.UI.Angular/cypress/videos
         retention-days: 10
       if: ${{ always() }}
     
