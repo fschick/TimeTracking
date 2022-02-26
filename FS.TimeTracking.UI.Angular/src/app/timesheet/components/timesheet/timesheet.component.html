@@ -60,7 +60,7 @@
           [i18n] Show details
         </label>
       </div>
-      <button type="button" class="btn btn-sm btn-primary" [routerLink]="guidService.guidEmpty">
+      <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
         <ng-container i18n="@@Page.Timesheet.New">[i18n] New entry</ng-container>
       </button>
     </div>
@@ -130,7 +130,7 @@
           </div>
           <div class="col-2 col-md-auto col-action">
             <span class="d-block d-md-inline me-2">
-              <a class="text-success" (click)="restartTimeSheet(timeSheet.id)">
+              <a class="text-primary" (click)="restartTimeSheet(timeSheet.id)">
                 <svg *ngIf="timeSheet.endDate" class="bi action-icon" fill="currentColor">
                   <use xlink:href="assets/icons.svg#play-circle"/>
                 </svg>
