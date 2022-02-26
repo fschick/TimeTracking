@@ -8,11 +8,13 @@ describe('Date picker', () => {
   it('When end date is set, time is set to \'now\'', () => {
     cy.visit('/00000000-0000-0000-0000-000000000000');
 
-    const now = DateTime.now().toFormat('HH:mm');
     cy.get('#endDate').type("{selectall}1");
-    cy.get('#endTime')
-      .click()
-      .should('have.value', now);
+    cy.get('#endTime').click();
+
+    const now = DateTime.now();
+    const oneMinuteAhead = now.plus({minute: 1});
+    const expectedText = RegExp(`(${now.toFormat('HH:mm')}|${oneMinuteAhead.toFormat('HH:mm')})`);
+    cy.get('#endTime').invoke('val').should('match', expectedText);
   })
 
   it('When end date is changed, time remains unchanged', () => {
