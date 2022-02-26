@@ -1,0 +1,126 @@
+﻿@import "component-imports";
+@import "theme.overrides";
+
+/* ----------------------------------------- */
+/* Labels
+/* ----------------------------------------- */
+.form-label {
+  color: $gray-800;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* ----------------------------------------- */
+/* Form controls
+/* ----------------------------------------- */
+.form-control {
+  caret-color: $primary-500;
+  box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 0.05);
+
+  &:focus {
+    border: 2px solid $primary-300;
+    box-shadow: none;
+  }
+
+  &::placeholder{
+    color: $secondary-500;
+  }
+}
+
+/* ----------------------------------------- */
+/* Buttons
+/* ----------------------------------------- */
+.btn-primary {
+  color: $white;
+  border-width: 0;
+
+  &:focus {
+    color: $white;
+    box-shadow: none;
+    background-color: $primary-500;
+  }
+
+  &:hover {
+    color: $white;
+    background-color: $primary-700;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    color: $white;
+    background-color: $primary-800;
+    box-shadow: inset 0 3px 12px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  &:active:focus {
+    box-shadow: none;
+  }
+
+  &:disabled, &.disabled {
+    color: $secondary-700;
+    background-color: $secondary-200;
+  }
+}
+
+.btn-outline-secondary {
+  color: $primary-500;
+  border: 2px solid $primary-500;
+
+  &:focus {
+    color: $primary-500;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &:hover {
+    color: $primary-600;
+    background-color: $primary-100;
+    border: 2px solid $primary-600;
+  }
+
+  &:active {
+    color: $primary-800;
+    background-color: $primary-100;
+    border: 2px solid $primary-800;
+  }
+
+  &:active:focus {
+    box-shadow: none;
+  }
+
+  &:disabled, &.disabled {
+    color: $secondary-700;
+    background-color: $secondary-200;
+  }
+}
+
+.btn-secondary {
+  color: $primary-500;
+  background-color: $gray-100;
+  border-width: 0;
+
+  &:focus {
+    color: $primary-500;
+    box-shadow: none;
+    background-color: $gray-100;
+  }
+
+  &:hover {
+    color: $primary-600;
+    background-color: $primary-100;
+  }
+
+  &:active {
+    color: $primary-800;
+    background-color: $primary-100;
+  }
+
+  &:active:focus {
+    box-shadow: none;
+  }
+
+  &:disabled, &.disabled {
+    color: $secondary-700;
+    background-color: $secondary-200;
+  }
+}

@@ -1,6 +1,4 @@
-@import '~bootstrap/scss/functions.scss';
-@import '~bootstrap/scss/variables.scss';
-@import '~bootstrap/scss/mixins.scss';
+@import '/src/styles/component-imports';
 
 .row-header {
   color: $card-cap-color;

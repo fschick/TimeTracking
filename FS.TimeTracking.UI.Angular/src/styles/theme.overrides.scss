@@ -1,20 +1,88 @@
-﻿@import "fonts";
+﻿/* ----------------------------------------- */
+/* Font
+/* ----------------------------------------- */
+@import "fonts";
+
 $font-family-base: "Sarabun";
 
+/* ----------------------------------------- */
+/* Colors
+/* ----------------------------------------- */
+$primary-100: #E0ECE5;
+$primary-200: #C8E5D3;
+$primary-300: #9DDEB7;
+$primary-400: #4DCB80;
+$primary-500: #14B655;
+$primary-600: #138842;
+$primary-700: #106F36;
+$primary-800: #004D1F;
+$primary-900: #002910;
+$primary: $primary-500;
+
+$secondary-100: #F3F3F3;
+$secondary-200: #DFDFDF;
+$secondary-300: #CFCFCF;
+$secondary-400: #B8B8B8;
+$secondary-500: #989898;
+$secondary-600: #777777;
+$secondary-700: #5F5F5F;
+$secondary-800: #474747;
+$secondary-900: #292929;
+$secondary: $secondary-500;
+
+$success-100: #DEF6EF;
+$success-300: #80D9BF;
+$success-500: #23B88B;
+$success-700: #0D835F;
+$success-900: #0D563F;
+$success: $success-500;
+
+$warning-100: #FFF4D6;
+$warning-300: #F8D371;
+$warning-500: #FF9B00;
+$warning-700: #D85F00;
+$warning-900: #A33906;
+$warning: $warning-500;
+
+$danger-100: #FFDEE6;
+$danger-300: #F67795;
+$danger-500: #DD0034;
+$danger-700: #9D0D2F;
+$danger-900: #67061D;
+$danger: $danger-500;
+
+$info-100: #E6E7FA;
+$info-300: #9096EE;
+$info-500: #3C47FF;
+$info-700: #1F28B9;
+$info-900: #00055A;
+$info: $info-500;
+
+/* ----------------------------------------- */
+/* Buttons
+/* ----------------------------------------- */
+$btn-font-weight: bold;
+$btn-padding-x: 1.25rem;
+$btn-padding-y: 0.563rem;
+
+/* ----------------------------------------- */
+/* Inputs
+/* ----------------------------------------- */
+$input-padding-x: 1.25rem;
+$input-padding-y: 0.5rem;
+$input-color: #1B1B1B;
+$input-bg: $secondary-100;
+$input-border-color: $secondary-200;
+
+/* ----------------------------------------- */
+/* Misc overrides
+/* ----------------------------------------- */
 $enable-negative-margins: true;
 
-$primary: #0D3B66;
-//$secondary: ;
-$success: #628B48;
-$info: #6B9DFA;
-$warning: #F7A916;
-$danger: #D81E5B;
-$danger: #CC2936;
-//$light: ;
-//$dark: ;
-
+/* ----------------------------------------- */
+/* Old stuff
+/* ----------------------------------------- */
 // $spacer
-
 
 // https://coolors.co
 // https://color.adobe.com/de/create/color-wheel
