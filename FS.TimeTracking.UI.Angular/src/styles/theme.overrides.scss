@@ -1,4 +1,9 @@
-﻿$primary: #0D3B66;
+﻿@import "fonts";
+$font-family-base: "Sarabun";
+
+$enable-negative-margins: true;
+
+$primary: #0D3B66;
 //$secondary: ;
 $success: #628B48;
 $info: #6B9DFA;
@@ -7,6 +12,9 @@ $danger: #D81E5B;
 $danger: #CC2936;
 //$light: ;
 //$dark: ;
+
+// $spacer
+
 
 // https://coolors.co
 // https://color.adobe.com/de/create/color-wheel

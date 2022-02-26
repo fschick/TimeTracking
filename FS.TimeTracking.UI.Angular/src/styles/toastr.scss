@@ -1,5 +1,5 @@
-﻿@import "~bootstrap/scss/bootstrap";
-@import '~ngx-toastr/toastr';
+﻿@import '~ngx-toastr/toastr';
+@import "component-imports";
 
 .toast-success {
   background-color: $success;
