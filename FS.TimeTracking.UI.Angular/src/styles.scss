@@ -1,18 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* ----------------------------------------- */
+/* Font
+/* ----------------------------------------- */
+@import "styles/fonts";
+
+/* ----------------------------------------- */
 /* Bootstrap + Icons
 /* ----------------------------------------- */
-@import "styles/theme";
-
-$accordion-button-active-color: inherit;
-$accordion-button-active-bg: inherit;
-$enable-negative-margins: true;
-
-// DEV only
-//$enable-reduced-motion: false;
-
+@import "styles/theme.overrides";
+//$enable-reduced-motion: false; // DEV only
 @import "~bootstrap/scss/bootstrap";
+@import "styles/theme.styles";
 
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar.
@@ -33,12 +32,12 @@ html {
   cursor: pointer;
 }
 
-td.action-cell {
-  padding: 0 $table-cell-padding-x !important;
-}
-
 a {
   cursor: pointer;
+}
+
+td.action-cell {
+  padding: 0 $table-cell-padding-x !important;
 }
 
 .text-strong {
@@ -76,14 +75,8 @@ a {
 }
 
 /* ----------------------------------------- */
-/* bootstrap-icons
+/* Bootstrap-icons
 /* ----------------------------------------- */
-ts-icon {
-  height: 1rem;
-  width: 1rem;
-  display: inline-block;
-}
-
 .bi {
   width: 1em;
   height: 1em;
@@ -97,7 +90,7 @@ ts-icon {
 }
 
 /* ----------------------------------------- */
-/* bootstrap-datepicker
+/* Bootstrap-datepicker
 /* ----------------------------------------- */
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
