@@ -1,6 +1,4 @@
-@import '~bootstrap/scss/functions.scss';
-@import '~bootstrap/scss/variables.scss';
-@import '~bootstrap/scss/mixins.scss';
+@import '/src/styles/component-imports';
 
 .month-input {
   flex-grow: 0;

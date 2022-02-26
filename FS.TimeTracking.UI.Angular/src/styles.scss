@@ -6,6 +6,7 @@
 @import "styles/theme.overrides";
 //$enable-reduced-motion: false; // DEV only
 @import "~bootstrap/scss/bootstrap";
+@import "styles/theme.styles";
 
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar.
@@ -26,6 +27,10 @@ html {
   cursor: pointer;
 }
 
+a {
+  cursor: pointer;
+}
+
 td.action-cell {
   padding: 0 $table-cell-padding-x !important;
 }
@@ -37,10 +42,6 @@ td.action-cell {
   svg {
     vertical-align: -0.25rem;
   }
-}
-
-a {
-  cursor: pointer;
 }
 
 .text-strong {
@@ -78,7 +79,7 @@ a {
 }
 
 /* ----------------------------------------- */
-/* bootstrap-icons
+/* Bootstrap-icons
 /* ----------------------------------------- */
 ts-icon {
   height: 1rem;
@@ -87,7 +88,7 @@ ts-icon {
 }
 
 /* ----------------------------------------- */
-/* bootstrap-datepicker
+/* Bootstrap-datepicker
 /* ----------------------------------------- */
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
