@@ -3,14 +3,8 @@
 /* ----------------------------------------- */
 /* Bootstrap + Icons
 /* ----------------------------------------- */
-@import "styles/theme";
-$accordion-button-active-color: inherit;
-$accordion-button-active-bg: inherit;
-$enable-negative-margins: true;
-
-// DEV only
-//$enable-reduced-motion: false;
-
+@import "styles/theme.overrides";
+//$enable-reduced-motion: false; // DEV only
 @import "~bootstrap/scss/bootstrap";
 
 /* ----------------------------------------- */
