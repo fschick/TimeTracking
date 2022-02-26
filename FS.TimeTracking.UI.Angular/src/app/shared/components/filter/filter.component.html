@@ -5,14 +5,14 @@
     <button *ngIf="isFiltered$ | async"
             (click)="resetFilterForm()"
             type="button"
-            class="btn btn-sm btn-warning"
+            class="btn btn-primary"
             i18n="@@Component.Filter.Reset">
       [i18n] Reset filter
     </button>
     <button *ngIf="secondaryFilters && secondaryFilters.length"
             id="extended-filter-toggler"
             type="button"
-            class="btn btn-sm btn-outline-secondary collapsed ms-2"
+            class="btn btn-outline-secondary collapsed ms-2"
             data-bs-toggle="collapse"
             data-bs-target="#extendedFilter"
             aria-expanded="false"
