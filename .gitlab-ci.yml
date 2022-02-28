@@ -26,15 +26,6 @@ build:
   image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
   tags: [ linux, docker ]
   script:
-    # Install nodejs & openjdk
-    # - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-    # - apt-get update && apt-get -y install nodejs openjdk-17-jre
-    # Install chrome headless & xvfb
-    # - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    # - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
-    # - apt-get update && apt-get install -y google-chrome-stable xvfb
-    # Install cypress dependencies
-    # - apt-get update && apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 xvfb procps
     - Build/make_build.ps1 -version "0.0.0.0"
   rules:
       # If merge request exists: Run as (detached) merge request pipeline (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
@@ -79,6 +70,44 @@ test:
       - ./FS.TimeTracking.UI.Angular/cypress/videos
     expire_in: 1 week
     when: always
+
+deploy_framework:
+  stage: deploy
+  interruptible: true
+  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
+  tags: [ linux, docker ]
+  script:
+    - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
+  artifacts:
+    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
+    paths:
+      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    expire_in: 1 month
+
+deploy_docker:
+  stage: deploy
+  needs: [ deploy_framework ]
+  interruptible: true
+  image: docker:20.10.12
+  services: 
+   - name: docker:20.10.12-dind
+     command: [ "--insecure-registry=srv-docker-1:5000" ]
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  tags: [ linux, docker-in-docker ]
+  script:
+    - docker info
+    - docker build -t timetracking --build-arg PUBLISH_FOLDER="$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME" -f Build/make_publish_docker.docker .
+    - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
+    - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:latest
+    - docker push srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
+    - docker push srv-docker-1:5000/schicksoftware/timetracking:latest
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
 
 deploy_windows:
   stage: deploy

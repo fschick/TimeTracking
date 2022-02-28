@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-alpine3.14
+
+RUN adduser \
+  --disabled-password \
+  --home /opt/timetracking \
+  --gecos '' timetracking \
+  && chown -R timetracking /opt/timetracking \
+  && mkdir -p /var/timetracking \
+  && chown -R timetracking /var/timetracking
+
+USER timetracking
+
+WORKDIR /opt/timetracking
+
+ARG PUBLISH_FOLDER
+COPY $PUBLISH_FOLDER .
+
+ENV \
+  DOTNET_RUNNING_IN_CONTAINER=true \
+  ASPNETCORE_URLS=http://+:5000
+
+EXPOSE 5000
+
+ENTRYPOINT ["dotnet", "FS.TimeTracking.dll"]

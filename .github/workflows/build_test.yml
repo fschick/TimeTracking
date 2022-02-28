@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'microsoft'
-        java-version: '17'  
+        java-version: '17'
     - name: Build
       shell: pwsh
       run: Build/make_build.ps1 -version "0.0.0.0"
@@ -42,7 +42,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'microsoft'
-        java-version: '17'  
+        java-version: '17'
     - name: Test
       shell: pwsh
       run: Build/make_test.ps1
