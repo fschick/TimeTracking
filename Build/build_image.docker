@@ -1,0 +1,36 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+# node.js
+RUN apt-get update \
+	&& apt-get -y install \
+		openjdk-17-jre \
+	&& rm -rf /var/lib/apt/lists/*
+	
+# openjre
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+	&& apt-get update \
+	&& apt-get -y install \
+		nodejs \
+	&& rm -rf /var/lib/apt/lists/*
+	
+# cypress dependencies
+RUN apt-get update \
+	&& apt-get -y install \
+		libgtk2.0-0 \
+		libnotify-dev \
+		libgconf-2-4 \
+		libnss3 \
+		libxss1 \
+		libasound2 \
+		xvfb \
+		procps \
+	&& rm -rf /var/lib/apt/lists/*
+		
+# chrome headless
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
+	&& apt-get update \
+	&& apt-get -y install \
+		google-chrome-stable \
+		xvfb \
+	&& rm -rf /var/lib/apt/lists/*
