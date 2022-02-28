@@ -16,7 +16,11 @@ $fileVersion=$version -replace '(\d+(?:\.\d+)*)(.*)', '$1'
 $targetFramework="net6.0"
 $configuration="Release"
 $msBuildOutDir="FS.TimeTracking/FS.TimeTracking/bin/$configuration/$targetFramework"
-$msBuildPublishDir="$msBuildOutDir/$runtime/publish"
+if ($runtime) {
+	$msBuildPublishDir="$msBuildOutDir/$runtime/publish"
+} else {
+	$msBuildPublishDir="$msBuildOutDir/publish"
+}
 
 Npm-Restore
 Clean-Folder -folder $publshFolder

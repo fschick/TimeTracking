@@ -111,3 +111,19 @@ deploy_linux:
     paths:
       - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
     expire_in: 1 month
+
+deploy_framework:
+  stage: deploy
+  interruptible: true
+  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
+  tags: [ linux, docker ]
+  script:
+    - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
+  artifacts:
+    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
+    paths:
+      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    expire_in: 1 month

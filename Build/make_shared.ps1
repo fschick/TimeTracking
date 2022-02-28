@@ -171,11 +171,11 @@ function Publish-Tool([String] $configuration, [String] $targetFramework, [Strin
 
 	# Move Tool to publish folder
 	if ($runtime) {
-		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
-		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
+		Move-Item FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
+		Move-Item FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/$runtime/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
 	} else {
-		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
-		mv FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
+		Move-Item FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool $msBuildPublishDir -ErrorAction SilentlyContinue
+		Move-Item FS.TimeTracking.Tool/FS.TimeTracking.Tool/bin/$configuration/$targetFramework/publish/FS.TimeTracking.Tool.* $msBuildPublishDir
 	}
 }
 
@@ -183,22 +183,20 @@ function Publish-Ui([String] $msBuildPublishDir) {
 	Build-Ui
 
 	# Move SPA to publish folder
-	mv FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/webui
+	Move-Item FS.TimeTracking.UI.Angular/dist/TimeTracking $msBuildPublishDir/webui
 }
 
 function Publish-Merge-To-Artifact-Folder([String] $projectName, [String] $runtime, [String] $publshFolder, [String] $msBuildPublishDir) {
 	# Move application to publish folder
 	if (!$runtime) {
-		mv $msBuildPublishDir $publshFolder
+		Move-Item $msBuildPublishDir $publshFolder
 	} elseif ($runtime.StartsWith("win")) {
-		mv $msBuildPublishDir $publshFolder
-		cp $PSScriptRoot/service_windows.install.bat $publshFolder/$projectName.WindowsService.Install.bat
-		cp $PSScriptRoot/service_windows.uninstall.bat $publshFolder/$projectName.WindowsService.Uninstall.bat
+		Move-Item $msBuildPublishDir $publshFolder
+		Copy-Item $PSScriptRoot/service_windows.install.bat $publshFolder/$projectName.WindowsService.Install.bat
+		Copy-Item $PSScriptRoot/service_windows.uninstall.bat $publshFolder/$projectName.WindowsService.Uninstall.bat
 	} else {
-		New-Item $publshFolder/opt/$projectName -ItemType Directory
-		New-Item $publshFolder/etc/systemd/system -ItemType Directory
-		mv $msBuildPublishDir $publshFolder/opt/$projectName/bin
-		cp $PSScriptRoot/service_linux.service $publshFolder/etc/systemd/system/$projectName.service
+		Move-Item $msBuildPublishDir $publshFolder
+		Copy-Item $PSScriptRoot/service_linux.service $publshFolder/$projectName.service_linux.service
 	}
 }
 #endregion
