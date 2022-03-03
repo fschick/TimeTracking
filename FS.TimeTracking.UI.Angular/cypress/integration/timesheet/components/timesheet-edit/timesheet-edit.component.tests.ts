@@ -2,7 +2,6 @@
 import {GuidService} from '../../../../../src/app/shared/services/state-management/guid.service';
 import {RestApi} from '../../../../fixtures/services/restApi';
 
-
 describe('Create and edit', () => {
 
   before(() => {
