@@ -18,11 +18,13 @@
   box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 0.05);
 
   &:focus {
-    border: 2px solid $primary-300;
+    $border-width: 2px;
+    border: $border-width solid $primary-300;
     box-shadow: none;
+    padding: calc($input-padding-y - ($border-width / 2)) calc($input-padding-x - ($border-width / 2));
   }
 
-  &::placeholder{
+  &::placeholder {
     color: $secondary-500;
   }
 }
@@ -63,8 +65,10 @@
 }
 
 .btn-outline-secondary {
+  $border-width: 2px;
   color: $primary-500;
-  border: 2px solid $primary-500;
+  border: $border-width solid $primary-500;
+  padding: calc($btn-padding-y - $border-width) calc($btn-padding-x - $border-width);
 
   &:focus {
     color: $primary-500;

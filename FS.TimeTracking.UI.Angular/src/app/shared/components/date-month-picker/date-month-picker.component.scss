@@ -6,4 +6,6 @@
   min-width: 4rem;
   cursor: pointer;
   background-color: $input-bg;
+  padding-left: $input-btn-padding-x;
+  padding-right: $input-btn-padding-x;
 }
