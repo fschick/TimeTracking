@@ -1,4 +1,37 @@
 ﻿import {DateTime} from 'luxon';
+import {GuidService} from '../../../../../src/app/shared/services/state-management/guid.service';
+import {RestApi} from '../../../../fixtures/services/restApi';
+
+
+describe('Create and edit', () => {
+
+  before(() => {
+    const testId = GuidService.newGuid().substring(0, 8);
+    RestApi.createCustomer(testId).then(response => RestApi.createProject(testId, response.body.id));
+    RestApi.createActivity(testId);
+  })
+
+  it('When a record is created, it can be saved', () => {
+    cy.intercept('/api/v1/Typeahead/GetProjects').as('getProjects');
+    cy.intercept('/api/v1/Typeahead/GetActivities').as('getActivities');
+
+    cy.visit('/00000000-0000-0000-0000-000000000000');
+
+    cy.wait('@getProjects');
+    cy.wait('@getActivities');
+
+    cy.get('#projectId').click().type('{enter}');
+    cy.get('#activityId').click().type('{enter}');
+
+    cy.get('#timesheetForm').as('timesheetForm');
+    cy.get('@timesheetForm').should('exist');
+    cy.intercept('http://localhost:5000/api/v1/TimeSheet/Create').as('getTimeSheet');
+    cy.get('#save').click();
+
+    cy.get('@timesheetForm').should('not.exist');
+    cy.wait('@getTimeSheet').its('response.statusCode').should('eq', 200);
+  })
+})
 
 describe('Date picker', () => {
   beforeEach(() => {
@@ -29,7 +62,7 @@ describe('Date picker', () => {
       .should('have.value', '16:34');
   })
 
-  it('Should display existing entry unmodified after open', () => {
+  it('When existing entry is loaded, start and end date are displayed unmodified', () => {
     cy.visit('/88dd9b02-9db0-4e0d-ce5f-08d9f7c722f1');
 
     cy.get('#startTime')

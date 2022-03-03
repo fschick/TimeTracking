@@ -253,7 +253,7 @@ public class TimeTrackingDbContext : DbContext
 
         var properties = modelBuilder.Model
             .GetEntityTypes()
-            .Where(x => x.ClrType.GetInterface(nameof(IEntityModel)) != null)
+            .Where(entityType => entityType.ClrType.GetInterface(nameof(IEntityModel)) != null)
             .SelectMany(entityType => entityType.GetProperties())
             .Where(x => x.Name == nameof(IEntityModel.Created) || x.Name == nameof(IEntityModel.Modified))
             .ToList();

@@ -145,6 +145,9 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         var utcNow = DateTime.UtcNow;
         foreach (var entity in entities)
         {
+            if (entity is IIdEntityModel idEntityModel && idEntityModel.Id == Guid.Empty)
+                idEntityModel.Id = Guid.NewGuid();
+
             entity.Created = utcNow;
             entity.Modified = utcNow;
         }

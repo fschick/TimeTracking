@@ -1,4 +1,4 @@
-﻿describe('Table', () => {
+﻿describe('TimeSheet table', () => {
   beforeEach(() => {
     cy.intercept('GET', '/api/v1/TimeSheet/GetListFiltered**', {fixture: 'dto/TimeSheetListDto.single.json'}).as('default');
     cy.intercept('GET', '/api/v1/Workday/GetWorkedDaysInfo**', {fixture: 'dto/WorkedTimeInfoDto.single.json'}).as('default');
