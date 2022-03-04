@@ -76,8 +76,6 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   private readonly booleanTrueRegex = /^\s*(true|1|on)\s*$/i;
   private onFilterChanged: Observable<any> | undefined;
   private readonly subscriptions = new Subscription();
-  private readonly startDateFields: FilterControlName[] = ['timeSheetStartDate', 'orderStartDate', 'holidayStartDate'];
-  private readonly endDateFields: FilterControlName[] = ['timeSheetEndDate', 'orderDueDate', 'holidayEndDate'];
 
   constructor(
     private route: ActivatedRoute,
@@ -208,22 +206,17 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       return false;
 
     const filterValue = this.filterForm.value[filter.name];
+    const defaultValue = filter.defaultValue;
 
-    if (this.startDateFields.includes(filter.name)) {
-      const now = DateTime.now();
-      return filter.defaultValue == undefined
-        ? filterValue != undefined
-        : filterValue != filter.defaultValue && filterValue > now;
-    }
+    if (filterValue == null && defaultValue == null)
+      return false;
 
-    if (this.endDateFields.includes(filter.name)) {
-      const now = DateTime.now();
-      return filter.defaultValue == undefined
-        ? filterValue != undefined
-        : filterValue != filter.defaultValue && filterValue < now;
-    }
+    if ((filterValue == null && defaultValue != null) || (filterValue != null && defaultValue == null))
+      return true;
 
-    return filterValue != filter.defaultValue;
+    return filterValue instanceof DateTime
+      ? !filterValue.equals(defaultValue)
+      : filterValue !== defaultValue;
   }
 
   private createFilterForm(): FormGroup {
