@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild}
 import {Observable, Subject, Subscription} from 'rxjs';
 import {OrderReportService, OrderWorkTimeDto} from '../../../shared/services/api';
 import {single, switchMap} from 'rxjs/operators';
-import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormatService} from '../../../shared/services/format.service';
@@ -10,6 +10,7 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
 import {ApexAxisChartSeries,} from "ng-apexcharts";
 import {DateTime} from 'luxon';
 import {ChartOptions, ReportChartService} from '../../services/report-chart.service';
+import {UtilityService} from '../../../shared/services/utility.service';
 
 @Component({
   selector: 'ts-report-orders',
@@ -20,6 +21,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<OrderWorkTimeDto>;
   @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<OrderWorkTimeDto>;
   @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<OrderWorkTimeDto>;
+  @ViewChild('orderPeriodFooterTemplate', {static: true}) private orderPeriodFooterTemplate?: FooterCellTemplate<OrderWorkTimeDto>;
 
   public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
@@ -37,6 +39,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     public formatService: FormatService,
+    private utilityService: UtilityService,
     private reportService: OrderReportService,
     private localizationService: LocalizationService,
     private modalService: NgbModal,
@@ -87,6 +90,16 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     });
   }
 
+  public getMinPlanned(): string {
+    const minPlannedDate = DateTime.fromMillis(Math.min(...this.tableRows.filter(row => row.plannedStart).map(row => row.plannedStart!.toMillis())));
+    return this.formatService.formatDate(minPlannedDate);
+  }
+
+  public getMaxPlanned(): string {
+    const minPlannedDate = DateTime.fromMillis(Math.max(...this.tableRows.filter(row => row.plannedEnd).map(row => row.plannedEnd!.toMillis())));
+    return this.formatService.formatDate(minPlannedDate);
+  }
+
   private loadData(filter: FilteredRequestParams): Observable<OrderWorkTimeDto[]> {
     return this.reportService.getWorkTimesPerOrder(filter).pipe(single());
   }
@@ -119,6 +132,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
+      cssFooterRow: 'text-strong',
     };
   }
 
@@ -132,48 +146,62 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.OrderTitle:[i18n] Order`,
         prop: 'orderTitle',
         cssHeadCell: cssHeadCell,
+        footer: $localize`:@@Common.Sum:[i18n] Sum`,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,
         cssHeadCell: `${cssHeadCell}`,
         prop: 'plannedStart',
         headCellTemplate: this.orderPeriodHeadTemplate,
         dataCellTemplate: this.orderPeriodDataTemplate,
+        footerCellTemplate: this.orderPeriodFooterTemplate,
       },{
         title: $localize`:@@Page.Report.Common.Planned:[i18n] Planned`,
         prop: 'daysPlanned',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatDays(row.daysPlanned)} ${this.localizedDays}`,
+        footer: () => `${this.formatService.formatDays(this.utilityService.sum(this.tableRows.map(row => row.daysPlanned)))} ${this.localizedDays}`,
       }, {
         title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
         prop: 'ratioTotalPlanned',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.ratioTotalPlanned)} %`,
+        footer: '100 %',
       }, {
         title: $localize`:@@Page.Report.Common.Worked:[i18n] Worked`,
         prop: 'daysWorked',
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
         cssDataCell: 'text-nowrap text-end',
+        cssFooterCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
+        footer: () => `${this.formatService.formatDays(this.utilityService.sum(this.tableRows.map(row => row.daysWorked)))} ${this.localizedDays}`,
       }, {
         title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
         prop: 'ratioTotalWorked',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.ratioTotalWorked)} %`,
-      },  {
+        footer: '100 %',
+      }, {
         title: $localize`:@@Page.Report.Common.Remain:[i18n] Remain`,
         prop: 'daysDifference',
         cssHeadCell: `${cssHeadCell} text-end`,
         cssDataCell: 'text-nowrap text-end',
+        cssFooterCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysDifference)} ${this.localizedDays}`,
+        footer: () => `${this.formatService.formatDays(this.utilityService.sum(this.tableRows.map(row => row.daysDifference)))} ${this.localizedDays}`,
       }, {
         title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
         prop: 'percentDifference',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.percentDifference)} %`,
+        footer: () => `Ø ${this.formatService.formatRatio(this.utilityService.avg(this.tableRows.map(row => row.percentDifference).filter((x => x > 0))))} %`,
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',

@@ -10,6 +10,7 @@ import {LocalizationService} from '../../../shared/services/internationalization
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DateTime} from 'luxon';
 import {single, switchMap} from 'rxjs/operators';
+import {UtilityService} from '../../../shared/services/utility.service';
 
 @Component({
   selector: 'ts-report-activities',
@@ -36,6 +37,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
 
   constructor(
     public formatService: FormatService,
+    private utilityService: UtilityService,
     private reportService: ActivityReportService,
     private localizationService: LocalizationService,
     private modalService: NgbModal,
@@ -109,6 +111,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
+      cssFooterRow: 'text-strong',
     };
   }
 
@@ -122,18 +125,23 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.ActivityTitle:[i18n] Activity`,
         prop: 'activityTitle',
         cssHeadCell: cssHeadCell,
+        footer: $localize`:@@Common.Sum:[i18n] Sum`,
       }, {
         title: $localize`:@@Page.Report.Common.Worked:[i18n] Worked`,
         prop: 'daysWorked',
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
         cssDataCell: 'text-nowrap text-end',
+        cssFooterCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
+        footer: () => `${this.formatService.formatDays(this.utilityService.sum(this.tableRows.map(row => row.daysWorked)))} ${this.localizedDays}`,
       }, {
         title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
         prop: 'ratioTotalWorked',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.ratioTotalWorked)} %`,
+        footer: '100 %',
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',

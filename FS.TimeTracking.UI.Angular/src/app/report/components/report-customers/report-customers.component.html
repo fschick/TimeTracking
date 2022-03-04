@@ -8,7 +8,7 @@
 
 <!-- Chart -->
 <h4 class="d-inline-block" i18n="@@Page.Report.Customers.Title">
-  [i18n] Planned/actual by  customer
+  [i18n] Planned/actual by customer
 </h4>
 <div id="chart" *ngIf="chartSeries">
   <apx-chart
@@ -52,6 +52,10 @@
 <ng-template #orderPeriodDataTemplate let-row="row">
   <span class="d-none d-lg-inline">{{formatService.formatDate(row.plannedStart)}} - {{formatService.formatDate(row.plannedEnd)}}</span>
   <ts-icon *ngIf="row.plannedIsPartial" icon="bi bi-exclamation-triangle" class="action-icon text-warning ms-1"></ts-icon>
+</ng-template>
+
+<ng-template #orderPeriodFooterTemplate let-column="column">
+  <span class="d-none d-lg-inline">{{getMinPlanned()}} - {{getMaxPlanned()}}</span>
 </ng-template>
 
 <ng-template #infoCellTemplate let-row="row">

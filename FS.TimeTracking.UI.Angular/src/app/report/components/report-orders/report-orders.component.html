@@ -54,6 +54,10 @@
   <ts-icon *ngIf="row.plannedIsPartial" icon="bi bi-exclamation-triangle" class="action-icon text-warning ms-1"></ts-icon>
 </ng-template>
 
+<ng-template #orderPeriodFooterTemplate let-column="column">
+  <span class="d-none d-lg-inline">{{getMinPlanned()}} - {{getMaxPlanned()}}</span>
+</ng-template>
+
 <ng-template #infoCellTemplate let-row="row">
   <a class="text-secondary ms-2" (click)="openInfoDetail(infoDetailDialog)">
     <ts-icon icon="bi bi-box-arrow-up-right" class="action-icon"></ts-icon>

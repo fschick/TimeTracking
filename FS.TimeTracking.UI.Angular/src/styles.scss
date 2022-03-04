@@ -4,6 +4,7 @@
 /* Bootstrap + Icons
 /* ----------------------------------------- */
 @import "styles/theme";
+
 $accordion-button-active-color: inherit;
 $accordion-button-active-bg: inherit;
 $enable-negative-margins: true;
@@ -47,6 +48,10 @@ td.action-cell {
 
 a {
   cursor: pointer;
+}
+
+.text-strong {
+  font-weight: bold;
 }
 
 /* ----------------------------------------- */
