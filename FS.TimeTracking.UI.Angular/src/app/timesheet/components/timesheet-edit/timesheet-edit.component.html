@@ -31,7 +31,7 @@
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
           <label for="projectId" class="form-label" i18n="@@DTO.TimeSheetDto.ProjectId">[i18n] Project</label>
-          <ng-select [items]="projects$ | ngrxPush | tsNullWhenUndefined"
+          <ng-select [items]="projects$ | async"
                      dropdownPosition="bottom"
                      bindValue="id"
                      bindLabel="value"
@@ -47,7 +47,7 @@
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
           <label for="activityId" class="form-label" i18n="@@DTO.TimeSheetDto.ActivityId">[i18n] Activity</label>
-          <ng-select [items]="activities$ | ngrxPush | tsNullWhenUndefined"
+          <ng-select [items]="activities$ | async"
                      dropdownPosition="bottom"
                      bindValue="id"
                      bindLabel="value"
@@ -67,7 +67,7 @@
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
           <label for="orderId" class="form-label" i18n="@@DTO.TimeSheetDto.OrderId">[i18n] Order</label>
-          <ng-select [items]="orders$ | ngrxPush | tsNullWhenUndefined"
+          <ng-select [items]="orders$ | async"
                      dropdownPosition="bottom"
                      bindValue="id"
                      bindLabel="value"

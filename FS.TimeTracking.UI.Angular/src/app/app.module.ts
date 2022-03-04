@@ -27,7 +27,6 @@ import {MasterDataCustomersEditComponent} from './master-data/components/master-
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
-import {ReactiveComponentModule} from '@ngrx/component';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
@@ -58,7 +57,6 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
-import { NullWhenUndefinedPipe } from './shared/pipes/null-when-undefined.pipe';
 
 @NgModule({
   declarations: [
@@ -97,7 +95,6 @@ import { NullWhenUndefinedPipe } from './shared/pipes/null-when-undefined.pipe';
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
-    NullWhenUndefinedPipe,
   ],
   imports: [
     BrowserModule,
@@ -106,7 +103,6 @@ import { NullWhenUndefinedPipe } from './shared/pipes/null-when-undefined.pipe';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ReactiveComponentModule,
     NgSelectModule,
     NgApexchartsModule,
     NgbModalModule,
