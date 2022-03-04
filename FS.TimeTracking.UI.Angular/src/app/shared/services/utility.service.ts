@@ -20,15 +20,6 @@ export class UtilityService {
     this.digitGroupingChars = new RegExp(`[^${this.digitCharPattern}]`, 'g');
   }
 
-  public formatNumber(value?: number, options?: Intl.NumberFormatOptions): string {
-    if (value === undefined)
-      return '';
-
-    options = options ?? {maximumFractionDigits: 20};
-    const numberFormatter = new Intl.NumberFormat(this.localizationService.language, options);
-    return numberFormatter.format(value);
-  }
-
   public parseNumber(value?: string, fractionDigits?: number): number | undefined {
     if (value === undefined)
       return undefined;

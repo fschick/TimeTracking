@@ -15,6 +15,15 @@ export class FormatService {
     private decimalPipe: DecimalPipe
   ) { }
 
+  public formatNumber(value?: number, options?: Intl.NumberFormatOptions): string {
+    if (value === undefined)
+      return '';
+
+    options = options ?? {maximumFractionDigits: 20};
+    const numberFormatter = new Intl.NumberFormat(this.localizationService.language, options);
+    return numberFormatter.format(value);
+  }
+
   public formatDate(value: DateTime | null | undefined, format: string | DateTimeFormatOptions = this.localizationService.dateTime.dateFormat): string {
     if (value === null || value === undefined)
       return '';

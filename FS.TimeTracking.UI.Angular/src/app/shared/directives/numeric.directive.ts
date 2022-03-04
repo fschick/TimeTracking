@@ -2,6 +2,7 @@ import {Directive, ElementRef, forwardRef, HostListener, Input, Optional} from '
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {LocalizationService} from '../services/internationalization/localization.service';
 import {UtilityService} from '../services/utility.service';
+import {FormatService} from '../services/format.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -29,6 +30,7 @@ export class NumericDirective implements ControlValueAccessor {
   constructor(
     private elementRef: ElementRef,
     private utilityService: UtilityService,
+    private formatService: FormatService,
     localizationService: LocalizationService,
   ) {
     this.inputElement = this.elementRef.nativeElement;
@@ -47,7 +49,7 @@ export class NumericDirective implements ControlValueAccessor {
 
     if (rawInput === undefined || this.previousRawInput === undefined) {
       const newValue2 = this.utilityService.parseNumber(rawInput);
-      const newRawInput2 = this.utilityService.formatNumber(newValue2);
+      const newRawInput2 = this.formatService.formatNumber(newValue2);
       this.setRawInput(newRawInput2);
       this.emitValue(newValue2);
       return;
@@ -63,7 +65,7 @@ export class NumericDirective implements ControlValueAccessor {
     }
 
     const newValue = this.utilityService.parseNumber(rawInput);
-    let newRawInput = this.utilityService.formatNumber(newValue);
+    let newRawInput = this.formatService.formatNumber(newValue);
 
     const nonModifyingTail = rawInput.match(this.nonModifyingTail);
     if (nonModifyingTail != null)
@@ -88,7 +90,7 @@ export class NumericDirective implements ControlValueAccessor {
     const newValue = this.utilityService.parseNumber(rawInput, fractionDigits);
 
     const options = fractionDigits ? {minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits} : undefined;
-    const newRawInput = this.utilityService.formatNumber(newValue, options);
+    const newRawInput = this.formatService.formatNumber(newValue, options);
 
     if (newRawInput !== rawInput) {
       this.setRawInput(newRawInput);
@@ -99,7 +101,7 @@ export class NumericDirective implements ControlValueAccessor {
   public writeValue(value: number | undefined): void {
     const fractionDigits = this.tsNumeric?.fractionDigits;
     const options = fractionDigits ? {minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits} : undefined;
-    const newRawInput = this.utilityService.formatNumber(value, options);
+    const newRawInput = this.formatService.formatNumber(value, options);
     this.setRawInput(newRawInput);
   }
 
