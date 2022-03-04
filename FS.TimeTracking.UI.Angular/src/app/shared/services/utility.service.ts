@@ -93,4 +93,14 @@ export class UtilityService {
     });
     return result;
   }
+
+  public sum(array: Array<number>): number {
+    return array.reduce((prev, current) => prev + current, 0);
+  }
+
+  public avg(array: Array<number>): number {
+    if (array.length === 0)
+      return 0;
+    return this.sum(array) / array.length;
+  }
 }
