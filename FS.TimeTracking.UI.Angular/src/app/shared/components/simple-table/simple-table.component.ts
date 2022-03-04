@@ -31,6 +31,11 @@ export type HeadCellTemplate<TRow> = TemplateRef<{
   table: SimpleTableComponent<TRow>;
 }>;
 
+export type FooterCellTemplate<TRow> = TemplateRef<{
+  column: Column<TRow>;
+  table: SimpleTableComponent<TRow>;
+}>;
+
 export type FilterCellTemplate<TRow> = TemplateRef<{
   column: Column<TRow>;
   filters: Filters<TRow>;
@@ -58,6 +63,8 @@ export class Configuration<TRow> {
   public cssFilterCell = '';
   public cssDataRow = '';
   public cssDataCell = '';
+  public cssFooterRow = '';
+  public cssFooterCell = '';
   public cssSortEnabled = 'sort-enabled';
   public cssSortAsc = 'sort-asc';
   public cssSortDesc = 'sort-desc';
@@ -76,10 +83,12 @@ export class Configuration<TRow> {
 export type Column<TRow> = {
   title?: string;
   prop?: keyof TRow;
+  footer?: string | ((column: Column<TRow>) => string),
   customId?: string;
   cssHeadCell?: string | ((column: Column<TRow>) => string);
   cssFilterCell?: string | ((column: Column<TRow>) => string);
   cssDataCell?: string | ((row: TRow, column: Column<TRow>) => string);
+  cssFooterCell?: string | ((column: Column<TRow>) => string);
   width?: string;
   format?: ((row: TRow, column: Column<TRow>) => string | undefined);
   sortable?: boolean;
@@ -90,6 +99,7 @@ export type Column<TRow> = {
   filterCellTemplate?: FilterCellTemplate<TRow>;
   headCellTemplate?: HeadCellTemplate<TRow>;
   dataCellTemplate?: DataCellTemplate<TRow>;
+  footerCellTemplate?: FooterCellTemplate<TRow>;
 };
 
 @Component({
@@ -191,6 +201,12 @@ export class SimpleTableComponent<TRow> {
     return column.cssDataCell ? column.cssDataCell : '';
   }
 
+  public getCssFooterCell(column: Column<TRow>): string {
+    if (typeof column.cssFooterCell === 'function')
+      return column.cssFooterCell(column);
+    return column.cssFooterCell ? column.cssFooterCell : '';
+  }
+
   public getCssSortOrder(column: Column<TRow>): string {
     const sortKey = this.getSortKey(column);
     if (sortKey === undefined)
@@ -224,6 +240,17 @@ export class SimpleTableComponent<TRow> {
     return column.prop !== undefined
       ? this.toString(row[column.prop])
       : '';
+  }
+
+  public getFooterValue(column: Column<TRow>): string {
+    if (typeof column.footer === 'function')
+      return column.footer(column) ?? '';
+
+    return column.footer ?? '';
+  }
+
+  public getFooterRequired(): boolean {
+    return this.columns?.some(x => x.footer !== undefined) ?? false;
   }
 
   public applySortOrder(column: Column<TRow>, $event: MouseEvent) {
@@ -306,7 +333,7 @@ export class SimpleTableComponent<TRow> {
   private sortAndFilterRows() {
     if (!this.columns)
       return;
-    
+
     this.sortRows();
     this.applyFilter();
     this.rowsChanged.emit({rows: this.filteredRows, table: this});

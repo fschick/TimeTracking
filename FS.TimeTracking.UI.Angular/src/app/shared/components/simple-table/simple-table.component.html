@@ -7,8 +7,8 @@
     <ng-container *ngTemplateOutlet="configuration.filterRowTemplate ? configuration.filterRowTemplate : defaultFilterRowTemplate; context: getHeaderRowContext()"></ng-container>
     <ng-container *ngTemplateOutlet="configuration.dataRowTemplate ? configuration.dataRowTemplate : defaultDataRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tbody>
-    <tfoot *ngIf="configuration.footRowTemplate">
-    <ng-container *ngTemplateOutlet="configuration.footRowTemplate; context: getHeaderRowContext()"></ng-container>
+    <tfoot *ngIf="configuration.footRowTemplate || getFooterRequired()">
+    <ng-container *ngTemplateOutlet="configuration.footRowTemplate ? configuration.footRowTemplate:defaultFooterRowTemplate; context: getHeaderRowContext()"></ng-container>
     </tfoot>
   </table>
 </div>
@@ -27,10 +27,9 @@
 
 <ng-template #defaultFilterRowTemplate let-columns="columns">
   <tr *ngIf="configuration.filterRow">
-    <td
-      *ngFor="let column of columns;"
-      [ngClass]="[configuration.cssFilterCell, getCssFilterCell(column)]"
-      [style]="getColumnWidth(column)">
+    <td *ngFor="let column of columns;"
+        [ngClass]="[configuration.cssFilterCell, getCssFilterCell(column)]"
+        [style]="getColumnWidth(column)">
       <ng-container *ngIf="column.filterable !== 'no'">
         <ng-container *ngTemplateOutlet="column.filterCellTemplate ? column.filterCellTemplate : defaultFilterCellTemplate; context: getFilterCellContext(column)"></ng-container>
       </ng-container>
@@ -39,15 +38,23 @@
 </ng-template>
 
 <ng-template #defaultDataRowTemplate let-columns="columns">
-  <tr
-    *ngFor="let row of filteredRows; index as index, count as count; first as first; last as last; even as even; odd as odd; trackBy: configuration.trackBy;"
-    [class]="configuration.cssDataRow">
-    <td
-      *ngFor="let column of columns;"
-      [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
-      [style]="getColumnWidth(column)"
-      (click)="onDataCellClick(row, column, $event)">
+  <tr *ngFor="let row of filteredRows; index as index, count as count; first as first; last as last; even as even; odd as odd; trackBy: configuration.trackBy;"
+      [class]="configuration.cssDataRow">
+    <td *ngFor="let column of columns;"
+        [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
+        [style]="getColumnWidth(column)"
+        (click)="onDataCellClick(row, column, $event)">
       <ng-container *ngTemplateOutlet="column.dataCellTemplate ? column.dataCellTemplate : defaultDataCellTemplate; context: getDataCellContext(row, column, index, count, first, last,even, odd)"></ng-container>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #defaultFooterRowTemplate let-columns="columns">
+  <tr [class]="configuration.cssFooterRow">
+    <td *ngFor="let column of columns;"
+        [ngClass]="[configuration.cssFooterCell, getCssFooterCell(column)]"
+        [style]="getColumnWidth(column)">
+      <ng-container *ngTemplateOutlet="column.footerCellTemplate ? column.footerCellTemplate : defaultFooterCellTemplate; context: getHeaderCellContext(column)"></ng-container>
     </td>
   </tr>
 </ng-template>
@@ -67,4 +74,8 @@
 
 <ng-template #defaultDataCellTemplate let-row="row" let-column="column">
   {{getCellValue(row, column)}}
+</ng-template>
+
+<ng-template #defaultFooterCellTemplate let-row="row" let-column="column">
+  {{getFooterValue(column)}}
 </ng-template>
