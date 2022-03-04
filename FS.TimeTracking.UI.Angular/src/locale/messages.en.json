@@ -34,8 +34,8 @@
       "Delete": "Delete entry",
       "DeleteMessage": "Are you sure you want to delete this entry? This cannot be undone.",
       "WorkedDays": "days worked",
-      "Workdays": "workdays",
-      "Holidays": "holidays",
+      "Workdays": "working days",
+      "VacationDays": "vacation days",
       "OmittedEntities": "{$OMITTED} additional entries are omitted to avoid performance problems."
     },
     "Report": {

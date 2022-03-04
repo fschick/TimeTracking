@@ -17,9 +17,11 @@
       ({{overview.workedDays | number:'1.0-1'}}
       <ng-container i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</ng-container>{{', '}}
       {{overview.workdays | number:'1.0-1'}}
-      <ng-container i18n="@@Page.Timesheet.Workdays">[i18n] workdays</ng-container>{{', '}}
-      {{overview.holidays | number:'1.0-1'}}
-      <ng-container i18n="@@Page.Timesheet.Holidays">[i18n] holidays</ng-container>)
+      <ng-container i18n="@@Page.Timesheet.Workdays">[i18n] working days</ng-container>
+      <ng-container *ngIf="overview.holidays > 0">{{', '}}
+        {{overview.holidays | number:'1.0-1'}}
+        <ng-container i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</ng-container>
+      </ng-container>)
     </div>
     <div class="d-flex align-items-center">
       <div class="form-check d-inline-block me-3">
