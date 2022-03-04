@@ -2,6 +2,10 @@
 @import '~bootstrap/scss/variables.scss';
 @import '~bootstrap/scss/mixins.scss';
 
+::ng-deep .popover.workday-info {
+  max-width: 100%;
+}
+
 .row-header {
   color: $card-cap-color;
   background-color: $card-cap-bg;

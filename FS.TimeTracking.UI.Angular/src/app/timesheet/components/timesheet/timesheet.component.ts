@@ -21,12 +21,12 @@ interface TimeSheetDayGroupDto {
 }
 
 class TimeSheetOverviewDto {
+  workedDays = 0;
+  workedDaysDuration = Duration.fromMillis(0);
   workdays = 0;
   workdaysDuration = Duration.fromMillis(0);
   holidays = 0;
   holidaysDuration = Duration.fromMillis(0);
-  workedDays = 0;
-  workedTime = Duration.fromMillis(0);
   workDayTimeSheets: TimeSheetDayGroupDto[] = [];
   omittedTimeSheets = 0;
 }
@@ -184,7 +184,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       workdaysDuration: workdaysDuration,
       holidays: holidays,
       holidaysDuration: holidaysDuration,
-      workedTime: workedTime,
+      workedDaysDuration: workedTime,
       workedDays: workedDays,
       workDayTimeSheets: workDaysToDisplay,
       omittedTimeSheets: omittedTimeSheets

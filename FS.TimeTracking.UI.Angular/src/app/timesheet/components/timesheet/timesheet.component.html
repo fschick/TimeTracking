@@ -22,6 +22,35 @@
         {{overview.holidays | number:'1.0-1'}}
         <ng-container i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</ng-container>
       </ng-container>)
+
+      <ng-template #workdayInfoPopover>
+        <table class="table table-striped table-borderless table-sm">
+          <tr>
+            <td i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</td>
+            <td class="pe-2">:</td>
+            <td class="text-end pe-2">{{overview.workedDays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
+            <td class="text-end">{{overview.workedDaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>
+          </tr>
+          <tr>
+            <td i18n="@@Page.Timesheet.Workdays">[i18n] working days</td>
+            <td class="pe-2">:</td>
+            <td class="text-end pe-2">{{overview.workdays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
+            <td class="text-end">{{overview.workdaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>
+          </tr>
+          <tr>
+            <td i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</td>
+            <td class="pe-2">:</td>
+            <td class="text-end pe-2">{{overview.holidays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
+            <td class="text-end">{{overview.holidaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>
+          </tr>
+        </table>
+      </ng-template>
+      <ts-icon icon="bi bi-info-circle"
+               class="text-info"
+               [ngbPopover]="workdayInfoPopover"
+               popoverClass="workday-info"
+               [autoClose]="'outside'">
+      </ts-icon>
     </div>
     <div class="d-flex align-items-center">
       <div class="form-check d-inline-block me-3">

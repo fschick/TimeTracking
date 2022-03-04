@@ -54,7 +54,7 @@ import {MasterDataSettingsComponent} from './master-data/components/master-data-
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
 
@@ -106,6 +106,7 @@ import { DateMonthPickerComponent } from './shared/components/date-month-picker/
     NgSelectModule,
     NgApexchartsModule,
     NgbModalModule,
+    NgbPopoverModule,
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'
