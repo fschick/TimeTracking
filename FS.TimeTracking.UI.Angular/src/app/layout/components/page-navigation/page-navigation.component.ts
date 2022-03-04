@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
+import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 
 @Component({
   selector: 'ts-page-navigation',
@@ -7,9 +8,19 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ['./page-navigation.component.scss']
 })
 export class PageNavigationComponent {
-  isDevelopment: boolean;
+  public isDevelopment: boolean;
+  public currentLanguage: string;
 
-  constructor() {
+
+  constructor(
+    private localizationService: LocalizationService
+  ) {
     this.isDevelopment = !environment.production;
+    this.currentLanguage = localizationService.language;
+  }
+
+  public setLanguage(language: string): void {
+    this.localizationService.language = language;
+    location.reload();
   }
 }

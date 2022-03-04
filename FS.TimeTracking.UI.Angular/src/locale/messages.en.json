@@ -15,6 +15,11 @@
     "Yes": "Yes",
     "No": "No"
   },
+  "Language": {
+    "Title": "Language",
+    "German": "German (Deutsch)",
+    "English": "English (English)"
+  },
   "Abbreviations": {
     "Hours": "h",
     "Days": "days"
