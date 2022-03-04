@@ -48,13 +48,14 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
     this.filters = [
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
-      {name: 'timeSheetBillable', defaultValue: true},
       {name: 'customerId'},
+      {name: 'orderId'},
       {name: 'projectId'},
       {name: 'activityId'},
-      {name: 'orderId'},
-      {name: 'timeSheetIssue'}
+      {name: 'timeSheetIssue'},
+      {name: 'timeSheetBillable', defaultValue: true},
     ];
+
     this.chartOptions = this.reportChartService.createChartOptions();
     this.tableConfiguration = this.createTableConfiguration();
   }
