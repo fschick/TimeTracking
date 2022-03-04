@@ -2,7 +2,7 @@
 <div class="d-flex justify-content-between align-items-start mb-2">
   <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Filter</h4>
   <div>
-    <button *ngIf="isFiltered$ | ngrxPush"
+    <button *ngIf="isFiltered$ | async"
             (click)="resetFilterForm()"
             type="button"
             class="btn btn-sm btn-warning"
@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<form id="filterForm" [formGroup]="filterForm">
+<form *ngIf="filterForm !== undefined" id="filterForm" [formGroup]="filterForm">
 
   <ng-container *ngIf="filterTemplates">
     <!-- Standard filter -->

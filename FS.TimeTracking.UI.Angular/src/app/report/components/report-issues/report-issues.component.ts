@@ -56,17 +56,16 @@ export class ReportIssuesComponent implements OnInit, OnDestroy {
       {name: 'timeSheetIssue'}
     ];
 
-    const filterChanged = this.filterChanged
-      .pipe(switchMap(filter => this.loadData(filter)))
-      .subscribe(x => this.tableRows = x);
-
-    this.subscriptions.add(filterChanged);
-
     this.chartOptions = this.reportChartService.createChartOptions();
     this.tableConfiguration = this.createTableConfiguration();
   }
 
   public ngOnInit(): void {
+    const filterChanged = this.filterChanged
+      .pipe(switchMap(filter => this.loadData(filter)))
+      .subscribe(x => this.tableRows = x);
+    this.subscriptions.add(filterChanged);
+
     this.tableColumns = this.createTableColumns();
   }
 

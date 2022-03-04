@@ -1,6 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TimeSheetDto, TimeSheetListDto, TimeSheetService, WorkdayService, WorkedTimeInfoDto} from '../../../shared/services/api';
-import {map, single, switchMap} from 'rxjs/operators';
+import {map, single, switchMap, tap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -36,7 +36,7 @@ class TimeSheetOverviewDto {
   templateUrl: './timesheet.component.html',
   styleUrls: ['./timesheet.component.scss']
 })
-export class TimesheetComponent implements OnDestroy {
+export class TimesheetComponent implements OnInit, OnDestroy {
   public guidService = GuidService;
   public overview?: TimeSheetOverviewDto;
   public filterChanged = new Subject<FilteredRequestParams>();
@@ -67,11 +67,6 @@ export class TimesheetComponent implements OnDestroy {
     const defaultStartDate = DateTime.now().startOf('month');
     const defaultEndDate = DateTime.now().endOf('month');
 
-    const loadTimeSheets = this.filterChanged
-      .pipe(switchMap(filter => this.loadData(filter)))
-      .subscribe((overview) => this.overview = overview);
-    this.subscriptions.add(loadTimeSheets);
-
     this.filters = [
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
@@ -82,6 +77,13 @@ export class TimesheetComponent implements OnDestroy {
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'}
     ];
+  }
+
+  public ngOnInit(): void {
+    const loadTimeSheets = this.filterChanged
+      .pipe(switchMap(filter => this.loadData(filter)))
+      .subscribe((overview) => this.overview = overview);
+    this.subscriptions.add(loadTimeSheets);
   }
 
   public ngOnDestroy(): void {

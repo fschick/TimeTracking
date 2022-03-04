@@ -45,18 +45,17 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
       {name: 'customerId', showHidden: true},
       {name: 'projectHidden'},
     ];
+  }
 
+  public ngOnInit(): void {
     const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService),
       )
       .subscribe(rows => this.rows = rows);
-
     this.subscriptions.add(filterChanged);
-  }
 
-  public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-card table-sm align-middle text-break border',

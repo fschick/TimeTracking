@@ -46,18 +46,17 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       {name: 'orderId', showHidden: true},
       {name: 'customerId', showHidden: true},
     ];
+  }
 
+  public ngOnInit(): void {
     const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService),
       )
       .subscribe(rows => this.rows = rows);
-
     this.subscriptions.add(filterChanged);
-  }
 
-  public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-card table-sm align-middle text-break border',

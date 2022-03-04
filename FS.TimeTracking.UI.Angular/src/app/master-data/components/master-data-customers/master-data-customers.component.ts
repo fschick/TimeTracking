@@ -45,18 +45,17 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
       {name: 'customerCompanyName'},
       {name: 'customerHidden'},
     ];
+  }
 
+  public ngOnInit(): void {
     const filterChanged = this.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService),
       )
       .subscribe(rows => this.rows = rows);
-
     this.subscriptions.add(filterChanged);
-  }
 
-  public ngOnInit(): void {
     this.configuration = {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-card table-sm align-middle text-break border',
