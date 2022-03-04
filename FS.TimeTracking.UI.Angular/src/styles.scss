@@ -58,7 +58,7 @@ a {
 /* Table-Card
 /* ----------------------------------------- */
 .table-card {
-  thead {
+  & > thead {
     tr {
       & > * {
         padding-top: $card-cap-padding-y !important;
@@ -99,6 +99,13 @@ ts-icon {
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
   color: #E0E0E0;
+}
+
+/* ----------------------------------------- */
+/* Popover
+/* ----------------------------------------- */
+.popover.popup-full-width {
+  max-width: 100%;
 }
 
 /* ----------------------------------------- */

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {ProjectReportService, ProjectWorkTimeDto} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
@@ -7,7 +7,6 @@ import {ChartOptions, ReportChartService} from '../../services/report-chart.serv
 import {ApexAxisChartSeries} from 'ng-apexcharts';
 import {FormatService} from '../../../shared/services/format.service';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DateTime} from 'luxon';
 import {single, switchMap} from 'rxjs/operators';
 import {UtilityService} from '../../../shared/services/utility.service';
@@ -40,7 +39,6 @@ export class ReportProjectsComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private reportService: ProjectReportService,
     private localizationService: LocalizationService,
-    private modalService: NgbModal,
     private reportChartService: ReportChartService,
     private changeDetector: ChangeDetectorRef,
   ) {
@@ -78,13 +76,6 @@ export class ReportProjectsComponent implements OnInit, OnDestroy {
   public tableRowsChanged(rows: Array<ProjectWorkTimeDto>): void {
     this.chartSeries = this.createSeries(rows);
     this.changeDetector.detectChanges();
-  }
-
-  public openInfoDetail(infoDetailDialog: TemplateRef<any>) {
-    this.modalService.open(infoDetailDialog, {
-      centered: true,
-      size: 'lg',
-    });
   }
 
   private loadData(filter: FilteredRequestParams): Observable<ProjectWorkTimeDto[]> {
@@ -125,7 +116,7 @@ export class ReportProjectsComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Sum:[i18n] Sum`,
+        footer: $localize`:@@Common.Summary:[i18n] Summary`,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
@@ -150,10 +141,11 @@ export class ReportProjectsComponent implements OnInit, OnDestroy {
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',
-        cssHeadCell: `${cssHeadCell} text-end`,
-        cssDataCell: 'text-end',
+        cssHeadCell: `${cssHeadCell} ps-3 text-center`,
+        cssDataCell: 'ps-3 text-center',
         dataCellTemplate: this.infoCellTemplate,
-        sortable: false
+        sortable: false,
+        width: '1%',
       }
     ];
   }

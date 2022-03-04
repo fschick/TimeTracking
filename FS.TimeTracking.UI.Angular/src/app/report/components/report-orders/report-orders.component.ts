@@ -1,10 +1,9 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {OrderReportService, OrderWorkTimeDto} from '../../../shared/services/api';
 import {single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormatService} from '../../../shared/services/format.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ApexAxisChartSeries,} from "ng-apexcharts";
@@ -42,7 +41,6 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private reportService: OrderReportService,
     private localizationService: LocalizationService,
-    private modalService: NgbModal,
     private reportChartService: ReportChartService,
     private changeDetector: ChangeDetectorRef,
   ) {
@@ -81,13 +79,6 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
     this.chartSeries = this.createSeries(rows);
     this.plannedArePartial = rows.some(r => r.plannedIsPartial);
     this.changeDetector.detectChanges();
-  }
-
-  public openInfoDetail(infoDetailDialog: TemplateRef<any>) {
-    this.modalService.open(infoDetailDialog, {
-      centered: true,
-      size: 'lg',
-    });
   }
 
   public getMinPlanned(): string {
@@ -146,7 +137,7 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.OrderTitle:[i18n] Order`,
         prop: 'orderTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Sum:[i18n] Sum`,
+        footer: $localize`:@@Common.Summary:[i18n] Summary`,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,
         cssHeadCell: `${cssHeadCell}`,
@@ -205,10 +196,11 @@ export class ReportOrdersComponent implements OnInit, OnDestroy {
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',
-        cssHeadCell: `${cssHeadCell} text-end`,
-        cssDataCell: 'text-end',
+        cssHeadCell: `${cssHeadCell} ps-3 text-center`,
+        cssDataCell: 'ps-3 text-center',
         dataCellTemplate: this.infoCellTemplate,
-        sortable: false
+        sortable: false,
+        width: '1%',
       }
     ];
   }
