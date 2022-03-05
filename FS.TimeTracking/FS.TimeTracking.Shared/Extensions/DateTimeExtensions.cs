@@ -48,7 +48,7 @@ public static class DateTimeExtensions
     /// <param name="to">End date.</param>
     public static IEnumerable<DateTime> GetDays(this DateTime from, DateTime to)
         => Enumerable
-            .Range(0, (int)Math.Abs(Math.Round((to - from).TotalDays, MidpointRounding.AwayFromZero)))
+            .Range(0, (int)Math.Abs(Math.Round((to - from).TotalDays + 1, MidpointRounding.AwayFromZero)))
             .Select(x => from.AddDays(x));
 
     /// <summary>

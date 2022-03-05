@@ -62,7 +62,7 @@ public class WorkdayService : IWorkdayService
             WorkedTime = TimeSpan.Zero
         };
 
-        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter);
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter, true);
 
         var minStart = DateTimeOffset.MinValue.AddDays(1);
         var maxEnd = DateTimeOffset.MaxValue.AddDays(-1);
