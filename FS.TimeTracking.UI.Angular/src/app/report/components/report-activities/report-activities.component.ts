@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Column, Configuration, DataCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
-import {ActivityReportService, ActivityWorkTimeDto} from '../../../shared/services/api';
+import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
+import {ActivityReportService, ActivityWorkTimeDto, OrderWorkTimeDto, ProjectWorkTimeDto} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ChartOptions, ReportChartService} from '../../services/report-chart.service';
@@ -20,6 +20,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
   @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<ActivityWorkTimeDto>;
   @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<ActivityWorkTimeDto>;
   @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<ActivityWorkTimeDto>;
+  @ViewChild('infoFooterTemplate', {static: true}) private infoFooterTemplate?: FooterCellTemplate<ActivityWorkTimeDto>;
 
   public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
@@ -29,6 +30,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
   public tableConfiguration: Partial<Configuration<ActivityWorkTimeDto>>;
   public tableColumns?: Column<ActivityWorkTimeDto>[];
   public tableRows: ActivityWorkTimeDto[] = [];
+  public tableFooter: Partial<ActivityWorkTimeDto> = {};
   private readonly subscriptions = new Subscription();
 
   public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
@@ -63,7 +65,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const filterChanged = this.filterChanged
       .pipe(switchMap(filter => this.loadData(filter)))
-      .subscribe(x => this.tableRows = x);
+      .subscribe(rows => this.setTableData(rows));
     this.subscriptions.add(filterChanged);
 
     this.tableColumns = this.createTableColumns();
@@ -80,6 +82,17 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
 
   private loadData(filter: FilteredRequestParams): Observable<ActivityWorkTimeDto[]> {
     return this.reportService.getWorkTimesPerActivity(filter).pipe(single());
+  }
+
+  private setTableData(rows: ActivityWorkTimeDto[]) {
+    this.tableRows = rows;
+    this.tableFooter = {
+      daysWorked: this.utilityService.sum(rows.map(row => row.daysWorked)),
+      timeWorked: this.utilityService.durationSum(rows.map(row => row.timeWorked)),
+      budgetWorked: this.utilityService.sum(rows.map(row => row.budgetWorked)),
+      ratioTotalWorked: 1,
+      currency: rows[0]?.currency,
+    };
   }
 
   private createSeries(workTimes: ActivityWorkTimeDto[]): ApexAxisChartSeries {
@@ -124,7 +137,7 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
         cssDataCell: 'text-nowrap text-end',
         cssFooterCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
-        footer: () => `${this.formatService.formatDays(this.utilityService.sum(this.tableRows.map(row => row.daysWorked)))} ${this.localizedDays}`,
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
       }, {
         title: $localize`:@@Page.Report.Common.Ratio:[i18n] %`,
         prop: 'ratioTotalWorked',
@@ -132,13 +145,15 @@ export class ReportActivitiesComponent implements OnInit, OnDestroy {
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
         cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.ratioTotalWorked)} %`,
-        footer: '100 %',
+        footer: () => `${this.formatService.formatRatio(this.tableFooter.ratioTotalWorked)} %`,
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',
         cssHeadCell: `${cssHeadCell} ps-3 text-center`,
         cssDataCell: 'ps-3 text-center',
+        cssFooterCell: 'ps-3 text-center',
         dataCellTemplate: this.infoCellTemplate,
+        footerCellTemplate: this.infoFooterTemplate,
         sortable: false,
         width: '1%',
       }

@@ -62,3 +62,7 @@
     </table>
   </ng-template>
 </ng-template>
+
+<ng-template #infoFooterTemplate>
+  <ng-container *ngTemplateOutlet="infoCellTemplate; context: {row: tableFooter}"></ng-container>
+</ng-template>

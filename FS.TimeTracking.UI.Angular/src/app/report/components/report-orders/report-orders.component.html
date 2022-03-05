@@ -11,19 +11,19 @@
   [i18n] Planned/actual by order
 </h4>
 <div id="chart" *ngIf="chartSeries">
-    <apx-chart
-      [series]="chartSeries"
-      [chart]="chartOptions.chart"
-      [dataLabels]="chartOptions.dataLabels"
-      [plotOptions]="chartOptions.plotOptions"
-      [xaxis]="chartOptions.xAxis"
-      [yaxis]="chartOptions.yAxis"
-      [colors]="chartOptions.colors"
-      [stroke]="chartOptions.stroke"
-      [tooltip]="chartOptions.tooltip"
-      [states]="chartOptions.states"
-      [legend]="chartOptions.legend"
-    ></apx-chart>
+  <apx-chart
+    [series]="chartSeries"
+    [chart]="chartOptions.chart"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xAxis"
+    [yaxis]="chartOptions.yAxis"
+    [colors]="chartOptions.colors"
+    [stroke]="chartOptions.stroke"
+    [tooltip]="chartOptions.tooltip"
+    [states]="chartOptions.states"
+    [legend]="chartOptions.legend"
+  ></apx-chart>
 </div>
 
 <ts-simple-table
@@ -98,4 +98,8 @@
       </tbody>
     </table>
   </ng-template>
+</ng-template>
+
+<ng-template #infoFooterTemplate>
+  <ng-container *ngTemplateOutlet="infoCellTemplate; context: {row: tableFooter}"></ng-container>
 </ng-template>

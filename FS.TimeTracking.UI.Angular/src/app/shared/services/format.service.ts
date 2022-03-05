@@ -38,23 +38,23 @@ export class FormatService {
   }
 
   public formatDuration(value: Duration | null | undefined, format: string = 'hh:mm'): string {
-    if (value === null || value === undefined)
-      return '';
+    if (value == null)
+      value = Duration.fromMillis(0);
 
     if (+value < 0)
       return '-' + value.negate().toFormat(format);
     return value.toFormat(format);
   }
 
-  public formatDays(value: number, digitsInfo: string = '1.1-1'): string {
-    return this.decimalPipe.transform(value, digitsInfo) ?? '0';
+  public formatDays(value: number | null | undefined, digitsInfo: string = '1.1-1'): string {
+    return this.decimalPipe.transform(value ?? 0, digitsInfo) ?? 'N/A';
   }
 
-  public formatBudget(value: number, digitsInfo: string = '1.2-2'): string {
-    return this.decimalPipe.transform(value, digitsInfo) ?? '0';
+  public formatBudget(value: number | null | undefined, digitsInfo: string = '1.2-2'): string {
+    return this.decimalPipe.transform(value ?? 0, digitsInfo) ?? 'N/A';
   }
 
-  public formatRatio(value: number, digitsInfo: string = '1.0-0'): string {
-    return this.decimalPipe.transform(value * 100, digitsInfo) ?? '0';
+  public formatRatio(value: number | null | undefined, digitsInfo: string = '1.0-0'): string {
+    return this.decimalPipe.transform((value ?? 0) * 100, digitsInfo) ?? 'N/A';
   }
 }

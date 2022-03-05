@@ -24,7 +24,7 @@
       </ng-container>)
 
       <ts-icon icon="bi bi-info-circle"
-               class="text-info"
+               class="cursor-pointer"
                [ngbPopover]="workdayInfoPopover"
                [autoClose]="'outside'"
                popoverClass="popup-full-width">
@@ -34,19 +34,19 @@
         <table class="table table-borderless table-sm">
           <tbody>
             <tr>
-              <td i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</td>
+              <th scope="row" i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</th>
               <td class="pe-2">:</td>
               <td class="text-end pe-2">{{overview.workedDays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
               <td class="text-end">{{overview.workedDaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>
             </tr>
             <tr>
-              <td i18n="@@Page.Timesheet.Workdays">[i18n] working days</td>
+              <th scope="row" i18n="@@Page.Timesheet.Workdays">[i18n] working days</th>
               <td class="pe-2">:</td>
               <td class="text-end pe-2">{{overview.workdays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
               <td class="text-end">{{overview.workdaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>
             </tr>
             <tr>
-              <td i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</td>
+              <th scope="row" i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</th>
               <td class="pe-2">:</td>
               <td class="text-end pe-2">{{overview.holidays | number:'1.1-1'}} <ng-container i18n="@@Abbreviations.Days">[i18n] days</ng-container></td>
               <td class="text-end">{{overview.holidaysDuration | tsDuration}} <ng-container i18n="@@Abbreviations.Hours">[i18n] h</ng-container></td>

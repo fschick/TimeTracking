@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LocalizationService} from './internationalization/localization.service';
+import {Duration} from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,10 @@ export class UtilityService {
 
   public sum(array: Array<number>): number {
     return array.reduce((prev, current) => prev + current, 0);
+  }
+
+  public durationSum(array: Array<Duration>): Duration {
+    return array.reduce((prev, current) => prev.plus(current ?? Duration.fromMillis(0)), Duration.fromMillis(0));
   }
 
   public avg(array: Array<number>): number {
