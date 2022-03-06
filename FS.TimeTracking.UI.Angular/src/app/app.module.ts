@@ -57,6 +57,7 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
+import { RouterLinkCtrlClickDirective } from './shared/directives/router-link-ctrl-click.directive';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { DateMonthPickerComponent } from './shared/components/date-month-picker/
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
+    RouterLinkCtrlClickDirective,
   ],
   imports: [
     BrowserModule,
