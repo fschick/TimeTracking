@@ -10,7 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.IO;
 using System.Linq;
+using Microsoft.Data.Sqlite;
 
 namespace FS.TimeTracking.Repository.DbContexts;
 
@@ -73,6 +75,10 @@ public class TimeTrackingDbContext : DbContext
         switch (_databaseType)
         {
             case DatabaseType.Sqlite:
+                var connectionStringBuilder = new SqliteConnectionStringBuilder(_connectionString);
+                var databaseDirectory = System.IO.Path.GetDirectoryName(connectionStringBuilder.DataSource);
+                if (!string.IsNullOrWhiteSpace(databaseDirectory))
+                    Directory.CreateDirectory(databaseDirectory);
                 optionsBuilder.UseSqlite(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                 optionsBuilder.RegisterSqliteDateTimeFunctions();
                 break;

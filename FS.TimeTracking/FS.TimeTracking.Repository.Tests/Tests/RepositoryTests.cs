@@ -21,7 +21,7 @@ public class RepositoryTests
     {
         // Prepare
         using var autoFake = new AutoFake();
-        autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
+        autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "Data Source=timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
         // Act
@@ -40,7 +40,7 @@ public class RepositoryTests
     {
         // Prepare
         using var autoFake = new AutoFake();
-        autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
+        autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "Data Source=timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
 
         // Act

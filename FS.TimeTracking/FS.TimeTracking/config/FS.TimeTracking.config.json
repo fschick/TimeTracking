@@ -2,7 +2,7 @@
   "TimeTracking": {
     "Database": {
       "Type": "Sqlite",
-      "ConnectionString": "Data Source=TimeTracking.sqlite"
+      "ConnectionString": "Data Source=database/TimeTracking.sqlite"
 
       //"Type": "SqlServer",
       //"ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True"
