@@ -1,7 +1,7 @@
 <ng-template #holidayImport let-modal>
   <div class="modal-header">
     <h5 class="m-0" i18n="@@Page.MasterData.Holidays.Import">[i18n] Import holiday</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form id="holidayForm" [formGroup]="holidayForm" (ngSubmit)="save()" #form="ngForm">

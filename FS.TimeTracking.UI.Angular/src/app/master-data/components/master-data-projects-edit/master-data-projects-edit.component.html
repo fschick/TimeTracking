@@ -1,7 +1,7 @@
 <ng-template #projectEdit let-modal>
   <div class="modal-header">
     <h5 class="m-0" i18n="@@Page.MasterData.Projects.Edit">[i18n] Edit project</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form id="projectForm" [formGroup]="projectForm" (ngSubmit)="save()" #form="ngForm">

@@ -2,10 +2,10 @@
   <ng-content></ng-content>
 </div>
 
-<ng-template #confirmDialog>
+<ng-template #confirmDialog let-modal>
   <div class="modal-header">
     <h5 class="m-0">{{title}}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body text-wrap">
     {{message}}

@@ -1,7 +1,7 @@
 <ng-template #timesheetEdit let-modal>
   <div class="modal-header">
     <h5 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit entry</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form id="timesheetForm" [formGroup]="timesheetForm" (ngSubmit)="save()" #form="ngForm">
