@@ -20,6 +20,13 @@ variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
   CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
 
+cache:
+  key:
+    files:
+      - FS.TimeTracking.UI.Angular/package-lock.json
+  paths:
+    - $npm_config_cache
+
 build:
   stage: build
   interruptible: true
