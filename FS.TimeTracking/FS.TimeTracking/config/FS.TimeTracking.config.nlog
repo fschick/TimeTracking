@@ -23,7 +23,7 @@
             keepFileOpen="true"
             concurrentWrites="false"
             openFileCacheTimeout="30"
-            fileName="${basedir}/TimeTracking.log.csv">
+            fileName="${basedir}/log/TimeTracking.log.csv">
       <layout xsi:type="CsvLayout" quoting="all" delimiter="Semicolon">
         <column name="Created" layout="${longdate}" />
         <column name="LogLevel" layout="${level:uppercase=true}" />
