@@ -4,6 +4,7 @@ using FS.TimeTracking.Shared.Models.Application.MasterData;
 using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 using FS.TimeTracking.Shared.Models.Configuration;
 using LinqToDB.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.Data.Sqlite;
 
 namespace FS.TimeTracking.Repository.DbContexts;
 
@@ -76,7 +76,7 @@ public class TimeTrackingDbContext : DbContext
         {
             case DatabaseType.Sqlite:
                 var connectionStringBuilder = new SqliteConnectionStringBuilder(_connectionString);
-                var databaseDirectory = System.IO.Path.GetDirectoryName(connectionStringBuilder.DataSource);
+                var databaseDirectory = Path.GetDirectoryName(connectionStringBuilder.DataSource);
                 if (!string.IsNullOrWhiteSpace(databaseDirectory))
                     Directory.CreateDirectory(databaseDirectory);
                 optionsBuilder.UseSqlite(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
@@ -120,6 +120,9 @@ public class TimeTrackingDbContext : DbContext
 
         modelBuilder.RegisterDateTimeFunctions(_databaseType);
 
+        RegisterSqliteGuidToStringConverter(modelBuilder);
+        RegisterDateTimeAsUtcConverter(modelBuilder);
+
         ConfigureSetting(modelBuilder.Entity<Setting>());
         ConfigureHoliday(modelBuilder.Entity<Holiday>());
         ConfigureCustomer(modelBuilder.Entity<Customer>());
@@ -127,9 +130,6 @@ public class TimeTrackingDbContext : DbContext
         ConfigureActivity(modelBuilder.Entity<Activity>());
         ConfigureOrder(modelBuilder.Entity<Order>());
         ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
-
-        RegisterDateTimeAsUtcConverter(modelBuilder);
-        RegisterSqliteGuidToStringConverter(modelBuilder);
     }
 
     private static void ConfigureSetting(EntityTypeBuilder<Setting> settingsBuilder)
@@ -213,8 +213,17 @@ public class TimeTrackingDbContext : DbContext
 
     private void ConfigureTimeSheet(EntityTypeBuilder<TimeSheet> timeSheetBuilder)
     {
+
         timeSheetBuilder
             .ToTable("TimeSheets");
+
+        timeSheetBuilder
+            .Property(x => x.StartDateLocal)
+            .HasConversion(GetDateTimeCutSecondsConverter());
+
+        timeSheetBuilder
+            .Property(x => x.EndDateLocal)
+            .HasConversion(GetNullableDateTimeCutSecondsConverter());
 
         timeSheetBuilder
             .HasOne(x => x.Project)
@@ -248,10 +257,30 @@ public class TimeTrackingDbContext : DbContext
         }
     }
 
+    private static ValueConverter<DateTime, DateTime> GetDateTimeCutSecondsConverter()
+    {
+        var ticksPerMinute = TimeSpan.FromMinutes(1).Ticks;
+        return new ValueConverter<DateTime, DateTime>
+        (
+            v => new DateTime(v.Ticks / ticksPerMinute * ticksPerMinute),
+            v => v
+        );
+    }
+
+    private static ValueConverter<DateTime?, DateTime?> GetNullableDateTimeCutSecondsConverter()
+    {
+        var ticksPerMinute = TimeSpan.FromMinutes(1).Ticks;
+        return new ValueConverter<DateTime?, DateTime?>
+        (
+            v => v.HasValue ? new DateTime(v.Value.Ticks / ticksPerMinute * ticksPerMinute) : v,
+            v => v
+        );
+    }
+
     // https://stackoverflow.com/a/61243301/1271211
     private static void RegisterDateTimeAsUtcConverter(ModelBuilder modelBuilder)
     {
-        var dateTimeConverter = new ValueConverter<DateTime, DateTime>
+        var dateTimeAsUtcConverter = new ValueConverter<DateTime, DateTime>
         (
             v => v.ToUniversalTime(),
             v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
@@ -265,7 +294,7 @@ public class TimeTrackingDbContext : DbContext
             .ToList();
 
         foreach (var property in properties)
-            property.SetValueConverter(dateTimeConverter);
+            property.SetValueConverter(dateTimeAsUtcConverter);
     }
 
     // https://stackoverflow.com/a/61243301/1271211
