@@ -71,11 +71,12 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
       {name: 'customerId'},
+      {name: 'orderId'},
       {name: 'projectId'},
       {name: 'activityId'},
-      {name: 'orderId'},
       {name: 'timeSheetIssue'},
-      {name: 'timeSheetComment'}
+      {name: 'timeSheetComment'},
+      {name: 'timeSheetBillable'},
     ];
   }
 

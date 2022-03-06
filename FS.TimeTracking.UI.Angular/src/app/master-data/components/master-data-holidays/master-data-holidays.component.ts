@@ -13,6 +13,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'ts-master-data-holidays',
@@ -39,9 +40,12 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     private holidayService: HolidayService,
     private localizationService: LocalizationService,
   ) {
+    const defaultStartDate = DateTime.now().startOf('year');
+    const defaultEndDate = DateTime.now().endOf('year');
+
     this.filters = [
-      {name: 'holidayStartDate'},
-      {name: 'holidayEndDate'},
+      {name: 'holidayStartDate', defaultValue: defaultStartDate},
+      {name: 'holidayEndDate', defaultValue: defaultEndDate},
       {name: 'holidayTitle'},
       {name: 'holidayType'},
     ];

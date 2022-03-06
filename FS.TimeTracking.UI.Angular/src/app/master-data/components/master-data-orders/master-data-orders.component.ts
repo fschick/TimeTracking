@@ -13,6 +13,7 @@ import {LocalizationService} from '../../../shared/services/internationalization
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'ts-master-data-orders',
@@ -40,9 +41,12 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private localizationService: LocalizationService,
   ) {
+    const defaultStartDate = DateTime.now().startOf('year');
+    const defaultEndDate = DateTime.now().endOf('year');
+
     this.filters = [
-      {name: 'orderStartDate'},
-      {name: 'orderDueDate'},
+      {name: 'orderStartDate', defaultValue: defaultStartDate},
+      {name: 'orderDueDate', defaultValue: defaultEndDate},
       {name: 'orderId', showHidden: true},
       {name: 'customerId', showHidden: true},
     ];
