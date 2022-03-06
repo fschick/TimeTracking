@@ -1,11 +1,6 @@
-﻿using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Tool.Interfaces.Import;
+﻿using FS.TimeTracking.Tool.Interfaces.Import;
 using FS.TimeTracking.Tool.Startup;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tool;
@@ -24,7 +19,6 @@ public class Program
 
         if (options.ImportKimaiV1)
         {
-            MigrateDatabase(serviceProvider);
             await serviceProvider
                 .GetRequiredService<IKimaiV1ImportService>()
                 .Import();
@@ -32,25 +26,9 @@ public class Program
 
         if (options.ImportTimeTracking)
         {
-            MigrateDatabase(serviceProvider);
             await serviceProvider
                 .GetRequiredService<ITimeTrackingImportService>()
                 .Import();
         }
-    }
-
-    private static void MigrateDatabase(IServiceProvider serviceProvider)
-    {
-        var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(MigrateDatabase));
-        var dbContext = serviceProvider.GetRequiredService<TimeTrackingDbContext>();
-        var pendingMigrations = dbContext.Database.GetPendingMigrations().ToList();
-        if (pendingMigrations.Count == 0)
-            return;
-
-        logger.LogInformation("Apply migrations to database. Please be patient ...");
-        foreach (var pendingMigration in pendingMigrations)
-            logger.LogInformation(pendingMigration);
-
-        dbContext.Database.Migrate();
     }
 }

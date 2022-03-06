@@ -38,7 +38,9 @@ internal static class DependencyConfiguration
             .AddScoped<ISettingService, SettingService>()
             .AddScoped<ITestDataService, TestDataService>()
             .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>()
-            .AddScoped<ITimeTrackingImportService, TimeTrackingImportService>();
+            .AddScoped<ITimeTrackingImportService, TimeTrackingImportService>()
+            .AddScoped<ITruncateDbService, TruncateDbService>()
+            .AddScoped<IDatabaseMigrationService, DatabaseMigrationService>();
 
     private static IServiceCollection RegisterConfiguration(this IServiceCollection services, CommandLineOptions commandLineOptions)
         => services

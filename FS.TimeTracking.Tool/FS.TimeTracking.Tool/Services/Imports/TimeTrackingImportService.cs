@@ -15,12 +15,14 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
     private readonly ITimeTrackingImportRepository _importRepository;
     private readonly ITestDataService _testDataService;
     private readonly TimeTrackingImportConfiguration _importConfiguration;
+    private readonly IDatabaseMigrationService _databaseMigrationService;
 
-    public TimeTrackingImportService(IRepository repository, ITimeTrackingImportRepository importRepository, ITestDataService testDataService, IOptions<TimeTrackingImportConfiguration> importConfiguration)
+    public TimeTrackingImportService(IRepository repository, ITimeTrackingImportRepository importRepository, ITestDataService testDataService, IOptions<TimeTrackingImportConfiguration> importConfiguration, IDatabaseMigrationService databaseMigrationService)
     {
         _repository = repository;
         _importRepository = importRepository;
         _testDataService = testDataService;
+        _databaseMigrationService = databaseMigrationService;
         _importConfiguration = importConfiguration.Value;
     }
 
@@ -34,9 +36,8 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
         var orders = await _importRepository.Get((Order x) => x);
         var timeSheets = await _importRepository.Get((TimeSheet x) => x);
 
+        _databaseMigrationService.MigrateDatabase(_importConfiguration.TruncateBeforeImport);
         using var transaction = _repository.CreateTransactionScope();
-        if (_importConfiguration.TruncateBeforeImport)
-            await _testDataService.TruncateData();
         await _repository.BulkAddRange(settings);
         await _repository.BulkAddRange(holidays);
         await _repository.BulkAddRange(customers);
