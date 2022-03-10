@@ -40,19 +40,9 @@ public class DatabaseMigrationService : IDatabaseMigrationService
         _logger.LogInformation("Apply migrations to database. Please be patient ...");
         foreach (var pendingMigration in pendingMigrations)
             _logger.LogInformation(pendingMigration);
-#if DEBUG
-        try
-        {
-            _dbContext.Database.Migrate();
-        }
-        catch
-        {
-            _truncateDbService.TruncateDatabase();
-            _dbContext.Database.Migrate();
-        }
-#else
+
         _dbContext.Database.Migrate();
-#endif
+
         _logger.LogInformation("Database migration finished.");
     }
 }
