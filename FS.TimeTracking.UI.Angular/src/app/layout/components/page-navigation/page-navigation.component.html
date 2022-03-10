@@ -127,13 +127,13 @@
             <ng-container i18n="@@Language.Title">[i18n] Language</ng-container>
             {{currentLanguage | uppercase}}
           </a>
-          <ul class="dropdown-menu bg-success" aria-labelledby="languageDropdown">
+          <ul class="dropdown-menu dropdown-menu-end bg-success" aria-labelledby="languageDropdown">
             <li><a class="dropdown-item"
                    [ngClass]="{'active': currentLanguage === 'en'}"
                    data-bs-toggle="collapse"
                    data-bs-target=".navbar-collapse.show"
                    i18n="@@Language.English"
-                   (click)="setLanguage('en')">[i18n] English</a></li>
+                   (click)="setLanguage('en')">[i18n] English (English)</a></li>
             <li><a class="dropdown-item"
                    [ngClass]="{'active': currentLanguage === 'de'}"
                    data-bs-toggle="collapse"
