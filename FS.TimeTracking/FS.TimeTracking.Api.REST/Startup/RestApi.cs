@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
@@ -27,7 +28,8 @@ internal static class RestApi
             .AddFilterExpressionCreators()
             .AddNewtonsoftJson(opts =>
             {
-                opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+                var camelCase = new CamelCaseNamingStrategy();
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter(camelCase));
             });
 
         return services;

@@ -29,7 +29,7 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
     private modalService: NgbModal
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty, type: 'Holiday'});
+    this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty, type: 'holiday'});
 
     if (!this.isNewRecord)
       this.holidayService
