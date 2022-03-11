@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using FS.TimeTracking.Api.REST.Controllers.Report;
-using FS.TimeTracking.Shared.DTOs.Report;
+using FS.TimeTracking.Api.REST.Controllers.Chart;
+using FS.TimeTracking.Shared.DTOs.Chart;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,13 +14,13 @@ namespace FS.TimeTracking.Tests.IntegrationTests;
 public class ComplexSqlOperationTests
 {
     [DataTestMethod, TestDatabases]
-    public async Task WhenReportWorkedTimesPerOrderIsQueried_SqlGetsTranslatedAndNoExceptionIsThrown(DatabaseConfiguration configuration)
+    public async Task WhenChartWorkedTimesPerOrderIsQueried_SqlGetsTranslatedAndNoExceptionIsThrown(DatabaseConfiguration configuration)
     {
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
         // Act
-        var workTimesPerOrder = await testHost.Get<OrderReportController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default, default, default, default, default, default));
+        var workTimesPerOrder = await testHost.Get<OrderChartController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default, default, default, default, default, default));
 
         // Check
         workTimesPerOrder.Should().NotBeNull();

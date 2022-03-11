@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
+using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
-using FS.TimeTracking.Api.REST.Controllers.Report;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
-using FS.TimeTracking.Shared.DTOs.Report;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Tests.Services;
 using FS.TimeTracking.Tests.Services;
@@ -10,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FS.TimeTracking.Shared.DTOs.Chart;
 
 namespace FS.TimeTracking.Tests.IntegrationTests;
 
@@ -35,7 +35,7 @@ public class CustomDbFunctionTests
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
-        var readTimeSheet = await testHost.Get<CustomerReportController, List<CustomerWorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default, default, default, default, default, default));
+        var readTimeSheet = await testHost.Get<CustomerChartController, List<CustomerWorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default, default, default, default, default, default));
 
         // Check
         readTimeSheet.Should().HaveCount(1);

@@ -44,11 +44,6 @@ import {DurationPipe} from './shared/pipes/duration.pipe';
 import {IconComponent} from './shared/components/icon/icon.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
-import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
-import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
-import {ReportIssuesComponent} from './report/components/report-issues/report-issues.component';
-import {ReportProjectsComponent} from './report/components/report-projects/report-projects.component';
-import {ReportOrdersComponent} from './report/components/report-orders/report-orders.component';
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
@@ -58,6 +53,11 @@ import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
 import { RouterLinkCtrlClickDirective } from './shared/directives/router-link-ctrl-click.directive';
+import {ChartCustomersComponent} from './report/components/chart-customers/chart-customers.component';
+import {ChartActivitiesComponent} from './report/components/chart-activities/chart-activities.component';
+import {ChartIssuesComponent} from './report/components/chart-issues/chart-issues.component';
+import {ChartProjectsComponent} from './report/components/chart-projects/chart-projects.component';
+import {ChartOrdersComponent} from './report/components/chart-orders/chart-orders.component';
 
 @NgModule({
   declarations: [
@@ -86,11 +86,11 @@ import { RouterLinkCtrlClickDirective } from './shared/directives/router-link-ct
     TimesheetEditComponent,
     TimeDirective,
     TimesheetFilterComponent,
-    ReportCustomersComponent,
-    ReportActivitiesComponent,
-    ReportIssuesComponent,
-    ReportProjectsComponent,
-    ReportOrdersComponent,
+    ChartCustomersComponent,
+    ChartActivitiesComponent,
+    ChartIssuesComponent,
+    ChartProjectsComponent,
+    ChartOrdersComponent,
     MasterDataHolidaysComponent,
     MasterDataSettingsComponent,
     MasterDataHolidaysEditComponent,

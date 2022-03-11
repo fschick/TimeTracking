@@ -1,0 +1,68 @@
+<!-- Filter -->
+<ts-filter filterId="filterCharts"
+           [filters]="filters"
+           (filterChanged)="filterChanged.next($event)">
+</ts-filter>
+
+<hr>
+
+<!-- Chart -->
+<h4 class="d-inline-block" i18n="@@Page.Chart.Activities.Title">
+  [i18n] By activity
+</h4>
+<div id="chart" *ngIf="chartSeries">
+  <apx-chart
+    [series]="chartSeries"
+    [chart]="chartOptions.chart"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xAxis"
+    [yaxis]="chartOptions.yAxis"
+    [colors]="chartOptions.colors"
+    [stroke]="chartOptions.stroke"
+    [tooltip]="chartOptions.tooltip"
+    [states]="chartOptions.states"
+    [legend]="chartOptions.legend"
+  ></apx-chart>
+</div>
+
+<ts-simple-table
+  [columns]="tableColumns"
+  [rows]="tableRows"
+  [configuration]="tableConfiguration"
+  (rowsChanged)="tableRowsChanged($event.rows)">
+</ts-simple-table>
+
+<ng-template #infoCellTemplate let-row="row">
+  <a class="text-secondary ms-2"
+     [ngbPopover]="infoDetailPopover"
+     [autoClose]="'outside'"
+     popoverClass="popup-full-width">
+    <ts-icon icon="bi bi-box-arrow-up-right" class="action-icon"></ts-icon>
+  </a>
+
+  <ng-template #infoDetailPopover>
+    <table class="table table-borderless table-sm">
+      <thead>
+      <tr>
+        <th></th>
+        <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Days">[i18n] Days</th>
+        <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Hours">[i18n] Hours</th>
+        <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Budget">[i18n] Budget</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Worked">[i18n] Worked</th>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{localizedDays}}</td>
+        <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{localizedHours}}</td>
+        <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetWorked)}} {{row.currency}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</ng-template>
+
+<ng-template #infoFooterTemplate>
+  <ng-container *ngTemplateOutlet="infoCellTemplate; context: {row: tableFooter}"></ng-container>
+</ng-template>

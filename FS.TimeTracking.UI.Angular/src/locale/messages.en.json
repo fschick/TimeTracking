@@ -44,8 +44,8 @@
       "VacationDays": "vacation days",
       "OmittedEntities": "{$OMITTED} additional entries are omitted to avoid performance problems."
     },
-    "Report": {
-      "Title": "Reports",
+    "Chart": {
+      "Title": "Charts",
       "Common": {
         "Days": "Days",
         "Hours": "Hours",

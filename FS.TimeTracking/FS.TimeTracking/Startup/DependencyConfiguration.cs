@@ -1,13 +1,13 @@
-﻿using FS.TimeTracking.Application.Services.MasterData;
-using FS.TimeTracking.Application.Services.Report;
+﻿using FS.TimeTracking.Application.Services.Chart;
+using FS.TimeTracking.Application.Services.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Shared.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
@@ -32,11 +32,11 @@ internal static class DependencyConfiguration
         services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 
         services.AddScoped<ITimeSheetService, TimeSheetService>();
-        services.AddScoped<ICustomerReportService, CustomerReportService>();
-        services.AddScoped<IOrderReportService, OrderReportService>();
-        services.AddScoped<IActivityReportService, ActivityReportService>();
-        services.AddScoped<IProjectReportService, ProjectReportService>();
-        services.AddScoped<IIssueReportService, IssueReportService>();
+        services.AddScoped<ICustomerChartService, CustomerChartService>();
+        services.AddScoped<IOrderChartService, OrderChartService>();
+        services.AddScoped<IActivityChartService, ActivityChartService>();
+        services.AddScoped<IProjectChartService, ProjectChartService>();
+        services.AddScoped<IIssueChartService, IssueChartService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();

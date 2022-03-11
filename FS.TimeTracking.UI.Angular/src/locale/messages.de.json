@@ -44,8 +44,8 @@
       "VacationDays": "Urlaubstage",
       "OmittedEntities": "{$OMITTED} weitere Einträge werden zur Vermeidung von Leistungsproblemen nicht angezeigt."
     },
-    "Report": {
-      "Title": "Reports",
+    "Chart": {
+      "Title": "Charts",
       "Common": {
         "Days": "Tage",
         "Hours": "Stunden",

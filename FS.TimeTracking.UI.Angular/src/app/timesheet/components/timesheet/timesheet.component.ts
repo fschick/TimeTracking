@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TimeSheetDto, TimeSheetListDto, TimeSheetService, WorkdayService, WorkedTimeInfoDto} from '../../../shared/services/api';
-import {map, single, switchMap, tap} from 'rxjs/operators';
+import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using FS.TimeTracking.Shared.Models.Application.Chart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FS.TimeTracking.Shared.Models.Application.Report;
 
 namespace FS.TimeTracking.Application.Extensions;
 

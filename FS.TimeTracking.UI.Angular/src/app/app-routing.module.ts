@@ -10,15 +10,15 @@ import {MasterDataActivitiesComponent} from './master-data/components/master-dat
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
-import {ReportOrdersComponent} from './report/components/report-orders/report-orders.component';
-import {ReportIssuesComponent} from './report/components/report-issues/report-issues.component';
-import {ReportActivitiesComponent} from './report/components/report-activities/report-activities.component';
-import {ReportProjectsComponent} from './report/components/report-projects/report-projects.component';
-import {ReportCustomersComponent} from './report/components/report-customers/report-customers.component';
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
+import {ChartCustomersComponent} from './report/components/chart-customers/chart-customers.component';
+import {ChartProjectsComponent} from './report/components/chart-projects/chart-projects.component';
+import {ChartActivitiesComponent} from './report/components/chart-activities/chart-activities.component';
+import {ChartIssuesComponent} from './report/components/chart-issues/chart-issues.component';
+import {ChartOrdersComponent} from './report/components/chart-orders/chart-orders.component';
 
 const routes: Routes = [
   {
@@ -48,19 +48,19 @@ const routes: Routes = [
     path: 'master-data/settings', component: MasterDataSettingsComponent,
   },
   {
-    path: 'report/customers', component: ReportCustomersComponent,
+    path: 'report/customers', component: ChartCustomersComponent,
   },
   {
-    path: 'report/projects', component: ReportProjectsComponent,
+    path: 'report/projects', component: ChartProjectsComponent,
   },
   {
-    path: 'report/activities', component: ReportActivitiesComponent,
+    path: 'report/activities', component: ChartActivitiesComponent,
   },
   {
-    path: 'report/issues', component: ReportIssuesComponent,
+    path: 'report/issues', component: ChartIssuesComponent,
   },
   {
-    path: 'report/orders', component: ReportOrdersComponent,
+    path: 'report/orders', component: ChartOrdersComponent,
   },
   {
     path: '', component: TimesheetComponent,
