@@ -2,6 +2,7 @@
 using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;

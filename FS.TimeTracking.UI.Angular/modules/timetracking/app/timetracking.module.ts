@@ -47,6 +47,7 @@ import {CoreModule} from '../../core/app/core.module';
 import {LocalizationService} from '../../core/app/services/internationalization/localization.service';
 import {ApiDateTimeInterceptor} from '../../core/app/services/error-handling/api-date-time.interceptor';
 import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-error.interceptor';
+import {ReportActivityOverviewComponent} from './report/components/report-activity-overview/report-activity-overview.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     TimeSheetHeaderComponent,
     ChartWorkdayInfoComponent,
     ChartTotalsOverviewComponent,
+    ReportActivityOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,8 +97,8 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
       positionClass: 'toast-bottom-right'
     }),
     ApiModule.forRoot(() =>
-      new Configuration({basePath: environment.apiBasePath})
-    ),
+      new Configuration({basePath: environment.timeTrackingApiBasePath})
+    )
   ],
   providers: [
     DecimalPipe,

@@ -1,6 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
+using FS.TimeTracking.Shared.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;

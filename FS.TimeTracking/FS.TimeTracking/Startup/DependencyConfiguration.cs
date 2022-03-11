@@ -1,11 +1,13 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.MasterData;
+using FS.TimeTracking.Application.Services.Report;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
@@ -37,6 +39,7 @@ internal static class DependencyConfiguration
         services.AddScoped<IActivityChartService, ActivityChartService>();
         services.AddScoped<IProjectChartService, ProjectChartService>();
         services.AddScoped<IIssueChartService, IssueChartService>();
+        services.AddScoped<IActivityReportService, ActivityReportService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();

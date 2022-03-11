@@ -77,7 +77,7 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
 
-        CreateMap<TimeSheet, TimeSheetReportGridDto>()
+        CreateMap<TimeSheet, ActivityReportGridDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.CustomerCompanyName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.CompanyName))
             .ForMember(x => x.CustomerDepartment, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Department))

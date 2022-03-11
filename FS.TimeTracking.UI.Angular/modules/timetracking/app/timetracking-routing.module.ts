@@ -19,6 +19,7 @@ import {ChartProjectsComponent} from './chart/components/chart-projects/chart-pr
 import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
+import {ReportActivityOverviewComponent} from './report/components/report-activity-overview/report-activity-overview.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,14 @@ const routes: Routes = [
       },
       {
         path: 'orders', component: ChartOrdersComponent,
+      },
+    ]
+  },
+  {
+    path: 'report',
+    children: [
+      {
+        path: 'activity', component: ReportActivityOverviewComponent,
       },
     ]
   },

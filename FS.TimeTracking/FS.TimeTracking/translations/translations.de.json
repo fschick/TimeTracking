@@ -82,6 +82,31 @@
         "Title": "Nach Issue"
       }
     },
+    "Report": {
+      "Title": "Reports",
+      "Activity": {
+        "Title": "Tätigkeitsnachweis",
+        "Company": "Firma",
+        "Department": "Abteilung",
+        "Contact": "Ansprechpartner",
+        "Provider": "Dienstleister",
+        "Id": "Id",
+        "StartDate": "Von",
+        "EndDate": "Bis",
+        "Comment": "Kommentar",
+        "Issue": "Ticket",
+        "Customer": "Kunde",
+        "Project": "Projekt",
+        "Activity": "Tätigkeit",
+        "Order": "Auftrag",
+        "OrderNumber": "Auftragsnummer",
+        "Billable": "verrechenbar",
+        "Period": "Zeitraum",
+        "Duration": "Dauer",
+        "Hours": "Stunden",
+        "Total": "Summe"
+      }
+    },
     "MasterData": {
       "Title": "Stammdaten",
       "Customers": {

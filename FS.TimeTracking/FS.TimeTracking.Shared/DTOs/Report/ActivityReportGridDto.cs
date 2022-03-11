@@ -6,7 +6,7 @@ namespace FS.TimeTracking.Shared.DTOs.Report;
 /// <summary>
 /// Time sheet report grid data transfer object.
 /// </summary>
-public class TimeSheetReportGridDto
+public class ActivityReportGridDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -56,6 +56,16 @@ public class TimeSheetReportGridDto
     public string ActivityTitle { get; set; }
 
     /// <summary>
+    /// Gets or sets the order title.
+    /// </summary>
+    public string OrderTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the order number.
+    /// </summary>
+    public string OrderNumber { get; set; }
+
+    /// <summary>
     /// Indicates whether this item is billable.
     /// </summary>
     [Required]
@@ -75,4 +85,9 @@ public class TimeSheetReportGridDto
     /// Gets or sets the name of the customer's contact.
     /// </summary>
     public string CustomerContactName { get; set; }
+
+    /// <summary>
+    /// Gets or sets entity the report should grouped by.
+    /// </summary>
+    public string GroupBy { get; set; }
 }

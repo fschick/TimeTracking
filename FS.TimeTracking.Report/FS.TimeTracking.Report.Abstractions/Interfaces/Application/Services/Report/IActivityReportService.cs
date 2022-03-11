@@ -8,12 +8,12 @@ namespace FS.TimeTracking.Report.Abstractions.Interfaces.Application.Services.Re
 /// <summary>
 /// Time sheet report service.
 /// </summary>
-public interface ITimeSheetReportService
+public interface IActivityReportService
 {
     /// <summary>
-    /// Generates a full time sheet report.
+    /// Generates a report.
     /// </summary>
     /// <param name="source">Source for the report.</param>
     /// <param name="cancellationToken"> a token that allows processing to be cancelled.</param>
-    Task<StiReport> GetTimeSheetReport(TimeSheetReportDto source, CancellationToken cancellationToken = default);
+    Task<StiReport> GetActivityReport(ActivityReportDto source, CancellationToken cancellationToken = default);
 }

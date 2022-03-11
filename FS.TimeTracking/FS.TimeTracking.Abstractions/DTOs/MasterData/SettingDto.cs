@@ -1,6 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -5,7 +5,7 @@ namespace FS.TimeTracking.Shared.DTOs.Report;
 /// <summary>
 /// Time sheet report data.
 /// </summary>
-public class TimeSheetReportDataDto
+public class ActivityReportDto
 {
     /// <inheritdoc cref="ReportParameter" />
     public ReportParameter Parameters { get; set; }
@@ -21,5 +21,5 @@ public class TimeSheetReportDataDto
     /// <summary>
     /// Gets or sets the time sheets.
     /// </summary>
-    public List<TimeSheetReportGridDto> TimeSheets { get; set; }
+    public List<ActivityReportGridDto> TimeSheets { get; set; }
 }

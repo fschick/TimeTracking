@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FS.TimeTracking.Abstractions.Attributes;
+namespace FS.TimeTracking.Shared.Attributes;
 
 /// <summary>
 /// If <see cref="Enabled" /> is set, property validation attributes are exported from validation description services.

@@ -82,6 +82,31 @@
         "Title": "By issue"
       }
     },
+    "Report": {
+      "Title": "Reports",
+      "Activity": {
+        "Title": "Activity report",
+        "Company": "Company",
+        "Department": "Department",
+        "Contact": "Contact",
+        "Provider": "Provider",
+        "Id": "Id",
+        "StartDate": "From",
+        "EndDate": "To",
+        "Comment": "Comment",
+        "Issue": "Issue",
+        "Customer": "Customer",
+        "Project": "Project",
+        "Activity": "Activity",
+        "Order": "Order",
+        "OrderNumber": "Order number",
+        "Billable": "Billable",
+        "Period": "Period",
+        "Duration": "Duration",
+        "Hours": "Hours",
+        "Total": "Total"
+      }
+    },
     "MasterData": {
       "Title": "Master data",
       "Customers": {

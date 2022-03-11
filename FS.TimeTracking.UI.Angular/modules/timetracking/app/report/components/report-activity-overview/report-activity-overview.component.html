@@ -1,0 +1,16 @@
+<div class="row">
+  <!-- Time sheet -->
+  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first timesheet px-4">
+<!--        <iframe [srcdoc]="preview" sandbox="allow-same-origin allow-scripts" class="w-100" style="min-height: 75vh;"></iframe>-->
+        <div [innerHtml]="preview" style="width: 100%; max-height: 75vh; overflow: auto"></div>
+<!--    <img [src]="preview" alt="preview">-->
+  </div>
+  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+    <!-- Filter -->
+    <ts-filter filterId="filterReport"
+               [filters]="filters">
+    </ts-filter>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

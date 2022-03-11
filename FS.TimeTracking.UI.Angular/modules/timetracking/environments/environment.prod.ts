@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiBasePath: `${document.baseURI.replace(/\/$/, '')}`,
+  timeTrackingApiBasePath: `${document.baseURI.replace(/\/$/, '')}`,
+  reportingApiBasePath: `${location.protocol}//${location.hostname}:5010`
 };

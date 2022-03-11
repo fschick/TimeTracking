@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBasePath: `${location.protocol}//${location.hostname}:5000`
+  timeTrackingApiBasePath: `${location.protocol}//${location.hostname}:5000`,
+  reportingApiBasePath: `${location.protocol}//${location.hostname}:5010`
 };
 
 /*

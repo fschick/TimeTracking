@@ -44,6 +44,10 @@
     </None>
   </ItemGroup>
 
+  <PropertyGroup>
+    <AngularDirectory>../../FS.TimeTracking.UI.Angular</AngularDirectory>
+  </PropertyGroup>
+
   <Target Name="DetectIfRuntimeSpecificBuild" AfterTargets="AfterBuild" Condition="$(RuntimeIdentifier) != '' OR $(RuntimeIdentifiers) != ''">
     <PropertyGroup>
       <IsRuntimeSpecific>true</IsRuntimeSpecific>
@@ -52,6 +56,11 @@
 
   <Target Name="GenerateOpenApiSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
     <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
+  </Target>
+
+  <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
+    <Exec WorkingDirectory="$(AngularDirectory)" Command="node_modules/.bin/openapi-generator-cli generate -c openapi-generator/config.json -g typescript-angular --template-dir openapi-generator/templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o src/api/reporting" />
+    <Exec WorkingDirectory="$(AngularDirectory)" Command="node openapi-generator/openapi-generator-fix-shortcoming.js src/api/reporting" />
   </Target>
 
 </Project>

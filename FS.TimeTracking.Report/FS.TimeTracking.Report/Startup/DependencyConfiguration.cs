@@ -11,7 +11,7 @@ internal static class DependencyConfiguration
     public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IInformationService, InformationService>();
-        services.AddScoped<ITimeSheetReportService, TimeSheetReportService>();
+        services.AddScoped<IActivityReportService, ActivityReportService>();
         return services;
     }
 }
