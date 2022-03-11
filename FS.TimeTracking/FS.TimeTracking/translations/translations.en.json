@@ -122,6 +122,7 @@
       },
       "Settings": {
         "Title": "Settings",
+        "WorkTime": "Work time",
         "Workdays": "Workdays"
       }
     }
@@ -341,7 +342,16 @@
       "Saturday": "Saturday",
       "Sunday": "Sunday",
       "WorkHoursPerWorkday": "Working hours / workday",
-      "Currency": "Currency"
+      "WorkHoursPerWorkdayDate": "Working hours / workday",
+      "Currency": "Currency",
+      "Company": "Company",
+      "Department": "Department",
+      "Provider": "Provider name",
+      "Street": "Street",
+      "AddressAddition": "Additional address information",
+      "ZipCode": "Zip code",
+      "City": "City",
+      "Country": "Country"
     }
   },
   "Validation": {

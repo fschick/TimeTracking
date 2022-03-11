@@ -5,57 +5,110 @@
 </div>
 
 <form id="workingHoursForm" [formGroup]="settingsForm" (ngSubmit)="save()" #form="ngForm">
-  <div class="row">
-    <div class="col-6 col-md-4 col-lg-3 col-xxl-2" formGroupName="workdays">
-      <h6 class="form-label" i18n="@@Page.MasterData.Settings.Workdays">
-        [i18n] Workdays
-      </h6>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="monday" formControlName="Monday">
-        <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="tuesday" formControlName="Tuesday">
-        <label class="form-check-label" for="tuesday" i18n="@@DTO.SettingDto.Tuesday">[i18n] Tuesday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="wednesday" formControlName="Wednesday">
-        <label class="form-check-label" for="wednesday" i18n="@@DTO.SettingDto.Wednesday">[i18n] Wednesday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="thursday" formControlName="Thursday">
-        <label class="form-check-label" for="thursday" i18n="@@DTO.SettingDto.Thursday">[i18n] Thursday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="friday" formControlName="Friday">
-        <label class="form-check-label" for="friday" i18n="@@DTO.SettingDto.Friday">[i18n] Friday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="saturday" formControlName="Saturday">
-        <label class="form-check-label" for="saturday" i18n="@@DTO.SettingDto.Saturday">[i18n] Saturday</label>
-      </div>
-      <div class="form-check form-check">
-        <input class="form-check-input" type="checkbox" id="sunday" formControlName="Sunday">
-        <label class="form-check-label" for="sunday" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
+
+
+  <div class="row  g-4">
+    <div class="col-12 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="form-label" i18n="@@Page.MasterData.Settings.WorkTime">
+            [i18n] Work time
+          </h6>
+
+          <ng-container formGroupName="workdays">
+            <label class="form-label" i18n="@@Page.MasterData.Settings.Workdays">[i18n] Workdays</label>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="monday" formControlName="monday">
+              <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="tuesday" formControlName="tuesday">
+              <label class="form-check-label" for="tuesday" i18n="@@DTO.SettingDto.Tuesday">[i18n] Tuesday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="wednesday" formControlName="wednesday">
+              <label class="form-check-label" for="wednesday" i18n="@@DTO.SettingDto.Wednesday">[i18n] Wednesday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="thursday" formControlName="thursday">
+              <label class="form-check-label" for="thursday" i18n="@@DTO.SettingDto.Thursday">[i18n] Thursday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="friday" formControlName="friday">
+              <label class="form-check-label" for="friday" i18n="@@DTO.SettingDto.Friday">[i18n] Friday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="saturday" formControlName="saturday">
+              <label class="form-check-label" for="saturday" i18n="@@DTO.SettingDto.Saturday">[i18n] Saturday</label>
+            </div>
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="sunday" formControlName="sunday">
+              <label class="form-check-label" for="sunday" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
+            </div>
+          </ng-container>
+
+          <label for="workHoursPerWorkday" class="form-label mt-4" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">[i18n] Working hours / weekday</label>
+          <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkdayDate" autocomplete="off">
+        </div>
+
       </div>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <h6 class="form-label" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">
-        [i18n] Working hours / weekday
-      </h6>
-      <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkday" autocomplete="off">
-    </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <h6 class="form-label" i18n="@@DTO.SettingDto.Currency">
-        [i18n] Currency
-      </h6>
-      <input id="currency" type="text" class="form-control w-auto" formControlName="currency">
+
+    <div class="col-12 col-lg-8">
+      <div class="card h-100" formGroupName="company">
+        <div class="card-body">
+
+          <h6 class="form-label" i18n="@@DTO.SettingDto.Company">
+            [i18n] Company
+          </h6>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="company" class="form-label" i18n="@@DTO.SettingDto.Company">[i18n] Company</label>
+              <input id="company" type="text" class="form-control" formControlName="company">
+            </div>
+            <div class="col-md-6">
+              <label for="department" class="form-label" i18n="@@DTO.SettingDto.Department">[i18n] Department</label>
+              <input id="department" type="text" class="form-control" formControlName="department">
+            </div>
+            <div class="col-md-12">
+              <label for="provider" class="form-label" i18n="@@DTO.SettingDto.Provider">[i18n] Provider</label>
+              <input id="provider" type="text" class="form-control" formControlName="provider">
+            </div>
+            <div class="col-md-6">
+              <label for="street" class="form-label" i18n="@@DTO.SettingDto.Street">[i18n] Street</label>
+              <input id="street" type="text" class="form-control" formControlName="street">
+            </div>
+            <div class="col-md-6">
+              <label for="addressAddition" class="form-label" i18n="@@DTO.SettingDto.AddressAddition">[i18n] Additional address</label>
+              <input id="addressAddition" type="text" class="form-control" formControlName="addressAddition">
+            </div>
+            <div class="col-md-2">
+              <label for="zipCode" class="form-label" i18n="@@DTO.SettingDto.ZipCode">[i18n] Zip code</label>
+              <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
+            </div>
+            <div class="col-md-4">
+              <label for="city" class="form-label" i18n="@@DTO.SettingDto.City">[i18n] City</label>
+              <input id="city" type="text" class="form-control" formControlName="city">
+            </div>
+            <div class="col-md-6">
+              <label for="country" class="form-label" i18n="@@DTO.SettingDto.Country">[i18n] Country</label>
+              <input id="country" type="text" class="form-control" formControlName="country">
+            </div>
+            <div class="col-md-2">
+              <label for="currency" class="form-label" i18n="@@DTO.SettingDto.Currency">[i18n] Currency</label>
+              <input id="currency" type="text" class="form-control" formControlName="currency">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
   <hr class="text-secondary" *ngIf="form.submitted && form.invalid">
   <ts-form-validation-errors></ts-form-validation-errors>
   <div class="row mt-4">
-    <div class="col">
+    <div class="col-auto ms-auto">
       <button form="workingHoursForm" type="submit" class="btn btn-primary">
         <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
       </button>

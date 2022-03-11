@@ -122,6 +122,7 @@
       },
       "Settings": {
         "Title": "Einstellungen",
+        "WorkTime": "Arbeitszeit",
         "Workdays": "Werktage"
       }
     }
@@ -343,7 +344,16 @@
       "Saturday": "Samstag",
       "Sunday": "Sonntag",
       "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
-      "Currency": "Währung"
+      "WorkHoursPerWorkdayDate": "Arbeitsstunden / Werktag",
+      "Currency": "Währung",
+      "Company": "Firma",
+      "Department": "Abteilung",
+      "Provider": "Name des Dienstleisters",
+      "Street": "Straße",
+      "AddressAddition": "Adresszusatz",
+      "ZipCode": "Postleitzahl",
+      "City": "Stadt",
+      "Country": "Land"
     }
   },
   "Validation": {

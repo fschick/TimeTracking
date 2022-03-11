@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FS.TimeTracking.Abstractions.Models.Application.MasterData;
 
 /// <summary>
-/// Settings
+/// User defined application settings
 /// </summary>
 public class Setting : IEntityModel
 {

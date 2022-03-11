@@ -88,7 +88,7 @@ public class OrderChartService : IOrderChartService
                         PlannedStart = plannedTimeSpan?.Start,
                         PlannedEnd = plannedTimeSpan?.End,
                         PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
-                        Currency = settings.Currency,
+                        Currency = settings.Company.Currency,
                     };
                 })
             .OrderBy(x => x.PlannedStart)

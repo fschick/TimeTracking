@@ -13,41 +13,17 @@ namespace FS.TimeTracking.Application.AutoMapper;
 internal class SettingsDtoConverter : ITypeConverter<List<Setting>, SettingDto>
 {
     public SettingDto Convert(List<Setting> source, SettingDto destination, ResolutionContext context)
-    {
-        var defaults = new SettingDto();
-
-        var workdaysSrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.Workdays))?.Value;
-        var workdays = workdaysSrc != null
-            ? JsonConvert.DeserializeObject<Dictionary<DayOfWeek, bool>>(workdaysSrc)
-            : defaults.Workdays;
-
-        var workHoursPerWorkdaySrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.WorkHoursPerWorkday))?.Value;
-        var workHoursPerWorkday = workHoursPerWorkdaySrc != null
-            ? JsonConvert.DeserializeObject<TimeSpan>(workHoursPerWorkdaySrc)
-            : defaults.WorkHoursPerWorkday;
-
-        var currencySrc = source.FirstOrDefault(x => x.Key == nameof(SettingDto.Currency))?.Value;
-        var currency = currencySrc != null
-            ? JsonConvert.DeserializeObject<string>(currencySrc)
-            : defaults.Currency;
-
-        return new SettingDto
-        {
-            Workdays = workdays,
-            WorkHoursPerWorkday = workHoursPerWorkday,
-            Currency = currency
-        };
-    }
+        => source
+            .ToDictionary(x => x.Key, x => x.Value)
+            .ToObject<SettingDto>();
 }
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
 internal class SettingsFromDtoMapper : ITypeConverter<SettingDto, List<Setting>>
 {
     public List<Setting> Convert(SettingDto source, List<Setting> destination, ResolutionContext context)
-        => new()
-        {
-            new Setting { Key = nameof(SettingDto.Workdays), Value = JsonConvert.SerializeObject(source.Workdays) },
-            new Setting { Key = nameof(SettingDto.WorkHoursPerWorkday), Value = JsonConvert.SerializeObject(source.WorkHoursPerWorkday) },
-            new Setting { Key = nameof(SettingDto.Currency), Value = JsonConvert.SerializeObject(source.Currency) },
-        };
+        => source
+            .ToDictionary()
+            .Select(x => new Setting { Key = x.Key, Value = x.Value })
+            .ToList();
 }

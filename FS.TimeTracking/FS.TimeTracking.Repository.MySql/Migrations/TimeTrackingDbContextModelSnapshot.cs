@@ -16,10 +16,10 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Activities", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +113,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Holiday", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Holiday", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,7 +150,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Holidays", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,7 +208,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -241,7 +241,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Projects", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Setting", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Setting", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(100)
@@ -266,7 +266,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Settings", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,9 +319,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("TimeSheets", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Activity", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -329,9 +329,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -340,9 +340,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -351,20 +351,20 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Activity", "Activity")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Order", "Order")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -377,7 +377,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
                 {
                     b.Navigation("Orders");
 

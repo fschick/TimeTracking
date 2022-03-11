@@ -52,7 +52,7 @@ public class ProjectChartService : IProjectChartService
                 DaysWorked = worked.WorkedDays,
                 TotalWorkedPercentage = totalWorkedDays != 0 ? worked.WorkedDays / totalWorkedDays : 0,
                 BudgetWorked = worked.WorkedBudget,
-                Currency = settings.Currency,
+                Currency = settings.Company.Currency,
             })
             .OrderBy(x => x.ProjectTitle)
             .ThenBy(x => x.CustomerTitle)

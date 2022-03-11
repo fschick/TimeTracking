@@ -50,6 +50,7 @@ public class WorkdayService : IWorkdayService
         var holidays = await _holidays;
 
         var workdays = settings.Workdays
+            .AsDictionary()
             .Where(x => x.Value)
             .Select(x => x.Key)
             .ToList();
