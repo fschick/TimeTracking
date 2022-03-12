@@ -11,12 +11,12 @@ import {$localizeId} from '../../services/internationalization/localizeId';
   styleUrls: ['./form-validation-errors.component.scss']
 })
 export class FormValidationErrorsComponent implements OnInit {
-  @Input() @Optional() form!: FormGroupDirective;
-
-  @ViewChild('container') container?: ElementRef;
+  // noinspection SpellCheckingInspection
+  @Input() @Optional() private showUnsubmitted = false;
+  @Input() @Optional() private form!: FormGroupDirective;
+  @ViewChild('container') private container?: ElementRef;
 
   public errors$!: Observable<string[]>;
-
   private validationFormGroup!: ValidationFormGroup;
 
   constructor(
@@ -28,11 +28,13 @@ export class FormValidationErrorsComponent implements OnInit {
     this.ngForm = this.ngForm ?? this.form;
 
     if (!this.ngForm)
-      throw new Error('<ts-form-validation-errors> must be used inside a <form> element or input [form] must be provided');
+      throw new Error('<sq-form-validation-errors> must be used inside a <form> element or input [form] must be provided');
 
     this.validationFormGroup = this.ngForm.form as ValidationFormGroup;
 
-    const ngSubmit: Observable<string[]> = this.ngForm.ngSubmit.pipe(
+    const initial = of(this.showUnsubmitted ? this.getErrors() : []);
+
+    const ngSubmit = this.ngForm.ngSubmit.pipe(
       map(_ => this.getErrors()),
       tap(errors => {
         if (errors.length > 0)
@@ -43,18 +45,18 @@ export class FormValidationErrorsComponent implements OnInit {
     const statusChanges = !this.ngForm.statusChanges
       ? of([])
       : this.ngForm.statusChanges.pipe(
-        filter(_ => this.ngForm?.submitted === true),
+        filter(status => status === "INVALID" && (this.showUnsubmitted || this.ngForm?.submitted === true)),
         map(_ => this.getErrors())
       );
 
     const ngReset = !this.ngForm.statusChanges
       ? of([])
       : this.ngForm.statusChanges.pipe(
-        filter(_ => this.ngForm?.submitted !== true),
+        filter(status => status === "VALID" || (!this.showUnsubmitted && this.ngForm?.submitted !== true)),
         map(_ => [])
       );
 
-    this.errors$ = merge(ngSubmit, statusChanges, ngReset);
+    this.errors$ = merge(initial, ngSubmit, statusChanges, ngReset);
   }
 
   private getErrors(): string[] {
