@@ -2,3 +2,13 @@
 @import '~bootstrap/scss/functions.scss';
 @import '~bootstrap/scss/variables.scss';
 @import '~bootstrap/scss/mixins.scss';
+
+@mixin focused-border {
+  $focus-border-width: 2px;
+  $focus-border-padding-offset: calc($focus-border-width / 2);
+
+  box-shadow: none;
+  border-width: $focus-border-width;
+  border-color: $input-focus-border-color;
+  padding: calc($input-padding-y - $focus-border-padding-offset) calc($input-padding-x - $focus-border-padding-offset);
+}
