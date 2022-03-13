@@ -24,11 +24,26 @@
   }
 }
 
-.filtered {
-  &:empty,
-  &.filtered ::ng-deep .input-group input:first-child,
-  &::ng-deep .ng-select-container {
-    border-left-color: $warning;
-    box-shadow: -0.2rem 0px 0px 0px $warning;
+::ng-deep .filtered {
+
+  @mixin focused-border-fix {
+    border-left-color: $warning !important;
+    padding-left: $input-padding-x !important;
+  }
+
+  &.form-control,
+  .input-group input:first-child,
+  .ng-select-container {
+    border-left-width: 1px !important;
+    border-left-color: $warning !important;
+    box-shadow: -0.2rem 0px 0px 0px $warning !important;
+
+    &:focus:not(.month-input) {
+      @include focused-border-fix
+    }
+  }
+
+  &.ng-select-focused .ng-select-container {
+    @include focused-border-fix
   }
 }

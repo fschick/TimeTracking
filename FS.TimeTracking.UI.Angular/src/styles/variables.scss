@@ -2,3 +2,20 @@
 @import '~bootstrap/scss/functions.scss';
 @import '~bootstrap/scss/variables.scss';
 @import '~bootstrap/scss/mixins.scss';
+
+@mixin focused-border {
+  $focus-border-width: 2px;
+  $focus-border-padding-offset: calc($focus-border-width / 2);
+
+  box-shadow: none;
+  border-width: $focus-border-width;
+  border-color: $input-focus-border-color;
+  padding: calc($input-padding-y - $focus-border-padding-offset) calc($input-padding-x - $focus-border-padding-offset);
+}
+
+// https://codepen.io/sosuke/pen/Pjoqqp
+// https://isotropic.co/tool/hex-color-to-css-filter/
+$filter-primary-500: invert(61%) sepia(56%) saturate(7425%) hue-rotate(121deg) brightness(107%) contrast(84%);
+$filter-primary-600: invert(25%) sepia(90%) saturate(2994%) hue-rotate(139deg) brightness(90%) contrast(85%);
+$filter-primary-700: invert(33%) sepia(13%) saturate(4020%) hue-rotate(99deg) brightness(89%) contrast(87%);
+$filter-gray-500: invert(61%) sepia(0%) saturate(287%) hue-rotate(178deg) brightness(100%) contrast(89%);
