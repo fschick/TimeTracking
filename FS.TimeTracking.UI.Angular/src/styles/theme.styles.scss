@@ -15,13 +15,9 @@
 /* ----------------------------------------- */
 .form-control {
   caret-color: $primary-500;
-  box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 0.05);
 
   &:focus {
-    $border-width: 2px;
-    border: $border-width solid $primary-300;
-    box-shadow: none;
-    padding: calc($input-padding-y - ($border-width / 2)) calc($input-padding-x - ($border-width / 2));
+    @include focused-border;
   }
 
   &::placeholder {
@@ -30,7 +26,7 @@
 }
 
 /* ----------------------------------------- */
-/* Buttons
+/* Primary button
 /* ----------------------------------------- */
 .btn-primary {
   color: $white;
@@ -64,6 +60,9 @@
   }
 }
 
+/* ----------------------------------------- */
+/* Secondary button
+/* ----------------------------------------- */
 .btn-outline-secondary {
   $border-width: 2px;
   color: $primary-500;
@@ -98,6 +97,9 @@
   }
 }
 
+/* ----------------------------------------- */
+/* Tertiary button
+/* ----------------------------------------- */
 .btn-secondary {
   color: $primary-500;
   background-color: $gray-100;
