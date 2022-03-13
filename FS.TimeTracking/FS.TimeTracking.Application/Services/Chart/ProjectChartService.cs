@@ -70,7 +70,7 @@ public class ProjectChartService : IProjectChartService
         var workedTimesPerProjectAndOrder = await _repository
             .GetGrouped(
                 groupBy: x => new { x.Project.Id, x.Project.Title, x.OrderId },
-                @select: x => new ProjectWorkTime
+                select: x => new ProjectWorkTime
                 {
                     ProjectId = x.Key.Id,
                     ProjectTitle = x.Key.Title,
@@ -80,7 +80,7 @@ public class ProjectChartService : IProjectChartService
                         ? x.Min(t => t.Order.HourlyRate)
                         : x.Min(t => t.Project.Customer.HourlyRate),
                 },
-                @where: filter.WorkedTimes.CreateFilter(),
+                where: filter.WorkedTimes.CreateFilter(),
                 cancellationToken: cancellationToken
             );
 

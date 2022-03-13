@@ -69,7 +69,7 @@ public class IssueChartService : IIssueChartService
         var workedTimesPerIssueAndOrder = await _repository
             .GetGrouped(
                 groupBy: x => new { x.Issue, CustomerTitle = x.Project.Customer.Title, x.OrderId },
-                @select: x => new IssueWorkTime
+                select: x => new IssueWorkTime
                 {
                     Issue = x.Key.Issue,
                     CustomerTitle = x.Key.CustomerTitle,
@@ -78,7 +78,7 @@ public class IssueChartService : IIssueChartService
                         ? x.Min(t => t.Order.HourlyRate)
                         : x.Min(t => t.Project.Customer.HourlyRate),
                 },
-                @where: new[] { x => x.Issue != null, filter.WorkedTimes.CreateFilter() }.CombineWithConditionalAnd(),
+                where: new[] { x => x.Issue != null, filter.WorkedTimes.CreateFilter() }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 

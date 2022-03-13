@@ -139,14 +139,14 @@ public class CustomerChartService : ICustomerChartService
         => await _repository
             .GetGrouped(
                 groupBy: x => new { x.Project.Customer.Id, x.Project.Customer.Title },
-                @select: x => new CustomerWorkTime
+                select: x => new CustomerWorkTime
                 {
                     CustomerId = x.Key.Id,
                     CustomerTitle = x.Key.Title,
                     WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
                     HourlyRate = x.Min(t => t.Project.Customer.HourlyRate),
                 },
-                @where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
+                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 

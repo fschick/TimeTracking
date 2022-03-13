@@ -97,7 +97,7 @@ public class OrderChartService : IOrderChartService
         var workedTimesPerOrder = await _repository
             .GetGrouped(
                 groupBy: x => new { x.OrderId, x.Order.Title, x.Order.Number },
-                @select: x => new OrderWorkTime
+                select: x => new OrderWorkTime
                 {
                     OrderId = x.Key.OrderId.Value,
                     OrderTitle = x.Key.Title,
@@ -107,7 +107,7 @@ public class OrderChartService : IOrderChartService
                     CustomerId = x.FirstOrDefault().Project.Customer.Id,
                     CustomerTitle = x.FirstOrDefault().Project.Customer.Title,
                 },
-                @where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
+                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 
@@ -124,8 +124,8 @@ public class OrderChartService : IOrderChartService
 
         var orders = await _repository
             .Get(
-                @select: (Order x) => x,
-                @where: filter.PlannedTimes,
+                select: (Order x) => x,
+                where: filter.PlannedTimes,
                 includes: new[] { nameof(Order.Customer) },
                 cancellationToken: cancellationToken
             );
