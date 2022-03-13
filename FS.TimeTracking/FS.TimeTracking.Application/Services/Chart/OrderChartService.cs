@@ -43,7 +43,7 @@ public class OrderChartService : IOrderChartService
     /// <inheritdoc />
     public async Task<List<OrderWorkTimeDto>> GetWorkTimesPerOrder(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var filter = ChartFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerOrder = await GetWorkedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerOrder = await GetPlannedTimesPerOrder(filter, cancellationToken);
@@ -92,7 +92,7 @@ public class OrderChartService : IOrderChartService
     /// <inheritdoc />
     public async Task<List<OrderWorkTime>> GetWorkedTimesPerOrder(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var workedTimesPerOrder = await _repository
             .GetGrouped(
@@ -120,7 +120,7 @@ public class OrderChartService : IOrderChartService
     /// <inheritdoc />
     public async Task<List<OrderWorkTime>> GetPlannedTimesPerOrder(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var orders = await _repository
             .Get(

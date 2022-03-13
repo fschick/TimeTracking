@@ -26,7 +26,7 @@ export class MasterDataSettingsComponent {
   ) {
     this.settingsForm = this.createSettingsForm();
 
-    this.settingService.get().pipe(single())
+    this.settingService.getSettings().pipe(single())
       .subscribe(settingsDto => {
         const settings = this.convertTimeSpans(settingsDto);
         this.settingsForm.patchValue(settings)
@@ -43,7 +43,7 @@ export class MasterDataSettingsComponent {
       currency: this.settingsForm.value.currency,
     }
 
-    this.settingService.update({settingDto}).pipe(single()).subscribe();
+    this.settingService.updateSettings({settingDto}).pipe(single()).subscribe();
   }
 
   private createSettingsForm(): ValidationFormGroup {

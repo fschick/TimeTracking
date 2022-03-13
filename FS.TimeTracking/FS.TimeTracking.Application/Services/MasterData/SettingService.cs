@@ -2,12 +2,15 @@
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Shared.Models.Application.MasterData;
+using FS.TimeTracking.Shared.Models.Configuration;
+using Newtonsoft.Json.Linq;
 using Nito.AsyncEx;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
@@ -32,11 +35,11 @@ public class SettingService : ISettingService
     }
 
     /// <inheritdoc />
-    public async Task<SettingDto> Get(CancellationToken cancellationToken = default)
+    public async Task<SettingDto> GetSettings(CancellationToken cancellationToken = default)
         => await _settingsCache;
 
     /// <inheritdoc />
-    public async Task Update(SettingDto settings)
+    public async Task UpdateSettings(SettingDto settings)
     {
         var settingsList = _mapper.Map<List<Setting>>(settings);
         foreach (var setting in settingsList)
@@ -49,6 +52,19 @@ public class SettingService : ISettingService
 
         await _repository.SaveChanges();
         _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
+    }
+
+    /// <inheritdoc />
+    public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
+    {
+        var translationFolder = Path.Combine(TimeTrackingConfiguration.PathToContentRoot, TimeTrackingConfiguration.TRANSLATION_FOLDER);
+        var translationFile = Path.Combine(translationFolder, $"translations.{language}.json");
+        if (!File.Exists(translationFile))
+            translationFile = Path.Combine(translationFolder, "translations.en.json");
+        if (!File.Exists(translationFile))
+            return new JObject();
+
+        return JObject.Parse(await File.ReadAllTextAsync(translationFile, cancellationToken));
     }
 
     private async Task<SettingDto> LoadSettings()

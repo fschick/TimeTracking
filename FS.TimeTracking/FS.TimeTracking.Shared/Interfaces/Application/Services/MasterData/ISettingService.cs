@@ -1,7 +1,7 @@
-﻿using FS.TimeTracking.Shared.DTOs.TimeTracking;
+﻿using FS.TimeTracking.Shared.DTOs.MasterData;
+using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.MasterData;
 
 namespace FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 
@@ -14,10 +14,17 @@ public interface ISettingService
     /// Gets the settings.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<SettingDto> Get(CancellationToken cancellationToken = default);
+    Task<SettingDto> GetSettings(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings.
     /// </summary>
-    Task Update(SettingDto settings);
+    Task UpdateSettings(SettingDto settings);
+
+    /// <summary>
+    /// Gets the translation for a specific language.
+    /// </summary>
+    /// <param name="language">The language to get the translations for.</param>
+    /// <param name="cancellationToken"> a token that allows processing to be cancelled.</param>
+    Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default);
 }

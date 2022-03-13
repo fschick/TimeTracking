@@ -38,7 +38,7 @@ public class IssueChartService : IIssueChartService
     /// <inheritdoc />
     public async Task<List<IssueWorkTimeDto>> GetWorkTimesPerIssue(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var filter = ChartFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerIssue = await GetWorkedTimesPerIssue(filter, cancellationToken);
 
@@ -64,7 +64,7 @@ public class IssueChartService : IIssueChartService
 
     private async Task<List<IssueWorkTime>> GetWorkedTimesPerIssue(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var workedTimesPerIssueAndOrder = await _repository
             .GetGrouped(

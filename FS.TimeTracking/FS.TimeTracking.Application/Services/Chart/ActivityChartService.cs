@@ -37,7 +37,7 @@ public class ActivityChartService : IActivityChartService
     /// <inheritdoc />
     public async Task<List<ActivityWorkTimeDto>> GetWorkTimesPerActivity(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var filter = ChartFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerActivity = await GetWorkedTimesPerActivity(filter, cancellationToken);
 
@@ -62,7 +62,7 @@ public class ActivityChartService : IActivityChartService
 
     private async Task<List<ActivityWorkTime>> GetWorkedTimesPerActivity(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var workedTimesPerActivityAndOrder = await _repository
             .GetGrouped(

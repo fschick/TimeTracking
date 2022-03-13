@@ -71,7 +71,7 @@ public class WorkdayService : IWorkdayService
 
         selectedPeriod = Section.Create(startDate, endDate);
 
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var workDays = await GetWorkdays(selectedPeriod, cancellationToken);
         return new WorkedTimeInfoDto
@@ -95,7 +95,7 @@ public class WorkdayService : IWorkdayService
 
     private async Task<WorkdaysDto> GetWorkdays(IEnumerable<DateTime> dates, CancellationToken cancellationToken = default)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var holidays = await _holidays;
 
         var workdays = settings.Workdays

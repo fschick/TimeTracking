@@ -42,7 +42,7 @@ public class CustomerChartService : ICustomerChartService
     /// <inheritdoc />
     public async Task<List<CustomerWorkTimeDto>> GetWorkTimesPerCustomer(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var filter = ChartFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
         var workedTimesPerCustomer = await GetWorkedTimesPerCustomer(filter, cancellationToken);
         var plannedTimesPerCustomer = await GetPlannedTimesPerCustomer(filter, cancellationToken);
@@ -90,7 +90,7 @@ public class CustomerChartService : ICustomerChartService
 
     private async Task<List<CustomerWorkTime>> GetWorkedTimesPerCustomer(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
         var workedTimesWithOrder = await GetWorkedTimesWithOrderPerCustomer(filter, cancellationToken);
         var workedTimesWithoutOrder = await GetWorkedTimesWithoutOrderPerCustomer(filter, cancellationToken);
 
@@ -152,7 +152,7 @@ public class CustomerChartService : ICustomerChartService
 
     private async Task<List<CustomerWorkTime>> GetPlannedTimesPerCustomer(ChartFilter filter, CancellationToken cancellationToken)
     {
-        var settings = await _settingService.Get(cancellationToken);
+        var settings = await _settingService.GetSettings(cancellationToken);
 
         var plannedTimesPerOrder = await _orderChartService.GetPlannedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerCustomer = plannedTimesPerOrder

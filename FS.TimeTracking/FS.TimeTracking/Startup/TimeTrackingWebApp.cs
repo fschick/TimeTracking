@@ -1,6 +1,5 @@
 ﻿using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
-using FS.TimeTracking.Shared.Extensions;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -17,10 +15,7 @@ namespace FS.TimeTracking.Startup;
 
 internal static class TimeTrackingWebApp
 {
-    private static readonly string _executablePath = AssemblyExtensions.GetProgramDirectory();
-    private static readonly string _pathToContentRoot = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"
-        ? Directory.GetCurrentDirectory()
-        : _executablePath;
+
 
     internal static WebApplication Create(string[] args)
     {
@@ -32,7 +27,7 @@ internal static class TimeTrackingWebApp
 
     internal static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
     {
-        var options = new WebApplicationOptions { Args = args, ContentRootPath = _pathToContentRoot };
+        var options = new WebApplicationOptions { Args = args, ContentRootPath = TimeTrackingConfiguration.PathToContentRoot };
         var webAppBuilder = WebApplication.CreateBuilder(options);
 
         webAppBuilder.CreateServerConfiguration(args);
@@ -57,8 +52,8 @@ internal static class TimeTrackingWebApp
     private static void AddConfigurationFromEnvironment(this IConfigurationBuilder configurationManager, string[] commandLineArgs)
     {
         configurationManager
-            .AddJsonFile($"{Path.Combine(Program.CONFIG_FOLDER, Program.CONFIG_BASE_NAME)}.json", false, true)
-            .AddJsonFile($"{Path.Combine(Program.CONFIG_FOLDER, Program.CONFIG_BASE_NAME)}.Development.json", true, true)
+            .AddJsonFile($"{Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.CONFIG_BASE_NAME)}.json", false, true)
+            .AddJsonFile($"{Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.CONFIG_BASE_NAME)}.Development.json", true, true)
             .AddEnvironmentVariables()
             .AddCommandLine(commandLineArgs);
     }
@@ -81,7 +76,7 @@ internal static class TimeTrackingWebApp
         builder.Logging
             .ClearProviders()
             .SetMinimumLevel(LogLevel.Trace)
-            .AddNLog(Path.Combine(Program.CONFIG_FOLDER, Program.NLOG_CONFIGURATION_FILE));
+            .AddNLog(Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.NLOG_CONFIGURATION_FILE));
 
         builder.Host.UseNLog();
     }
@@ -139,7 +134,7 @@ internal static class TimeTrackingWebApp
 
     private static string GetWebRootPath(IHostEnvironment hostEnvironment)
         => hostEnvironment.IsProduction()
-            ? Path.Combine(_executablePath, Program.WEB_UI_FOLDER)
+            ? Path.Combine(TimeTrackingConfiguration.ExecutablePath, TimeTrackingConfiguration.WEB_UI_FOLDER)
             : "../../FS.TimeTracking.UI.Angular/dist/TimeTracking".Replace('/', Path.DirectorySeparatorChar);
 
     [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required, see commented code")]

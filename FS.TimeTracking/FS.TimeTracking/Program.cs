@@ -1,5 +1,6 @@
 using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Repository.Startup;
+using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Startup;
 using Microsoft.AspNetCore.Builder;
 using NLog.Web;
@@ -12,11 +13,6 @@ namespace FS.TimeTracking;
 
 internal class Program
 {
-    internal const string WEB_UI_FOLDER = "webui";
-    internal const string CONFIG_FOLDER = "config";
-    internal const string CONFIG_BASE_NAME = "FS.TimeTracking.config";
-    internal const string NLOG_CONFIGURATION_FILE = CONFIG_BASE_NAME + ".nlog";
-
     public static async Task Main(string[] args)
     {
         try
@@ -38,7 +34,7 @@ internal class Program
         }
         catch (Exception exception)
         {
-            using var loggerFactory = NLogBuilder.ConfigureNLog(Path.Combine(CONFIG_FOLDER, NLOG_CONFIGURATION_FILE));
+            using var loggerFactory = NLogBuilder.ConfigureNLog(Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.NLOG_CONFIGURATION_FILE));
             loggerFactory
                 .GetCurrentClassLogger()
                 .Error(exception, "Program stopped due to an exception");

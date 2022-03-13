@@ -3,6 +3,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Shared.DTOs.MasterData;
 using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,13 +25,19 @@ public class SettingController : ISettingService
         => _modelService = modelService;
 
     /// <inheritdoc />
-    [NotFoundWhenEmpty]
     [HttpGet]
-    public async Task<SettingDto> Get(CancellationToken cancellationToken = default)
-        => await _modelService.Get(cancellationToken);
+    [NotFoundWhenEmpty]
+    public async Task<SettingDto> GetSettings(CancellationToken cancellationToken = default)
+        => await _modelService.GetSettings(cancellationToken);
 
     /// <inheritdoc />
     [HttpPut]
-    public async Task Update(SettingDto settings)
-        => await _modelService.Update(settings);
+    public async Task UpdateSettings(SettingDto settings)
+        => await _modelService.UpdateSettings(settings);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [NotFoundWhenEmpty]
+    public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
+        => await _modelService.GetTranslations(language, cancellationToken);
 }

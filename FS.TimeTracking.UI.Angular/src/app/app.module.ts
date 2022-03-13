@@ -5,12 +5,10 @@ import {PageFooterComponent} from './layout/components/page-footer/page-footer.c
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ApiModule, Configuration} from './shared/services/api';
+import {ApiModule, Configuration, SettingService} from './shared/services/api';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
-import translationsEN from '../locale/messages.en.json';
-import translationsDE from '../locale/messages.de.json';
 import localeEN from '@angular/common/locales/en';
 import localeDeDE from '@angular/common/locales/de';
 import localeDeCH from '@angular/common/locales/de-CH';
@@ -51,8 +49,8 @@ import {MasterDataHolidaysImportComponent} from './master-data/components/master
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
-import { DateMonthPickerComponent } from './shared/components/date-month-picker/date-month-picker.component';
-import { RouterLinkCtrlClickDirective } from './shared/directives/router-link-ctrl-click.directive';
+import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
+import {RouterLinkCtrlClickDirective} from './shared/directives/router-link-ctrl-click.directive';
 import {ChartCustomersComponent} from './report/components/chart-customers/chart-customers.component';
 import {ChartActivitiesComponent} from './report/components/chart-activities/chart-activities.component';
 import {ChartIssuesComponent} from './report/components/chart-issues/chart-issues.component';
@@ -123,7 +121,7 @@ import {ChartOrdersComponent} from './report/components/chart-orders/chart-order
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,
-      deps: [LocalizationService, NgSelectConfig],
+      deps: [SettingService, LocalizationService, NgSelectConfig],
       multi: true
     }, {
       provide: LOCALE_ID,
@@ -144,30 +142,30 @@ import {ChartOrdersComponent} from './report/components/chart-orders/chart-order
 export class AppModule {
 }
 
-export function configurationLoaderFactory(localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
+export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
-    let translations: any;
+    let language;
     switch (localizationService.language) {
       case 'de':
       case 'de-DE':
       case 'de-CH':
       case 'de-AT':
-        translations = translationsDE;
+        language = 'de';
         break;
       default:
-        translations = translationsEN;
+        language = 'en';
         break;
     }
 
-    loadTranslations(flattenTranslations(translations));
+    return settingService.getTranslations({language}).toPromise().then(translations => {
+      loadTranslations(flattenTranslations(translations));
 
-    ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
-    ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
-    ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
-    ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
-    ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
-
-    return Promise.resolve();
+      ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
+      ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
+      ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
+      ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
+      ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
+    });
   };
 }
 
