@@ -7,7 +7,7 @@
     "start:nr": "ng serve --host 0.0.0.0 --disable-host-check --no-live-reload",
     "start:api": "dotnet run --project ../FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj",
     "start:allip": "ng serve --host 0.0.0.0 --disable-host-check",
-    "build": "ng build",
+    "build": "ng build --source-map=true",
     "build:watch": "ng build --watch --configuration development",
     "lint": "ng lint",
     "test": "ng test --browsers=Chrome",
