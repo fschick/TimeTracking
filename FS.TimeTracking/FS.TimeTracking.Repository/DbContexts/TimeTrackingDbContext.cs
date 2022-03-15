@@ -120,9 +120,6 @@ public class TimeTrackingDbContext : DbContext
 
         modelBuilder.RegisterDateTimeFunctions(_databaseType);
 
-        RegisterSqliteGuidToStringConverter(modelBuilder);
-        RegisterDateTimeAsUtcConverter(modelBuilder);
-
         ConfigureSetting(modelBuilder.Entity<Setting>());
         ConfigureHoliday(modelBuilder.Entity<Holiday>());
         ConfigureCustomer(modelBuilder.Entity<Customer>());
@@ -130,6 +127,9 @@ public class TimeTrackingDbContext : DbContext
         ConfigureActivity(modelBuilder.Entity<Activity>());
         ConfigureOrder(modelBuilder.Entity<Order>());
         ConfigureTimeSheet(modelBuilder.Entity<TimeSheet>());
+
+        RegisterDateTimeAsUtcConverter(modelBuilder);
+        RegisterSqliteGuidToStringConverter(modelBuilder);
     }
 
     private static void ConfigureSetting(EntityTypeBuilder<Setting> settingsBuilder)
