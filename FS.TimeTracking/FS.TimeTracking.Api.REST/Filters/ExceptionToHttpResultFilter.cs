@@ -1,6 +1,6 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.Repository;
-using FS.TimeTracking.Shared.Models.REST;
+﻿using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Repository;
+using FS.TimeTracking.Abstractions.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.Common;

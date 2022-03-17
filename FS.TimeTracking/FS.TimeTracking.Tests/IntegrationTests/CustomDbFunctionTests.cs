@@ -1,15 +1,15 @@
 ﻿using FluentAssertions;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
+using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
-using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Tests.Services;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.Chart;
 
 namespace FS.TimeTracking.Tests.IntegrationTests;
 

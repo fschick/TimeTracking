@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Models.Configuration;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Abstractions.Models.Configuration;
 using Newtonsoft.Json.Linq;
 using Nito.AsyncEx;
 using System.Collections.Generic;

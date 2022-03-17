@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
+using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
-using FS.TimeTracking.Shared.DTOs.Chart;
-using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;

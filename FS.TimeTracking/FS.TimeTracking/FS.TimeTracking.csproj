@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />

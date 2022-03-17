@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
     <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
     <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />
     <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj" />

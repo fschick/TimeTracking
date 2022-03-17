@@ -1,6 +1,6 @@
-﻿using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.Configuration;
+﻿using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;

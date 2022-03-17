@@ -1,10 +1,9 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Application.Services;
+﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 

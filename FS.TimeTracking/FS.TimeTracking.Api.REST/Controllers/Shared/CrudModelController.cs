@@ -1,9 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Models.REST;
 using FS.TimeTracking.Api.REST.Filters;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

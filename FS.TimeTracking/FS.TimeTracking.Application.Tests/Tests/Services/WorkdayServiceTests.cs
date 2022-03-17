@@ -1,12 +1,12 @@
 ﻿using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Enums;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.Enums;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

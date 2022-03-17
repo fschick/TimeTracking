@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
+using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
-using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Shared.Tests.Services;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

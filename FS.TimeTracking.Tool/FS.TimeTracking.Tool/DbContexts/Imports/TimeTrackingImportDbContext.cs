@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Repository.DbContexts;
+﻿using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

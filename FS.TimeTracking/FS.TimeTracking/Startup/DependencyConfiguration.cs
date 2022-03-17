@@ -1,16 +1,16 @@
-﻿using FS.TimeTracking.Application.Services.Chart;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Chart;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Startup;

@@ -7,7 +7,6 @@ namespace FS.TimeTracking.Shared.Extensions;
 /// <summary>Extensions for the <see cref="T:System.Reflection.MemberInfo"/> class.</summary>
 public static class MemberInfoExtensions
 {
-    //---------------------------------------------------------------------
     /// <summary>
     /// Determines whether an attribute satisfy a condition.
     /// </summary>

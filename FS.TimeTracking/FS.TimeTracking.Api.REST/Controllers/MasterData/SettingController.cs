@@ -1,7 +1,7 @@
-﻿using FS.TimeTracking.Api.REST.Filters;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Threading;

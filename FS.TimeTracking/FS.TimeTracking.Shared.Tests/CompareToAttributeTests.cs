@@ -1,7 +1,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
-using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Models.Shared;
+using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Models.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

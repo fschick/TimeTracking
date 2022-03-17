@@ -39,12 +39,14 @@ internal static class OpenApi
             .AddSwaggerGen(c =>
             {
                 var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
+                var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");
                 var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
                 c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
                 c.IncludeXmlComments(restXmlDoc);
+                c.IncludeXmlComments(abstractionsXmlDoc);
                 c.IncludeXmlComments(sharedXmlDoc);
                 c.OperationFilter<AddCSharpActionFilter>();
-                c.AddFilterExpressionCreators(restXmlDoc, sharedXmlDoc);
+                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc, sharedXmlDoc);
             });
 
     internal static void GenerateOpenApiSpec(this IHost host, string outFile)

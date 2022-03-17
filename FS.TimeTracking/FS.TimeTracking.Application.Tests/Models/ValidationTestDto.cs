@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Shared.Attributes;
-using FS.TimeTracking.Shared.Models.Shared;
+﻿using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;

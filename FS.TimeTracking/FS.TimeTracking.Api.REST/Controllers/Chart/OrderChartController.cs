@@ -1,10 +1,10 @@
 ﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
+using FS.TimeTracking.Abstractions.Models.Application.Chart;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.Chart;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Chart;
-using FS.TimeTracking.Shared.Models.Application.Chart;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

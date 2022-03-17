@@ -1,10 +1,7 @@
-﻿using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using System.Threading;
-
-namespace FS.TimeTracking.Shared.DTOs.Shared;
+﻿namespace FS.TimeTracking.Shared.DTOs.Shared;
 
 /// <summary>
-/// DTO returned by <see cref="IInformationService.GetProductInformation(CancellationToken)"/>
+/// Product information DTO.
 /// </summary>
 public class ProductInformationDto
 {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using FS.TimeTracking.Application.AutoMapper;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 
 namespace FS.TimeTracking.Shared.Tests.Services;
 

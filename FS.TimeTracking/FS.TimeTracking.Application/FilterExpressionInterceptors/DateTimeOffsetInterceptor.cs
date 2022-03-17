@@ -2,8 +2,8 @@
 using FS.FilterExpressionCreator.Filters;
 using FS.FilterExpressionCreator.Interfaces;
 using FS.FilterExpressionCreator.PropertyFilterExpressionCreators;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Models.Application.TimeTracking;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;

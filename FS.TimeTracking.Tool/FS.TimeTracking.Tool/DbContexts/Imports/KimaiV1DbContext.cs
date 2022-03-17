@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Repository.DbContexts;
+﻿using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tool.Models.Configurations;
 using FS.TimeTracking.Tool.Models.Imports;

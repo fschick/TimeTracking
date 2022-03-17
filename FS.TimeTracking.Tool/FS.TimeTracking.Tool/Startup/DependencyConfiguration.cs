@@ -1,11 +1,12 @@
-﻿using FS.TimeTracking.Application.Services.MasterData;
+﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Application.Services.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
 using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Tool.AutoMapper.Imports;
 using FS.TimeTracking.Tool.DbContexts.Imports;

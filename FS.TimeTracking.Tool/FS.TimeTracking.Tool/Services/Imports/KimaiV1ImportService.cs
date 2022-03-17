@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Models.Application.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using FS.TimeTracking.Tool.Interfaces.Import;
 using FS.TimeTracking.Tool.Models.Configurations;
 using FS.TimeTracking.Tool.Models.Imports;

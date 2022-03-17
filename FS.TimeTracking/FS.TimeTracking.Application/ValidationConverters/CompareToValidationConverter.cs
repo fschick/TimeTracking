@@ -1,11 +1,11 @@
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Interfaces.Application.ValidationConverters;
+using FS.TimeTracking.Abstractions.Models.Shared;
 using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Models.Shared;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters;
 
 namespace FS.TimeTracking.Application.ValidationConverters;
 

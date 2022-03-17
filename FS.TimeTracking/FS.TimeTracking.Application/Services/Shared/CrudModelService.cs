@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Models;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Models;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading;

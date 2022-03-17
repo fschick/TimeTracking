@@ -1,15 +1,15 @@
 ﻿using Bogus;
-using FS.TimeTracking.Shared.Extensions;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Extensions;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Models.Application.TimeTracking;
 using TimeZoneConverter;
 
 namespace FS.TimeTracking.Application.Services.Shared;

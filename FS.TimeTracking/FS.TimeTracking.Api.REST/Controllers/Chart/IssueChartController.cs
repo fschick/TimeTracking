@@ -1,13 +1,13 @@
 ﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.MasterData;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Chart;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FS.TimeTracking.Shared.DTOs.Chart;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 

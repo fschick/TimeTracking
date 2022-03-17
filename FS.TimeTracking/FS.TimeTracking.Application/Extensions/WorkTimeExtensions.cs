@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Models.Application.Chart;
+﻿using FS.TimeTracking.Abstractions.Models.Application.Chart;
 using System;
 using System.Collections.Generic;
 using System.Linq;

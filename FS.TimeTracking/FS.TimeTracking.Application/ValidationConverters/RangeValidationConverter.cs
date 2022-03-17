@@ -1,3 +1,4 @@
+using FS.TimeTracking.Abstractions.Interfaces.Application.ValidationConverters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using FS.TimeTracking.Shared.Interfaces.Application.ValidationConverters;
 
 namespace FS.TimeTracking.Application.ValidationConverters;
 

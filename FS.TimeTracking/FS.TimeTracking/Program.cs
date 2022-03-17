@@ -1,6 +1,6 @@
+using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Repository.Startup;
-using FS.TimeTracking.Shared.Models.Configuration;
 using FS.TimeTracking.Startup;
 using Microsoft.AspNetCore.Builder;
 using NLog.Web;

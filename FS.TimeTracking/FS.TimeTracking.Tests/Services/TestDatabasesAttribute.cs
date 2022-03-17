@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Models.Configuration;
+﻿using FS.TimeTracking.Abstractions.Models.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;

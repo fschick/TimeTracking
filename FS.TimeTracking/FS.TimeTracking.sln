@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared.Tests", "FS.TimeTracking.Shared.Tests\FS.TimeTracking.Shared.Tests.csproj", "{A6C87157-ADD1-4460-B496-1AD952B20A88}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Abstractions", "FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj", "{1B5F5086-3FB2-4C35-9DF7-789549261065}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,10 @@ Global
 		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6C87157-ADD1-4460-B496-1AD952B20A88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

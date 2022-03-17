@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.SqlServer", "..\FS.TimeTracking\FS.TimeTracking.Repository.SqlServer\FS.TimeTracking.Repository.SqlServer.csproj", "{938C4D52-50AA-469B-809A-46783C6D852B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Abstractions", "..\FS.TimeTracking\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj", "{08A208D4-A191-40B7-8EF1-222E865E7881}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{938C4D52-50AA-469B-809A-46783C6D852B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938C4D52-50AA-469B-809A-46783C6D852B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{938C4D52-50AA-469B-809A-46783C6D852B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08A208D4-A191-40B7-8EF1-222E865E7881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08A208D4-A191-40B7-8EF1-222E865E7881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08A208D4-A191-40B7-8EF1-222E865E7881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08A208D4-A191-40B7-8EF1-222E865E7881}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

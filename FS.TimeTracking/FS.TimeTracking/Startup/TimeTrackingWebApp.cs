@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Startup;
+﻿using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Builder;

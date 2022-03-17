@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.Shared;
+﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Api.REST.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;

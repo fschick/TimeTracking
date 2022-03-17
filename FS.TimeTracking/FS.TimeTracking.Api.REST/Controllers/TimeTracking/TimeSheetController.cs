@@ -1,7 +1,7 @@
-﻿using FS.TimeTracking.Api.REST.Controllers.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Abstractions.Interfaces.Application.Services.TimeTracking;
+using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.TimeTracking;
-using FS.TimeTracking.Shared.Interfaces.Application.Services.TimeTracking;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

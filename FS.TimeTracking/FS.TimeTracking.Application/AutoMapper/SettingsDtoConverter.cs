@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Shared.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using FS.TimeTracking.Shared.Models.Application.MasterData;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 

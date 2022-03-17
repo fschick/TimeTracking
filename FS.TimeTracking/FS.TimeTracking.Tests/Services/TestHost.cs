@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Models.Configuration;
+﻿using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Testing;
