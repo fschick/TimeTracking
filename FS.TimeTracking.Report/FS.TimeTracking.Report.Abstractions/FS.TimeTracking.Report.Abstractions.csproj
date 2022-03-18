@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Build/build_core.props" />
+  <Import Project="../../Build/build_version.props" />
+  <Import Project="../../Build/build_xml_documentation.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Stimulsoft.Reports.Web.NetCore" Version="2022.2.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

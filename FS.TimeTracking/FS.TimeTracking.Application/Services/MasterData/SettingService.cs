@@ -59,6 +59,8 @@ public class SettingService : ISettingService
     {
         var translationFolder = Path.Combine(TimeTrackingConfiguration.PathToContentRoot, TimeTrackingConfiguration.TRANSLATION_FOLDER);
         var translationFile = Path.Combine(translationFolder, $"translations.{language}.json");
+        if (!File.Exists(translationFile) && language != null)
+            translationFile = Path.Combine(translationFolder, $"translations.{language[..2]}.json");
         if (!File.Exists(translationFile))
             translationFile = Path.Combine(translationFolder, "translations.en.json");
         if (!File.Exists(translationFile))

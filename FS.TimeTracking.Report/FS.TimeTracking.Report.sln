@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\build_core.props = ..\Build\build_core.props
+		..\Build\build_standard.props = ..\Build\build_standard.props
+		..\Build\build_tests.props = ..\Build\build_tests.props
+		..\Build\build_version.props = ..\Build\build_version.props
+		..\Build\build_xml_documentation.props = ..\Build\build_xml_documentation.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report", "FS.TimeTracking.Report\FS.TimeTracking.Report.csproj", "{D86FC611-02D1-4281-B9DB-EB043E5936FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report.Api.REST", "FS.TimeTracking.Report.Api.REST\FS.TimeTracking.Report.Api.REST.csproj", "{2FCA3D6F-94E0-4081-BA5C-F387DE6EA7B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report.Application", "FS.TimeTracking.Report.Application\FS.TimeTracking.Report.Application.csproj", "{AB9BF154-E64F-4483-B2B8-2350C7783DB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "..\FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{FFE065F2-5497-4DE3-AD02-4F1DDB5EAC25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report.Abstractions", "FS.TimeTracking.Report.Abstractions\FS.TimeTracking.Report.Abstractions.csproj", "{FE771758-01C8-4090-9EF9-1AB330A7B74E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D86FC611-02D1-4281-B9DB-EB043E5936FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D86FC611-02D1-4281-B9DB-EB043E5936FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D86FC611-02D1-4281-B9DB-EB043E5936FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D86FC611-02D1-4281-B9DB-EB043E5936FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FCA3D6F-94E0-4081-BA5C-F387DE6EA7B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FCA3D6F-94E0-4081-BA5C-F387DE6EA7B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FCA3D6F-94E0-4081-BA5C-F387DE6EA7B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FCA3D6F-94E0-4081-BA5C-F387DE6EA7B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9BF154-E64F-4483-B2B8-2350C7783DB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9BF154-E64F-4483-B2B8-2350C7783DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9BF154-E64F-4483-B2B8-2350C7783DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9BF154-E64F-4483-B2B8-2350C7783DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFE065F2-5497-4DE3-AD02-4F1DDB5EAC25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE065F2-5497-4DE3-AD02-4F1DDB5EAC25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE065F2-5497-4DE3-AD02-4F1DDB5EAC25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE065F2-5497-4DE3-AD02-4F1DDB5EAC25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE771758-01C8-4090-9EF9-1AB330A7B74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE771758-01C8-4090-9EF9-1AB330A7B74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE771758-01C8-4090-9EF9-1AB330A7B74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE771758-01C8-4090-9EF9-1AB330A7B74E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}
+	EndGlobalSection
+EndGlobal

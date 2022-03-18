@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd" xsi:schemaLocation="NLog NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      autoReload="true"
+      internalLogFile="nlog-internal.log"
+      internalLogLevel="Off"
+      throwExceptions="false">
+
+  <!-- the targets to write to -->
+  <targets>
+
+    <target name="log_to_console"
+            xsi:type="ColoredConsole"
+            detectConsoleAvailable="true"
+            layout="${longdate} ${level:uppercase=true}&#009;${message}&#009;${exception:format=tostring}">
+    </target>
+
+    <target name="log_to_csv"
+            xsi:type="File"
+            archiveAboveSize="33554432"
+            maxArchiveFiles="5"
+            archiveOldFileOnStartup="false"
+            keepFileOpen="true"
+            concurrentWrites="false"
+            openFileCacheTimeout="30"
+            fileName="${basedir}/log/TimeTracking.Report.log.csv">
+      <layout xsi:type="CsvLayout" quoting="all" delimiter="Semicolon">
+        <column name="Created" layout="${longdate}" />
+        <column name="LogLevel" layout="${level:uppercase=true}" />
+        <column name="Logger" layout="${logger}" />
+        <column name="EventId" layout="${event-properties:item=EventId_Id}" />
+        <column name="RequestId" layout="${mdlc:item=RequestId}" />
+        <column name="RequestPath" layout="${mdlc:item=RequestPath}" />
+        <column name="Message" layout="${message}" />
+        <column name="Exception" layout="${exception:format=tostring}" />
+        <column name="Callsite" layout="${callsite:className=true:fileName=true:includeSourcePath=false:methodName=true:cleanNamesOfAnonymousDelegates=true}" />
+        <column name="Stacktrace" layout="${stacktrace}" />
+      </layout>
+    </target>
+
+    <target name="log_to_sentinel_all"
+            xsi:type="NLogViewer"
+            address="udp://127.0.0.1:9999"
+            includeNdlc="true">
+    </target>
+
+    <target name="log_to_sentinel_ef_commands"
+            xsi:type="NLogViewer"
+            address="udp://127.0.0.1:9998"
+            includeNdlc="true">
+    </target>
+
+    <target xsi:type="Null" name="black_hole" />
+
+  </targets>
+
+  <!-- rules to map from logger name to target -->
+  <rules>
+    <!-- All logs to sentinel, including from Microsoft -->
+    <!-- Can causes this error: An error occurred while writing to logger(s). (Exception occurred in NLog) - NLog.NLogRuntimeException: Exception occurred in NLog - System.IO.IOException: Error: NoBufferSpaceAvailable - End of inner exception stack trace -->
+    <!--
+    <logger name="*" minlevel="Trace" writeTo="log_to_sentinel_all" />
+    -->
+
+    <!-- All executed sql statements to sentinel (EF)  -->
+    <!-- Can causes this error: An error occurred while writing to logger(s). (Exception occurred in NLog) - NLog.NLogRuntimeException: Exception occurred in NLog - System.IO.IOException: Error: NoBufferSpaceAvailable - End of inner exception stack trace -->
+    <!--
+    <logger name="Microsoft.EntityFrameworkCore.Database.Command" minlevel="Info" writeTo="log_to_sentinel_ef_commands">
+      <filters>
+        <when condition="starts-with('${message}', 'Executed DbCommand')" action="LogFinal" />
+      </filters>
+    </logger>
+    -->
+
+    <!-- Startup messages to console -->
+    <logger name="Microsoft.Hosting.Lifetime" minlevel="Info" writeTo="log_to_console" />
+
+    <!-- Discard finally non-critical logs from Microsoft -->
+    <logger name="Microsoft.*" maxlevel="Info" final="true" />
+
+    <!-- Discard finally non-critical logs from LinqToDB -->
+    <logger name="LinqToDB" maxlevel="Info" final="true" />
+
+    <!-- Discard finally chatty task canceled logs from EF -->
+    <!-- Remove as soon as chatty EF is fixed, see https://github.com/dotnet/efcore/issues/19526 -->
+    <logger name="*" minlevel="Trace" writeTo="black_hole" >
+      <filters>
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Connection') and equals('${event-properties:item=EventId_Id}', '20004') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Command') and equals('${event-properties:item=EventId_Id}', '20102') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Query') and contains('${exception:format=tostring}', 'System.Threading.Tasks.TaskCanceledException')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware') and contains('${exception:format=tostring}', 'System.Threading.Tasks.TaskCanceledException')" action="IgnoreFinal" />
+      </filters>
+    </logger>
+
+    <!-- All custom and critical Microsoft logs (non-discarded above) to console -->
+    <logger name="*" minlevel="Trace" writeTo="log_to_console" />
+
+    <!-- Logs higher than Warn (Warn, Error, Fatal) and critical Microsoft logs (non-discarded from above) to CSV file -->
+    <logger name="*" minlevel="Warn" writeTo="log_to_csv" />
+  </rules>
+</nlog>
