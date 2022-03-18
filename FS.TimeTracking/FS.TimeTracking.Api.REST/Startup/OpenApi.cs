@@ -19,6 +19,26 @@ internal static class OpenApi
     public const string OPEN_API_SPEC = "openapi.json";
     public const string SWAGGER_UI_ROUTE = "swagger/";
 
+    internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
+        => services
+            .AddSwaggerGenNewtonsoftSupport()
+            .AddSwaggerGen(c =>
+            {
+                const string documentName = V1ApiController.API_VERSION;
+                c.SwaggerDoc(documentName, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
+
+                c.OperationFilter<AddCSharpActionFilter>();
+
+                var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
+                var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");
+                var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
+                c.IncludeXmlComments(restXmlDoc);
+                c.IncludeXmlComments(abstractionsXmlDoc);
+                c.IncludeXmlComments(sharedXmlDoc);
+
+                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc, sharedXmlDoc);
+            });
+
     internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
     {
         webApplication
@@ -32,22 +52,6 @@ internal static class OpenApi
 
         return webApplication;
     }
-
-    internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
-        => services
-            .AddSwaggerGenNewtonsoftSupport()
-            .AddSwaggerGen(c =>
-            {
-                var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
-                var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");
-                var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
-                c.SwaggerDoc(V1ApiController.API_VERSION, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
-                c.IncludeXmlComments(restXmlDoc);
-                c.IncludeXmlComments(abstractionsXmlDoc);
-                c.IncludeXmlComments(sharedXmlDoc);
-                c.OperationFilter<AddCSharpActionFilter>();
-                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc, sharedXmlDoc);
-            });
 
     internal static void GenerateOpenApiSpec(this IHost host, string outFile)
     {
