@@ -51,11 +51,11 @@ import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
 import {RouterLinkCtrlClickDirective} from './shared/directives/router-link-ctrl-click.directive';
-import {ChartCustomersComponent} from './report/components/chart-customers/chart-customers.component';
-import {ChartActivitiesComponent} from './report/components/chart-activities/chart-activities.component';
-import {ChartIssuesComponent} from './report/components/chart-issues/chart-issues.component';
-import {ChartProjectsComponent} from './report/components/chart-projects/chart-projects.component';
-import {ChartOrdersComponent} from './report/components/chart-orders/chart-orders.component';
+import {ChartCustomersComponent} from './chart/components/chart-customers/chart-customers.component';
+import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
+import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
+import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
+import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
 
 @NgModule({
   declarations: [

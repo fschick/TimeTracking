@@ -14,11 +14,11 @@ import {MasterDataHolidaysComponent} from './master-data/components/master-data-
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
-import {ChartCustomersComponent} from './report/components/chart-customers/chart-customers.component';
-import {ChartProjectsComponent} from './report/components/chart-projects/chart-projects.component';
-import {ChartActivitiesComponent} from './report/components/chart-activities/chart-activities.component';
-import {ChartIssuesComponent} from './report/components/chart-issues/chart-issues.component';
-import {ChartOrdersComponent} from './report/components/chart-orders/chart-orders.component';
+import {ChartCustomersComponent} from './chart/components/chart-customers/chart-customers.component';
+import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
+import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
+import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
+import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
 
 const routes: Routes = [
   {
