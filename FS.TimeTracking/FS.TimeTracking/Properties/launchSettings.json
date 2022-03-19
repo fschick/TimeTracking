@@ -1,9 +1,25 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://develop.home.f-schick.de/timetracking",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "FS.TimeTracking": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "externalUrlConfiguration": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "FS.TimeTracking:IIS": {
+      "commandName": "IIS",
+      "launchBrowser": false,
+      "launchUrl": "https://develop.home.f-schick.de/timetracking",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

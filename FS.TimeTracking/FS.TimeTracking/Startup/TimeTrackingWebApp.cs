@@ -16,8 +16,6 @@ namespace FS.TimeTracking.Startup;
 
 internal static class TimeTrackingWebApp
 {
-
-
     internal static WebApplication Create(string[] args)
     {
         var webAppBuilder = CreateWebApplicationBuilder(args);

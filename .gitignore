@@ -301,9 +301,10 @@ __pycache__/
 /FS.TimeTracking.UI.Angular/cypress/integration/samples
 /FS.TimeTracking.UI.Angular/src/app/shared/services/api
 /FS.TimeTracking.UI.Angular/src/app/shared/services/form-validation/dto-validations.spec.json
+/FS.TimeTracking.UI.Angular/src/assets/icons/bootstrap-icons.svg
 /FS.TimeTracking/FS.TimeTracking.Tests/TestDatabases.json
 /FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.openapi.json
 /FS.TimeTracking/FS.TimeTracking/config/FS.TimeTracking.config.Development.json
 /FS.TimeTracking/FS.TimeTracking/database
+/FS.TimeTracking/FS.TimeTracking/web.config
 /switcher.json
-/FS.TimeTracking.UI.Angular/src/assets/icons/bootstrap-icons.svg
