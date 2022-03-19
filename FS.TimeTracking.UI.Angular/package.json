@@ -3,16 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "start:nr": "ng serve --host 0.0.0.0 --disable-host-check --no-live-reload",
+    "start": "npm run build:icons && ng serve",
+    "start:nr": "npm run start -- --no-live-reload",
+	"start:allip": "npm run start -- --host 0.0.0.0 --disable-host-check",
     "start:api": "dotnet run --project ../FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj",
-    "start:allip": "ng serve --host 0.0.0.0 --disable-host-check",
-    "build": "ng build --source-map=true",
-    "build:watch": "ng build --watch --configuration development",
+    "build": "npm run build:icons && ng build --source-map=true",
+    "build:watch": "npm run build -- --watch --configuration development",
+	"build:icons": "node src/icons/app/create-sprite.js src/icons/app/svg-sprite.json src/assets/icons src/icons/app/app-icons.txt",
     "lint": "ng lint",
     "test": "ng test --browsers=Chrome",
-    "test:single": "ng test --no-watch --browsers=Chrome",
-    "test:headless": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "test:single": "npm run test -- --no-watch --browsers=Chrome",
+    "test:headless": "npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:cypress": "npx cypress run",
     "test:e2e": "start-server-and-test start:api http://localhost:5000/openapi/index.html start 4200 test:cypress",
     "cypress": "npx cypress open"
@@ -59,6 +60,7 @@
     "@types/node": "^17.0.18",
     "@typescript-eslint/eslint-plugin": "5.12.0",
     "@typescript-eslint/parser": "5.12.0",
+    "bootstrap-icons": "^1.8.1",
     "cypress": "^9.5.0",
     "eslint": "^8.9.0",
     "jasmine-core": "~4.0.0",
@@ -68,6 +70,7 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "~1.7.0",
     "start-server-and-test": "^1.14.0",
+    "svg-sprite": "^1.5.4",
     "typescript": "~4.5.5"
   }
 }
