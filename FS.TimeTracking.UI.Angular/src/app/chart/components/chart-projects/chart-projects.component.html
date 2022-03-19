@@ -38,7 +38,9 @@
      [ngbPopover]="infoDetailPopover"
      [autoClose]="'outside'"
      popoverClass="popup-full-width">
-    <ts-icon icon="bi bi-box-arrow-up-right" class="action-icon"></ts-icon>
+    <svg class="bi action-icon" fill="currentColor">
+      <use xlink:href="assets/icons/bootstrap-icons.svg#info-circle"/>
+    </svg>
   </a>
 
   <ng-template #infoDetailPopover>

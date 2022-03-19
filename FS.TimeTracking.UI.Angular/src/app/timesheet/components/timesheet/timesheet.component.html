@@ -22,14 +22,13 @@
         {{overview.holidays | number:'1.0-1'}}
         <ng-container i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</ng-container>
       </ng-container>)
-
-      <ts-icon icon="bi bi-info-circle"
-               class="cursor-pointer"
-               [ngbPopover]="workdayInfoPopover"
-               [autoClose]="'outside'"
-               popoverClass="popup-full-width">
-      </ts-icon>
-
+      <svg class="bi cursor-pointer"
+           fill="currentColor"
+           [ngbPopover]="workdayInfoPopover"
+           [autoClose]="'outside'"
+           popoverClass="popup-full-width">
+        <use xlink:href="assets/icons/bootstrap-icons.svg#info-circle"/>
+      </svg>
       <ng-template #workdayInfoPopover>
         <table class="table table-borderless table-sm">
           <tbody>
@@ -133,17 +132,23 @@
           <div class="col-2 col-md-auto col-action">
             <span class="d-block d-md-inline me-2">
               <a class="text-success" (click)="restartTimeSheet(timeSheet.id)">
-                <ts-icon *ngIf="timeSheet.endDate" icon="bi bi-play-circle" class="action-icon"></ts-icon>
+                <svg *ngIf="timeSheet.endDate" class="bi action-icon" fill="currentColor">
+                  <use xlink:href="assets/icons/bootstrap-icons.svg#play-circle"/>
+                </svg>
               </a>
               <a class="text-danger" (click)="stopTimeSheet(timeSheet.id)">
-                <ts-icon *ngIf="!timeSheet.endDate" icon="bi bi-stop-circle" class="action-icon"></ts-icon>
+                <svg *ngIf="!timeSheet.endDate" class="bi action-icon" fill="currentColor">
+                  <use xlink:href="assets/icons/bootstrap-icons.svg#stop-circle"/>
+                </svg>
               </a>
             </span>
             <a class="d-block d-md-inline text-secondary me-2"
                title="[i18n] Edit Activity"
                i18n-title="@@Page.Timesheet.Edit"
                [routerLink]="timeSheet.id">
-              <ts-icon icon="bi bi-pencil" class="action-icon"></ts-icon>
+              <svg class="bi action-icon" fill="currentColor">
+                <use xlink:href="assets/icons/bootstrap-icons.svg#pencil"/>
+              </svg>
             </a>
             <ts-simple-confirm
               title="[i18n] Delete Entry"
@@ -155,7 +160,9 @@
               color="danger"
               (confirmed)="deleteItem(timeSheet.id)">
               <a class="text-danger">
-                <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
+                <svg class="bi action-icon" fill="currentColor">
+                  <use xlink:href="assets/icons/bootstrap-icons.svg#eraser"/>
+                </svg>
               </a>
             </ts-simple-confirm>
           </div>

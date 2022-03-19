@@ -38,7 +38,9 @@
      title="[i18n] Edit holiday"
      i18n-title="@@Page.MasterData.Holidays.Edit"
      [routerLink]="row.id">
-    <ts-icon icon="bi bi-pencil" class="action-icon"></ts-icon>
+    <svg class="bi action-icon" fill="currentColor">
+      <use xlink:href="assets/icons/bootstrap-icons.svg#pencil"/>
+    </svg>
   </a>
   <ts-simple-confirm
     title="[i18n] Delete holiday"
@@ -50,7 +52,11 @@
     color="danger"
     (confirmed)="deleteItem(row.id)">
     <a class="text-danger">
-      <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
+      <svg class="bi action-icon" fill="currentColor">
+        <svg class="bi action-icon" fill="currentColor">
+          <use xlink:href="assets/icons/bootstrap-icons.svg#eraser"/>
+        </svg>
+      </svg>
     </a>
   </ts-simple-confirm>
 </ng-template>

@@ -37,15 +37,6 @@ td.action-cell {
   padding: 0 $table-cell-padding-x !important;
 }
 
-.action-icon {
-  height: 1.2rem;
-  width: 1.2rem;
-
-  svg {
-    vertical-align: -0.25rem;
-  }
-}
-
 a {
   cursor: pointer;
 }
@@ -91,6 +82,18 @@ ts-icon {
   height: 1rem;
   width: 1rem;
   display: inline-block;
+}
+
+.bi {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+.bi.action-icon {
+  height: 1.2em;
+  width: 1.2em;
+  vertical-align: -0.25em;
 }
 
 /* ----------------------------------------- */

@@ -33,7 +33,9 @@
      title="[i18n] Edit Project"
      i18n-title="@@Page.MasterData.Projects.Edit"
      [routerLink]="row.id">
-    <ts-icon icon="bi bi-pencil" class="action-icon"></ts-icon>
+    <svg class="bi action-icon" fill="currentColor">
+      <use xlink:href="assets/icons/bootstrap-icons.svg#pencil"/>
+    </svg>
   </a>
   <ts-simple-confirm
     title="[i18n] Delete project"
@@ -45,7 +47,9 @@
     color="danger"
     (confirmed)="deleteItem(row.id)">
     <a class="text-danger">
-      <ts-icon icon="bi bi-eraser" class="action-icon"></ts-icon>
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons/bootstrap-icons.svg#eraser"/>
+      </svg>
     </a>
   </ts-simple-confirm>
 </ng-template>

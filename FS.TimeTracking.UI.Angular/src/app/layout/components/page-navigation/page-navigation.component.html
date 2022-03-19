@@ -2,7 +2,9 @@
   <div class="container">
 
     <a class="navbar-brand" style="margin-top: -0.3rem;" routerLink="">
-      <ts-icon icon="bi bi-calendar-week" class="me-2"></ts-icon>
+      <svg class="bi me-2" fill="currentColor">
+        <use xlink:href="assets/icons/bootstrap-icons.svg#calendar-week"/>
+      </svg>
       <span class="align-text-top">TimeTracking</span>
       <span class="align-text-top" *ngIf="isDevelopment">
         <span class="d-inline d-sm-none">&nbsp;(xs)</span>
