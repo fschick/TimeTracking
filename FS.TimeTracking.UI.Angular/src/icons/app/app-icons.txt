@@ -1,0 +1,7 @@
+node_modules/bootstrap-icons/icons/calendar-week.svg
+node_modules/bootstrap-icons/icons/info-circle.svg
+node_modules/bootstrap-icons/icons/exclamation-triangle.svg
+node_modules/bootstrap-icons/icons/pencil.svg
+node_modules/bootstrap-icons/icons/eraser.svg
+node_modules/bootstrap-icons/icons/play-circle.svg
+node_modules/bootstrap-icons/icons/stop-circle.svg
