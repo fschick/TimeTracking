@@ -2,7 +2,7 @@
   "mode": {
     "symbol": {
       "dest": ".",
-      "sprite": "bootstrap-icons.svg"
+      "sprite": "icons.svg"
     }
   },
   "svg": {

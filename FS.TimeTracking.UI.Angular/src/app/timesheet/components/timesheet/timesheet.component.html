@@ -27,7 +27,7 @@
            [ngbPopover]="workdayInfoPopover"
            [autoClose]="'outside'"
            popoverClass="popup-full-width">
-        <use xlink:href="assets/icons/bootstrap-icons.svg#info-circle"/>
+        <use xlink:href="assets/icons.svg#info-circle"/>
       </svg>
       <ng-template #workdayInfoPopover>
         <table class="table table-borderless table-sm">
@@ -133,12 +133,12 @@
             <span class="d-block d-md-inline me-2">
               <a class="text-success" (click)="restartTimeSheet(timeSheet.id)">
                 <svg *ngIf="timeSheet.endDate" class="bi action-icon" fill="currentColor">
-                  <use xlink:href="assets/icons/bootstrap-icons.svg#play-circle"/>
+                  <use xlink:href="assets/icons.svg#play-circle"/>
                 </svg>
               </a>
               <a class="text-danger" (click)="stopTimeSheet(timeSheet.id)">
                 <svg *ngIf="!timeSheet.endDate" class="bi action-icon" fill="currentColor">
-                  <use xlink:href="assets/icons/bootstrap-icons.svg#stop-circle"/>
+                  <use xlink:href="assets/icons.svg#stop-circle"/>
                 </svg>
               </a>
             </span>
@@ -147,7 +147,7 @@
                i18n-title="@@Page.Timesheet.Edit"
                [routerLink]="timeSheet.id">
               <svg class="bi action-icon" fill="currentColor">
-                <use xlink:href="assets/icons/bootstrap-icons.svg#pencil"/>
+                <use xlink:href="assets/icons.svg#pencil"/>
               </svg>
             </a>
             <ts-simple-confirm
@@ -161,7 +161,7 @@
               (confirmed)="deleteItem(timeSheet.id)">
               <a class="text-danger">
                 <svg class="bi action-icon" fill="currentColor">
-                  <use xlink:href="assets/icons/bootstrap-icons.svg#eraser"/>
+                  <use xlink:href="assets/icons.svg#eraser"/>
                 </svg>
               </a>
             </ts-simple-confirm>

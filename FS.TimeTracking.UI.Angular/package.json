@@ -9,7 +9,7 @@
     "start:api": "dotnet run --project ../FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj",
     "build": "npm run build:icons && ng build --source-map=true",
     "build:watch": "npm run build -- --watch --configuration development",
-	"build:icons": "node src/icons/app/create-sprite.js src/icons/app/svg-sprite.json src/assets/icons src/icons/app/app-icons.txt",
+	"build:icons": "node icon-generator/create-sprite.js icon-generator/svg-sprite.json src/assets icon-generator/app-icons.txt",
     "lint": "ng lint",
     "test": "ng test --browsers=Chrome",
     "test:single": "npm run test -- --no-watch --browsers=Chrome",

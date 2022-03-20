@@ -37,7 +37,7 @@
   <div class="col p-0">
     <div class="alert alert-warning m-2" role="alert">
       <svg class="bi me-1" fill="currentColor">
-        <use xlink:href="assets/icons/bootstrap-icons.svg#exclamation-triangle"/>
+        <use xlink:href="assets/icons.svg#exclamation-triangle"/>
       </svg>
       <ng-container i18n="@@Page.Chart.Common.PartialPlannedValues">
         [i18n] The order period is greater than selected period. The values are displayed proportionally.
@@ -54,7 +54,7 @@
 <ng-template #orderPeriodDataTemplate let-row="row">
   <span class="d-none d-lg-inline">{{formatService.formatDate(row.plannedStart)}} - {{formatService.formatDate(row.plannedEnd)}}</span>
   <svg *ngIf="row.plannedIsPartial" class="bi text-warning ms-1" fill="currentColor">
-    <use xlink:href="assets/icons/bootstrap-icons.svg#exclamation-triangle"/>
+    <use xlink:href="assets/icons.svg#exclamation-triangle"/>
   </svg>
 </ng-template>
 
@@ -68,7 +68,7 @@
      [autoClose]="'outside'"
      popoverClass="popup-full-width">
     <svg class="bi action-icon" fill="currentColor">
-      <use xlink:href="assets/icons/bootstrap-icons.svg#info-circle"/>
+      <use xlink:href="assets/icons.svg#info-circle"/>
     </svg>
   </a>
 
