@@ -2,7 +2,6 @@
 import {GuidService} from '../../../../../src/app/shared/services/state-management/guid.service';
 import {RestApi} from '../../../../fixtures/services/restApi';
 
-
 describe('Create and edit', () => {
 
   before(() => {
@@ -38,7 +37,7 @@ describe('Date picker', () => {
     cy.intercept('GET', '/api/v1/TimeSheet/Get/88dd9b02-9db0-4e0d-ce5f-08d9f7c722f1', {fixture: 'dto/TimeSheetDto.default.json'}).as('default');
   })
 
-  it('When end date is set, time is set to \'now\'', () => {
+  it('When end date on new entry is set, time is set to \'now\'', () => {
     cy.visit('/00000000-0000-0000-0000-000000000000');
 
     cy.get('#endDate').type("{selectall}1");
@@ -50,10 +49,9 @@ describe('Date picker', () => {
     cy.get('#endTime').invoke('val').should('match', expectedText);
   })
 
-  it('When end date is changed, time remains unchanged', () => {
+  it('When end date on new entry is changed, time remains unchanged', () => {
     cy.visit('/00000000-0000-0000-0000-000000000000');
 
-    const now = DateTime.now().toFormat('HH:mm');
     cy.get('#endDate').type("{selectall}1");
     cy.get('#endTime').click().type('16:34');
     cy.get('#endDate').type("{selectall}2");
@@ -69,6 +67,15 @@ describe('Date picker', () => {
       .click()
       .should('have.value', '15:00');
 
+    cy.get('#endTime')
+      .click()
+      .should('have.value', '20:00');
+  })
+
+  it('When end date on existing entry is changed, time remains unchanged', () => {
+    cy.visit('/88dd9b02-9db0-4e0d-ce5f-08d9f7c722f1');
+
+    cy.get('#endDate').type("{selectall}1");
     cy.get('#endTime')
       .click()
       .should('have.value', '20:00');

@@ -43,14 +43,14 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     if (this.isNewRecord)
-      this.setTimeToNowWhenEmptyEndDateIsFilled();
+      this.setTimeToNowWhenEmptyEndDateIsFilled(null);
     else
       this.timesheetService
         .get({id: this.route.snapshot.params['id']})
         .pipe(single())
         .subscribe(timesheet => {
           this.timesheetForm.patchValue(timesheet);
-          this.setTimeToNowWhenEmptyEndDateIsFilled();
+          this.setTimeToNowWhenEmptyEndDateIsFilled(timesheet.endDate);
         });
 
     this.projects$ = typeaheadService.getProjects({});
@@ -138,10 +138,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     return timesheetForm;
   }
 
-  private setTimeToNowWhenEmptyEndDateIsFilled(): void {
+  private setTimeToNowWhenEmptyEndDateIsFilled(initialValue: DateTime | null | undefined): void {
     const endDateChanged = this.timesheetForm.controls['endDate'].valueChanges
       .pipe(
-        startWith(null),
+        startWith(initialValue),
         pairwise(),
         filter(([prev, current]) => prev == null && current != null),
         map(([, current]) => current)
