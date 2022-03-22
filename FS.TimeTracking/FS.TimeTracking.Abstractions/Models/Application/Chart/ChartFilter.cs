@@ -14,12 +14,12 @@ namespace FS.TimeTracking.Abstractions.Models.Application.Chart;
 /// <summary>
 /// Common filters used by chart services.
 /// </summary>
-public record struct ChartFilter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, Section<DateTimeOffset> SelectedPeriod)
+public record struct ChartFilter(EntityFilter<TimeSheet> WorkedTimes, EntityFilter<Order> PlannedTimes, Range<DateTimeOffset> SelectedPeriod)
 {
     /// <summary>
     /// The period selected by filter.
     /// </summary>
-    public readonly Section<DateTimeOffset> SelectedPeriod = SelectedPeriod;
+    public readonly Range<DateTimeOffset> SelectedPeriod = SelectedPeriod;
 
     /// <summary>
     /// The filter for worked times.

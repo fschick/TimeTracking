@@ -39,6 +39,6 @@ public class WorkdayController : Controller, IWorkdayService
 
     /// <inheritdoc />
     [NonAction]
-    Task<WorkdaysDto> IWorkdayService.GetWorkdays(Section<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken)
+    Task<WorkdaysDto> IWorkdayService.GetWorkdays(Range<DateTimeOffset> dateTimeRange, CancellationToken cancellationToken)
         => throw new NotImplementedException("For internal usage only");
 }

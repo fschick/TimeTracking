@@ -61,7 +61,7 @@ public class CustomerChartService : ICustomerChartService
                     if (worked == null && planned == null)
                         throw new InvalidOperationException("Planned and worked entities are null");
 
-                    var plannedTimeSpan = planned != null ? new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
+                    var plannedTimeSpan = planned != null ? new Range<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
                     return new CustomerWorkTimeDto
                     {
                         CustomerId = worked?.CustomerId ?? planned.CustomerId,

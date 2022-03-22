@@ -170,7 +170,7 @@ public static class FilterExtensions
     /// </summary>
     /// <param name="timeSheetFilter">The time sheet filter.</param>
     /// <param name="endDateExclusive">Handle given end date as (right) exclusive.</param>
-    public static Section<DateTimeOffset> GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter, bool endDateExclusive = false)
+    public static Range<DateTimeOffset> GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter, bool endDateExclusive = false)
     {
         // Let space for later timezone conversions.
         var minValue = DateTimeOffset.MinValue.AddDays(1);
@@ -190,6 +190,6 @@ public static class FilterExtensions
         if (endDateExclusive)
             endDate = endDate.AddDays(-1);
 
-        return Section.Create(startDate, endDate);
+        return new Range<DateTimeOffset>(startDate, endDate);
     }
 }

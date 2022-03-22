@@ -41,5 +41,5 @@ public interface IWorkdayService
     /// <param name="dateTimeSection">The date time section to get the workdays for.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>Enumerable with one entry per per working day.</returns>
-    Task<WorkdaysDto> GetWorkdays(Section<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken = default);
+    Task<WorkdaysDto> GetWorkdays(Range<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken = default);
 }

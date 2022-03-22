@@ -62,7 +62,7 @@ public class OrderChartService : IOrderChartService
                     if (worked == null && planned == null)
                         throw new InvalidOperationException("Planned and worked entities are null");
 
-                    var plannedTimeSpan = planned != null ? new Section<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
+                    var plannedTimeSpan = planned != null ? new Range<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
                     return new OrderWorkTimeDto
                     {
                         OrderId = worked?.OrderId ?? planned.OrderId,
@@ -154,9 +154,9 @@ public class OrderChartService : IOrderChartService
         return plannedTimesPerOrder;
     }
 
-    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Section<DateTimeOffset> selectedPeriod)
+    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Range<DateTimeOffset> selectedPeriod)
     {
-        var orderPeriod = new Section<DateTimeOffset>(order.StartDate, order.DueDate.AddDays(1));
+        var orderPeriod = new Range<DateTimeOffset>(order.StartDate, order.DueDate.AddDays(1));
         var orderWorkdays = await _workdayService.GetWorkdays(orderPeriod);
         var orderWorkHours = order.HourlyRate != 0 ? order.Budget / order.HourlyRate : 0;
 
