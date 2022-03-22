@@ -41,9 +41,9 @@ public abstract class WorkTime
 
     /// <inheritdoc cref="Order.StartDate"/>
     [Required]
-    public DateTimeOffset PlannedStart { get; set; }
+    public DateTimeOffset? PlannedStart { get; set; }
 
     /// <inheritdoc cref="Order.DueDate"/>
     [Required]
-    public DateTimeOffset PlannedEnd { get; set; }
+    public DateTimeOffset? PlannedEnd { get; set; }
 }

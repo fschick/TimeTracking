@@ -1,5 +1,4 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Extensions;
-using FS.FilterExpressionCreator.Abstractions.Models;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
@@ -61,7 +60,10 @@ public class CustomerChartService : ICustomerChartService
                     if (worked == null && planned == null)
                         throw new InvalidOperationException("Planned and worked entities are null");
 
-                    var plannedTimeSpan = planned != null ? new Range<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
+                    var plannedOrderTimeSpan = planned?.PlannedStart.CreateRange(planned.PlannedEnd);
+                    var workedOrderTimeSpan = worked?.PlannedStart.CreateRange(worked.PlannedEnd);
+                    var plannedTimeSpan = workedOrderTimeSpan.Union(plannedOrderTimeSpan);
+
                     return new CustomerWorkTimeDto
                     {
                         CustomerId = worked?.CustomerId ?? planned.CustomerId,
@@ -74,8 +76,8 @@ public class CustomerChartService : ICustomerChartService
                         DaysPlanned = planned?.PlannedDays,
                         RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
-                        PlannedStart = planned?.PlannedStart,
-                        PlannedEnd = planned?.PlannedEnd,
+                        PlannedStart = plannedTimeSpan?.Start,
+                        PlannedEnd = plannedTimeSpan?.End,
                         PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
                         PlannedHourlyRate = planned?.HourlyRate,
                         Currency = settings.Currency,
@@ -109,6 +111,8 @@ public class CustomerChartService : ICustomerChartService
                         CustomerTitle = withOrder?.CustomerTitle ?? withoutOrder.CustomerTitle,
                         WorkedTime = workTimes.Sum(x => x.WorkedTime),
                         HourlyRate = workTimes.GetAverageHourlyRate(x => x?.WorkedTime),
+                        PlannedStart = withOrder?.PlannedStart,
+                        PlannedEnd = withOrder?.PlannedEnd,
                     };
                 }
             )
@@ -130,7 +134,9 @@ public class CustomerChartService : ICustomerChartService
                 CustomerId = orderWorkItems.Key,
                 CustomerTitle = orderWorkItems.First().CustomerTitle,
                 WorkedTime = orderWorkItems.Sum(x => x.WorkedTime),
-                HourlyRate = orderWorkItems.ToList().GetAverageHourlyRate(x => x?.WorkedTime)
+                HourlyRate = orderWorkItems.ToList().GetAverageHourlyRate(x => x?.WorkedTime),
+                PlannedStart = orderWorkItems.Min(x => x.PlannedStart),
+                PlannedEnd = orderWorkItems.Max(x => x.PlannedEnd),
             })
             .ToList();
         return workTimesWithOrder;

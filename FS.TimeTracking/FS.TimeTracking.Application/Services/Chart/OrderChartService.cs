@@ -11,6 +11,7 @@ using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Abstractions.Models.Application.Chart;
 using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,10 @@ public class OrderChartService : IOrderChartService
                     if (worked == null && planned == null)
                         throw new InvalidOperationException("Planned and worked entities are null");
 
-                    var plannedTimeSpan = planned != null ? new Range<DateTimeOffset>(planned.PlannedStart, planned.PlannedEnd) : null;
+                    var plannedTimeSpan = worked != null
+                        ? worked.PlannedStart.CreateRange(worked.PlannedEnd)
+                        : planned.PlannedStart.CreateRange(planned.PlannedEnd);
+
                     return new OrderWorkTimeDto
                     {
                         OrderId = worked?.OrderId ?? planned.OrderId,
@@ -77,9 +81,9 @@ public class OrderChartService : IOrderChartService
                         DaysPlanned = planned?.PlannedDays,
                         RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
-                        PlannedStart = planned?.PlannedStart,
-                        PlannedEnd = planned?.PlannedEnd,
-                        PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
+                        PlannedStart = plannedTimeSpan?.Start,
+                        PlannedEnd = plannedTimeSpan?.End,
+                        PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
                         PlannedHourlyRate = planned?.HourlyRate,
                         Currency = settings.Currency,
                     };
@@ -107,6 +111,8 @@ public class OrderChartService : IOrderChartService
                     HourlyRate = x.FirstOrDefault().Order.HourlyRate,
                     CustomerId = x.FirstOrDefault().Project.Customer.Id,
                     CustomerTitle = x.FirstOrDefault().Project.Customer.Title,
+                    PlannedStart = x.FirstOrDefault().Order.StartDate,
+                    PlannedEnd = x.FirstOrDefault().Order.DueDate,
                 },
                 where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
