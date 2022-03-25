@@ -66,6 +66,17 @@ $enable-negative-margins: true;
 $enable-shadows: true;
 
 /* ----------------------------------------- */
+/* Navbar
+/* ----------------------------------------- */
+$navbar-padding-y: 2.0625rem;
+$navbar-brand-margin-end: 4rem;
+$nav-link-color: $secondary-400;
+$nav-link-hover-color: $primary;
+$navbar-nav-link-padding-x: 1.5625rem;
+//$dropdown-link-hover-color: $primary-700;
+//$dropdown-link-hover-bg: $primary-200;
+
+/* ----------------------------------------- */
 /* Buttons
 /* ----------------------------------------- */
 $btn-font-weight: bold;

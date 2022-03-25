@@ -1,0 +1,2 @@
+src/flags/de.svg
+src/flags/en.svg
