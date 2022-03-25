@@ -1,0 +1,23 @@
+{
+  "mode": {
+    "symbol": {
+      "prefix": ".%s",
+      "dimensions": "--size",
+      "dest": "src/assets",
+      "sprite": "flags.svg"
+    }
+  },
+  "shape": {
+    "id": {
+      "separator": false,
+      "generator": "flag-%s"
+    }
+  },
+  "svg": {
+    "xmlDeclaration": false,
+    "doctypeDeclaration": false,
+    "namespaceIDs": true,
+    "namespaceClassnames": true,
+    "dimensionAttributes": true
+  }
+}
