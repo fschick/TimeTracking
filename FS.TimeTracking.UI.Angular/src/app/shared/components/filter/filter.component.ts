@@ -1,13 +1,13 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
-import {StringTypeaheadDto, TimeSheetGetListFilteredRequestParams, TypeaheadService} from '../../services/api';
+import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {StorageService} from '../../services/storage/storage.service';
 import {DateParserService} from '../../services/date-parser.service';
 
-export type FilteredRequestParams = TimeSheetGetListFilteredRequestParams;
+export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;
 
 export interface Filter {

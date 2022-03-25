@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.TimeTracking;
 
 /// <inheritdoc cref="ITimeSheetService" />
-public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSheetListDto>, ITimeSheetService
+public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSheetGridDto>, ITimeSheetService
 {
     /// <inheritdoc />
     public TimeSheetService(IRepository repository, IMapper mapper)
@@ -24,12 +24,12 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     { }
 
     /// <inheritdoc />
-    public override async Task<List<TimeSheetListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<TimeSheetGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         return await Repository
-            .Get<TimeSheet, TimeSheetListDto>(
+            .Get<TimeSheet, TimeSheetGridDto>(
                 where: filter,
                 orderBy: o => o.OrderByDescending(x => x.StartDateLocal),
                 cancellationToken: cancellationToken

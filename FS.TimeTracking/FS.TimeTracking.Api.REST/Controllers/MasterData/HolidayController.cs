@@ -15,7 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IHolidayService" />
 [V1ApiController]
-public class HolidayController : CrudModelController<HolidayDto, HolidayListDto>, IHolidayService
+public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayService
 {
     private readonly IHolidayService _holidayService;
 

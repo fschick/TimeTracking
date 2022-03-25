@@ -12,8 +12,8 @@ namespace FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 /// CRUD model services
 /// </summary>
 /// <typeparam name="TDto">The type of the entity DTO.</typeparam>
-/// <typeparam name="TListDto">The type of the DTO used to deliver a flatten view to the entity</typeparam>
-public interface ICrudModelService<TDto, TListDto>
+/// <typeparam name="TGridDto">The type of the DTO used to deliver a flatten view to the entity</typeparam>
+public interface ICrudModelService<TDto, TGridDto>
 {
     /// <summary>
     /// Gets the item specified by <paramref name="id"/>.
@@ -23,7 +23,7 @@ public interface ICrudModelService<TDto, TListDto>
     Task<TDto> Get(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets items as flat filtered list.
+    /// Gets items as filtered grid rows.
     /// </summary>
     /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
     /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
@@ -32,14 +32,14 @@ public interface ICrudModelService<TDto, TListDto>
     /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
     /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<List<TListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+    Task<List<TGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a single flat list item.
+    /// Gets a single grid row.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default);
+    Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified item.

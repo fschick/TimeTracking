@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
-public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelService<TDto, TListDto>
+public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelService<TDto, TGridDto>
     where TModel : class, IIdEntityModel, new()
 {
     /// <summary>
@@ -48,12 +48,12 @@ public abstract class CrudModelService<TModel, TDto, TListDto> : ICrudModelServi
             );
 
     /// <inheritdoc />
-    public abstract Task<List<TListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+    public abstract Task<List<TGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
 
     /// <inheritdoc />
-    public async Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default)
+    public async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
         => await Repository
-            .FirstOrDefault<TModel, TListDto>(
+            .FirstOrDefault<TModel, TGridDto>(
                 where: model => model.Id == id,
                 cancellationToken: cancellationToken
             );

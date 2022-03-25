@@ -72,16 +72,16 @@
     <div class="row row-header mb-1 mx-0">
       <div class="col-4 col-md-3 col-xl-auto">
         <div class="row gx-2">
-          <strong class="col-12 col-xl-auto col-date" i18n="@@DTO.TimeSheetListDto.Date">[i18n] Date</strong>
-          <strong class="col-12 col-xl-auto col-start-end" i18n="@@DTO.TimeSheetListDto.Time">[i18n] Time</strong>
-          <strong class="col-12 col-xl-auto col-duration" i18n="@@DTO.TimeSheetListDto.Duration">[i18n] Duration</strong>
+          <strong class="col-12 col-xl-auto col-date" i18n="@@DTO.TimeSheetGridDto.Date">[i18n] Date</strong>
+          <strong class="col-12 col-xl-auto col-start-end" i18n="@@DTO.TimeSheetGridDto.Time">[i18n] Time</strong>
+          <strong class="col-12 col-xl-auto col-duration" i18n="@@DTO.TimeSheetGridDto.Duration">[i18n] Duration</strong>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="row">
-          <strong class="col-12 col-lg-3" i18n="@@DTO.TimeSheetListDto.Customer">[i18n] Customer</strong>
-          <strong class="col-12 col-lg-4" i18n="@@DTO.TimeSheetListDto.Project">[i18n] Project</strong>
-          <strong class="col-12 col-lg-5" i18n="@@DTO.TimeSheetListDto.Activity">[i18n] Activity</strong>
+          <strong class="col-12 col-lg-3" i18n="@@DTO.TimeSheetGridDto.Customer">[i18n] Customer</strong>
+          <strong class="col-12 col-lg-4" i18n="@@DTO.TimeSheetGridDto.Project">[i18n] Project</strong>
+          <strong class="col-12 col-lg-5" i18n="@@DTO.TimeSheetGridDto.Activity">[i18n] Activity</strong>
         </div>
       </div>
       <div class="col-2 col-md-auto col-action">
@@ -102,7 +102,7 @@
       </div>
 
       <!-- Workday entries -->
-      <div *ngFor="let timeSheet of workDay.timeSheets; let last=last; let odd=odd; trackBy:timeSheetListKey;"
+      <div *ngFor="let timeSheet of workDay.timeSheets; let last=last; let odd=odd; trackBy:timeSheetRowKey;"
            class="py-1 border-top"
            [ngClass]="{'row-running': !timeSheet.endDate}">
 
@@ -114,7 +114,7 @@
               <div class="col-12 col-xl-auto col-start-end">{{timeSheet.startDate| tsTime}}
                 <ng-container *ngIf="timeSheet.endDate">- {{timeSheet.endDate | tsTime}}</ng-container>
                 <ng-container *ngIf="!timeSheet.endDate">-
-                  <ng-container i18n="@@DTO.TimeSheetListDto.Now">[i18n] jetzt</ng-container>
+                  <ng-container i18n="@@DTO.TimeSheetGridDto.Now">[i18n] jetzt</ng-container>
                 </ng-container>
               </div>
               <div class="col-12 col-xl-auto col-duration">{{timeSheet.duration | tsDuration}}

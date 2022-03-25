@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
 /// <inheritdoc cref="Holiday"/>
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayListDto
+public record HolidayGridDto
 {
     /// <inheritdoc cref="Holiday.Id"/>
     [Required]

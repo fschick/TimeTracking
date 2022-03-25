@@ -163,7 +163,7 @@
       "Billable": "Billable",
       "Comment": "Comment"
     },
-    "TimeSheetListDto": {
+    "TimeSheetGridDto": {
       "Date": "Date",
       "Time": "Time",
       "StartDate": "From",
@@ -191,7 +191,7 @@
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "CustomerListDto": {
+    "CustomerGridDto": {
       "Title": "Title",
       "CompanyName": "Company",
       "ContactName": "Contact",
@@ -204,7 +204,7 @@
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "ProjectListDto": {
+    "ProjectGridDto": {
       "Title": "Title",
       "CustomerTitle": "Customer",
       "Hidden": "Hidden"
@@ -216,7 +216,7 @@
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "ActivityListDto": {
+    "ActivityGridDto": {
       "Title": "Title",
       "ProjectTitle": "Project",
       "CustomerTitle": "Customer"
@@ -234,7 +234,7 @@
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
-    "OrderListDto": {
+    "OrderGridDto": {
       "Title": "Title",
       "CustomerTitle": "Customer",
       "StartDate": "Start date",
@@ -272,7 +272,7 @@
       "EndDate": "End date",
       "Type": "Type"
     },
-    "HolidayListDto": {
+    "HolidayGridDto": {
       "Title": "Title",
       "StartDate": "Start date",
       "EndDate": "End date"

@@ -297,6 +297,8 @@ __pycache__/
 # User added stuff
 /Assets
 /Bogus.Premium.LicenseKey
+/FS.TimeTracking.Report/FS.TimeTracking.Report/FS.TimeTracking.Report.openapi.json
+/FS.TimeTracking.Report/FS.TimeTracking.Report/config/FS.TimeTracking.Report.config.Development.json
 /FS.TimeTracking.UI.Angular/cypress/fixtures/example.json
 /FS.TimeTracking.UI.Angular/cypress/integration/samples
 /FS.TimeTracking.UI.Angular/src/app/shared/services/api

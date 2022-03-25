@@ -163,7 +163,7 @@
       "Billable": "Verrechenbar",
       "Comment": "Kommentar"
     },
-    "TimeSheetListDto": {
+    "TimeSheetGridDto": {
       "Date": "Datum",
       "StartDate": "Von",
       "EndDate": "Bis",
@@ -191,7 +191,7 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "CustomerListDto": {
+    "CustomerGridDto": {
       "Title": "Titel",
       "CompanyName": "Firma",
       "ContactName": "Kontakt",
@@ -204,7 +204,7 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ProjectListDto": {
+    "ProjectGridDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
       "Hidden": "Versteckt"
@@ -218,7 +218,7 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "ActivityListDto": {
+    "ActivityGridDto": {
       "Title": "Titel",
       "ProjectTitle": "Projekt",
       "CustomerTitle": "Kunde"
@@ -236,7 +236,7 @@
       "Comment": "Kommentar",
       "Hidden": "Versteckt"
     },
-    "OrderListDto": {
+    "OrderGridDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
       "StartDate": "Startdatum",
@@ -274,7 +274,7 @@
       "EndDate": "Enddatum",
       "Type": "Typ"
     },
-    "HolidayListDto": {
+    "HolidayGridDto": {
       "Title": "Titel",
       "StartDate": "Startdatum",
       "EndDate": "Enddatum"

@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IOrderService" />
 [V1ApiController]
-public class OrderController : CrudModelController<OrderDto, OrderListDto>, IOrderService
+public class OrderController : CrudModelController<OrderDto, OrderGridDto>, IOrderService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectController"/> class.

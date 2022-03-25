@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheet"/>
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheetListDto
+public class TimeSheetGridDto
 {
     /// <inheritdoc cref="TimeSheet.Id"/>
     [Required]

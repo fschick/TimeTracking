@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CustomerListDto, CustomerService} from '../../../shared/services/api';
+import {CustomerGridDto, CustomerService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
@@ -20,14 +20,14 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
   styleUrls: ['./master-data-customers.component.scss']
 })
 export class MasterDataCustomersComponent implements OnInit, OnDestroy {
-  @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<CustomerListDto>;
+  @ViewChild(SimpleTableComponent) private customerTable?: SimpleTableComponent<CustomerGridDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<CustomerGridDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<CustomerGridDto>;
 
   public guidService = GuidService;
-  public rows?: CustomerListDto[];
-  public columns!: Column<CustomerListDto>[];
-  public configuration?: Partial<Configuration<CustomerListDto>>;
+  public rows?: CustomerGridDto[];
+  public columns!: Column<CustomerGridDto>[];
+  public configuration?: Partial<Configuration<CustomerGridDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
@@ -101,12 +101,12 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public getDataCellValue(row: CustomerListDto, column: Column<CustomerListDto>): string {
+  public getDataCellValue(row: CustomerGridDto, column: Column<CustomerGridDto>): string {
     return this.customerTable?.getCellValue(row, column) ?? '';
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<CustomerListDto[]> {
-    return this.customerService.getListFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<CustomerGridDto[]> {
+    return this.customerService.getGridFiltered(filter)
       .pipe(single());
   }
 
@@ -115,7 +115,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.customerChanged.next({entity: {id} as CustomerListDto, action: 'deleted'});
+        this.entityService.customerChanged.next({entity: {id} as CustomerGridDto, action: 'deleted'});
       });
   }
 }

@@ -4,6 +4,6 @@ using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 namespace FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
 
 /// <inheritdoc />
-public interface ICustomerService : ICrudModelService<CustomerDto, CustomerListDto>
+public interface ICustomerService : ICrudModelService<CustomerDto, CustomerGridDto>
 {
 }

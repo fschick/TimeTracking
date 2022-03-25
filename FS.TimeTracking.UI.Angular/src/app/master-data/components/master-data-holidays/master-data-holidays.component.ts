@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {HolidayListDto, HolidayService} from '../../../shared/services/api';
+import {HolidayGridDto, HolidayService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
@@ -21,14 +21,14 @@ import {DateTime} from 'luxon';
   styleUrls: ['./master-data-holidays.component.scss']
 })
 export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
-  @ViewChild(SimpleTableComponent) private holidayTable?: SimpleTableComponent<HolidayListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<HolidayListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<HolidayListDto>;
+  @ViewChild(SimpleTableComponent) private holidayTable?: SimpleTableComponent<HolidayGridDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<HolidayGridDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<HolidayGridDto>;
 
   public guidService = GuidService;
-  public rows?: HolidayListDto[];
-  public columns!: Column<HolidayListDto>[];
-  public configuration?: Partial<Configuration<HolidayListDto>>;
+  public rows?: HolidayGridDto[];
+  public columns!: Column<HolidayGridDto>[];
+  public configuration?: Partial<Configuration<HolidayGridDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
@@ -73,19 +73,19 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
-        title: $localize`:@@DTO.HolidayListDto.Title:[i18n] Title`,
+        title: $localize`:@@DTO.HolidayGridDto.Title:[i18n] Title`,
         prop: 'title',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.HolidayListDto.StartDate:[i18n] Start date`,
+        title: $localize`:@@DTO.HolidayGridDto.StartDate:[i18n] Start date`,
         prop: 'startDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
-        title: $localize`:@@DTO.HolidayListDto.EndDate:[i18n] End date`,
+        title: $localize`:@@DTO.HolidayGridDto.EndDate:[i18n] End date`,
         prop: 'endDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
@@ -107,12 +107,12 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<HolidayListDto[]> {
-    return this.holidayService.getListFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<HolidayGridDto[]> {
+    return this.holidayService.getGridFiltered(filter)
       .pipe(single());
   }
 
-  public getDataCellValue(row: HolidayListDto, column: Column<HolidayListDto>): string {
+  public getDataCellValue(row: HolidayGridDto, column: Column<HolidayGridDto>): string {
     return this.holidayTable?.getCellValue(row, column) ?? '';
   }
 
@@ -121,7 +121,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.holidayChanged.next({entity: {id} as HolidayListDto, action: 'deleted'});
+        this.entityService.holidayChanged.next({entity: {id} as HolidayGridDto, action: 'deleted'});
       });
   }
 }

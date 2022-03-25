@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IActivityService" />
 [V1ApiController]
-public class ActivityController : CrudModelController<ActivityDto, ActivityListDto>, IActivityService
+public class ActivityController : CrudModelController<ActivityDto, ActivityGridDto>, IActivityService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ActivityController"/> class.

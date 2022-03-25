@@ -5,7 +5,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {ProjectListDto, ProjectService} from '../../../shared/services/api';
+import {ProjectGridDto, ProjectService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,14 +21,14 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
 })
 export class MasterDataProjectsComponent implements OnInit, OnDestroy {
 
-  @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectListDto>;
+  @ViewChild(SimpleTableComponent) private projectTable?: SimpleTableComponent<ProjectGridDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ProjectGridDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ProjectGridDto>;
 
   public guidService = GuidService;
-  public rows?: ProjectListDto[];
-  public columns!: Column<ProjectListDto>[];
-  public configuration?: Partial<Configuration<ProjectListDto>>;
+  public rows?: ProjectGridDto[];
+  public columns!: Column<ProjectGridDto>[];
+  public configuration?: Partial<Configuration<ProjectGridDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
@@ -67,12 +67,12 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     const cssHeadCell = 'border-0 text-nowrap';
     this.columns = [
       {
-        title: $localize`:@@DTO.ProjectListDto.Title:[i18n] Project`,
+        title: $localize`:@@DTO.ProjectGridDto.Title:[i18n] Project`,
         prop: 'title',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.ProjectListDto.CustomerTitle:[i18n] Customer`,
+        title: $localize`:@@DTO.ProjectGridDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
@@ -92,12 +92,12 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<ProjectListDto[]> {
-    return this.projectService.getListFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<ProjectGridDto[]> {
+    return this.projectService.getGridFiltered(filter)
       .pipe(single());
   }
 
-  public getDataCellValue(row: ProjectListDto, column: Column<ProjectListDto>): string {
+  public getDataCellValue(row: ProjectGridDto, column: Column<ProjectGridDto>): string {
     return this.projectTable?.getCellValue(row, column) ?? '';
   }
 
@@ -106,7 +106,7 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.projectChanged.next({entity: {id} as ProjectListDto, action: 'deleted'});
+        this.entityService.projectChanged.next({entity: {id} as ProjectGridDto, action: 'deleted'});
       });
   }
 }

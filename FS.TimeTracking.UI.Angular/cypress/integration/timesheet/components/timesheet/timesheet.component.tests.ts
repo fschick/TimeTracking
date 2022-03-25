@@ -1,6 +1,6 @@
 ﻿describe('TimeSheet table', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/v1/TimeSheet/GetListFiltered**', {fixture: 'dto/TimeSheetListDto.single.json'}).as('default');
+    cy.intercept('GET', '/api/v1/TimeSheet/GetGridFiltered**', {fixture: 'dto/TimeSheetGridDto.single.json'}).as('default');
   })
 
   it('Caption is displayed with matching spaces (no holidays)', () => {

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActivityListDto, ActivityService, TimeSheetListDto} from '../../../shared/services/api';
+import {ActivityGridDto, ActivityService} from '../../../shared/services/api';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {
   Column,
@@ -9,7 +9,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {Observable, Subject, Subscription, timer} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
@@ -21,14 +21,14 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
 })
 export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
 
-  @ViewChild(SimpleTableComponent) private activityTable?: SimpleTableComponent<ActivityListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ActivityListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ActivityListDto>;
+  @ViewChild(SimpleTableComponent) private activityTable?: SimpleTableComponent<ActivityGridDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<ActivityGridDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ActivityGridDto>;
 
   public guidService = GuidService;
-  public rows?:ActivityListDto[];
-  public columns!: Column<ActivityListDto>[];
-  public configuration?: Partial<Configuration<ActivityListDto>>;
+  public rows?:ActivityGridDto[];
+  public columns!: Column<ActivityGridDto>[];
+  public configuration?: Partial<Configuration<ActivityGridDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
@@ -70,17 +70,17 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
-        title: $localize`:@@DTO.ActivityListDto.Title:[i18n] Activity`,
+        title: $localize`:@@DTO.ActivityGridDto.Title:[i18n] Activity`,
         prop: 'title',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.ActivityListDto.ProjectTitle:[i18n] Project`,
+        title: $localize`:@@DTO.ActivityGridDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.ActivityListDto.CustomerTitle:[i18n] Customer`,
+        title: $localize`:@@DTO.ActivityGridDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
@@ -101,8 +101,8 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<ActivityListDto[]> {
-    return this.activityService.getListFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<ActivityGridDto[]> {
+    return this.activityService.getGridFiltered(filter)
       .pipe(single());
   }
 
@@ -111,7 +111,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.activityChanged.next({entity: {id} as ActivityListDto, action: 'deleted'});
+        this.entityService.activityChanged.next({entity: {id} as ActivityGridDto, action: 'deleted'});
       });
   }
 }

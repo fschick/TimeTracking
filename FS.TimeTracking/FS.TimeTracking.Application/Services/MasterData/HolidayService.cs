@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.MasterData;
 
 /// <inheritdoc cref="IHolidayService" />
-public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayListDto>, IHolidayService
+public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridDto>, IHolidayService
 {
     /// <inheritdoc />
     public HolidayService(IRepository repository, IMapper mapper)
@@ -28,12 +28,12 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayListD
     { }
 
     /// <inheritdoc />
-    public override async Task<List<HolidayListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<HolidayGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var filter = FilterExtensions.CreateHolidayFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         return await Repository
-            .Get<Holiday, HolidayListDto>(
+            .Get<Holiday, HolidayGridDto>(
                 where: filter,
                 orderBy: o => o
                     .OrderBy(x => x.StartDateLocal)

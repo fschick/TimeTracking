@@ -5,7 +5,7 @@ import {
   DataCellTemplate,
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
-import {OrderListDto, OrderService} from '../../../shared/services/api';
+import {OrderGridDto, OrderService} from '../../../shared/services/api';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -22,14 +22,14 @@ import {DateTime} from 'luxon';
 })
 export class MasterDataOrdersComponent implements OnInit, OnDestroy {
 
-  @ViewChild(SimpleTableComponent) private orderTable?: SimpleTableComponent<OrderListDto>;
-  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderListDto>;
-  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderListDto>;
+  @ViewChild(SimpleTableComponent) private orderTable?: SimpleTableComponent<OrderGridDto>;
+  @ViewChild('dataCellTemplate', {static: true}) private dataCellTemplate?: DataCellTemplate<OrderGridDto>;
+  @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<OrderGridDto>;
 
   public guidService = GuidService;
-  public rows?: OrderListDto[];
-  public columns!: Column<OrderListDto>[];
-  public configuration?: Partial<Configuration<OrderListDto>>;
+  public rows?: OrderGridDto[];
+  public columns!: Column<OrderGridDto>[];
+  public configuration?: Partial<Configuration<OrderGridDto>>;
   public filters: (Filter | FilterName)[];
   public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
@@ -74,24 +74,24 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     const cssDataCellMd = cssHeadCellMd;
     this.columns = [
       {
-        title: $localize`:@@DTO.OrderListDto.Title:[i18n] Order`,
+        title: $localize`:@@DTO.OrderGridDto.Title:[i18n] Order`,
         cssHeadCell: cssHeadCell,
         prop: 'title',
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.OrderListDto.CustomerTitle:[i18n] Customer`,
+        title: $localize`:@@DTO.OrderGridDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.OrderListDto.StartDate:[i18n] Start date`,
+        title: $localize`:@@DTO.OrderGridDto.StartDate:[i18n] Start date`,
         prop: 'startDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.startDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
-        title: $localize`:@@DTO.OrderListDto.DueDate:[i18n] Due date`,
+        title: $localize`:@@DTO.OrderGridDto.DueDate:[i18n] Due date`,
         prop: 'dueDate',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
@@ -113,12 +113,12 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<OrderListDto[]> {
-    return this.orderService.getListFiltered(filter)
+  private loadData(filter: FilteredRequestParams): Observable<OrderGridDto[]> {
+    return this.orderService.getGridFiltered(filter)
       .pipe(single());
   }
 
-  public getDataCellValue(row: OrderListDto, column: Column<OrderListDto>): string {
+  public getDataCellValue(row: OrderGridDto, column: Column<OrderGridDto>): string {
     return this.orderTable?.getCellValue(row, column) ?? '';
   }
 
@@ -127,7 +127,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.orderChanged.next({entity: {id} as OrderListDto, action: 'deleted'});
+        this.entityService.orderChanged.next({entity: {id} as OrderGridDto, action: 'deleted'});
       });
   }
 }

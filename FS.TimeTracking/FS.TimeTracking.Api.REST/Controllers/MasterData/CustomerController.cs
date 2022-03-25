@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerService" />
 [V1ApiController]
-public class CustomerController : CrudModelController<CustomerDto, CustomerListDto>, ICustomerService
+public class CustomerController : CrudModelController<CustomerDto, CustomerGridDto>, ICustomerService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomerController"/> class.

@@ -61,18 +61,18 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
-        CreateMap<Holiday, HolidayListDto>();
+        CreateMap<Holiday, HolidayGridDto>();
 
-        CreateMap<Customer, CustomerListDto>();
+        CreateMap<Customer, CustomerGridDto>();
 
-        CreateMap<Project, ProjectListDto>();
+        CreateMap<Project, ProjectGridDto>();
 
-        CreateMap<Activity, ActivityListDto>()
+        CreateMap<Activity, ActivityGridDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(activity => activity.Project.Customer.Title));
 
-        CreateMap<Order, OrderListDto>();
+        CreateMap<Order, OrderGridDto>();
 
-        CreateMap<TimeSheet, TimeSheetListDto>()
+        CreateMap<TimeSheet, TimeSheetGridDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
     }

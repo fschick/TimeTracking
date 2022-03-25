@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
-/// <inheritdoc cref="ICrudModelService{TDto, TListDto}" />
+/// <inheritdoc cref="ICrudModelService{TDto, TGridDto}" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ICrudModelService{TDto, TListDto}" />
-public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICrudModelService<TDto, TListDto>
+/// <seealso cref="ICrudModelService{TDto, TGridDto}" />
+public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICrudModelService<TDto, TGridDto>
 {
-    private readonly ICrudModelService<TDto, TListDto> _modelService;
+    private readonly ICrudModelService<TDto, TGridDto> _modelService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CrudModelController{TDto, TListDto}"/> class.
+    /// Initializes a new instance of the <see cref="CrudModelController{TDto, TGridDto}"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    protected CrudModelController(ICrudModelService<TDto, TListDto> modelService)
+    protected CrudModelController(ICrudModelService<TDto, TGridDto> modelService)
         => _modelService = modelService;
 
     /// <inheritdoc />
@@ -36,14 +36,14 @@ public abstract class CrudModelController<TDto, TListDto> : ControllerBase, ICru
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet]
-    public async Task<List<TListDto>> GetListFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _modelService.GetListFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+    public async Task<List<TGridDto>> GetGridFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+        => await _modelService.GetGridFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
 
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet("{id:guid}", Name = "[controller]_[action]")]
-    public async Task<TListDto> GetListItem(Guid id, CancellationToken cancellationToken = default)
-        => await _modelService.GetListItem(id, cancellationToken);
+    public async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
+        => await _modelService.GetGridItem(id, cancellationToken);
 
     /// <inheritdoc />
     [HttpPost]

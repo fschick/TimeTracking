@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.MasterData;
 
 /// <inheritdoc cref="IActivityService" />
-public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityListDto>, IActivityService
+public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityService
 {
     /// <inheritdoc />
     public ActivityService(IRepository repository, IMapper mapper)
@@ -23,12 +23,12 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityL
     { }
 
     /// <inheritdoc />
-    public override async Task<List<ActivityListDto>> GetListFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<ActivityGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var filter = FilterExtensions.CreateActivityFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         return await Repository
-            .Get<Activity, ActivityListDto>(
+            .Get<Activity, ActivityGridDto>(
                 where: filter,
                 orderBy: o => o
                     .OrderBy(x => x.Hidden)

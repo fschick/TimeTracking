@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TimeSheetDto, TimeSheetListDto, TimeSheetService, WorkdayService, WorkedTimeInfoDto} from '../../../shared/services/api';
+import {TimeSheetDto, TimeSheetGridDto, TimeSheetService, WorkdayService, WorkedTimeInfoDto} from '../../../shared/services/api';
 import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -17,7 +17,7 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../shared/compone
 interface TimeSheetDayGroupDto {
   date: DateTime;
   workTime: Duration;
-  timeSheets: TimeSheetListDto[];
+  timeSheets: TimeSheetGridDto[];
 }
 
 class TimeSheetOverviewDto {
@@ -96,7 +96,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       .delete({id})
       .pipe(single())
       .subscribe(() => {
-        this.entityService.timesheetChanged.next({entity: {id} as TimeSheetListDto, action: 'deleted'});
+        this.entityService.timesheetChanged.next({entity: {id} as TimeSheetGridDto, action: 'deleted'});
       });
   }
 
@@ -104,7 +104,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     this.timeSheetService.startSimilarTimeSheetEntry({copyFromTimesheetId, startDateTime: DateTime.now()})
       .pipe(single())
       .subscribe((timeSheetDto: TimeSheetDto) => {
-        this.entityService.timesheetChanged.next({entity: {id: timeSheetDto.id} as TimeSheetListDto, action: 'created'});
+        this.entityService.timesheetChanged.next({entity: {id: timeSheetDto.id} as TimeSheetGridDto, action: 'created'});
       });
   }
 
@@ -112,7 +112,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     this.timeSheetService.stopTimeSheetEntry({timesheetId: copyFromTimesheetId, endDateTime: DateTime.now()})
       .pipe(single())
       .subscribe((timeSheetDto: TimeSheetDto) => {
-        this.entityService.timesheetChanged.next({entity: {id: timeSheetDto.id} as TimeSheetListDto, action: 'updated'});
+        this.entityService.timesheetChanged.next({entity: {id: timeSheetDto.id} as TimeSheetGridDto, action: 'updated'});
       });
   }
 
@@ -121,7 +121,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     return +item.date;
   }
 
-  public timeSheetListKey(index: number, item: TimeSheetListDto) {
+  public timeSheetRowKey(index: number, item: TimeSheetGridDto) {
     return item.id;
   }
 
@@ -134,7 +134,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
 
   private loadTimeSheets(filter: FilteredRequestParams) {
     return this.timeSheetService
-      .getListFiltered(filter)
+      .getGridFiltered(filter)
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
@@ -148,7 +148,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       .pipe(single());
   };
 
-  private createTimeSheetOverview(timeSheets: TimeSheetListDto[], workedTimeInfo: WorkedTimeInfoDto): TimeSheetOverviewDto {
+  private createTimeSheetOverview(timeSheets: TimeSheetGridDto[], workedTimeInfo: WorkedTimeInfoDto): TimeSheetOverviewDto {
     timeSheets.sort((a, b) => a.startDate.equals(b.startDate) ? 0 : a.startDate > b.startDate ? -1 : 1);
 
     for (const timeSheet of timeSheets) {
