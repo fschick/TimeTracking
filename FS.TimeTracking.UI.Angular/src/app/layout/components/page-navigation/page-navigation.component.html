@@ -1,19 +1,21 @@
-<nav class="navbar navbar-expand-md navbar-light bg-primary">
-  <div class="container">
+<span *ngIf="isDevelopment" class="breakpoint">
+  <span class="d-inline d-sm-none">&nbsp;(xs)</span>
+  <span class="d-none d-sm-inline d-md-none">&nbsp;(sm)</span>
+  <span class="d-none d-md-inline d-lg-none">&nbsp;(md)</span>
+  <span class="d-none d-lg-inline d-xl-none">&nbsp;(lg)</span>
+  <span class="d-none d-xl-inline d-xxl-none">&nbsp;(xl)</span>
+  <span class="d-none d-xxl-inline">&nbsp;(xxl)</span>
+</span>
 
-    <a class="navbar-brand" style="margin-top: -0.3rem;" routerLink="">
-      <svg class="bi me-2" fill="currentColor">
-        <use xlink:href="assets/icons.svg#calendar-week"/>
-      </svg>
-      <span class="align-text-top">TimeTracking</span>
-      <span class="align-text-top" *ngIf="isDevelopment">
-        <span class="d-inline d-sm-none">&nbsp;(xs)</span>
-        <span class="d-none d-sm-inline d-md-none">&nbsp;(sm)</span>
-        <span class="d-none d-md-inline d-lg-none">&nbsp;(md)</span>
-        <span class="d-none d-lg-inline d-xl-none">&nbsp;(lg)</span>
-        <span class="d-none d-xl-inline d-xxl-none">&nbsp;(xl)</span>
-        <span class="d-none d-xxl-inline">&nbsp;(xxl)</span>
+<div class="navbar navbar-light navbar-expand-lg bg-white">
+  <div class="container align-items-baseline">
+    <a class="navbar-brand fs-4" routerLink="">
+      <span class="icon">
+        <svg class="bi me-2 text-white fs-5" fill="currentColor">
+          <use xlink:href="assets/icons.svg#calendar-week"/>
+        </svg>
       </span>
+      <b class="brand-text text-primary">TimeTracking</b>
     </a>
 
     <button class="navbar-toggler"
@@ -29,22 +31,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
 
-        <li class="nav-item">
+        <li class="nav-item"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link"
              data-bs-toggle="collapse"
              data-bs-target=".navbar-collapse.show"
-             routerLink="/"
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{ exact: true }">
+             routerLink="/">
             <span i18n="@@Page.Timesheet.Title">[i18n] Timesheet</span>
           </a>
         </li>
 
         <li class="nav-item dropdown" routerLinkActive="active">
-          <a class="nav-link dropdown-toggle" id="chartDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" id="chartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Chart.Title">[i18n] Charts</ng-container>
           </a>
-          <ul class="dropdown-menu bg-primary" aria-labelledby="chartDropdown">
+          <ul class="dropdown-menu" aria-labelledby="chartDropdown">
             <li><a class="dropdown-item"
                    data-bs-toggle="collapse"
                    data-bs-target=".navbar-collapse.show"
@@ -82,7 +84,7 @@
           <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.MasterData.Title">[i18n] Master data</ng-container>
           </a>
-          <ul class="dropdown-menu bg-primary" aria-labelledby="masterDataDropdown">
+          <ul class="dropdown-menu" aria-labelledby="masterDataDropdown">
             <li><a class="dropdown-item"
                    data-bs-toggle="collapse"
                    data-bs-target=".navbar-collapse.show"
@@ -125,27 +127,39 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown" routerLinkActive="active">
-          <a class="nav-link dropdown-toggle" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <ng-container i18n="@@Language.Title">[i18n] Language</ng-container>
-            {{currentLanguage | uppercase}}
+          <a class="nav-link dropdown-toggle pe-0" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg class="flag" viewBox="0 0 4 3">
+              <use [attr.xlink:href]="'assets/flags.svg#flag-' + languageCode"/>
+            </svg>
+            <span>{{languageName}}</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end bg-primary" aria-labelledby="languageDropdown">
-            <li><a class="dropdown-item"
-                   [ngClass]="{'active': currentLanguage === 'en'}"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Language.English"
-                   (click)="setLanguage('en')">[i18n] English (English)</a></li>
-            <li><a class="dropdown-item"
-                   [ngClass]="{'active': currentLanguage === 'de'}"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Language.German"
-                   (click)="setLanguage('de')">[i18n] German (Deutsch)</a></li>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+            <li>
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 (click)="setLanguage('en')">
+                <svg class="flag" viewBox="0 0 4 3">
+                  <use xlink:href="assets/flags.svg#flag-en"/>
+                </svg>
+                <ng-container i18n="@@Language.en">[i18n] English</ng-container>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 (click)="setLanguage('de')">
+                <svg class="flag" viewBox="0 0 4 3">
+                  <use xlink:href="assets/flags.svg#flag-de"/>
+                </svg>
+                <ng-container i18n="@@Language.de"> [i18n] German</ng-container>
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
     </div>
 
   </div>
-</nav>
+</div>

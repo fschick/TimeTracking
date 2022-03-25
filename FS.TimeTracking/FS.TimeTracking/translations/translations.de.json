@@ -17,9 +17,9 @@
     "Summary": "Summe"
   },
   "Language": {
-    "Title": "Sprache",
-    "German": "Deutsch (German)",
-    "English": "Englisch (English)"
+    "Title": "{$LANGUAGE}",
+    "de": "Deutsch",
+    "en": "Englisch"
   },
   "Abbreviations": {
     "Hours": "Std.",
