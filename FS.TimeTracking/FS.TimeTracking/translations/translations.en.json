@@ -18,8 +18,8 @@
   },
   "Language": {
     "Title": "Language",
-    "German": "German (Deutsch)",
-    "English": "English (English)"
+    "de": "German",
+    "en": "English"
   },
   "Abbreviations": {
     "Hours": "h",

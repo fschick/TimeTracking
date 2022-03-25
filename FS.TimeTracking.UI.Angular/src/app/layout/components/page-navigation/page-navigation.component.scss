@@ -1,61 +1,89 @@
 @import '~src/styles/variables';
 
-//$nav-text: color-contrast($success);
-$nav-text-active: $gray-100;
-$nav-text: rgba($nav-text-active, .55);
-$navbar-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$nav-text}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
-
-// Branding
-.navbar-light .navbar-brand {
-  color: $nav-text-active; // $navbar-light-brand-color
+// Nav bar header and bottom border
+.navbar {
+  border-top: 0.5625rem solid $primary;
+  border-bottom: 0.125rem solid $gray-200;
 }
 
-// Top link
-.navbar.navbar-light .navbar-nav .nav-link {
-  color: $nav-text; // $navbar-light-color;
+// Branding icon
+.navbar-brand {
+  .icon {
+    height: 1.667em;
+    width: 1.667em;
+    background-color: $primary;
+    display: inline-block;
+    border-radius: 50%;
+    position: absolute;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      transform: scale(0.5);
+    }
+  }
+
+  .brand-text {
+    margin-left: calc(1.65em + 1rem);
+  }
 }
 
-// Top link:active
-.navbar-light .navbar-nav .show > .nav-link,
-.navbar-light .navbar-nav .nav-link.active {
-  color: $nav-text-active; // $navbar-light-active-color
+// Nav item custom caret
+.dropdown {
+  .dropdown-toggle::after {
+    border: none;
+    width: 1em;
+    height: 1em;
+    margin-left: 0.5em;
+    background-image: url(/assets/icons.svg#chevron-down);
+    background-repeat: no-repeat;
+    filter: $filter-gray-400;
+    vertical-align: middle;
+  }
+
+  &.active .dropdown-toggle::after {
+    filter: $filter-gray-900;
+  }
 }
 
-// Top dropdown:active
-.dropdown.active > .dropdown-toggle {
-  color: $nav-text-active !important; // $navbar-light-active-color
+// Active nav item font
+.nav-item.active .nav-link {
+  color: $secondary-900;
+  font-weight: bold;
 }
 
-// Top link:hover
-.navbar.navbar-light .navbar-nav .nav-link:hover,
-.navbar.navbar-light .navbar-nav .nav-link:focus {
-  color: $nav-text-active; // $navbar-light-active-color
+// Active nav item underline
+@include media-breakpoint-up(lg) {
+  .nav-item.active {
+    margin-bottom: -1rem;
+
+    &:after {
+      content: "";
+      border-bottom: .25rem solid $primary;
+      display: block;
+      width: 3.125rem;
+      margin: -.25rem auto auto auto;
+      border-radius: .125rem;
+    }
+
+    &.dropdown:after {
+      margin-left: calc(50% - (3.125rem / 2) - .75em);
+    }
+  }
 }
 
-// Drop down
-.dropdown-item {
-  color: $nav-text; // $navbar-light-color;
+// Language/Flag
+.flag {
+  height: 1em;
+  border: 0px solid white;
+  border-radius: 5px;
+  margin-top: -0.1875em;
+  margin-right: 0.625rem;
 }
 
-// Drop down:active
-.dropdown-item.active,
-.dropdown-item:active {
-  color: $nav-text-active; // $navbar-light-active-color
-  background-color: inherit;
-}
-
-// Drop down:hover
-.dropdown-item:hover,
-.dropdown-item:focus {
-  color: $nav-text-active; // $navbar-light-active-color
-  background-color: inherit;
-}
-
-.navbar-light .navbar-toggler {
-  color: $nav-text; // $navbar-light-color;
-  border-color: $navbar-dark-toggler-border-color;
-}
-
-.navbar-toggler-icon {
-  background-image: escape-svg($navbar-toggler-icon-bg);
+.breakpoint {
+  position: fixed;
+  z-index: 5000;
+  top: 10px;
+  left: 6px;
 }
