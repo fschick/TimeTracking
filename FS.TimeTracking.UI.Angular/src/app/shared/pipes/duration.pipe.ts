@@ -6,13 +6,19 @@ import {FormatService} from '../services/format.service';
   name: 'tsDuration'
 })
 export class DurationPipe implements PipeTransform {
+  private readonly hoursAbbr: string;
+  private readonly minutesAbbr: string;
 
   constructor(
     private formatService: FormatService,
   ) {
+    this.hoursAbbr = this.formatService.escapeDurationFormat($localize`:@@Abbreviations.Hours:[i18n] h`);
+    this.minutesAbbr = this.formatService.escapeDurationFormat($localize`:@@Abbreviations.Minutes:[i18n] m`);
   }
 
-  transform(value: Duration | null | undefined, format: string = 'hh:mm'): string {
+  transform(value: Duration | null | undefined, format?: string): string {
+    if (format === undefined)
+      format = `hh${this.hoursAbbr} mm${this.minutesAbbr}`;
     return this.formatService.formatDuration(value, format);
   }
 
