@@ -46,6 +46,14 @@ export class FormatService {
     return value.toFormat(format);
   }
 
+  public escapeDateTimeFormat(format: string): string {
+    return  format.replace(/(S|SSS|u|uu|uuu|s|ss|m|mm|h|hh|H|HH|Z|ZZ|ZZZ|ZZZZ|ZZZZZ|z|a|d|dd|c|E|ccc|EEE|cccc|EEEE|ccccc|EEEEE|L|M|LL|MM|LLL|MMM|LLLL|MMMM|LLLLL|MMMMM|y|yy|yyyy|G|GG|GGGGG|kk|kkkk|W|WW|o|ooo|q|qq|D|DD|DDD|DDDD|t|tt|ttt|tttt|T|TT|TTT|TTTT|f|ff|fff|ffff|F|FF|FFF|FFFF|X|x)/g, '\'$1\'');
+  }
+
+  public escapeDurationFormat(format: string): string {
+    return  format.replace(/([SsmhdMy])/g, '\'$1\'');
+  }
+
   public formatDays(value: number | null | undefined, digitsInfo: string = '1.1-1'): string {
     return this.decimalPipe.transform(value ?? 0, digitsInfo) ?? 'N/A';
   }
