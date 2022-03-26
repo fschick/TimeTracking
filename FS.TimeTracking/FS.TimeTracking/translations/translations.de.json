@@ -22,8 +22,10 @@
     "en": "Englisch"
   },
   "Abbreviations": {
-    "Hours": "Std.",
-    "Days": "Tage"
+    "Hours": "h",
+    "Minutes": "m",
+    "Days": "Tage",
+    "CalendarWeek": "KW"
   },
   "API": {
     "NotFound": "Der Datensatz konnte nicht gefunden werden",
@@ -118,6 +120,13 @@
     }
   },
   "Component": {
+    "Header": {
+      "NoDays": "keine",
+      "PastDays": "Vergangene {$COUNT} Tage",
+      "PastWeeks": "Vergangene {$COUNT} Wochen",
+      "PastMonths": "Vergangene {$COUNT} Monate",
+      "PastYears": "Vergangene {$COUNT} Jahre"
+    },
     "Filter": {
       "Title": "Filter",
       "Reset": "Filter zurücksetzten",

@@ -56,6 +56,7 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
+import { PageHeaderComponent } from './layout/components/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
     RouterLinkCtrlClickDirective,
+    PageHeaderComponent,
   ],
   imports: [
     BrowserModule,
