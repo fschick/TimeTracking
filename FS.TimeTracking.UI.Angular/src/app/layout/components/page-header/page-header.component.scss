@@ -1,0 +1,73 @@
+@import '~src/styles/variables';
+
+.container > * {
+  margin-left: 2rem;
+  margin-right: 2rem;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.card {
+  width: inherit;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.icon {
+  &.briefcase {
+    background-image: url(/assets/icons.svg#briefcase-fill);
+  }
+
+  &.calendar-week {
+    background-image: url(/assets/icons.svg#calendar-week-fill);
+  }
+
+  &.sun {
+    background-image: url(/assets/icons.svg#brightness-high-fill);
+  }
+
+  &.chart {
+    background-image: url(/assets/icons.svg#bar-chart-line-fill);
+  }
+
+  background-repeat: no-repeat;
+  background-position-x: 108%;
+  filter: $filter-primary-100;
+
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 0;
+  bottom: 1rem;
+}
+
+.header {
+  height: 236px;
+  background-color: $secondary-100;
+}
+
+.primary {
+  padding-right: 1.25rem;
+}
+
+.secondary {
+
+}
+
+.description {
+  color: $gray-700;
+}
+
+
+.gx-7 {
+  --bs-gutter-x: 3rem;
+}

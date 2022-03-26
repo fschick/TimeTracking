@@ -1,3 +1,7 @@
+node_modules/bootstrap-icons/icons/bar-chart-line-fill.svg
+node_modules/bootstrap-icons/icons/briefcase-fill.svg
+node_modules/bootstrap-icons/icons/brightness-high-fill.svg
+node_modules/bootstrap-icons/icons/calendar-week-fill.svg
 node_modules/bootstrap-icons/icons/calendar-week.svg
 node_modules/bootstrap-icons/icons/chevron-down.svg
 node_modules/bootstrap-icons/icons/chevron-up.svg
