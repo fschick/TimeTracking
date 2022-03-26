@@ -23,7 +23,9 @@
   },
   "Abbreviations": {
     "Hours": "h",
-    "Days": "days"
+    "Minutes": "m",
+    "Days": "days",
+    "CalendarWeek": "CW"
   },
   "API": {
     "NotFound": "The record could not be found",
@@ -119,6 +121,13 @@
     }
   },
   "Component": {
+    "Header": {
+      "NoDays": "no",
+      "PastDays": "Past {$COUNT} days",
+      "PastWeeks": "Past {$COUNT} weeks",
+      "PastMonths": "Past {$COUNT} months",
+      "PastYears": "Past {$COUNT} years"
+    },
     "Filter": {
       "Title": "Filter",
       "Reset": "Reset filter",
