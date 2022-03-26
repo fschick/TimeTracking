@@ -15,17 +15,17 @@ describe('DurationPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('duration should be formatted to \'hh:mm\' as default', () => {
+  it('duration should be formatted to \'hh h mm m\' as default', () => {
     const duration = Duration.fromObject({hours: 9, minutes: 20});
     const transformedDuration = pipe.transform(duration);
-    const expectedDuration = '09:20';
+    const expectedDuration = '09[i18n] h 20[i18n] m';
     expect(transformedDuration).toBe(expectedDuration);
   });
 
-  it('duration with days should be formatted to \'hh:mm\' as default', () => {
+  it('duration with days should be formatted to \'hh h mm m\' as default', () => {
     const duration = Duration.fromObject({days: 1, hours: 8, minutes: 20});
     const transformedDuration = pipe.transform(duration);
-    const expectedDuration = '32:20';
+    const expectedDuration = '32[i18n] h 20[i18n] m';
     expect(transformedDuration).toBe(expectedDuration);
   });
 

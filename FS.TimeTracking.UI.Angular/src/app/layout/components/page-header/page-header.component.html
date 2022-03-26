@@ -1,0 +1,63 @@
+<div *ngIf="visible && overview" class="header d-none d-md-block">
+  <div class="container d-flex align-items-center justify-content-between h-100">
+    <div class="card border-0">
+      <div class="card-body">
+        <div class="content">
+          <ng-container *ngIf="overview.workedDays > 0;else noDays">
+            <span class="primary fw-bold text-primary">{{overview.workedDays | number:'1.0-1'}}</span>
+            <span class="secondary d-none d-xl-inline" *ngIf="overview.workedDays < 100">({{overview.workedDaysDuration | tsDuration}})</span>
+          </ng-container>
+          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</div>
+        </div>
+        <div class="icon briefcase"></div>
+      </div>
+    </div>
+    <div class="card border-0">
+      <div class="card-body">
+        <div class="content">
+          <ng-container *ngIf="overview.workdays > 0;else noDays">
+            <span class="primary fw-bold text-primary">{{overview.workdays | number:'1.0-1'}}</span>
+            <span class="secondary d-none d-xl-inline" *ngIf="overview.workdays < 100">({{overview.workdaysDuration | tsDuration:daysOnlyFormat}})</span>
+          </ng-container>
+          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.Workdays">[i18n] working days</div>
+        </div>
+        <div class="icon calendar-week"></div>
+      </div>
+    </div>
+    <div class="card border-0">
+      <div class="card-body">
+        <div class="content">
+          <ng-container *ngIf="overview.holidays > 0;else noDays">
+            <span class="primary fw-bold text-primary">{{overview.holidays | number:'1.0-1'}}</span>
+            <span class="secondary d-none d-xl-inline" *ngIf="overview.holidays < 100">({{overview.holidaysDuration | tsDuration:daysOnlyFormat}})</span>
+          </ng-container>
+          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</div>
+        </div>
+        <div class="icon sun"></div>
+      </div>
+    </div>
+    <div class="card border-0">
+      <div class="card-body">
+        <div class="content">
+          <div *ngIf="chartSeries[0].data.length > 0;else noDays" class="fw-bold text-primary">
+            <apx-chart
+              [series]="chartSeries"
+              [chart]="chartOptions.chart"
+              [plotOptions]="chartOptions.plotOptions"
+              [colors]="chartOptions.colors"
+              [tooltip]="chartOptions.tooltip"
+              [states]="chartOptions.states"
+              [xaxis]="chartOptions.xaxis">
+            </apx-chart>
+          </div>
+          <div class="description fw-bold small text-truncate d-none d-lg-block" [ngClass]="{'chart':chartSeries[0].data.length > 0}">{{chartDescription}}</div>
+        </div>
+        <div class="icon chart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noDays>
+  <span class="no-days fw-bold" i18n="@@Component.Header.NoDays">[i18n] no</span>
+</ng-template>
