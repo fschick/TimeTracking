@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {merge, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../api';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
+import {FilteredRequestParams} from '../../components/filter/filter.component';
 
 export interface EntityChanged<TDto> {
   entity?: TDto;
@@ -21,12 +22,13 @@ export type CrudService<TDto> = {
   providedIn: 'root'
 })
 export class EntityService {
-  public timesheetChanged: Subject<EntityChanged<TimeSheetGridDto>> = new Subject<EntityChanged<TimeSheetGridDto>>();
-  public orderChanged: Subject<EntityChanged<OrderGridDto>> = new Subject<EntityChanged<OrderGridDto>>();
-  public activityChanged: Subject<EntityChanged<ActivityGridDto>> = new Subject<EntityChanged<ActivityGridDto>>();
-  public projectChanged: Subject<EntityChanged<ProjectGridDto>> = new Subject<EntityChanged<ProjectGridDto>>();
-  public customerChanged: Subject<EntityChanged<CustomerGridDto>> = new Subject<EntityChanged<CustomerGridDto>>();
-  public holidayChanged: Subject<EntityChanged<HolidayGridDto>> = new Subject<EntityChanged<HolidayGridDto>>();
+  public filterChanged = new Subject<FilteredRequestParams>();
+  public timesheetChanged = new Subject<EntityChanged<TimeSheetGridDto>>();
+  public orderChanged = new Subject<EntityChanged<OrderGridDto>>();
+  public activityChanged = new Subject<EntityChanged<ActivityGridDto>>();
+  public projectChanged = new Subject<EntityChanged<ProjectGridDto>>();
+  public customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
+  public holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (gridData: Observable<TDto[]>) => {

@@ -3,13 +3,8 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivityGridDto, ActivityService} from '../../../shared/services/api';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {
-  Column,
-  Configuration,
-  DataCellTemplate,
-  SimpleTableComponent
-} from '../../../shared/components/simple-table/simple-table.component';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
+import {Observable, Subscription} from 'rxjs';
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
@@ -26,11 +21,10 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   @ViewChild('actionCellTemplate', {static: true}) private actionCellTemplate?: DataCellTemplate<ActivityGridDto>;
 
   public guidService = GuidService;
-  public rows?:ActivityGridDto[];
+  public rows?: ActivityGridDto[];
   public columns!: Column<ActivityGridDto>[];
   public configuration?: Partial<Configuration<ActivityGridDto>>;
   public filters: (Filter | FilterName)[];
-  public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -49,7 +43,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.filterChanged
+    const filterChanged = this.entityService.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.activityChanged, this.activityService),

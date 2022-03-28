@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {ActivityChartService, ActivityWorkTimeDto} from '../../../shared/services/api';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ChartOptions, ChartService} from '../../services/chart.service';
 import {ApexAxisChartSeries} from 'ng-apexcharts';
@@ -10,6 +10,7 @@ import {LocalizationService} from '../../../shared/services/internationalization
 import {DateTime} from 'luxon';
 import {single, switchMap} from 'rxjs/operators';
 import {UtilityService} from '../../../shared/services/utility.service';
+import {EntityService} from '../../../shared/services/state-management/entity.service';
 
 @Component({
   selector: 'ts-chart-activities',
@@ -22,7 +23,6 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
   @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<ActivityWorkTimeDto>;
   @ViewChild('infoFooterTemplate', {static: true}) private infoFooterTemplate?: FooterCellTemplate<ActivityWorkTimeDto>;
 
-  public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
   public chartOptions: ChartOptions;
   public chartSeries?: ApexAxisChartSeries;
@@ -43,6 +43,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
     private chartService: ChartService,
     private changeDetector: ChangeDetectorRef,
+    private entityService: EntityService,
   ) {
     const defaultStartDate = DateTime.now().startOf('year');
     const defaultEndDate = DateTime.now().endOf('year');
@@ -63,7 +64,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.filterChanged
+    const filterChanged = this.entityService.filterChanged
       .pipe(switchMap(filter => this.loadData(filter)))
       .subscribe(rows => this.setTableData(rows));
     this.subscriptions.add(filterChanged);

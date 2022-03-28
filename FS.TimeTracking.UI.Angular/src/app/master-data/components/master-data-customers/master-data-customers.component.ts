@@ -1,13 +1,8 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CustomerGridDto, CustomerService} from '../../../shared/services/api';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {
-  Column,
-  Configuration,
-  DataCellTemplate,
-  SimpleTableComponent
-} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
 import {single, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
@@ -29,7 +24,6 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   public columns!: Column<CustomerGridDto>[];
   public configuration?: Partial<Configuration<CustomerGridDto>>;
   public filters: (Filter | FilterName)[];
-  public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -48,7 +42,7 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.filterChanged
+    const filterChanged = this.entityService.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.customerChanged, this.customerService),

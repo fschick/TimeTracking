@@ -5,7 +5,7 @@ import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {combineLatest, Subject, Subscription, timer} from 'rxjs';
+import {combineLatest, Subscription, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
@@ -39,7 +39,6 @@ class TimeSheetOverviewDto {
 export class TimesheetComponent implements OnInit, OnDestroy {
   public guidService = GuidService;
   public overview?: TimeSheetOverviewDto;
-  public filterChanged = new Subject<FilteredRequestParams>();
   public filters: (Filter | FilterName)[];
 
   public get showDetails(): boolean {
@@ -81,7 +80,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const loadTimeSheets = this.filterChanged
+    const loadTimeSheets = this.entityService.filterChanged
       .pipe(switchMap(filter => this.loadData(filter)))
       .subscribe((overview) => this.overview = overview);
     this.subscriptions.add(loadTimeSheets);

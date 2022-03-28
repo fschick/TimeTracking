@@ -6,7 +6,7 @@ import {
   SimpleTableComponent
 } from '../../../shared/components/simple-table/simple-table.component';
 import {ProjectGridDto, ProjectService} from '../../../shared/services/api';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
@@ -30,7 +30,6 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
   public columns!: Column<ProjectGridDto>[];
   public configuration?: Partial<Configuration<ProjectGridDto>>;
   public filters: (Filter | FilterName)[];
-  public filterChanged = new Subject<FilteredRequestParams>();
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -48,7 +47,7 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.filterChanged
+    const filterChanged = this.entityService.filterChanged
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.projectChanged, this.projectService),

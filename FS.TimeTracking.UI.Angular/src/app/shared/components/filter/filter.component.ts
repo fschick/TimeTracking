@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component,  Input, OnDestroy, OnInit,  TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
@@ -6,6 +6,7 @@ import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {StorageService} from '../../services/storage/storage.service';
 import {DateParserService} from '../../services/date-parser.service';
+import {EntityService} from '../../services/state-management/entity.service';
 
 export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;
@@ -35,8 +36,6 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     this.updateFilterSources(this._filters);
     this.applyFilterValues(this._filters);
   }
-
-  @Output() public filterChanged = new EventEmitter<FilteredRequestParams>();
 
   @ViewChild('timeSheetStartDate') private timeSheetStartDate!: TemplateRef<any>;
   @ViewChild('timeSheetEndDate') private timeSheetEndDate!: TemplateRef<any>;
@@ -84,6 +83,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     private changeDetector: ChangeDetectorRef,
     private typeaheadService: TypeaheadService,
     private dateParserService: DateParserService,
+    private entityService: EntityService,
   ) {
   }
 
@@ -101,7 +101,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
 
     const filterChangedEmitter = this.onFilterChanged
       .pipe(map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)))
-      .subscribe(timeSheetFilter => this.filterChanged.emit(timeSheetFilter));
+      .subscribe(timeSheetFilter => this.entityService.filterChanged.next(timeSheetFilter));
     this.subscriptions.add(filterChangedEmitter);
 
     if (this._filters !== undefined)
