@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TimeSheetDto, TimeSheetGridDto, TimeSheetService, WorkdayService, WorkedTimeInfoDto} from '../../../shared/services/api';
+import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../shared/services/api';
 import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {combineLatest, Subscription, timer} from 'rxjs';
+import {Observable, Subscription, timer} from 'rxjs';
 import {StorageService} from '../../../shared/services/storage/storage.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
@@ -21,12 +21,6 @@ interface TimeSheetDayGroupDto {
 }
 
 class TimeSheetOverviewDto {
-  workedDays = 0;
-  workedDaysDuration = Duration.fromMillis(0);
-  workdays = 0;
-  workdaysDuration = Duration.fromMillis(0);
-  holidays = 0;
-  holidaysDuration = Duration.fromMillis(0);
   workDayTimeSheets: TimeSheetDayGroupDto[] = [];
   omittedTimeSheets = 0;
 }
@@ -55,7 +49,6 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   constructor(
     private entityService: EntityService,
     private timeSheetService: TimeSheetService,
-    private workdayService: WorkdayService,
     private localizationService: LocalizationService,
     private route: ActivatedRoute,
     private router: Router,
@@ -82,7 +75,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const loadTimeSheets = this.entityService.filterChanged
       .pipe(switchMap(filter => this.loadData(filter)))
-      .subscribe((overview) => this.overview = overview);
+      .subscribe(overview => this.overview = overview);
     this.subscriptions.add(loadTimeSheets);
   }
 
@@ -124,30 +117,18 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     return item.id;
   }
 
-  private loadData(filter: FilteredRequestParams) {
-    return combineLatest([this.loadTimeSheets(filter), this.loadWorkDayInfo(filter)])
-      .pipe(
-        map(([timeSheets, workedTimeInfo]) => this.createTimeSheetOverview(timeSheets, workedTimeInfo))
-      )
-  };
-
-  private loadTimeSheets(filter: FilteredRequestParams) {
+  private loadData(filter: FilteredRequestParams): Observable<TimeSheetOverviewDto> {
     return this.timeSheetService
       .getGridFiltered(filter)
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets)))
+        switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
+        map(timeSheets => this.createTimeSheetOverview(timeSheets))
       );
   };
 
-  private loadWorkDayInfo(filter: FilteredRequestParams) {
-    return this.workdayService
-      .getWorkedDaysInfo(filter)
-      .pipe(single());
-  };
-
-  private createTimeSheetOverview(timeSheets: TimeSheetGridDto[], workedTimeInfo: WorkedTimeInfoDto): TimeSheetOverviewDto {
+  private createTimeSheetOverview(timeSheets: TimeSheetGridDto[]): TimeSheetOverviewDto {
     timeSheets.sort((a, b) => a.startDate.equals(b.startDate) ? 0 : a.startDate > b.startDate ? -1 : 1);
 
     for (const timeSheet of timeSheets) {
@@ -168,24 +149,10 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     if (timeSheetWorkDayGroups.length === 0)
       return new TimeSheetOverviewDto();
 
-    const workedTime = timeSheetWorkDayGroups.reduce((duration, timeSheet) => duration.plus(timeSheet.workTime), Duration.fromMillis(0));
-    const workedDays = workedTime.as('hours') / workedTimeInfo.workHoursPerWorkday.hours;
-
     const workDaysToDisplay = this.limitWorkDaysToDisplay(timeSheetWorkDayGroups, 50);
     const omittedTimeSheets = timeSheetWorkDayGroups.length - workDaysToDisplay.length;
 
-    const workdays = workedTimeInfo.personalWorkdays;
-    const workdaysDuration = Duration.fromDurationLike({hour: workdays * workedTimeInfo.workHoursPerWorkday.hours});
-    const holidays = workedTimeInfo.personalHolidays;
-    const holidaysDuration = Duration.fromDurationLike({hour: holidays * workedTimeInfo.workHoursPerWorkday.hours});
-
     return {
-      workdays: workdays,
-      workdaysDuration: workdaysDuration,
-      holidays: holidays,
-      holidaysDuration: holidaysDuration,
-      workedDaysDuration: workedTime,
-      workedDays: workedDays,
       workDayTimeSheets: workDaysToDisplay,
       omittedTimeSheets: omittedTimeSheets
     };
