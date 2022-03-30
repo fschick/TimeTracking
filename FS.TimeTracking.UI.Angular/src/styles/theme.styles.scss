@@ -63,6 +63,39 @@
 }
 
 /* ----------------------------------------- */
+/* Switches
+/* ----------------------------------------- */
+.form-switch .form-check-input[type=checkbox] {
+  width: 2.125em;
+  height: 1.125em;
+  border: 2px solid $gray-200;
+  box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 5%);
+
+  &:hover {
+    background-color: $primary-100;
+    background-image: escape-svg($form-switch-focus-bg-image);
+    border-color: $primary-300;
+    box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 5%);
+  }
+
+  &:focus {
+    background-color: $primary-100;
+    background-image: escape-svg($form-switch-focus-bg-image);
+    border-color: $primary-300;
+    box-shadow: 0 0 8px 1px rgba(19, 136, 66, 0.3);
+  }
+
+  &:checked {
+    border-color: $primary-500;
+  }
+
+  &:checked:focus {
+    background-color: $primary-500;
+    background-image: escape-svg($form-switch-checked-bg-image);
+  }
+}
+
+/* ----------------------------------------- */
 /* Primary button
 /* ----------------------------------------- */
 .btn-primary {
