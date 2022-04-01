@@ -57,17 +57,15 @@ public class WorkdayService : IWorkdayService
 
         var workedTime = workedTimes.SingleOrDefault() ?? new
         {
-            MinStartDate = DateTime.MinValue.AddDays(1),
-            MaxEndDate = (DateTime?)DateTime.MaxValue.AddDays(-1),
+            MinStartDate = DateTime.UtcNow,
+            MaxEndDate = (DateTime?)DateTime.UtcNow.AddDays(-1),
             WorkedTime = TimeSpan.Zero
         };
 
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter, true);
 
-        var minStart = DateTimeOffset.MinValue.AddDays(1);
-        var maxEnd = DateTimeOffset.MaxValue.AddDays(-1);
-        var startDate = selectedPeriod.Start > minStart ? selectedPeriod.Start : workedTime.MinStartDate;
-        var endDate = selectedPeriod.End < maxEnd ? selectedPeriod.End : workedTime.MaxEndDate!.Value;
+        var startDate = selectedPeriod.Start != DateTimeOffset.MinValue ? selectedPeriod.Start : workedTime.MinStartDate;
+        var endDate = selectedPeriod.End != DateTimeOffset.MaxValue ? selectedPeriod.End : workedTime.MaxEndDate!.Value;
 
         selectedPeriod = new Range<DateTimeOffset>(startDate, endDate);
 
@@ -85,7 +83,9 @@ public class WorkdayService : IWorkdayService
 
     /// <inheritdoc />
     public async Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
-        => await GetWorkdays(startDate.GetDays(endDate), cancellationToken);
+        => startDate <= endDate
+            ? await GetWorkdays(startDate.GetDays(endDate), cancellationToken)
+            : new WorkdaysDto { PublicWorkdays = new(), PersonalWorkdays = new() };
 
     /// <inheritdoc />
     public async Task<WorkdaysDto> GetWorkdays(Range<DateTimeOffset> dateTimeRange, CancellationToken cancellationToken = default)

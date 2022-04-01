@@ -172,22 +172,18 @@ public static class FilterExtensions
     /// <param name="endDateExclusive">Handle given end date as (right) exclusive.</param>
     public static Range<DateTimeOffset> GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter, bool endDateExclusive = false)
     {
-        // Let space for later timezone conversions.
-        var minValue = DateTimeOffset.MinValue.AddDays(1);
-        var maxValue = DateTimeOffset.MaxValue.AddDays(-1);
-
         var startDateFilter = timeSheetFilter.GetPropertyFilter(x => x.StartDate);
         var endDateFilter = timeSheetFilter.GetPropertyFilter(x => x.EndDate);
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : minValue;
+            : DateTimeOffset.MinValue;
 
         var endDate = startDateFilter != null
             ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : maxValue;
+            : DateTimeOffset.MaxValue;
 
-        if (endDateExclusive)
+        if (endDate != DateTimeOffset.MaxValue && endDateExclusive)
             endDate = endDate.AddDays(-1);
 
         return new Range<DateTimeOffset>(startDate, endDate);
