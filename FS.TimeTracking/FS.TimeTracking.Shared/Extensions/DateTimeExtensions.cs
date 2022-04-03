@@ -118,4 +118,36 @@ public static class DateTimeExtensions
         toDate ??= DateTime.UtcNow.AddMinutes(offset);
         return (ulong)(toDate.Value - fromDate).TotalSeconds;
     }
+
+    /// <summary>
+    /// Gets the start date of the day.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    public static DateTime StartOfDay(this DateTime date)
+        => date.Date;
+
+    /// <summary>
+    /// Gets the start date of the week.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    /// <param name="startOfWeek">The start of week. Defaults to monday (ISO 8601)</param>
+    public static DateTime StartOfWeek(this DateTime date, DayOfWeek startOfWeek = DayOfWeek.Monday)
+    {
+        var diff = (7 + (date.DayOfWeek - startOfWeek)) % 7;
+        return date.AddDays(-1 * diff).Date;
+    }
+
+    /// <summary>
+    /// Gets the start date of the month.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    public static DateTime StartOfMonth(this DateTime date)
+        => date.AddDays(-date.Day + 1).Date;
+
+    /// <summary>
+    /// Gets the start date of the year.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    public static DateTime StartOfYear(this DateTime date)
+        => date.AddDays(-date.DayOfYear + 1).Date;
 }

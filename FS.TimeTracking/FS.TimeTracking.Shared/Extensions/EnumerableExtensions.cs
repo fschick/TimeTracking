@@ -71,6 +71,14 @@ public static class EnumerableExtensions
         => (await source).First();
 
     /// <summary>
+    /// Returns the first element of a sequence, or a default value if the sequenz contains no elements.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
+    public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, T defaultValue = default)
+        => (await source).FirstOrDefault(defaultValue);
+
+    /// <summary>
     /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.
     /// </summary>
     /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
