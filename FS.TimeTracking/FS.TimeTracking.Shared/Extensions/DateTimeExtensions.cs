@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FS.TimeTracking.Abstractions.Extensions;
+namespace FS.TimeTracking.Shared.Extensions;
 
 /// <summary>
 /// Extensions methods for type <see cref="DateTime"></see>

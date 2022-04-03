@@ -1,9 +1,9 @@
 ﻿using Bogus;
-using FS.TimeTracking.Abstractions.Extensions;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Abstractions.Models.Application.MasterData;
 using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
+using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

@@ -1,6 +1,4 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
@@ -10,12 +8,15 @@ using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Abstractions.Models.Application.MasterData;
 using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
-using Nito.AsyncEx;
+using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FS.FilterExpressionCreator.Filters;
+using Nito.AsyncEx;
+using FS.FilterExpressionCreator.Abstractions.Models;
 
 namespace FS.TimeTracking.Application.Services.Shared;
 /// <inheritdoc />

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Abstractions.Extensions;
+using FS.TimeTracking.Shared.Extensions;
 using System;
 
 namespace FS.TimeTracking.Application.AutoMapper;

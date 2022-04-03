@@ -1,5 +1,5 @@
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.Extensions;
+using FS.TimeTracking.Shared.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
