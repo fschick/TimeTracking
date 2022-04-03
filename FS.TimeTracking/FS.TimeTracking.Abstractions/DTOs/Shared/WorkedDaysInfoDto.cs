@@ -1,5 +1,7 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
@@ -7,7 +9,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// <summary>
 /// Worked time info like days.
 /// </summary>
-public class WorkedTimeInfoDto
+public class WorkedDaysInfoDto
 {
     /// <summary>
     /// Count of public workdays.
@@ -35,5 +37,17 @@ public class WorkedTimeInfoDto
     /// Worked time.
     /// </summary>
     [Required]
-    public TimeSpan WorkedTime { get; set; }
+    public TimeSpan TotalTimeWorked { get; set; }
+
+    /// <summary>
+    /// Last worked times per day/week/month/year.
+    /// </summary>
+    [Required]
+    public List<WorkdayDto> LastWorkedTimes { get; set; }
+
+    /// <summary>
+    /// Aggregation unit for <see cref="LastWorkedTimes"/>.
+    /// </summary>
+    [Required]
+    public WorkdayAggregationUnit LastWorkedTimesAggregationUnit { get; set; }
 }

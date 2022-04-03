@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.Chart;
+﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
+using FS.TimeTracking.Abstractions.Models.Application.Chart;
 using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -16,4 +17,14 @@ internal static class WorkTimeExtensions
         var averageHourlyRate = hours != 0 ? budget / hours : 0;
         return averageHourlyRate;
     }
+
+    public static List<WorkdayDto> GroupByDate(this IEnumerable<WorkdayDto> group, Func<WorkdayDto, DateTime> keySelector)
+        => group
+            .GroupBy(keySelector)
+            .Select(x => new WorkdayDto
+            {
+                Date = keySelector(x.First()),
+                TimeWorked = x.Sum(f => f.TimeWorked)
+            })
+            .ToList();
 }
