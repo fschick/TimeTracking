@@ -22,45 +22,55 @@ import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders
 
 const routes: Routes = [
   {
-    path: 'master-data/customers', component: MasterDataCustomersComponent,
-    children: [{path: ':id', component: MasterDataCustomersEditComponent}]
-  },
-  {
-    path: 'master-data/projects', component: MasterDataProjectsComponent,
-    children: [{path: ':id', component: MasterDataProjectsEditComponent}]
-  },
-  {
-    path: 'master-data/activities', component: MasterDataActivitiesComponent,
-    children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
-  },
-  {
-    path: 'master-data/orders', component: MasterDataOrdersComponent,
-    children: [{path: ':id', component: MasterDataOrdersEditComponent}]
-  },
-  {
-    path: 'master-data/holidays', component: MasterDataHolidaysComponent,
+    path: 'master-data',
     children: [
-      {path: 'import', component: MasterDataHolidaysImportComponent},
-      {path: ':id', component: MasterDataHolidaysEditComponent},
+      {
+        path: 'customers', component: MasterDataCustomersComponent,
+        children: [{path: ':id', component: MasterDataCustomersEditComponent}]
+      },
+      {
+        path: 'projects', component: MasterDataProjectsComponent,
+        children: [{path: ':id', component: MasterDataProjectsEditComponent}]
+      },
+      {
+        path: 'activities', component: MasterDataActivitiesComponent,
+        children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
+      },
+      {
+        path: 'orders', component: MasterDataOrdersComponent,
+        children: [{path: ':id', component: MasterDataOrdersEditComponent}]
+      },
+      {
+        path: 'holidays', component: MasterDataHolidaysComponent,
+        children: [
+          {path: 'import', component: MasterDataHolidaysImportComponent},
+          {path: ':id', component: MasterDataHolidaysEditComponent},
+        ]
+      },
+      {
+        path: 'settings', component: MasterDataSettingsComponent,
+      },
+    ],
+  },
+  {
+    path: 'chart',
+    children: [
+      {
+        path: 'customers', component: ChartCustomersComponent,
+      },
+      {
+        path: 'projects', component: ChartProjectsComponent,
+      },
+      {
+        path: 'activities', component: ChartActivitiesComponent,
+      },
+      {
+        path: 'issues', component: ChartIssuesComponent,
+      },
+      {
+        path: 'orders', component: ChartOrdersComponent,
+      },
     ]
-  },
-  {
-    path: 'master-data/settings', component: MasterDataSettingsComponent,
-  },
-  {
-    path: 'chart/customers', component: ChartCustomersComponent,
-  },
-  {
-    path: 'chart/projects', component: ChartProjectsComponent,
-  },
-  {
-    path: 'chart/activities', component: ChartActivitiesComponent,
-  },
-  {
-    path: 'chart/issues', component: ChartIssuesComponent,
-  },
-  {
-    path: 'chart/orders', component: ChartOrdersComponent,
   },
   {
     path: '', component: TimesheetComponent,
