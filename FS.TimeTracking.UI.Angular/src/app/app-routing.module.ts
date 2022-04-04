@@ -48,19 +48,19 @@ const routes: Routes = [
     path: 'master-data/settings', component: MasterDataSettingsComponent,
   },
   {
-    path: 'report/customers', component: ChartCustomersComponent,
+    path: 'chart/customers', component: ChartCustomersComponent,
   },
   {
-    path: 'report/projects', component: ChartProjectsComponent,
+    path: 'chart/projects', component: ChartProjectsComponent,
   },
   {
-    path: 'report/activities', component: ChartActivitiesComponent,
+    path: 'chart/activities', component: ChartActivitiesComponent,
   },
   {
-    path: 'report/issues', component: ChartIssuesComponent,
+    path: 'chart/issues', component: ChartIssuesComponent,
   },
   {
-    path: 'report/orders', component: ChartOrdersComponent,
+    path: 'chart/orders', component: ChartOrdersComponent,
   },
   {
     path: '', component: TimesheetComponent,
