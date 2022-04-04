@@ -29,6 +29,7 @@ export interface DatePickerOptions {
   minViewMode: ViewMode
   startDate: Date | undefined,
   endDate: Date | undefined,
+  zIndexOffset: number,
 }
 
 @Directive({
@@ -96,7 +97,8 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       keyboardNavigation: false,
       minViewMode: 'days',
       startDate: undefined,
-      endDate: undefined
+      endDate: undefined,
+      zIndexOffset: 1031,
     };
   }
 
