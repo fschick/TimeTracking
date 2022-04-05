@@ -129,10 +129,13 @@
       "PastYears": "Vergangene {$COUNT} Jahre"
     },
     "Filter": {
-      "Title": "Filter",
+      "Title": "Einstellungen & Filter",
       "Reset": "Filter zurücksetzten",
+      "LimitPeriod": "Zeitraum eingrenzen",
       "From": "von",
       "To": "bis",
+      "Start": "Beginn",
+      "End": "Ende",
       "Customer": "Kunde",
       "CustomerNumber": "Nummer",
       "CustomerCompanyName": "Firma",

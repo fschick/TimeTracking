@@ -1,11 +1,48 @@
 @import '~src/styles/variables';
 
+.month-date-input {
+  position: relative;
+}
+
 .month-input {
-  flex-grow: 0;
-  flex-shrink: 0;
-  min-width: 4rem;
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 4.125rem;
+  bottom: 0.1875rem;
+
+  color: $white;
+  background-color: $primary;
+  border: 1px solid $primary;
+  padding: $input-padding-y 0;
   cursor: pointer;
-  background-color: $input-bg;
-  padding-left: $input-btn-padding-x;
-  padding-right: $input-btn-padding-x;
+
+  &::placeholder {
+    color: $primary;
+  }
+
+  &:placeholder-shown {
+    color: $primary;
+    background-color: $white;
+  }
+
+  &:hover {
+    border-color: $primary-700;
+    background-color: $primary-700;
+
+  }
+
+  &:hover:placeholder-shown {
+    border-width: 2px;
+    border-color: $primary;
+    background-color: $primary-100;
+  }
+}
+
+.date-input {
+  padding-left: 5.25rem;
+
+  &:focus {
+    padding-left: 5.1875rem;
+  }
 }
