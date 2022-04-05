@@ -47,7 +47,7 @@ import {MasterDataSettingsComponent} from './master-data/components/master-data-
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
-import {NgbModalModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule, NgbPopoverModule, NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
 import {RouterLinkCtrlClickDirective} from './shared/directives/router-link-ctrl-click.directive';
@@ -56,7 +56,9 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import { PageHeaderComponent } from './layout/components/page-header/page-header.component';
+import {PageHeaderComponent} from './layout/components/page-header/page-header.component';
+import {NgLetModule} from 'ng-let';
+import { ClearableInputComponent } from './shared/components/clearable-input/clearable-input.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,7 @@ import { PageHeaderComponent } from './layout/components/page-header/page-header
     DateMonthPickerComponent,
     RouterLinkCtrlClickDirective,
     PageHeaderComponent,
+    ClearableInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,6 +112,8 @@ import { PageHeaderComponent } from './layout/components/page-header/page-header
     NgApexchartsModule,
     NgbModalModule,
     NgbPopoverModule,
+    NgbCollapseModule,
+    NgLetModule,
     ToastrModule.forRoot({
       extendedTimeOut: 2500,
       positionClass: 'toast-bottom-right'
