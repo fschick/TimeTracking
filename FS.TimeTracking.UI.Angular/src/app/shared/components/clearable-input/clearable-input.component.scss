@@ -1,19 +1,11 @@
-.add-filter {
-  margin-top: 2.3rem;
-}
-
-.reset-filter {
-  margin-top: .3rem;
-}
-
 .clearable {
   position: relative;
 
   input {
-    padding-right: 3rem;
+    padding-right: 2.4rem;
   }
 
-  button {
+  .clear, .add {
     position: absolute;
     border: none;
     top: 0;
@@ -21,9 +13,11 @@
     right: .875rem;
     cursor: pointer;
     background: transparent;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .reset svg {
+  .clear svg {
     height: 1.2em;
     width: 1.2em;
     vertical-align: -0.25em;
