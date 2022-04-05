@@ -16,7 +16,8 @@ const CUSTOM_VALUE_ACCESSOR: any = {
 })
 export class DateMonthPickerComponent implements ControlValueAccessor {
 
-  @Input() public placeholder: string | undefined;
+  @Input() public placeholderMonth: string | undefined;
+  @Input() public placeholderDate: string | undefined;
   /* Should partial inputs adjusted to start or end of period (2000-12 => 2000-12-01 or 2000-12-31) */
   @Input() public relativeAnchor: 'start' | 'end' = 'start';
   @Input() public format: string | undefined;
