@@ -1,9 +1,9 @@
-<div class="input-group">
+<div class="month-date-input">
   <input id="timeSheetStartMonth"
          type="text"
-         class="form-control month-input"
+         class="form-control month-input text-center"
          readonly
-         [placeholder]="placeholder"
+         [placeholder]="placeholderMonth"
          [ngModel]="value"
          (ngModelChange)="valueChanged($event)"
          tsDatePicker
@@ -18,7 +18,8 @@
          tabindex="-1">
   <input id="timeSheetStartDate"
          type="text"
-         class="form-control"
+         class="form-control date-input"
+         [placeholder]="placeholderDate"
          [ngModel]="value"
          (ngModelChange)="valueChanged($event)"
          tsDatePicker
