@@ -27,6 +27,8 @@ export class DateMonthPickerComponent implements ControlValueAccessor {
 
   public value?: DateTime = DateTime.min();
 
+  public get isEmpty() {return this.value == null};
+
   private onChange: (obj: any) => void = (_: any) => {};
   private onTouched: () => void = () => {};
   private disabled = false;
@@ -50,7 +52,7 @@ export class DateMonthPickerComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  valueChanged($event: DateTime | undefined) {
+  public valueChanged($event: DateTime | undefined) {
     this.value = $event;
     this.onChange(this.value);
     this.onTouched();

@@ -1,15 +1,6 @@
 <!-- Header -->
 <div class="mb-4">
   <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Filter</h4>
-  <div>
-    <button *ngIf="isFiltered$ | async"
-            (click)="resetFilterForm()"
-            type="button"
-            class="btn btn-primary"
-            i18n="@@Component.Filter.Reset">
-      [i18n] Reset filter
-    </button>
-  </div>
 </div>
 
 <form *ngIf="filterForm !== undefined" id="filterForm" [formGroup]="filterForm">
@@ -23,7 +14,7 @@
     </div>
 
     <!-- Extended filter -->
-    <div id="extendedFilter" class="collapse">
+    <div id="extendedFilter" #collapse="ngbCollapse" [(ngbCollapse)]="filterCollapsed">
       <div class="row g-3 my-0">
         <ng-container *ngFor="let filter of secondaryFilters">
           <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
@@ -31,17 +22,43 @@
       </div>
     </div>
 
-    <button *ngIf="secondaryFilters && secondaryFilters.length"
-            id="extended-filter-toggler"
-            type="button"
-            class="btn btn-outline-secondary collapsed ms-2"
-            data-bs-toggle="collapse"
-            data-bs-target="#extendedFilter"
-            aria-expanded="false"
-            aria-controls="extendedFilter">
-      <span class="text-expand" i18n="@@Common.Expand">[i18n] Expand</span>
-      <span class="text-collapse" i18n="@@Common.Collapse">[i18n] Collapse</span>
-    </button>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <button *ngIf="secondaryFilters && secondaryFilters.length"
+                id="extended-filter-toggler"
+                type="button"
+                class="btn btn-secondary add-filter"
+                (click)="collapse.toggle()"
+                aria-controls="extendedFilter"
+                [attr.aria-expanded]="!filterCollapsed">
+          <ng-container *ngIf="collapse.collapsed">
+            <svg class="bi text-secondary me-2" fill="currentColor">
+              <use xlink:href="assets/icons.svg#plus-square-dotted"/>
+            </svg>
+            <span class="text-expand" i18n="@@Component.Filter.Add">[i18n] Add filter</span>
+          </ng-container>
+          <ng-container *ngIf="!collapse.collapsed">
+            <svg class="bi text-secondary me-2" fill="currentColor">
+              <use xlink:href="assets/icons.svg#chevron-up"/>
+            </svg>
+            <span class="text-expand" i18n="@@Common.Collapse">[i18n] Collapse</span>
+          </ng-container>
+        </button>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <button *ngIf="isFiltered$ | async"
+                  (click)="resetFilterForm()"
+                  type="button"
+                  class="btn text-primary fw-normal reset-filter">
+            <svg class="bi text-secondary me-2" fill="currentColor">
+              <use xlink:href="assets/icons.svg#arrow-clockwise"/>
+            </svg>
+            <span class="text-expand" i18n="@@Component.Filter.Reset">[i18n] Reset filter</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </ng-container>
 
 
@@ -51,7 +68,6 @@
       <label class="form-label visually-hidden" for="timeSheetStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="timeSheetStartDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('timeSheetStartDate') }"
         placeholderMonth="[i18n] from"
         i18n-placeholderMonth="@@Component.Filter.From"
         placeholderDate="[i18n] Start"
@@ -67,7 +83,6 @@
       <label class="form-label visually-hidden" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="timeSheetEndDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('timeSheetEndDate') }"
         placeholderMonth="[i18n] to"
         i18n-placeholderMonth="@@Component.Filter.To"
         placeholderDate="[i18n] End"
@@ -85,7 +100,6 @@
       <label class="form-label visually-hidden" for="orderStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="orderStartDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('orderStartDate') }"
         placeholderMonth="[i18n] from"
         i18n-placeholderMonth="@@Component.Filter.From"
         placeholderDate="[i18n] Start"
@@ -101,7 +115,6 @@
       <label class="form-label visually-hidden" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="orderDueDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('orderDueDate') }"
         placeholderMonth="[i18n] to"
         i18n-placeholderMonth="@@Component.Filter.To"
         placeholderDate="[i18n] End"
@@ -119,7 +132,6 @@
       <label class="form-label visually-hidden" for="holidayStartDate" i18n="@@Component.Filter.From">[i18n] From</label>
       <ts-date-month-picker
         id="holidayStartDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('holidayStartDate') }"
         placeholderMonth="[i18n] from"
         i18n-placeholderMonth="@@Component.Filter.From"
         placeholderDate="[i18n] Start"
@@ -135,7 +147,6 @@
       <label class="form-label visually-hidden" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
       <ts-date-month-picker
         id="holidayEndDate"
-        [ngClass]="{ 'filtered': isFieldFiltered('holidayEndDate') }"
         placeholderMonth="[i18n] to"
         i18n-placeholderMonth="@@Component.Filter.To"
         placeholderDate="[i18n] End"
@@ -153,7 +164,6 @@
       <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
       <ng-select [items]="customers$ | async"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFieldFiltered('customerId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Customer"
                  i18n-placeholder="@@Component.Filter.Customer"
@@ -175,7 +185,6 @@
       <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
       <ng-select [items]="projects$ | async"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFieldFiltered('projectId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -197,7 +206,6 @@
       <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
       <ng-select [items]="activities$ | async"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFieldFiltered('activityId') }"
                  dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
@@ -219,7 +227,6 @@
       <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
       <ng-select [items]="orders$ | async"
                  [multiple]="true"
-                 [ngClass]="{ 'filtered': isFieldFiltered('orderId') }"
                  dropdownPosition="bottom"
                  placeholder="[i18n] Order"
                  i18n-placeholder="@@Component.Filter.Order"
@@ -238,70 +245,83 @@
   <ng-template #timeSheetIssue>
     <div class="col-12">
       <label for="timeSheetIssue" class="form-label" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
-      <input id="timeSheetIssue"
-             [ngClass]="{ 'filtered': isFieldFiltered('timeSheetIssue') }"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] Issue"
-             i18n-placeholder="@@Component.Filter.Issue"
-             formControlName="timeSheetIssue"
-             (keydown.enter)="setFormValue($event, 'timeSheetIssue')">
+      <ts-clearable-input id="timeSheetIssue"
+                          placeholder="[i18n] Issue"
+                          i18n-placeholder="@@Component.Filter.Issue"
+                          formControlName="timeSheetIssue">
+      </ts-clearable-input>
     </div>
   </ng-template>
 
   <ng-template #customerNumber>
     <div class="col-12">
       <label for="customerNumber" class="form-label" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
-      <input id="customerNumber"
-             [ngClass]="{ 'filtered': isFieldFiltered('customerNumber') }"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] Number"
-             i18n-placeholder="@@Component.Filter.CustomerNumber"
-             formControlName="customerNumber"
-             (keydown.enter)="setFormValue($event, 'customerNumber')">
+      <ts-clearable-input id="customerNumber"
+                          placeholder="[i18n] Number"
+                          i18n-placeholder="@@Component.Filter.CustomerNumber"
+                          formControlName="customerNumber">
+      </ts-clearable-input>
     </div>
   </ng-template>
 
   <ng-template #customerCompanyName>
     <div class="col-12">
       <label for="customerCompanyName" class="form-label" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
-      <input id="customerCompanyName"
-             [ngClass]="{ 'filtered': isFieldFiltered('customerCompanyName') }"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] Company"
-             i18n-placeholder="@@Component.Filter.CustomerCompanyName"
-             formControlName="customerCompanyName"
-             (keydown.enter)="setFormValue($event, 'customerCompanyName')">
+      <ts-clearable-input id="customerCompanyName"
+                          placeholder="[i18n] Company"
+                          i18n-placeholder="@@Component.Filter.CustomerCompanyName"
+                          formControlName="customerCompanyName">
+      </ts-clearable-input>
     </div>
   </ng-template>
 
   <ng-template #timeSheetComment>
     <div class="col-12">
       <label for="timeSheetComment" class="form-label" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
-      <input id="timeSheetComment"
-             [ngClass]="{ 'filtered': isFieldFiltered('timeSheetComment') }"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] Comment"
-             i18n-placeholder="@@Component.Filter.Comment"
-             formControlName="timeSheetComment"
-             (keydown.enter)="setFormValue($event, 'timeSheetComment')">
+      <ts-clearable-input id="timeSheetComment"
+                          placeholder="[i18n] Comment"
+                          i18n-placeholder="@@Component.Filter.Comment"
+                          formControlName="timeSheetComment">
+      </ts-clearable-input>
+
+      <!--
+      <div class="clearable" *ngLet="isFieldFiltered('timeSheetComment') as isFieldFiltered">
+        <input id="timeSheetComment"
+               [ngClass]="{ 'filtered': isFieldFiltered }"
+               type="text"
+               class="form-control"
+               placeholder="[i18n] Comment"
+               i18n-placeholder="@@Component.Filter.Comment"
+               formControlName="timeSheetComment"
+               (keydown.enter)="setFormValue($event, 'timeSheetComment')">
+        <button type="button"
+                class="text-secondary reset"
+                [ngClass]="{'d-none': !isFieldFiltered}"
+                (click)="clearFormValue('timeSheetComment')">
+          <svg class="bi text-secondary" fill="currentColor">
+            <use xlink:href="assets/icons.svg#x"/>
+          </svg>
+        </button>
+        <button type="button"
+                class="text-secondary add"
+                [ngClass]="{'d-none': isFieldFiltered}">
+          <svg class="bi text-secondary" fill="currentColor">
+            <use xlink:href="assets/icons.svg#check2"/>
+          </svg>
+        </button>
+      </div>
+      -->
     </div>
   </ng-template>
 
   <ng-template #holidayTitle>
     <div class="col-12">
       <label for="holidayTitle" class="form-label" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
-      <input id="holidayTitle"
-             [ngClass]="{ 'filtered': isFieldFiltered('holidayTitle') }"
-             type="text"
-             class="form-control"
-             placeholder="[i18n] Title"
-             i18n-placeholder="@@Component.Filter.HolidayTitle"
-             formControlName="holidayTitle"
-             (keydown.enter)="setFormValue($event, 'holidayTitle')">
+      <ts-clearable-input id="holidayTitle"
+                          placeholder="[i18n] Title"
+                          i18n-placeholder="@@Component.Filter.HolidayTitle"
+                          formControlName="holidayTitle">
+      </ts-clearable-input>
     </div>
   </ng-template>
 
@@ -309,8 +329,7 @@
     <div class="col-12">
       <!--suppress XmlInvalidId -->
       <label for="activityHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('activityHidden') }"
-                 placeholder="[i18n] Hidden"
+      <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="activityHidden"
                  formControlName="activityHidden">
@@ -324,8 +343,7 @@
     <div class="col-12">
       <!--suppress XmlInvalidId -->
       <label for="customerHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('customerHidden') }"
-                 placeholder="[i18n] Hidden"
+      <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="customerHidden"
                  formControlName="customerHidden">
@@ -339,8 +357,7 @@
     <div class="col-12">
       <!--suppress XmlInvalidId -->
       <label for="projectHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('projectHidden') }"
-                 placeholder="[i18n] Hidden"
+      <ng-select placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="projectHidden"
                  formControlName="projectHidden">
@@ -354,8 +371,7 @@
     <div class="col-12">
       <!--suppress XmlInvalidId -->
       <label for="holidayType" class="form-label" i18n="@@Component.Filter.HolidayType">[i18n] Type</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('holidayType') }"
-                 placeholder="[i18n] Type"
+      <ng-select placeholder="[i18n] Type"
                  i18n-placeholder="@@Component.Filter.HolidayType"
                  labelForId="holidayType"
                  formControlName="holidayType">
@@ -369,8 +385,7 @@
     <div class="col-12">
       <!--suppress XmlInvalidId -->
       <label for="timeSheetBillable" class="form-label" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('timeSheetBillable') }"
-                 placeholder="[i18n] Billable"
+      <ng-select placeholder="[i18n] Billable"
                  i18n-placeholder="@@Component.Filter.Billable"
                  labelForId="timeSheetBillable"
                  formControlName="timeSheetBillable">

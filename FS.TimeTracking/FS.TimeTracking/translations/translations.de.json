@@ -129,6 +129,7 @@
     },
     "Filter": {
       "Title": "Einstellungen & Filter",
+      "Add": "Filter hinzufügen",
       "Reset": "Filter zurücksetzten",
       "LimitPeriod": "Zeitraum eingrenzen",
       "From": "von",
