@@ -9,7 +9,7 @@
   top: 0.1875rem;
   left: 0.1875rem;
   width: 4.125rem;
-  bottom: 0.1875rem;
+  height: 2.25rem;
 
   color: $white;
   background-color: $primary;
@@ -41,8 +41,27 @@
 
 .date-input {
   padding-left: 5.25rem;
+  padding-right: 2.4rem;
 
   &:focus {
     padding-left: 5.1875rem;
+  }
+}
+
+.clear {
+  position: absolute;
+  border: none;
+  top: 0;
+  bottom: 0;
+  right: .875rem;
+  cursor: pointer;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+
+  svg {
+    height: 1.2em;
+    width: 1.2em;
+    vertical-align: -0.25em;
   }
 }

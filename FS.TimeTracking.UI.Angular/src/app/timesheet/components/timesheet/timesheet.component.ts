@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../shared/services/api';
-import {map, single, switchMap} from 'rxjs/operators';
+import {filter, map, pluck, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -34,16 +34,8 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   public guidService = GuidService;
   public overview?: TimeSheetOverviewDto;
   public filters: (Filter | FilterName)[];
+  public showDetails = false;
 
-  public get showDetails(): boolean {
-    return this.storageService.get(this.timeSheetShowDetailsStorageKey, 'false') === 'true';
-  };
-
-  public set showDetails(value: boolean) {
-    this.storageService.set(this.timeSheetShowDetailsStorageKey, value ? 'true' : 'false');
-  };
-
-  private readonly timeSheetShowDetailsStorageKey = 'timeSheetShowDetails';
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -60,8 +52,9 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().endOf('month');
 
     this.filters = [
-      {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
-      {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
+      {name: 'showDetails', defaultValue: false, isPrimary: true},
+      {name: 'timeSheetStartDate', defaultValue: defaultStartDate, isPrimary: true},
+      {name: 'timeSheetEndDate', defaultValue: defaultEndDate, isPrimary: true},
       {name: 'customerId'},
       {name: 'orderId'},
       {name: 'projectId'},
@@ -77,6 +70,11 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       .pipe(switchMap(filter => this.loadData(filter)))
       .subscribe(overview => this.overview = overview);
     this.subscriptions.add(loadTimeSheets);
+
+    const showDetails = this.entityService.filterChanged
+      .pipe(map(x => x.showDetails === 'true'))
+      .subscribe(showDetails => this.showDetails = showDetails);
+    this.subscriptions.add(showDetails);
   }
 
   public ngOnDestroy(): void {

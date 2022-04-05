@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component,  Input, OnDestroy, OnInit,  TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../services/api';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
@@ -8,7 +8,7 @@ import {StorageService} from '../../services/storage/storage.service';
 import {DateParserService} from '../../services/date-parser.service';
 import {EntityService} from '../../services/state-management/entity.service';
 
-export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams;
+export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams & AdditionalFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;
 
 export interface Filter {
@@ -16,11 +16,16 @@ export interface Filter {
   showHidden?: boolean;
   resettable?: boolean;
   defaultValue?: any;
+  isPrimary?: boolean;
 }
 
 type FilterTemplates = Record<FilterName, TemplateRef<any>>;
 type FilterControlName = keyof FilterControls;
-type FilterControls = Record<keyof FilteredRequestParams, AbstractControl>;
+type FilterControls = Record<FilterName, AbstractControl>;
+
+interface AdditionalFilteredRequestParams {
+  showDetails?: string
+}
 
 @Component({
   selector: 'ts-filter',
@@ -57,12 +62,11 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('holidayTitle') private holidayTitle!: TemplateRef<any>;
   @ViewChild('holidayType') private holidayType!: TemplateRef<any>;
   @ViewChild('timeSheetBillable') private timeSheetBillable!: TemplateRef<any>;
+  @ViewChild('showDetails') private showDetails!: TemplateRef<any>;
   @ViewChild('filterNotImplemented') private filterNotImplemented!: TemplateRef<any>;
 
-  public get primaryFilters(): Filter[] | undefined { return this._filters?.slice(0, 4); }
-
-  public get secondaryFilters(): Filter[] | undefined { return this._filters?.slice(4); }
-
+  public primaryFilters: Filter[];
+  public secondaryFilters: Filter[];
   public _filters?: Filter[];
   public customers$: Observable<StringTypeaheadDto[]> = EMPTY;
   public projects$: Observable<StringTypeaheadDto[]> = EMPTY;
@@ -71,9 +75,10 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public isFiltered$: Observable<boolean> | undefined;
   public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;
+  public filterCollapsed = true;
 
   private readonly booleanTrueRegex = /^\s*(true|1|on)\s*$/i;
-  private onFilterChanged: Observable<any> | undefined;
+  private onFilterChanged$: Observable<any> | undefined;
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -85,21 +90,28 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     private dateParserService: DateParserService,
     private entityService: EntityService,
   ) {
+    this.primaryFilters = this.getPrimaryFilters();
+    this.secondaryFilters = this.getSecondaryFilters();
   }
 
   public ngOnInit(): void {
     this.filterForm = this.createFilterForm();
 
-    this.onFilterChanged = this.filterForm.valueChanges
+    this.onFilterChanged$ = this.filterForm.valueChanges
       .pipe(
         map(filter => this.unifyEmptyValues(filter)),
-        tap(filter => this.saveFilterFormValue(filter)),
-        shareReplay(1),
+        tap(filter => {
+          this.saveFilterFormValue(filter);
+          this.primaryFilters = this.getPrimaryFilters();
+          this.secondaryFilters = this.getSecondaryFilters();
+          this.filterCollapsed = true;
+        }),
+        shareReplay(1)
       );
 
-    this.isFiltered$ = this.onFilterChanged.pipe(map(_ => this.isFormFiltered()));
+    this.isFiltered$ = this.onFilterChanged$.pipe(map(_ => this.isFormFiltered()));
 
-    const filterChangedEmitter = this.onFilterChanged
+    const filterChangedEmitter = this.onFilterChanged$
       .pipe(map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)))
       .subscribe(timeSheetFilter => this.entityService.filterChanged.next(timeSheetFilter));
     this.subscriptions.add(filterChangedEmitter);
@@ -152,7 +164,11 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayStartDate: this.holidayStartDate,
       holidayEndDate: this.holidayEndDate,
       holidayType: this.holidayType,
+      showDetails: this.showDetails,
     };
+
+    this.primaryFilters = this.getPrimaryFilters();
+    this.secondaryFilters = this.getSecondaryFilters();
 
     this.changeDetector.detectChanges();
   }
@@ -184,18 +200,34 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     this.filterForm.controls[formControlName].setValue(($event.target as HTMLInputElement).value);
   }
 
+  public clearFormValue(formControlName: FilterName): void {
+    if (this.filterForm === undefined)
+      return;
+
+    this.filterForm.controls[formControlName].setValue(undefined);
+  }
+
   public isFormFiltered(): boolean {
     if (!this._filters)
       return false;
 
-    return this._filters
-      .filter(filter => this.isFiltered(filter))
-      .length > 0;
+    return this._filters.some(filter => this.isFiltered(filter));
   }
 
   public isFieldFiltered(filterName: FilterName): boolean {
     const filter = this._filters?.find(x => x.name === filterName);
     return this.isFiltered(filter);
+  }
+
+  private getPrimaryFilters(): Filter[] {
+    const primaryFilters = this._filters?.filter(filter => filter.isPrimary) ?? [];
+    const filteredFilters = this._filters?.filter(filter => !filter.isPrimary && this.isFiltered(filter)) ?? [];
+    return [...primaryFilters, ...filteredFilters];
+  }
+
+  private getSecondaryFilters(): Filter[] {
+    const primaryFilterNames = this.getPrimaryFilters().map(filter => filter.name);
+    return this._filters?.filter(filter => primaryFilterNames.indexOf(filter.name) < 0) ?? [];
   }
 
   private isFiltered(filter: Filter | undefined): boolean {
@@ -205,8 +237,11 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     if (filter.resettable === false)
       return false;
 
-    const filterValue = this.filterForm.value[filter.name];
+    let filterValue = this.filterForm.value[filter.name];
     const defaultValue = filter.defaultValue;
+
+    if (filterValue === '' || Array.isArray(filterValue) && filterValue.length === 0)
+      filterValue = undefined;
 
     if (filterValue == null && defaultValue == null)
       return false;
@@ -300,6 +335,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayStartDate: undefined,
       holidayEndDate: undefined,
       holidayType: undefined,
+      showDetails: undefined,
     }
   }
 
@@ -331,13 +367,14 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     for (const name of Object.keys(filter)) {
       const filterName = name as FilterControlName;
       const hasEmptyValue =
-        filter[filterName] === undefined ||
-        filter[filterName] === null ||
+        filter[filterName] == null ||
         filter[filterName] === '' ||
         (Array.isArray(filter[filterName]) && filter[filterName].length === 0);
 
-      if (hasEmptyValue)
-        filter[filterName] = this._filters?.find(x => x.name === filterName)?.defaultValue === undefined ? undefined : null;
+      if (hasEmptyValue) {
+        const defaultValueIsUndefined = this._filters?.find(x => x.name === filterName)?.defaultValue === undefined;
+        filter[filterName] = defaultValueIsUndefined ? undefined : null;
+      }
     }
 
     return filter;

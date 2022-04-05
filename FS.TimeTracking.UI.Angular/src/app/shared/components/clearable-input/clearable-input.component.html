@@ -1,0 +1,26 @@
+<div class="clearable">
+  <input type="text"
+         class="form-control"
+         [placeholder]="placeholder"
+         [ngModel]="value"
+         (ngModelChange)="valueChanged($event)"
+         [ngModelOptions]="{updateOn: updateOn}"
+         (keydown.enter)="valueChanged($any($event.target).value)">
+  <button type="button"
+          class="text-secondary clear"
+          [ngClass]="{'d-none': isEmpty}"
+          (click)="valueChanged(undefined)"
+          tabindex="-1">
+    <svg class="bi text-secondary" fill="currentColor">
+      <use xlink:href="assets/icons.svg#x"/>
+    </svg>
+  </button>
+  <button type="button"
+          class="text-secondary add"
+          [ngClass]="{'d-none': !isEmpty}"
+          tabindex="-1">
+    <svg class="bi text-secondary" fill="currentColor">
+      <use xlink:href="assets/icons.svg#check2"/>
+    </svg>
+  </button>
+</div>
