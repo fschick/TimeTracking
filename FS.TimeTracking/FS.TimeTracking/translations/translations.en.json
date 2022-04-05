@@ -130,6 +130,7 @@
     },
     "Filter": {
       "Title": "Settings & Filter",
+      "Add": "Add filter",
       "Reset": "Reset filter",
       "LimitPeriod": "Limit period",
       "From": "from",
