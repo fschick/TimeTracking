@@ -1,11 +1,15 @@
 <ng-template #timesheetEdit let-modal>
   <div class="modal-header">
-    <h5 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit entry</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="m-0" i18n="@@Page.Timesheet.Edit">[i18n] Edit entry</h4>
+    <button type="button" class="btn modal-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons.svg#x-circle"/>
+      </svg>
+    </button>
   </div>
   <div class="modal-body">
     <form id="timesheetForm" [formGroup]="timesheetForm" (ngSubmit)="save()" #form="ngForm">
-      <div class="row g-3 mb-3">
+      <div class="row g-4 mb-4">
         <div class="col-6 col-lg-3">
           <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start date</label>
           <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
@@ -23,7 +27,7 @@
           <input id="endTime" type="time" tsTime class="form-control" formControlName="endTime" autocomplete="off">
         </div>
       </div>
-      <div class="row g-3">
+      <div class="row g-4">
         <div class="col-lg-12">
           <label for="comment" class="form-label" i18n="@@DTO.TimeSheetDto.Comment">[i18n] Comment</label>
           <textarea id="comment" class="form-control" formControlName="comment" rows="3" ngbAutofocus></textarea>
@@ -78,9 +82,9 @@
           </ng-select>
         </div>
         <div class="col-lg-12">
-          <div class="form-check">
+          <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="billable" formControlName="billable">
-            <label class="form-check-label" for="billable" i18n="@@DTO.TimeSheetDto.Billable">
+            <label class="form-label" for="billable" i18n="@@DTO.TimeSheetDto.Billable">
               [i18n] Billable
             </label>
           </div>
@@ -91,10 +95,13 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button id="cancel" form="timesheetForm" type="button" class="btn btn-outline-secondary" (click)="modal.close()">
+    <button id="cancel" form="timesheetForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
     <button id="save" form="timesheetForm" type="submit" class="btn btn-primary">
+      <svg class="bi check-lg" fill="currentColor">
+        <use xlink:href="assets/icons.svg#check-lg"/>
+      </svg>
       <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
     </button>
   </div>

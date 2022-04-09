@@ -1,11 +1,15 @@
 <ng-template #activityEdit let-modal>
   <div class="modal-header">
-    <h5 class="m-0" i18n="@@Page.MasterData.Activities.Edit">[i18n] Edit activity</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="m-0" i18n="@@Page.MasterData.Activities.Edit">[i18n] Edit activity</h4>
+    <button type="button" class="btn modal-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons.svg#x-circle"/>
+      </svg>
+    </button>
   </div>
   <div class="modal-body">
     <form id="activityForm" [formGroup]="activityForm" (ngSubmit)="save()" #form="ngForm">
-      <div class="row g-3">
+      <div class="row g-4">
         <div class="col-lg-6">
           <label for="title" class="form-label" i18n="@@DTO.ActivityDto.Title">[i18n] Name</label>
           <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
@@ -29,9 +33,9 @@
           <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
         </div>
         <div class="col-lg-12">
-          <div class="form-check">
+          <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
-            <label class="form-check-label" for="hidden" i18n="@@DTO.ActivityDto.Hidden">
+            <label class="form-label" for="hidden" i18n="@@DTO.ActivityDto.Hidden">
               [i18n] Hidden
             </label>
           </div>
@@ -42,10 +46,13 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button form="activityForm" type="button" class="btn btn-outline-secondary" (click)="modal.close()">
+    <button id="cancel" form="activityForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button form="activityForm" type="submit" class="btn btn-primary">
+    <button id="save" form="activityForm" type="submit" class="btn btn-primary">
+      <svg class="bi check-lg" fill="currentColor">
+        <use xlink:href="assets/icons.svg#check-lg"/>
+      </svg>
       <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
     </button>
   </div>

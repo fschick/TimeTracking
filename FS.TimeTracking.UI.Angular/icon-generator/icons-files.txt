@@ -5,6 +5,7 @@ node_modules/bootstrap-icons/icons/brightness-high-fill.svg
 node_modules/bootstrap-icons/icons/calendar-week.svg
 node_modules/bootstrap-icons/icons/calendar3-week-fill.svg
 node_modules/bootstrap-icons/icons/chat-left-text.svg
+node_modules/bootstrap-icons/icons/check-lg.svg
 node_modules/bootstrap-icons/icons/check2.svg
 node_modules/bootstrap-icons/icons/chevron-down.svg
 node_modules/bootstrap-icons/icons/chevron-up.svg
@@ -22,4 +23,5 @@ node_modules/bootstrap-icons/icons/plus-square-dotted.svg
 node_modules/bootstrap-icons/icons/stop-circle-fill.svg
 node_modules/bootstrap-icons/icons/stop-circle.svg
 node_modules/bootstrap-icons/icons/x-circle-fill.svg
+node_modules/bootstrap-icons/icons/x-circle.svg
 node_modules/bootstrap-icons/icons/x.svg
