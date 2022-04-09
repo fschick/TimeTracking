@@ -39,9 +39,9 @@
           </ng-container>
           <ng-container *ngIf="!collapse.collapsed">
             <svg class="bi text-secondary me-2" fill="currentColor">
-              <use xlink:href="assets/icons.svg#chevron-up"/>
+              <use xlink:href="assets/icons.svg#check-lg"/>
             </svg>
-            <span class="text-expand" i18n="@@Common.Collapse">[i18n] Collapse</span>
+            <span class="text-expand" i18n="@@Component.Filter.Apply">[i18n] Apply filter</span>
           </ng-container>
         </button>
       </div>
@@ -279,34 +279,6 @@
                           i18n-placeholder="@@Component.Filter.Comment"
                           formControlName="timeSheetComment">
       </ts-clearable-input>
-
-      <!--
-      <div class="clearable" *ngLet="isFieldFiltered('timeSheetComment') as isFieldFiltered">
-        <input id="timeSheetComment"
-               [ngClass]="{ 'filtered': isFieldFiltered }"
-               type="text"
-               class="form-control"
-               placeholder="[i18n] Comment"
-               i18n-placeholder="@@Component.Filter.Comment"
-               formControlName="timeSheetComment"
-               (keydown.enter)="setFormValue($event, 'timeSheetComment')">
-        <button type="button"
-                class="text-secondary reset"
-                [ngClass]="{'d-none': !isFieldFiltered}"
-                (click)="clearFormValue('timeSheetComment')">
-          <svg class="bi text-secondary" fill="currentColor">
-            <use xlink:href="assets/icons.svg#x"/>
-          </svg>
-        </button>
-        <button type="button"
-                class="text-secondary add"
-                [ngClass]="{'d-none': isFieldFiltered}">
-          <svg class="bi text-secondary" fill="currentColor">
-            <use xlink:href="assets/icons.svg#check2"/>
-          </svg>
-        </button>
-      </div>
-      -->
     </div>
   </ng-template>
 
