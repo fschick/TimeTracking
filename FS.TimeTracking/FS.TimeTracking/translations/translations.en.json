@@ -132,6 +132,7 @@
     "Filter": {
       "Title": "Settings & Filter",
       "Add": "Add filter",
+      "Apply": "Apply filter",
       "Reset": "Reset filter",
       "LimitPeriod": "Limit period",
       "From": "from",
