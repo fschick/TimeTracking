@@ -41,6 +41,9 @@ public class TimeSheetGridDto
     /// <inheritdoc cref="Activity.Title"/>
     public string ActivityTitle { get; set; }
 
+    /// <inheritdoc cref="Order.Title"/>
+    public string OrderTitle { get; set; }
+
     /// <inheritdoc cref="TimeSheet.Billable"/>
     [Required]
     public bool Billable { get; set; }

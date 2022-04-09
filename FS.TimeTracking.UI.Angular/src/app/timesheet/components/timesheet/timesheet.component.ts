@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../shared/services/api';
-import {filter, map, pluck, single, switchMap} from 'rxjs/operators';
+import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -23,6 +23,7 @@ interface TimeSheetDayGroupDto {
 class TimeSheetOverviewDto {
   workDayTimeSheets: TimeSheetDayGroupDto[] = [];
   omittedTimeSheets = 0;
+  runningTimeSheets: TimeSheetGridDto[] = [];
 }
 
 @Component({
@@ -98,12 +99,20 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       });
   }
 
-  public stopTimeSheet(copyFromTimesheetId: string): void {
-    this.timeSheetService.stopTimeSheetEntry({timesheetId: copyFromTimesheetId, endDateTime: DateTime.now()})
+  public stopTimeSheet(timesheetId: string): void {
+    this.timeSheetService.stopTimeSheetEntry({timesheetId: timesheetId, endDateTime: DateTime.now()})
       .pipe(single())
       .subscribe((timeSheetDto: TimeSheetDto) => {
         this.entityService.timesheetChanged.next({entity: {id: timeSheetDto.id} as TimeSheetGridDto, action: 'updated'});
       });
+  }
+
+  public stopAllTimeSheets() {
+    if (!this.overview)
+      return;
+
+    for (const runningTimeSheet of this.overview?.runningTimeSheets)
+      this.stopTimeSheet(runningTimeSheet.id);
   }
 
   public timeSheetDayGroupKey(index: number, item: TimeSheetDayGroupDto) {
@@ -121,7 +130,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
-        switchMap(timeSheets => (timer(0, 5000)).pipe(map(() => timeSheets))),
+        switchMap(timeSheets => (timer(0, 500000)).pipe(map(() => timeSheets))),
         map(timeSheets => this.createTimeSheetOverview(timeSheets))
       );
   };
@@ -149,10 +158,12 @@ export class TimesheetComponent implements OnInit, OnDestroy {
 
     const workDaysToDisplay = this.limitWorkDaysToDisplay(timeSheetWorkDayGroups, 50);
     const omittedTimeSheets = timeSheetWorkDayGroups.length - workDaysToDisplay.length;
+    const runningTimeSheets = timeSheets.filter(x => !x.endDate);
 
     return {
       workDayTimeSheets: workDaysToDisplay,
-      omittedTimeSheets: omittedTimeSheets
+      omittedTimeSheets: omittedTimeSheets,
+      runningTimeSheets: runningTimeSheets,
     };
   }
 
