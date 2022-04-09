@@ -18,7 +18,7 @@ export class DurationPipe implements PipeTransform {
 
   transform(value: Duration | null | undefined, format?: string): string {
     if (format === undefined)
-      format = `hh${this.hoursAbbr} mm${this.minutesAbbr}`;
+      format = `h${this.hoursAbbr} m${this.minutesAbbr}`;
     return this.formatService.formatDuration(value, format);
   }
 
