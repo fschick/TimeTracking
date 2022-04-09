@@ -25,6 +25,38 @@
 }
 
 /* ----------------------------------------- */
+/* Modal
+/* ----------------------------------------- */
+.modal-open {
+  main, header, aside, footer {
+    filter: blur(3px);
+  }
+}
+
+.modal-header {
+  border-top: 0.35rem solid $primary;
+}
+
+.modal-body {
+  padding-top: 0;
+  padding-bottom: 1.3rem;
+}
+
+.modal-footer {
+  padding-top: 0;
+  padding-bottom: 1.3rem;
+}
+
+.modal-close {
+  color: $gray-600;
+  padding: 0;
+
+  &:focus, &:active {
+    box-shadow: none;
+  }
+}
+
+/* ----------------------------------------- */
 /* Check boxes
 /* ----------------------------------------- */
 .form-check-input[type=checkbox] {

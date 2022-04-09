@@ -130,6 +130,7 @@
     "Filter": {
       "Title": "Einstellungen & Filter",
       "Add": "Filter hinzufügen",
+      "Apply": "Filter anwenden",
       "Reset": "Filter zurücksetzten",
       "LimitPeriod": "Zeitraum eingrenzen",
       "From": "von",
@@ -146,8 +147,8 @@
       "HolidayType": "Typ",
       "Issue": "Ticket",
       "Comment": "Kommentar",
-      "Hidden": "Versteckt",
-      "Billable": "Verrechenbar"
+      "Hidden": "versteckt",
+      "Billable": "verrechenbar"
     },
     "NgSelect": {
       "AddTagText": "Element hinzufügen",
@@ -173,7 +174,7 @@
       "ActivityId": "Tätigkeit",
       "OrderId": "Auftrag",
       "Issue": "Ticket",
-      "Billable": "Verrechenbar",
+      "Billable": "verrechenbar",
       "Comment": "Kommentar"
     },
     "TimeSheetGridDto": {
@@ -186,7 +187,7 @@
       "Customer": "Kunde",
       "Project": "Projekt",
       "Activity": "Tätigkeit",
-      "Billable": "Verrechenbar",
+      "Billable": "verrechenbar",
       "Issue": "Ticket",
       "Comment": "Kommentar"
     },
@@ -202,25 +203,25 @@
       "ContactName": "Kontakt",
       "HourlyRate": "Stundensatz",
       "Comment": "Kommentar",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "CustomerGridDto": {
       "Title": "Titel",
       "CompanyName": "Firma",
       "ContactName": "Kontakt",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "ProjectDto": {
       "Title": "Titel",
       "CustomerId": "Kunde",
       "Customer": "Kunde",
       "Comment": "Kommentar",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "ProjectGridDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "ActivityDto": {
       "Title": "Titel",
@@ -229,7 +230,7 @@
       "ProjectId": "Projekt",
       "Project": "Projekt",
       "Comment": "Kommentar",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "ActivityGridDto": {
       "Title": "Titel",
@@ -247,14 +248,14 @@
       "HourlyRate": "Stundensatz",
       "Budget": "Budget",
       "Comment": "Kommentar",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "OrderGridDto": {
       "Title": "Titel",
       "CustomerTitle": "Kunde",
       "StartDate": "Startdatum",
       "DueDate": "Fälligkeitsdatum",
-      "Hidden": "Versteckt"
+      "Hidden": "versteckt"
     },
     "WorkTimeDto": {
       "OrderTitle": "Auftrag",

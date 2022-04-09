@@ -4,14 +4,18 @@
 
 <ng-template #confirmDialog let-modal>
   <div class="modal-header">
-    <h5 class="m-0">{{title}}</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="m-0">{{title}}</h4>
+    <button type="button" class="btn modal-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons.svg#x-circle"/>
+      </svg>
+    </button>
   </div>
   <div class="modal-body text-wrap">
     {{message}}
   </div>
   <div class="modal-footer">
-    <button id="confirmCancel" type="button" class="btn btn-secondary" (click)="hideConfirmDialog()">
+    <button id="confirmCancel" type="button" class="btn btn-secondary me-3" (click)="hideConfirmDialog()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
     <button id="confirmSubmit" type="button" [class]="'btn btn-' + color" (click)="onConfirmed($event)" ngbAutofocus>

@@ -18,7 +18,7 @@ describe('DurationPipe', () => {
   it('duration should be formatted to \'hh h mm m\' as default', () => {
     const duration = Duration.fromObject({hours: 9, minutes: 20});
     const transformedDuration = pipe.transform(duration);
-    const expectedDuration = '09[i18n] h 20[i18n] m';
+    const expectedDuration = '9[i18n] h 20[i18n] m';
     expect(transformedDuration).toBe(expectedDuration);
   });
 
