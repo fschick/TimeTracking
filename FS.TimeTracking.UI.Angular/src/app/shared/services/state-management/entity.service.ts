@@ -1,5 +1,5 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {merge, Observable, of, Subject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../api';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
 import {FilteredRequestParams} from '../../components/filter/filter.component';
@@ -59,7 +59,7 @@ export class EntityService {
   private replaceEntityWithGridDto<TDto extends CrudDto>(crudService: CrudService<TDto>) {
     return (source: Observable<EntityChanged<TDto>>) =>
       source.pipe(
-        switchMap((changedEvent: EntityChanged<TDto>) => {
+        mergeMap((changedEvent: EntityChanged<TDto>) => {
           if (changedEvent.entity === undefined)
             throw Error("No entity given");
 
