@@ -95,7 +95,8 @@
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
     <button id="save" form="timesheetForm" type="submit" class="btn btn-primary">
-      <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+      <ng-container *ngIf="isNewRecord && !timesheetForm.value.endDate" i18n="@@Page.Timesheet.Start">[i18n] Start</ng-container>
+      <ng-container *ngIf="!isNewRecord || timesheetForm.value.endDate" i18n="@@Common.Save">[i18n] Save</ng-container>
     </button>
   </div>
 </ng-template>
