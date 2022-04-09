@@ -39,6 +39,7 @@
       "ShowDetails": "Show details",
       "New": "New entry",
       "Edit": "Edit entry",
+      "Start": "Start",
       "Delete": "Delete entry",
       "DeleteMessage": "Are you sure you want to delete this entry? This cannot be undone.",
       "WorkedDays": "days worked",

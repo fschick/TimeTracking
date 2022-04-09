@@ -1,30 +1,115 @@
 @import '~src/styles/variables';
 
-.row-header {
-  color: $card-cap-color;
-  background-color: $card-cap-bg;
-  padding-top: $card-cap-padding-y;
-  padding-bottom: $card-cap-padding-y;
+.header {
+  margin-top: -6.2rem;
+}
+
+.header-action .btn {
+  padding: 0;
+  color: $primary;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='4' fill='#{$white}'/></svg>"));
+  box-shadow: none;
+
+  &.start, &.stop {
+    margin-left: -0.2rem;
+    font-size: 4rem;
+  }
+
+  &.edit {
+    margin-left: 1.1rem;
+    font-size: 2.2rem;
+  }
+
+  @include media-breakpoint-down(lg) {
+    &.start, &.stop {
+      margin-left: 0;
+      font-size: 2.5rem;
+    }
+
+    &.edit {
+      margin-left: .8rem;
+      font-size: 1.7rem;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    &.start, &.stop {
+      display: none;
+    }
+
+    &.edit {
+      margin-left: 0;
+      font-size: 1.7rem;
+    }
+  }
+
+  &:hover {
+    color: $primary-700;
+  }
+}
+
+.data {
+  margin-top: .7rem;
+}
+
+.table-header {
+  color: $gray-600;
+  padding-bottom: .7rem;
 }
 
 .row-day-header {
-  color: $card-cap-color;
-  background-color: $card-cap-bg;
+  color: $secondary-800;
+  background-color: $secondary-100;
+  border-radius: .375rem;
+  padding-top: .55rem;
+  padding-bottom: .55rem;
+  margin-bottom: 0.5rem;
+
+  &:not(.first) {
+    margin-top: 1rem;
+  }
+}
+
+.data-row {
+  padding-top: .39rem;
+  padding-bottom: .39rem;
+
+  .badge {
+    background-color: $primary-100;
+    color: $primary-600;
+    font-size: 0.85em;
+  }
+
+  .comment {
+    color: $gray-600;
+
+    .bi {
+      color: $gray-400;
+      vertical-align: middle;
+    }
+  }
+}
+
+.col-action a {
+  color: $gray-500;
 }
 
 .row-running {
-  $background-color: shift-color($warning, $table-bg-scale);
+  $background-color: $primary-100;
   color: color-contrast(opaque($body-bg, $background-color));
   background-color: $background-color;
+
+  .badge {
+    background-color: $primary-200;
+    color: $primary-600;
+  }
 }
 
-@include media-breakpoint-up(xl) {
-  .col-date {
-    min-width: 6rem;
-  }
-
+@include media-breakpoint-only(xxl) {
   .col-start-end {
-    min-width: 7rem;
+    min-width: 8rem;
   }
 
   .col-duration {
@@ -32,6 +117,17 @@
   }
 }
 
+@include media-breakpoint-only(xl) {
+  .col-start-end {
+    min-width: 7rem;
+  }
+
+  .col-duration {
+    min-width: 4.5rem;
+  }
+}
+
+//@include media-breakpoint-only(lg) {
 @include media-breakpoint-up(md) {
   .col-action {
     min-width: 7rem;
