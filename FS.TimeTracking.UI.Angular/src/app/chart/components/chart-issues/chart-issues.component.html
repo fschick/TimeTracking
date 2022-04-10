@@ -1,36 +1,43 @@
-<!-- Filter -->
-<ts-filter filterId="filterCharts"
-           [filters]="filters">
-</ts-filter>
-
-<hr>
-
-<!-- Chart -->
-<h4 class="d-inline-block" i18n="@@Page.Chart.Projects.Title">
-  [i18n] By  project
-</h4>
-<div id="chart" *ngIf="chartSeries">
-  <apx-chart
-    [series]="chartSeries"
-    [chart]="chartOptions.chart"
-    [dataLabels]="chartOptions.dataLabels"
-    [plotOptions]="chartOptions.plotOptions"
-    [xaxis]="chartOptions.xAxis"
-    [yaxis]="chartOptions.yAxis"
-    [colors]="chartOptions.colors"
-    [stroke]="chartOptions.stroke"
-    [tooltip]="chartOptions.tooltip"
-    [states]="chartOptions.states"
-    [legend]="chartOptions.legend"
-  ></apx-chart>
+<div class="row">
+  <!-- Chart -->
+  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first timesheet px-4">
+    <ng-container *ngTemplateOutlet="chart"></ng-container>
+  </div>
+  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+    <!-- Filter -->
+    <ts-filter filterId="filterCharts"
+               [filters]="filters">
+    </ts-filter>
+  </div>
 </div>
 
-<ts-simple-table
-  [columns]="tableColumns"
-  [rows]="tableRows"
-  [configuration]="tableConfiguration"
-  (rowsChanged)="tableRowsChanged($event.rows)">
-</ts-simple-table>
+<ng-template #chart>
+  <h4 class="d-inline-block" i18n="@@Page.Chart.Projects.Title">
+    [i18n] By project
+  </h4>
+  <div id="chart" *ngIf="chartSeries">
+    <apx-chart
+      [series]="chartSeries"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xAxis"
+      [yaxis]="chartOptions.yAxis"
+      [colors]="chartOptions.colors"
+      [stroke]="chartOptions.stroke"
+      [tooltip]="chartOptions.tooltip"
+      [states]="chartOptions.states"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
+  </div>
+
+  <ts-simple-table
+    [columns]="tableColumns"
+    [rows]="tableRows"
+    [configuration]="tableConfiguration"
+    (rowsChanged)="tableRowsChanged($event.rows)">
+  </ts-simple-table>
+</ng-template>
 
 <ng-template #infoCellTemplate let-row="row">
   <a class="text-secondary ms-2"

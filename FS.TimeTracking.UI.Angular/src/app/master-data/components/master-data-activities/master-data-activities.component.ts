@@ -35,10 +35,10 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
   ) {
     this.filters = [
-      {name: 'activityId', showHidden: true},
-      {name: 'projectId', showHidden: true},
-      {name: 'customerId', showHidden: true},
-      {name: 'activityHidden'},
+      {name: 'activityId', showHidden: true, isPrimary: true},
+      {name: 'projectId', showHidden: true, isPrimary: true},
+      {name: 'customerId', showHidden: true, isPrimary: true},
+      {name: 'activityHidden', isPrimary: true},
     ];
   }
 
