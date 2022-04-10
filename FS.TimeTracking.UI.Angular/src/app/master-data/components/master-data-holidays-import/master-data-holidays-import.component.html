@@ -12,10 +12,12 @@
         </div>
         <div class="col-lg-6">
           <label for="type" class="form-label" i18n="@@DTO.HolidayImportDto.Type">[i18n] Type</label>
-          <select id="type" class="form-select" formControlName="type">
-            <option value="Holiday" i18n="@@Enum.HolidayType.Holiday">[i18n] Holidays / Vacation</option>
-            <option value="PublicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</option>
-          </select>
+          <ng-select id="type"
+                     labelForId="type"
+                     formControlName="type">
+            <ng-option value="holiday" i18n="@@Enum.HolidayType.Holiday">[i18n] Holidays / Vacation</ng-option>
+            <ng-option value="publicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</ng-option>
+          </ng-select>
         </div>
       </div>
       <hr class="text-secondary" *ngIf="form.submitted && form.invalid">

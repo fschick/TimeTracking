@@ -31,10 +31,9 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
     private entityService: EntityService,
     private modalService: NgbModal
   ) {
-
     this.holidayForm = new ValidationFormGroup('HolidayImportDto', {
       file: new FormControl('', Validators.required),
-      type: new FormControl('Holiday', Validators.required),
+      type: new FormControl('publicHoliday', Validators.required),
     });
   }
 
