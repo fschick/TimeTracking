@@ -12,7 +12,13 @@
       <div class="row g-4">
         <div class="col-lg-6">
           <label for="title" class="form-label" i18n="@@DTO.CustomerDto.Title">[i18n] Title</label>
-          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="[i18n] Customer name"
+                 i18n-placeholder="@@DTO.CustomerDto.TitlePlaceholder"
+                 formControlName="title"
+                 ngbAutofocus>
         </div>
         <div class="col-lg-6">
           <label for="companyName" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>

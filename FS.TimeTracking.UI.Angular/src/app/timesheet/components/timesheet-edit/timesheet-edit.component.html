@@ -32,7 +32,11 @@
         </div>
         <div class="col-lg-12">
           <label for="comment" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.Comment">[i18n] Comment</label>
-          <textarea id="comment" class="form-control" formControlName="comment" rows="3" ngbAutofocus></textarea>
+          <textarea id="comment"
+                    class="form-control"
+                    rows="3"
+                    ngbAutofocus>
+          </textarea>
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
@@ -42,6 +46,8 @@
                      bindValue="id"
                      bindLabel="value"
                      labelForId="projectId"
+                     placeholder="[i18n] Select project"
+                     i18n-placeholder="@@DTO.TimeSheetDto.ProjectIdPlaceholder"
                      (change)="selectedProjectChanged($event)"
                      formControlName="projectId">
             <ng-template ng-option-tmp let-item="item">
@@ -57,6 +63,8 @@
                      bindValue="id"
                      bindLabel="value"
                      labelForId="activityId"
+                     placeholder="[i18n] Select activity"
+                     i18n-placeholder="@@DTO.TimeSheetDto.ActivityIdPlaceholder"
                      (change)="selectedActivity$.next($event)"
                      formControlName="activityId">
             <ng-template ng-option-tmp let-item="item">
@@ -66,7 +74,10 @@
         </div>
         <div class="col-lg-6">
           <label for="issue" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.Issue">[i18n] Issue</label>
-          <input id="issue" type="text" class="form-control" formControlName="issue">
+          <input id="issue"
+                 type="text"
+                 class="form-control"
+                 formControlName="issue">
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
