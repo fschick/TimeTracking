@@ -14,7 +14,8 @@
     "Details": "Details",
     "Yes": "Ja",
     "No": "Nein",
-    "Summary": "Summe"
+    "Summary": "Summe",
+    "Optional": "optional"
   },
   "Language": {
     "Title": "{$LANGUAGE}",
@@ -170,6 +171,8 @@
       "StartTime": "Startzeit",
       "EndDate": "Enddatum",
       "EndTime": "Endzeit",
+      "Start": "Beginn",
+      "End": "Ende",
       "ProjectId": "Projekt",
       "ActivityId": "Tätigkeit",
       "OrderId": "Auftrag",
