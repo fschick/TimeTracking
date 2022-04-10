@@ -15,39 +15,39 @@
           <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
         </div>
         <div class="col-lg-6">
-          <label for="companyName" class="form-label" i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
+          <label for="companyName" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
           <input id="companyName" type="text" class="form-control" formControlName="companyName">
         </div>
         <div class="col-lg-6">
-          <label for="department" class="form-label" i18n="@@DTO.CustomerDto.Department">[i18n] Department</label>
+          <label for="department" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Department">[i18n] Department</label>
           <input id="department" type="text" class="form-control" formControlName="department">
         </div>
         <div class="col-lg-3">
-          <label for="number" class="form-label" i18n="@@DTO.CustomerDto.Number">[i18n] Cusomer number</label>
+          <label for="number" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.Number">[i18n] Cusomer number</label>
           <input id="number" type="text" class="form-control" formControlName="number">
         </div>
         <div class="col-lg-3">
-          <label for="hourlyRate" class="form-label" i18n="@@DTO.CustomerDto.HourlyRate">[i18n] Hourly rate</label>
-          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{ fractionDigits:2}" class="form-control" formControlName="hourlyRate">
+          <label for="hourlyRate" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.HourlyRate">[i18n] Hourly rate</label>
+          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" formControlName="hourlyRate">
         </div>
         <div class="col-lg-6">
-          <label for="street" class="form-label" i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>
+          <label for="street" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>
           <input id="street" type="text" class="form-control" formControlName="street">
         </div>
         <div class="col-lg-2 col-sm-3">
-          <label for="zipCode" class="form-label" i18n="@@DTO.CustomerDto.ZipCode">[i18n] Zip</label>
+          <label for="zipCode" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.ZipCode">[i18n] Zip</label>
           <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
         </div>
         <div class="col-lg-4 col-sm-9">
-          <label for="city" class="form-label" i18n="@@DTO.CustomerDto.City">[i18n] City</label>
+          <label for="city" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.City">[i18n] City</label>
           <input id="city" type="text" class="form-control" formControlName="city">
         </div>
         <div class="col-lg-6">
-          <label for="country" class="form-label" i18n="@@DTO.CustomerDto.Country">[i18n] Country</label>
+          <label for="country" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Country">[i18n] Country</label>
           <input id="country" type="text" class="form-control" formControlName="country">
         </div>
         <div class="col-lg-6">
-          <label for="contactName" class="form-label" i18n="@@DTO.CustomerDto.ContactName">[i18n] Contact</label>
+          <label for="contactName" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.ContactName">[i18n] Contact</label>
           <input id="contactName" type="text" class="form-control" formControlName="contactName">
         </div>
         <div class="col-lg-12">

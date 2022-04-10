@@ -15,7 +15,8 @@
     "Yes": "Yes",
     "No": "No",
     "Summary": "Summary",
-    "Optional": "optional"
+    "Optional": "optional",
+    "OptionalShort": "opt."
   },
   "Language": {
     "Title": "Language",

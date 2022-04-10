@@ -15,7 +15,8 @@
     "Yes": "Ja",
     "No": "Nein",
     "Summary": "Summe",
-    "Optional": "optional"
+    "Optional": "optional",
+    "OptionalShort": "opt."
   },
   "Language": {
     "Title": "{$LANGUAGE}",
