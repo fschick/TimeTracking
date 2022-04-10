@@ -38,10 +38,10 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().endOf('year');
 
     this.filters = [
-      {name: 'holidayStartDate', defaultValue: defaultStartDate},
-      {name: 'holidayEndDate', defaultValue: defaultEndDate},
-      {name: 'holidayTitle'},
-      {name: 'holidayType'},
+      {name: 'holidayStartDate', defaultValue: defaultStartDate, isPrimary: true},
+      {name: 'holidayEndDate', defaultValue: defaultEndDate, isPrimary: true},
+      {name: 'holidayTitle', isPrimary: true},
+      {name: 'holidayType', isPrimary: true},
     ];
   }
 
