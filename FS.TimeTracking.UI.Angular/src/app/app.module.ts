@@ -59,6 +59,7 @@ import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders
 import {PageHeaderComponent} from './layout/components/page-header/page-header.component';
 import {NgLetModule} from 'ng-let';
 import { ClearableInputComponent } from './shared/components/clearable-input/clearable-input.component';
+import { OptionalLabelDirective } from './shared/directives/optional-label.directive';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { ClearableInputComponent } from './shared/components/clearable-input/cle
     RouterLinkCtrlClickDirective,
     PageHeaderComponent,
     ClearableInputComponent,
+    OptionalLabelDirective,
   ],
   imports: [
     BrowserModule,

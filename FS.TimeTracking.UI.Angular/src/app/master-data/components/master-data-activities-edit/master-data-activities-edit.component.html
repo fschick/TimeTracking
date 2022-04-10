@@ -16,7 +16,7 @@
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
-          <label for="projectName" class="form-label" i18n="@@DTO.ActivityDto.Project">[i18n] Project</label>
+          <label for="projectName" class="form-label" [tsOptionalLabel] i18n="@@DTO.ActivityDto.Project">[i18n] Project</label>
           <ng-select [items]="projects$ | async"
                      [selectOnTab]="true"
                      bindValue="id"
@@ -29,7 +29,7 @@
           </ng-select>
         </div>
         <div class="col-lg-12">
-          <label for="comment" class="form-label" i18n="@@DTO.ActivityDto.Comment">[i18n] Comment</label>
+          <label for="comment" class="form-label" [tsOptionalLabel] i18n="@@DTO.ActivityDto.Comment">[i18n] Comment</label>
           <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
         </div>
         <div class="col-lg-12">
