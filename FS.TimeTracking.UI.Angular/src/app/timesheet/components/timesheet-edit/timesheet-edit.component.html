@@ -32,11 +32,10 @@
           <!--suppress XmlInvalidId -->
           <label for="projectId" class="form-label" i18n="@@DTO.TimeSheetDto.ProjectId">[i18n] Project</label>
           <ng-select [items]="projects$ | async"
-                     dropdownPosition="bottom"
+                     [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="projectId"
-                     appendTo="body"
                      (change)="selectedProjectChanged($event)"
                      formControlName="projectId">
             <ng-template ng-option-tmp let-item="item">
@@ -48,11 +47,10 @@
           <!--suppress XmlInvalidId -->
           <label for="activityId" class="form-label" i18n="@@DTO.TimeSheetDto.ActivityId">[i18n] Activity</label>
           <ng-select [items]="activities$ | async"
-                     dropdownPosition="bottom"
+                     [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="activityId"
-                     appendTo="body"
                      (change)="selectedActivity$.next($event)"
                      formControlName="activityId">
             <ng-template ng-option-tmp let-item="item">
@@ -68,11 +66,10 @@
           <!--suppress XmlInvalidId -->
           <label for="orderId" class="form-label" i18n="@@DTO.TimeSheetDto.OrderId">[i18n] Order</label>
           <ng-select [items]="orders$ | async"
-                     dropdownPosition="bottom"
+                     [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="orderId"
-                     appendTo="body"
                      (change)="selectedOrder$.next($event)"
                      formControlName="orderId">
             <ng-template ng-option-tmp let-item="item">

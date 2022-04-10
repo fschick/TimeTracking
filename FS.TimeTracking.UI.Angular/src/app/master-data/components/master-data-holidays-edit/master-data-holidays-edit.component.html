@@ -21,6 +21,7 @@
         <div class="col-lg-6">
           <label for="type" class="form-label" i18n="@@DTO.HolidayDto.Type">[i18n] Type</label>
           <ng-select id="type"
+                     [selectOnTab]="true"
                      labelForId="type"
                      formControlName="type">
             <ng-option value="holiday" i18n="@@Enum.HolidayType.Holiday">[i18n] Holidays / Vacation</ng-option>

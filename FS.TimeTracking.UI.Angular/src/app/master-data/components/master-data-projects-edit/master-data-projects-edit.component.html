@@ -14,11 +14,10 @@
           <!--suppress XmlInvalidId -->
           <label for="customerName" class="form-label" i18n="@@DTO.ProjectDto.Customer">[i18n] Customer</label>
           <ng-select [items]="customers$ | async"
-                     dropdownPosition="bottom"
+                     [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerName"
-                     appendTo="body"
                      formControlName="customerId">
             <ng-template ng-option-tmp let-item="item">
               <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>

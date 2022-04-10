@@ -165,6 +165,7 @@ export function configurationLoaderFactory(settingService: SettingService, local
       ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
       ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
       ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
+      ngSelectConfig.appendTo = 'body';
     });
   };
 }

@@ -135,15 +135,14 @@
       <!--suppress XmlInvalidId -->
       <label for="customerTitle" class="form-label" i18n="@@Component.Filter.Customer">[i18n] Customer</label>
       <ng-select [items]="customers$ | async"
+                 [selectOnTab]="true"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('customerId') }"
-                 dropdownPosition="bottom"
                  placeholder="[i18n] Customer"
                  i18n-placeholder="@@Component.Filter.Customer"
                  bindValue="id"
                  bindLabel="value"
                  labelForId="customerTitle"
-                 appendTo="body"
                  formControlName="customerId">
         <ng-template ng-option-tmp let-item="item">
           <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
@@ -157,15 +156,14 @@
       <!--suppress XmlInvalidId -->
       <label for="projectTitle" class="form-label" i18n="@@Component.Filter.Project">[i18n] Project</label>
       <ng-select [items]="projects$ | async"
+                 [selectOnTab]="true"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('projectId') }"
-                 dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
                  placeholder="[i18n] Project"
                  i18n-placeholder="@@Component.Filter.Project"
                  labelForId="projectTitle"
-                 appendTo="body"
                  formControlName="projectId">
         <ng-template ng-option-tmp let-item="item">
           <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
@@ -179,15 +177,14 @@
       <!--suppress XmlInvalidId -->
       <label for="activityTitle" class="form-label" i18n="@@Component.Filter.Activity">[i18n] Activity</label>
       <ng-select [items]="activities$ | async"
+                 [selectOnTab]="true"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('activityId') }"
-                 dropdownPosition="bottom"
                  bindValue="id"
                  bindLabel="value"
                  placeholder="[i18n] Activity"
                  i18n-placeholder="@@Component.Filter.Activity"
                  labelForId="activityTitle"
-                 appendTo="body"
                  formControlName="activityId">
         <ng-template ng-option-tmp let-item="item">
           <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
@@ -201,15 +198,14 @@
       <!--suppress XmlInvalidId -->
       <label for="orderTitle" class="form-label" i18n="@@Component.Filter.Order">[i18n] Order</label>
       <ng-select [items]="orders$ | async"
+                 [selectOnTab]="true"
                  [multiple]="true"
                  [ngClass]="{ 'filtered': isFieldFiltered('orderId') }"
-                 dropdownPosition="bottom"
                  placeholder="[i18n] Order"
                  i18n-placeholder="@@Component.Filter.Order"
                  bindValue="id"
                  bindLabel="value"
                  labelForId="orderTitle"
-                 appendTo="body"
                  formControlName="orderId">
         <ng-template ng-option-tmp let-item="item">
           <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
@@ -292,7 +288,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="activityHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('activityHidden') }"
+      <ng-select [selectOnTab]="true"
+                 [ngClass]="{ 'filtered': isFieldFiltered('activityHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="activityHidden"
@@ -307,7 +304,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="customerHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('customerHidden') }"
+      <ng-select [selectOnTab]="true"
+                 [ngClass]="{ 'filtered': isFieldFiltered('customerHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="customerHidden"
@@ -322,7 +320,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="projectHidden" class="form-label" i18n="@@Component.Filter.Hidden">[i18n] Hidden</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('projectHidden') }"
+      <ng-select [selectOnTab]="true"
+                 [ngClass]="{ 'filtered': isFieldFiltered('projectHidden') }"
                  placeholder="[i18n] Hidden"
                  i18n-placeholder="@@Component.Filter.Hidden"
                  labelForId="projectHidden"
@@ -337,7 +336,8 @@
     <div class="col-12 col-md-3">
       <!--suppress XmlInvalidId -->
       <label for="timeSheetBillable" class="form-label" i18n="@@Component.Filter.Billable">[i18n] Billable</label>
-      <ng-select [ngClass]="{ 'filtered': isFieldFiltered('timeSheetBillable') }"
+      <ng-select [selectOnTab]="true"
+                 [ngClass]="{ 'filtered': isFieldFiltered('timeSheetBillable') }"
                  placeholder="[i18n] Billable"
                  i18n-placeholder="@@Component.Filter.Billable"
                  labelForId="timeSheetBillable"
