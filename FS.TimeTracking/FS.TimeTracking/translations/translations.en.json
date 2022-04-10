@@ -14,7 +14,8 @@
     "Details": "Details",
     "Yes": "Yes",
     "No": "No",
-    "Summary": "Summary"
+    "Summary": "Summary",
+    "Optional": "optional"
   },
   "Language": {
     "Title": "Language",
@@ -172,6 +173,8 @@
       "StartTime": "Start time",
       "EndDate": "End date",
       "EndTime": "End time",
+      "Start": "Start",
+      "End": "End",
       "ProjectId": "Project",
       "ActivityId": "Activity",
       "OrderId": "Order",
