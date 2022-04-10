@@ -12,16 +12,24 @@
       <div class="row g-4">
         <div class="col-lg-6">
           <label for="title" class="form-label" i18n="@@DTO.ProjectDto.Title">[i18n] Title</label>
-          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="[i18n] Project name"
+                 i18n-placeholder="@@DTO.ProjectDto.TitlePlaceholder"
+                 formControlName="title"
+                 ngbAutofocus>
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
-          <label for="customerName" class="form-label" i18n="@@DTO.ProjectDto.Customer">[i18n] Customer</label>
+          <label for="customerName" class="form-label" i18n="@@DTO.ProjectDto.CustomerId">[i18n] Customer</label>
           <ng-select [items]="customers$ | async"
                      [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerName"
+                     placeholder="[i18n] Select customer"
+                     i18n-placeholder="@@DTO.ProjectDto.CustomerIdPlaceholder"
                      formControlName="customerId">
             <ng-template ng-option-tmp let-item="item">
               <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
