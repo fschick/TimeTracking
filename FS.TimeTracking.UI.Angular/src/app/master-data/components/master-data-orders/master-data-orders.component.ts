@@ -39,10 +39,10 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().endOf('year');
 
     this.filters = [
-      {name: 'orderStartDate', defaultValue: defaultStartDate},
-      {name: 'orderDueDate', defaultValue: defaultEndDate},
-      {name: 'orderId', showHidden: true},
-      {name: 'customerId', showHidden: true},
+      {name: 'orderStartDate', defaultValue: defaultStartDate, isPrimary: true},
+      {name: 'orderDueDate', defaultValue: defaultEndDate, isPrimary: true},
+      {name: 'orderId', showHidden: true, isPrimary: true},
+      {name: 'customerId', showHidden: true, isPrimary: true},
     ];
   }
 

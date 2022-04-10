@@ -34,10 +34,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
   ) {
     this.filters = [
-      {name: 'customerId', showHidden: true},
-      {name: 'customerNumber'},
-      {name: 'customerCompanyName'},
-      {name: 'customerHidden'},
+      {name: 'customerId', showHidden: true, isPrimary: true},
+      {name: 'customerNumber', isPrimary: true},
+      {name: 'customerCompanyName', isPrimary: true},
+      {name: 'customerHidden', isPrimary: true},
     ];
   }
 
