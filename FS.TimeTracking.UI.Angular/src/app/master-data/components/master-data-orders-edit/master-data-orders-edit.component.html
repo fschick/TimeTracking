@@ -11,25 +11,50 @@
     <form id="orderForm" [formGroup]="orderForm" (ngSubmit)="save()" #form="ngForm">
       <div class="row g-4">
         <div class="col-lg-12">
-          <label for="title" class="form-label" i18n="@@DTO.OrderDto.Title">[i18n] Short description</label>
-          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+          <label for="title" class="form-label" i18n="@@DTO.OrderDto.Title">[i18n] Title</label>
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="[i18n] Order name"
+                 i18n-placeholder="@@DTO.OrderDto.TitlePlaceholder"
+                 formControlName="title"
+                 ngbAutofocus>
         </div>
         <div class="col-lg-3">
           <label for="startDate" class="form-label" i18n="@@DTO.OrderDto.StartDate">[i18n] Start date</label>
-          <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
+          <input id="startDate"
+                 type="text"
+                 inputmode="none"
+                 tsDatePicker
+                 class="form-control"
+                 placeholder="[i18n] Begin"
+                 i18n-placeholder="@@DTO.OrderDto.StartDatePlaceholder"
+                 formControlName="startDate"
+                 autocomplete="off">
         </div>
         <div class="col-lg-3">
           <label for="dueDate" class="form-label" i18n="@@DTO.OrderDto.DueDate">[i18n] Due date</label>
-          <input id="dueDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="dueDate" autocomplete="off">
+          <input id="dueDate"
+                 type="text"
+                 inputmode="none"
+                 tsDatePicker
+                 relativeAnchor="end"
+                 class="form-control"
+                 placeholder="[i18n] Due"
+                 i18n-placeholder="@@DTO.OrderDto.DueDatePlaceholder"
+                 formControlName="dueDate"
+                 autocomplete="off">
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->
-          <label for="customerName" class="form-label" i18n="@@DTO.OrderDto.Customer">[i18n] Customer</label>
+          <label for="customerName" class="form-label" i18n="@@DTO.OrderDto.CustomerId">[i18n] Customer</label>
           <ng-select [items]="customers$ | async"
                      [selectOnTab]="true"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerName"
+                     placeholder="[i18n] Select customer"
+                     i18n-placeholder="@@DTO.OrderDto.CustomerIdPlaceholder"
                      formControlName="customerId">
             <ng-template ng-option-tmp let-item="item">
               <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>

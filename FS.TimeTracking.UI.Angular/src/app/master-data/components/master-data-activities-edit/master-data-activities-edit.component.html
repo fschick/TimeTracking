@@ -12,7 +12,13 @@
       <div class="row g-4">
         <div class="col-lg-6">
           <label for="title" class="form-label" i18n="@@DTO.ActivityDto.Title">[i18n] Name</label>
-          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="[i18n] Activity name"
+                 i18n-placeholder="@@DTO.ActivityDto.TitlePlaceholder"
+                 formControlName="title"
+                 ngbAutofocus>
         </div>
         <div class="col-lg-6">
           <!--suppress XmlInvalidId -->

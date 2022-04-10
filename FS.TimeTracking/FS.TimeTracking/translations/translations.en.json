@@ -176,7 +176,9 @@
       "Start": "Start",
       "End": "End",
       "ProjectId": "Project",
+      "ProjectIdPlaceholder": "Select project",
       "ActivityId": "Activity",
+      "ActivityIdPlaceholder": "Select activity",
       "OrderId": "Order",
       "Issue": "Issue",
       "Billable": "Billable",
@@ -198,6 +200,7 @@
     },
     "CustomerDto": {
       "Title": "Title",
+      "TitlePlaceholder": "Customer name",
       "Number": "Customer number",
       "CompanyName": "Company",
       "Department": "Department",
@@ -218,8 +221,9 @@
     },
     "ProjectDto": {
       "Title": "Title",
+      "TitlePlaceholder": "Project title",
       "CustomerId": "Customer",
-      "Customer": "Customer",
+      "CustomerIdPlaceholder": "Select customer",
       "Comment": "Comment",
       "Hidden": "Hidden"
     },
@@ -230,6 +234,7 @@
     },
     "ActivityDto": {
       "Title": "Title",
+      "TitlePlaceholder": "Activity name",
       "ProjectId": "Project",
       "Project": "Project",
       "Comment": "Comment",
@@ -242,12 +247,15 @@
     },
     "OrderDto": {
       "Title": "Title",
+      "TitlePlaceholder": "Order title",
       "Description": "Description",
       "Number": "Order number",
       "CustomerId": "Customer",
-      "Customer": "Customer",
+      "CustomerIdPlaceholder": "Select customer",
       "StartDate": "Start date",
+      "StartDatePlaceholder": "Begin",
       "DueDate": "Due date",
+      "DueDatePlaceholder": "Due",
       "HourlyRate": "Hourly rate",
       "Budget": "Budget",
       "Comment": "Comment",
@@ -286,8 +294,11 @@
     },
     "HolidayDto": {
       "Title": "Title",
+      "TitlePlaceholder": "Title",
       "StartDate": "Start date",
+      "StartDatePlaceholder": "Begin",
       "EndDate": "End date",
+      "EndDatePlaceholder": "End",
       "Type": "Type"
     },
     "HolidayGridDto": {

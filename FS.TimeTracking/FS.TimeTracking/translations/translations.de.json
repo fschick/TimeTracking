@@ -176,7 +176,9 @@
       "Start": "Beginn",
       "End": "Ende",
       "ProjectId": "Projekt",
+      "ProjectIdPlaceholder": "Projekt auswählen",
       "ActivityId": "Tätigkeit",
+      "ActivityIdPlaceholder": "Tätigkeit auswählen",
       "OrderId": "Auftrag",
       "Issue": "Ticket",
       "Billable": "verrechenbar",
@@ -198,6 +200,7 @@
     },
     "CustomerDto": {
       "Title": "Titel",
+      "TitlePlaceholder": "Name des Kunden",
       "Number": "Kundennummer",
       "CompanyName": "Firma",
       "Department": "Abteilung",
@@ -218,8 +221,9 @@
     },
     "ProjectDto": {
       "Title": "Titel",
+      "TitlePlaceholder": "Name des Projektes",
       "CustomerId": "Kunde",
-      "Customer": "Kunde",
+      "CustomerIdPlaceholder": "Kunde auswählen",
       "Comment": "Kommentar",
       "Hidden": "versteckt"
     },
@@ -230,6 +234,7 @@
     },
     "ActivityDto": {
       "Title": "Titel",
+      "TitlePlaceholder": "Name der Tätigkeit",
       "CustomerId": "Kunde",
       "Customer": "Kunde",
       "ProjectId": "Projekt",
@@ -244,12 +249,15 @@
     },
     "OrderDto": {
       "Title": "Titel",
+      "TitlePlaceholder": "Name des Auftrags",
       "Description": "Beschreibung",
       "Number": "Auftragsnummer",
       "CustomerId": "Kunde",
-      "Customer": "Kunde",
+      "CustomerIdPlaceholder": "Kunde auswählen",
       "StartDate": "Startdatum",
+      "StartDatePlaceholder": "Beginn",
       "DueDate": "Fälligkeitsdatum",
+      "DueDatePlaceholder": "fällig",
       "HourlyRate": "Stundensatz",
       "Budget": "Budget",
       "Comment": "Kommentar",
@@ -288,8 +296,11 @@
     },
     "HolidayDto": {
       "Title": "Titel",
+      "TitlePlaceholder": "Titel",
       "StartDate": "Startdatum",
+      "StartDatePlaceholder": "Beginn",
       "EndDate": "Enddatum",
+      "EndDatePlaceholder": "Ende",
       "Type": "Typ"
     },
     "HolidayGridDto": {

@@ -11,16 +11,39 @@
     <form id="holidayForm" [formGroup]="holidayForm" (ngSubmit)="save()" #form="ngForm">
       <div class="row g-4">
         <div class="col-lg-12">
-          <label for="title" class="form-label" i18n="@@DTO.HolidayDto.Title">[i18n] Short description</label>
-          <input id="title" type="text" class="form-control" formControlName="title" ngbAutofocus>
+          <label for="title" class="form-label" i18n="@@DTO.HolidayDto.Title">[i18n] Title</label>
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="[i18n] Title"
+                 i18n-placeholder="@@DTO.HolidayDto.TitlePlaceholder"
+                 formControlName="title"
+                 ngbAutofocus>
         </div>
         <div class="col-lg-3">
           <label for="startDate" class="form-label" i18n="@@DTO.HolidayDto.StartDate">[i18n] Start date</label>
-          <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
+          <input id="startDate"
+                 type="text"
+                 inputmode="none"
+                 tsDatePicker
+                 class="form-control"
+                 placeholder="[i18n] Begin"
+                 i18n-placeholder="@@DTO.HolidayDto.StartDatePlaceholder"
+                 formControlName="startDate"
+                 autocomplete="off">
         </div>
         <div class="col-lg-3">
           <label for="endDate" class="form-label" i18n="@@DTO.HolidayDto.EndDate">[i18n] End date</label>
-          <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="endDate" autocomplete="off">
+          <input id="endDate"
+                 type="text"
+                 inputmode="none"
+                 tsDatePicker
+                 relativeAnchor="end"
+                 class="form-control"
+                 placeholder="[i18n] End"
+                 i18n-placeholder="@@DTO.HolidayDto.EndDatePlaceholder"
+                 formControlName="endDate"
+                 autocomplete="off">
         </div>
         <div class="col-lg-6">
           <label for="type" class="form-label" i18n="@@DTO.HolidayDto.Type">[i18n] Type</label>
