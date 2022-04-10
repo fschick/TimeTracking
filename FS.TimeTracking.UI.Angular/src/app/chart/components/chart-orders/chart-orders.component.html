@@ -1,49 +1,56 @@
-<!-- Filter -->
-<ts-filter filterId="filterCharts"
-           [filters]="filters">
-</ts-filter>
-
-<hr>
-
-<!-- Chart -->
-<h4 class="d-inline-block" i18n="@@Page.Chart.Orders.Title">
-  [i18n] Planned/actual by order
-</h4>
-<div id="chart" *ngIf="chartSeries">
-  <apx-chart
-    [series]="chartSeries"
-    [chart]="chartOptions.chart"
-    [dataLabels]="chartOptions.dataLabels"
-    [plotOptions]="chartOptions.plotOptions"
-    [xaxis]="chartOptions.xAxis"
-    [yaxis]="chartOptions.yAxis"
-    [colors]="chartOptions.colors"
-    [stroke]="chartOptions.stroke"
-    [tooltip]="chartOptions.tooltip"
-    [states]="chartOptions.states"
-    [legend]="chartOptions.legend"
-  ></apx-chart>
-</div>
-
-<ts-simple-table
-  [columns]="tableColumns"
-  [rows]="tableRows"
-  [configuration]="tableConfiguration"
-  (rowsChanged)="tableRowsChanged($event.rows)">
-</ts-simple-table>
-
-<div *ngIf="plannedArePartial" class="row">
-  <div class="col p-0">
-    <div class="alert alert-warning m-2" role="alert">
-      <svg class="bi me-1" fill="currentColor">
-        <use xlink:href="assets/icons.svg#exclamation-triangle"/>
-      </svg>
-      <ng-container i18n="@@Page.Chart.Common.PartialPlannedValues">
-        [i18n] The order period is greater than selected period. The values are displayed proportionally.
-      </ng-container>
-    </div>
+<div class="row">
+  <!-- Chart -->
+  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first timesheet px-4">
+    <ng-container *ngTemplateOutlet="chart"></ng-container>
+  </div>
+  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+    <!-- Filter -->
+    <ts-filter filterId="filterCharts"
+               [filters]="filters">
+    </ts-filter>
   </div>
 </div>
+
+<ng-template #chart>
+  <h4 class="d-inline-block" i18n="@@Page.Chart.Orders.Title">
+    [i18n] Planned/actual by order
+  </h4>
+  <div id="chart" *ngIf="chartSeries">
+    <apx-chart
+      [series]="chartSeries"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xAxis"
+      [yaxis]="chartOptions.yAxis"
+      [colors]="chartOptions.colors"
+      [stroke]="chartOptions.stroke"
+      [tooltip]="chartOptions.tooltip"
+      [states]="chartOptions.states"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
+  </div>
+
+  <ts-simple-table
+    [columns]="tableColumns"
+    [rows]="tableRows"
+    [configuration]="tableConfiguration"
+    (rowsChanged)="tableRowsChanged($event.rows)">
+  </ts-simple-table>
+
+  <div *ngIf="plannedArePartial" class="row">
+    <div class="col p-0">
+      <div class="alert alert-warning m-2" role="alert">
+        <svg class="bi me-1" fill="currentColor">
+          <use xlink:href="assets/icons.svg#exclamation-triangle"/>
+        </svg>
+        <ng-container i18n="@@Page.Chart.Common.PartialPlannedValues">
+          [i18n] The order period is greater than selected period. The values are displayed proportionally.
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #orderPeriodHeadTemplate let-table="table" let-column="column">
   <span class="d-none d-lg-inline">{{column.title}}</span>

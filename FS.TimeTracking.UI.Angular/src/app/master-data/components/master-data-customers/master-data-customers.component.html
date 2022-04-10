@@ -1,25 +1,33 @@
-<!-- Filter -->
-<ts-filter filterId="filterMasterDataCustomers"
-           [filters]="filters">
-</ts-filter>
-
-<hr>
-
-<div class="d-flex justify-content-between align-items-start mb-2">
-  <h4 i18n="@@Page.MasterData.Customers.Title">
-    [i18n] Customers
-  </h4>
-  <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
-    <ng-container i18n="@@Page.MasterData.Customers.New">[i18n] New customer</ng-container>
-  </button>
+<div class="row">
+  <!-- Master data -->
+  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first timesheet px-4">
+    <ng-container *ngTemplateOutlet="masterData"></ng-container>
+  </div>
+  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+    <!-- Filter -->
+    <ts-filter filterId="filterTimeSheet"
+               [filters]="filters">
+    </ts-filter>
+  </div>
 </div>
 
-<ts-simple-table
-  *ngIf="rows"
-  [columns]="columns"
-  [rows]="rows"
-  [configuration]="configuration">
-</ts-simple-table>
+<ng-template #masterData>
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <h4 i18n="@@Page.MasterData.Customers.Title">
+      [i18n] Customers
+    </h4>
+    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
+      <ng-container i18n="@@Page.MasterData.Customers.New">[i18n] New customer</ng-container>
+    </button>
+  </div>
+
+  <ts-simple-table
+    *ngIf="rows"
+    [columns]="columns"
+    [rows]="rows"
+    [configuration]="configuration">
+  </ts-simple-table>
+</ng-template>
 
 <ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
   <span [ngClass]="{'text-secondary text-decoration-line-through': row.hidden}">

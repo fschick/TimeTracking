@@ -51,10 +51,10 @@ export class ChartCustomersComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().endOf('year');
 
     this.filters = [
-      {name: 'timeSheetStartDate', defaultValue: defaultStartDate},
-      {name: 'timeSheetEndDate', defaultValue: defaultEndDate},
-      {name: 'customerId'},
-      {name: 'orderId'},
+      {name: 'timeSheetStartDate', defaultValue: defaultStartDate, isPrimary: true},
+      {name: 'timeSheetEndDate', defaultValue: defaultEndDate, isPrimary: true},
+      {name: 'customerId', isPrimary: true},
+      {name: 'orderId', isPrimary: true},
       {name: 'projectId'},
       {name: 'activityId'},
       {name: 'timeSheetIssue'},
