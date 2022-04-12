@@ -54,8 +54,8 @@
         "Planned": "Planned",
         "Remain": "Remain",
         "Percentage": "%",
-        "TotalWorkedPercentage": "Worked %",
-        "TotalPlannedPercentage": "Planned %",
+        "TotalWorkedPercentage": "Worked",
+        "TotalPlannedPercentage": "Planned",
         "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {

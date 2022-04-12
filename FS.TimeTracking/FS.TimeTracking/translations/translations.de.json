@@ -54,8 +54,8 @@
         "Planned": "geplant",
         "Remain": "verbleiben",
         "Percentage": "%",
-        "TotalWorkedPercentage": "gearbeitet %",
-        "TotalPlannedPercentage": "geplant %",
+        "TotalWorkedPercentage": "geleistet",
+        "TotalPlannedPercentage": "geplant",
         "PartialPlannedValues": "Der Auftragszeitraum ist größer als der ausgewählte Zeitraum. Die Werte werden anteilig dargestellt."
       },
       "Customers": {

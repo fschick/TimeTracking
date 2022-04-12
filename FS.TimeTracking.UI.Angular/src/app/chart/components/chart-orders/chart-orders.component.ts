@@ -184,14 +184,6 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
         format: row => row.daysPlanned ? `${this.formatService.formatDays(row.daysPlanned)} ${this.localizedDays}` : '',
         footer: () => `${this.formatService.formatDays(this.tableFooter.daysPlanned)} ${this.localizedDays}`,
       }, {
-        title: $localize`:@@Page.Chart.Common.TotalPlannedPercentage:[i18n] planned %`,
-        prop: 'totalPlannedPercentage',
-        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
-        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => row.daysPlanned ? `${this.formatService.formatRatio(row.totalPlannedPercentage)} %` : '',
-        footer: () => `${this.formatService.formatRatio(this.tableFooter.totalPlannedPercentage)} %`,
-      }, {
         title: $localize`:@@Page.Chart.Common.Worked:[i18n] Worked`,
         prop: 'daysWorked',
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
@@ -199,6 +191,14 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
         cssFooterCell: 'text-nowrap text-end',
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
         footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
+      }, {
+        title: $localize`:@@Page.Chart.Common.TotalWorkedPercentage:[i18n] worked %`,
+        prop: 'totalWorkedPercentage',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
+        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
+        format: row => `${this.formatService.formatRatio(row.totalWorkedPercentage)} %`,
+        footer: () => `${this.formatService.formatRatio(this.tableFooter.totalWorkedPercentage)} %`,
       }, {
         title: $localize`:@@Page.Chart.Common.Remain:[i18n] Remain`,
         prop: 'daysDifference',
