@@ -13,7 +13,7 @@ node_modules/bootstrap-icons/icons/currency-euro.svg
 node_modules/bootstrap-icons/icons/dash-square-dotted.svg
 node_modules/bootstrap-icons/icons/dash-square-fill.svg
 node_modules/bootstrap-icons/icons/eraser.svg
-node_modules/bootstrap-icons/icons/exclamation-triangle.svg
+node_modules/bootstrap-icons/icons/exclamation-circle.svg
 node_modules/bootstrap-icons/icons/info-circle.svg
 node_modules/bootstrap-icons/icons/pencil.svg
 node_modules/bootstrap-icons/icons/play-circle-fill.svg

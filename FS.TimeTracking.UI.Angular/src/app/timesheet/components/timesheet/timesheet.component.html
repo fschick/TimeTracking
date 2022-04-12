@@ -164,10 +164,15 @@
       </ng-container>
 
       <!-- Footer -->
-      <div *ngIf="overview.omittedTimeSheets > 0" class="row">
-        <div class="col">
-          <div class="alert alert-warning m-2" role="alert" i18n="@@Page.Timesheet.OmittedEntities">
-            [i18n] {{overview.omittedTimeSheets //i18n(ph="OMITTED")}} additional entries have been omitted to prevent performance issues.
+      <div *ngIf="overview.omittedTimeSheets > 0" class="row table-footer mx-0">
+        <div class="col px-0">
+          <div class="alert alert-warning m-2" role="alert">
+            <svg class="bi me-2" fill="currentColor">
+              <use xlink:href="assets/icons.svg#exclamation-circle"/>
+            </svg>
+            <ng-container i18n="@@Page.Timesheet.OmittedEntities">
+              [i18n] {{overview.omittedTimeSheets //i18n(ph="OMITTED")}} additional entries have been omitted to prevent performance issues.
+            </ng-container>
           </div>
         </div>
       </div>
