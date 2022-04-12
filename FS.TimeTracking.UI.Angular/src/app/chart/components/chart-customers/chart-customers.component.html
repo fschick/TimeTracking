@@ -78,26 +78,30 @@
         <th></th>
         <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Days">[i18n] Days</th>
         <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Hours">[i18n] Hours</th>
+        <th *ngIf="row.daysPlanned" class="text-nowrap text-end" i18n="@@Page.Chart.Common.Percentage">[i18n] %</th>
         <th class="text-nowrap text-end" i18n="@@Page.Chart.Common.Budget">[i18n] Budget</th>
       </tr>
       </thead>
       <tbody>
+      <tr *ngIf="row.daysPlanned">
+        <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Planned">[i18n] Planned</th>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysPlanned)}} {{localizedDays}}</td>
+        <td class="text-nowrap text-end">{{row.timePlanned | tsDuration}} {{localizedHours}}</td>
+        <td class="text-nowrap text-end">100 {{localizedPercentage}}</td>
+        <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetPlanned)}} {{row.currency}}</td>
+      </tr>
       <tr>
         <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Worked">[i18n] Worked</th>
         <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{localizedDays}}</td>
         <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{localizedHours}}</td>
+        <td class="text-nowrap text-end">{{row.completed * 100 | number:'1.0-0'}} {{localizedPercentage}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetWorked)}} {{row.currency}}</td>
       </tr>
-      <tr>
-        <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Planned">[i18n] Planned</th>
-        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysPlanned)}} {{localizedDays}}</td>
-        <td class="text-nowrap text-end">{{row.timePlanned | tsDuration}} {{localizedHours}}</td>
-        <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetPlanned)}} {{row.currency}}</td>
-      </tr>
-      <tr>
+      <tr *ngIf="row.daysPlanned">
         <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Remain">[i18n] Remain</th>
         <td class="text-nowrap text-end">{{formatService.formatDays(row.daysDifference)}} {{localizedDays}}</td>
         <td class="text-nowrap text-end">{{row.timeDifference | tsDuration}} {{localizedHours}}</td>
+        <td *ngIf="row.daysPlanned" class="text-nowrap text-end">{{(1 - row.completed) * 100 | number:'1.0-0'}} {{localizedPercentage}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetDifference)}} {{row.currency}}</td>
       </tr>
       </tbody>

@@ -51,7 +51,7 @@ public class ActivityChartService : IActivityChartService
                 ActivityTitle = worked.ActivityTitle,
                 TimeWorked = worked.WorkedTime,
                 DaysWorked = worked.WorkedDays,
-                RatioTotalWorked = totalWorkedDays != 0 ? worked.WorkedDays / totalWorkedDays : 0,
+                TotalWorkedPercentage = totalWorkedDays != 0 ? worked.WorkedDays / totalWorkedDays : 0,
                 BudgetWorked = worked.WorkedBudget,
                 Currency = settings.Currency,
             })

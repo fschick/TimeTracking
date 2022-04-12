@@ -91,7 +91,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
       daysWorked: this.utilityService.sum(rows.map(row => row.daysWorked)),
       timeWorked: this.utilityService.durationSum(rows.map(row => row.timeWorked)),
       budgetWorked: this.utilityService.sum(rows.map(row => row.budgetWorked)),
-      ratioTotalWorked: 1,
+      totalWorkedPercentage: 1,
       currency: rows[0]?.currency,
     };
   }
@@ -140,13 +140,13 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
         format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
         footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
       }, {
-        title: $localize`:@@Page.Chart.Common.Ratio:[i18n] %`,
-        prop: 'ratioTotalWorked',
+        title: $localize`:@@Page.Chart.Common.TotalWorkedPercentage:[i18n] worked %`,
+        prop: 'totalWorkedPercentage',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
         cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => `${this.formatService.formatRatio(row.ratioTotalWorked)} %`,
-        footer: () => `${this.formatService.formatRatio(this.tableFooter.ratioTotalWorked)} %`,
+        format: row => `${this.formatService.formatRatio(row.totalWorkedPercentage)} %`,
+        footer: () => `${this.formatService.formatRatio(this.tableFooter.totalWorkedPercentage)} %`,
       }, {
         title: $localize`:@@Common.Details:[i18n] Details`,
         customId: 'info',

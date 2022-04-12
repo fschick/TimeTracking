@@ -64,24 +64,6 @@ public abstract class WorkTimeDto
     public double? BudgetDifference => BudgetPlanned - BudgetWorked;
 
     /// <summary>
-    /// Ratio between worked and planned days/time/budget.
-    /// </summary>
-    [Required]
-    public double? PercentDifference => DaysPlanned != null ? 1 - (DaysPlanned != 0 ? DaysWorked / DaysPlanned : 1) : null;
-
-    /// <summary>
-    /// Ratio of worked time related to sibling <see cref="WorkTimeDto"/>.
-    /// </summary>
-    [Required]
-    public double RatioTotalWorked { get; set; }
-
-    /// <summary>
-    /// Ratio of time planned related to sibling <see cref="WorkTimeDto"/>.
-    /// </summary>
-    [Required]
-    public double? RatioTotalPlanned { get; set; }
-
-    /// <summary>
     /// Start date of planned time.
     /// </summary>
     public DateTimeOffset? PlannedStart { get; set; }
@@ -96,6 +78,24 @@ public abstract class WorkTimeDto
     /// </summary>
     [Required]
     public bool PlannedIsPartial { get; set; }
+
+    /// <summary>
+    /// Ratio between planned and worked days/time/budget.
+    /// </summary>
+    [Required]
+    public double? Completed => DaysWorked / DaysPlanned;
+
+    /// <summary>
+    /// Ratio of worked time related to all other <see cref="WorkTimeDto"/>.
+    /// </summary>
+    [Required]
+    public double TotalWorkedPercentage { get; set; }
+
+    /// <summary>
+    /// Ratio of time planned related to all other <see cref="WorkTimeDto"/>.
+    /// </summary>
+    [Required]
+    public double? TotalPlannedPercentage { get; set; }
 
     /// <inheritdoc cref="Order.HourlyRate"/>
     [Required]

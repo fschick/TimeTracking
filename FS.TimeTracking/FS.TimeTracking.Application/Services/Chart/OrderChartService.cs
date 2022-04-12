@@ -4,7 +4,6 @@ using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Extensions;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
@@ -75,11 +74,11 @@ public class OrderChartService : IOrderChartService
                         CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
                         TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
                         DaysWorked = worked?.WorkedDays ?? 0,
-                        RatioTotalWorked = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
+                        TotalWorkedPercentage = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
                         BudgetWorked = worked?.WorkedBudget ?? 0,
                         TimePlanned = planned?.PlannedTime,
                         DaysPlanned = planned?.PlannedDays,
-                        RatioTotalPlanned = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
+                        TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
                         PlannedStart = plannedTimeSpan?.Start,
                         PlannedEnd = plannedTimeSpan?.End,

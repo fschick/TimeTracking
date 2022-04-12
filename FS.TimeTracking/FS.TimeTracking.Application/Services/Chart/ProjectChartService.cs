@@ -52,7 +52,7 @@ public class ProjectChartService : IProjectChartService
                 CustomerTitle = worked.CustomerTitle,
                 TimeWorked = worked.WorkedTime,
                 DaysWorked = worked.WorkedDays,
-                RatioTotalWorked = totalWorkedDays != 0 ? worked.WorkedDays / totalWorkedDays : 0,
+                TotalWorkedPercentage = totalWorkedDays != 0 ? worked.WorkedDays / totalWorkedDays : 0,
                 BudgetWorked = worked.WorkedBudget,
                 Currency = settings.Currency,
             })
