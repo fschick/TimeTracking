@@ -237,3 +237,17 @@
     background-color: $secondary-200;
   }
 }
+
+/* ----------------------------------------- */
+/* Alerts
+/* ----------------------------------------- */
+.alert {
+  font-weight: bold;
+  text-align: center;
+
+  &.alert-warning {
+    color: $warning-700;
+    background-color: $warning-100;
+    border-color: $warning-700;
+  }
+}
