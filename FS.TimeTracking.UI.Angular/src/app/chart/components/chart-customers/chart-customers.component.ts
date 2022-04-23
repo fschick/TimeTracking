@@ -54,16 +54,15 @@ export class ChartCustomersComponent implements OnInit, OnDestroy {
     this.filters = [
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate, isPrimary: true},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate, isPrimary: true},
-      {name: 'customerId', isPrimary: true},
-      {name: 'orderId', isPrimary: true},
-      {name: 'projectId'},
-      {name: 'activityId'},
+      {name: 'customerId', isPrimary: true, showHidden: true},
+      {name: 'orderId', isPrimary: true, showHidden: true},
+      {name: 'projectId', showHidden: true},
+      {name: 'activityId', showHidden: true},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetBillable', defaultValue: true},
     ];
 
     this.chartOptions = this.chartService.createChartOptions();
-
     this.tableConfiguration = this.createTableConfiguration();
   }
 
