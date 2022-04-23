@@ -44,27 +44,33 @@
       "Start": "Starten",
       "Delete": "Eintrag löschen",
       "DeleteMessage": "Wollen Sie diesen Eintrag wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-      "WorkedDays": "Tage gearbeitet",
-      "Workdays": "Arbeitstage",
-      "VacationDays": "Urlaubstage",
       "OmittedEntities": "{$OMITTED} weitere Einträge werden zur Vermeidung von Leistungsproblemen nicht angezeigt."
     },
     "Chart": {
       "Title": "Charts",
       "Common": {
-        "Days": "Tage",
-        "Hours": "Stunden",
-        "Budget": "Budget",
         "Worked": "geleistet",
         "Planned": "geplant",
-        "Remain": "verbleiben",
+        "Left": "verbleiben",
+        "OverbookedBy": "überbucht um",
+        "DaysWorked": "Tage geleistet",
+        "DaysPlanned": "Tage geplant",
+        "DaysLeft": "Tage verbleiben",
+        "PercentageOfTotalTime": "Anteil d. Gesamtzeit",
         "Percentage": "%",
-        "TotalWorkedPercentage": "geleistet",
-        "TotalPlannedPercentage": "geplant",
         "PartialPlannedValues": "Der Auftragszeitraum ist größer als der ausgewählte Zeitraum. Die Werte werden anteilig dargestellt."
       },
       "Customers": {
-        "Title": "Soll/Ist nach Kunde"
+        "Title": "Soll / Ist nach Kunde",
+        "NoCustomerOverbooked": "Kein Kunde überbucht",
+        "CustomerOverbooked": "{$COUNT} Kunde überbucht",
+        "CustomersOverbooked": "{$COUNT} Kunden überbucht"
+      },
+      "Orders": {
+        "Title": "Soll / Ist nach Auftrag",
+        "NoOrderOverbooked": "Kein Auftrag überbucht",
+        "OrderOverbooked": "{$COUNT} Auftrag überbucht",
+        "OrdersOverbooked": "{$COUNT} Aufträge überbucht"
       },
       "Projects": {
         "Title": "Nach Projekt"
@@ -74,9 +80,6 @@
       },
       "Issues": {
         "Title": "Nach Issue"
-      },
-      "Orders": {
-        "Title": "Soll/Ist nach Auftrag"
       }
     },
     "MasterData": {
@@ -126,10 +129,13 @@
   "Component": {
     "Header": {
       "NoDays": "keine",
-      "PastDays": "Vergangene {$COUNT} Tage",
-      "PastWeeks": "Vergangene {$COUNT} Wochen",
-      "PastMonths": "Vergangene {$COUNT} Monate",
-      "PastYears": "Vergangene {$COUNT} Jahre"
+      "DaysWorked": "Tage gearbeitet",
+      "Workdays": "Arbeitstage",
+      "VacationDays": "Urlaubstage",
+      "PastDays": "vergangene {$COUNT} Tage",
+      "PastWeeks": "vergangene {$COUNT} Wochen",
+      "PastMonths": "vergangene {$COUNT} Monate",
+      "PastYears": "vergangene {$COUNT} Jahre"
     },
     "Filter": {
       "Title": "Einstellungen & Filter",
@@ -160,6 +166,20 @@
       "ClearAllText": "Alle löschen",
       "NotFoundText": "Keine Einträge gefunden",
       "TypeToSearchText": "Zum Suchen tippen"
+    },
+    "ChartTotals": {
+      "OfDays": "von {$OFDAYS}",
+      "OfTotalTime": "der Gesamtzeit",
+      "DaysWorked": "Tage geleistet",
+      "DaysPlanned": "Tage geplant",
+      "DaysPlannedLeft": "geplante Tage übrig",
+      "WorkdaysLeft": "Arbeitstage übrig",
+      "PinTableRow": "Bitte eine Zeile in der Tabelle anpinnen!",
+      "Worked": "geleistet",
+      "Planned": "geplant",
+      "Left": "verbleiben",
+      "Percentage": "%",
+      "Other": "Sonstige"
     }
   },
   "Enum": {

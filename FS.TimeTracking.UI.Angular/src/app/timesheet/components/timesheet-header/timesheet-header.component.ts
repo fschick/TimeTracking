@@ -64,7 +64,7 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
 
     const visible = router.events
       .pipe(filter(x => x instanceof NavigationEnd), map(x => x as NavigationEnd),)
-      .subscribe(x => this.visible = x.url.match(/^(\/|\/[0-9a-f]{8}-.*|\/chart\/.*)$/) != null);
+      .subscribe(x => this.visible = x.url.match(/^(\/|\/[0-9a-f]{8}-.*)$/) != null);
     this.subscriptions.add(visible);
   }
 
@@ -141,15 +141,15 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
   private getChartDescription(count: number, aggregationUnit: WorkdayAggregationUnit): string {
     switch (aggregationUnit) {
       case 'invalid':
-        return $localize`:@@Page.Timesheet.WorkedDays:[i18n] days worked`;
+        return $localize`:@@Component.Header.DaysWorked:[i18n] days worked`;
       case 'day':
-        return $localize`:@@Component.Header.PastDays:[i18n] Past ${count}:COUNT: days`;
+        return $localize`:@@Component.Header.PastDays:[i18n] past ${count}:COUNT: days`;
       case 'week':
-        return $localize`:@@Component.Header.PastWeeks:[i18n] Past ${count}:COUNT: weeks`;
+        return $localize`:@@Component.Header.PastWeeks:[i18n] past ${count}:COUNT: weeks`;
       case 'month':
-        return $localize`:@@Component.Header.PastMonths:[i18n] Past ${count}:COUNT: months`;
+        return $localize`:@@Component.Header.PastMonths:[i18n] past ${count}:COUNT: months`;
       case 'year':
-        return $localize`:@@Component.Header.PastYears:[i18n] Past ${count}:COUNT: years`;
+        return $localize`:@@Component.Header.PastYears:[i18n] past ${count}:COUNT: years`;
     }
   }
 

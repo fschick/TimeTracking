@@ -44,27 +44,33 @@
       "Start": "Start",
       "Delete": "Delete entry",
       "DeleteMessage": "Are you sure you want to delete this entry? This cannot be undone.",
-      "WorkedDays": "days worked",
-      "Workdays": "working days",
-      "VacationDays": "vacation days",
       "OmittedEntities": "{$OMITTED} additional entries are omitted to avoid performance problems."
     },
     "Chart": {
       "Title": "Charts",
       "Common": {
-        "Days": "Days",
-        "Hours": "Hours",
-        "Budget": "Budget",
         "Worked": "Worked",
         "Planned": "Planned",
-        "Remain": "Remain",
+        "Left": "Left",
+        "OverbookedBy": "Overbooked by",
+        "DaysWorked": "Days worked",
+        "DaysPlanned": "Days planned",
+        "DaysLeft": "Days left",
+        "PercentageOfTotalTime": "Percentage of total time",
         "Percentage": "%",
-        "TotalWorkedPercentage": "Worked",
-        "TotalPlannedPercentage": "Planned",
         "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {
-        "Title": "Planned/actual by customer"
+        "Title": "Planned / actual by customer",
+        "NoCustomerOverbooked": "No customer overbooked",
+        "CustomerOverbooked": "{$COUNT} customer overbooked",
+        "CustomersOverbooked": "{$COUNT} customers overbooked"
+      },
+      "Orders": {
+        "Title": "Planned / actual by order",
+        "NoOrderOverbooked": "No order overbooked",
+        "OrderOverbooked": "{$COUNT} order overbooked",
+        "OrdersOverbooked": "{$COUNT} orders overbooked"
       },
       "Projects": {
         "Title": "By project"
@@ -74,9 +80,6 @@
       },
       "Issues": {
         "Title": "By issue"
-      },
-      "Orders": {
-        "Title": "Planned/actual by order"
       }
     },
     "MasterData": {
@@ -126,10 +129,13 @@
   "Component": {
     "Header": {
       "NoDays": "no",
-      "PastDays": "Past {$COUNT} days",
-      "PastWeeks": "Past {$COUNT} weeks",
-      "PastMonths": "Past {$COUNT} months",
-      "PastYears": "Past {$COUNT} years"
+      "DaysWorked": "days worked",
+      "Workdays": "working days",
+      "VacationDays": "vacation days",
+      "PastDays": "past {$COUNT} days",
+      "PastWeeks": "past {$COUNT} weeks",
+      "PastMonths": "past {$COUNT} months",
+      "PastYears": "past {$COUNT} years"
     },
     "Filter": {
       "Title": "Settings & Filter",
@@ -160,6 +166,20 @@
       "ClearAllText": "Clear all",
       "NotFoundText": "No items found",
       "TypeToSearchText": "Type to search"
+    },
+    "ChartTotals": {
+      "OfDays": "of {$OFDAYS}",
+      "OfTotalTime": "of total time",
+      "DaysWorked": "days worked",
+      "DaysPlanned": "days planned",
+      "DaysPlannedLeft": "planned days left",
+      "WorkdaysLeft": "workdays left",
+      "PinTableRow": "Please pin a row in the grid!",
+      "Worked": "Worked",
+      "Planned": "Planned",
+      "Left": "Left",
+      "Percentage": "%",
+      "Other": "Other"
     }
   },
   "Enum": {

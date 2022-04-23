@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col" *ngIf="chartWorked" id="chartWorked">
+    <apx-chart
+      [chart]="chartWorked.chart"
+      [series]="chartWorked.series"
+      [labels]="chartWorked.labels"
+      [colors]="chartWorked.colors"
+      [dataLabels]="chartWorked.dataLabels"
+      [tooltip]="chartWorked.tooltip"
+      [stroke]="chartWorked.stroke"
+      [plotOptions]="chartWorked.plotOptions"
+      [states]="chartWorked.states"
+      [legend]="chartWorked.legend">
+    </apx-chart>
+  </div>
+
+  <div class="col" *ngIf="chartPlanned" id="chartPlanned">
+    <apx-chart
+      [chart]="chartPlanned.chart"
+      [series]="chartPlanned.series"
+      [labels]="chartPlanned.labels"
+      [colors]="chartPlanned.colors"
+      [dataLabels]="chartPlanned.dataLabels"
+      [tooltip]="chartPlanned.tooltip"
+      [stroke]="chartPlanned.stroke"
+      [plotOptions]="chartPlanned.plotOptions"
+      [states]="chartPlanned.states"
+      [legend]="chartPlanned.legend">
+    </apx-chart>
+  </div>
+
+  <div class="col-auto">
+    <div class="d-flex h-100">
+      <div class="vr"></div>
+    </div>
+  </div>
+
+  <div class="col" id="chartDiff">
+    <apx-chart
+      *ngIf="chartLeft;else noSelectedRow"
+      [chart]="chartLeft.chart"
+      [series]="chartLeft.series"
+      [labels]="chartLeft.labels"
+      [colors]="chartLeft.colors"
+      [dataLabels]="chartLeft.dataLabels"
+      [tooltip]="chartLeft.tooltip"
+      [stroke]="chartLeft.stroke"
+      [plotOptions]="chartLeft.plotOptions"
+      [states]="chartLeft.states"
+      [legend]="chartLeft.legend">
+    </apx-chart>
+  </div>
+
+  <ng-template #noSelectedRow>
+    <div class="select-customer">
+      <img src="assets/donut-chart.svg" alt="No row selected">
+      <div class="small fw-bold text-center mt-2 w-75" i18n="@@Component.ChartTotals.PinTableRow">
+        [i18n] Please pin a row in the grid!
+      </div>
+    </div>
+  </ng-template>
+
+
+</div>

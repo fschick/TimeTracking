@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {Observable, Subscription} from 'rxjs';
 import {OrderChartService, OrderWorkTimeDto} from '../../../shared/services/api';
 import {single, switchMap} from 'rxjs/operators';
-import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellClickEvent, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {FormatService} from '../../../shared/services/format.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
@@ -12,32 +12,38 @@ import {ChartOptions, ChartService} from '../../services/chart.service';
 import {UtilityService} from '../../../shared/services/utility.service';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 
+type ColoredOrderWorkTimeDto = OrderWorkTimeDto & { color: string, selected: boolean };
+
 @Component({
   selector: 'ts-chart-orders',
   templateUrl: './chart-orders.component.html',
   styleUrls: ['./chart-orders.component.scss']
 })
 export class ChartOrdersComponent implements OnInit, OnDestroy {
-  @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<OrderWorkTimeDto>;
-  @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<OrderWorkTimeDto>;
-  @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<OrderWorkTimeDto>;
-  @ViewChild('orderPeriodFooterTemplate', {static: true}) private orderPeriodFooterTemplate?: FooterCellTemplate<OrderWorkTimeDto>;
-  @ViewChild('infoFooterTemplate', {static: true}) private infoFooterTemplate?: FooterCellTemplate<OrderWorkTimeDto>;
+  @ViewChild('orderDataTemplate', {static: true}) private orderDataTemplate?: DataCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('orderPeriodHeadTemplate', {static: true}) private orderPeriodHeadTemplate?: DataCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('orderPeriodDataTemplate', {static: true}) private orderPeriodDataTemplate?: DataCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('daysDifferenceTemplate', {static: true}) private daysDifferenceTemplate?: DataCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('orderPeriodFooterTemplate', {static: true}) private orderPeriodFooterTemplate?: FooterCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('infoFooterTemplate', {static: true}) private infoFooterTemplate?: FooterCellTemplate<ColoredOrderWorkTimeDto>;
+  @ViewChild('infoCellTemplate', {static: true}) private infoCellTemplate?: DataCellTemplate<ColoredOrderWorkTimeDto>;
 
   public filters: (Filter | FilterName)[];
   public chartOptions: ChartOptions;
   public chartSeries?: ApexAxisChartSeries;
   public plannedArePartial: boolean = false;
+  public overbookedOrders: number = 0;
+  public chartRows: ColoredOrderWorkTimeDto[] = [];
+  public chartRowsSelected: ColoredOrderWorkTimeDto[] = [];
 
-  public tableConfiguration: Partial<Configuration<OrderWorkTimeDto>>;
-  public tableColumns?: Column<OrderWorkTimeDto>[];
-  public tableRows: OrderWorkTimeDto[] = [];
-  public tableFooter: Partial<OrderWorkTimeDto> = {};
+  public tableConfiguration: Partial<Configuration<ColoredOrderWorkTimeDto>>;
+  public tableColumns?: Column<ColoredOrderWorkTimeDto>[];
+  public tableRows: ColoredOrderWorkTimeDto[] = [];
+  public tableFooter: Partial<ColoredOrderWorkTimeDto> = {};
   private readonly subscriptions = new Subscription();
 
-  public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
-  public localizedHours = $localize`:@@Abbreviations.Hours:[i18n] h`;
-  public localizedPercentage = $localize`:@@Page.Chart.Common.Percentage:[i18n] %`;
+  public readonly LOCALIZED_DAYS = $localize`:@@Abbreviations.Days:[i18n] days`;
+  public readonly LOCALIZED_PERCENTAGE = $localize`:@@Page.Chart.Common.Percentage:[i18n] %`;
 
   constructor(
     public formatService: FormatService,
@@ -79,10 +85,21 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public tableRowsChanged(rows: Array<OrderWorkTimeDto>): void {
+  public tableRowsChanged(rows: ColoredOrderWorkTimeDto[]): void {
+    const maxYValue = Math.max(...rows.map(row => Math.max(row.daysWorked, row.daysPlanned)));
+    this.chartOptions = this.chartService.createChartOptions(rows.length, maxYValue);
     this.chartSeries = this.createSeries(rows);
-    this.plannedArePartial = rows.some(r => r.plannedIsPartial);
+    this.plannedArePartial = rows.some(row => row.plannedIsPartial);
+    this.overbookedOrders = rows.filter(row => row.daysPlanned && row.daysPlanned < row.daysWorked).length;
     this.changeDetector.detectChanges();
+  }
+
+  public dataCellClick(event: DataCellClickEvent<ColoredOrderWorkTimeDto>) {
+    if (event.column.customId === 'info')
+      return;
+    event.row.selected = !event.row.selected;
+    this.chartRowsSelected = event.table.rows.filter(row => row.selected);
+    this.chartRows = this.chartRowsSelected.length > 0 ? this.chartRowsSelected : this.tableRows;
   }
 
   public getMinPlanned(): string {
@@ -108,14 +125,18 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
   }
 
   private setTableData(rows: OrderWorkTimeDto[]) {
-    this.tableRows = rows;
+    this.tableRows = this.chartService
+      .addColors(rows)
+      .map(row => ({...row, selected: false}));
+    this.chartRows = this.tableRows;
+
     this.tableFooter = {
       daysPlanned: this.utilityService.sum(rows.map(row => row.daysPlanned)),
-      timePlanned: this.utilityService.durationSum(rows.map(row => row.timePlanned)),
+      timePlanned: this.utilityService.sumDuration(rows.map(row => row.timePlanned)),
       daysWorked: this.utilityService.sum(rows.map(row => row.daysWorked)),
-      timeWorked: this.utilityService.durationSum(rows.map(row => row.timeWorked)),
+      timeWorked: this.utilityService.sumDuration(rows.map(row => row.timeWorked)),
       daysDifference: this.utilityService.sum(rows.map(row => row.daysDifference)),
-      timeDifference: this.utilityService.durationSum(rows.map(row => row.timeDifference)),
+      timeDifference: this.utilityService.sumDuration(rows.map(row => row.timeDifference)),
       budgetPlanned: this.utilityService.sum(rows.map(row => row.budgetPlanned)),
       budgetWorked: this.utilityService.sum(rows.map(row => row.budgetWorked)),
       budgetDifference: this.utilityService.sum(rows.map(row => row.budgetDifference)),
@@ -130,35 +151,40 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
       {
         name: $localize`:@@Page.Chart.Common.Worked:[i18n] Worked`,
         data: workTimes.map(workTime => ({
-          x: workTime.orderTitle,
+          x: (this.isOverbooked(workTime) ? '◆ ' : '') + workTime.orderTitle,
           y: workTime.daysWorked,
-          meta: {time: workTime.timeWorked}
+          meta: {days: workTime.daysWorked, time: workTime.timeWorked}
         }))
       },
       {
         name: $localize`:@@Page.Chart.Common.Planned:[i18n] Planned`,
         data: workTimes.map(workTime => ({
           x: workTime.orderTitle,
-          y: workTime.daysPlanned,
-          meta: {time: workTime.timePlanned}
+          y: workTime.daysPlanned > workTime.daysWorked ? workTime.daysPlanned - workTime.daysWorked : 0,
+          meta: {days: workTime.daysPlanned, time: workTime.timePlanned}
         }))
       },
     ];
   }
 
-  private createTableConfiguration(): Partial<Configuration<OrderWorkTimeDto>> {
+  private isOverbooked(entity: OrderWorkTimeDto): boolean {
+    return (entity.daysPlanned != null) && (entity.daysPlanned < entity.daysWorked);
+  }
+
+  private createTableConfiguration(): Partial<Configuration<ColoredOrderWorkTimeDto>> {
     return {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-card table-sm align-middle text-break border',
+      cssTable: 'table table-hover',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssFooterRow: 'text-strong',
+      cssDataRow: row => `cursor-pointer ${row.selected ? 'selected' : ''}`,
+      cssFooterRow: 'fw-bold',
     };
   }
 
-  private createTableColumns(): Column<OrderWorkTimeDto>[] {
-    const cssHeadCell = 'border-0 text-nowrap';
+  private createTableColumns(): Column<ColoredOrderWorkTimeDto>[] {
+    const cssHeadCell = 'text-nowrap';
     const cssHeadCellMd = 'd-none d-md-table-cell';
     const cssDataCellMd = cssHeadCellMd;
 
@@ -168,6 +194,7 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
         prop: 'orderTitle',
         cssHeadCell: cssHeadCell,
         footer: $localize`:@@Common.Summary:[i18n] Summary`,
+        dataCellTemplate: this.orderDataTemplate,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,
         cssHeadCell: `${cssHeadCell}`,
@@ -176,39 +203,32 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
         dataCellTemplate: this.orderPeriodDataTemplate,
         footerCellTemplate: this.orderPeriodFooterTemplate,
       }, {
-        title: $localize`:@@Page.Chart.Common.Planned:[i18n] Planned`,
-        prop: 'daysPlanned',
-        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
-        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => row.daysPlanned ? `${this.formatService.formatDays(row.daysPlanned)} ${this.localizedDays}` : '',
-        footer: () => `${this.formatService.formatDays(this.tableFooter.daysPlanned)} ${this.localizedDays}`,
-      }, {
-        title: $localize`:@@Page.Chart.Common.Worked:[i18n] Worked`,
+        title: $localize`:@@Page.Chart.Common.DaysWorked:[i18n] Days worked`,
         prop: 'daysWorked',
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
         cssDataCell: 'text-nowrap text-end',
         cssFooterCell: 'text-nowrap text-end',
-        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
-        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
+        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.LOCALIZED_DAYS}`,
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.LOCALIZED_DAYS}`,
       }, {
-        title: $localize`:@@Page.Chart.Common.TotalWorkedPercentage:[i18n] worked %`,
-        prop: 'totalWorkedPercentage',
+        title: $localize`:@@Page.Chart.Common.DaysPlanned:[i18n] Days planned`,
+        prop: 'daysPlanned',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
         cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
         cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
-        format: row => `${this.formatService.formatRatio(row.totalWorkedPercentage)} %`,
-        footer: () => `${this.formatService.formatRatio(this.tableFooter.totalWorkedPercentage)} %`,
+        format: row => row.daysPlanned ? `${this.formatService.formatDays(row.daysPlanned)} ${this.LOCALIZED_DAYS}` : '',
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysPlanned)} ${this.LOCALIZED_DAYS}`,
       }, {
-        title: $localize`:@@Page.Chart.Common.Remain:[i18n] Remain`,
+        title: $localize`:@@Page.Chart.Common.DaysLeft:[i18n] Days left`,
         prop: 'daysDifference',
         cssHeadCell: `${cssHeadCell} text-end`,
         cssDataCell: 'text-nowrap text-end',
         cssFooterCell: 'text-nowrap text-end',
-        format: row => row.daysPlanned ? `${this.formatService.formatDays(row.daysDifference)} ${this.localizedDays}` : '',
-        footer: () => `${this.formatService.formatDays(this.tableFooter.daysDifference)} ${this.localizedDays}`,
+        dataCellTemplate: this.daysDifferenceTemplate,
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysDifference)} ${this.LOCALIZED_DAYS}`,
+        sort: (rowA, rowB, direction) => this.chartService.sortByDaysDifference(rowA, rowB, direction),
       }, {
-        title: $localize`:@@Common.Details:[i18n] Details`,
+        title: '',
         customId: 'info',
         cssHeadCell: `${cssHeadCell} ps-3 text-center`,
         cssDataCell: 'ps-3 text-center',

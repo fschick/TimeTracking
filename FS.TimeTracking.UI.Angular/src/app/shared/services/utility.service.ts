@@ -99,7 +99,7 @@ export class UtilityService {
     return array.reduce((prev, current) => prev + current, 0);
   }
 
-  public durationSum(array: Array<Duration>): Duration {
+  public sumDuration(array: Array<Duration>): Duration {
     return array.reduce((prev, current) => prev.plus(current ?? Duration.fromMillis(0)), Duration.fromMillis(0));
   }
 

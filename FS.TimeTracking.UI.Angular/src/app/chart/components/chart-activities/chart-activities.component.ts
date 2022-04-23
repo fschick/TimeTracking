@@ -33,8 +33,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
   public tableFooter: Partial<ActivityWorkTimeDto> = {};
   private readonly subscriptions = new Subscription();
 
-  public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
-  public localizedHours = $localize`:@@Abbreviations.Hours:[i18n] h`;
+  public readonly LOCALIZED_DAYS = $localize`:@@Abbreviations.Days:[i18n] days`;
 
   constructor(
     public formatService: FormatService,
@@ -77,6 +76,8 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
   }
 
   public tableRowsChanged(rows: Array<ActivityWorkTimeDto>): void {
+    const maxYValue = Math.max(...rows.map(row => row.daysWorked));
+    this.chartOptions = this.chartService.createChartOptions(rows.length, maxYValue);
     this.chartSeries = this.createSeries(rows);
     this.changeDetector.detectChanges();
   }
@@ -89,7 +90,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
     this.tableRows = rows;
     this.tableFooter = {
       daysWorked: this.utilityService.sum(rows.map(row => row.daysWorked)),
-      timeWorked: this.utilityService.durationSum(rows.map(row => row.timeWorked)),
+      timeWorked: this.utilityService.sumDuration(rows.map(row => row.timeWorked)),
       budgetWorked: this.utilityService.sum(rows.map(row => row.budgetWorked)),
       totalWorkedPercentage: 1,
       currency: rows[0]?.currency,
@@ -103,7 +104,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
         data: workTimes.map(workTime => ({
           x: workTime.activityTitle,
           y: workTime.daysWorked,
-          meta: {time: workTime.timeWorked}
+          meta: {days: workTime.daysWorked, time: workTime.timeWorked}
         }))
       }
     ];
@@ -112,18 +113,18 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
   private createTableConfiguration(): Partial<Configuration<ActivityWorkTimeDto>> {
     return {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-card table-sm align-middle text-break border',
+      cssTable: 'table',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssFooterRow: 'text-strong',
+      cssFooterRow: 'fw-bold',
     };
   }
 
   private createTableColumns(): Column<ActivityWorkTimeDto>[] {
     const cssHeadCell = 'border-0 text-nowrap';
-    const cssHeadCellMd = 'd-none d-md-table-cell';
-    const cssDataCellMd = cssHeadCellMd;
+    const cssHeadCellLg = 'd-none d-lg-table-cell';
+    const cssDataCellLg = cssHeadCellLg;
 
     return [
       {
@@ -132,23 +133,23 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
         cssHeadCell: cssHeadCell,
         footer: $localize`:@@Common.Summary:[i18n] Summary`,
       }, {
-        title: $localize`:@@Page.Chart.Common.Worked:[i18n] Worked`,
+        title: $localize`:@@Page.Chart.Common.DaysWorked:[i18n] Days worked`,
         prop: 'daysWorked',
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
         cssDataCell: 'text-nowrap text-end',
         cssFooterCell: 'text-nowrap text-end',
-        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
-        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
+        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.LOCALIZED_DAYS}`,
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.LOCALIZED_DAYS}`,
       }, {
-        title: $localize`:@@Page.Chart.Common.TotalWorkedPercentage:[i18n] worked %`,
+        title: $localize`:@@Page.Chart.Common.PercentageOfTotalTime:[i18n] Percentage of total time`,
         prop: 'totalWorkedPercentage',
-        cssHeadCell: `${cssHeadCell} ${cssHeadCellMd} text-end`,
-        cssDataCell: `${cssDataCellMd} text-nowrap text-end`,
-        cssFooterCell: `${cssDataCellMd} text-nowrap text-end`,
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellLg} text-end`,
+        cssDataCell: `${cssDataCellLg} text-nowrap text-end`,
+        cssFooterCell: `${cssDataCellLg} text-nowrap text-end`,
         format: row => `${this.formatService.formatRatio(row.totalWorkedPercentage)} %`,
         footer: () => `${this.formatService.formatRatio(this.tableFooter.totalWorkedPercentage)} %`,
       }, {
-        title: $localize`:@@Common.Details:[i18n] Details`,
+        title: '',
         customId: 'info',
         cssHeadCell: `${cssHeadCell} ps-3 text-center`,
         cssDataCell: 'ps-3 text-center',

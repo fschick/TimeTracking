@@ -1,0 +1,30 @@
+@import '~src/styles/variables';
+
+.days-planned-worked {
+  margin-top: .8rem;
+}
+
+.planned-days-left, .workdays-left, .overbooked {
+  margin-top: 1.5rem;
+}
+
+.chart-legend {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 0.1875rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -.2rem;
+
+  &.worked {
+    background-color: $primary-500;
+  }
+
+  &.planned {
+    background-color: $primary-200;
+  }
+}
+
+.label {
+  color: $gray-500;
+}

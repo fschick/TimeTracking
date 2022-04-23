@@ -2,10 +2,15 @@
 /* Font
 /* ----------------------------------------- */
 $font-family-base: "Sarabun";
+$font-weight-bold: 700;
 
 /* ----------------------------------------- */
 /* Colors
 /* ----------------------------------------- */
+// https://coolors.co
+// https://color.adobe.com/de/create/color-wheel
+// https://www.schemecolor.com/new-pastels-rainbow.php
+
 $primary-100: #E0ECE5;
 $primary-200: #C8E5D3;
 $primary-300: #9DDEB7;
@@ -98,7 +103,7 @@ $modal-inner-padding: 2rem;
 /* ----------------------------------------- */
 /* Buttons
 /* ----------------------------------------- */
-$btn-font-weight: bold;
+$btn-font-weight: $font-weight-bold;
 $btn-padding-x: 1.25rem;
 $btn-padding-y: 0.563rem;
 
@@ -112,6 +117,19 @@ $input-bg: $secondary-100;
 $input-border-color: $secondary-200;
 $input-focus-border-color: $primary-300;
 $input-box-shadow: inset 0 2px 3px 0 rgba(0, 0, 0, 0.05);
+
+/* ----------------------------------------- */
+/* Tables
+/* ----------------------------------------- */
+$table-hover-bg: $primary-100;
+
+/* ----------------------------------------- */
+/* Popover
+/* ----------------------------------------- */
+$popover-body-color: $gray-700;
+$popover-border-width: 0;
+$popover-box-shadow: 0 5px 15px 0 #cfcfcf;
+$popover-bg: $gray-100;
 
 /* ----------------------------------------- */
 /* Switch

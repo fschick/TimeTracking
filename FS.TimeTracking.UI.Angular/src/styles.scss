@@ -40,40 +40,6 @@ td.action-cell {
   padding: 0 $table-cell-padding-x !important;
 }
 
-.text-strong {
-  font-weight: bold;
-}
-
-/* ----------------------------------------- */
-/* Table-Card
-/* ----------------------------------------- */
-.table-card {
-  & > thead {
-    tr {
-      & > * {
-        padding-top: $card-cap-padding-y !important;
-        padding-bottom: $card-cap-padding-y !important;;
-      }
-
-      color: $card-cap-color;
-      background-color: $card-cap-bg;
-      border-bottom: $card-border-width solid $card-border-color;
-    }
-  }
-
-  & > :not(:first-child) {
-    border-top: none !important;
-  }
-
-  > * > * > *:first-child {
-    padding-left: $card-cap-padding-x !important;;
-  }
-
-  > * > * > *:last-child {
-    padding-right: $card-cap-padding-x !important;
-  }
-}
-
 /* ----------------------------------------- */
 /* Bootstrap-icons
 /* ----------------------------------------- */

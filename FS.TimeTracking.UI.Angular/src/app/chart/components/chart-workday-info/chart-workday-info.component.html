@@ -1,0 +1,72 @@
+<div class="row days-planned-worked">
+  <div class="col">
+    <div class="fs-4 fw-bold">
+      {{daysWorked | number:'1.0-0'}}
+      <span class="chart-legend worked ms-1"></span>
+    </div>
+    <div class="small fw-bold label" i18n="@@Component.ChartTotals.DaysWorked">[i18] days worked</div>
+  </div>
+  <div class="col-auto">
+    <div class="fs-4 fw-bold">
+      {{daysPlanned | number:'1.0-0'}}
+      <span class="chart-legend planned ms-1"></span>
+    </div>
+    <div class="small fw-bold label" i18n="@@Component.ChartTotals.DaysPlanned">[i18] days planned</div>
+  </div>
+</div>
+
+<div class="planned-days-left">
+  <span class="fs-4 fw-bold">
+    {{daysDifference | number:'1.0-0'}}
+  </span>
+  <span i18n="@@Component.ChartTotals.OfDays">
+    [i18n] of {{daysPlanned | number:'1.0-0' //i18n(ph="OFDAYS")}}
+  </span>
+  <div class="small fw-bold label" i18n="@@Component.ChartTotals.DaysPlannedLeft">
+    [i18n] of planned days left
+  </div>
+</div>
+
+<div class="workdays-left">
+  <span class="fs-4 fw-bold">
+    {{workdaysLeft | number:'1.0-0'}}
+  </span>
+  <span i18n="@@Component.ChartTotals.OfDays">
+    [i18n] of {{workdaysTotal | number:'1.0-0' //i18n(ph="OFDAYS")}}
+  </span>
+  <div class="small fw-bold label" i18n="@@Component.ChartTotals.WorkdaysLeft">
+    [i18n] workdays left
+  </div>
+</div>
+
+<div class="overbooked d-none d-lg-block">
+  <ng-container *ngIf="overbookEntries === 1">
+    <span class="text-warning">
+      <svg class="bi me-2" fill="currentColor">
+        <use xlink:href="assets/icons.svg#exclamation-diamond-fill"/>
+      </svg>
+    </span>
+    <ng-container *ngIf="type === 'customer'" i18n="@@Page.Chart.Customers.CustomerOverbooked">
+      [i18n] {{overbookEntries //i18n(ph="COUNT")}} customer was overbooked
+    </ng-container>
+    <ng-container *ngIf="type === 'order'" i18n="@@Page.Chart.Orders.OrderOverbooked">
+      [i18n] {{overbookEntries //i18n(ph="COUNT")}} order was overbooked
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="overbookEntries > 1">
+    <span class="text-warning">
+      <svg class="bi me-2" fill="currentColor">
+        <use xlink:href="assets/icons.svg#exclamation-diamond-fill"/>
+      </svg>
+    </span>
+    <span class="fw-bold label">
+      <ng-container *ngIf="type === 'customer'" i18n="@@Page.Chart.Customers.CustomersOverbooked">
+        [i18n] {{overbookEntries //i18n(ph="COUNT")}} customers were overbooked
+      </ng-container>
+      <ng-container *ngIf="type === 'order'" i18n="@@Page.Chart.Orders.OrdersOverbooked">
+        [i18n] {{overbookEntries //i18n(ph="COUNT")}} orders were overbooked
+      </ng-container>
+    </span>
+  </ng-container>
+</div>

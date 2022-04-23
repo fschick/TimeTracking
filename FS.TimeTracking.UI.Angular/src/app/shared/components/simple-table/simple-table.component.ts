@@ -93,7 +93,7 @@ export type Column<TRow> = {
   format?: ((row: TRow, column: Column<TRow>) => string | undefined);
   sortable?: boolean;
   sortType?: 'string' | 'number' | 'date';
-  sort?: ((rowA: TRow, rowB: TRow) => number);
+  sort?: ((rowA: TRow, rowB: TRow, direction: SortOrder) => number);
   filterable?: 'contains' | 'startWith' | 'no';
   filter?: ((row: TRow, filterValue: string) => boolean);
   filterCellTemplate?: FilterCellTemplate<TRow>;
@@ -370,7 +370,7 @@ export class SimpleTableComponent<TRow> {
 
         const columnSortFn = column?.sort;
         if (typeof columnSortFn === 'function')
-          columnResult = columnSortFn(rowA, rowB) * (direction === 'asc' ? 1 : -1);
+          columnResult = columnSortFn(rowA, rowB, direction) * (direction === 'asc' ? 1 : -1);
         else if (column.sortType === undefined || column.sortType === 'string')
           columnResult = this.getCellValue(rowA, column).localeCompare(this.getCellValue(rowB, column)) * (direction === 'asc' ? 1 : -1)
         else if (rowA[prop] > rowB[prop])

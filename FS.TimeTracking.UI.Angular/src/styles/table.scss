@@ -1,4 +1,8 @@
-﻿table th.sort-enabled {
+﻿th {
+  font-weight: $font-weight-bold;
+}
+
+table th.sort-enabled {
   cursor: pointer;
 
   %sort {

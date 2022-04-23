@@ -40,4 +40,9 @@ public class OrderChartController : ControllerBase, IOrderChartService
     [NonAction]
     Task<List<OrderWorkTime>> IOrderChartService.GetWorkedTimesPerOrder(ChartFilter filter, CancellationToken cancellationToken)
         => throw new NotImplementedException("For internal usage only");
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<int> GetPersonalWorkdaysCount(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        => await _chartService.GetPersonalWorkdaysCount(startDate, endDate, cancellationToken);
 }

@@ -54,7 +54,7 @@
 // Active nav item font
 .nav-item.active .nav-link {
   color: $secondary-900;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 // Active nav item underline

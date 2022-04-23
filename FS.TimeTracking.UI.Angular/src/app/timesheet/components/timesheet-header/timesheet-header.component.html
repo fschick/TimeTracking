@@ -7,7 +7,7 @@
             <span class="primary fw-bold text-primary">{{overview.workedDays | number:'1.0-1'}}</span>
             <span class="secondary d-none d-xl-inline" *ngIf="overview.workedDays < 100">({{overview.workedDaysDuration | tsDuration}})</span>
           </ng-container>
-          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.WorkedDays">[i18n] days worked</div>
+          <div class="description fw-bold small text-truncate" i18n="@@Component.Header.DaysWorked">[i18n] days worked</div>
         </div>
         <div class="icon briefcase"></div>
       </div>
@@ -19,7 +19,7 @@
             <span class="primary fw-bold text-primary">{{overview.workdays | number:'1.0-1'}}</span>
             <span class="secondary d-none d-xl-inline" *ngIf="overview.workdays < 100">({{overview.workdaysDuration | tsDuration:daysOnlyFormat}})</span>
           </ng-container>
-          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.Workdays">[i18n] working days</div>
+          <div class="description fw-bold small text-truncate" i18n="@@Component.Header.Workdays">[i18n] working days</div>
         </div>
         <div class="icon calendar-week"></div>
       </div>
@@ -31,7 +31,7 @@
             <span class="primary fw-bold text-primary">{{overview.holidays | number:'1.0-1'}}</span>
             <span class="secondary d-none d-xl-inline" *ngIf="overview.holidays < 100">({{overview.holidaysDuration | tsDuration:daysOnlyFormat}})</span>
           </ng-container>
-          <div class="description fw-bold small text-truncate" i18n="@@Page.Timesheet.VacationDays">[i18n] vacation days</div>
+          <div class="description fw-bold small text-truncate" i18n="@@Component.Header.VacationDays">[i18n] vacation days</div>
         </div>
         <div class="icon sun"></div>
       </div>
