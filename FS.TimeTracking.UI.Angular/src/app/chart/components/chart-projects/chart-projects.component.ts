@@ -33,8 +33,8 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
   public tableFooter: Partial<ProjectWorkTimeDto> = {};
   private readonly subscriptions = new Subscription();
 
-  public localizedDays = $localize`:@@Abbreviations.Days:[i18n] days`;
-  public localizedHours = $localize`:@@Abbreviations.Hours:[i18n] h`;
+  public readonly LOCALIZED_DAYS = $localize`:@@Abbreviations.Days:[i18n] days`;
+  public readonly LOCALIZED_HOURS = $localize`:@@Abbreviations.Hours:[i18n] h`;
 
   constructor(
     public formatService: FormatService,
@@ -77,6 +77,8 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
   }
 
   public tableRowsChanged(rows: Array<ProjectWorkTimeDto>): void {
+    const maxYValue = Math.max(...rows.map(row => row.daysWorked));
+    this.chartOptions = this.chartService.createChartOptions(rows.length, maxYValue);
     this.chartSeries = this.createSeries(rows);
     this.changeDetector.detectChanges();
   }
@@ -89,7 +91,7 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
     this.tableRows = rows;
     this.tableFooter = {
       daysWorked: this.utilityService.sum(rows.map(row => row.daysWorked)),
-      timeWorked: this.utilityService.durationSum(rows.map(row => row.timeWorked)),
+      timeWorked: this.utilityService.sumDuration(rows.map(row => row.timeWorked)),
       budgetWorked: this.utilityService.sum(rows.map(row => row.budgetWorked)),
       totalWorkedPercentage: 1,
       currency: rows[0]?.currency,
@@ -103,7 +105,7 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
         data: workTimes.map(workTime => ({
           x: workTime.projectTitle,
           y: workTime.daysWorked,
-          meta: {time: workTime.timeWorked}
+          meta: {days: workTime.daysWorked, time: workTime.timeWorked}
         }))
       }
     ];
@@ -116,7 +118,7 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssFooterRow: 'text-strong',
+      cssFooterRow: 'fw-bold',
     };
   }
 
@@ -142,8 +144,8 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
         cssHeadCell: `${cssHeadCell} text-nowrap text-end`,
         cssDataCell: 'text-nowrap text-end',
         cssFooterCell: 'text-nowrap text-end',
-        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.localizedDays}`,
-        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.localizedDays}`,
+        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.LOCALIZED_DAYS}`,
+        footer: () => `${this.formatService.formatDays(this.tableFooter.daysWorked)} ${this.LOCALIZED_DAYS}`,
       }, {
         title: $localize`:@@Page.Chart.Common.TotalWorkedPercentage:[i18n] worked %`,
         prop: 'totalWorkedPercentage',

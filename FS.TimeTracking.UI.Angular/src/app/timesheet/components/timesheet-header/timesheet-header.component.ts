@@ -64,7 +64,7 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
 
     const visible = router.events
       .pipe(filter(x => x instanceof NavigationEnd), map(x => x as NavigationEnd),)
-      .subscribe(x => this.visible = x.url.match(/^(\/|\/[0-9a-f]{8}-.*|\/chart\/.*)$/) != null);
+      .subscribe(x => this.visible = x.url.match(/^(\/|\/[0-9a-f]{8}-.*)$/) != null);
     this.subscriptions.add(visible);
   }
 

@@ -35,6 +35,7 @@ import {MasterDataOrdersEditComponent} from './master-data/components/master-dat
 import {LocalizationService} from './shared/services/internationalization/localization.service';
 import {NumericDirective} from './shared/directives/numeric.directive';
 import {DatePickerDirective} from './shared/directives/date-picker.directive';
+import {NgLetModule} from 'ng-let';
 import {Settings} from 'luxon';
 import {TimePipe} from './shared/pipes/time.pipe';
 import {DatePipe} from './shared/pipes/date.pipe';
@@ -56,10 +57,11 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import {NgLetModule} from 'ng-let';
 import { ClearableInputComponent } from './shared/components/clearable-input/clearable-input.component';
 import { OptionalLabelDirective } from './shared/directives/optional-label.directive';
 import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
+import { ChartWorkdayInfoComponent } from './chart/components/chart-workday-info/chart-workday-info.component';
+import { ChartTotalsOverviewComponent } from './chart/components/chart-totals-overview/chart-totals-overview.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +104,8 @@ import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/
     TimeSheetHeaderComponent,
     ClearableInputComponent,
     OptionalLabelDirective,
+    ChartWorkdayInfoComponent,
+    ChartTotalsOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -127,6 +131,7 @@ import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/
   providers: [
     DatePipe,
     DecimalPipe,
+    DurationPipe,
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,

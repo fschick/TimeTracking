@@ -20,7 +20,6 @@ export interface Filter {
 }
 
 type FilterTemplates = Record<FilterName, TemplateRef<any>>;
-type FilterControlName = keyof FilterControls;
 type FilterControls = Record<FilterName, AbstractControl>;
 
 interface AdditionalFilteredRequestParams {
@@ -65,8 +64,8 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('showDetails') private showDetails!: TemplateRef<any>;
   @ViewChild('filterNotImplemented') private filterNotImplemented!: TemplateRef<any>;
 
-  public primaryFilters: Filter[];
-  public secondaryFilters: Filter[];
+  public visibleFilters: Filter[];
+  public hiddenFilters: Filter[];
   public _filters?: Filter[];
   public customers$: Observable<StringTypeaheadDto[]> = EMPTY;
   public projects$: Observable<StringTypeaheadDto[]> = EMPTY;
@@ -90,8 +89,8 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     private dateParserService: DateParserService,
     private entityService: EntityService,
   ) {
-    this.primaryFilters = this.getPrimaryFilters();
-    this.secondaryFilters = this.getSecondaryFilters();
+    this.visibleFilters = this.getVisibleFilters();
+    this.hiddenFilters = this.getHiddenFilters();
   }
 
   public ngOnInit(): void {
@@ -102,8 +101,8 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
         map(filter => this.unifyEmptyValues(filter)),
         tap(filter => {
           this.saveFilterFormValue(filter);
-          this.primaryFilters = this.getPrimaryFilters();
-          this.secondaryFilters = this.getSecondaryFilters();
+          this.visibleFilters = this.getVisibleFilters();
+          this.hiddenFilters = this.getHiddenFilters();
           this.filterCollapsed = true;
         }),
         shareReplay(1)
@@ -115,6 +114,10 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       .pipe(map(timeSheetFilter => this.convertToFilteredRequestParams(timeSheetFilter)))
       .subscribe(timeSheetFilter => this.entityService.filterChanged.next(timeSheetFilter));
     this.subscriptions.add(filterChangedEmitter);
+
+    const filterValuesChangedEmitter = this.onFilterChanged$
+      .subscribe(timeSheetFilter => this.entityService.filterValuesChanged.next(timeSheetFilter));
+    this.subscriptions.add(filterValuesChangedEmitter);
 
     if (this._filters !== undefined)
       this.applyFilterValues(this._filters);
@@ -167,8 +170,8 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       showDetails: this.showDetails,
     };
 
-    this.primaryFilters = this.getPrimaryFilters();
-    this.secondaryFilters = this.getSecondaryFilters();
+    this.visibleFilters = this.getVisibleFilters();
+    this.hiddenFilters = this.getHiddenFilters();
 
     this.changeDetector.detectChanges();
   }
@@ -219,14 +222,14 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return this.isFiltered(filter);
   }
 
-  private getPrimaryFilters(): Filter[] {
+  private getVisibleFilters(): Filter[] {
     const primaryFilters = this._filters?.filter(filter => filter.isPrimary) ?? [];
     const filteredFilters = this._filters?.filter(filter => !filter.isPrimary && this.isFiltered(filter)) ?? [];
     return [...primaryFilters, ...filteredFilters];
   }
 
-  private getSecondaryFilters(): Filter[] {
-    const primaryFilterNames = this.getPrimaryFilters().map(filter => filter.name);
+  private getHiddenFilters(): Filter[] {
+    const primaryFilterNames = this.getVisibleFilters().map(filter => filter.name);
     return this._filters?.filter(filter => primaryFilterNames.indexOf(filter.name) < 0) ?? [];
   }
 
@@ -271,7 +274,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return filterForm;
   }
 
-  private getInitialFilterValues(): Record<FilterControlName, any> {
+  private getInitialFilterValues(): Record<FilterName, any> {
     const emptyFilter = this.getEmptyFilter();
     const savedFilter = this.loadSavedFilter();
     const queryFilter = this.getFilterFromQuery(emptyFilter);
@@ -284,14 +287,14 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     this.storageService.set(this.filterId, JSON.stringify(filter))
   }
 
-  private loadSavedFilter(): Record<FilterControlName, any> {
+  private loadSavedFilter(): Record<FilterName, any> {
     if (this.filterId === undefined)
       throw Error('Input "filterId" is required');
     const rawSavedFilter = JSON.parse(this.storageService.get(this.filterId, '{}'));
     return this.dateParserService.convertJsStringsToLuxon(rawSavedFilter);
   }
 
-  private getEmptyFilter(): Record<FilterControlName, undefined> {
+  private getEmptyFilter(): Record<FilterName, undefined> {
     return {
       timeSheetId: undefined,
       timeSheetIssue: undefined,
@@ -339,7 +342,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-  private getFilterFromQuery(emptyFilter: Record<FilterControlName, undefined>): Partial<Record<FilterControlName, any>> {
+  private getFilterFromQuery(emptyFilter: Record<FilterName, undefined>): Partial<Record<FilterName, any>> {
     const queryParameterMap: ParamMap = this.route.snapshot.queryParamMap;
     const booleanFilters: FilterName[] = ['timeSheetBillable', 'projectHidden', 'customerHidden', 'activityHidden', 'orderHidden'];
     const numericFilters: FilterName[] = ['customerHourlyRate', 'orderHourlyRate', 'orderBudget'];
@@ -363,9 +366,9 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return Object.fromEntries(filterableQueryParams);
   }
 
-  private unifyEmptyValues(filter: Record<FilterControlName, any>): Record<FilterControlName, any> {
+  private unifyEmptyValues(filter: Record<FilterName, any>): Record<FilterName, any> {
     for (const name of Object.keys(filter)) {
-      const filterName = name as FilterControlName;
+      const filterName = name as FilterName;
       const hasEmptyValue =
         filter[filterName] == null ||
         filter[filterName] === '' ||
@@ -380,7 +383,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return filter;
   }
 
-  private convertToFilteredRequestParams(filter: Record<FilterControlName, any>): FilteredRequestParams {
+  private convertToFilteredRequestParams(filter: Record<FilterName, any>): FilteredRequestParams {
     if (!this._filters)
       return {};
 
@@ -415,7 +418,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return Object.fromEntries(filterRequestParams);
   }
 
-  private registerDateSync(formControls: FilterControls, startDate: FilterControlName, endDate: FilterControlName) {
+  private registerDateSync(formControls: FilterControls, startDate: FilterName, endDate: FilterName) {
     const startDateChanged = formControls[startDate].valueChanges.subscribe((newStartDate: DateTime) => {
       if (formControls[endDate].value && formControls[endDate].value < newStartDate) {
         if (newStartDate.day === 1)

@@ -6,7 +6,7 @@
 .form-label {
   color: $gray-800;
   font-size: 0.875rem;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 /* ----------------------------------------- */
@@ -242,12 +242,70 @@
 /* Alerts
 /* ----------------------------------------- */
 .alert {
-  font-weight: bold;
+  font-weight: $font-weight-bold;
   text-align: center;
 
   &.alert-warning {
     color: $warning-700;
     background-color: $warning-100;
     border-color: $warning-700;
+  }
+}
+
+/* ----------------------------------------- */
+/* Tables
+/* ----------------------------------------- */
+.table {
+  //font-size: 14px;
+
+  th {
+    color: $gray-600;
+  }
+
+  tbody tr:not(:last-child) {
+    border-bottom: 1px solid $gray-200;
+  }
+
+  tr.selected {
+    background-color: $primary-100;
+  }
+
+  tfoot {
+    color: $green-900;
+    background-color: $gray-100;
+  }
+}
+
+/* ----------------------------------------- */
+/* Charts
+/* ----------------------------------------- */
+.apexcharts-gridlines-horizontal {
+  line:last-child {
+    display: none;
+  }
+}
+
+.apexcharts-tooltip {
+  //opacity: 1 !important;
+  padding: 1.125rem 1.25rem;
+  border: none !important;
+  background: #F3F3F3 !important;
+  box-shadow: 0 5px 15px 0 $gray-300;
+}
+
+.chart-legend {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 0.1875rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -.2rem;
+
+  &.worked {
+    background-color: $primary-500;
+  }
+
+  &.planned {
+    background-color: $primary-200;
   }
 }

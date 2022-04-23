@@ -19,16 +19,17 @@
     <apx-chart
       [series]="chartSeries"
       [chart]="chartOptions.chart"
-      [dataLabels]="chartOptions.dataLabels"
-      [plotOptions]="chartOptions.plotOptions"
       [xaxis]="chartOptions.xAxis"
       [yaxis]="chartOptions.yAxis"
       [colors]="chartOptions.colors"
-      [stroke]="chartOptions.stroke"
-      [tooltip]="chartOptions.tooltip"
+      [plotOptions]="chartOptions.plotOptions"
+      [fill]="chartOptions.fill"
+      [grid]="chartOptions.grid"
       [states]="chartOptions.states"
-      [legend]="chartOptions.legend"
-    ></apx-chart>
+      [dataLabels]="chartOptions.dataLabels"
+      [tooltip]="chartOptions.tooltip"
+      [legend]="chartOptions.legend">
+    </apx-chart>
   </div>
 
   <ts-simple-table
@@ -62,8 +63,8 @@
       <tbody>
       <tr>
         <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Worked">[i18n] Worked</th>
-        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{localizedDays}}</td>
-        <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{localizedHours}}</td>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{LOCALIZED_DAYS}}</td>
+        <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{LOCALIZED_HOURS}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetWorked)}} {{row.currency}}</td>
       </tr>
       </tbody>

@@ -159,6 +159,13 @@ public class OrderChartService : IOrderChartService
         return plannedTimesPerOrder;
     }
 
+    /// <inheritdoc />
+    public async Task<int> GetPersonalWorkdaysCount(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+    {
+        var workdays = await _workdayService.GetWorkdays(startDate, endDate, cancellationToken);
+        return workdays.PersonalWorkdays.Count;
+    }
+
     private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Range<DateTimeOffset> selectedPeriod)
     {
         var orderPeriod = new Range<DateTimeOffset>(order.StartDate, order.DueDate.AddDays(1));

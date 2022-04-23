@@ -52,19 +52,36 @@
     "Chart": {
       "Title": "Charts",
       "Common": {
+        "OfDays": "von {$OFDAYS}",
+        "OfTotalTime": "der Gesamtzeit",
+        "PlannedDaysLeft": "geplante Tage übrig",
+        "WorkdaysLeft": "Arbeitstage übrig",
+        "DaysWorked": "Tage geleistet",
+        "DaysPlanned": "Tage geplant",
         "Days": "Tage",
         "Hours": "Stunden",
         "Budget": "Budget",
         "Worked": "geleistet",
         "Planned": "geplant",
-        "Remain": "verbleiben",
+        "Left": "verbleiben",
         "Percentage": "%",
+        "Other": "Sonstige",
         "TotalWorkedPercentage": "geleistet",
         "TotalPlannedPercentage": "geplant",
+        "PinTableRow": "Bitte eine Zeile in der Tabelle anpinnen!",
         "PartialPlannedValues": "Der Auftragszeitraum ist größer als der ausgewählte Zeitraum. Die Werte werden anteilig dargestellt."
       },
       "Customers": {
-        "Title": "Soll/Ist nach Kunde"
+        "Title": "Soll / Ist nach Kunde",
+        "NoCustomerOverbooked": "Kein Kunde überbucht",
+        "CustomerOverbooked": "{$COUNT} Kunde überbucht",
+        "CustomersOverbooked": "{$COUNT} Kunden überbucht"
+      },
+      "Orders": {
+        "Title": "Soll / Ist nach Auftrag",
+        "NoOrderOverbooked": "Kein Auftrag überbucht",
+        "OrderOverbooked": "{$COUNT} Auftrag überbucht",
+        "OrdersOverbooked": "{$COUNT} Aufträge überbucht"
       },
       "Projects": {
         "Title": "Nach Projekt"
@@ -74,9 +91,6 @@
       },
       "Issues": {
         "Title": "Nach Issue"
-      },
-      "Orders": {
-        "Title": "Soll/Ist nach Auftrag"
       }
     },
     "MasterData": {

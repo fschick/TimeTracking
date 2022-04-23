@@ -52,19 +52,38 @@
     "Chart": {
       "Title": "Charts",
       "Common": {
+        "OfDays": "of {$OFDAYS}",
+        "OfTotalTime": "of total time",
+        "PlannedDaysLeft": "planned days left",
+        "WorkdaysLeft": "workdays left",
+        "DaysWorked": "days worked",
+        "DaysPlanned": "days planned",
+        "HoursWorked": "hours planned",
+        "HoursPlanned": "hours planned",
         "Days": "Days",
         "Hours": "Hours",
         "Budget": "Budget",
         "Worked": "Worked",
         "Planned": "Planned",
-        "Remain": "Remain",
+        "Left": "Left",
         "Percentage": "%",
+        "Other": "Other",
         "TotalWorkedPercentage": "Worked",
         "TotalPlannedPercentage": "Planned",
+        "PinTableRow": "Please pin a row in the grid!",
         "PartialPlannedValues": "The order period is greater than selected period. The values are displayed proportionally."
       },
       "Customers": {
-        "Title": "Planned/actual by customer"
+        "Title": "Planned / actual by customer",
+        "NoCustomerOverbooked": "No customer overbooked",
+        "CustomerOverbooked": "{$COUNT} customer overbooked",
+        "CustomersOverbooked": "{$COUNT} customers overbooked"
+      },
+      "Orders": {
+        "Title": "Planned / actual by order",
+        "NoOrderOverbooked": "No order overbooked",
+        "OrderOverbooked": "{$COUNT} order overbooked",
+        "OrdersOverbooked": "{$COUNT} orders overbooked"
       },
       "Projects": {
         "Title": "By project"
@@ -74,9 +93,6 @@
       },
       "Issues": {
         "Title": "By issue"
-      },
-      "Orders": {
-        "Title": "Planned/actual by order"
       }
     },
     "MasterData": {

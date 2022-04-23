@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../api';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
-import {FilteredRequestParams} from '../../components/filter/filter.component';
+import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
 
 export interface EntityChanged<TDto> {
   entity?: TDto;
@@ -23,6 +23,7 @@ export type CrudService<TDto> = {
 })
 export class EntityService {
   public filterChanged = new Subject<FilteredRequestParams>();
+  public filterValuesChanged = new Subject<Record<FilterName, any>>();
   public timesheetChanged = new Subject<EntityChanged<TimeSheetGridDto>>();
   public orderChanged = new Subject<EntityChanged<OrderGridDto>>();
   public activityChanged = new Subject<EntityChanged<ActivityGridDto>>();

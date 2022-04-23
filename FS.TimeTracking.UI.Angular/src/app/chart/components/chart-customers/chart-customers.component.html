@@ -15,34 +15,54 @@
   <h4 class="d-inline-block" i18n="@@Page.Chart.Customers.Title">
     [i18n] Planned/actual by customer
   </h4>
-  <div id="chart" *ngIf="chartSeries">
-    <apx-chart
-      [series]="chartSeries"
-      [chart]="chartOptions.chart"
-      [dataLabels]="chartOptions.dataLabels"
-      [plotOptions]="chartOptions.plotOptions"
-      [xaxis]="chartOptions.xAxis"
-      [yaxis]="chartOptions.yAxis"
-      [colors]="chartOptions.colors"
-      [stroke]="chartOptions.stroke"
-      [tooltip]="chartOptions.tooltip"
-      [states]="chartOptions.states"
-      [legend]="chartOptions.legend"
-    ></apx-chart>
+  <div class="row">
+    <div class="col-3">
+      <ts-chart-workday-info
+        type="customer"
+        [overbookEntries]="overbookedCustomers"
+        [daysPlanned]="tableFooter.daysPlanned"
+        [daysWorked]="tableFooter.daysWorked">
+      </ts-chart-workday-info>
+    </div>
+    <div class="col-9">
+      <div id="chart" *ngIf="chartSeries">
+        <apx-chart
+          [series]="chartSeries"
+          [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xAxis"
+          [yaxis]="chartOptions.yAxis"
+          [colors]="chartOptions.colors"
+          [plotOptions]="chartOptions.plotOptions"
+          [fill]="chartOptions.fill"
+          [grid]="chartOptions.grid"
+          [states]="chartOptions.states"
+          [dataLabels]="chartOptions.dataLabels"
+          [tooltip]="chartOptions.tooltip"
+          [legend]="chartOptions.legend">
+        </apx-chart>
+      </div>
+    </div>
   </div>
 
+  <ts-chart-totals-overview
+    [rows]="chartRows"
+    [selectedRow]="chartRowsSelected">
+  </ts-chart-totals-overview>
+
   <ts-simple-table
+    class="d-block mt-5"
     [columns]="tableColumns"
     [rows]="tableRows"
     [configuration]="tableConfiguration"
-    (rowsChanged)="tableRowsChanged($event.rows)">
+    (rowsChanged)="tableRowsChanged($event.rows)"
+    (dataCellClick)="dataCellClick($event)">
   </ts-simple-table>
 
   <div *ngIf="plannedArePartial" class="row">
     <div class="col p-0">
       <div class="alert alert-warning m-2" role="alert">
         <svg class="bi me-2" fill="currentColor">
-          <use xlink:href="assets/icons.svg#exclamation-circle"/>
+          <use xlink:href="assets/icons.svg#calendar-range"/>
         </svg>
         <ng-container i18n="@@Page.Chart.Common.PartialPlannedValues">
           [i18n] The order period is greater than selected period. The values are displayed proportionally.
@@ -52,6 +72,16 @@
   </div>
 </ng-template>
 
+<ng-template #customerDataTemplate let-row="row">
+  <span class="chart-legend me-2" [ngStyle]="{'background-color': row.color}"></span>
+  <span *ngIf="row.selected" class="text-primary me-2">
+    <svg class="bi" fill="currentColor">
+      <use xlink:href="assets/icons.svg#pin-angle-fill"/>
+    </svg>
+  </span>
+  <span class="customer-title">{{row.customerTitle}}</span>
+</ng-template>
+
 <ng-template #orderPeriodHeadTemplate let-table="table" let-column="column">
   <span class="d-none d-lg-inline">{{column.title}}</span>
   <span class="d-none d-lg-inline" [class]="table.getCssSortOrder(column)">{{table.getGlyphSortOrder(column)}}</span>
@@ -59,9 +89,16 @@
 
 <ng-template #orderPeriodDataTemplate let-row="row">
   <span class="d-none d-lg-inline">{{formatService.formatDate(row.plannedStart)}} - {{formatService.formatDate(row.plannedEnd)}}</span>
-  <svg *ngIf="row.plannedIsPartial" class="bi text-warning ms-1" fill="currentColor">
-    <use xlink:href="assets/icons.svg#exclamation-circle"/>
+  <svg *ngIf="row.plannedIsPartial" class="bi text-warning ms-2" fill="currentColor">
+    <use xlink:href="assets/icons.svg#calendar-range"/>
   </svg>
+</ng-template>
+
+<ng-template #daysDifferenceTemplate let-row="row">
+  <svg *ngIf="row.daysDifference < 0" class="bi text-warning me-2" fill="currentColor">
+    <use xlink:href="assets/icons.svg#exclamation-diamond-fill"/>
+  </svg>
+  <span class="d-none d-lg-inline">{{formatService.formatDays(row.daysDifference)}}</span>
 </ng-template>
 
 <ng-template #orderPeriodFooterTemplate>
@@ -92,23 +129,23 @@
       <tbody>
       <tr *ngIf="row.daysPlanned">
         <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Planned">[i18n] Planned</th>
-        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysPlanned)}} {{localizedDays}}</td>
-        <td class="text-nowrap text-end">{{row.timePlanned | tsDuration}} {{localizedHours}}</td>
-        <td class="text-nowrap text-end">100 {{localizedPercentage}}</td>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysPlanned)}} {{LOCALIZED_DAYS}}</td>
+        <td class="text-nowrap text-end">{{row.timePlanned | tsDuration}} {{LOCALIZED_HOURS}}</td>
+        <td class="text-nowrap text-end">100 {{LOCALIZED_PERCENTAGE}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetPlanned)}} {{row.currency}}</td>
       </tr>
       <tr>
         <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Worked">[i18n] Worked</th>
-        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{localizedDays}}</td>
-        <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{localizedHours}}</td>
-        <td class="text-nowrap text-end">{{row.completed * 100 | number:'1.0-0'}} {{localizedPercentage}}</td>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysWorked)}} {{LOCALIZED_DAYS}}</td>
+        <td class="text-nowrap text-end">{{row.timeWorked | tsDuration}} {{LOCALIZED_HOURS}}</td>
+        <td class="text-nowrap text-end">{{row.completed * 100 | number:'1.0-0'}} {{LOCALIZED_PERCENTAGE}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetWorked)}} {{row.currency}}</td>
       </tr>
       <tr *ngIf="row.daysPlanned">
-        <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Remain">[i18n] Remain</th>
-        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysDifference)}} {{localizedDays}}</td>
-        <td class="text-nowrap text-end">{{row.timeDifference | tsDuration}} {{localizedHours}}</td>
-        <td *ngIf="row.daysPlanned" class="text-nowrap text-end">{{(1 - row.completed) * 100 | number:'1.0-0'}} {{localizedPercentage}}</td>
+        <th scope="row" class="pe-2" i18n="@@Page.Chart.Common.Left">[i18n] Left</th>
+        <td class="text-nowrap text-end">{{formatService.formatDays(row.daysDifference)}} {{LOCALIZED_DAYS}}</td>
+        <td class="text-nowrap text-end">{{row.timeDifference | tsDuration}} {{LOCALIZED_HOURS}}</td>
+        <td *ngIf="row.daysPlanned" class="text-nowrap text-end">{{(1 - row.completed) * 100 | number:'1.0-0'}} {{LOCALIZED_PERCENTAGE}}</td>
         <td class="text-nowrap text-end">{{formatService.formatBudget(row.budgetDifference)}} {{row.currency}}</td>
       </tr>
       </tbody>

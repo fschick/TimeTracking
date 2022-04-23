@@ -8,7 +8,7 @@
   <ng-container *ngIf="filterTemplates">
     <!-- Standard filter -->
     <div class="row g-3">
-      <ng-container *ngFor="let filter of primaryFilters">
+      <ng-container *ngFor="let filter of visibleFilters">
         <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
       </ng-container>
     </div>
@@ -16,7 +16,7 @@
     <!-- Extended filter -->
     <div id="extendedFilter" #collapse="ngbCollapse" [(ngbCollapse)]="filterCollapsed">
       <div class="row g-3 my-0">
-        <ng-container *ngFor="let filter of secondaryFilters">
+        <ng-container *ngFor="let filter of hiddenFilters">
           <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
         </ng-container>
       </div>
@@ -24,7 +24,7 @@
 
     <div class="row justify-content-center">
       <div class="col-auto">
-        <button *ngIf="secondaryFilters && secondaryFilters.length"
+        <button *ngIf="hiddenFilters && hiddenFilters.length"
                 id="extended-filter-toggler"
                 type="button"
                 class="btn btn-secondary add-filter"
