@@ -1,8 +1,5 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using Microsoft.AspNetCore.Mvc;
@@ -26,11 +23,6 @@ public class WorkdayController : Controller, IWorkdayService
     /// <param name="workdayService">The workday service.</param>
     public WorkdayController(IWorkdayService workdayService)
         => _workdayService = workdayService;
-
-    /// <inheritdoc />
-    [HttpGet]
-    public async Task<WorkedDaysInfoDto> GetWorkedDaysInfo([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _workdayService.GetWorkedDaysInfo(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]

@@ -56,10 +56,10 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import {PageHeaderComponent} from './layout/components/page-header/page-header.component';
 import {NgLetModule} from 'ng-let';
 import { ClearableInputComponent } from './shared/components/clearable-input/clearable-input.component';
 import { OptionalLabelDirective } from './shared/directives/optional-label.directive';
+import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +99,7 @@ import { OptionalLabelDirective } from './shared/directives/optional-label.direc
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
     RouterLinkCtrlClickDirective,
-    PageHeaderComponent,
+    TimeSheetHeaderComponent,
     ClearableInputComponent,
     OptionalLabelDirective,
   ],

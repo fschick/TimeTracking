@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
 import {filter, map, single, switchMap} from 'rxjs/operators';
-import {WorkdayAggregationUnit, WorkdayService, WorkedDaysInfoDto} from '../../../shared/services/api';
+import {TimeSheetService, WorkdayAggregationUnit, WorkedDaysInfoDto} from '../../../shared/services/api';
 import {DateTime, Duration} from 'luxon';
 import {Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
@@ -9,7 +9,7 @@ import {FormatService} from '../../../shared/services/format.service';
 import {ApexAxisChartSeries, ApexChart, ApexPlotOptions, ApexStates, ApexTooltip, ApexXAxis} from 'ng-apexcharts';
 import {$localize} from '@angular/localize/init';
 import {DecimalPipe} from '@angular/common';
-import {ActivationEnd, NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 
 class WorkTimeOverviewDto {
   workedDays = 0;
@@ -30,11 +30,11 @@ type ThumbChartOptions = {
 };
 
 @Component({
-  selector: 'ts-page-header',
-  templateUrl: './page-header.component.html',
-  styleUrls: ['./page-header.component.scss']
+  selector: 'ts-timesheet-header',
+  templateUrl: './timesheet-header.component.html',
+  styleUrls: ['./timesheet-header.component.scss']
 })
-export class PageHeaderComponent implements OnInit, OnDestroy {
+export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
   private readonly hoursAbbr: string;
   private readonly daysAbbr: string;
@@ -51,7 +51,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private entityService: EntityService,
-    private workdayService: WorkdayService,
+    private timeSheetService: TimeSheetService,
     private decimalPipe: DecimalPipe,
     private formatService: FormatService,
   ) {
@@ -83,8 +83,8 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   }
 
   private loadData(filter: FilteredRequestParams) {
-    return this.workdayService
-      .getWorkedDaysInfo(filter)
+    return this.timeSheetService
+      .getWorkedDaysOverview(filter)
       .pipe(
         single(),
         map(workedTimeInfo => this.createWorkTimeOverview(workedTimeInfo))
