@@ -1,9 +1,13 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.Shared;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
@@ -33,4 +37,9 @@ public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGr
     [HttpPut]
     public async Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
         => await _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<WorkedDaysInfoDto> GetWorkedDaysOverview([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+        => await _timeSheetService.GetWorkedDaysOverview(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
 }
