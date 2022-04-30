@@ -58,12 +58,12 @@ export type DataCellTemplate<TRow> = TemplateRef<{
 export class Configuration<TRow> {
   public cssWrapper = '';
   public cssTable = '';
-  public cssHeadRow = '';
+  public cssHeadRow: string | (() => string) = '';
   public cssHeadCell = '';
   public cssFilterCell = '';
-  public cssDataRow = '';
+  public cssDataRow: string | ((row: TRow) => string) = '';
   public cssDataCell = '';
-  public cssFooterRow = '';
+  public cssFooterRow: string | (() => string) = '';
   public cssFooterCell = '';
   public cssSortEnabled = 'sort-enabled';
   public cssSortAsc = 'sort-asc';
@@ -179,6 +179,12 @@ export class SimpleTableComponent<TRow> {
     return column.width ? `width: ${column.width}` : '';
   }
 
+  public getCssHeadRow(): string {
+    if (typeof this.configuration.cssHeadRow === 'function')
+      return this.configuration.cssHeadRow();
+    return this.configuration.cssHeadRow ? this.configuration.cssHeadRow : '';
+  }
+
   public getCssHeadCell(column: Column<TRow>): string {
     if (typeof column.cssHeadCell === 'function')
       return column.cssHeadCell(column);
@@ -195,10 +201,22 @@ export class SimpleTableComponent<TRow> {
     return column.sortable !== false ? this.configuration.cssSortEnabled : '';
   }
 
+  public getCssDataRow(row: TRow): string {
+    if (typeof this.configuration.cssDataRow === 'function')
+      return this.configuration.cssDataRow(row);
+    return this.configuration.cssDataRow ? this.configuration.cssDataRow : '';
+  }
+
   public getCssDataCell(row: TRow, column: Column<TRow>): string {
     if (typeof column.cssDataCell === 'function')
       return column.cssDataCell(row, column);
     return column.cssDataCell ? column.cssDataCell : '';
+  }
+
+  public getCssFooterRow(): string {
+    if (typeof this.configuration.cssFooterRow === 'function')
+      return this.configuration.cssFooterRow();
+    return this.configuration.cssFooterRow ? this.configuration.cssFooterRow : '';
   }
 
   public getCssFooterCell(column: Column<TRow>): string {

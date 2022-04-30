@@ -14,7 +14,7 @@
 </div>
 
 <ng-template #defaultHeadRowTemplate let-columns="columns">
-  <tr [class]="configuration.cssHeadRow">
+  <tr [class]="getCssHeadRow()">
     <th *ngFor="let column of columns;"
         [ngClass]="[configuration.cssHeadCell, getCssHeadCell(column), getCssSortEnabled(column)]"
         [style]="getColumnWidth(column)"
@@ -39,7 +39,7 @@
 
 <ng-template #defaultDataRowTemplate let-columns="columns">
   <tr *ngFor="let row of filteredRows; index as index, count as count; first as first; last as last; even as even; odd as odd; trackBy: configuration.trackBy;"
-      [class]="configuration.cssDataRow">
+      [class]="getCssDataRow(row)">
     <td *ngFor="let column of columns;"
         [ngClass]="[configuration.cssDataCell, getCssDataCell(row, column)]"
         [style]="getColumnWidth(column)"
@@ -50,7 +50,7 @@
 </ng-template>
 
 <ng-template #defaultFooterRowTemplate let-columns="columns">
-  <tr [class]="configuration.cssFooterRow">
+  <tr [class]="getCssFooterRow()">
     <td *ngFor="let column of columns;"
         [ngClass]="[configuration.cssFooterCell, getCssFooterCell(column)]"
         [style]="getColumnWidth(column)">
