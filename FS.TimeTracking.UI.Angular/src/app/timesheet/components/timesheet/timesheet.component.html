@@ -82,7 +82,7 @@
              [ngClass]="{'row-running': !timeSheet.endDate, 'border-bottom': !last}">
 
           <!-- Timesheet row main -->
-          <div class="row mx-0" [ngClass]="{'text-secondary text-decoration-line-through': !timeSheet.billable}">
+          <div class="row mx-0" [ngClass]="{'text-secondary': !timeSheet.billable}">
             <div class="col-4 col-md-3 col-xl-auto">
               <div class="row gx-2">
                 <div class="col-12 col-xl-auto col-start-end">{{timeSheet.startDate| tsTime}}

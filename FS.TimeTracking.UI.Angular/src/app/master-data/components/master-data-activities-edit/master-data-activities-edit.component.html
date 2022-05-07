@@ -30,7 +30,7 @@
                      labelForId="projectName"
                      formControlName="projectId">
             <ng-template ng-option-tmp let-item="item">
-              <span [ngClass]="{'text-decoration-line-through': item.hidden, 'text-secondary': item.hidden}">{{item.value}}</span>
+              <span [ngClass]="{'text-secondary': item.hidden}">{{item.value}}</span>
             </ng-template>
           </ng-select>
         </div>

@@ -30,7 +30,7 @@
 </ng-template>
 
 <ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
-  <span [ngClass]="{'text-secondary text-decoration-line-through': row.hidden}">
+  <span [ngClass]="{'text-secondary': row.hidden}">
     {{table.getCellValue(row, column)}}
   </span>
 </ng-template>
