@@ -96,27 +96,27 @@
     top: 0.9rem;
     bottom: 0.7rem;
     background-position-x: 107%;
-    background-image: url(/assets/icons.svg#briefcase-fill);
+    background-image: url('/assets/icons.svg#briefcase-fill');
   }
 
   &.calendar-week {
     top: 1.2rem;
     bottom: 1.3rem;
     background-position-x: 104%;
-    background-image: url(/assets/icons.svg#calendar3-week-fill);
+    background-image: url('/assets/icons.svg#calendar3-week-fill');
   }
 
   &.sun {
     top: 0.7rem;
     bottom: 0.7rem;
     background-position-x: 106%;
-    background-image: url(/assets/icons.svg#brightness-high-fill);
+    background-image: url('/assets/icons.svg#brightness-high-fill');
   }
 
   &.chart {
     top: 1.4rem;
     bottom: 1.1rem;
     background-position-x: 103%;
-    background-image: url(/assets/icons.svg#bar-chart-line-fill);
+    background-image: url('/assets/icons.svg#bar-chart-line-fill');
   }
 }
