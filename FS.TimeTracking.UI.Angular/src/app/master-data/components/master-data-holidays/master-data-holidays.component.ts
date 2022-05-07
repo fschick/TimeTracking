@@ -56,7 +56,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
 
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-card table-sm align-middle text-break border',
+      cssTable: 'table',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -86,7 +86,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.endDate.toFormat(this.localizationService.dateTime.dateFormat)
       }, {
-        title: $localize`:@@Common.Action:[i18n] Action`,
+        title: '',
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
         cssHeadCell: cssHeadCell,

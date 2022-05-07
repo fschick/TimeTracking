@@ -53,7 +53,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
 
     this.configuration = {
       cssWrapper: 'table-responsive',
-      cssTable: 'table table-card table-sm align-middle text-break border',
+      cssTable: 'table',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
@@ -80,7 +80,7 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
         cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@Common.Action:[i18n] Action`,
+        title: '',
         customId: 'delete',
         dataCellTemplate: this.actionCellTemplate,
         cssHeadCell: cssHeadCell,
