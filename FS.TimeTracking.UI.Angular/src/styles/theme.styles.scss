@@ -20,7 +20,7 @@
   }
 
   &::placeholder {
-    color: $secondary-500;
+    color: $gray-500;
   }
 }
 
@@ -162,8 +162,8 @@
   }
 
   &:disabled, &.disabled {
-    color: $secondary-700;
-    background-color: $secondary-200;
+    color: $gray-700;
+    background-color: $gray-200;
   }
 }
 
@@ -199,8 +199,8 @@
   }
 
   &:disabled, &.disabled {
-    color: $secondary-700;
-    background-color: $secondary-200;
+    color: $gray-700;
+    background-color: $gray-200;
   }
 }
 
@@ -233,8 +233,8 @@
   }
 
   &:disabled, &.disabled {
-    color: $secondary-700;
-    background-color: $secondary-200;
+    color: $gray-700;
+    background-color: $gray-200;
   }
 }
 
