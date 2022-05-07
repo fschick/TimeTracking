@@ -40,7 +40,6 @@ import {Settings} from 'luxon';
 import {TimePipe} from './shared/pipes/time.pipe';
 import {DatePipe} from './shared/pipes/date.pipe';
 import {DurationPipe} from './shared/pipes/duration.pipe';
-import {IconComponent} from './shared/components/icon/icon.component';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
@@ -86,7 +85,6 @@ import { ChartTotalsOverviewComponent } from './chart/components/chart-totals-ov
     DatePipe,
     TimePipe,
     DurationPipe,
-    IconComponent,
     TimesheetEditComponent,
     TimeDirective,
     TimesheetFilterComponent,
