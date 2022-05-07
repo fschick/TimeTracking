@@ -2,12 +2,10 @@
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Extensions;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Abstractions.Models.Application.Chart;
-using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -65,30 +63,30 @@ public class ActivityChartService : IActivityChartService
     {
         var settings = await _settingService.GetSettings(cancellationToken);
 
-        var workedTimesPerActivityAndOrder = await _repository
+        var timeSheetsPerActivityAndOrder = await _repository
             .GetGrouped(
-                groupBy: x => new { x.Activity.Id, x.Activity.Title, x.OrderId },
-                select: x => new ActivityWorkTime
+                groupBy: timeSheet => new { timeSheet.Activity.Id, timeSheet.Activity.Title, timeSheet.OrderId },
+                select: timeSheets => new
                 {
-                    ActivityId = x.Key.Id,
-                    ActivityTitle = x.Key.Title,
-                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
-                    HourlyRate = x.Key.OrderId != null
-                        ? x.Min(t => t.Order.HourlyRate)
-                        : x.Min(t => t.Project.Customer.HourlyRate),
+                    ActivityId = timeSheets.Key.Id,
+                    ActivityTitle = timeSheets.Key.Title,
+                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    HourlyRate = timeSheets.Key.OrderId != null
+                        ? timeSheets.Min(t => t.Order.HourlyRate)
+                        : timeSheets.Min(t => t.Project.Customer.HourlyRate),
                 },
                 where: filter.WorkedTimes.CreateFilter(),
                 cancellationToken: cancellationToken
             );
 
-        var workedTimesPerActivity = workedTimesPerActivityAndOrder
-            .GroupBy(x => new { x.ActivityId, x.ActivityTitle })
-            .Select(x => new ActivityWorkTime
+        var workedTimesPerActivity = timeSheetsPerActivityAndOrder
+            .GroupBy(timeSheet => new { timeSheet.ActivityId, timeSheet.ActivityTitle })
+            .Select(timeSheets => new ActivityWorkTime
             {
-                ActivityId = x.Key.ActivityId,
-                ActivityTitle = x.Key.ActivityTitle,
-                WorkedTime = x.Sum(h => h.WorkedTime),
-                HourlyRate = x.ToList().GetAverageHourlyRate(h => h.WorkedTime),
+                ActivityId = timeSheets.Key.ActivityId,
+                ActivityTitle = timeSheets.Key.ActivityTitle,
+                WorkedTime = timeSheets.Sum(h => h.WorkedTime),
+                WorkedBudget = timeSheets.Select(f => f.WorkedTime.TotalHours * f.HourlyRate).Sum(),
             })
             .ToList();
 

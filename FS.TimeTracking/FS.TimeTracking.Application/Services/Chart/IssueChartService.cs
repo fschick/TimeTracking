@@ -3,12 +3,10 @@ using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Extensions;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
 using FS.TimeTracking.Abstractions.Models.Application.Chart;
-using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -67,30 +65,30 @@ public class IssueChartService : IIssueChartService
     {
         var settings = await _settingService.GetSettings(cancellationToken);
 
-        var workedTimesPerIssueAndOrder = await _repository
+        var timeSheetsPerIssueAndOrder = await _repository
             .GetGrouped(
-                groupBy: x => new { x.Issue, CustomerTitle = x.Project.Customer.Title, x.OrderId },
-                select: x => new IssueWorkTime
+                groupBy: timeSheet => new { timeSheet.Issue, CustomerTitle = timeSheet.Project.Customer.Title, timeSheet.OrderId },
+                select: timeSheets => new
                 {
-                    Issue = x.Key.Issue,
-                    CustomerTitle = x.Key.CustomerTitle,
-                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
-                    HourlyRate = x.Key.OrderId != null
-                        ? x.Min(t => t.Order.HourlyRate)
-                        : x.Min(t => t.Project.Customer.HourlyRate),
+                    timeSheets.Key.Issue,
+                    timeSheets.Key.CustomerTitle,
+                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    HourlyRate = timeSheets.Key.OrderId != null
+                        ? timeSheets.Min(t => t.Order.HourlyRate)
+                        : timeSheets.Min(t => t.Project.Customer.HourlyRate),
                 },
                 where: new[] { x => x.Issue != null, filter.WorkedTimes.CreateFilter() }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 
-        var workedTimesPerIssue = workedTimesPerIssueAndOrder
-            .GroupBy(x => new { x.Issue, x.CustomerTitle })
-            .Select(x => new IssueWorkTime
+        var workedTimesPerIssue = timeSheetsPerIssueAndOrder
+            .GroupBy(timeSheet => new { timeSheet.Issue, timeSheet.CustomerTitle })
+            .Select(timeSheets => new IssueWorkTime
             {
-                Issue = x.Key.Issue,
-                CustomerTitle = x.Key.CustomerTitle,
-                WorkedTime = x.Sum(h => h.WorkedTime),
-                HourlyRate = x.ToList().GetAverageHourlyRate(h => h.WorkedTime),
+                Issue = timeSheets.Key.Issue,
+                CustomerTitle = timeSheets.Key.CustomerTitle,
+                WorkedTime = timeSheets.Sum(h => h.WorkedTime),
+                WorkedBudget = timeSheets.Select(f => f.WorkedTime.TotalHours * f.HourlyRate).Sum(),
             })
             .ToList();
 

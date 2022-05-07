@@ -1,5 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Chart;
@@ -25,7 +24,7 @@ public abstract class WorkTimeDto
     /// Difference between worked and planned days.
     /// </summary>
     [Required]
-    public double? DaysDifference => DaysPlanned - DaysWorked;
+    public double? DaysDifference { get; set; }
 
     /// <summary>
     /// Time worked.
@@ -43,7 +42,7 @@ public abstract class WorkTimeDto
     /// Difference between time worked and planned.
     /// </summary>
     [Required]
-    public TimeSpan? TimeDifference => TimePlanned - TimeWorked;
+    public TimeSpan? TimeDifference => DaysDifference.HasValue ? TimeSpan.FromDays(DaysDifference.Value) : null;
 
     /// <summary>
     /// Consumed budget.
@@ -61,7 +60,7 @@ public abstract class WorkTimeDto
     /// Difference between consumed and planned budget.
     /// </summary>
     [Required]
-    public double? BudgetDifference => BudgetPlanned - BudgetWorked;
+    public double? BudgetDifference { get; set; }
 
     /// <summary>
     /// Start date of planned time.
@@ -96,10 +95,6 @@ public abstract class WorkTimeDto
     /// </summary>
     [Required]
     public double? TotalPlannedPercentage { get; set; }
-
-    /// <inheritdoc cref="Order.HourlyRate"/>
-    [Required]
-    public double? PlannedHourlyRate { get; set; }
 
     /// <summary>
     /// The currency of the order.

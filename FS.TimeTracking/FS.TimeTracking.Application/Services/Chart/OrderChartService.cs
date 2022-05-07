@@ -52,7 +52,7 @@ public class OrderChartService : IOrderChartService
         var totalWorkedDays = workedTimesPerOrder.Sum(x => x.WorkedDays);
         var totalPlannedDays = plannedTimesPerOrder.Sum(x => x.PlannedDays);
 
-        return workedTimesPerOrder
+        var result = workedTimesPerOrder
             .CrossJoin(
                 plannedTimesPerOrder,
                 worked => worked.OrderId,
@@ -78,12 +78,13 @@ public class OrderChartService : IOrderChartService
                         BudgetWorked = worked?.WorkedBudget ?? 0,
                         TimePlanned = planned?.PlannedTime,
                         DaysPlanned = planned?.PlannedDays,
+                        DaysDifference = planned?.PlannedDays - (worked?.WorkedDays ?? 0),
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
+                        BudgetDifference = planned?.PlannedBudget - (worked?.WorkedBudget ?? 0),
                         PlannedStart = plannedTimeSpan?.Start,
                         PlannedEnd = plannedTimeSpan?.End,
                         PlannedIsPartial = !filter.SelectedPeriod.Contains(plannedTimeSpan),
-                        PlannedHourlyRate = planned?.HourlyRate,
                         Currency = settings.Currency,
                     };
                 })
@@ -91,6 +92,11 @@ public class OrderChartService : IOrderChartService
             .ThenBy(x => x.CustomerTitle)
             .ThenBy(x => x.OrderNumber)
             .ToList();
+
+        var s1 = result.Sum(x => x.DaysDifference);
+        var s2 = result.Sum(x => x.TimeDifference ?? TimeSpan.Zero);
+        var s3 = result.Sum(x => x.BudgetDifference);
+        return result;
     }
 
     /// <inheritdoc />
@@ -98,27 +104,40 @@ public class OrderChartService : IOrderChartService
     {
         var settings = await _settingService.GetSettings(cancellationToken);
 
-        var workedTimesPerOrder = await _repository
+        var timeSheetsPerOrder = await _repository
             .GetGrouped(
-                groupBy: x => new { x.OrderId, x.Order.Title, x.Order.Number },
-                select: x => new OrderWorkTime
+                groupBy: timeSheet => new { timeSheet.OrderId, timeSheet.Order.Title, timeSheet.Order.Number },
+                select: timeSheets => new
                 {
-                    OrderId = x.Key.OrderId.Value,
-                    OrderTitle = x.Key.Title,
-                    OrderNumber = x.Key.Number,
-                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
-                    HourlyRate = x.FirstOrDefault().Order.HourlyRate,
-                    CustomerId = x.FirstOrDefault().Project.Customer.Id,
-                    CustomerTitle = x.FirstOrDefault().Project.Customer.Title,
-                    PlannedStart = x.FirstOrDefault().Order.StartDate,
-                    PlannedEnd = x.FirstOrDefault().Order.DueDate,
+                    OrderId = timeSheets.Key.OrderId.Value,
+                    OrderTitle = timeSheets.Key.Title,
+                    OrderNumber = timeSheets.Key.Number,
+                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    timeSheets.FirstOrDefault().Order.HourlyRate,
+                    CustomerId = timeSheets.FirstOrDefault().Project.Customer.Id,
+                    CustomerTitle = timeSheets.FirstOrDefault().Project.Customer.Title,
+                    PlannedStart = timeSheets.FirstOrDefault().Order.StartDate,
+                    PlannedEnd = timeSheets.FirstOrDefault().Order.DueDate,
                 },
                 where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId != null }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 
-        foreach (var workTime in workedTimesPerOrder)
-            workTime.WorkedDays = workTime.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+        var workedTimesPerOrder = timeSheetsPerOrder
+            .Select(timeSheet => new OrderWorkTime
+            {
+                OrderId = timeSheet.OrderId,
+                OrderTitle = timeSheet.OrderTitle,
+                OrderNumber = timeSheet.OrderNumber,
+                WorkedDays = timeSheet.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours,
+                WorkedTime = timeSheet.WorkedTime,
+                WorkedBudget = timeSheet.WorkedTime.TotalHours * timeSheet.HourlyRate,
+                CustomerId = timeSheet.CustomerId,
+                CustomerTitle = timeSheet.CustomerTitle,
+                PlannedStart = timeSheet.PlannedStart,
+                PlannedEnd = timeSheet.PlannedEnd,
+            })
+            .ToList();
 
         return workedTimesPerOrder;
     }
@@ -149,7 +168,7 @@ public class OrderChartService : IOrderChartService
                     CustomerTitle = order.Customer.Title,
                     PlannedTime = plannedTime,
                     PlannedDays = plannedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours,
-                    HourlyRate = order.HourlyRate,
+                    PlannedBudget = plannedTime.TotalHours * order.HourlyRate,
                     PlannedStart = order.StartDate,
                     PlannedEnd = order.DueDate,
                 };

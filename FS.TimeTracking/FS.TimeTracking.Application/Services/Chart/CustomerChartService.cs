@@ -73,12 +73,13 @@ public class CustomerChartService : ICustomerChartService
                         BudgetWorked = worked?.WorkedBudget ?? 0,
                         TimePlanned = planned?.PlannedTime,
                         DaysPlanned = planned?.PlannedDays,
+                        DaysDifference = planned?.PlannedDays - planned?.WorkedDays,
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         BudgetPlanned = planned?.PlannedBudget,
+                        BudgetDifference = planned?.PlannedBudget - planned?.WorkedBudget,
                         PlannedStart = plannedTimeSpan?.Start,
                         PlannedEnd = plannedTimeSpan?.End,
                         PlannedIsPartial = plannedTimeSpan != null && !filter.SelectedPeriod.Contains(plannedTimeSpan),
-                        PlannedHourlyRate = planned?.HourlyRate,
                         Currency = settings.Currency,
                     };
                 })
@@ -109,7 +110,7 @@ public class CustomerChartService : ICustomerChartService
                         CustomerId = withOrder?.CustomerId ?? withoutOrder.CustomerId,
                         CustomerTitle = withOrder?.CustomerTitle ?? withoutOrder.CustomerTitle,
                         WorkedTime = workTimes.Sum(x => x.WorkedTime),
-                        HourlyRate = workTimes.GetAverageHourlyRate(x => x?.WorkedTime),
+                        WorkedBudget = workTimes.Sum(x => x.WorkedBudget),
                         PlannedStart = withOrder?.PlannedStart,
                         PlannedEnd = withOrder?.PlannedEnd,
                     };
@@ -126,56 +127,82 @@ public class CustomerChartService : ICustomerChartService
     private async Task<List<CustomerWorkTime>> GetWorkedTimesWithOrderPerCustomer(ChartFilter filter, CancellationToken cancellationToken)
     {
         var workedTimesPerOrder = await _orderChartService.GetWorkedTimesPerOrder(filter, cancellationToken);
-        var workTimesWithOrder = workedTimesPerOrder
+        var workedTimesPerCustomer = workedTimesPerOrder
             .GroupBy(x => x.CustomerId)
             .Select(orderWorkItems => new CustomerWorkTime
             {
                 CustomerId = orderWorkItems.Key,
                 CustomerTitle = orderWorkItems.First().CustomerTitle,
                 WorkedTime = orderWorkItems.Sum(x => x.WorkedTime),
-                HourlyRate = orderWorkItems.ToList().GetAverageHourlyRate(x => x?.WorkedTime),
+                WorkedBudget = orderWorkItems.Sum(x => x.WorkedBudget),
                 PlannedStart = orderWorkItems.Min(x => x.PlannedStart),
                 PlannedEnd = orderWorkItems.Max(x => x.PlannedEnd),
             })
             .ToList();
-        return workTimesWithOrder;
+
+        return workedTimesPerCustomer;
     }
 
     private async Task<List<CustomerWorkTime>> GetWorkedTimesWithoutOrderPerCustomer(ChartFilter filter, CancellationToken cancellationToken)
-        => await _repository
-            .GetGrouped(
-                groupBy: x => new { x.Project.Customer.Id, x.Project.Customer.Title },
-                select: x => new CustomerWorkTime
-                {
-                    CustomerId = x.Key.Id,
-                    CustomerTitle = x.Key.Title,
-                    WorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
-                    HourlyRate = x.Min(t => t.Project.Customer.HourlyRate),
-                },
-                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
-                cancellationToken: cancellationToken
-            );
+    {
+        var timeSheetsPerCustomer = await _repository
+           .GetGrouped(
+               groupBy: timeSheet => new { timeSheet.Project.Customer.Id, timeSheet.Project.Customer.Title },
+               select: timeSheets => new
+               {
+                   CustomerId = timeSheets.Key.Id,
+                   CustomerTitle = timeSheets.Key.Title,
+                   WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                   timeSheets.FirstOrDefault().Project.Customer.HourlyRate,
+               },
+               where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
+               cancellationToken: cancellationToken
+           );
+
+        var workedTimesPerCustomer = timeSheetsPerCustomer
+            .Select(timeSheet => new CustomerWorkTime
+            {
+                CustomerId = timeSheet.CustomerId,
+                CustomerTitle = timeSheet.CustomerTitle,
+                WorkedTime = timeSheet.WorkedTime,
+                WorkedBudget = timeSheet.WorkedTime.TotalHours * timeSheet.HourlyRate,
+            })
+            .ToList();
+
+        return workedTimesPerCustomer;
+    }
 
     private async Task<List<CustomerWorkTime>> GetPlannedTimesPerCustomer(ChartFilter filter, CancellationToken cancellationToken)
     {
         var settings = await _settingService.GetSettings(cancellationToken);
-
+        var workedTimesPerOrder = await _orderChartService.GetWorkedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerOrder = await _orderChartService.GetPlannedTimesPerOrder(filter, cancellationToken);
         var plannedTimesPerCustomer = plannedTimesPerOrder
-            .GroupBy(x => x.CustomerId)
+            .OuterJoin(
+                workedTimesPerOrder,
+                planned => planned.OrderId,
+                worked => worked.OrderId,
+                (planned, worked) => new { Planned = planned, Worked = worked }
+            )
+            .GroupBy(x => x.Planned.CustomerId)
             .Select(orderWorkItems => new CustomerWorkTime
             {
                 CustomerId = orderWorkItems.Key,
-                CustomerTitle = orderWorkItems.First().CustomerTitle,
-                PlannedTime = orderWorkItems.Sum(x => x.PlannedTime),
-                HourlyRate = orderWorkItems.ToList().GetAverageHourlyRate(x => x?.PlannedTime),
-                PlannedStart = orderWorkItems.Min(x => x.PlannedStart),
-                PlannedEnd = orderWorkItems.Max(x => x.PlannedEnd)
+                CustomerTitle = orderWorkItems.First().Planned.CustomerTitle,
+                PlannedTime = orderWorkItems.Sum(x => x.Planned.PlannedTime),
+                PlannedBudget = orderWorkItems.Sum(x => x.Planned.PlannedBudget),
+                WorkedTime = orderWorkItems.Sum(x => x.Worked?.WorkedTime ?? TimeSpan.Zero),
+                WorkedBudget = orderWorkItems.Sum(x => x.Worked?.WorkedBudget ?? 0),
+                PlannedStart = orderWorkItems.Min(x => x.Planned.PlannedStart),
+                PlannedEnd = orderWorkItems.Max(x => x.Planned.PlannedEnd)
             })
             .ToList();
 
         foreach (var workTime in plannedTimesPerCustomer)
+        {
             workTime.PlannedDays = workTime.PlannedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+            workTime.WorkedDays = workTime.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours;
+        }
 
         return plannedTimesPerCustomer;
     }

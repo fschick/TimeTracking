@@ -21,7 +21,7 @@ public abstract class WorkTime
 
     /// <inheritdoc cref="WorkTimeDto.BudgetWorked"/>
     [Required]
-    public double WorkedBudget => WorkedTime.TotalHours * HourlyRate;
+    public double WorkedBudget { get; set; }
 
     /// <inheritdoc cref="WorkTimeDto.TimePlanned"/>
     [Required]
@@ -33,11 +33,7 @@ public abstract class WorkTime
 
     /// <inheritdoc cref="WorkTimeDto.BudgetPlanned"/>
     [Required]
-    public double PlannedBudget => PlannedTime.TotalHours * HourlyRate;
-
-    /// <inheritdoc cref="Order.HourlyRate"/>
-    [Required]
-    public double HourlyRate { get; set; }
+    public double PlannedBudget { get; set; }
 
     /// <inheritdoc cref="Order.StartDate"/>
     [Required]
