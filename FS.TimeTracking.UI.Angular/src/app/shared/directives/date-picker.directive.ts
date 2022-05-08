@@ -30,6 +30,7 @@ export interface DatePickerOptions {
   startDate: Date | undefined,
   endDate: Date | undefined,
   zIndexOffset: number,
+  templates: { leftArrow: string, rightArrow: string }
 }
 
 @Directive({
@@ -99,6 +100,16 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
       startDate: undefined,
       endDate: undefined,
       zIndexOffset: 1031,
+      templates: {
+        leftArrow: `
+          <svg class="bi" fill="currentColor">
+            <use xlink:href="assets/icons.svg#arrow-left-circle"/>
+          </svg>`,
+        rightArrow: `
+          <svg class="bi" fill="currentColor">
+            <use xlink:href="assets/icons.svg#arrow-right-circle"/>
+          </svg>`,
+      }
     };
   }
 

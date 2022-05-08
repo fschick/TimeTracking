@@ -1,4 +1,6 @@
 node_modules/bootstrap-icons/icons/arrow-clockwise.svg
+node_modules/bootstrap-icons/icons/arrow-left-circle.svg
+node_modules/bootstrap-icons/icons/arrow-right-circle.svg
 node_modules/bootstrap-icons/icons/bar-chart-line-fill.svg
 node_modules/bootstrap-icons/icons/briefcase-fill.svg
 node_modules/bootstrap-icons/icons/brightness-high-fill.svg

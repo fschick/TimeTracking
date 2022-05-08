@@ -350,3 +350,118 @@
     color: $popover-body-color;
   }
 }
+
+/* ----------------------------------------- */
+/* Date picker
+/* ----------------------------------------- */
+.datepicker {
+  padding: 0;
+  background: $gray-100 linear-gradient(180deg, $primary 0, $primary 5px, $primary-100 5px, $primary-100 50px, $gray-100 50px, $gray-100 100%);
+  border: 1px solid $gray-200;
+}
+
+.datepicker-dropdown {
+  &.datepicker-orient-top:after {
+    border-top-color: $gray-100;
+  }
+
+  &:after {
+    border-bottom-color: $primary;
+  }
+}
+
+.datepicker {
+  .datepicker-months,
+  .datepicker-years,
+  .datepicker-decades,
+  .datepicker-centuries {
+    .prev {
+      padding-right: 3.625rem !important;
+    }
+
+    .next {
+      padding-left: 3.625rem !important;
+    }
+
+    table tr th, table tr td {
+      width: 5.9375rem;
+
+      span {
+        height: 5.03125rem;
+        line-height: 5.03125rem;
+
+        &.active.active {
+          background-color: $primary;
+
+          &:hover {
+            background-color: $primary;
+          }
+        }
+
+        &:hover {
+          background-color: $primary-200;
+        }
+      }
+    }
+  }
+}
+
+.datepicker table {
+  .datepicker-switch, .next, .prev {
+    padding: .95rem 0 1.4rem 0;
+
+    &:hover {
+      background-color: inherit;
+      color: $primary-600;
+    }
+  }
+
+  .dow, .cw {
+    font-weight: bold;
+    color: $gray-600;
+  }
+
+  .dow {
+    font-size: .875rem;
+    text-transform: uppercase;
+  }
+
+  .cw {
+    font-size: .75rem;
+  }
+
+  td.old {
+    color: $gray-400 !important;
+  }
+
+  td.day:hover {
+    background-color: $primary-200 !important;
+  }
+
+  td.today {
+    border-color: transparent !important;
+    background-color: $primary-200 !important;
+  }
+
+  td.active {
+    border-color: transparent !important;
+    background-color: $primary !important;
+
+    &:hover {
+      background-color: $primary !important;
+    }
+  }
+
+  tbody td {
+    border: 1rem solid transparent;
+  }
+
+  tfoot th:hover {
+    background-color: inherit;
+    color: $primary-600;
+  }
+
+  tfoot tr:last-child {
+    border-bottom: 8px solid transparent;
+  }
+}
