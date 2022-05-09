@@ -47,7 +47,7 @@ import {MasterDataSettingsComponent} from './master-data/components/master-data-
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
-import {NgbModalModule, NgbPopoverModule, NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule, NgbPopoverModule, NgbCollapseModule, NgbConfig} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
 import {RouterLinkCtrlClickDirective} from './shared/directives/router-link-ctrl-click.directive';
@@ -56,11 +56,11 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import { ClearableInputComponent } from './shared/components/clearable-input/clearable-input.component';
-import { OptionalLabelDirective } from './shared/directives/optional-label.directive';
+import {ClearableInputComponent} from './shared/components/clearable-input/clearable-input.component';
+import {OptionalLabelDirective} from './shared/directives/optional-label.directive';
 import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
-import { ChartWorkdayInfoComponent } from './chart/components/chart-workday-info/chart-workday-info.component';
-import { ChartTotalsOverviewComponent } from './chart/components/chart-totals-overview/chart-totals-overview.component';
+import {ChartWorkdayInfoComponent} from './chart/components/chart-workday-info/chart-workday-info.component';
+import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-overview/chart-totals-overview.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +133,7 @@ import { ChartTotalsOverviewComponent } from './chart/components/chart-totals-ov
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,
-      deps: [SettingService, LocalizationService, NgSelectConfig],
+      deps: [SettingService, LocalizationService, NgbConfig, NgSelectConfig],
       multi: true
     }, {
       provide: LOCALE_ID,
@@ -154,7 +154,7 @@ import { ChartTotalsOverviewComponent } from './chart/components/chart-totals-ov
 export class AppModule {
 }
 
-export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngSelectConfig: NgSelectConfig): () => Promise<void> {
+export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<void> {
   return () => {
     let language;
     switch (localizationService.language) {
@@ -171,6 +171,9 @@ export function configurationLoaderFactory(settingService: SettingService, local
 
     return settingService.getTranslations({language}).toPromise().then(translations => {
       loadTranslations(flattenTranslations(translations));
+
+      // Disable animations in e2e tests.
+      ngbConfig.animation = !((window as any).Cypress);
 
       ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
       ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
