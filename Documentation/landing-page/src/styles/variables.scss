@@ -1,0 +1,26 @@
+﻿// https://getbootstrap.com/docs/5.1/customize/sass/
+@import '~bootstrap/scss/functions.scss';
+@import "theme.overrides";
+@import '~bootstrap/scss/variables.scss';
+@import '~bootstrap/scss/mixins.scss';
+@import '~bootstrap/scss/root.scss';
+
+@mixin focused-border {
+  $focus-border-width: 2px;
+  $focus-border-padding-offset: calc($focus-border-width / 2);
+
+  box-shadow: none;
+  border-width: $focus-border-width;
+  border-color: $input-focus-border-color;
+  padding: calc($input-padding-y - $focus-border-padding-offset) calc($input-padding-x - $focus-border-padding-offset);
+}
+
+// https://codepen.io/sosuke/pen/Pjoqqp
+// https://isotropic.co/tool/hex-color-to-css-filter/
+$filter-primary-100: invert(96%) sepia(7%) saturate(204%) hue-rotate(92deg) brightness(98%) contrast(92%);
+$filter-primary-500: invert(61%) sepia(56%) saturate(7425%) hue-rotate(121deg) brightness(107%) contrast(84%);
+$filter-primary-600: invert(25%) sepia(90%) saturate(2994%) hue-rotate(139deg) brightness(90%) contrast(85%);
+$filter-primary-700: invert(33%) sepia(13%) saturate(4020%) hue-rotate(99deg) brightness(89%) contrast(87%);
+$filter-gray-500: invert(61%) sepia(0%) saturate(287%) hue-rotate(178deg) brightness(100%) contrast(89%);
+$filter-gray-400: invert(81%) sepia(2%) saturate(0%) hue-rotate(137deg) brightness(92%) contrast(89%);
+$filter-gray-900: invert(10%) sepia(0%) saturate(28%) hue-rotate(162deg) brightness(104%) contrast(86%);

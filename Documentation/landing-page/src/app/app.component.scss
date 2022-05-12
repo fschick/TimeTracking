@@ -1,0 +1,34 @@
+@import '~src/styles/variables';
+
+// Branding icon
+.navbar-brand {
+  .icon {
+    height: 1.667em;
+    width: 1.667em;
+    background-color: $primary;
+    display: inline-block;
+    border-radius: 50%;
+    position: absolute;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      transform: scale(0.5);
+    }
+  }
+
+  .brand-text {
+    margin-left: calc(1.35em + 1rem);
+  }
+}
+
+.nav-link {
+  font-weight: bold;
+}
+
+.breakpoint {
+  position: fixed;
+  z-index: 5000;
+  top: 10px;
+  left: 6px;
+}

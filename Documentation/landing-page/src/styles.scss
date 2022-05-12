@@ -1,0 +1,34 @@
+/* ----------------------------------------- */
+/* Font
+/* ----------------------------------------- */
+@import "styles/fonts";
+
+/* ----------------------------------------- */
+/* Bootstrap + Icons
+/* ----------------------------------------- */
+//$enable-reduced-motion: false; // DEV only
+@import "styles/theme.overrides";
+@import "~bootstrap/scss/bootstrap";
+
+/* ----------------------------------------- */
+/* Custom extensions
+/* ----------------------------------------- */
+body {
+  background-image: url("assets/îmages/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  //min-height: 5000px;
+}
+
+.container-fluid {
+  padding: 0 5.4375rem;
+}
+
+/* ----------------------------------------- */
+/* Bootstrap-icons
+/* ----------------------------------------- */
+.bi {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}

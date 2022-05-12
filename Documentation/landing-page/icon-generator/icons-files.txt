@@ -1,0 +1,2 @@
+node_modules/bootstrap-icons/icons/calendar-week.svg
+node_modules/bootstrap-icons/icons/github.svg

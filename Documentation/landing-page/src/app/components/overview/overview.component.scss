@@ -1,0 +1,75 @@
+@import '~src/styles/variables';
+
+h1 {
+  font-size: 4.1rem;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+.number {
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  border: 2px solid $primary;
+  border-radius: 50%;
+  color: $primary;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.code {
+  color: $white;
+  font-family: $font-family-code;
+  font-weight: bold;
+  background-color: #3F3F3F;
+  padding: 1rem;
+  box-shadow: 0 5px 15px 0 $gray-300;
+  border-radius: .625rem;
+  margin-left: 5.25em;
+}
+
+.headline {
+  margin-top: 4rem;
+
+  img.screens {
+    margin-top: -4.95rem;
+    width: 100%;
+  }
+
+  .download {
+    margin-top: 4rem;
+  }
+}
+
+.features {
+  margin-top: 9rem;
+
+  .feature {
+    position: relative;
+    min-height: 33rem;
+    background-repeat: no-repeat;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 4rem;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.getting-started {
+  margin-top: 6rem;
+}
