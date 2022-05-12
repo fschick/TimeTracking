@@ -88,6 +88,6 @@ jobs:
         AZURE_WEBAPP_NAME: fs-timetracking
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        slot-name: layout
-        publish-profile: ${{ secrets.PUBLISH_PROFILE_LAYOUT }}
+        slot-name: test
+        publish-profile: ${{ secrets.PUBLISH_PROFILE_UAT }}
         package: timetracking_azure
