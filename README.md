@@ -1,64 +1,28 @@
 # FS.TimeTracking
 
-Time tracking for freelancers and people who work on projects based on an hourly quota.
+Time tracking for freelancers
 
 ## Demo
 
-https://timetracking-demo.schick-software.de/
+https://demo.timetracking.schick-software.de/
 
 ## Status
 
-Currently in development, unfinished. 
+Version 1.0.0 released
 
-First release is planned for Q1/2022.
+Better documentation will follow in the next days
 
-## Development
+Docker images will follow in the next days , see docker build script `Build/make_publish_docker.docker`until then
 
-### Pre requirements
+## Roadmap
 
-[.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
+### Reports
 
-[Node.js 16.x](https://nodejs.org/en/)
+Activity reports as PDF for customers are in development and will follow. Maybe it will become a paid feature. 
 
-[OpenJDK](https://docs.microsoft.com/en-us/java/openjdk/download) (required to generate Angular REST client via OpenAPI Generator)
+### User management
 
-### Run
-
-Download or clone repository
-
-```bash
-git clone https://github.com/fschick/TimeTracking.git
-cd TimeTracking
-```
-
-Install NPM packages
-
-```bash
-cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
-npm install
-cd ../..
-```
-
-Run server
-
-```
-dotnet run --project FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj
-```
-
-Run UI
-
-```
-cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
-npm run start
-```
-
-Open web browser:
-
-http://localhost:4200/
-
-### Publish
-
-See publish script `Build/make_publish.ps1`
+Currently no user management / login exists. It's a long time since I've done this things and my knowledge isn't up to date. If you like to help please contact me.
 
 ## Configuration files
 
@@ -132,3 +96,50 @@ journalctl -u FS.TimeTracking.service
 systemctl enable FS.TimeTracking.service
 ```
 
+## Development
+
+### Pre requirements
+
+[.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
+
+[Node.js 16.x](https://nodejs.org/en/)
+
+[OpenJDK](https://docs.microsoft.com/en-us/java/openjdk/download) (required to generate Angular REST client via OpenAPI Generator)
+
+### Run
+
+Download or clone repository
+
+```bash
+git clone https://github.com/fschick/TimeTracking.git
+cd TimeTracking
+```
+
+Install NPM packages
+
+```bash
+cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+npm install
+cd ../..
+```
+
+Run server
+
+```
+dotnet run --project FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj
+```
+
+Run UI
+
+```
+cd FS.TimeTracking.UI/FS.TimeTracking.UI.Angular
+npm run start
+```
+
+Open web browser:
+
+http://localhost:4200/
+
+### Publish
+
+See publish script `Build/make_publish.ps1`
