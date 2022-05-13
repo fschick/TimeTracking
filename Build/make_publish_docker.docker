@@ -1,4 +1,12 @@
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-alpine3.14
+FROM schicksoftware/dotnet6.0-jre17-nodejs16.0:latest AS build
+ARG CI_PROJECT_NAME
+ARG CI_COMMIT_REF_NAME
+COPY / .
+RUN pwsh -Command Build/make_publish.ps1 -projectName "${CI_PROJECT_NAME}" -version "${CI_COMMIT_REF_NAME}" -publshFolder "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}"
+
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-alpine3.14 AS base
+ARG CI_PROJECT_NAME
+ARG CI_COMMIT_REF_NAME
 
 RUN adduser \
   --disabled-password \
@@ -12,8 +20,7 @@ USER timetracking
 
 WORKDIR /opt/timetracking
 
-ARG PUBLISH_FOLDER
-COPY $PUBLISH_FOLDER .
+COPY --from=build ./${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME} .
 
 ENV \
   DOTNET_RUNNING_IN_CONTAINER=true \
