@@ -78,25 +78,8 @@ test:
     expire_in: 1 week
     when: always
 
-deploy_framework:
-  stage: deploy
-  interruptible: true
-  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
-  tags: [ linux, docker ]
-  script:
-    - Build/make_publish.ps1 -projectName "$env:CI_PROJECT_NAME" -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
-  rules:
-    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
-    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
-  artifacts:
-    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
-    paths:
-      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
-    expire_in: 1 month
-
 deploy_docker:
   stage: deploy
-  needs: [ deploy_framework ]
   interruptible: true
   image: docker:20.10.12
   services: 
@@ -107,7 +90,7 @@ deploy_docker:
   tags: [ linux, docker-in-docker ]
   script:
     - docker info
-    - docker build -t timetracking --build-arg PUBLISH_FOLDER="$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME" -f Build/make_publish_docker.docker .
+    - docker build --build-arg CI_PROJECT_NAME="$CI_PROJECT_NAME" --build-arg CI_COMMIT_REF_NAME="$CI_COMMIT_REF_NAME" -f Build/make_publish_docker.docker .
     - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
     - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:latest
     - docker push srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
