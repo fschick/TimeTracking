@@ -85,16 +85,26 @@ jobs:
         Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -publshFolder TimeTracking.${{github.ref_name}}
         Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -runtime win10-x64 -publshFolder timetracking.${{github.ref_name}}.windows
         Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -runtime linux-x64 -publshFolder timetracking.${{github.ref_name}}.linux
-    - name: Upload Windows release artifact
-      uses: actions/upload-artifact@v3
+    - name: Create Windows release artifact zip
+      uses: thedoctor0/zip-release@master
       with:
-        name: timetracking.${{github.ref_name}}.windows
+        type: 'zip'
+        filename: timetracking.${{github.ref_name}}.windows.zip
         path: timetracking.${{github.ref_name}}.windows
-    - name: Upload Linux release artifact
-      uses: actions/upload-artifact@v3
+    - name: Create Linux release artifact zip
+      uses: thedoctor0/zip-release@master
       with:
-        name: timetracking.${{github.ref_name}}.linux
+        type: 'zip'
+        filename: timetracking.${{github.ref_name}}.linux.zip
         path: timetracking.${{github.ref_name}}.linux
+    - name: Upload Windows release artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        files: timetracking.${{github.ref_name}}.windows.zip
+    - name: Upload Linux release artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        files: timetracking.${{github.ref_name}}.linux.zip
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       env:
