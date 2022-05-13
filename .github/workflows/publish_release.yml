@@ -81,13 +81,26 @@ jobs:
         java-version: '17'  
     - name: Publish
       shell: pwsh
-      run: Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -publshFolder timetracking_azure
-    - name: Deploy to Azure
+      run: |
+        Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -publshFolder TimeTracking.${{github.ref_name}}
+        Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -runtime win10-x64 -publshFolder timetracking.${{github.ref_name}}.windows
+        Build/make_publish.ps1 -projectName TimeTracking -version ${{github.ref_name}} -runtime linux-x64 -publshFolder timetracking.${{github.ref_name}}.linux
+    - name: Upload Windows release artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: timetracking.${{github.ref_name}}.windows
+        path: timetracking.${{github.ref_name}}.windows
+    - name: Upload Linux release artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: timetracking.${{github.ref_name}}.linux
+        path: timetracking.${{github.ref_name}}.linux
+    - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       env:
         AZURE_WEBAPP_NAME: fs-timetracking
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-name: ${{env.AZURE_WEBAPP_NAME}}
         slot-name: test
-        publish-profile: ${{ secrets.PUBLISH_PROFILE_UAT }}
-        package: timetracking_azure
+        publish-profile: ${{secrets.PUBLISH_PROFILE_UAT}}
+        package: TimeTracking.${{github.ref_name}}
