@@ -1,2 +1,5 @@
+node_modules/bootstrap-icons/icons/box-arrow-up-right.svg
 node_modules/bootstrap-icons/icons/calendar-week.svg
+node_modules/bootstrap-icons/icons/check-circle-fill.svg
+node_modules/bootstrap-icons/icons/cloud-download.svg
 node_modules/bootstrap-icons/icons/github.svg

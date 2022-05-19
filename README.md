@@ -14,11 +14,27 @@ Better documentation will follow in the next days
 
 Docker images will follow in the next days , see docker build script `Build/make_publish_docker.docker`until then
 
+## Supported operating systems
+
+Supported operation systems are Windows 10 + / Windows Server 2016 + / Debian based Linux
+
+Other Operating systems might worked but are untested
+
+## Supported databases
+
+**SQL Server 2019+**: Fully tested
+
+**MySQL / MariaDB**: Fully tested
+
+**SQLite**: Partially tested, demo version runs with it
+
+**PostgreSQL**: Mainly untested
+
 ## Roadmap
 
 ### Reports
 
-Activity reports as PDF for customers are in development and will follow. Maybe it will become a paid feature. 
+PDF activity reports for customers are in development and will follow
 
 ### User management
 
@@ -53,25 +69,29 @@ chmod +x ./FS.TimeTracking
 
 ```bash
 # Copy the content of publish folder to suitable location
-mkdir C:\services\FS.TimeTracking
-copy . C:\Services\FS.TimeTracking
+mkdir C:\services\TimeTracking
+robocopy /E timetracking.1.0.1.windows\ C:\Services\TimeTracking
 
 # When the service runs from program folder adjust path to log files (programm folder isn't writeable!)
-notepad "C:\services\FS.TimeTracking\FS.TimeTracking.config.nlog"
+cd C:\services\TimeTracking
+notepad config\FS.TimeTracking.config.nlog
 
 # Install and run as windows service
-C:\Services\FS.TimeTracking\FS.TimeTracking.WindowsService.Install.bat
+# The service will be installed as "FS.TimeTracking". You can change the name in the .bat file
+cd C:\services\TimeTracking
+FS.TimeTracking.WindowsService.Install.bat
 
 # Uninstall service
-C:\Services\FS.TimeTracking\FS.TimeTracking.WindowsService.Uninstall.bat
+cd C:\services\TimeTracking
+FS.TimeTracking.WindowsService.Uninstall.bat
 ```
 
 ## Install as service on Linux
 
 ```bash
 # Copy files
-cp -R opt/FS.TimeTracking /opt/
-cp etc/systemd/system/FS.TimeTracking.service /etc/systemd/system/
+cp -r timetracking.1.0.1.linux/opt/FS.TimeTracking/ /opt/
+cp timetracking.1.0.1.linux/etc/systemd/system/FS.TimeTracking.service /etc/systemd/system
 chmod +x /opt/FS.TimeTracking/bin/FS.TimeTracking
 
 # Create system user/group
