@@ -56,6 +56,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="database\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <AngularDirectory>../../FS.TimeTracking.UI.Angular</AngularDirectory>
   </PropertyGroup>

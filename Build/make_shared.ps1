@@ -148,7 +148,7 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 	if ($runtime) {
 		& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained --runtime $runtime 
 	} else {
-		& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained false
+		& dotnet publish FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --no-self-contained
 	}
 	if(!$?) {
 		exit $LASTEXITCODE
@@ -162,7 +162,7 @@ function Publish-Tool([String] $configuration, [String] $targetFramework, [Strin
 	if ($runtime) {
 		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained --runtime $runtime
 	} else {
-		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained false
+		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --no-self-contained
 	}
 	
 	if(!$?) {
