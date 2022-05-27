@@ -90,7 +90,7 @@ deploy_docker:
   tags: [ linux, docker-in-docker ]
   script:
     - docker info
-    - docker build --build-arg CI_PROJECT_NAME="$CI_PROJECT_NAME" --build-arg CI_COMMIT_REF_NAME="$CI_COMMIT_REF_NAME" -f Build/make_publish_docker.docker .
+    - docker build -t timetracking --build-arg CI_PROJECT_NAME="$CI_PROJECT_NAME" --build-arg CI_COMMIT_REF_NAME="$CI_COMMIT_REF_NAME" -f Build/make_publish_docker.docker .
     - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
     - docker tag timetracking srv-docker-1:5000/schicksoftware/timetracking:latest
     - docker push srv-docker-1:5000/schicksoftware/timetracking:$CI_COMMIT_TAG
