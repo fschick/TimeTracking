@@ -42,7 +42,7 @@ public abstract class WorkTimeDto
     /// Difference between time worked and planned.
     /// </summary>
     [Required]
-    public TimeSpan? TimeDifference => DaysDifference.HasValue ? TimeSpan.FromDays(DaysDifference.Value) : null;
+    public TimeSpan? TimeDifference { get; set; }
 
     /// <summary>
     /// Consumed budget.

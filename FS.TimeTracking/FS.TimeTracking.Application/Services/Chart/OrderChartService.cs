@@ -66,20 +66,23 @@ public class OrderChartService : IOrderChartService
                         ? worked.PlannedStart.CreateRange(worked.PlannedEnd)
                         : planned.PlannedStart.CreateRange(planned.PlannedEnd);
 
+                    var daysDifference = planned?.PlannedDays - (worked?.WorkedDays ?? 0);
+
                     return new OrderWorkTimeDto
                     {
                         OrderId = worked?.OrderId ?? planned.OrderId,
                         OrderTitle = worked?.OrderTitle ?? planned?.OrderTitle,
                         OrderNumber = worked?.OrderNumber ?? planned?.OrderNumber,
                         CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
-                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
-                        DaysWorked = worked?.WorkedDays ?? 0,
                         TotalWorkedPercentage = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
-                        BudgetWorked = worked?.WorkedBudget ?? 0,
-                        TimePlanned = planned?.PlannedTime,
-                        DaysPlanned = planned?.PlannedDays,
-                        DaysDifference = planned?.PlannedDays - (worked?.WorkedDays ?? 0),
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
+                        DaysWorked = worked?.WorkedDays ?? 0,
+                        DaysPlanned = planned?.PlannedDays,
+                        DaysDifference = daysDifference,
+                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
+                        TimePlanned = planned?.PlannedTime,
+                        TimeDifference = daysDifference.HasValue ? TimeSpan.FromHours(daysDifference.Value * settings.WorkHoursPerWorkday.TotalHours) : null,
+                        BudgetWorked = worked?.WorkedBudget ?? 0,
                         BudgetPlanned = planned?.PlannedBudget,
                         BudgetDifference = planned?.PlannedBudget - (worked?.WorkedBudget ?? 0),
                         PlannedStart = plannedTimeSpan?.Start,
@@ -93,9 +96,6 @@ public class OrderChartService : IOrderChartService
             .ThenBy(x => x.OrderNumber)
             .ToList();
 
-        var s1 = result.Sum(x => x.DaysDifference);
-        var s2 = result.Sum(x => x.TimeDifference ?? TimeSpan.Zero);
-        var s3 = result.Sum(x => x.BudgetDifference);
         return result;
     }
 

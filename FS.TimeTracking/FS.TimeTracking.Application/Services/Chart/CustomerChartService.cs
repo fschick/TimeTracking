@@ -63,18 +63,21 @@ public class CustomerChartService : ICustomerChartService
                     var workedOrderTimeSpan = worked?.PlannedStart.CreateRange(worked.PlannedEnd);
                     var plannedTimeSpan = workedOrderTimeSpan.Union(plannedOrderTimeSpan);
 
+                    var daysDifference = planned?.PlannedDays - planned?.WorkedDays;
+
                     return new CustomerWorkTimeDto
                     {
                         CustomerId = worked?.CustomerId ?? planned.CustomerId,
                         CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
-                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
-                        DaysWorked = worked?.WorkedDays ?? 0,
                         TotalWorkedPercentage = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
-                        BudgetWorked = worked?.WorkedBudget ?? 0,
-                        TimePlanned = planned?.PlannedTime,
-                        DaysPlanned = planned?.PlannedDays,
-                        DaysDifference = planned?.PlannedDays - planned?.WorkedDays,
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
+                        DaysWorked = worked?.WorkedDays ?? 0,
+                        DaysPlanned = planned?.PlannedDays,
+                        DaysDifference = daysDifference,
+                        TimeWorked = worked?.WorkedTime ?? TimeSpan.Zero,
+                        TimePlanned = planned?.PlannedTime,
+                        TimeDifference = daysDifference.HasValue ? TimeSpan.FromHours(daysDifference.Value * settings.WorkHoursPerWorkday.TotalHours) : null,
+                        BudgetWorked = worked?.WorkedBudget ?? 0,
                         BudgetPlanned = planned?.PlannedBudget,
                         BudgetDifference = planned?.PlannedBudget - planned?.WorkedBudget,
                         PlannedStart = plannedTimeSpan?.Start,
