@@ -21,11 +21,45 @@ body {
 }
 
 .container-fluid {
-  padding: 0 5.4375rem;
+  @include media-breakpoint-up(sm) {
+    padding: 0 5.5rem;
+  }
+}
+
+section {
+  padding-bottom: 6rem;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.number {
+  width: 2em;
+  height: 2em;
+  border: .1875rem solid $primary;
+  border-radius: 50%;
+  color: $primary;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.number-text {
+  height: 2em;
+}
+
+.code {
+  color: $white;
+  font-family: $font-family-code;
+  font-weight: bold;
+  background-color: #3F3F3F;
+  padding: 1rem;
+  box-shadow: 0 5px 15px 0 $gray-300;
+  border-radius: .625rem;
+  word-break: break-word;
+  font-size: 0.875em;
 }
 
 /* ----------------------------------------- */

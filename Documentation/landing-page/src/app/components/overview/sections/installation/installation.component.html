@@ -1,0 +1,215 @@
+<section id="installation">
+  <h5 class="display-5 fw-normal"><strong>Install</strong></h5>
+  <p>TimeTracking can be installed easily on your computer. In four simple steps the app is ready to go. It's not even worth tracking the time!</p>
+
+  <div class="mt-4">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a id="install-docker" class="nav-link pointer" (click)="os = 'docker'" [ngClass]="{'active': os === 'docker'}">Docker (Linux)</a>
+      </li>
+      <li class="nav-item">
+        <a id="install-windows" class="nav-link pointer" (click)="os = 'windows'" [ngClass]="{'active': os === 'windows'}">Windows</a>
+      </li>
+      <li class="nav-item">
+        <a id="install-linux" class="nav-link pointer" (click)="os = 'linux'" [ngClass]="{'active': os === 'linux'}">Linux (Debian based)</a>
+      </li>
+    </ul>
+
+    <ng-container *ngIf="os === 'docker'">
+      <ng-container *ngTemplateOutlet="docker"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="os === 'windows'">
+      <ng-container *ngTemplateOutlet="windows"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="os === 'linux'">
+      <ng-container *ngTemplateOutlet="linux"></ng-container>
+    </ng-container>
+
+    <ng-template #docker>
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none">
+          <h3 class="fw-bold number">1</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Run as docker container
+          </h3>
+          <div class="code">
+            docker run -d -p &lt;port_on_host&gt;:5000 \<br>
+            <div class="ms-4">
+            --name timetracking \<br>
+            -e TimeTracking__Database__Type='&lt;MySql|SqlServer|Sqlite|PostgreSql&gt;' \<br>
+            -e TimeTracking__Database__ConnectionString=&lt;connection string&gt; \<br>
+            schicksoftware/timetracking
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #windows>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">1</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Download latest version
+          </h3>
+          <p>
+            Download from <a href="https://github.com/fschick/TimeTracking/releases/latest">https://github.com/fschick/TimeTracking/releases/latest</a>
+          </p>
+          <div class="code">
+            curl {{downloadUrlWindows}} --location --output timetracking-{{latestVersion}}.zip
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">2</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Extract archive
+          </h3>
+          <div class="code">
+            tar -xf timetracking-{{latestVersion}}.zip
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">3</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Test application
+          </h3>
+          <div class="code">
+            cd timetracking.{{latestVersion}}.windows\<br>
+            FS.TimeTracking.exe<br>
+            <kbd class="bg-secondary">Ctrl+C</kbd>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">4</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Install as service
+          </h3>
+          <div class="code">
+            <span class="text-secondary"># Copy the content of publish folder to suitable location</span><br>
+            mkdir C:\services\TimeTracking<br>
+            robocopy /E timetracking.{{latestVersion}}.windows\ C:\Services\TimeTracking<br>
+            <br>
+            <span class="text-secondary"># When the service runs from program folder adjust path to log files (programm folder isn't writeable!)</span><br>
+            cd C:\services\TimeTracking<br>
+            notepad config\FS.TimeTracking.config.nlog<br>
+            <br>
+            <span class="text-secondary"># Install and run as windows service</span><br>
+            <span class="text-secondary"># The service will be installed as "FS.TimeTracking". You can change the name in the .bat file</span><br>
+            cd C:\services\TimeTracking<br>
+            FS.TimeTracking.WindowsService.Install.bat<br>
+            <br>
+            <span class="text-secondary"># Uninstall service</span><br>
+            cd C:\services\TimeTracking<br>
+            FS.TimeTracking.WindowsService.Uninstall.bat
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #linux>
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">1</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Download latest version
+          </h3>
+          <p>
+            Download from <a href="https://github.com/fschick/TimeTracking/releases/latest">https://github.com/fschick/TimeTracking/releases/latest</a>
+          </p>
+          <div class="code">
+            curl {{downloadUrlLinux}} --location --output timetracking-{{latestVersion}}.zip
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">2</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Extract archive
+          </h3>
+          <div class="code">
+            unzip timetracking-{{latestVersion}}.zip
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">3</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Test application
+          </h3>
+          <div class="code">
+            dotnet run --project FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj<br>
+            <kbd class="bg-secondary">Ctrl+C</kbd>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0 mt-5">
+        <div class="col-auto d-none d-md-block">
+          <h3 class="fw-bold number">4</h3>
+        </div>
+        <div class="col">
+          <h3 class="number-text fw-bold d-flex align-items-center">
+            Install as service
+          </h3>
+          <div class="code">
+            <span class="text-secondary"># Copy files</span><br>
+            cp -r timetracking.1.0.1.linux/opt/FS.TimeTracking/ /opt/<br>
+            cp timetracking.1.0.1.linux/etc/systemd/system/FS.TimeTracking.service /etc/systemd/system<br>
+            chmod +x /opt/FS.TimeTracking/bin/FS.TimeTracking<br>
+            <br>
+            <span class="text-secondary"># Create system user/group</span><br>
+            useradd -m dotnetuser --user-group<br>
+            <span class="text-secondary"># Adjust user/group</span><br>
+            vi /etc/systemd/system/FS.TimeTracking.service<br>
+            chown -R dotnetuser:dotnetuser /opt/FS.TimeTracking/<br>
+            chmod -R o= /opt/FS.TimeTracking/<br>
+            <br>
+            <span class="text-secondary"># Test service</span><br>
+            /opt/FS.TimeTracking/bin/FS.TimeTracking<br>
+            <br>
+            <span class="text-secondary"># Start service</span><br>
+            systemctl daemon-reload<br>
+            systemctl start FS.TimeTracking.service<br>
+            <br>
+            <span class="text-secondary"># Get service status</span><br>
+            systemctl status FS.TimeTracking.service<br>
+            journalctl -u FS.TimeTracking.service<br>
+            <br>
+            <span class="text-secondary"># If you want your service to start when the machine does then you can use</span><br>
+            systemctl enable FS.TimeTracking.service
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>

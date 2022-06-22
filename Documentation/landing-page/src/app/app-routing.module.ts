@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {OverviewComponent} from './components/overview/overview.component';
+import {MainPageComponent} from './components/overview/main-page/main-page.component';
 
 const routes: Routes = [{
-  path: '', component: OverviewComponent,
-},];
+  path: '', component: MainPageComponent,
+}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {

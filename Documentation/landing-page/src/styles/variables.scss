@@ -2,17 +2,20 @@
 @import '~bootstrap/scss/functions.scss';
 @import "theme.overrides";
 @import '~bootstrap/scss/variables.scss';
+@import '~bootstrap/scss/maps.scss';
 @import '~bootstrap/scss/mixins.scss';
 @import '~bootstrap/scss/root.scss';
 
+$navbar-height: 8.625rem;
+
 @mixin focused-border {
   $focus-border-width: 2px;
-  $focus-border-padding-offset: calc($focus-border-width / 2);
+  $focus-border-padding-offset: calc(#{$focus-border-width} / 2);
 
   box-shadow: none;
   border-width: $focus-border-width;
   border-color: $input-focus-border-color;
-  padding: calc($input-padding-y - $focus-border-padding-offset) calc($input-padding-x - $focus-border-padding-offset);
+  padding: calc(#{$input-padding-y} - #{$focus-border-padding-offset}) calc(#{$input-padding-x} - #{$focus-border-padding-offset});
 }
 
 // https://codepen.io/sosuke/pen/Pjoqqp

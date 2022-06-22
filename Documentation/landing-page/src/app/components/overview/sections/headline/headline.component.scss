@@ -1,0 +1,9 @@
+@import '~src/styles/variables';
+
+section {
+  min-height: calc(100vh - #{$navbar-height});
+}
+
+img.screens {
+  width: 100%;
+}

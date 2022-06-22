@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {single} from 'rxjs';
 
@@ -11,16 +11,15 @@ type ReleaseInfo = {
 };
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: 'app-installation',
+  templateUrl: './installation.component.html',
+  styleUrls: ['./installation.component.scss']
 })
-export class OverviewComponent implements OnInit {
-
+export class InstallationComponent {
   public downloadUrlWindows?: string;
   public downloadUrlLinux?: string;
   public latestVersion?: string;
-  public os: 'windows' | 'linux' = 'windows';
+  public os: 'windows' | 'linux' | 'docker' = 'docker';
 
   constructor(
     httpClient: HttpClient
@@ -34,8 +33,4 @@ export class OverviewComponent implements OnInit {
         this.downloadUrlLinux = releaseInfo.assets.find(asset => asset.name.includes('linux'))?.browser_download_url;
       });
   }
-
-  ngOnInit(): void {
-  }
-
 }

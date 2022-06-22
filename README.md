@@ -6,14 +6,6 @@ Time tracking for freelancers
 
 https://demo.timetracking.schick-software.de/
 
-## Status
-
-Version 1.0.0 released
-
-Better documentation will follow in the next days
-
-Docker images will follow in the next days , see docker build script `Build/make_publish_docker.docker`until then
-
 ## Supported operating systems
 
 Supported operation systems are Windows 10 + / Windows Server 2016 + / Debian based Linux
@@ -26,35 +18,23 @@ Other Operating systems might worked but are untested
 
 **MySQL / MariaDB**: Fully tested
 
-**SQLite**: Partially tested, demo version runs with it
+**SQLite**: Partially tested, demo runs with it
 
 **PostgreSQL**: Mainly untested
 
-## Roadmap
+## Installation
 
-### Reports
+### Run as docker container
 
-PDF activity reports for customers are in development and will follow
+```bash
+docker run -d -p <port_on_host>:5000 \
+	--name timetracking \
+	-e TimeTracking__Database__Type='<MySql|SqlServer|Sqlite|PostgreSql>' \
+	-e TimeTracking__Database__ConnectionString=<connection string> \
+	schicksoftware/timetracking
+```
 
-### User management
-
-Currently no user management / login exists. It's a long time since I've done this things and my knowledge isn't up to date. If you like to help please contact me.
-
-## Configuration files
-
-##### Application / Service / Kestrel configuration
-
-./config/FS.TimeTracking.config.json
-
-##### Logging configuration
-
-./config/FS.TimeTracking.config.nlog
-
-##### OpenAPI specification
-
-./FS.TimeTracking.openapi.json
-
-## Run from command line
+### Run from command line
 
 ```shell
 # Windows
@@ -65,7 +45,7 @@ chmod +x ./FS.TimeTracking
 ./FS.TimeTracking
 ```
 
-## Install as service on Windows
+### Install as Windows service
 
 ```bash
 # Copy the content of publish folder to suitable location
@@ -86,7 +66,7 @@ cd C:\services\TimeTracking
 FS.TimeTracking.WindowsService.Uninstall.bat
 ```
 
-## Install as service on Linux
+### Install as Linux daemon
 
 ```bash
 # Copy files
@@ -115,6 +95,50 @@ journalctl -u FS.TimeTracking.service
 # If you want your service to start when the machine does then you can use
 systemctl enable FS.TimeTracking.service
 ```
+
+## Configuration
+
+##### Application / Service / Kestrel configuration
+
+./config/FS.TimeTracking.config.json
+
+```json
+"TimeTracking": {
+  "Database": {
+    // SQL Server
+    "Type": "SqlServer",
+    "ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True"
+
+    // MariaDB / MySql
+    "Type": "MySql",
+    "ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
+
+    // Sqlite
+    "Type": "Sqlite",
+    "ConnectionString": "Data Source=<database file>;"
+
+    // PostgreSQL
+    "Type": "PostgreSql",
+    "ConnectionString": "Server=<server>;Database=<database>;User Id=<user>;Password=<password>;"
+  }
+}
+```
+
+##### Logging configuration
+
+./config/FS.TimeTracking.config.nlog
+
+See [official documentation](https://github.com/nlog/nlog/wiki/Configuration-file) for details
+
+## Roadmap
+
+### Reports
+
+PDF activity reports for customers are in development and will follow
+
+### User management
+
+Currently no user management / login exists. It's a long time since I've done this things and my knowledge isn't up to date. If you like to help please contact me.
 
 ## Development
 
@@ -162,4 +186,4 @@ http://localhost:4200/
 
 ### Publish
 
-See publish script `Build/make_publish.ps1`
+See publish script `Build/make_publish.ps1

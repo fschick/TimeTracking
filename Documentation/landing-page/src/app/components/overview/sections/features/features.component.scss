@@ -1,0 +1,27 @@
+@import '~src/styles/variables';
+
+.feature-header {
+  margin-bottom: 3rem;
+}
+
+.feature-title {
+  margin-bottom: 1rem;
+}
+
+.row > .feature > div {
+  height: 100%;
+  padding: 3rem;
+  border-radius: 1.5rem;
+}
+
+.easy-tracking {
+  background: linear-gradient(135deg, rgba(130, 0, 255, 0.15) 0%, rgba(38, 119, 255, 0.15) 100%);
+}
+
+.charts {
+  background: linear-gradient(135deg, rgba(38, 119, 255, 0.15) 0%, rgba(14, 178, 134, 0.15) 100%);
+}
+
+.gdpdr {
+  background: linear-gradient(135deg, rgba(14, 178, 134, 0.15) 0%, rgba(19, 182, 85, 0.15) 100%);
+}

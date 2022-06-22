@@ -1,0 +1,30 @@
+<section id="configuration">
+  <h5 class="display-5 fw-normal"><strong>Configuration</strong></h5>
+
+  <h4 class="mt-4">Application / Kestrel configuration</h4>
+  <pre><code>./config/FS.TimeTracking.config.json</code></pre>
+  <pre class="code">
+"TimeTracking": &#123;
+  "Database": &#123;
+    <span class="text-secondary">// SQL Server</span>
+    "Type": "SqlServer",
+    "ConnectionString": "Data Source=&lt;server&gt;;Initial Catalog=&lt;database&gt;;User ID=&lt;user&gt;;Password=&lt;password&gt;;Persist Security Info=True"
+
+    <span class="text-secondary">// MariaDB / MySql</span>
+    "Type": "MySql",
+    "ConnectionString": "Server=&lt;server&gt;;Database=&lt;database&gt;;User=&lt;user&gt;;Password=&lt;password&gt;;"
+
+    <span class="text-secondary">// Sqlite</span>
+    "Type": "Sqlite",
+    "ConnectionString": "Data Source=&lt;database file&gt;;"
+
+    <span class="text-secondary">// PostgreSQL</span>
+    "Type": "PostgreSql",
+    "ConnectionString": "Server=&lt;server&gt;;Database=&lt;database&gt;;User Id=&lt;user&gt;;Password=&lt;password&gt;;"
+  &#125;
+&#125;</pre>
+
+  <h4 class="mt-4">Logging configuration</h4>
+  <pre><code>./config/FS.TimeTracking.config.nlog</code></pre>
+  See <a href="https://github.com/nlog/nlog/wiki/Configuration-file" target="_blank">official documentation</a> for details
+</section>

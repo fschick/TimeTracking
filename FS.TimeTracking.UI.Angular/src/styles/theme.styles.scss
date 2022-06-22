@@ -174,7 +174,7 @@
   $border-width: 2px;
   color: $primary-500;
   border: $border-width solid $primary-500;
-  padding: calc($btn-padding-y - $border-width) calc($btn-padding-x - $border-width);
+  padding: calc(#{$btn-padding-y} - #{$border-width}) calc(#{$btn-padding-x} - #{$border-width});
 
   &:focus {
     color: $primary-500;
