@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {HolidayGridDto, HolidayService} from '../../../shared/services/api';
+import {HolidayGridDto, HolidayService, HolidayType} from '../../../shared/services/api';
 import {Observable,  Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {  Column,  Configuration,  DataCellTemplate,  SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
@@ -9,6 +9,7 @@ import {EntityService} from '../../../shared/services/state-management/entity.se
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {DateTime} from 'luxon';
+import {EnumTranslationService} from '../../../shared/services/enum-translation.service';
 
 @Component({
   selector: 'ts-master-data-holidays',
@@ -33,6 +34,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private holidayService: HolidayService,
     private localizationService: LocalizationService,
+    private enumTranslationService: EnumTranslationService,
   ) {
     const defaultStartDate = DateTime.now().startOf('year');
     const defaultEndDate = DateTime.now().endOf('year');
@@ -63,8 +65,11 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     };
 
     const cssHeadCell = 'border-0 text-nowrap';
+    const cssHeadCellLg = 'd-none d-lg-table-cell';
+    const cssDataCellLg = cssHeadCellLg;
     const cssHeadCellMd = 'd-none d-md-table-cell';
     const cssDataCellMd = cssHeadCellMd;
+
     this.columns = [
       {
         title: $localize`:@@DTO.HolidayGridDto.Title:[i18n] Title`,
@@ -85,6 +90,13 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
         cssDataCell: cssDataCellMd,
         dataCellTemplate: this.dataCellTemplate,
         format: (row) => row.endDate.toFormat(this.localizationService.dateTime.dateFormat)
+      }, {
+        title: $localize`:@@DTO.HolidayGridDto.Type:[i18n] Type`,
+        prop: 'type',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellLg}`,
+        cssDataCell: cssDataCellLg,
+        dataCellTemplate: this.dataCellTemplate,
+        format: (row) => this.enumTranslationService.translate('HolidayType', row.type)
       }, {
         title: '',
         customId: 'delete',

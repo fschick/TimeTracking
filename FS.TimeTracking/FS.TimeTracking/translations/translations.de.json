@@ -327,7 +327,8 @@
     "HolidayGridDto": {
       "Title": "Titel",
       "StartDate": "Startdatum",
-      "EndDate": "Enddatum"
+      "EndDate": "Enddatum",
+      "Type": "Typ"
     },
     "HolidayImportDto": {
       "File": "iCal-Datei",

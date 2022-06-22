@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+﻿using FS.TimeTracking.Abstractions.Enums;
+using FS.TimeTracking.Abstractions.Models.Application.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,10 @@ public record HolidayGridDto
     /// <inheritdoc cref="Holiday.EndDate"/>
     [Required]
     public DateTimeOffset EndDate { get; set; }
+
+    /// <inheritdoc cref="Holiday.Type"/>
+    [Required]
+    public HolidayType Type { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -58,6 +58,10 @@ export class UtilityService {
     return value.substr(0, index) + replacement + value.substr(index + replacement.length);
   }
 
+  public capitalize(value: string): string {
+    return value[0].toUpperCase() + value.slice(1);
+  }
+
   public getFirstDifference(val1?: string, val2?: string): number {
     if (val1 === val2)
       return -1;

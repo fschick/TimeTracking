@@ -4,6 +4,7 @@ import {filter, map, tap} from 'rxjs/operators';
 import {merge, Observable, of} from 'rxjs';
 import {ValidationFormGroup} from '../../services/form-validation/form-validation.service';
 import {$localizeId} from '../../services/internationalization/localizeId';
+import {UtilityService} from '../../services/utility.service';
 
 @Component({
   selector: 'ts-form-validation-errors',
@@ -20,6 +21,7 @@ export class FormValidationErrorsComponent implements OnInit {
   private validationFormGroup!: ValidationFormGroup;
 
   constructor(
+    private utilityService: UtilityService,
     @Optional() private ngForm: FormGroupDirective
   ) {
   }
@@ -88,13 +90,9 @@ export class FormValidationErrorsComponent implements OnInit {
   }
 
   private translateFieldName(fieldName: string): string {
-    const fieldNameTransUnitId = `@@DTO.${(this.validationFormGroup.typeName)}.${this.capitalize(fieldName)}`;
+    const fieldNameTransUnitId = `@@DTO.${(this.validationFormGroup.typeName)}.${this.utilityService.capitalize(fieldName)}`;
     const translatedFieldName = $localizeId`${fieldNameTransUnitId}:TRANSUNITID:`;
     return translatedFieldName !== '' ? translatedFieldName : fieldName;
-  }
-
-  private capitalize(value: string): string {
-    return value[0].toUpperCase() + value.slice(1);
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
