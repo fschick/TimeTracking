@@ -3,7 +3,7 @@ import {FilteredRequestParams} from '../../../shared/components/filter/filter.co
 import {filter, map, single, switchMap} from 'rxjs/operators';
 import {TimeSheetService, WorkdayAggregationUnit, WorkedDaysInfoDto} from '../../../shared/services/api';
 import {DateTime, Duration} from 'luxon';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {FormatService} from '../../../shared/services/format.service';
 import {ApexAxisChartSeries, ApexChart, ApexPlotOptions, ApexStates, ApexTooltip, ApexXAxis} from 'ng-apexcharts';
@@ -72,7 +72,7 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
     const loadWorkTimeOverview = this.entityService.filterChanged
       .pipe(
         filter(() => this.visible),
-        switchMap(filter => this.loadData(filter))
+        switchMap(filter => this.loadOverviewData(filter))
       )
       .subscribe(overview => this.overview = overview);
     this.subscriptions.add(loadWorkTimeOverview);
@@ -82,7 +82,7 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams) {
+  private loadOverviewData(filter: FilteredRequestParams): Observable<WorkTimeOverviewDto> {
     return this.timeSheetService
       .getWorkedDaysOverview(filter)
       .pipe(
