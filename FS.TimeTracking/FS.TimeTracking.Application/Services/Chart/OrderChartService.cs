@@ -179,9 +179,9 @@ public class OrderChartService : IOrderChartService
     }
 
     /// <inheritdoc />
-    public async Task<int> GetPersonalWorkdaysCount(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+    public async Task<int> GetPersonalWorkdaysCount(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
     {
-        var workdays = await _workdayService.GetWorkdays(startDate, endDate, cancellationToken);
+        var workdays = await _workdayService.GetWorkdays(startDate.Date, endDate.Date, cancellationToken);
         return workdays.PersonalWorkdays.Count;
     }
 

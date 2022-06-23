@@ -47,5 +47,5 @@ public interface IOrderChartService
     /// <param name="startDate">The start date.</param>
     /// <param name="endDate">The end date.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    Task<int> GetPersonalWorkdaysCount(DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
+    Task<int> GetPersonalWorkdaysCount(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken);
 }

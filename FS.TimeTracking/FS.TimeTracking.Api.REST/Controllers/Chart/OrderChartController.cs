@@ -43,6 +43,6 @@ public class OrderChartController : ControllerBase, IOrderChartService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<int> GetPersonalWorkdaysCount(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+    public async Task<int> GetPersonalWorkdaysCount(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
         => await _chartService.GetPersonalWorkdaysCount(startDate, endDate, cancellationToken);
 }

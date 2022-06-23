@@ -46,7 +46,7 @@ export class ChartWorkdayInfoComponent implements OnDestroy {
 
     const startDate = filter.timeSheetStartDate;
     const endDate = filter.timeSheetEndDate;
-    const workdaysLeft = this.orderChartService.getPersonalWorkdaysCount({startDate: DateTime.now(), endDate});
+    const workdaysLeft = this.orderChartService.getPersonalWorkdaysCount({startDate: DateTime.now().startOf('day'), endDate});
     const workdaysTotal = this.orderChartService.getPersonalWorkdaysCount({startDate, endDate});
     return combineLatest([workdaysLeft, workdaysTotal]);
   }
