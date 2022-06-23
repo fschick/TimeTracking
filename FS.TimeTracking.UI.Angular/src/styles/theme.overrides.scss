@@ -128,7 +128,7 @@ $table-hover-bg: $primary-100;
 /* ----------------------------------------- */
 $popover-body-color: $gray-700;
 $popover-border-width: 0;
-$popover-box-shadow: 0 5px 15px 0 #cfcfcf;
+$popover-box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
 $popover-bg: $gray-100;
 
 /* ----------------------------------------- */
@@ -137,7 +137,7 @@ $popover-bg: $gray-100;
 $dropdown-color: $gray-700;
 $dropdown-bg: $gray-100;
 $dropdown-border-width: 0;
-$dropdown-box-shadow: 0 5px 15px 0 #cfcfcf;
+$dropdown-box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
 $dropdown-link-hover-color: $primary-800;
 $dropdown-link-hover-bg: $primary-100;
 $dropdown-link-active-color: $primary-600;
