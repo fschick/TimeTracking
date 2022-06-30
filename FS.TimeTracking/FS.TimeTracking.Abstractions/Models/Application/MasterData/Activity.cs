@@ -17,7 +17,7 @@ public class Activity : IIdEntityModel
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The display name of this item.
+    /// The display name of the activity.
     /// </summary>
     [Required]
     [StringLength(100)]

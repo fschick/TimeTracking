@@ -18,7 +18,7 @@ public class Customer : IIdEntityModel
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The display name of this item.
+    /// The display name of the customer.
     /// </summary>
     [Required]
     [StringLength(100)]

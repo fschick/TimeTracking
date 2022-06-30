@@ -21,7 +21,7 @@ public class Holiday : IIdEntityModel
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The display name of this item.
+    /// The display name of the holiday.
     /// </summary>
     [Required]
     [StringLength(100)]

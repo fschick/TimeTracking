@@ -17,7 +17,7 @@ public class Project : IIdEntityModel
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The display name of this item.
+    /// The display name of the project.
     /// </summary>
     [Required]
     [StringLength(100)]
