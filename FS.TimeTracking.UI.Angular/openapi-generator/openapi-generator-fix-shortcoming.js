@@ -7,7 +7,7 @@ console.log('Replace in directory ', directory);
 const fixes = [
     // DateTime is already imported by adjusted template.
 	//{search: "import { DateTime } from '../luxon';", replace: "import { DateTime } from 'luxon';"},
-	{search: "import { DateTime } from '../luxon';", replace: ""},
+	{search: /\/\/ @ts-ignore\nimport { DateTime } from 'luxon';/, replace: ""},
 	// {search: /cc/g, replace: 'ee'},    
 ];
 
