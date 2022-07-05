@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../shared/services/api';
+import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../../api/timetracking';
 import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';

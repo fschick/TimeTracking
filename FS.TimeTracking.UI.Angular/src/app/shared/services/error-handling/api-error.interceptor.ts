@@ -3,7 +3,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {DatabaseErrorCode, ErrorInformation} from '../api';
+import {DatabaseErrorCode, ErrorInformation} from '../../../../api/timetracking';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
-import {OrderDto, OrderService, StringTypeaheadDto, TypeaheadService} from '../../../shared/services/api';
+import {OrderDto, OrderService, StringTypeaheadDto, TypeaheadService} from '../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';

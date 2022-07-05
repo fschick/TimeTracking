@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActivityGridDto, ActivityService} from '../../../shared/services/api';
+import {ActivityGridDto, ActivityService} from '../../../../api/timetracking';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
 import {Observable, Subscription} from 'rxjs';

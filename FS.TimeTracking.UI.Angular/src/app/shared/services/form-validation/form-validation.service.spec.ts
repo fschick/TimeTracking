@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import validationDescriptions from './dto-validations.spec.json';
 
 import {FormValidationService} from './form-validation.service';
-import {CustomerDto} from '../api';
+import {CustomerDto} from '../../../../api/timetracking';
 import {FormControl} from '@angular/forms';
 
 describe('FormValidationService', () => {

@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@ang
 import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {Modal} from 'bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HolidayService} from '../../../shared/services/api';
+import {HolidayService} from '../../../../api/timetracking';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';

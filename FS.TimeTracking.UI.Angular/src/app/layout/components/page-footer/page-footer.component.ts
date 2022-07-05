@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {InformationService, ProductInformationDto} from '../../../shared/services/api';
+import {InformationService, ProductInformationDto} from '../../../../api/timetracking';
 import {combineLatest, Observable} from 'rxjs';
 import {map, single} from 'rxjs/operators';
 

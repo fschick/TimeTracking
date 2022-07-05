@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
-import {FormBuilder, Validators} from '@angular/forms';
-import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../shared/services/api';
-import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {SettingDto, SettingService} from '../../../../api/timetracking';
+import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {FormControl, Validators} from '@angular/forms';
 
-interface Settings {
-  workdays: SettingDtoWorkdays;
-  workHoursPerWorkday: DateTime;
-  currency: string;
+interface SettingDtoWithDate extends SettingDto {
+  workHoursPerWorkdayDate: DateTime
 }
 
 @Component({
@@ -22,53 +20,43 @@ export class MasterDataSettingsComponent {
 
   constructor(
     private settingService: SettingService,
-    private formBuilder: FormBuilder,
+    private formValidationService: FormValidationService,
   ) {
     this.settingsForm = this.createSettingsForm();
 
     this.settingService.getSettings().pipe(single())
-      .subscribe(settingsDto => {
-        const settings = this.convertTimeSpans(settingsDto);
-        this.settingsForm.patchValue(settings)
-      });
+      .subscribe(settingsDto => this.settingsForm.patchValue(this.toSettingDtoWithDate(settingsDto)));
   }
 
   public save(): void {
     if (!this.settingsForm.valid)
       return;
 
-    const settingDto: SettingDto = {
-      workdays: this.settingsForm.value.workdays,
-      workHoursPerWorkday: this.toDuration(this.settingsForm.value.workHoursPerWorkday),
-      currency: this.settingsForm.value.currency,
-    }
-
+    const settingDto = this.toSettingDto(this.settingsForm.value);
     this.settingService.updateSettings({settingDto}).pipe(single()).subscribe();
   }
 
   private createSettingsForm(): ValidationFormGroup {
-    const form = this.formBuilder.group({
-      workdays: this.formBuilder.group({
-        Monday: [],
-        Tuesday: [],
-        Wednesday: [],
-        Thursday: [],
-        Friday: [],
-        Saturday: [],
-        Sunday: [],
-      }),
-      workHoursPerWorkday: [],
-      currency: ['', Validators.required]
-    });
-
-    return new ValidationFormGroup('SettingDto', form.controls);
+    return this.formValidationService.getFormGroup<SettingDtoWithDate>(
+      'SettingDto',
+      {},
+      {
+        workHoursPerWorkdayDate: new FormControl(undefined, [Validators.required])
+      }
+    );
   }
 
-  private convertTimeSpans(settings: SettingDto): Settings {
+  private toSettingDtoWithDate(settings: SettingDto): SettingDtoWithDate {
     return {
-      workdays: settings.workdays,
-      workHoursPerWorkday: this.toDateTime(settings.workHoursPerWorkday),
-      currency: settings.currency,
+      ...settings,
+      workHoursPerWorkdayDate: this.toDateTime(settings.workHoursPerWorkday),
+    };
+  }
+
+  private toSettingDto(settings: SettingDtoWithDate): SettingDto {
+    return {
+      ...settings,
+      workHoursPerWorkday: this.toDuration(settings.workHoursPerWorkdayDate),
     };
   }
 

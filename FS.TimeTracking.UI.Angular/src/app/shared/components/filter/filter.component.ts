@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
-import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../services/api';
+import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../../../api/timetracking';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';

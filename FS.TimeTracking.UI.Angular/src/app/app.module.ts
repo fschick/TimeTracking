@@ -5,7 +5,7 @@ import {PageFooterComponent} from './layout/components/page-footer/page-footer.c
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ApiModule, Configuration, SettingService} from './shared/services/api';
+import {ApiModule, Configuration, SettingService} from '../api/timetracking';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
