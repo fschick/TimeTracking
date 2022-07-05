@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CustomerGridDto, CustomerService} from '../../../shared/services/api';
+import {CustomerGridDto, CustomerService} from '../../../../api/timetracking';
 import {Observable, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
 import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';

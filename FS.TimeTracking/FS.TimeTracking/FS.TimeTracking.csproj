@@ -75,8 +75,8 @@
   </Target>
 
   <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Exec WorkingDirectory="$(AngularDirectory)" Command="node_modules/.bin/openapi-generator-cli generate -c openapi-generator/config.json -g typescript-angular --template-dir openapi-generator/templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o src/app/shared/services/api" />
-    <Exec WorkingDirectory="$(AngularDirectory)" Command="node openapi-generator/openapi-generator-fix-shortcoming.js src/app/shared/services/api" />
+    <Exec WorkingDirectory="$(AngularDirectory)" Command="node_modules/.bin/openapi-generator-cli generate -c openapi-generator/config.json -g typescript-angular --template-dir openapi-generator/templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o src/api/timetracking" />
+    <Exec WorkingDirectory="$(AngularDirectory)" Command="node openapi-generator/openapi-generator-fix-shortcoming.js src/api/timetracking" />
   </Target>
 
   <Target Name="GenerateValidationSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">

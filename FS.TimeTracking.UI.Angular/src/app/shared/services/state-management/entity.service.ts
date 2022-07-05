@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
-import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../api';
+import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
 

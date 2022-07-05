@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy} from '@angular/core';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {switchMap} from 'rxjs/operators';
 import {FilterName} from '../../../shared/components/filter/filter.component';
-import {OrderChartService} from '../../../shared/services/api';
+import {OrderChartService} from '../../../../api/timetracking';
 import {DateTime} from 'luxon';
 import {combineLatest, Observable, of, Subscription} from 'rxjs';
 

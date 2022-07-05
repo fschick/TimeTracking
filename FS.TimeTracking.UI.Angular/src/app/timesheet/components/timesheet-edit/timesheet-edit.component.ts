@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../shared/services/api';
+import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../api/timetracking';
 import {EntityService} from '../../../shared/services/state-management/entity.service';
 import {GuidService} from '../../../shared/services/state-management/guid.service';
 import {filter, map, pairwise, single, startWith} from 'rxjs/operators';

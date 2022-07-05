@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {OrderChartService, OrderWorkTimeDto} from '../../../shared/services/api';
+import {OrderChartService, OrderWorkTimeDto} from '../../../../api/timetracking';
 import {single, switchMap} from 'rxjs/operators';
 import {Column, Configuration, DataCellClickEvent, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../shared/services/internationalization/localization.service';

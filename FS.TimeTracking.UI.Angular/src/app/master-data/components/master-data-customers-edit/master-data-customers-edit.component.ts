@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
-import {CustomerDto, CustomerService} from '../../../shared/services/api';
+import {CustomerDto, CustomerService} from '../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {single} from 'rxjs/operators';
 import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
