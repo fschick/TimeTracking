@@ -30,6 +30,7 @@ async function* getFiles(directory) {
 }
 
 async function replaceInFile(file, replacements) {
+	console.log('Replace for file:', file);
     const fileContent = await readFile(file, 'utf8');
 
     let replacedContent = fileContent;
