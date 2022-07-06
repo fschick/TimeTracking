@@ -1,0 +1,6 @@
+{
+  "library": "httpclient",
+  "netCoreProjectFile": true,
+  "targetFramework": "net6.0",
+  "packageName": "FS.TimeTracking.Report.Client"
+}
