@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
-using FS.TimeTracking.Shared.DTOs.Report;
+using FS.TimeTracking.Core.Models.Application.MasterData;
+using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Report.Abstractions.DTOs.Reports;
 using System;
 using System.Collections.Generic;
 
@@ -77,7 +77,7 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
 
-        CreateMap<TimeSheet, ActivityReportGridDto>()
+        CreateMap<TimeSheet, ActivityReportTimeSheetDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
             .ForMember(x => x.CustomerCompanyName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.CompanyName))
             .ForMember(x => x.CustomerDepartment, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Department))

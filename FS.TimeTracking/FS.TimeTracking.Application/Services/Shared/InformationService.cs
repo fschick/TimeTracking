@@ -1,6 +1,6 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Shared.DTOs.Shared;
-using FS.TimeTracking.Shared.Extensions;
+﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
+using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using System.Threading;
 using System.Threading.Tasks;
 

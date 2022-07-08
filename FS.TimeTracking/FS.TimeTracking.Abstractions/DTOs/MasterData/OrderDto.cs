@@ -1,7 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Core.Models.Shared;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -9,56 +8,80 @@ using System.Diagnostics;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Order"/>
+/// <summary>
+/// Order
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(Order))]
+[FilterEntity(Prefix = "Order")]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class OrderDto
 {
-    /// <inheritdoc cref="Order.Id"/>
+    /// <summary>
+    /// The unique identifier of the entity.
+    /// </summary>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="Order.Title"/>
+    /// <summary>
+    /// The display name of the order.
+    /// </summary>
     [Required]
     [StringLength(100)]
     public string Title { get; set; }
 
-    /// <inheritdoc cref="Order.Description"/>
+    /// <summary>
+    /// Description of this item.
+    /// </summary>
     public string Description { get; set; }
 
-    /// <inheritdoc cref="Order.Number"/>
+    /// <summary>
+    /// The order number.
+    /// </summary>
     [StringLength(100)]
     public string Number { get; set; }
 
-    /// <inheritdoc cref="Order.CustomerId"/>
+    /// <summary>
+    /// The identifier to the related <see cref="CustomerDto"/>.
+    /// </summary>
     [Required]
     [Filter(Visible = false)]
     public Guid CustomerId { get; set; }
 
-    /// <inheritdoc cref="Order.StartDate"/>
+    /// <summary>
+    /// The start date.
+    /// </summary>
     [Required]
     public DateTimeOffset StartDate { get; set; }
 
-    /// <inheritdoc cref="Order.DueDate"/>
+    /// <summary>
+    /// The due date.
+    /// </summary>
     [Required]
-    [CompareTo(Models.Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
+    [CompareTo(ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset DueDate { get; set; }
 
-    /// <inheritdoc cref="Order.HourlyRate"/>
+    /// <summary>
+    /// The hourly rate.
+    /// </summary>
     [Required]
     [Range(0, double.PositiveInfinity)]
     public double HourlyRate { get; set; }
 
-    /// <inheritdoc cref="Order.Budget"/>
+    /// <summary>
+    /// The available budget.
+    /// </summary>
     [Required]
     [Range(0, double.PositiveInfinity)]
     public double Budget { get; set; }
 
-    /// <inheritdoc cref="Order.Comment"/>
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
     public string Comment { get; set; }
 
-    /// <inheritdoc cref="Order.Hidden"/>
+    /// <summary>
+    /// Indicates whether this item is hidden.
+    /// </summary>
     [Required]
     public bool Hidden { get; set; }
 

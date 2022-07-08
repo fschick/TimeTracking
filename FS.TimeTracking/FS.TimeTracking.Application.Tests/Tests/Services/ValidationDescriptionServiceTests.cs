@@ -1,9 +1,9 @@
 using Autofac.Extras.FakeItEasy;
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Tests.Models;
 using FS.TimeTracking.Application.ValidationConverters;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;

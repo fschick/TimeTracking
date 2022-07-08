@@ -1,11 +1,11 @@
 ﻿using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.TimeTracking;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using FS.TimeTracking.Application.Services.TimeTracking;
-using FS.TimeTracking.Shared.Tests.Services;
+using FS.TimeTracking.Application.Tests.Services;
+using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;

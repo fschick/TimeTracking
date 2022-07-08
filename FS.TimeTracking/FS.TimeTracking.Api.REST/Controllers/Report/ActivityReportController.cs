@@ -1,10 +1,10 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Shared.DTOs.Report;
-using FS.TimeTracking.Shared.Enums.Report;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+using FS.TimeTracking.Report.Abstractions.DTOs.Reports;
+using FS.TimeTracking.Report.Abstractions.Enums.Report;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;

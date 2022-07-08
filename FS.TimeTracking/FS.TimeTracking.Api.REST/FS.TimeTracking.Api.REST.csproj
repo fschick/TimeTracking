@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
-    <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Core\FS.TimeTracking.Core.csproj" />
   </ItemGroup>
 
 </Project>

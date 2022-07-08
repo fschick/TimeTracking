@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Build/build_core.props" />
+  <Import Project="../../Build/build_version.props" />
+  <Import Project="../../Build/build_xml_documentation.props" />
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.1.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.1.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

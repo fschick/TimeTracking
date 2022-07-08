@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Build/build_tests.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Core\FS.TimeTracking.Core.csproj" />
+  </ItemGroup>
+
+</Project>

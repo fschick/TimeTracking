@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using FS.TimeTracking.Abstractions.Interfaces.Models;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Models;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;

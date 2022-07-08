@@ -1,9 +1,8 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Models;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
-using FS.TimeTracking.Abstractions.Models.Configuration;
+﻿using FS.TimeTracking.Core.Interfaces.Models;
+using FS.TimeTracking.Core.Models.Application.MasterData;
+using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbFunctions;
-using FS.TimeTracking.Shared.Models.Configuration;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;

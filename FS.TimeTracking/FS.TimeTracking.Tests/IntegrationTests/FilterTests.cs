@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Models.Configuration;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
-using FS.TimeTracking.Shared.Tests.Services;
+using FS.TimeTracking.Application.Tests.Services;
+using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;

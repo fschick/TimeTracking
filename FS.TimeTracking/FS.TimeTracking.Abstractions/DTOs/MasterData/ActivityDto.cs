@@ -1,35 +1,44 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Core.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Activity"/>
+/// <summary>
+/// Activity
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(Activity))]
+[FilterEntity(Prefix = "Activity")]
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class ActivityDto
 {
-    /// <inheritdoc cref="Activity.Id"/>
+    ///  <summary>
+    /// The display name of the activity.
+    /// </summary>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="Activity.Title"/>
+    /// <inheritdoc cref="ActivityDto.Title"/>
     [Required]
     [StringLength(100)]
     public string Title { get; set; }
 
-    /// <inheritdoc cref="Activity.ProjectId"/>
+    /// <summary>
+    /// Identifier to the related <see cref="ProjectDto"/>.
+    /// </summary>
     [Filter(Visible = false)]
     public Guid? ProjectId { get; set; }
 
-    /// <inheritdoc cref="Activity.Comment"/>
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
     public string Comment { get; set; }
 
-    /// <inheritdoc cref="Activity.Hidden"/>
+    /// <summary>
+    /// Indicates whether this item is hidden.
+    /// </summary>
     [Required]
     public bool Hidden { get; set; }
 

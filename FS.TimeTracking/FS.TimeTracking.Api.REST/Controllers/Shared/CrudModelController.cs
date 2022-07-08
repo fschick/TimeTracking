@@ -1,9 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Abstractions.Models.REST;
 using FS.TimeTracking.Api.REST.Filters;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
-/// <inheritdoc cref="ICrudModelService{TDto, TGridDto}" />
+/// <inheritdoc cref="ICrudModelService{TDto,TGridDto}" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICrudModelService{TDto, TGridDto}" />
 public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICrudModelService<TDto, TGridDto>

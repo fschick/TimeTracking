@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
-using AssemblyExtensions = FS.TimeTracking.Shared.Extensions.AssemblyExtensions;
+using AssemblyExtensions = FS.TimeTracking.Core.Extensions.AssemblyExtensions;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
@@ -31,12 +31,10 @@ internal static class OpenApi
 
                 var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
                 var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");
-                var sharedXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Shared.xml");
                 c.IncludeXmlComments(restXmlDoc);
                 c.IncludeXmlComments(abstractionsXmlDoc);
-                c.IncludeXmlComments(sharedXmlDoc);
 
-                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc, sharedXmlDoc);
+                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc);
             });
 
     internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)

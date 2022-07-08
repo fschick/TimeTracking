@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.MasterData;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,19 +9,19 @@ namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 /// </summary>
 public class OrderWorkTimeDto : WorkTimeDto
 {
-    /// <inheritdoc cref="Order.Id" />
+    /// <inheritdoc cref="OrderDto.Id" />
     [Required]
     public Guid OrderId { get; set; }
 
-    /// <inheritdoc cref="Order.Title" />
+    /// <inheritdoc cref="OrderDto.Title" />
     [Required]
     public string OrderTitle { get; set; }
 
-    /// <inheritdoc cref="Order.Number" />
+    /// <inheritdoc cref="OrderDto.Number" />
     [Required]
     public string OrderNumber { get; set; }
 
-    /// <inheritdoc cref="Customer.Title"/>
+    /// <inheritdoc cref="CustomerDto.Title"/>
     [Required]
     public string CustomerTitle { get; set; }
 }

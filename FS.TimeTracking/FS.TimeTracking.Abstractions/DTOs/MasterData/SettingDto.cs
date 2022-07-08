@@ -1,15 +1,16 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Core.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Setting"/>
+/// <summary>
+/// User defined application settings
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(Setting))]
+[FilterEntity(Prefix = "Setting")]
 public record SettingDto
 {
     /// <inheritdoc cref="WorkdaysOfWeekDto" />

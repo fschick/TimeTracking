@@ -1,14 +1,14 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Extensions;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Report;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
 using FS.TimeTracking.Application.AutoMapper;
-using FS.TimeTracking.Shared.DTOs.Report;
-using FS.TimeTracking.Shared.Enums.Report;
+using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Report.Abstractions.DTOs.Reports;
+using FS.TimeTracking.Report.Abstractions.Enums.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,12 +86,12 @@ public class ActivityReportService : IActivityReportService
         return provider;
     }
 
-    private async Task<List<ActivityReportGridDto>> GetTimeSheets(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    private async Task<List<ActivityReportTimeSheetDto>> GetTimeSheets(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
     {
         var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
 
         var timeSheets = await _repository
-            .Get<TimeSheet, ActivityReportGridDto>(
+            .Get<TimeSheet, ActivityReportTimeSheetDto>(
                 where: filter,
                 orderBy: o => o.OrderBy(x => x.StartDateLocal),
                 cancellationToken: cancellationToken
@@ -100,7 +100,7 @@ public class ActivityReportService : IActivityReportService
         return timeSheets;
     }
 
-    private static void SetGroupByMember(List<ActivityReportGridDto> timeSheets, ActivityReportGroup groupBy, Dictionary<string, string> reportTranslations)
+    private static void SetGroupByMember(List<ActivityReportTimeSheetDto> timeSheets, ActivityReportGroup groupBy, Dictionary<string, string> reportTranslations)
     {
         reportTranslations.Add("GroupByTitle", reportTranslations.FirstOrDefault(x => x.Key == groupBy.ToString()).Value);
         foreach (var timeSheet in timeSheets)

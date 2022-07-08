@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Shared.Extensions;
+﻿using FS.TimeTracking.Core.Extensions;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;

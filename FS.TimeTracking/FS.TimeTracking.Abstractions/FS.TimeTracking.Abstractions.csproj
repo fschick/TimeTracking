@@ -6,13 +6,12 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.1.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.1.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Abstractions" Version="4.1.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj" />
+    <ProjectReference Include="..\..\FS.TimeTracking.ReportServer\FS.TimeTracking.Report.Abstractions\FS.TimeTracking.Report.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

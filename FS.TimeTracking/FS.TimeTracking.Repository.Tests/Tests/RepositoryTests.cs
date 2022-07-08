@@ -1,8 +1,8 @@
 using Autofac.Extras.FakeItEasy;
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Abstractions.Models.Configuration;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.MasterData;
+using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using Microsoft.Extensions.Options;

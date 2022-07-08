@@ -1,5 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
-using System;
+﻿using System;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
@@ -20,7 +19,7 @@ public class TypeaheadDto
 }
 
 /// <summary>
-/// Generic DTO returned by <see cref="ITypeaheadService"/>.
+/// Generic type ahead DTO.
 /// </summary>
 /// <typeparam name="TValue">The type of the value.</typeparam>
 public class TypeaheadDto<TValue>

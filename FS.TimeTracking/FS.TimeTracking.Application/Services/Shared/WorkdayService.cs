@@ -2,11 +2,11 @@
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.Enums;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Extensions;
+using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.MasterData;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Core.Models.Shared;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -9,46 +9,66 @@ using System.Diagnostics;
 
 namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
-/// <inheritdoc cref="TimeSheet"/>
+/// <summary>
+/// Time sheet position.
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(TimeSheet))]
+[FilterEntity(Prefix = "TimeSheet")]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetDto
 {
-    /// <inheritdoc cref="TimeSheet.Id"/>
+    /// <summary>
+    /// The unique identifier of the entity.
+    /// </summary>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.ProjectId"/>
+    /// <summary>
+    /// The identifier to the related <see cref="ProjectDto"/>.
+    /// </summary>
     [Required]
     [Filter(Visible = false)]
     public Guid ProjectId { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.ActivityId"/>
+    /// <summary>
+    /// The identifier to the related <see cref="ActivityDto"/>.
+    /// </summary>
     [Required]
     [Filter(Visible = false)]
     public Guid ActivityId { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.OrderId"/>
+    /// <summary>
+    /// The identifier to the related <see cref="OrderDto"/>.
+    /// </summary>
     [Filter(Visible = false)]
     public Guid? OrderId { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Issue"/>
+    /// <summary>
+    /// The related issue/ticket/... .
+    /// </summary>
     public string Issue { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.StartDate"/>
+    /// <summary>
+    /// The start date.
+    /// </summary>
     [Required]
     public DateTimeOffset StartDate { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.EndDate"/>
-    [CompareTo(Models.Shared.ComparisonType.GreaterThan, nameof(StartDate))]
+    /// <summary>
+    /// The end date.
+    /// </summary>
+    [CompareTo(ComparisonType.GreaterThan, nameof(StartDate))]
     public DateTimeOffset? EndDate { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Billable"/>
+    /// <summary>
+    /// Indicates whether this item is billable.
+    /// </summary>
     [Required]
     public bool Billable { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Comment"/>
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
     public string Comment { get; set; }
 
     [JsonIgnore]

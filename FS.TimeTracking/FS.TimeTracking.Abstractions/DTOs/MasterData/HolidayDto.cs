@@ -1,8 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Enums;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Core.Models.Shared;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -10,31 +9,43 @@ using System.Diagnostics;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Holiday"/>
+/// <summary>
+/// Holiday
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(Holiday))]
+[FilterEntity(Prefix = "Holiday")]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record HolidayDto
 {
-    /// <inheritdoc cref="Holiday.Id"/>
+    /// <summary>
+    /// The unique identifier of the entity.
+    /// </summary>
     [Required]
     public Guid Id { get; init; }
 
-    /// <inheritdoc cref="Holiday.Title"/>
+    /// <summary>
+    /// The display name of the holiday.
+    /// </summary>
     [Required]
     [StringLength(100)]
     public string Title { get; init; }
 
-    /// <inheritdoc cref="Holiday.StartDate"/>
+    /// <summary>
+    /// The start date.
+    /// </summary>
     [Required]
     public DateTimeOffset StartDate { get; set; }
 
-    /// <inheritdoc cref="Holiday.EndDate"/>
+    /// <summary>
+    /// The end date.
+    /// </summary>
     [Required]
-    [CompareTo(Models.Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
+    [CompareTo(ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset EndDate { get; set; }
 
-    /// <inheritdoc cref="Holiday.Type"/>
+    /// <summary>
+    /// The reason for holiday.
+    /// </summary>
     [Required]
     public HolidayType Type { get; set; }
 

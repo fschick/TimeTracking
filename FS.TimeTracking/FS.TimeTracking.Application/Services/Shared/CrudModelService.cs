@@ -2,9 +2,9 @@
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Abstractions.Interfaces.Models;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Interfaces.Models;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading;

@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Shared;
+﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;

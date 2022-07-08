@@ -1,24 +1,23 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
-/// <inheritdoc cref="TimeSheet"/>
+/// <inheritdoc cref="TimeSheetDto"/>
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetGridDto
 {
-    /// <inheritdoc cref="TimeSheet.Id"/>
+    /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.StartDate"/>
+    /// <inheritdoc cref="TimeSheetDto.StartDate"/>
     [Required]
     public DateTimeOffset StartDate { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.EndDate"/>
+    /// <inheritdoc cref="TimeSheetDto.EndDate"/>
     public DateTimeOffset? EndDate { get; set; }
 
     /// <summary>
@@ -26,25 +25,25 @@ public class TimeSheetGridDto
     /// </summary>
     public TimeSpan? Duration { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Comment"/>
+    /// <inheritdoc cref="TimeSheetDto.Comment"/>
     public string Comment { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Issue"/>
+    /// <inheritdoc cref="TimeSheetDto.Issue"/>
     public string Issue { get; set; }
 
-    /// <inheritdoc cref="Customer.Title"/>
+    /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }
 
-    /// <inheritdoc cref="Project.Title"/>
+    /// <inheritdoc cref="ProjectDto.Title"/>
     public string ProjectTitle { get; set; }
 
-    /// <inheritdoc cref="Activity.Title"/>
+    /// <inheritdoc cref="ActivityDto.Title"/>
     public string ActivityTitle { get; set; }
 
-    /// <inheritdoc cref="Order.Title"/>
+    /// <inheritdoc cref="OrderDto.Title"/>
     public string OrderTitle { get; set; }
 
-    /// <inheritdoc cref="TimeSheet.Billable"/>
+    /// <inheritdoc cref="TimeSheetDto.Billable"/>
     [Required]
     public bool Billable { get; set; }
 

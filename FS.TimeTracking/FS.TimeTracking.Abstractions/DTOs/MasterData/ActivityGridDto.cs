@@ -1,28 +1,27 @@
-﻿using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Project"/>
+/// <inheritdoc cref="ActivityDto"/>
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class ActivityGridDto
 {
-    /// <inheritdoc cref="Activity.Id"/>
+    /// <inheritdoc cref="ActivityDto.Id"/>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="Activity.Title"/>
+    /// <inheritdoc cref="ActivityDto.Title"/>
     public string Title { get; set; }
 
-    /// <inheritdoc cref="Project.Title"/>
+    /// <inheritdoc cref="ProjectDto.Title"/>
     public string ProjectTitle { get; set; }
 
-    /// <inheritdoc cref="Customer.Title"/>
+    /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }
 
-    /// <inheritdoc cref="Project.Hidden"/>
+    /// <inheritdoc cref="ProjectDto.Hidden"/>
     public bool Hidden { get; set; }
 
     [JsonIgnore]

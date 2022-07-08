@@ -1,6 +1,5 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Shared.Attributes;
+using FS.TimeTracking.Core.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -8,60 +7,88 @@ using System.Diagnostics;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
-/// <inheritdoc cref="Customer"/>
+/// <summary>
+/// Customer
+/// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = nameof(Customer))]
+[FilterEntity(Prefix = "Customer")]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record CustomerDto
 {
-    /// <inheritdoc cref="Customer.Id"/>
+    /// <summary>
+    /// The unique identifier of the entity.
+    /// </summary>
     [Required]
     public Guid Id { get; init; }
 
-    /// <inheritdoc cref="Customer.Title"/>
+    /// <summary>
+    /// The display name of the customer.
+    /// </summary>
     [Required]
     [StringLength(100)]
     public string Title { get; init; }
 
-    /// <inheritdoc cref="Customer.Number"/>
+    /// <summary>
+    /// The customer number.
+    /// </summary>
     public string Number { get; set; }
 
-    /// <inheritdoc cref="Customer.Department"/>
+    /// <summary>
+    /// The department.
+    /// </summary>
     public string Department { get; set; }
 
-    /// <inheritdoc cref="Customer.CompanyName"/>
+    /// <summary>
+    /// The name of the company.
+    /// </summary>
     [StringLength(100)]
     public string CompanyName { get; init; }
 
-    /// <inheritdoc cref="Customer.ContactName"/>
+    /// <summary>
+    /// The name of the contact.
+    /// </summary>
     [StringLength(100)]
     public string ContactName { get; init; }
 
-    /// <inheritdoc cref="Customer.HourlyRate"/>
+    /// <summary>
+    /// The hourly rate.
+    /// </summary>
     [Required]
     [Range(0, double.PositiveInfinity)]
     public double HourlyRate { get; set; }
 
-    /// <inheritdoc cref="Customer.Street"/>
+    /// <summary>
+    /// The street.
+    /// </summary>
     [StringLength(100)]
     public string Street { get; init; }
 
-    /// <inheritdoc cref="Customer.ZipCode"/>
+    /// <summary>
+    /// The zip code.
+    /// </summary>
     [StringLength(100)]
     public string ZipCode { get; init; }
 
-    /// <inheritdoc cref="Customer.City"/>
+    /// <summary>
+    /// The city.
+    /// </summary>
     [StringLength(100)]
     public string City { get; init; }
 
-    /// <inheritdoc cref="Customer.Country"/>
+    /// <summary>
+    /// The country.
+    /// </summary>
     [StringLength(100)]
     public string Country { get; init; }
 
-    /// <inheritdoc cref="Customer.Comment"/>
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
     public string Comment { get; set; }
 
-    /// <inheritdoc cref="Customer.Hidden"/>
+    /// <summary>
+    /// Indicates whether this item is hidden.
+    /// </summary>
     [Required]
     public bool Hidden { get; init; }
 

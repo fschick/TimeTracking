@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

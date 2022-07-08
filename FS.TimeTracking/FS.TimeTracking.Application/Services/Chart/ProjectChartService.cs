@@ -2,11 +2,11 @@
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.Chart;
-using FS.TimeTracking.Abstractions.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
-using FS.TimeTracking.Abstractions.Models.Application.Chart;
-using FS.TimeTracking.Shared.Extensions;
+using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
+using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.Chart;
 using System;
 using System.Collections.Generic;
 using System.Linq;

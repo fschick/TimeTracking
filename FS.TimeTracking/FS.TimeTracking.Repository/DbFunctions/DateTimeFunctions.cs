@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Models.Configuration;
-using FS.TimeTracking.Shared.Extensions;
+﻿using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
