@@ -3,9 +3,10 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app
 import {DateTime} from 'luxon';
 import {switchMap} from 'rxjs/operators';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
-import {EMPTY, Observable, Subscription} from 'rxjs';
-import {ActivityReportDto, ActivityReportService} from '../../../../../api/timetracking';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {Observable, Subscription} from 'rxjs';
+import {ActivityReportService, ReportPreviewDto} from '../../../../../api/timetracking';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'ts-report-activity-overview',
@@ -14,7 +15,9 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 })
 export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   public filters: (Filter | FilterName)[];
-  public preview: SafeHtml = '';
+  public previewImages?: SafeUrl[];
+  public totalReportPages?: number;
+  public downloadLink?: string;
 
   @ViewChild('reportPreview') private reportPreview?: ElementRef;
   private readonly subscriptions = new Subscription();
@@ -28,12 +31,11 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
     const defaultEndDate = DateTime.now().minus({month: 1}).endOf('month');
 
     this.filters = [
-      {name: 'showDetails', defaultValue: false, isPrimary: true},
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate, isPrimary: true},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate, isPrimary: true},
-      {name: 'customerId'},
+      {name: 'customerId', isPrimary: true},
+      {name: 'projectId', isPrimary: true},
       {name: 'orderId'},
-      {name: 'projectId'},
       {name: 'activityId'},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'},
@@ -43,11 +45,11 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     const loadTimeSheets = this.entityService.filterChanged
-      .pipe(
-        switchMap(filter => this.loadReport(filter)),
-        switchMap(reportDto => this.loadPreview(reportDto)),
-      )
-      .subscribe(x => this.preview = this.sanitizer.bypassSecurityTrustHtml(x));
+      .pipe(switchMap(requestParameters => this.loadPreview(requestParameters)))
+      .subscribe(preview => {
+        this.totalReportPages = preview.totalPages;
+        this.previewImages = preview.pages?.map(pageData => this.sanitizer.bypassSecurityTrustUrl(`data:image/png;base64,${pageData}`)) ?? [];
+      });
     this.subscriptions.add(loadTimeSheets);
   }
 
@@ -55,14 +57,17 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadReport(filter: FilteredRequestParams): Observable<ActivityReportDto> {
-    return this.activityReportService.getDetailedActivityReport(filter);
+  private loadPreview(requestParameters: FilteredRequestParams): Observable<ReportPreviewDto> {
+    this.downloadLink = this.createDownloadLink(requestParameters);
+    return this.activityReportService.getDetailedActivityReportPreview(requestParameters);
   }
 
-  private loadPreview(activityReportDto: ActivityReportDto | undefined): Observable<any> {
-    const returnType = 'text/plain' as unknown as undefined;
-    // return this.activityReportService.getDetailedActivityReportPreview({activityReportDto}, undefined, undefined, {httpHeaderAccept: returnType});
-    // return this.activityReportService.generateActivityReportPreview({activityReportDto}, undefined, undefined, {httpHeaderAccept: returnType});
-    return EMPTY;
+  private createDownloadLink(requestParameters: FilteredRequestParams): string {
+    var httpParams = new HttpParams({encoder: this.activityReportService.encoder});
+
+    for (const [key, value] of Object.entries(requestParameters))
+      httpParams = httpParams.append(key, value);
+
+    return `${this.activityReportService.configuration.basePath}/api/v1/ActivityReport/GetDetailedActivityReport?${httpParams.toString()}`
   }
 }

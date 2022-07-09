@@ -104,7 +104,14 @@
         "Period": "Zeitraum",
         "Duration": "Dauer",
         "Hours": "Stunden",
-        "Total": "Summe"
+        "Total": "Summe",
+        "Preview": "Vorschau",
+        "PreviewPages": "{$PAGES} von {$TOTAL} Seiten",
+        "NoActivityReports": "Keine Tätigkeitsnachweise verfügbar",
+        "Download": "Download"
+      },
+      "ActivityDetailed": {
+        "Title": "Tätigkeitsnachweis detailliert"
       }
     },
     "MasterData": {

@@ -14,6 +14,7 @@
     <PackageReference Include="Ical.Net" Version="4.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
+    <PackageReference Include="Schick.TimeTracking.Report.Client" Version="0.0.1-alpha6" />
     <PackageReference Include="TimeZoneConverter" Version="6.0.0" />
     <PackageReference Include="Schick.FilterExpressionCreator" Version="4.1.0" />
   </ItemGroup>

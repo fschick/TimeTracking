@@ -3,7 +3,7 @@ using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
-using FS.TimeTracking.Report.Abstractions.DTOs.Reports;
+using FS.TimeTracking.Report.Client.Model;
 using System;
 using System.Collections.Generic;
 
@@ -22,6 +22,7 @@ public class TimeTrackingAutoMapper : Profile
     public TimeTrackingAutoMapper()
     {
         ClearPrefixes();
+        DisableConstructorMapping();
 
         CreateMap<string, string>()
             .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);

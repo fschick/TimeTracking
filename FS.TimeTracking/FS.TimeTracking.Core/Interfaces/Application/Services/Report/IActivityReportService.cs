@@ -1,8 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Report.Abstractions.DTOs.Reports;
-using FS.TimeTracking.Report.Abstractions.Enums.Report;
+using FS.TimeTracking.Abstractions.Enums.Report;
+using FS.TimeTracking.Report.Client.Model;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ public interface IActivityReportService
     /// <param name="language">The language to get translations for.</param>
     /// <param name="groupBy">Field the report should be grouped by.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<ActivityReportDto> GetDetailedActivityReport(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default);
+    Task<FileResult> GetDetailedActivityReport(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the preview of a detailed activity report.
@@ -39,7 +40,7 @@ public interface IActivityReportService
     /// <param name="language">The language to get translations for.</param>
     /// <param name="groupBy">Field the report should be grouped by.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<ActivityReportDto> GetDetailedActivityReportPreview(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default);
+    Task<ReportPreviewDto> GetDetailedActivityReportPreview(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets data to create activity based reports.

@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Abstractions", "FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj", "{1B5F5086-3FB2-4C35-9DF7-789549261065}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report.Abstractions", "..\FS.TimeTracking.ReportServer\FS.TimeTracking.Report.Abstractions\FS.TimeTracking.Report.Abstractions.csproj", "{A7A43AB1-5E25-4D6F-93C7-863ABE0DF991}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Abstractions.Tests", "FS.TimeTracking.Abstractions.Tests\FS.TimeTracking.Abstractions.Tests.csproj", "{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Abstractions.Tests", "FS.TimeTracking.Abstractions.Tests\FS.TimeTracking.Abstractions.Tests.csproj", "{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Core", "FS.TimeTracking.Core\FS.TimeTracking.Core.csproj", "{EB90948D-4ED3-4615-AA3C-1072ABA06185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,10 +95,6 @@ Global
 		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5F5086-3FB2-4C35-9DF7-789549261065}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7A43AB1-5E25-4D6F-93C7-863ABE0DF991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7A43AB1-5E25-4D6F-93C7-863ABE0DF991}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7A43AB1-5E25-4D6F-93C7-863ABE0DF991}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7A43AB1-5E25-4D6F-93C7-863ABE0DF991}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,6 +103,10 @@ Global
 		{EB90948D-4ED3-4615-AA3C-1072ABA06185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB90948D-4ED3-4615-AA3C-1072ABA06185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB90948D-4ED3-4615-AA3C-1072ABA06185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914B0C30-6AE2-4139-9858-A86E28353558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914B0C30-6AE2-4139-9858-A86E28353558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914B0C30-6AE2-4139-9858-A86E28353558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914B0C30-6AE2-4139-9858-A86E28353558}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

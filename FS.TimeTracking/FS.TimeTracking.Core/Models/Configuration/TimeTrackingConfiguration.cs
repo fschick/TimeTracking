@@ -59,4 +59,9 @@ public class TimeTrackingConfiguration
     /// Database specific configuration.
     /// </summary>
     public DatabaseConfiguration Database { get; set; } = new();
+
+    /// <summary>
+    /// Report specific configuration.
+    /// </summary>
+    public ReportConfiguration Report { get; set; } = new();
 }

@@ -40,6 +40,7 @@ internal static class DependencyConfiguration
         services.AddScoped<IProjectChartService, ProjectChartService>();
         services.AddScoped<IIssueChartService, IssueChartService>();
         services.AddScoped<IActivityReportService, ActivityReportService>();
+        services.AddHttpClient<IActivityReportService, ActivityReportService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IActivityService, ActivityService>();

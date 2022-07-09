@@ -104,7 +104,14 @@
         "Period": "Period",
         "Duration": "Duration",
         "Hours": "Hours",
-        "Total": "Total"
+        "Total": "Total",
+        "Preview": "Preview",
+        "PreviewPages": "{$PAGES} of {$TOTAL} pages",
+        "NoActivityReports": "No activity reports available",
+        "Download": "Download"
+      },
+      "ActivityDetailed": {
+        "Title": "Activity report detailed"
       }
     },
     "MasterData": {
