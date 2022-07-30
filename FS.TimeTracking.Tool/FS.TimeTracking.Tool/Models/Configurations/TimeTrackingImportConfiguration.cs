@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Models.Configuration;
+﻿using FS.TimeTracking.Core.Models.Configuration;
 
 namespace FS.TimeTracking.Tool.Models.Configurations;
 

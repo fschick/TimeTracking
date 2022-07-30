@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
 
 namespace FS.TimeTracking.Tool.Interfaces.Import;
 

@@ -82,6 +82,7 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.CustomerCompanyName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.CompanyName))
             .ForMember(x => x.CustomerDepartment, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Department))
             .ForMember(x => x.CustomerContactName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.ContactName))
-            .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
+            .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))
+            .ForMember(x => x.GroupBy, x => x.Ignore());
     }
 }

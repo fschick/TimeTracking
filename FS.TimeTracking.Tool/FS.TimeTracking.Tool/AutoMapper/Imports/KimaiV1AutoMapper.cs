@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Abstractions.Models.Application.MasterData;
-using FS.TimeTracking.Abstractions.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Application.MasterData;
+using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Tool.Models.Imports;
 using System;
 

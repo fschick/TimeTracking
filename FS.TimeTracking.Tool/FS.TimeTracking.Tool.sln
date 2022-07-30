@@ -5,13 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
 	ProjectSection(SolutionItems) = preProject
-		Build\build_core.props = Build\build_core.props
-		Build\build_tests.props = Build\build_tests.props
-		Build\build_version.props = Build\build_version.props
-		Build\build_xml_documentation.props = Build\build_xml_documentation.props
+		..\Build\build_core.props = ..\Build\build_core.props
+		..\Build\build_tests.props = ..\Build\build_tests.props
+		..\Build\build_version.props = ..\Build\build_version.props
+		..\Build\build_xml_documentation.props = ..\Build\build_xml_documentation.props
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Shared", "..\FS.TimeTracking\FS.TimeTracking.Shared\FS.TimeTracking.Shared.csproj", "{345C6361-1278-4E6C-8694-C9821F5B4A72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Tool", "FS.TimeTracking.Tool\FS.TimeTracking.Tool.csproj", "{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}"
 EndProject
@@ -29,16 +27,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Abstractions", "..\FS.TimeTracking\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj", "{08A208D4-A191-40B7-8EF1-222E865E7881}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Core", "..\FS.TimeTracking\FS.TimeTracking.Core\FS.TimeTracking.Core.csproj", "{F62E23BD-0DD0-495A-8D45-46CD43959188}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{345C6361-1278-4E6C-8694-C9821F5B4A72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E60E02A5-7954-49C8-9A0E-C5704B5CAEEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +67,10 @@ Global
 		{08A208D4-A191-40B7-8EF1-222E865E7881}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08A208D4-A191-40B7-8EF1-222E865E7881}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08A208D4-A191-40B7-8EF1-222E865E7881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F62E23BD-0DD0-495A-8D45-46CD43959188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F62E23BD-0DD0-495A-8D45-46CD43959188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F62E23BD-0DD0-495A-8D45-46CD43959188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F62E23BD-0DD0-495A-8D45-46CD43959188}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

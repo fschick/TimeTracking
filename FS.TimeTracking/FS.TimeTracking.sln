@@ -41,8 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Report.Abst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Abstractions.Tests", "FS.TimeTracking.Abstractions.Tests\FS.TimeTracking.Abstractions.Tests.csproj", "{E4FD20E4-C582-46FD-8A37-D629A61BC5A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Core", "FS.TimeTracking.Core\FS.TimeTracking.Core.csproj", "{EB90948D-4ED3-4615-AA3C-1072ABA06185}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

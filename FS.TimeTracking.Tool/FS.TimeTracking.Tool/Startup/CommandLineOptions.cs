@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Abstractions.Models.Configuration;
+﻿using FS.TimeTracking.Core.Models.Configuration;
 using Mono.Options;
 using System;
 using System.Collections.Generic;
