@@ -5,12 +5,12 @@ import {Observable, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {ChartOptions, ChartService} from '../../services/chart.service';
 import {ApexAxisChartSeries} from 'ng-apexcharts';
-import {FormatService} from '../../../shared/services/format.service';
-import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
+import {FormatService} from '../../../../../core/app/services/format.service';
+import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {single, switchMap} from 'rxjs/operators';
-import {UtilityService} from '../../../shared/services/utility.service';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {UtilityService} from '../../../../../core/app/services/utility.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 
 @Component({
   selector: 'ts-chart-projects',

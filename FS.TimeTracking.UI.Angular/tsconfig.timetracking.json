@@ -7,7 +7,7 @@
   },
   "files": [
     "modules/timetracking/main.ts",
-    "modules/timetracking/polyfills.ts"
+    "modules/polyfills.ts"
   ],
   "include": [
     "modules/timetracking/**/*.d.ts"

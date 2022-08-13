@@ -8,11 +8,11 @@
     ]
   },
   "files": [
-    "modules/timetracking/test.ts",
-    "modules/timetracking/polyfills.ts"
+    "modules/test.ts",
+    "modules/polyfills.ts"
   ],
   "include": [
-    "modules/timetracking/**/*.spec.ts",
-    "modules/timetracking/**/*.d.ts"
+    "modules/**/*.spec.ts",
+    "modules/**/*.d.ts"
   ]
 }

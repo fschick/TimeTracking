@@ -1,11 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 import {UtilityService} from './utility.service';
+import {CoreModule} from '../core.module';
 
 describe('UtilityService', () => {
   let service: UtilityService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports: [CoreModule]});
     service = TestBed.inject(UtilityService);
   });
 

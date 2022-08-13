@@ -1,7 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {Column, Configuration, SimpleTableComponent} from './simple-table.component';
 import {By} from '@angular/platform-browser';
 import {ChangeDetectorRef, DebugElement} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 interface TestDto {
   id: number;
@@ -29,6 +30,7 @@ describe('SimpleTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [FormsModule],
       declarations: [SimpleTableComponent]
     })
       .compileComponents();
@@ -83,14 +85,14 @@ describe('SimpleTableComponent', () => {
     // await fixture.whenStable();
     setTimeout(() => {
       const sortedIds = debugElement
-        .queryAll(By.css('tr td:first-child'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedIds).toEqual(['1', '2', '3']);
+      .queryAll(By.css('tr td:first-child'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedIds).toEqual(['1', '2', '3']);
 
       const sortedAges = debugElement
-        .queryAll(By.css('tr td:nth-child(3)'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedAges).toEqual(['12', '10', '10']);
+      .queryAll(By.css('tr td:nth-child(3)'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedAges).toEqual(['12', '10', '10']);
     }, 1000);
   });
 
@@ -104,10 +106,10 @@ describe('SimpleTableComponent', () => {
     // Check
     // await fixture.whenStable();
     setTimeout(() => {
-      const sortedIds = debugElement
-        .queryAll(By.css('tr td:first-child'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedIds).toEqual(['3', '2', '1']);
+    const sortedIds = debugElement
+      .queryAll(By.css('tr td:first-child'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedIds).toEqual(['3', '2', '1']);
     }, 1000);
   });
 
@@ -122,10 +124,10 @@ describe('SimpleTableComponent', () => {
     // Check
     // await fixture.whenStable();
     setTimeout(() => {
-      const sortedIds = debugElement
-        .queryAll(By.css('tr td:first-child'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedIds).toEqual(['1', '3', '2']);
+    const sortedIds = debugElement
+      .queryAll(By.css('tr td:first-child'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedIds).toEqual(['1', '3', '2']);
     }, 1000);
   });
 
@@ -143,15 +145,15 @@ describe('SimpleTableComponent', () => {
     // Check
     // await fixture.whenStable();
     setTimeout(() => {
-      const sortedIds = debugElement
-        .queryAll(By.css('tr td:first-child'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedIds).toEqual(['2', '3', '1']);
+    const sortedIds = debugElement
+      .queryAll(By.css('tr td:first-child'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedIds).toEqual(['2', '3', '1']);
 
-      const sortedAges = debugElement
-        .queryAll(By.css('tr td:nth-child(3)'))
-        .map(x => x.nativeElement.innerText);
-      expect(sortedAges).toEqual(['10', '10', '12']);
+    const sortedAges = debugElement
+      .queryAll(By.css('tr td:nth-child(3)'))
+      .map(x => x.nativeElement.innerText);
+    expect(sortedAges).toEqual(['10', '10', '12']);
     }, 1000);
   });
 });

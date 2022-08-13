@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import validationDescriptions from './dto-validations.spec.json';
 import {Validators as CustomValidators} from './validators';
+import {CoreModule} from '../../core.module';
 
 type ValidationDescription = { [key: string]: any; type: string };
 type TypeValidationFromControls<TType> = { [key in keyof TType]: AbstractControl; };
@@ -29,7 +30,7 @@ export class ValidationFormGroup extends FormGroup {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class FormValidationService {
 

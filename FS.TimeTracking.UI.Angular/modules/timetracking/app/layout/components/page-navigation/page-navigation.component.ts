@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
-import {$localizeId} from '../../../shared/services/internationalization/localizeId';
+import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
+import {$localizeId} from '../../../../../core/app/services/internationalization/localizeId';
 
 @Component({
   selector: 'ts-page-navigation',

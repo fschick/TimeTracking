@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../../../api/timetracking';
-import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {FormBuilder, Validators} from '@angular/forms';
 
 interface Settings {

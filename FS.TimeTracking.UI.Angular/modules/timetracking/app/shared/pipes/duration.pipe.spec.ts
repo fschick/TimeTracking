@@ -2,12 +2,13 @@ import {DurationPipe} from './duration.pipe';
 import {TestBed} from '@angular/core/testing';
 import {Duration} from 'luxon';
 import {DecimalPipe} from '@angular/common';
+import {CoreModule} from '../../../../core/app/core.module';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [DurationPipe, DecimalPipe]});
+    TestBed.configureTestingModule({providers: [DurationPipe, DecimalPipe], imports: [CoreModule]});
     pipe = TestBed.inject(DurationPipe);
   });
 

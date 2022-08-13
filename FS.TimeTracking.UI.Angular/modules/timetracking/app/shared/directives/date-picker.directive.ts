@@ -1,8 +1,8 @@
 import {AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy} from '@angular/core';
-import {LocalizationService} from '../services/internationalization/localization.service';
+import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 import {DateTime} from 'luxon';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {DateParserService} from '../services/date-parser.service';
+import {DateParserService} from '../../../../core/app/services/date-parser.service';
 import {DateObjectUnits} from 'luxon/src/datetime';
 
 const CUSTOM_VALUE_ACCESSOR: any = {

@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../../api/timetracking';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
+import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {filter, map, pairwise, single, startWith} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';

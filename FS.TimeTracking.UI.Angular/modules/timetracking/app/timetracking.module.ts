@@ -24,15 +24,12 @@ import {SimpleTableComponent} from './shared/components/simple-table/simple-tabl
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApiErrorInterceptor} from './shared/services/error-handling/api-error.interceptor';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
 import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
-import {ApiDateTimeInterceptor} from './shared/services/error-handling/api-date-time.interceptor';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
-import {LocalizationService} from './shared/services/internationalization/localization.service';
 import {NumericDirective} from './shared/directives/numeric.directive';
 import {DatePickerDirective} from './shared/directives/date-picker.directive';
 import {NgLetModule} from 'ng-let';
@@ -61,6 +58,10 @@ import {OptionalLabelDirective} from './shared/directives/optional-label.directi
 import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
 import {ChartWorkdayInfoComponent} from './chart/components/chart-workday-info/chart-workday-info.component';
 import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-overview/chart-totals-overview.component';
+import {CoreModule} from '../../core/app/core.module';
+import {LocalizationService} from '../../core/app/services/internationalization/localization.service';
+import {ApiDateTimeInterceptor} from '../../core/app/services/error-handling/api-date-time.interceptor';
+import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-over
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    CoreModule,
     NgSelectModule,
     NgApexchartsModule,
     NgbModalModule,

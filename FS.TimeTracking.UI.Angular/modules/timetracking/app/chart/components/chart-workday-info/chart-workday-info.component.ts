@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy} from '@angular/core';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {switchMap} from 'rxjs/operators';
 import {FilterName} from '../../../shared/components/filter/filter.component';
 import {OrderChartService} from '../../../../../api/timetracking';

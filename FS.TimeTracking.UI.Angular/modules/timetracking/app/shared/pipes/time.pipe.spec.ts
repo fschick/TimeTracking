@@ -3,12 +3,13 @@ import {TestBed} from '@angular/core/testing';
 import {DateTime} from 'luxon';
 import {DatePipe} from './date.pipe';
 import {DecimalPipe} from '@angular/common';
+import {CoreModule} from '../../../../core/app/core.module';
 
 describe('TimePipe', () => {
   let pipe: TimePipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [DatePipe, TimePipe, DecimalPipe]});
+    TestBed.configureTestingModule({providers: [DatePipe, TimePipe, DecimalPipe], imports: [CoreModule]});
     pipe = TestBed.inject(TimePipe);
   });
 

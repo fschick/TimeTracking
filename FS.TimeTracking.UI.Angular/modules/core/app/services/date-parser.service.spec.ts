@@ -3,13 +3,14 @@ import {TestBed} from '@angular/core/testing';
 import {DateParserService} from './date-parser.service';
 import {DateTime} from 'luxon';
 import {LocalizationService} from './internationalization/localization.service';
+import {CoreModule} from '../core.module';
 
 describe('DateParserService', () => {
   let service: DateParserService;
   let localizationService: LocalizationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports: [CoreModule]});
     localizationService = TestBed.inject(LocalizationService);
     service = TestBed.inject(DateParserService);
   });

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
+import {CoreModule} from '../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class StorageService {
   private readonly storagePrefix = 'TimeTracking.';

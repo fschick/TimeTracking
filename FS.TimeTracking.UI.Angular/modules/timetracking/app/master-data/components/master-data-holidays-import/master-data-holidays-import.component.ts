@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
-import {ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {Modal} from 'bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HolidayService} from '../../../../../api/timetracking';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {HttpClient, HttpParams} from '@angular/common/http';

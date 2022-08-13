@@ -2,14 +2,15 @@ import {TestBed} from '@angular/core/testing';
 import validationDescriptions from './dto-validations.spec.json';
 
 import {FormValidationService} from './form-validation.service';
-import {CustomerDto} from '../../../../../api/timetracking';
+import {CustomerDto} from '../../../../api/timetracking';
 import {FormControl} from '@angular/forms';
+import {CoreModule} from '../../core.module';
 
 describe('FormValidationService', () => {
   let service: FormValidationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports: [CoreModule]});
     service = TestBed.inject(FormValidationService);
   });
 

@@ -1,8 +1,8 @@
 import {Directive, ElementRef, forwardRef, HostListener, Input, Optional} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {LocalizationService} from '../services/internationalization/localization.service';
-import {UtilityService} from '../services/utility.service';
-import {FormatService} from '../services/format.service';
+import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
+import {UtilityService} from '../../../../core/app/services/utility.service';
+import {FormatService} from '../../../../core/app/services/format.service';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

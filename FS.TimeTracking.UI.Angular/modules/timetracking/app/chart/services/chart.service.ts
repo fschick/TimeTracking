@@ -12,7 +12,7 @@ import {
   ApexXAxis,
   ApexYAxis
 } from 'ng-apexcharts';
-import {FormatService} from '../../shared/services/format.service';
+import {FormatService} from '../../../../core/app/services/format.service';
 import {DurationPipe} from '../../shared/pipes/duration.pipe';
 import {SortOrder} from '../../shared/components/simple-table/simple-table.component';
 

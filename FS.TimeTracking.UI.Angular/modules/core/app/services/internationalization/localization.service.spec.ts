@@ -1,11 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 import {LocalizationService} from './localization.service';
+import {CoreModule} from '../../core.module';
 
 describe('LocalizationService', () => {
   let service: LocalizationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports: [CoreModule]});
     service = TestBed.inject(LocalizationService);
   });
 
