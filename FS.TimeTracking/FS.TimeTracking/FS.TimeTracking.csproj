@@ -83,8 +83,8 @@
   </Target>
 
   <Target Name="GenerateValidationSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Message Importance="High" Text="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/app/app/shared/services/form-validation/dto-validations.spec.json" />
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/app/app/shared/services/form-validation/dto-validations.spec.json" />
+    <Message Importance="High" Text="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/timetracking/app/shared/services/form-validation/dto-validations.spec.json" />
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/timetracking/app/shared/services/form-validation/dto-validations.spec.json" />
   </Target>
 
 </Project>
