@@ -303,9 +303,9 @@ __pycache__/
 /FS.TimeTracking.UI.Angular/cypress/fixtures/example.json
 /FS.TimeTracking.UI.Angular/cypress/integration/samples
 /FS.TimeTracking.UI.Angular/modules/api
-/FS.TimeTracking.UI.Angular/modules/app/app/shared/services/form-validation/dto-validations.spec.json
 /FS.TimeTracking.UI.Angular/modules/assets/flags.svg
 /FS.TimeTracking.UI.Angular/modules/assets/icons.svg
+/FS.TimeTracking.UI.Angular/modules/timetracking/app/shared/services/form-validation/dto-validations.spec.json
 /FS.TimeTracking/FS.TimeTracking.Tests/TestDatabases.json
 /FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.openapi.json
 /FS.TimeTracking/FS.TimeTracking/config/FS.TimeTracking.config.Development.json

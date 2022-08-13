@@ -2,17 +2,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "outDir": "./out-tsc/app",
+    "types": ["jquery"],
   },
   "files": [
-    "modules/timetracking/test.ts",
+    "modules/timetracking/main.ts",
     "modules/timetracking/polyfills.ts"
   ],
   "include": [
-    "modules/timetracking/**/*.spec.ts",
     "modules/timetracking/**/*.d.ts"
   ]
 }
