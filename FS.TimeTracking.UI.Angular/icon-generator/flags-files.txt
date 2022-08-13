@@ -1,2 +1,2 @@
-src/flags/de.svg
-src/flags/en.svg
+modules/app/flags/de.svg
+modules/app/flags/en.svg

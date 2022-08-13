@@ -76,15 +76,15 @@
   </Target>
 
   <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Message Importance="High" Text="../node_modules/.bin/openapi-generator-cli generate -c config.json -g typescript-angular --template-dir templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o $(AngularDirectory)/src/api/timetracking" />
-    <Exec WorkingDirectory="$(ApiGeneratorDirectory)" Command="../node_modules/.bin/openapi-generator-cli generate -c config.json -g typescript-angular --template-dir templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o $(AngularDirectory)/src/api/timetracking" />
-    <Message Importance="High" Text="node openapi-generator-fix-shortcoming.js $(AngularDirectory)/src/api/timetracking" />
-    <Exec WorkingDirectory="$(ApiGeneratorDirectory)" Command="node openapi-generator-fix-shortcoming.js $(AngularDirectory)/src/api/timetracking" />
+    <Message Importance="High" Text="../node_modules/.bin/openapi-generator-cli generate -c config.json -g typescript-angular --template-dir templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o $(AngularDirectory)/modules/api/timetracking" />
+    <Exec WorkingDirectory="$(ApiGeneratorDirectory)" Command="../node_modules/.bin/openapi-generator-cli generate -c config.json -g typescript-angular --template-dir templates/typescript-angular --import-mappings=DateTime=luxon,Duration=luxon --type-mappings=DateTime=DateTime,date-span=Duration -i $(ProjectDir)$(TargetName).openapi.json -o $(AngularDirectory)/modules/api/timetracking" />
+    <Message Importance="High" Text="node openapi-generator-fix-shortcoming.js $(AngularDirectory)/modules/api/timetracking" />
+    <Exec WorkingDirectory="$(ApiGeneratorDirectory)" Command="node openapi-generator-fix-shortcoming.js $(AngularDirectory)/modules/api/timetracking" />
   </Target>
 
   <Target Name="GenerateValidationSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Message Importance="High" Text="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/src/app/shared/services/form-validation/dto-validations.spec.json" />
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/src/app/shared/services/form-validation/dto-validations.spec.json" />
+    <Message Importance="High" Text="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/app/app/shared/services/form-validation/dto-validations.spec.json" />
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-validation $(AngularDirectory)/modules/app/app/shared/services/form-validation/dto-validations.spec.json" />
   </Target>
 
 </Project>

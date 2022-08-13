@@ -1,7 +1,7 @@
 {
   "mode": {
     "stack": {
-      "dest": "src/assets",
+      "dest": "modules/assets",
       "sprite": "icons.svg"
     }
   },

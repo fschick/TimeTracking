@@ -3,7 +3,7 @@
     "symbol": {
       "prefix": ".%s",
       "dimensions": "--size",
-      "dest": "src/assets",
+      "dest": "modules/assets",
       "sprite": "flags.svg"
     }
   },
