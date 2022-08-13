@@ -1,0 +1,122 @@
+@import '~modules/app/styles/variables';
+
+.header {
+  background-color: $gray-100;
+  height: 6.25rem;
+
+  @include media-breakpoint-up(lg) {
+    height: 14.75rem;
+  }
+}
+
+.container > .card {
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  @include media-breakpoint-up(lg) {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.card {
+  margin-top: -0.6rem;
+  height: 3.55rem;
+  @include media-breakpoint-up(lg) {
+    height: 6.25rem;
+  }
+  width: inherit;
+  box-shadow: 0 0.3125rem 1.25rem 0 rgb(0 0 0 / 5%);
+}
+
+.card-body {
+  padding-top: 0.2rem;
+  padding-left: 1.5rem;
+  padding-bottom: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.primary {
+  padding-right: 1.15rem;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 2.25rem;
+  }
+}
+
+.no-days {
+  padding-right: 1.15rem;
+  color: $gray-400;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 2.25rem;
+  }
+}
+
+.secondary {
+  color: $gray-700;
+  vertical-align: 0.4375rem;
+}
+
+.description {
+  color: $gray-700;
+  margin-top: 0.15rem;
+
+  @include media-breakpoint-up(lg) {
+    margin-left: 0.2rem;
+  }
+
+  &.chart {
+    margin-top: 1.6875rem;
+  }
+}
+
+.icon {
+  background-repeat: no-repeat;
+  background-position-x: 108%;
+  filter: $filter-primary-100;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  &.briefcase {
+    top: 0.9rem;
+    bottom: 0.7rem;
+    background-position-x: 107%;
+    background-image: url('/assets/icons.svg#briefcase-fill');
+  }
+
+  &.calendar-week {
+    top: 1.2rem;
+    bottom: 1.3rem;
+    background-position-x: 104%;
+    background-image: url('/assets/icons.svg#calendar3-week-fill');
+  }
+
+  &.sun {
+    top: 0.7rem;
+    bottom: 0.7rem;
+    background-position-x: 106%;
+    background-image: url('/assets/icons.svg#brightness-high-fill');
+  }
+
+  &.chart {
+    top: 1.4rem;
+    bottom: 1.1rem;
+    background-position-x: 103%;
+    background-image: url('/assets/icons.svg#bar-chart-line-fill');
+  }
+}
