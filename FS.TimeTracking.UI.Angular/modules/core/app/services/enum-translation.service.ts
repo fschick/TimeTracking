@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {UtilityService} from './utility.service';
 import {$localizeId} from './internationalization/localizeId';
+import {CoreModule} from '../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class EnumTranslationService {
 

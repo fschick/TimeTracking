@@ -4,8 +4,11 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Duration} from 'luxon';
 import {DateParserService} from '../date-parser.service';
+import {CoreModule} from '../../core.module';
 
-@Injectable()
+@Injectable({
+  providedIn: CoreModule
+})
 export class ApiDateTimeInterceptor implements HttpInterceptor {
 
   constructor(

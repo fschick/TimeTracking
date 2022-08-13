@@ -23,7 +23,7 @@
             "outputPath": "dist/TimeTracking",
             "index": "modules/timetracking/index.html",
             "main": "modules/timetracking/main.ts",
-            "polyfills": "modules/timetracking/polyfills.ts",
+            "polyfills": "modules/polyfills.ts",
             "tsConfig": "tsconfig.timetracking.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -94,8 +94,8 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "modules/timetracking/test.ts",
-            "polyfills": "modules/timetracking/polyfills.ts",
+            "main": "modules/test.ts",
+            "polyfills": "modules/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",

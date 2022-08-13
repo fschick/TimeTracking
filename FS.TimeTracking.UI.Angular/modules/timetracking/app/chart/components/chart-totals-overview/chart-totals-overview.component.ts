@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {ApexChart, ApexDataLabels, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTooltip} from 'ng-apexcharts';
-import {UtilityService} from '../../../shared/services/utility.service';
+import {UtilityService} from '../../../../../core/app/services/utility.service';
 import {ChartService} from '../../services/chart.service';
-import {FormatService} from '../../../shared/services/format.service';
+import {FormatService} from '../../../../../core/app/services/format.service';
 
 export interface TotalRow {
   customerTitle: string;

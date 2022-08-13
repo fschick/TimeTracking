@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {StorageService} from '../storage/storage.service';
+import {StorageService} from '../storage.service';
+import {CoreModule} from '../../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class LocalizationService {
 

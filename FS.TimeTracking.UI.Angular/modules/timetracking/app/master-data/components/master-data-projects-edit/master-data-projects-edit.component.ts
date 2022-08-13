@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
-import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectDto, ProjectService, StringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

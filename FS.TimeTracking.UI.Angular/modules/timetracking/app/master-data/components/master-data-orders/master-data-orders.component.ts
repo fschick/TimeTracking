@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
 import {OrderGridDto, OrderService} from '../../../../../api/timetracking';
 import {Observable, Subscription} from 'rxjs';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
+import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {single, switchMap} from 'rxjs/operators';
-import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 import {DateTime} from 'luxon';
 

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {SettingDto, SettingService} from '../../../../../api/timetracking';
-import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
+import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {FormControl, Validators} from '@angular/forms';
 
 interface SettingDtoWithDate extends SettingDto {

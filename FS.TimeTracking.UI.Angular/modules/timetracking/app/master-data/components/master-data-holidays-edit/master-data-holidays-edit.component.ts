@@ -2,9 +2,9 @@ import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {HolidayDto, HolidayService} from '../../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {single} from 'rxjs/operators';
-import {FormValidationService, ValidationFormGroup} from '../../../shared/services/form-validation/form-validation.service';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
-import {GuidService} from '../../../shared/services/state-management/guid.service';
+import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
+import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

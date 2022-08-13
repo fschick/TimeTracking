@@ -3,9 +3,10 @@ import {DateTime, Duration} from 'luxon';
 import {DateObjectUnits} from 'luxon/src/datetime';
 import {LocalizationService} from './internationalization/localization.service';
 import {DurationLike} from 'luxon/src/duration';
+import {CoreModule} from '../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class DateParserService {
 

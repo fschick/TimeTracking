@@ -2,17 +2,17 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TimeSheetDto, TimeSheetGridDto, TimeSheetService} from '../../../../../api/timetracking';
 import {map, single, switchMap} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
-import {LocalizationService} from '../../../shared/services/internationalization/localization.service';
+import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Observable, Subscription, timer} from 'rxjs';
-import {StorageService} from '../../../shared/services/storage/storage.service';
-import {UtilityService} from '../../../shared/services/utility.service';
-import {GuidService} from '../../../shared/services/state-management/guid.service';
-import {EntityService} from '../../../shared/services/state-management/entity.service';
+import {StorageService} from '../../../../../core/app/services/storage.service';
+import {UtilityService} from '../../../../../core/app/services/utility.service';
+import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
 
-// import {Validators as CustomValidators} from '../../../shared/services/form-validation/validators';
+// import {Validators as CustomValidators} from '../../../../../core/app/services/form-validation/validators';
 
 interface TimeSheetDayGroupDto {
   date: DateTime;

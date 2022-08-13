@@ -1,12 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
 import {StorageService} from './storage.service';
+import {CoreModule} from '../core.module';
 
 describe('StorageService', () => {
   let service: StorageService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({imports: [CoreModule]});
     service = TestBed.inject(StorageService);
   });
 

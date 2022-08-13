@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {LocalizationService} from './internationalization/localization.service';
 import {Duration} from 'luxon';
+import {CoreModule} from '../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class UtilityService {
   public readonly digitCharPattern: string;

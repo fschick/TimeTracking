@@ -3,9 +3,12 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {DatabaseErrorCode, ErrorInformation} from '../../../../../api/timetracking';
+import {DatabaseErrorCode, ErrorInformation} from '../../../../api/timetracking';
+import {CoreModule} from '../../core.module';
 
-@Injectable()
+@Injectable({
+  providedIn: CoreModule
+})
 export class ApiErrorInterceptor implements HttpInterceptor {
 
   constructor(private toastrService: ToastrService) {}

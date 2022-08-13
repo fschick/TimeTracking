@@ -6,9 +6,7 @@ import {ToastrModule} from 'ngx-toastr';
 describe('ApiErrorInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [ToastrModule.forRoot({})],
-    providers: [
-      ApiErrorInterceptor
-    ]
+    providers: [ApiErrorInterceptor]
   }));
 
   it('should be created', () => {

@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ApiDateTimeInterceptor } from './api-date-time.interceptor';
+import {ApiDateTimeInterceptor} from './api-date-time.interceptor';
+import {CoreModule} from '../../core.module';
 
 describe('ApiDateTimeInterceptorInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      ApiDateTimeInterceptor
-      ]
+    imports: [CoreModule],
+    providers: [ApiDateTimeInterceptor]
   }));
 
   it('should be created', () => {

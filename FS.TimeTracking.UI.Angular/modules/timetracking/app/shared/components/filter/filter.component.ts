@@ -4,9 +4,10 @@ import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadServ
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {StorageService} from '../../services/storage/storage.service';
-import {DateParserService} from '../../services/date-parser.service';
-import {EntityService} from '../../services/state-management/entity.service';
+import {StorageService} from '../../../../../core/app/services/storage.service';
+import {DateParserService} from '../../../../../core/app/services/date-parser.service';
+import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
+
 
 export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams & AdditionalFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;

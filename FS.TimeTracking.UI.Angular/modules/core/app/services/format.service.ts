@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {DateTime, DateTimeFormatOptions, Duration} from 'luxon';
 import {DecimalPipe} from '@angular/common';
 import {LocalizationService} from './internationalization/localization.service';
-import {DurationPipe} from '../pipes/duration.pipe';
+import {CoreModule} from '../core.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class FormatService {
   public shortDateFormat = this.localizationService.dateTime.dateFormat.replace('yyyy', 'yy');
