@@ -5,9 +5,7 @@ import {LocalizationService} from './internationalization/localization.service';
 import {DurationLike} from 'luxon/src/duration';
 import {CoreModule} from '../core.module';
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class DateParserService {
 
   private isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+\-]\d{2}:\d{2})?$/;

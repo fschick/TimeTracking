@@ -16,7 +16,6 @@ import localeDeAT from '@angular/common/locales/de-AT';
 import {DecimalPipe, registerLocaleData} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
-import {FormSubmitDirective} from './shared/directives/form-submit.directive';
 import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
 import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
@@ -30,12 +29,9 @@ import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
-import {NumericDirective} from './shared/directives/numeric.directive';
-import {DatePickerDirective} from './shared/directives/date-picker.directive';
 import {NgLetModule} from 'ng-let';
 import {Settings} from 'luxon';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
-import {TimeDirective} from './shared/directives/time.directive';
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
 import {MasterDataSettingsComponent} from './master-data/components/master-data-settings/master-data-settings.component';
 import {MasterDataHolidaysEditComponent} from './master-data/components/master-data-holidays-edit/master-data-holidays-edit.component';
@@ -44,14 +40,12 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule, NgbPopoverModule, NgbCollapseModule, NgbConfig} from '@ng-bootstrap/ng-bootstrap';
 import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
 import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
-import {RouterLinkCtrlClickDirective} from './shared/directives/router-link-ctrl-click.directive';
 import {ChartCustomersComponent} from './chart/components/chart-customers/chart-customers.component';
 import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
 import {ClearableInputComponent} from './shared/components/clearable-input/clearable-input.component';
-import {OptionalLabelDirective} from './shared/directives/optional-label.directive';
 import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
 import {ChartWorkdayInfoComponent} from './chart/components/chart-workday-info/chart-workday-info.component';
 import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-overview/chart-totals-overview.component';
@@ -62,7 +56,6 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
 
 @NgModule({
   declarations: [
-    FormSubmitDirective,
     FormValidationErrorsComponent,
     SimpleTableComponent,
     TimeTrackingComponent,
@@ -78,10 +71,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
-    NumericDirective,
-    DatePickerDirective,
     TimesheetEditComponent,
-    TimeDirective,
     TimesheetFilterComponent,
     ChartCustomersComponent,
     ChartActivitiesComponent,
@@ -93,10 +83,8 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
     DateMonthPickerComponent,
-    RouterLinkCtrlClickDirective,
     TimeSheetHeaderComponent,
     ClearableInputComponent,
-    OptionalLabelDirective,
     ChartWorkdayInfoComponent,
     ChartTotalsOverviewComponent,
   ],
