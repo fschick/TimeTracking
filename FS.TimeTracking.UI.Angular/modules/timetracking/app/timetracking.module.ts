@@ -15,17 +15,14 @@ import localeDeCH from '@angular/common/locales/de-CH';
 import localeDeAT from '@angular/common/locales/de-AT';
 import {DecimalPipe, registerLocaleData} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FormValidationErrorsComponent} from './shared/components/form-validation-errors/form-validation-errors.component';
 import {MasterDataCustomersComponent} from './master-data/components/master-data-customers/master-data-customers.component';
 import {MasterDataProjectsComponent} from './master-data/components/master-data-projects/master-data-projects.component';
 import {MasterDataActivitiesComponent} from './master-data/components/master-data-activities/master-data-activities.component';
-import {SimpleTableComponent} from './shared/components/simple-table/simple-table.component';
 import {MasterDataCustomersEditComponent} from './master-data/components/master-data-customers-edit/master-data-customers-edit.component';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MasterDataProjectsEditComponent} from './master-data/components/master-data-projects-edit/master-data-projects-edit.component';
 import {NgSelectConfig, NgSelectModule} from '@ng-select/ng-select';
-import {SimpleConfirmComponent} from './shared/components/simple-confirm/simple-confirm.component';
 import {MasterDataActivitiesEditComponent} from './master-data/components/master-data-activities-edit/master-data-activities-edit.component';
 import {MasterDataOrdersComponent} from './master-data/components/master-data-orders/master-data-orders.component';
 import {MasterDataOrdersEditComponent} from './master-data/components/master-data-orders-edit/master-data-orders-edit.component';
@@ -38,14 +35,11 @@ import {MasterDataHolidaysEditComponent} from './master-data/components/master-d
 import {MasterDataHolidaysImportComponent} from './master-data/components/master-data-holidays-import/master-data-holidays-import.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {NgbModalModule, NgbPopoverModule, NgbCollapseModule, NgbConfig} from '@ng-bootstrap/ng-bootstrap';
-import {TimesheetFilterComponent} from './shared/components/filter/filter.component';
-import {DateMonthPickerComponent} from './shared/components/date-month-picker/date-month-picker.component';
 import {ChartCustomersComponent} from './chart/components/chart-customers/chart-customers.component';
 import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartProjectsComponent} from './chart/components/chart-projects/chart-projects.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import {ClearableInputComponent} from './shared/components/clearable-input/clearable-input.component';
 import {TimeSheetHeaderComponent} from './timesheet/components/timesheet-header/timesheet-header.component';
 import {ChartWorkdayInfoComponent} from './chart/components/chart-workday-info/chart-workday-info.component';
 import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-overview/chart-totals-overview.component';
@@ -56,8 +50,6 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
 
 @NgModule({
   declarations: [
-    FormValidationErrorsComponent,
-    SimpleTableComponent,
     TimeTrackingComponent,
     PageNavigationComponent,
     PageFooterComponent,
@@ -67,12 +59,10 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     MasterDataProjectsComponent,
     MasterDataActivitiesComponent,
     MasterDataProjectsEditComponent,
-    SimpleConfirmComponent,
     MasterDataActivitiesEditComponent,
     MasterDataOrdersComponent,
     MasterDataOrdersEditComponent,
     TimesheetEditComponent,
-    TimesheetFilterComponent,
     ChartCustomersComponent,
     ChartActivitiesComponent,
     ChartIssuesComponent,
@@ -82,9 +72,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     MasterDataSettingsComponent,
     MasterDataHolidaysEditComponent,
     MasterDataHolidaysImportComponent,
-    DateMonthPickerComponent,
     TimeSheetHeaderComponent,
-    ClearableInputComponent,
     ChartWorkdayInfoComponent,
     ChartTotalsOverviewComponent,
   ],

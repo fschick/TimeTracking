@@ -2,9 +2,9 @@ import {Component, ElementRef, Input, OnInit, Optional, ViewChild} from '@angula
 import {FormGroupDirective} from '@angular/forms';
 import {filter, map, tap} from 'rxjs/operators';
 import {merge, Observable, of} from 'rxjs';
-import {ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
-import {$localizeId} from '../../../../../core/app/services/internationalization/localizeId';
-import {UtilityService} from '../../../../../core/app/services/utility.service';
+import {ValidationFormGroup} from '../../services/form-validation/form-validation.service';
+import {$localizeId} from '../../services/internationalization/localizeId';
+import {UtilityService} from '../../services/utility.service';
 
 @Component({
   selector: 'ts-form-validation-errors',

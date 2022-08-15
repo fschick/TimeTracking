@@ -3,11 +3,11 @@ import {EntityService} from '../../../../../core/app/services/state-management/e
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivityGridDto, ActivityService} from '../../../../../api/timetracking';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
-import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {Observable, Subscription} from 'rxjs';
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
-import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 
 @Component({
   selector: 'ts-master-data-activities',

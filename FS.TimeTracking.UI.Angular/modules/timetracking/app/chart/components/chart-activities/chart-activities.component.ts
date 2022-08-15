@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {ActivityChartService, ActivityWorkTimeDto} from '../../../../../api/timetracking';
 import {Observable, Subscription} from 'rxjs';
-import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 import {ChartOptions, ChartService} from '../../services/chart.service';
 import {ApexAxisChartSeries} from 'ng-apexcharts';
 import {FormatService} from '../../../../../core/app/services/format.service';

@@ -2,10 +2,10 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {Observable, Subscription} from 'rxjs';
 import {OrderChartService, OrderWorkTimeDto} from '../../../../../api/timetracking';
 import {single, switchMap} from 'rxjs/operators';
-import {Column, Configuration, DataCellClickEvent, DataCellTemplate, FooterCellTemplate} from '../../../shared/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellClickEvent, DataCellTemplate, FooterCellTemplate} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {FormatService} from '../../../../../core/app/services/format.service';
-import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 import {ApexAxisChartSeries,} from "ng-apexcharts";
 import {DateTime} from 'luxon';
 import {ChartOptions, ChartService} from '../../services/chart.service';

@@ -10,7 +10,7 @@ import {StorageService} from '../../../../../core/app/services/storage.service';
 import {UtilityService} from '../../../../../core/app/services/utility.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
-import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 
 // import {Validators as CustomValidators} from '../../../../../core/app/services/form-validation/validators';
 

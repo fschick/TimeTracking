@@ -17,6 +17,16 @@ import {TimeDirective} from './directives/time.directive';
 import {RouterLinkCtrlClickDirective} from './directives/router-link-ctrl-click.directive';
 import {OptionalLabelDirective} from './directives/optional-label.directive';
 import {DateParserService} from './services/date-parser.service';
+import {FormValidationErrorsComponent} from './components/form-validation-errors/form-validation-errors.component';
+import {SimpleTableComponent} from './components/simple-table/simple-table.component';
+import {SimpleConfirmComponent} from './components/simple-confirm/simple-confirm.component';
+import {TimesheetFilterComponent} from './components/filter/filter.component';
+import {DateMonthPickerComponent} from './components/date-month-picker/date-month-picker.component';
+import {ClearableInputComponent} from './components/clearable-input/clearable-input.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 const services = [
   LocalizationService,
@@ -43,14 +53,31 @@ const directives = [
   TimeDirective,
   RouterLinkCtrlClickDirective,
   OptionalLabelDirective,
-]
+];
+
+const components = [
+  FormValidationErrorsComponent,
+  SimpleTableComponent,
+  SimpleConfirmComponent,
+  TimesheetFilterComponent,
+  DateMonthPickerComponent,
+  ClearableInputComponent,
+
+];
 
 @NgModule({
   declarations: [
     ...pipes,
-    ...directives
+    ...directives,
+    ...components,
   ],
-  imports: [],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgbCollapseModule,
+  ],
   providers: [
     // Provide services explicit, not via Injectable/providedIn. See
     // https://github.com/NativeScript/NativeScript/issues/8982#issuecomment-716460053 and
@@ -61,7 +88,8 @@ const directives = [
   ],
   exports: [
     ...pipes,
-    ...directives
+    ...directives,
+    ...components,
   ],
 })
 export class CoreModule {

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FilteredRequestParams} from '../../../shared/components/filter/filter.component';
+import {FilteredRequestParams} from '../../../../../core/app/components/filter/filter.component';
 import {filter, map, single, switchMap} from 'rxjs/operators';
 import {TimeSheetService, WorkdayAggregationUnit, WorkedDaysInfoDto} from '../../../../../api/timetracking';
 import {DateTime, Duration} from 'luxon';

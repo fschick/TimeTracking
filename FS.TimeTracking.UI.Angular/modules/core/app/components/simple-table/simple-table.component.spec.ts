@@ -1,5 +1,5 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {Column, Configuration, SimpleTableComponent} from './simple-table.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {Column, SimpleTableComponent} from './simple-table.component';
 import {By} from '@angular/platform-browser';
 import {ChangeDetectorRef, DebugElement} from '@angular/core';
 import {FormsModule} from '@angular/forms';

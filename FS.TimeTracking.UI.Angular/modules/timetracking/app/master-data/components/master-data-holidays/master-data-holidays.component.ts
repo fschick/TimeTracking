@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HolidayGridDto, HolidayService, HolidayType} from '../../../../../api/timetracking';
 import {Observable,  Subscription} from 'rxjs';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
-import {  Column,  Configuration,  DataCellTemplate,  SimpleTableComponent} from '../../../shared/components/simple-table/simple-table.component';
+import {  Column,  Configuration,  DataCellTemplate,  SimpleTableComponent} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {single, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
-import {Filter, FilteredRequestParams, FilterName} from '../../../shared/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 import {DateTime} from 'luxon';
 import {EnumTranslationService} from '../../../../../core/app/services/enum-translation.service';
 
