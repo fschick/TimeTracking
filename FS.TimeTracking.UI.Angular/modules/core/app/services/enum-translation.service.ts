@@ -3,9 +3,7 @@ import {UtilityService} from './utility.service';
 import {$localizeId} from './internationalization/localizeId';
 import {CoreModule} from '../core.module';
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class EnumTranslationService {
 
   constructor(

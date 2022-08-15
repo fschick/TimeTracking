@@ -2,7 +2,7 @@ import {DurationPipe} from './duration.pipe';
 import {TestBed} from '@angular/core/testing';
 import {Duration} from 'luxon';
 import {DecimalPipe} from '@angular/common';
-import {CoreModule} from '../../../../core/app/core.module';
+import {CoreModule} from '../core.module';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;

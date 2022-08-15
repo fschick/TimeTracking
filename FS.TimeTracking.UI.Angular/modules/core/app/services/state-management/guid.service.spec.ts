@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { GuidService } from './guid.service';
+import {GuidService} from './guid.service';
 import {CoreModule} from '../../core.module';
 
 describe('GuidService', () => {

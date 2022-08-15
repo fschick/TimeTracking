@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {DateTime} from 'luxon';
 import {DatePipe} from './date.pipe';
 import {DecimalPipe} from '@angular/common';
-import {CoreModule} from '../../../../core/app/core.module';
+import {CoreModule} from '../core.module';
 
 describe('TimePipe', () => {
   let pipe: TimePipe;

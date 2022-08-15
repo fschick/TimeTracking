@@ -1,9 +1,9 @@
 import {DatePipe} from './date.pipe';
 import {TestBed} from '@angular/core/testing';
 import {DateTime} from 'luxon';
-import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
+import {LocalizationService} from '../services/internationalization/localization.service';
 import {DecimalPipe} from '@angular/common';
-import {CoreModule} from '../../../../core/app/core.module';
+import {CoreModule} from '../core.module';
 
 describe('DatePipe', () => {
   let localizationService: LocalizationService;

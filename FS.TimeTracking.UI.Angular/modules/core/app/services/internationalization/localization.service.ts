@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
 import {StorageService} from '../storage.service';
-import {CoreModule} from '../../core.module';
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class LocalizationService {
 
   private readonly languageKey = 'language';

@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Duration} from 'luxon';
-import {FormatService} from '../../../../core/app/services/format.service';
+import {FormatService} from '../services/format.service';
 
 @Pipe({
   name: 'tsDuration'

@@ -4,11 +4,8 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 import {DatabaseErrorCode, ErrorInformation} from '../../../../api/timetracking';
-import {CoreModule} from '../../core.module';
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
 
   constructor(private toastrService: ToastrService) {}

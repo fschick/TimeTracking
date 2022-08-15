@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
-import {CoreModule} from '../../core.module';
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class GuidService {
   public static guidEmpty = '00000000-0000-0000-0000-000000000000';
 

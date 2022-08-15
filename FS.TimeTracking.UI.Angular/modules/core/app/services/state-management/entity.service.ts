@@ -3,7 +3,6 @@ import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
 import {filter, map, single, switchMap, tap} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../../../timetracking/app/shared/components/filter/filter.component';
-import {CoreModule} from '../../core.module';
 
 export interface EntityChanged<TDto> {
   entity?: TDto;
@@ -19,9 +18,7 @@ export type CrudService<TDto> = {
   getGridFiltered: (requestParameters: {}) => Observable<TDto[]>;
 };
 
-@Injectable({
-  providedIn: CoreModule
-})
+@Injectable()
 export class EntityService {
   public filterChanged = new Subject<FilteredRequestParams>();
   public filterValuesChanged = new Subject<Record<FilterName, any>>();

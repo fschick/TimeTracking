@@ -34,9 +34,6 @@ import {NumericDirective} from './shared/directives/numeric.directive';
 import {DatePickerDirective} from './shared/directives/date-picker.directive';
 import {NgLetModule} from 'ng-let';
 import {Settings} from 'luxon';
-import {TimePipe} from './shared/pipes/time.pipe';
-import {DatePipe} from './shared/pipes/date.pipe';
-import {DurationPipe} from './shared/pipes/duration.pipe';
 import {TimesheetEditComponent} from './timesheet/components/timesheet-edit/timesheet-edit.component';
 import {TimeDirective} from './shared/directives/time.directive';
 import {MasterDataHolidaysComponent} from './master-data/components/master-data-holidays/master-data-holidays.component';
@@ -83,9 +80,6 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     MasterDataOrdersEditComponent,
     NumericDirective,
     DatePickerDirective,
-    DatePipe,
-    TimePipe,
-    DurationPipe,
     TimesheetEditComponent,
     TimeDirective,
     TimesheetFilterComponent,
@@ -129,9 +123,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-er
     ),
   ],
   providers: [
-    DatePipe,
     DecimalPipe,
-    DurationPipe,
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,

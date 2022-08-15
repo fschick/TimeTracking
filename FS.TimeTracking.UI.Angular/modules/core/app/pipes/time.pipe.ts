@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
+import {LocalizationService} from '../services/internationalization/localization.service';
 import {DateTime, DateTimeFormatOptions} from 'luxon';
-import {FormatService} from '../../../../core/app/services/format.service';
+import {FormatService} from '../services/format.service';
 
 @Pipe({
   name: 'tsTime'
