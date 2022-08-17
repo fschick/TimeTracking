@@ -25,6 +25,7 @@ function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion 
 	Push-Location FS.TimeTracking
 	
 	# Build back-end
+	Copy-Item $NUGET_CONFIG /nuget.config -Force
 	& dotnet build -warnaserror --configuration Debug
 	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
@@ -40,6 +41,7 @@ function Build-Tool([String] $version = "0.0.0", [String] $fileVersion = "0.0.0"
 	Push-Location FS.TimeTracking.Tool
 	
 	# Build back-end
+	Copy-Item $NUGET_CONFIG /nuget.config -Force
 	& dotnet build -warnaserror --configuration Debug
 	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
@@ -78,6 +80,7 @@ function Test-Rest-Services([String] $filter) {
 	# Switch to backend project
 	Push-Location FS.TimeTracking
 	
+	Copy-Item $NUGET_CONFIG /nuget.config -Force
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
 	if ($filter) {
 		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
@@ -96,6 +99,7 @@ function Test-Tool([String] $filter) {
 	# Switch to tool project
 	Push-Location FS.TimeTracking.Tool
 	
+	Copy-Item $NUGET_CONFIG /nuget.config -Force
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
 	if ($filter) {
 		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
@@ -138,7 +142,9 @@ function Clean-Folder([String] $folder) {
 }
 
 function Publish-Rest-Services([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $publshFolder, [String] $msBuildPublishDir) {
-    # Generate Open API spec, Angular client and validation spec by running runtime independent build
+	Copy-Item $NUGET_CONFIG /nuget.config -Force
+    
+	# Generate Open API spec, Angular client and validation spec by running runtime independent build
 	& dotnet build FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration
 	if(!$?) {
 		exit $LASTEXITCODE
@@ -158,7 +164,9 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 }
 
 function Publish-Tool([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $msBuildPublishDir) {
-    # Publish tool
+    Copy-Item $NUGET_CONFIG /nuget.config -Force
+	
+	# Publish tool
 	if ($runtime) {
 		& dotnet publish FS.TimeTracking.Tool/FS.TimeTracking.Tool/FS.TimeTracking.Tool.csproj --configuration $configuration --framework $targetFramework -p:Version=$version -p:FileVersion=$fileVersion --self-contained --runtime $runtime
 	} else {
