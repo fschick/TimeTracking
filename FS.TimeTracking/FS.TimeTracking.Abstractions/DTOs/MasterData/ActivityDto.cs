@@ -15,12 +15,14 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 public class ActivityDto
 {
     ///  <summary>
-    /// The display name of the activity.
+    /// The display name for this item.
     /// </summary>
     [Required]
     public Guid Id { get; set; }
 
-    /// <inheritdoc cref="ActivityDto.Title"/>
+    /// <summary>
+    /// The title for this item.
+    /// </summary>
     [Required]
     [StringLength(100)]
     public string Title { get; set; }
