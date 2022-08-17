@@ -47,7 +47,7 @@ import {CoreModule} from '../../core/app/core.module';
 import {LocalizationService} from '../../core/app/services/internationalization/localization.service';
 import {ApiDateTimeInterceptor} from '../../core/app/services/error-handling/api-date-time.interceptor';
 import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-error.interceptor';
-import {ReportActivityOverviewComponent} from './report/components/report-activity-overview/report-activity-overview.component';
+import {ReportModule} from '../../report/app/report.module';
 
 @NgModule({
   declarations: [
@@ -76,7 +76,6 @@ import {ReportActivityOverviewComponent} from './report/components/report-activi
     TimeSheetHeaderComponent,
     ChartWorkdayInfoComponent,
     ChartTotalsOverviewComponent,
-    ReportActivityOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +85,7 @@ import {ReportActivityOverviewComponent} from './report/components/report-activi
     ReactiveFormsModule,
     BrowserAnimationsModule,
     CoreModule,
+    ReportModule,
     NgSelectModule,
     NgApexchartsModule,
     NgbModalModule,

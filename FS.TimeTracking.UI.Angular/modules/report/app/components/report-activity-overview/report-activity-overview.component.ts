@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
+import {Filter, FilteredRequestParams, FilterName} from '../../../../core/app/components/filter/filter.component';
 import {DateTime} from 'luxon';
 import {switchMap} from 'rxjs/operators';
-import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
+import {EntityService} from '../../../../core/app/services/state-management/entity.service';
 import {Observable, Subscription} from 'rxjs';
-import {ActivityReportService, ReportPreviewDto} from '../../../../../api/timetracking';
+import {ActivityReportService, ReportPreviewDto} from '../../../../api/timetracking';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {HttpParams} from '@angular/common/http';
 
@@ -63,7 +63,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   }
 
   private createDownloadLink(requestParameters: FilteredRequestParams): string {
-    var httpParams = new HttpParams({encoder: this.activityReportService.encoder});
+    let httpParams = new HttpParams({encoder: this.activityReportService.encoder});
 
     for (const [key, value] of Object.entries(requestParameters))
       httpParams = httpParams.append(key, value);
