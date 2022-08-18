@@ -110,6 +110,9 @@
         "NoActivityReports": "No activity reports available",
         "Download": "Download"
       },
+      "ActivityOverview": {
+        "Title": "Activity reports overview"
+      },
       "ActivityDetailed": {
         "Title": "Activity report detailed"
       }

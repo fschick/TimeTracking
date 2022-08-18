@@ -6,9 +6,11 @@ import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReportActivityOverviewComponent} from './components/report-activity-overview/report-activity-overview.component';
 import {CoreModule} from '../../core/app/core.module';
 import {RouterModule} from '@angular/router';
+import { ReportActivityDetailedComponent } from './components/report-activity-detailed/report-activity-detailed.component';
 
 const components = [
   ReportActivityOverviewComponent,
+  ReportActivityDetailedComponent,
 ];
 
 @NgModule({

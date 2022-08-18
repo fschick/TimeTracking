@@ -110,6 +110,9 @@
         "NoActivityReports": "Keine Tätigkeitsnachweise verfügbar",
         "Download": "Download"
       },
+      "ActivityOverview": {
+        "Title": "Tätigkeitsnachweise Übersicht"
+      },
       "ActivityDetailed": {
         "Title": "Tätigkeitsnachweis detailliert"
       }
