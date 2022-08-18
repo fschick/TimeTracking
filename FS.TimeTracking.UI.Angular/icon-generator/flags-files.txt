@@ -1,2 +1,2 @@
-modules/app/flags/de.svg
-modules/app/flags/en.svg
+modules/timetracking/flags/de.svg
+modules/timetracking/flags/en.svg
