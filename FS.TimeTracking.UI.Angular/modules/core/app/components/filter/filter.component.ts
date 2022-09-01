@@ -23,7 +23,8 @@ type FilterTemplates = Record<FilterName, TemplateRef<any>>;
 type FilterControls = Record<FilterName, FormControl>;
 
 interface AdditionalFilteredRequestParams {
-  showDetails?: string
+  showDetails?: string,
+  language?: string,
 }
 
 @Component({
@@ -168,6 +169,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayEndDate: this.holidayEndDate,
       holidayType: this.holidayType,
       showDetails: this.showDetails,
+      language: this.filterNotImplemented,
     };
 
     this.visibleFilters = this.getVisibleFilters();
@@ -339,6 +341,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayEndDate: undefined,
       holidayType: undefined,
       showDetails: undefined,
+      language: undefined,
     }
   }
 

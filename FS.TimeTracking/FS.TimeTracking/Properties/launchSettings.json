@@ -12,6 +12,7 @@
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "externalUrlConfiguration": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

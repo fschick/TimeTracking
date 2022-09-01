@@ -103,7 +103,7 @@
         "Billable": "Billable",
         "Period": "Period",
         "Duration": "Duration",
-        "Hours": "Hours",
+        "Hours": "hours",
         "Total": "Total",
         "Preview": "Preview",
         "PreviewPages": "{$PAGES} of {$TOTAL} pages",

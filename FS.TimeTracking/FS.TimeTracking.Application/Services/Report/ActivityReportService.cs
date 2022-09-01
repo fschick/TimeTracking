@@ -51,7 +51,7 @@ public class ActivityReportService : IActivityReportService
     {
         var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, groupBy, cancellationToken);
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
-        var apiResponse = await activityReportClient.GenerateActivityReportWithHttpInfoAsync(reportData, cancellationToken);
+        var apiResponse = await activityReportClient.GenerateDetailedActivityReportWithHttpInfoAsync(reportData, cancellationToken);
 
         var mimeType = apiResponse.Headers["Content-Type"].Single();
         var contentDisposition = apiResponse.Headers["Content-Disposition"].Single();
@@ -71,14 +71,14 @@ public class ActivityReportService : IActivityReportService
         if (reportData.TimeSheets?.Any() != true)
             return new ReportPreviewDto { Pages = null, TotalPages = 0 };
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
-        return await activityReportClient.GenerateActivityReportPreviewAsync(1, 3, reportData, cancellationToken);
+        return await activityReportClient.GenerateDetailedActivityReportPreviewAsync(1, 3, reportData, cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task<ActivityReportDto> GetActivityReportData(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default)
     {
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter, true);
-        var parameters = new ReportParameter { StartDate = selectedPeriod.Start, EndDate = selectedPeriod.End };
+        var parameters = new ReportParameter { StartDate = selectedPeriod.Start, EndDate = selectedPeriod.End, Culture = language };
 
         var provider = await GetProviderInformation(cancellationToken);
 

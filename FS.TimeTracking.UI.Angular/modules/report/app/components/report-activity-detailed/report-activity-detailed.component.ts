@@ -7,6 +7,7 @@ import {ActivityReportService, ReportPreviewDto} from '../../../../api/timetrack
 import {DateTime} from 'luxon';
 import {switchMap} from 'rxjs/operators';
 import {HttpParams} from '@angular/common/http';
+import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 
 @Component({
   selector: 'ts-report-activity-detailed',
@@ -24,6 +25,7 @@ export class ReportActivityDetailedComponent implements OnInit, OnDestroy {
 
   constructor(
     private entityService: EntityService,
+    private localizationService: LocalizationService,
     private activityReportService: ActivityReportService,
     private sanitizer: DomSanitizer,
   ) {
@@ -58,6 +60,7 @@ export class ReportActivityDetailedComponent implements OnInit, OnDestroy {
   }
 
   private loadPreview(requestParameters: FilteredRequestParams): Observable<ReportPreviewDto> {
+    requestParameters = {...requestParameters, language: this.localizationService.language};
     this.downloadLink = this.createDownloadLink(requestParameters);
     return this.activityReportService.getDetailedActivityReportPreview(requestParameters);
   }
