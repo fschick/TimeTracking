@@ -86,6 +86,8 @@
       "Title": "Reports",
       "Activity": {
         "Title": "Activity report",
+        "TitleDetailed": "Detailed activity report",
+        "TitleDaily": "Daily activity report",
         "Company": "Company",
         "Department": "Department",
         "Contact": "Contact",
@@ -105,16 +107,14 @@
         "Duration": "Duration",
         "Hours": "hours",
         "Total": "Total",
+        "ServiceConfirmation": "Confirmation of service",
         "Preview": "Preview",
         "PreviewPages": "{$PAGES} of {$TOTAL} pages",
         "NoActivityReports": "No activity reports available",
         "Download": "Download"
       },
       "ActivityOverview": {
-        "Title": "Activity reports overview"
-      },
-      "ActivityDetailed": {
-        "Title": "Activity report detailed"
+        "Title": "Overview of activity reports"
       }
     },
     "MasterData": {

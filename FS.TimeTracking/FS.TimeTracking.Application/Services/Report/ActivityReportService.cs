@@ -1,7 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Abstractions.Enums.Report;
 using FS.TimeTracking.Application.AutoMapper;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
@@ -47,11 +46,11 @@ public class ActivityReportService : IActivityReportService
     }
 
     /// <inheritdoc />
-    public async Task<FileResult> GetDetailedActivityReport(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default)
+    public async Task<FileResult> GetActivityReport(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
-        var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, groupBy, cancellationToken);
+        var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
-        var apiResponse = await activityReportClient.GenerateDetailedActivityReportWithHttpInfoAsync(reportData, cancellationToken);
+        var apiResponse = await activityReportClient.GenerateActivityReportWithHttpInfoAsync(reportData, cancellationToken);
 
         var mimeType = apiResponse.Headers["Content-Type"].Single();
         var contentDisposition = apiResponse.Headers["Content-Disposition"].Single();
@@ -65,20 +64,26 @@ public class ActivityReportService : IActivityReportService
     }
 
     /// <inheritdoc />
-    public async Task<ReportPreviewDto> GetDetailedActivityReportPreview(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default)
+    public async Task<ReportPreviewDto> GetActivityReportPreview(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
-        var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, groupBy, cancellationToken);
+        var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
         if (reportData.TimeSheets?.Any() != true)
             return new ReportPreviewDto { Pages = null, TotalPages = 0 };
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
-        return await activityReportClient.GenerateDetailedActivityReportPreviewAsync(1, 3, reportData, cancellationToken);
+        return await activityReportClient.GenerateActivityReportPreviewAsync(1, 3, reportData, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<ActivityReportDto> GetActivityReportData(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportGroup groupBy, CancellationToken cancellationToken = default)
+    public async Task<ActivityReportDto> GetActivityReportData(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter, true);
-        var parameters = new ReportParameter { StartDate = selectedPeriod.Start, EndDate = selectedPeriod.End, Culture = language };
+        var parameters = new ReportParameter
+        {
+            ReportType = reportType,
+            Culture = language,
+            StartDate = selectedPeriod.Start,
+            EndDate = selectedPeriod.End,
+        };
 
         var provider = await GetProviderInformation(cancellationToken);
 
@@ -89,7 +94,7 @@ public class ActivityReportService : IActivityReportService
             .ToDictionary(x => x.Key, x => x.Value.Trim('"'));
 
         var timeSheets = await GetTimeSheets(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
-        SetGroupByMember(timeSheets, groupBy, reportTranslations);
+        SetGroupByMember(timeSheets, reportType, reportTranslations);
 
         var reportData = new ActivityReportDto
         {
@@ -128,16 +133,15 @@ public class ActivityReportService : IActivityReportService
         return timeSheets;
     }
 
-    private static void SetGroupByMember(List<ActivityReportTimeSheetDto> timeSheets, ActivityReportGroup groupBy, Dictionary<string, string> reportTranslations)
+    private static void SetGroupByMember(List<ActivityReportTimeSheetDto> timeSheets, ActivityReportType reportType, IDictionary<string, string> reportTranslations)
     {
-        reportTranslations.Add("GroupByTitle", reportTranslations.FirstOrDefault(x => x.Key == groupBy.ToString()).Value);
+        reportTranslations.Add("GroupByTitle", reportTranslations.FirstOrDefault(x => x.Key == reportType.ToString()).Value);
         foreach (var timeSheet in timeSheets)
-            timeSheet.GroupBy = groupBy switch
+            timeSheet.GroupBy = reportType switch
             {
-                ActivityReportGroup.None => null,
-                ActivityReportGroup.Issue => timeSheet.Issue,
-                ActivityReportGroup.OrderNumber => timeSheet.OrderNumber,
-                _ => throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null)
+                ActivityReportType.Detailed => null,
+                ActivityReportType.Daily => null,
+                _ => throw new ArgumentOutOfRangeException(nameof(reportType), reportType, null)
             };
     }
 }

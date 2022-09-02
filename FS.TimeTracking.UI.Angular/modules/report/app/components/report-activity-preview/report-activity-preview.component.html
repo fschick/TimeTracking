@@ -13,9 +13,7 @@
 
 <ng-template #reportPreview>
   <div class="d-flex justify-content-between align-items-start mb-2">
-    <h4 i18n="@@Page.Report.ActivityDetailed.Title">
-      [i18n] Activity report detailed
-    </h4>
+    <h4>{{title}}</h4>
     <a class="btn btn-primary" [ngClass]="{'disabled':!downloadLink || !totalReportPages}" [href]="downloadLink">
       <ng-container i18n="@@Page.Report.Activity.Download">[i18n] Download</ng-container>
     </a>

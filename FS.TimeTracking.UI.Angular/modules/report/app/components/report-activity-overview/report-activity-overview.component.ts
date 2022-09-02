@@ -4,9 +4,10 @@ import {DateTime} from 'luxon';
 import {switchMap} from 'rxjs/operators';
 import {EntityService} from '../../../../core/app/services/state-management/entity.service';
 import {Observable, Subscription} from 'rxjs';
-import {ActivityReportService, ReportPreviewDto} from '../../../../api/timetracking';
+import {ActivityReportGetActivityReportPreviewRequestParams, ActivityReportService, ReportPreviewDto} from '../../../../api/timetracking';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {HttpParams} from '@angular/common/http';
+import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 
 @Component({
   selector: 'ts-report-activity-overview',
@@ -24,6 +25,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
 
   constructor(
     private entityService: EntityService,
+    private localizationService: LocalizationService,
     private activityReportService: ActivityReportService,
     private sanitizer: DomSanitizer,
   ) {
@@ -58,8 +60,13 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   }
 
   private loadPreview(requestParameters: FilteredRequestParams): Observable<ReportPreviewDto> {
+    const reportRequestParameters: ActivityReportGetActivityReportPreviewRequestParams = {
+      ...requestParameters,
+      language: this.localizationService.language,
+      reportType: 'detailed'
+    };
     this.downloadLink = this.createDownloadLink(requestParameters);
-    return this.activityReportService.getDetailedActivityReportPreview(requestParameters);
+    return this.activityReportService.getActivityReportPreview(reportRequestParameters);
   }
 
   private createDownloadLink(requestParameters: FilteredRequestParams): string {

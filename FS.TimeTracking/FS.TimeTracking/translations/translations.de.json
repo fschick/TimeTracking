@@ -86,6 +86,8 @@
       "Title": "Reports",
       "Activity": {
         "Title": "Tätigkeitsnachweis",
+        "TitleDetailed": "Detaillierter Tätigkeitsnachweis",
+        "TitleDaily": "Täglicher Tätigkeitsnachweis",
         "Company": "Firma",
         "Department": "Abteilung",
         "Contact": "Ansprechpartner",
@@ -105,16 +107,14 @@
         "Duration": "Dauer",
         "Hours": "Stunden",
         "Total": "Summe",
+        "ServiceConfirmation": "Leistungsbestätigung",
         "Preview": "Vorschau",
         "PreviewPages": "{$PAGES} von {$TOTAL} Seiten",
         "NoActivityReports": "Keine Tätigkeitsnachweise verfügbar",
         "Download": "Download"
       },
       "ActivityOverview": {
-        "Title": "Tätigkeitsnachweise Übersicht"
-      },
-      "ActivityDetailed": {
-        "Title": "Tätigkeitsnachweis detailliert"
+        "Title": "Übersicht Tätigkeitsnachweise"
       }
     },
     "MasterData": {

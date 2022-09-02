@@ -20,7 +20,7 @@ import {ChartActivitiesComponent} from './chart/components/chart-activities/char
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
 import {ReportActivityOverviewComponent} from '../../report/app/components/report-activity-overview/report-activity-overview.component';
-import {ReportActivityDetailedComponent} from '../../report/app/components/report-activity-detailed/report-activity-detailed.component';
+import {ReportActivityPreviewComponent} from '../../report/app/components/report-activity-preview/report-activity-preview.component';
 
 const routes: Routes = [
   {
@@ -81,7 +81,7 @@ const routes: Routes = [
         path: 'activity', component: ReportActivityOverviewComponent,
       },
       {
-        path: 'activity/detailed', component: ReportActivityDetailedComponent,
+        path: 'activity/preview/:reportType', component: ReportActivityPreviewComponent
       },
     ]
   },
