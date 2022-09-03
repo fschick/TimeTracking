@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.Report;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Application.AutoMapper;
 using FS.TimeTracking.Core.Extensions;
@@ -11,6 +12,8 @@ using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Report.Client.Api;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -29,6 +32,7 @@ public class ActivityReportService : IActivityReportService
     private readonly IRepository _repository;
     private readonly HttpClient _httpClient;
     private readonly TimeTrackingConfiguration _configuration;
+    private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ActivityReportService"/> class.
@@ -37,12 +41,51 @@ public class ActivityReportService : IActivityReportService
     /// <param name="repository">The repository.</param>
     /// <param name="httpClient">The HTTP client.</param>
     /// <param name="configuration">The configuration.</param>
-    public ActivityReportService(ISettingService settingService, IRepository repository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration)
+    /// <param name="apiDescriptionGroupCollectionProvider">The API description group collection provider.</param>
+    public ActivityReportService(ISettingService settingService, IRepository repository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider)
     {
         _settingService = settingService;
         _repository = repository;
         _httpClient = httpClient;
+        _apiDescriptionProvider = apiDescriptionGroupCollectionProvider;
         _configuration = configuration.Value;
+    }
+
+    /// <inheritdoc />
+    public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, CancellationToken cancellationToken = default)
+    {
+        var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+
+        var activityReportUrl = _apiDescriptionProvider.ApiDescriptionGroups.Items
+            .SelectMany(x => x.Items)
+            .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetActivityReport))
+            .RelativePath;
+
+        var queryParams = FilterExtensions.ToQueryParams(
+                timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter,
+                ("language", language)
+            );
+
+        var reportDownloadUrl = $"{activityReportUrl}?{queryParams}";
+
+        var customers = await _repository
+            .GetGrouped(
+                groupBy: (TimeSheet x) => x.Project.CustomerId,
+                select: x => new { Id = x.Key, x.FirstOrDefault().Project.Customer.Title },
+                where: filter,
+                orderBy: o => o.OrderBy(x => x.Title),
+                cancellationToken: cancellationToken
+            );
+
+        return customers
+            .Select(customer => new ActivityReportGridDto
+            {
+                CustomerId = customer.Id,
+                CustomerTitle = customer.Title,
+                DailyActivityReportUrl = $"{reportDownloadUrl}&customerId={customer.Id}&reportType={ActivityReportType.Daily.ToString().LowercaseFirstChar()}",
+                DetailedActivityReportUrl = $"{reportDownloadUrl}&customerId={customer.Id}&reportType={ActivityReportType.Detailed.ToString().LowercaseFirstChar()}",
+            })
+            .ToList();
     }
 
     /// <inheritdoc />

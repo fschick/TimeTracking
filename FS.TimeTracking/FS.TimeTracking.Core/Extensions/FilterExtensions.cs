@@ -7,6 +7,7 @@ using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using System;
 using System.Linq;
+using System.Web;
 
 namespace FS.TimeTracking.Core.Extensions;
 
@@ -187,5 +188,31 @@ public static class FilterExtensions
             endDate = endDate.AddDays(-1);
 
         return new Range<DateTimeOffset>(startDate, endDate);
+    }
+
+    /// <summary>
+    /// Creates HTTP query parameters from given filters.
+    /// </summary>
+    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
+    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
+    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
+    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
+    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
+    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
+    public static string ToQueryParams(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, params (string key, string value)[] additionalParameters)
+    {
+        var filterParameters = new[]
+        {
+            timeSheetFilter.ToQueryParams(),
+            projectFilter.ToQueryParams(),
+            customerFilter.ToQueryParams(),
+            activityFilter.ToQueryParams(),
+            orderFilter.ToQueryParams(),
+            holidayFilter.ToQueryParams(),
+        };
+
+        var additionalParams = additionalParameters.Select(param => $"{HttpUtility.UrlEncode(param.key)}={HttpUtility.UrlEncode(param.value)}");
+        var keyValuePairs = filterParameters.Concat(additionalParams).Where(x => !string.IsNullOrWhiteSpace(x));
+        return string.Join('&', keyValuePairs);
     }
 }

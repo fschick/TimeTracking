@@ -1,10 +1,12 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.Report;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +27,12 @@ public class ActivityReportController : ControllerBase, IActivityReportService
     /// <param name="activityReportService">The activity report service.</param>
     public ActivityReportController(IActivityReportService activityReportService)
         => _activityReportService = activityReportService;
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetCustomersHavingTimeSheets(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, cancellationToken);
+
 
     /// <inheritdoc />
     [HttpGet]

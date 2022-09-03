@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Core.Models.Configuration;
-using FS.TimeTracking.Tests.Extensions;
+﻿using FS.TimeTracking.Api.REST.Extensions;
+using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

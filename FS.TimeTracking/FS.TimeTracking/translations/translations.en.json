@@ -86,8 +86,8 @@
       "Title": "Reports",
       "Activity": {
         "Title": "Activity report",
-        "TitleDetailed": "Detailed activity report",
-        "TitleDaily": "Daily activity report",
+        "TitleDaily": "Activity report",
+        "TitleDetailed": "Activity report (detailed)",
         "Company": "Company",
         "Department": "Department",
         "Contact": "Contact",
@@ -114,7 +114,7 @@
         "Download": "Download"
       },
       "ActivityOverview": {
-        "Title": "Overview of activity reports"
+        "Title": "Overview"
       }
     },
     "MasterData": {

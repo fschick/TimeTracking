@@ -174,7 +174,10 @@
   $border-width: 2px;
   color: $primary-500;
   border: $border-width solid $primary-500;
-  padding: calc(#{$btn-padding-y} - #{$border-width}) calc(#{$btn-padding-x} - #{$border-width});
+
+  &:not(.btn-sm) {
+    padding: calc(#{$btn-padding-y} - #{$border-width}) calc(#{$btn-padding-x} - #{$border-width});
+  }
 
   &:focus {
     color: $primary-500;
@@ -185,13 +188,13 @@
   &:hover {
     color: $primary-600;
     background-color: $primary-100;
-    border: 2px solid $primary-600;
+    border: $border-width solid $primary-600;
   }
 
   &:active {
     color: $primary-800;
     background-color: $primary-100;
-    border: 2px solid $primary-800;
+    border: $border-width solid $primary-800;
   }
 
   &:active:focus {

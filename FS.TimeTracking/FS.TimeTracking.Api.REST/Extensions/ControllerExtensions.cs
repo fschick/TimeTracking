@@ -6,10 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace FS.TimeTracking.Tests.Extensions;
+namespace FS.TimeTracking.Api.REST.Extensions;
 
 [ExcludeFromCodeCoverage]
-public static class ControllerExtensions
+internal static class ControllerExtensions
 {
     public static string GetRoute<TController>(Expression<Action<TController>> controllerAction, IApiDescriptionGroupCollectionProvider apiDescriptionProvider)
     {
@@ -19,9 +19,9 @@ public static class ControllerExtensions
         var apiMethodDescription = apiDescriptionProvider.ApiDescriptionGroups.Items
             .SelectMany(x => x.Items)
             .FirstOrDefault(x =>
-                                ImplementedByController<TController>(x) &&
-                                HasMethodName(x, controllerActionCall.Method.Name) &&
-                                MethodParametersMatch(x, controllerActionCall)
+                ImplementedByController<TController>(x) &&
+                HasMethodName(x, controllerActionCall.Method.Name) &&
+                MethodParametersMatch(x, controllerActionCall)
             );
 
         if (apiMethodDescription == null)
@@ -51,6 +51,8 @@ public static class ControllerExtensions
     private static string GetRelativePath(this ApiDescription apiMethodDescription, MethodCallExpression controllerActionCall)
     {
         var route = apiMethodDescription.RelativePath;
+        if (route == null)
+            throw new InvalidOperationException($"Path to action {controllerActionCall.Method.Name} could not be found.");
 
         var controllerActionCallParameters = controllerActionCall.Method.GetParameters().ToList();
         foreach (var parameter in apiMethodDescription.ParameterDescriptions)

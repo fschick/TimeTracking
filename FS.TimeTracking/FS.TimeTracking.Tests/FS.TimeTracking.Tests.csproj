@@ -8,6 +8,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Application.Tests\FS.TimeTracking.Application.Tests.csproj" />
     <ProjectReference Include="..\FS.TimeTracking\FS.TimeTracking.csproj" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 <div class="row">
   <!-- Report preview -->
   <div class="col-12 col-md-8 col-xl-9 order-last order-md-first px-4">
-    <ng-container *ngTemplateOutlet="reportPreview"></ng-container>
+    <ng-container *ngTemplateOutlet="reportOverview"></ng-container>
   </div>
   <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
     <!-- Filter -->
@@ -11,12 +11,31 @@
   </div>
 </div>
 
-<ng-template #reportPreview>
+<ng-template #reportOverview>
   <div class="d-flex justify-content-between align-items-start mb-2">
     <h4 i18n="@@Page.Report.ActivityOverview.Title">
       [i18n] Activity reports overview
     </h4>
   </div>
+
+  <ts-simple-table
+    *ngIf="rows"
+    [columns]="columns"
+    [rows]="rows"
+    [configuration]="configuration">
+  </ts-simple-table>
+</ng-template>
+
+<ng-template #dailyActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
+  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.dailyActivityReportUrl}}">
+    <ng-container i18n="@@Page.Report.Activity.Download">[i18n] Download</ng-container>
+  </a>
+</ng-template>
+
+<ng-template #detailedActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
+  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.detailedActivityReportUrl}}">
+    <ng-container i18n="@@Page.Report.Activity.Download">[i18n] Download</ng-container>
+  </a>
 </ng-template>
 
 <router-outlet></router-outlet>

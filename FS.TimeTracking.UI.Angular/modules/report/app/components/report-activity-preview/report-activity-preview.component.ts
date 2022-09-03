@@ -55,7 +55,7 @@ export class ReportActivityPreviewComponent implements OnInit, OnDestroy {
       {name: 'activityId'},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'},
-      {name: 'timeSheetBillable'},
+      {name: 'timeSheetBillable', defaultValue: true},
     ];
   }
 
