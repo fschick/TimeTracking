@@ -58,11 +58,9 @@ internal static class OpenApi
         if (string.IsNullOrWhiteSpace(outFile))
             throw new ArgumentException("No destination file for generated OpenAPI document given.");
 
-        var openApiJson = host
-            .Services
-            .GetRequiredService<ISwaggerProvider>()
-            .GetSwagger(V1ApiController.API_VERSION)
-            .SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
+        var openApiProvider = host.Services.GetRequiredService<ISwaggerProvider>();
+        var openApiDocument = openApiProvider.GetSwagger(V1ApiController.API_VERSION);
+        var openApiJson = openApiDocument.SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
 
         File.WriteAllText(outFile, openApiJson);
     }
