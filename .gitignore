@@ -301,7 +301,7 @@ __pycache__/
 /FS.TimeTracking.Report/FS.TimeTracking.Report/FS.TimeTracking.Report.openapi.json
 /FS.TimeTracking.Report/FS.TimeTracking.Report/config/FS.TimeTracking.Report.config.Development.json
 /FS.TimeTracking.UI.Angular/cypress/fixtures/example.json
-/FS.TimeTracking.UI.Angular/cypress/integration/samples
+/FS.TimeTracking.UI.Angular/cypress/e2e/samples
 /FS.TimeTracking.UI.Angular/modules/api
 /FS.TimeTracking.UI.Angular/modules/assets/flags.svg
 /FS.TimeTracking.UI.Angular/modules/assets/icons.svg
