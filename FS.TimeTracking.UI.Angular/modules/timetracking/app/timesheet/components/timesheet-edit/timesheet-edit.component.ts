@@ -7,7 +7,7 @@ import {GuidService} from '../../../../../core/app/services/state-management/gui
 import {filter, map, pairwise, single, startWith} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
-import {UntypedFormControl} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -120,8 +120,8 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
           billable: true
         },
         {
-          startTime: new UntypedFormControl(DateTime.now()),
-          endTime: new UntypedFormControl(),
+          startTime: new FormControl(DateTime.now()),
+          endTime: new FormControl(),
         }
       );
 

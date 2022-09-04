@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
 import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../../../api/timetracking';
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {StorageService} from '../../services/storage.service';
@@ -20,7 +20,7 @@ export interface Filter {
 }
 
 type FilterTemplates = Record<FilterName, TemplateRef<any>>;
-type FilterControls = Record<FilterName, AbstractControl>;
+type FilterControls = Record<FilterName, FormControl>;
 
 interface AdditionalFilteredRequestParams {
   showDetails?: string
@@ -72,7 +72,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public orders$: Observable<StringTypeaheadDto[]> = EMPTY;
   public activities$: Observable<StringTypeaheadDto[]> = EMPTY;
   public isFiltered$: Observable<boolean> | undefined;
-  public filterForm: UntypedFormGroup | undefined;
+  public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;
   public filterCollapsed = true;
 
@@ -83,7 +83,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   constructor(
     private route: ActivatedRoute,
     private storageService: StorageService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     private typeaheadService: TypeaheadService,
     private dateParserService: DateParserService,
@@ -257,7 +257,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       : filterValue !== defaultValue;
   }
 
-  private createFilterForm(): UntypedFormGroup {
+  private createFilterForm(): FormGroup {
     const filter = this.getInitialFilterValues();
 
     const updateOnBlurFilter: FilterName[] = ['timeSheetIssue', 'timeSheetComment', 'projectTitle', 'projectComment', 'customerTitle', 'customerNumber', 'customerDepartment', 'customerCompanyName', 'customerContactName', 'customerStreet', 'customerZipCode', 'customerCity', 'customerCountry', 'activityTitle', 'activityComment', 'orderTitle', 'orderDescription', 'orderNumber', 'orderHourlyRate', 'orderBudget', 'orderComment', 'holidayTitle'];

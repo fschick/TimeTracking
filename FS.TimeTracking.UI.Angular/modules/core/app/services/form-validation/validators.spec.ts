@@ -1,23 +1,23 @@
 import {Validators} from './validators';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 describe('Validators', () => {
   it('compare should return no error when fields are empty', () => {
-    const form = new UntypedFormGroup({fieldA: new UntypedFormControl(), fieldB: new UntypedFormControl()});
+    const form = new FormGroup({fieldA: new FormControl(), fieldB: new FormControl()});
     const compare = Validators.compare('fieldA', 'fieldB');
     const validationResult = compare(form);
     expect(validationResult).toBeNull();
   });
 
   it('compare should return no error when fields are equal', () => {
-    const form = new UntypedFormGroup({fieldA: new UntypedFormControl('A'), fieldB: new UntypedFormControl('A')});
+    const form = new FormGroup({fieldA: new FormControl('A'), fieldB: new FormControl('A')});
     const compare = Validators.compare('fieldA', 'fieldB');
     const validationResult = compare(form);
     expect(validationResult).toBeNull();
   });
 
   it('compare should return error when fields are different', () => {
-    const form = new UntypedFormGroup({fieldA: new UntypedFormControl('A'), fieldB: new UntypedFormControl('B')});
+    const form = new FormGroup({fieldA: new FormControl('A'), fieldB: new FormControl('B')});
     const compare = Validators.compare('fieldA', 'fieldB');
     const validationResult = compare(form);
     expect(validationResult).toEqual({

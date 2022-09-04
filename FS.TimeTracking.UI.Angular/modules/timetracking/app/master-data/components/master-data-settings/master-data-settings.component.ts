@@ -3,7 +3,7 @@ import {single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
 import {SettingDto, SettingDtoWorkdays, SettingService} from '../../../../../api/timetracking';
 import {ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
-import {UntypedFormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 
 interface Settings {
   workdays: SettingDtoWorkdays;
@@ -22,7 +22,7 @@ export class MasterDataSettingsComponent {
 
   constructor(
     private settingService: SettingService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
   ) {
     this.settingsForm = this.createSettingsForm();
 
