@@ -2,7 +2,7 @@ import {FormSubmitDirective} from './form-submit.directive';
 import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {UntypedFormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   template: `
@@ -10,7 +10,7 @@ import {FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule} from '@
   `
 })
 class TestComponent {
-  public testForm = new FormGroup({});
+  public testForm = new UntypedFormGroup({});
 }
 
 describe('FormSubmitDirective', () => {

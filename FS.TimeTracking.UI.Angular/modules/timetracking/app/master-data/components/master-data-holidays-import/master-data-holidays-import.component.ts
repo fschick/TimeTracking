@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HolidayService} from '../../../../../api/timetracking';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, Validators} from '@angular/forms';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,15 +25,15 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private holidayService: HolidayService,
     private httpClient: HttpClient,
     private entityService: EntityService,
     private modalService: NgbModal
   ) {
     this.holidayForm = new ValidationFormGroup('HolidayImportDto', {
-      file: new FormControl('', Validators.required),
-      type: new FormControl('publicHoliday', Validators.required),
+      file: new UntypedFormControl('', Validators.required),
+      type: new UntypedFormControl('publicHoliday', Validators.required),
     });
   }
 

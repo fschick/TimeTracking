@@ -3,9 +3,9 @@ import {
   AbstractControl,
   AbstractControlOptions,
   AsyncValidatorFn,
-  FormArray,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators as AngularValidators
 } from '@angular/forms';
@@ -17,7 +17,7 @@ type TypeValidationFromControls<TType> = { [key in keyof TType]: AbstractControl
 
 export type ValidationFromControls = { [key: string]: AbstractControl };
 
-export class ValidationFormGroup extends FormGroup {
+export class ValidationFormGroup extends UntypedFormGroup {
   constructor(
     public typeName: keyof typeof validationDescriptions | string,
     controls: ValidationFromControls,
@@ -65,7 +65,7 @@ export class FormValidationService {
       } else if (nestedListValidation !== undefined) {
         const initialValueList = (initialValue ?? []) as Partial<TType>[keyof TType][];
         const nestedFormGroups = initialValueList.map(initialValue => this.getNestedFormGroup(nestedListValidation, additionalFormControls, initialValue));
-        validationFormControls[fieldName] = new FormArray(nestedFormGroups);
+        validationFormControls[fieldName] = new UntypedFormArray(nestedFormGroups);
       } else {
         validationFormControls[fieldName] = this.getFormControl(validations, initialValue);
       }
@@ -96,7 +96,7 @@ export class FormValidationService {
     initialValue: Partial<TType>[keyof TType] | undefined
   ) {
     const validators = validations.flatMap(validation => this.getFieldValidators(validation));
-    return new FormControl(initialValue, validators);
+    return new UntypedFormControl(initialValue, validators);
   }
 
   private getFieldValidators(validation: ValidationDescription): ValidatorFn[] {

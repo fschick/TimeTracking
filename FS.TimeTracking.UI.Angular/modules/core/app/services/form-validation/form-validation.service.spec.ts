@@ -3,7 +3,7 @@ import validationDescriptions from './dto-validations.spec.json';
 
 import {FormValidationService} from './form-validation.service';
 import {CustomerDto} from '../../../../api/timetracking';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {CoreModule} from '../../core.module';
 
 describe('FormValidationService', () => {
@@ -32,7 +32,7 @@ describe('FormValidationService', () => {
   });
 
   it('getFormGroup should give additional controls precedence over generated controls', () => {
-    const customCompanyControl = {companyName: new FormControl('TestCompanyOverride')};
+    const customCompanyControl = {companyName: new UntypedFormControl('TestCompanyOverride')};
     const formGroup = service.getFormGroup<CustomerDto>('CustomerDto', {companyName: 'TestCompany'}, customCompanyControl);
     const initialValue = formGroup.get('companyName')?.value;
     expect(initialValue).toEqual('TestCompanyOverride');
