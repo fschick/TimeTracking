@@ -1,5 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/build_tests.props" />
+  <ItemGroup>
+    <None Remove="TestData\ImageAttributeTestImage.bmp" />
+    <None Remove="TestData\ImageAttributeTestImage.gif" />
+    <None Remove="TestData\ImageAttributeTestImage.jpg" />
+    <None Remove="TestData\ImageAttributeTestImage.png" />
+    <None Remove="TestData\ImageAttributeTestImage.tiff" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\ImageAttributeTestImage.bmp" />
+    <EmbeddedResource Include="TestData\ImageAttributeTestImage.gif" />
+    <EmbeddedResource Include="TestData\ImageAttributeTestImage.jpg" />
+    <EmbeddedResource Include="TestData\ImageAttributeTestImage.png" />
+    <EmbeddedResource Include="TestData\ImageAttributeTestImage.tiff" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
