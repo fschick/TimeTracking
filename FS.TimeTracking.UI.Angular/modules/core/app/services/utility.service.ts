@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {LocalizationService} from './internationalization/localization.service';
 import {Duration} from 'luxon';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class UtilityService {
@@ -72,6 +73,34 @@ export class UtilityService {
       index++;
 
     return index;
+  }
+
+  public getBase64EncodedFileData(file: File | undefined): Observable<string | undefined> {
+    return new Observable(observer => {
+      if (file == null) {
+        observer.next(undefined);
+        observer.complete();
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result == null) {
+          observer.next(undefined);
+        } else {
+          const base64Encoded = window.btoa(reader.result.toString());
+          observer.next(base64Encoded);
+        }
+
+        observer.complete();
+      };
+
+      reader.onerror = () => {
+        observer.error(reader.error);
+      };
+
+      reader.readAsBinaryString(file);
+    });
   }
 
   // https://stackoverflow.com/a/38327540/1271211

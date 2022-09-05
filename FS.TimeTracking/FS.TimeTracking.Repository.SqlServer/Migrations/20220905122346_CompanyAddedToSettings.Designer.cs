@@ -3,47 +3,52 @@ using System;
 using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FS.TimeTracking.Repository.Sqlite.Migrations
+namespace FS.TimeTracking.Repository.SqlServer.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20220311153143_CompanyAddedToSettings")]
+    [Migration("20220905122346_CompanyAddedToSettings")]
     partial class CompanyAddedToSettings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ProjectId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -52,154 +57,154 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.ToTable("Activities", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ContactName")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<double>("HourlyRate")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Number")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ZipCode")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Holiday", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Holiday", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EndDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Budget")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DueDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DueDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<double>("HourlyRate")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Number")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -208,31 +213,31 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -241,72 +246,72 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.ToTable("Projects", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Setting", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Setting", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Key");
 
                     b.ToTable("Settings", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.TimeTracking.TimeSheet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ActivityId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Billable")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("EndDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("EndDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Issue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("OrderId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -319,9 +324,9 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.ToTable("TimeSheets", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -329,9 +334,9 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Order", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -340,9 +345,9 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Project", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -351,20 +356,20 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.TimeTracking.TimeSheet", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", "Activity")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Order", "Order")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -377,7 +382,7 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Customer", b =>
                 {
                     b.Navigation("Orders");
 

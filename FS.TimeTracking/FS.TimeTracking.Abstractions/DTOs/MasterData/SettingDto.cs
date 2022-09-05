@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Attributes.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,15 +14,15 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Setting")]
 public record SettingDto
 {
-    /// <inheritdoc cref="WorkdaysOfWeekDto" />
-    [Required]
-    public WorkdaysOfWeekDto Workdays { get; set; } = new();
-
     /// <summary>
     /// The average working hours per workday
     /// </summary>
     [Required]
     public TimeSpan WorkHoursPerWorkday { get; set; } = TimeSpan.FromHours(8);
+
+    /// <inheritdoc cref="WorkdaysOfWeekDto" />
+    [Required]
+    public WorkdaysOfWeekDto Workdays { get; set; } = new();
 
     /// <inheritdoc cref="CompanyDto" />
     [Required]
@@ -109,9 +110,9 @@ public record SettingDto
         public string Department { get; set; }
 
         /// <summary>
-        /// The name of the holder/provider
+        /// The name of the person providing the services
         /// </summary>
-        public string Provider { get; set; }
+        public string ServiceProvider { get; set; }
 
         /// <summary>
         /// The street
@@ -148,5 +149,11 @@ public record SettingDto
         /// </summary>
         [Required]
         public string Currency { get; set; } = "€";
+
+        /// <summary>
+        /// Gets or sets the company logo.
+        /// </summary>
+        [Image(MaxFileSize = 2 * 1024 * 1024 /*2 MB */, MaxImageWidth = 2000, MaxImageHeight = 2000)]
+        public byte[] Logo { get; set; }
     }
 }

@@ -6,7 +6,6 @@
 
 <form id="workingHoursForm" [formGroup]="settingsForm" (ngSubmit)="save()" #form="ngForm">
 
-
   <div class="row  g-4">
     <div class="col-12 col-lg-4">
       <div class="card h-100">
@@ -15,8 +14,11 @@
             [i18n] Work time
           </h6>
 
+          <label for="workHoursPerWorkday" class="form-label" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">[i18n] Working hours / weekday</label>
+          <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkdayDate" autocomplete="off">
+
           <ng-container formGroupName="workdays">
-            <label class="form-label" i18n="@@Page.MasterData.Settings.Workdays">[i18n] Workdays</label>
+            <label class="form-label mt-4" i18n="@@Page.MasterData.Settings.Workdays">[i18n] Workdays</label>
             <div class="form-check form-check">
               <input class="form-check-input" type="checkbox" id="monday" formControlName="monday">
               <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
@@ -46,9 +48,6 @@
               <label class="form-check-label" for="sunday" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
             </div>
           </ng-container>
-
-          <label for="workHoursPerWorkday" class="form-label mt-4" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">[i18n] Working hours / weekday</label>
-          <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkdayDate" autocomplete="off">
         </div>
 
       </div>
@@ -58,22 +57,26 @@
       <div class="card h-100" formGroupName="company">
         <div class="card-body">
 
-          <h6 class="form-label" i18n="@@DTO.SettingDto.Company">
+          <h6 class="form-label" i18n="@@Page.MasterData.Settings.Company">
             [i18n] Company
           </h6>
 
           <div class="row g-3">
             <div class="col-md-6">
-              <label for="company" class="form-label" i18n="@@DTO.SettingDto.Company">[i18n] Company</label>
+              <label for="company" class="form-label" i18n="@@DTO.SettingDto.Company">[i18n] Company name</label>
               <input id="company" type="text" class="form-control" formControlName="company">
             </div>
             <div class="col-md-6">
               <label for="department" class="form-label" i18n="@@DTO.SettingDto.Department">[i18n] Department</label>
               <input id="department" type="text" class="form-control" formControlName="department">
             </div>
-            <div class="col-md-12">
-              <label for="provider" class="form-label" i18n="@@DTO.SettingDto.Provider">[i18n] Provider</label>
-              <input id="provider" type="text" class="form-control" formControlName="provider">
+            <div class="col-md-6">
+              <label for="serviceProvider" class="form-label" i18n="@@DTO.SettingDto.ServiceProvider">[i18n] Provider</label>
+              <input id="serviceProvider" type="text" class="form-control" formControlName="serviceProvider">
+            </div>
+            <div class="col-md-6">
+              <label for="currency" class="form-label" i18n="@@DTO.SettingDto.Currency">[i18n] Currency</label>
+              <input id="currency" type="text" class="form-control" formControlName="currency">
             </div>
             <div class="col-md-6">
               <label for="street" class="form-label" i18n="@@DTO.SettingDto.Street">[i18n] Street</label>
@@ -96,9 +99,29 @@
               <input id="country" type="text" class="form-control" formControlName="country">
             </div>
             <div class="col-md-2">
-              <label for="currency" class="form-label" i18n="@@DTO.SettingDto.Currency">[i18n] Currency</label>
-              <input id="currency" type="text" class="form-control" formControlName="currency">
+              <label for="logoPreview" class="form-label w-100" i18n="@@Page.MasterData.Settings.LogoPreview">[i18n] Preview</label>
+              <img *ngIf="logoImageSrc$ | async; let logoImageSrc"
+                   id="logoPreview"
+                   [src]="logoImageSrc"
+                   i18n-alt="@@Page.MasterData.Settings.LogoPreview"
+                   alt="[i18n] Logo preview"
+                   class="img-fluid img-thumbnail">
             </div>
+            <div class="col-md-10">
+              <label for="logo" class="form-label" i18n="@@DTO.SettingDto.Logo">[i18n] Logo</label>
+              <div class="clearable">
+                <input id="logo" class="form-control" type="file" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff" (change)="setLogoFileInput($event)">
+                <button type="button"
+                        class="text-secondary clear"
+                        (click)="clearLogoFileInput()"
+                        tabindex="-1">
+                  <svg class="bi text-secondary" fill="currentColor">
+                    <use xlink:href="assets/icons.svg#x"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

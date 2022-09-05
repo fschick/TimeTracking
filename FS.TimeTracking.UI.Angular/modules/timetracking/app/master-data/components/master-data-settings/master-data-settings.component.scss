@@ -1,0 +1,25 @@
+.clearable {
+  position: relative;
+
+  input {
+    padding-right: 2.4rem;
+  }
+
+  .clear {
+    position: absolute;
+    border: none;
+    top: 0;
+    bottom: 0;
+    right: .875rem;
+    cursor: pointer;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .clear svg {
+    height: 1.2em;
+    width: 1.2em;
+    vertical-align: -0.25em;
+  }
+}

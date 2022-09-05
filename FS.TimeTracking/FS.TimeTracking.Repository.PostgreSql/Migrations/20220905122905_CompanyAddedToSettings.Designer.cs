@@ -5,47 +5,50 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FS.TimeTracking.Repository.MySql.Migrations
+namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 {
     [DbContext(typeof(TimeTrackingDbContext))]
-    [Migration("20220311125844_CompanyAddedToSettings")]
+    [Migration("20220905122905_CompanyAddedToSettings")]
     partial class CompanyAddedToSettings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("ProjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -54,154 +57,154 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Activities", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("CompanyName")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ContactName")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Country")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Department")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<double>("HourlyRate")
-                        .HasColumnType("double");
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Number")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("Street")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ZipCode")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Holiday", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Holiday", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EndDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("EndDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<double>("Budget")
-                        .HasColumnType("double");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DueDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("DueDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<double>("HourlyRate")
-                        .HasColumnType("double");
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Number")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -210,31 +213,31 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("Hidden")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -243,72 +246,72 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("Projects", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Setting", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Setting", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("Key");
 
                     b.ToTable("Settings", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.TimeTracking.TimeSheet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ActivityId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("Billable")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int?>("EndDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Issue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("OrderId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDateLocal")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp");
 
                     b.Property<int>("StartDateOffset")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -321,9 +324,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.ToTable("TimeSheets", (string)null);
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Activity", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -331,9 +334,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Order", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Order", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -342,9 +345,9 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Project", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Project", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", "Customer")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -353,20 +356,20 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.TimeTracking.TimeSheet", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.TimeTracking.TimeSheet", b =>
                 {
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Activity", "Activity")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Order", "Order")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("FS.TimeTracking.Shared.Models.Application.MasterData.Project", "Project")
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -379,7 +382,7 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FS.TimeTracking.Shared.Models.Application.MasterData.Customer", b =>
+            modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Customer", b =>
                 {
                     b.Navigation("Orders");
 

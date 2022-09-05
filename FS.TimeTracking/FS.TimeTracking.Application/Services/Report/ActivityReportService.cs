@@ -155,7 +155,7 @@ public class ActivityReportService : IActivityReportService
         var settings = await _settingService.GetSettings(cancellationToken);
         var provider = new ProviderDto
         {
-            Name = settings.Company.Provider,
+            Name = settings.Company.ServiceProvider,
             Company = settings.Company.Company,
             Department = settings.Company.Department,
         };

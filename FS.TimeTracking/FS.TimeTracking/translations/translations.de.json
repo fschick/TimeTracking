@@ -158,7 +158,9 @@
       "Settings": {
         "Title": "Einstellungen",
         "WorkTime": "Arbeitszeit",
-        "Workdays": "Werktage"
+        "Workdays": "Arbeitstage",
+        "Company": "Firma",
+        "LogoPreview": "Vorschau"
       }
     }
   },
@@ -381,14 +383,15 @@
       "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
       "WorkHoursPerWorkdayDate": "Arbeitsstunden / Werktag",
       "Currency": "Währung",
-      "Company": "Firma",
+      "Company": "Firmenname",
       "Department": "Abteilung",
-      "Provider": "Name des Dienstleisters",
+      "ServiceProvider": "Name des Dienstleisters",
       "Street": "Straße",
       "AddressAddition": "Adresszusatz",
       "ZipCode": "Postleitzahl",
       "City": "Stadt",
-      "Country": "Land"
+      "Country": "Land",
+      "Logo": "Logo"
     }
   },
   "Validation": {

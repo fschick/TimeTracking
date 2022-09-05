@@ -41,7 +41,7 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
     this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
-  handleFileInput(event$: Event | null) {
+  public handleFileInput(event$: Event | null) {
     this.icsImportFile = (event$?.target as HTMLInputElement).files?.[0];
   }
 

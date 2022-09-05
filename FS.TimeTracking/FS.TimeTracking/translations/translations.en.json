@@ -158,7 +158,9 @@
       "Settings": {
         "Title": "Settings",
         "WorkTime": "Work time",
-        "Workdays": "Workdays"
+        "Workdays": "Workdays",
+        "Company": "Company",
+        "LogoPreview": "Preview"
       }
     }
   },
@@ -379,14 +381,15 @@
       "WorkHoursPerWorkday": "Working hours / workday",
       "WorkHoursPerWorkdayDate": "Working hours / workday",
       "Currency": "Currency",
-      "Company": "Company",
+      "Company": "Company name",
       "Department": "Department",
-      "Provider": "Provider name",
+      "ServiceProvider": "Provider name",
       "Street": "Street",
       "AddressAddition": "Additional address information",
       "ZipCode": "Zip code",
       "City": "City",
-      "Country": "Country"
+      "Country": "Country",
+      "Logo": "Logo"
     }
   },
   "Validation": {
