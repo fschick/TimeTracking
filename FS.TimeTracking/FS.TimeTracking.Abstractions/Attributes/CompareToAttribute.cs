@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Core.Models.Shared;
+﻿using FS.TimeTracking.Abstractions.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FS.TimeTracking.Core.Attributes;
+namespace FS.TimeTracking.Abstractions.Attributes;
 
 /// <summary>
 /// Provides an attribute that compares two properties

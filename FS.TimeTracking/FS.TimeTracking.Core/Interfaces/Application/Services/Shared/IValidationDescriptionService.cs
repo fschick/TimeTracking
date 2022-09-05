@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Core.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 

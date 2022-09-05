@@ -21,7 +21,7 @@ public class ComplexMethodCallTests
         await using var testHost = await TestHost.Create(configuration);
 
         // Act
-        var customers = await testHost.Get<ActivityReportController, List<ActivityReportGridDto>>(x => x.GetCustomersHavingTimeSheets(default, default, default, default, default, default, default));
+        var customers = await testHost.Get<ActivityReportController, List<ActivityReportGridDto>>(x => x.GetCustomersHavingTimeSheets(default, default, default, default, default, default, default, default));
 
         // Check
         customers.Should().NotBeNull();

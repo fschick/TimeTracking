@@ -1,5 +1,5 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Abstractions.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

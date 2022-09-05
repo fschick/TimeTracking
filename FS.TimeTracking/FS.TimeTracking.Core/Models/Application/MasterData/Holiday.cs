@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Enums;
-using FS.TimeTracking.Core.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using Newtonsoft.Json;
@@ -63,7 +63,7 @@ public class Holiday : IIdEntityModel
     /// </summary>
     [Required]
     [NotMapped]
-    [CompareTo(Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
+    [CompareTo(ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset EndDate
     {
         get => EndDateLocal.ToOffset(TimeSpan.FromMinutes(EndDateOffset));

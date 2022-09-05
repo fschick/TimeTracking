@@ -1,1 +1,1 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FS.TimeTracking.Tests")] 
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FS.TimeTracking.Tests")]

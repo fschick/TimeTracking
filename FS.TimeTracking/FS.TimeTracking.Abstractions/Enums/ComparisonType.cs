@@ -1,6 +1,6 @@
-﻿using FS.TimeTracking.Core.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 
-namespace FS.TimeTracking.Core.Models.Shared;
+namespace FS.TimeTracking.Abstractions.Enums;
 
 /// <summary>
 /// Enum to describe relation between validated properties of <see cref="CompareToAttribute"/>

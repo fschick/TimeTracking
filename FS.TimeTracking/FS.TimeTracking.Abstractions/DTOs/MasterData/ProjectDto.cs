@@ -1,5 +1,5 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Abstractions.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;

@@ -1,7 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Core.Attributes;
-using FS.TimeTracking.Core.Models.Shared;
+using FS.TimeTracking.Abstractions.Enums;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;

@@ -1,8 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Core.Attributes;
+using FS.TimeTracking.Abstractions.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
@@ -45,6 +46,6 @@ public class ActivityDto
     public bool Hidden { get; set; }
 
     [JsonIgnore]
-    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    [DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
     private string DebuggerDisplay => $"{Title}";
 }

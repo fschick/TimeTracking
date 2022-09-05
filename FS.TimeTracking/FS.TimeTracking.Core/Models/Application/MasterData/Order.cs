@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Core.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using Newtonsoft.Json;
@@ -82,7 +83,7 @@ public class Order : IIdEntityModel
     /// </summary>
     [Required]
     [NotMapped]
-    [CompareTo(Shared.ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
+    [CompareTo(ComparisonType.GreaterThanOrEqual, nameof(StartDate))]
     public DateTimeOffset DueDate
     {
         get => DueDateLocal.ToOffset(TimeSpan.FromMinutes(DueDateOffset));
