@@ -15,11 +15,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -95,10 +95,13 @@ public class ActivityReportService : IActivityReportService
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
         var apiResponse = await activityReportClient.GenerateActivityReportWithHttpInfoAsync(reportData, cancellationToken);
 
-        var mimeType = apiResponse.Headers["Content-Type"].Single();
-        var contentDisposition = apiResponse.Headers["Content-Disposition"].Single();
-        var fileName = Regex.Match(contentDisposition, "filename=\"(?<filename>.*?)\"").Groups["filename"].Value;
-        var reportFileResult = new FileContentResult(apiResponse.Data, mimeType)
+        var mimeTypeHeader = apiResponse.Headers["Content-Type"].Single();
+        var contentDispositionHeader = apiResponse.Headers["Content-Disposition"].Single();
+        var contentDisposition = ContentDispositionHeaderValue.Parse(contentDispositionHeader);
+        var fileName = contentDisposition.FileNameStar.ToString();
+        if (string.IsNullOrEmpty(fileName))
+            fileName = contentDisposition.FileName.ToString();
+        var reportFileResult = new FileContentResult(apiResponse.Data, mimeTypeHeader)
         {
             FileDownloadName = fileName
         };
@@ -158,6 +161,7 @@ public class ActivityReportService : IActivityReportService
             Name = settings.Company.ServiceProvider,
             Company = settings.Company.Company,
             Department = settings.Company.Department,
+            Logo = settings.Company.Logo,
         };
         return provider;
     }
