@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
-namespace FS.TimeTracking.Abstractions.DTOs.Report;
+namespace FS.TimeTracking.Abstractions.DTOs.Reporting;
 
 /// <summary>
 /// Activity report overview DTO.

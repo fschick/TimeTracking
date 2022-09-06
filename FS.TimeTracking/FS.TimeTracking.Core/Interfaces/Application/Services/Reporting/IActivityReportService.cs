@@ -1,6 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.Report;
+using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+namespace FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 
 /// <summary>
 /// Time sheet report service

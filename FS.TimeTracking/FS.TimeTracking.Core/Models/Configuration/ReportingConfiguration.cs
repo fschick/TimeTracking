@@ -3,7 +3,7 @@
 /// <summary>
 /// Report specific configuration.
 /// </summary>
-public class ReportConfiguration
+public class ReportingConfiguration
 {
     /// <summary>
     /// Gets or sets the base URL of the report server.

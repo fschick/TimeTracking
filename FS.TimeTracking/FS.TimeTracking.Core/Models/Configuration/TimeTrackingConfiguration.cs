@@ -63,5 +63,5 @@ public class TimeTrackingConfiguration
     /// <summary>
     /// Report specific configuration.
     /// </summary>
-    public ReportConfiguration Report { get; set; } = new();
+    public ReportingConfiguration Reporting { get; set; } = new();
 }

@@ -13,8 +13,8 @@
       //"Type": "MySql",
       //"ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
     },
-    "Report": {
-      "ReportServerBaseUrl": "http://localhost:5010",
+    "Reporting": {
+      "ReportServerBaseUrl": "http://localhost:5010"
     }
   },
   "Kestrel": {

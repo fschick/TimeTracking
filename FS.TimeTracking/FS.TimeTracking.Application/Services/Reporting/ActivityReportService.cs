@@ -1,11 +1,11 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.Report;
+using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Application.AutoMapper;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -23,7 +23,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Application.Services.Report;
+namespace FS.TimeTracking.Application.Services.Reporting;
 
 /// <inheritdoc />
 public class ActivityReportService : IActivityReportService
@@ -92,7 +92,7 @@ public class ActivityReportService : IActivityReportService
     public async Task<FileResult> GetActivityReport(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
         var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
-        using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
+        using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Reporting.ReportServerBaseUrl);
         var apiResponse = await activityReportClient.GenerateActivityReportWithHttpInfoAsync(reportData, cancellationToken);
 
         var mimeTypeHeader = apiResponse.Headers["Content-Type"].Single();
@@ -115,7 +115,7 @@ public class ActivityReportService : IActivityReportService
         var reportData = await GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
         if (reportData.TimeSheets?.Any() != true)
             return new ReportPreviewDto { Pages = null, TotalPages = 0 };
-        using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Report.ReportServerBaseUrl);
+        using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Reporting.ReportServerBaseUrl);
         return await activityReportClient.GenerateActivityReportPreviewAsync(1, 3, reportData, cancellationToken);
     }
 

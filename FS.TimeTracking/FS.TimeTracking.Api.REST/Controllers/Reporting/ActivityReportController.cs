@@ -1,9 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.Report;
+using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Routing;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Api.REST.Controllers.Report;
+namespace FS.TimeTracking.Api.REST.Controllers.Reporting;
 
 /// <summary>
 /// A controller for handling time sheet reports.

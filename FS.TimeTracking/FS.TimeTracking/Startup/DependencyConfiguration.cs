@@ -1,13 +1,13 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.MasterData;
-using FS.TimeTracking.Application.Services.Report;
+using FS.TimeTracking.Application.Services.Reporting;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.ValidationConverters;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Report;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;

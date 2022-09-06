@@ -1,7 +1,7 @@
 ﻿#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.DTOs.Report;
-using FS.TimeTracking.Api.REST.Controllers.Report;
+using FS.TimeTracking.Abstractions.DTOs.Reporting;
+using FS.TimeTracking.Api.REST.Controllers.Reporting;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
