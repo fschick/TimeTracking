@@ -2,6 +2,7 @@
 using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Threading;
@@ -40,4 +41,9 @@ public class SettingController : ISettingService
     [NotFoundWhenEmpty]
     public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
         => await _modelService.GetTranslations(language, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<FeatureConfiguration> GetFeatures(CancellationToken cancellationToken = default)
+        => await _modelService.GetFeatures(cancellationToken);
 }

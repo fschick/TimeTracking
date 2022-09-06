@@ -28,6 +28,7 @@ internal static class OpenApi
                 c.SwaggerDoc(documentName, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
 
                 c.OperationFilter<AddCSharpActionFilter>();
+                c.DocumentFilter<FeatureGateDocumentFilter>();
 
                 var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
                 var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");

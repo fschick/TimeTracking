@@ -71,7 +71,7 @@
   </Target>
 
   <Target Name="GenerateOpenApiSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json" />
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json --TimeTracking:Features:Reporting=true" />
   </Target>
 
   <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">

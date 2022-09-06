@@ -64,4 +64,9 @@ public class TimeTrackingConfiguration
     /// Report specific configuration.
     /// </summary>
     public ReportingConfiguration Reporting { get; set; } = new();
+
+    /// <summary>
+    /// Enable or disable feature modules
+    /// </summary>
+    public FeatureConfiguration Features { get; set; }
 }

@@ -2,13 +2,18 @@
 using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.FeatureManagement;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.Services;
@@ -23,13 +28,28 @@ public sealed class TestHost : IAsyncDisposable
 
     public static Task<TestHost> Create(DatabaseConfiguration databaseConfiguration)
     {
-        var configuration = new TimeTrackingConfiguration { Database = databaseConfiguration };
+        var timeTrackingConfiguration = new TimeTrackingConfiguration { Database = databaseConfiguration, Features = new FeatureConfiguration { Reporting = true } };
+        var applicationConfiguration = new { TimeTracking = timeTrackingConfiguration };
 
         var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
+            .WithWebHostBuilder(hostBuilder =>
             {
                 //builder.UseTestServer();
-                builder.ConfigureServices(services => services.AddSingleton(Options.Create(configuration)));
+                hostBuilder.ConfigureAppConfiguration((_, configurationBuilder) =>
+                {
+                    var appSettingsJson = JsonConvert.SerializeObject(applicationConfiguration);
+#pragma warning disable IDISP001 // Dispose created
+                    // Justification: No workable way found found to dispose, stream must be readable by TestHost later
+                    var appSettingsStream = new MemoryStream(Encoding.UTF8.GetBytes(appSettingsJson));
+#pragma warning restore IDISP001 // Dispose created
+
+                    configurationBuilder.AddJsonStream(appSettingsStream);
+                });
+                hostBuilder.ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton(Options.Create(timeTrackingConfiguration));
+                    services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
+                });
             });
 
         var testHost = new TestHost(application);
@@ -62,7 +82,7 @@ public sealed class TestHost : IAsyncDisposable
     {
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
-        var response = await client.PostAsJsonAsync(route, entity);
+        using var response = await client.PostAsJsonAsync(route, entity);
         return await response.Content.ReadFromJsonAsync<TEntity>();
     }
 

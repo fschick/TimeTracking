@@ -31,7 +31,7 @@ public class ReferenceExceptionTests
         await client.PostAsJsonAsync(projectCreateRoute, newProject);
 
         var customerDeleteRoute = testHost.GetRoute<CustomerController>(x => x.Delete(newCustomer.Id));
-        var response = await client.DeleteAsync(customerDeleteRoute);
+        using var response = await client.DeleteAsync(customerDeleteRoute);
 
         // Check
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);

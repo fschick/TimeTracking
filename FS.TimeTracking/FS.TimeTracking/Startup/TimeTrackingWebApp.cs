@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 using NLog.Web;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -83,13 +84,13 @@ internal static class TimeTrackingWebApp
     {
         builder.WebHost.ConfigureServices((context, services) =>
         {
-            services
-                .RegisterTimeTrackingAutoMapper()
-                .RegisterFilterExpressionInterceptor()
-                .RegisterApplicationServices()
-                .RegisterOpenApiController()
-                .RegisterRestApiController()
-                .RegisterSpaStaticFiles(context.HostingEnvironment);
+            services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
+            services.RegisterTimeTrackingAutoMapper();
+            services.RegisterFilterExpressionInterceptor();
+            services.RegisterApplicationServices();
+            services.RegisterOpenApiController();
+            services.RegisterRestApiController();
+            services.RegisterSpaStaticFiles(context.HostingEnvironment);
         });
     }
 

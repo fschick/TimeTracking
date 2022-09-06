@@ -6,6 +6,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -17,6 +18,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Reporting;
 /// A controller for handling time sheet reports.
 /// </summary>
 [V1ApiController]
+[FeatureGate(Features.Reporting)]
 public class ActivityReportController : ControllerBase, IActivityReportService
 {
     private readonly IActivityReportService _activityReportService;
@@ -32,7 +34,6 @@ public class ActivityReportController : ControllerBase, IActivityReportService
     [HttpGet]
     public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetCustomersHavingTimeSheets(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, cancellationToken);
-
 
     /// <inheritdoc />
     [HttpGet]

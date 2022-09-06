@@ -32,7 +32,7 @@ public class WorkdayServiceTests
     [DynamicData(nameof(GetWorkDayRanges))]
     public async Task WhenWorkdaysRequested_PublicAndPersonalWorkdaysMatchesExpected(DateTime start, DateTime end, int publicWorkdays, int personalWorkdays)
     {
-        var autoFake = new AutoFake();
+        using var autoFake = new AutoFake();
 
         var repository = autoFake.Resolve<IRepository>();
         A.CallTo(() => repository.Get<Holiday, HolidayDto>(default, default, default, default, default, default, default, default))

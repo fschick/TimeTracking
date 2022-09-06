@@ -1,5 +1,8 @@
 {
   "TimeTracking": {
+    "Features": {
+      "Reporting": false
+    },
     "Database": {
       "Type": "Sqlite",
       "ConnectionString": "Data Source=database/TimeTracking.sqlite"

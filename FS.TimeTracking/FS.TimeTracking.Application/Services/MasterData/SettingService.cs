@@ -4,6 +4,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Nito.AsyncEx;
 using System.Collections.Generic;
@@ -20,16 +21,19 @@ public class SettingService : ISettingService
     private readonly IRepository _repository;
     private readonly IMapper _mapper;
     private AsyncLazy<SettingDto> _settingsCache;
+    private TimeTrackingConfiguration _configuration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingService"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
     /// <param name="mapper">The mapper.</param>
-    public SettingService(IRepository repository, IMapper mapper)
+    /// <param name="configuration">The configuration.</param>
+    public SettingService(IRepository repository, IMapper mapper, IOptions<TimeTrackingConfiguration> configuration)
     {
         _repository = repository;
         _mapper = mapper;
+        _configuration = configuration.Value;
 
         _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
     }
@@ -68,6 +72,10 @@ public class SettingService : ISettingService
 
         return JObject.Parse(await File.ReadAllTextAsync(translationFile, cancellationToken));
     }
+
+    /// <inheritdoc />
+    public Task<FeatureConfiguration> GetFeatures(CancellationToken cancellationToken = default)
+        => Task.FromResult(_configuration.Features);
 
     private async Task<SettingDto> LoadSettings()
     {

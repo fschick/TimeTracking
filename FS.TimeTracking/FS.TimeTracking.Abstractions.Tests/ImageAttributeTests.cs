@@ -109,7 +109,8 @@ public class ImageAttributeTests
     private static byte[] CreateImage(int width, int height)
     {
         using var memoryStream = new MemoryStream();
-        new Image<Abgr32>(width, height).SaveAsPng(memoryStream);
+        using var image = new Image<Abgr32>(width, height);
+        image.SaveAsPng(memoryStream);
         return memoryStream.ToArray();
     }
 
