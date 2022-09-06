@@ -131,7 +131,7 @@ public class ActivityReportService : IActivityReportService
             EndDate = selectedPeriod.End,
         };
 
-        var provider = await GetProviderInformation(cancellationToken);
+        var serviceProvider = await GetServiceProviderInformation(cancellationToken);
 
         var translations = await _settingService.GetTranslations(language, cancellationToken);
         var reportTranslations = translations
@@ -145,7 +145,7 @@ public class ActivityReportService : IActivityReportService
         var reportData = new ActivityReportDto
         {
             Parameters = parameters,
-            Provider = provider,
+            ServiceProvider = serviceProvider,
             Translations = reportTranslations,
             TimeSheets = timeSheets,
         };
@@ -153,17 +153,17 @@ public class ActivityReportService : IActivityReportService
         return reportData;
     }
 
-    private async Task<ProviderDto> GetProviderInformation(CancellationToken cancellationToken)
+    private async Task<ServiceProviderDto> GetServiceProviderInformation(CancellationToken cancellationToken)
     {
         var settings = await _settingService.GetSettings(cancellationToken);
-        var provider = new ProviderDto
+        var serviceProvider = new ServiceProviderDto
         {
             Name = settings.Company.ServiceProvider,
             Company = settings.Company.Company,
             Department = settings.Company.Department,
             Logo = settings.Company.Logo,
         };
-        return provider;
+        return serviceProvider;
     }
 
     private async Task<List<ActivityReportTimeSheetDto>> GetTimeSheets(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)

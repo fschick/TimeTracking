@@ -91,7 +91,7 @@
         "Company": "Company",
         "Department": "Department",
         "Contact": "Contact",
-        "Provider": "Provider",
+        "ServiceProvider": "Service Provider",
         "Id": "Id",
         "StartDate": "From",
         "EndDate": "To",

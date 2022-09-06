@@ -91,7 +91,7 @@
         "Company": "Firma",
         "Department": "Abteilung",
         "Contact": "Ansprechpartner",
-        "Provider": "Dienstleister",
+        "ServiceProvider": "Dienstleister",
         "Id": "Id",
         "StartDate": "Von",
         "EndDate": "Bis",
