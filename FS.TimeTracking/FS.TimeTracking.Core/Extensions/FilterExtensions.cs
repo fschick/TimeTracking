@@ -199,6 +199,7 @@ public static class FilterExtensions
     /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
     /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
     /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
+    /// <param name="additionalParameters">A variable-length parameters list containing additional parameters.</param>
     public static string ToQueryParams(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, params (string key, string value)[] additionalParameters)
     {
         var filterParameters = new[]

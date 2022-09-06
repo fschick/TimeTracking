@@ -20,7 +20,11 @@ public class FeatureGateDocumentFilter : IDocumentFilter
     public FeatureGateDocumentFilter(IFeatureManager featureManager)
         => _featureManager = featureManager;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Apply filter rules.
+    /// </summary>
+    /// <param name="swaggerDoc">The swagger document.</param>
+    /// <param name="context">The context.</param>
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         foreach (var apiDescription in context.ApiDescriptions)
