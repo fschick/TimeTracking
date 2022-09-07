@@ -57,7 +57,6 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const cssHeadCell = 'text-nowrap';
     this.columns = [
       {
         title: $localize`:@@Page.Report.Activity.Customer:[i18n] Customer`,
@@ -82,7 +81,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
     ];
 
     const loadTimeSheets = this.entityService.reloadRequested
-      .pipe(switchMap(requestParameters => this.loadOverview(requestParameters)))
+      .pipe(switchMap(filter => this.loadOverview(filter)))
       .subscribe(customers => {
         this.rows = customers;
       });

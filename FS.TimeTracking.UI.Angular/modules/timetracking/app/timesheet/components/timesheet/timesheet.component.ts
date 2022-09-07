@@ -73,7 +73,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     this.subscriptions.add(loadTimeSheets);
 
     const showDetails = this.entityService.filterChanged
-      .pipe(map(x => x.showDetails === 'true'))
+      .pipe(map(filter => filter.showDetails === 'true'))
       .subscribe(showDetails => this.showDetails = showDetails);
     this.subscriptions.add(showDetails);
   }
@@ -130,6 +130,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       .pipe(
         single(),
         this.entityService.withUpdatesFrom(this.entityService.timesheetChanged, this.timeSheetService),
+        // Updates active tasks (e.g. duration display) every 50 seconds.
         switchMap(timeSheets => (timer(0, 500000)).pipe(map(() => timeSheets))),
         map(timeSheets => this.createTimeSheetOverview(timeSheets))
       );

@@ -21,15 +21,15 @@ export type CrudService<TDto> = {
 @Injectable()
 export class EntityService {
   public readonly reloadRequested: Observable<FilteredRequestParams>;
-  public filterChanged = new Subject<FilteredRequestParams>();
-  public filterValuesChanged = new Subject<Record<FilterName, any>>();
-  public timesheetChanged = new Subject<EntityChanged<TimeSheetGridDto>>();
-  public orderChanged = new Subject<EntityChanged<OrderGridDto>>();
-  public activityChanged = new Subject<EntityChanged<ActivityGridDto>>();
-  public projectChanged = new Subject<EntityChanged<ProjectGridDto>>();
-  public customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
-  public holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
-  public holidaysImported = new Subject<void>();
+  public readonly filterChanged = new Subject<FilteredRequestParams>();
+  public readonly filterValuesChanged = new Subject<Record<FilterName, any>>();
+  public readonly timesheetChanged = new Subject<EntityChanged<TimeSheetGridDto>>();
+  public readonly orderChanged = new Subject<EntityChanged<OrderGridDto>>();
+  public readonly activityChanged = new Subject<EntityChanged<ActivityGridDto>>();
+  public readonly projectChanged = new Subject<EntityChanged<ProjectGridDto>>();
+  public readonly customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
+  public readonly holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
+  public readonly holidaysImported = new Subject<void>();
 
   constructor() {
     this.reloadRequested = this.createReloadRequested();

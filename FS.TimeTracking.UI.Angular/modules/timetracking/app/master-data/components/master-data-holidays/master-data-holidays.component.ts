@@ -120,10 +120,6 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
       .pipe(single());
   }
 
-  public getDataCellValue(row: HolidayGridDto, column: Column<HolidayGridDto>): string {
-    return this.holidayTable?.getCellValue(row, column) ?? '';
-  }
-
   public deleteItem(id: string): void {
     this.holidayService
       .delete({id})

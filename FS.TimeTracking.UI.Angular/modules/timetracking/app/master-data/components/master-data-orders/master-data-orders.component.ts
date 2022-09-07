@@ -112,10 +112,6 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
       .pipe(single());
   }
 
-  public getDataCellValue(row: OrderGridDto, column: Column<OrderGridDto>): string {
-    return this.orderTable?.getCellValue(row, column) ?? '';
-  }
-
   public deleteItem(id: string): void {
     this.orderService
       .delete({id})

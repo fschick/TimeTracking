@@ -95,10 +95,6 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public getDataCellValue(row: CustomerGridDto, column: Column<CustomerGridDto>): string {
-    return this.customerTable?.getCellValue(row, column) ?? '';
-  }
-
   private loadData(filter: FilteredRequestParams): Observable<CustomerGridDto[]> {
     return this.customerService.getGridFiltered(filter)
       .pipe(single());

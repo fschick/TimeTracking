@@ -96,10 +96,6 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
       .pipe(single());
   }
 
-  public getDataCellValue(row: ProjectGridDto, column: Column<ProjectGridDto>): string {
-    return this.projectTable?.getCellValue(row, column) ?? '';
-  }
-
   public deleteItem(id: string): void {
     this.projectService
       .delete({id})
