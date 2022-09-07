@@ -60,7 +60,7 @@ export class ReportActivityPreviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const loadTimeSheets = this.entityService.filterChanged
+    const loadTimeSheets = this.entityService.reloadRequested
       .pipe(switchMap(requestParameters => this.loadPreview(requestParameters)))
       .subscribe(preview => {
         this.totalReportPages = preview.totalPages;

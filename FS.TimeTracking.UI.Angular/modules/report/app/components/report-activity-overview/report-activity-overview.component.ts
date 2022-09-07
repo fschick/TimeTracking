@@ -81,7 +81,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
       },
     ];
 
-    const loadTimeSheets = this.entityService.filterChanged
+    const loadTimeSheets = this.entityService.reloadRequested
       .pipe(switchMap(requestParameters => this.loadOverview(requestParameters)))
       .subscribe(customers => {
         this.rows = customers;

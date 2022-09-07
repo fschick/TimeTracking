@@ -69,7 +69,7 @@ export class TimeSheetHeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const loadWorkTimeOverview = this.entityService.filterChanged
+    const loadWorkTimeOverview = this.entityService.reloadRequested
       .pipe(
         filter(() => this.visible),
         switchMap(filter => this.loadOverviewData(filter))

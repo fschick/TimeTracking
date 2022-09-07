@@ -47,7 +47,7 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.entityService.filterChanged
+    const filterChanged = this.entityService.reloadRequested
       .pipe(
         switchMap(filter => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.orderChanged, this.orderService),

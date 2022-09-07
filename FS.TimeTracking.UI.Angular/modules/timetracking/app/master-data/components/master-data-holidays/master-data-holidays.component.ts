@@ -48,9 +48,9 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged$ = this.entityService.filterChanged;
+    const reloadRequested$ = this.entityService.reloadRequested;
     const holidayImported$ = this.entityService.holidaysImported.pipe(startWith( void 0));
-    const loadData = combineLatest([filterChanged$, holidayImported$])
+    const loadData = combineLatest([reloadRequested$, holidayImported$])
       .pipe(
         switchMap(([filter]) => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.holidayChanged, this.holidayService),

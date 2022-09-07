@@ -67,7 +67,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const loadTimeSheets = this.entityService.filterChanged
+    const loadTimeSheets = this.entityService.reloadRequested
       .pipe(switchMap(filter => this.loadData(filter)))
       .subscribe(overview => this.overview = overview);
     this.subscriptions.add(loadTimeSheets);
