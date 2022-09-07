@@ -17,6 +17,13 @@ function Npm-Restore {
 	Pop-Location
 }
 
+function Create-Private-NuGet-Config {
+	# Copy private configuration holding private repository secrets
+	if ($NUGET_CONFIG) {
+		Copy-Item $NUGET_CONFIG /nuget.config -Force
+	}
+}
+
 #
 #region Build
 #
@@ -25,7 +32,7 @@ function Build-Rest-Services([String] $version = "0.0.0", [String] $fileVersion 
 	Push-Location FS.TimeTracking
 	
 	# Build back-end
-	Copy-Item $NUGET_CONFIG /nuget.config -Force
+	Create-Private-NuGet-Config
 	& dotnet build -warnaserror --configuration Debug
 	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
@@ -40,8 +47,9 @@ function Build-Tool([String] $version = "0.0.0", [String] $fileVersion = "0.0.0"
 	# Switch to tool project
 	Push-Location FS.TimeTracking.Tool
 	
+	Create-Private-NuGet-Config
+	
 	# Build back-end
-	Copy-Item $NUGET_CONFIG /nuget.config -Force
 	& dotnet build -warnaserror --configuration Debug
 	& dotnet build -warnaserror --configuration Release -p:Version=$version -p:FileVersion=$fileVersion
 	if(!$?) {
@@ -80,7 +88,7 @@ function Test-Rest-Services([String] $filter) {
 	# Switch to backend project
 	Push-Location FS.TimeTracking
 	
-	Copy-Item $NUGET_CONFIG /nuget.config -Force
+	Create-Private-NuGet-Config
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
 	if ($filter) {
 		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
@@ -99,7 +107,7 @@ function Test-Tool([String] $filter) {
 	# Switch to tool project
 	Push-Location FS.TimeTracking.Tool
 	
-	Copy-Item $NUGET_CONFIG /nuget.config -Force
+	Create-Private-NuGet-Config
 	Get-ChildItem "TestResult" -Recurse | foreach { $_.Delete($TRUE) }
 	if ($filter) {
 		& dotnet test --configuration Release --logger:trx --logger:html --filter $filter
@@ -142,7 +150,7 @@ function Clean-Folder([String] $folder) {
 }
 
 function Publish-Rest-Services([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $publshFolder, [String] $msBuildPublishDir) {
-	Copy-Item $NUGET_CONFIG /nuget.config -Force
+	Create-Private-NuGet-Config
     
 	# Generate Open API spec, Angular client and validation spec by running runtime independent build
 	& dotnet build FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj --configuration $configuration
@@ -164,7 +172,7 @@ function Publish-Rest-Services([String] $configuration, [String] $targetFramewor
 }
 
 function Publish-Tool([String] $configuration, [String] $targetFramework, [String] $runtime, [String] $version, [String] $fileVersion, [String] $msBuildPublishDir) {
-    Copy-Item $NUGET_CONFIG /nuget.config -Force
+    Create-Private-NuGet-Config
 	
 	# Publish tool
 	if ($runtime) {
