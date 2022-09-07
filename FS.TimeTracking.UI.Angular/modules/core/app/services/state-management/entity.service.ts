@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
+import {combineLatest, fromEvent, interval, merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
-import {map, single, tap} from 'rxjs/operators';
+import {filter, map, single, startWith, switchMap, takeUntil, takeWhile, tap, throttleTime} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
 
 export interface EntityChanged<TDto> {
@@ -20,6 +20,7 @@ export type CrudService<TDto> = {
 
 @Injectable()
 export class EntityService {
+  public readonly reloadRequested: Observable<FilteredRequestParams>;
   public filterChanged = new Subject<FilteredRequestParams>();
   public filterValuesChanged = new Subject<Record<FilterName, any>>();
   public timesheetChanged = new Subject<EntityChanged<TimeSheetGridDto>>();
@@ -29,6 +30,10 @@ export class EntityService {
   public customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
   public holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
   public holidaysImported = new Subject<void>();
+
+  constructor() {
+    this.reloadRequested = this.createReloadRequested();
+  }
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (gridData: Observable<TDto[]>) => {
@@ -97,6 +102,23 @@ export class EntityService {
     }
 
     return entities;
+  }
+
+  private createReloadRequested() {
+    const filterChanged$ = this.filterChanged;
+
+    const windowDisplayed$ = fromEvent(window.document, 'visibilitychange').pipe(filter(() => document.visibilityState === 'visible'));
+    const windowFocused$ = fromEvent(window, 'focus');
+
+    const windowActivated$ = merge(windowDisplayed$, windowFocused$).pipe(throttleTime(100), startWith(0));
+    const windowDeactivated$ = fromEvent(window, 'blur');
+
+    const fiveMinutes = 5 * 60 * 1000;
+    const pingWhileVisibleButInactive$ = interval(fiveMinutes).pipe(takeWhile(() => !window.document.hidden), takeUntil(windowFocused$));
+    const pollWhileVisibleButInactive$ = merge(windowDeactivated$, windowDisplayed$).pipe(switchMap(() => pingWhileVisibleButInactive$), startWith(0));
+
+    return combineLatest([filterChanged$, windowActivated$, pollWhileVisibleButInactive$])
+      .pipe(map(([filter]) => filter));
   }
 
   // public showUpdateNote(dtoTransUnitId: string) {
