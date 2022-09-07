@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HolidayService} from '../../../../../api/timetracking';
@@ -71,7 +71,7 @@ export class MasterDataHolidaysImportComponent implements AfterViewInit {
       .pipe(single())
       .subscribe(() => {
         this.modal?.close();
-        this.entityService.holidayChanged.next({action: 'reloadAll'});
+        this.entityService.holidaysImported.next();
       });
   }
 }

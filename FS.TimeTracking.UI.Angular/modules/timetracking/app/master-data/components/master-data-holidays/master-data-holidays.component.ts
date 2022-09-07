@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HolidayGridDto, HolidayService, HolidayType} from '../../../../../api/timetracking';
-import {Observable,  Subscription} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {  Column,  Configuration,  DataCellTemplate,  SimpleTableComponent} from '../../../../../core/app/components/simple-table/simple-table.component';
-import {single, switchMap} from 'rxjs/operators';
+import {single, startWith, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
@@ -48,13 +48,15 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const filterChanged = this.entityService.filterChanged
+    const filterChanged$ = this.entityService.filterChanged;
+    const holidayImported$ = this.entityService.holidaysImported.pipe(startWith( void 0));
+    const loadData = combineLatest([filterChanged$, holidayImported$])
       .pipe(
-        switchMap(filter => this.loadData(filter)),
+        switchMap(([filter]) => this.loadData(filter)),
         this.entityService.withUpdatesFrom(this.entityService.holidayChanged, this.holidayService),
       )
       .subscribe(rows => this.rows = rows);
-    this.subscriptions.add(filterChanged);
+    this.subscriptions.add(loadData);
 
     this.configuration = {
       cssWrapper: 'table-responsive',

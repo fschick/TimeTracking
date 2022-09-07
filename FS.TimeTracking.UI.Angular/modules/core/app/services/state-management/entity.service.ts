@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
-import {filter, map, single, switchMap, tap} from 'rxjs/operators';
+import {map, single, tap} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
 
 export interface EntityChanged<TDto> {
   entity?: TDto;
-  action: 'created' | 'updated' | 'deleted' | 'reloadAll';
+  action: 'created' | 'updated' | 'deleted';
 }
 
 export type CrudDto = {
@@ -28,6 +28,7 @@ export class EntityService {
   public projectChanged = new Subject<EntityChanged<ProjectGridDto>>();
   public customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
   public holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
+  public holidaysImported = new Subject<void>();
 
   public withUpdatesFrom<TDto extends CrudDto>(entityChanged: Observable<EntityChanged<TDto>>, crudService: CrudService<TDto>) {
     return (gridData: Observable<TDto[]>) => {
@@ -38,7 +39,6 @@ export class EntityService {
 
       const updatedGridData$ = entityChanged
         .pipe(
-          filter(x => x.action !== 'reloadAll'),
           this.replaceEntityWithGridDto(crudService),
           map(changedEvent => {
             const updatedDtos = this.updateCollection(cachedGridData, 'id', changedEvent);
@@ -46,12 +46,7 @@ export class EntityService {
             return cachedGridData;
           }));
 
-      const reloadedGridData$ = entityChanged.pipe(
-        filter(x => x.action === 'reloadAll'),
-        switchMap(() => crudService.getGridFiltered({}).pipe(single()))
-      );
-
-      return merge(cachedGridData$, updatedGridData$, reloadedGridData$);
+      return merge(updatedGridData$, cachedGridData$);
     };
   }
 
