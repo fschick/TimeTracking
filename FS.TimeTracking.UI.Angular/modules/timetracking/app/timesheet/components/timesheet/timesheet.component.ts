@@ -49,16 +49,16 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     private storageService: StorageService,
     private utilityService: UtilityService,
   ) {
-    const defaultStartDate = DateTime.now().startOf('month');
+    const defaultStartDate = DateTime.now().minus({month: 1}).startOf('month');
     const defaultEndDate = DateTime.now().endOf('month');
 
     this.filters = [
       {name: 'showDetails', defaultValue: false, isPrimary: true},
       {name: 'timeSheetStartDate', defaultValue: defaultStartDate, isPrimary: true},
       {name: 'timeSheetEndDate', defaultValue: defaultEndDate, isPrimary: true},
-      {name: 'customerId'},
+      {name: 'customerId', isPrimary: true},
       {name: 'orderId'},
-      {name: 'projectId'},
+      {name: 'projectId', isPrimary: true},
       {name: 'activityId'},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'},

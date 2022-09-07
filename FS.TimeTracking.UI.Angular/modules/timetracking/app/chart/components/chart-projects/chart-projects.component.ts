@@ -55,7 +55,7 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
       {name: 'projectId', showHidden: true},
       {name: 'activityId', showHidden: true},
       {name: 'timeSheetIssue'},
-      {name: 'timeSheetBillable', defaultValue: true},
+      {name: 'timeSheetBillable', isPrimary: true, defaultValue: true},
     ];
 
     this.chartOptions = this.chartService.createChartOptions();

@@ -5,7 +5,6 @@ import {switchMap} from 'rxjs/operators';
 import {EntityService} from '../../../../core/app/services/state-management/entity.service';
 import {Observable, Subscription} from 'rxjs';
 import {ActivityReportGridDto, ActivityReportService} from '../../../../api/timetracking';
-import {HttpParams} from '@angular/common/http';
 import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 import {Column, Configuration, DataCellTemplate} from '../../../../core/app/components/simple-table/simple-table.component';
 
@@ -45,7 +44,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
       {name: 'activityId'},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'},
-      {name: 'timeSheetBillable', defaultValue: true},
+      {name: 'timeSheetBillable', isPrimary: true, defaultValue: true},
     ];
 
     this.configuration = {
