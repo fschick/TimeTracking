@@ -25,7 +25,7 @@
             <use xlink:href="assets/icons.svg#play-circle-fill"/>
           </svg>
         </button>
-        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn stop text-danger" (click)="stopAllTimeSheets()">
+        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn stop" (click)="stopAllTimeSheets()">
           <svg class="bi" fill="currentColor">
             <use xlink:href="assets/icons.svg#stop-circle-fill"/>
           </svg>
@@ -103,7 +103,7 @@
               </div>
             </div>
             <div class="col-2 col-md-auto col-action">
-            <span class="d-block d-md-inline me-2">
+            <span class="d-block d-md-inline me-md-2">
               <a class="" (click)="restartTimeSheet(timeSheet.id)">
                 <svg *ngIf="timeSheet.endDate" class="bi action-icon" fill="currentColor">
                   <use xlink:href="assets/icons.svg#play-circle"/>
@@ -115,7 +115,7 @@
                 </svg>
               </a>
             </span>
-              <a class="d-block d-md-inline me-2"
+              <a class="d-block d-md-inline me-md-2"
                  title="[i18n] Edit Activity"
                  i18n-title="@@Page.Timesheet.Edit"
                  [routerLink]="timeSheet.id">

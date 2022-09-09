@@ -12,6 +12,22 @@
   background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='4' fill='#{$white}'/></svg>"));
   box-shadow: none;
 
+  &.stop {
+    color: $danger;
+  }
+
+  &:hover {
+    border: 1px solid transparent;
+  }
+
+  &.start:hover, &.edit:hover {
+    color: $primary-700;
+  }
+
+  &.stop:hover {
+    color: $danger-700;
+  }
+
   &.start, &.stop {
     margin-left: -0.2rem;
     font-size: 4rem;
@@ -36,17 +52,14 @@
 
   @include media-breakpoint-down(md) {
     &.start, &.stop {
-      display: none;
+      //display: none;
     }
 
     &.edit {
+      display: none;
       margin-left: 0;
       font-size: 1.7rem;
     }
-  }
-
-  &:hover {
-    color: $primary-700;
   }
 }
 
@@ -96,8 +109,12 @@
   }
 }
 
-.col-action a {
-  color: $gray-500;
+.col-action {
+  text-align: center;
+
+  a {
+    color: $gray-500;
+  }
 }
 
 .row-running {
