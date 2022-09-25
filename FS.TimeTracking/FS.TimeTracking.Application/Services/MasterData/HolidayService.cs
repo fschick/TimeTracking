@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
+using FS.TimeTracking.Core.Models.Filter;
 using Ical.Net;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -28,9 +27,9 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
     { }
 
     /// <inheritdoc />
-    public override async Task<List<HolidayGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<HolidayGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateHolidayFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var filter = FilterExtensions.CreateHolidayFilter(filters);
 
         return await Repository
             .Get<Holiday, HolidayGridDto>(

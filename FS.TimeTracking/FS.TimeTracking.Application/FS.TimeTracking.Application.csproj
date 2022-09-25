@@ -16,7 +16,7 @@
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
     <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.0.0" />
     <PackageReference Include="TimeZoneConverter" Version="6.0.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.1.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>

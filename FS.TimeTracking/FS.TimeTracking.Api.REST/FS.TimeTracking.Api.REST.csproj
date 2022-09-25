@@ -7,10 +7,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.1.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.1.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.1.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.1.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.2.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.2.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.2.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
     
     <!--

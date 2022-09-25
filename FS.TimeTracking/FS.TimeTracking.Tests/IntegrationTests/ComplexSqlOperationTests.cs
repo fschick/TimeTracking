@@ -20,7 +20,7 @@ public class ComplexSqlOperationTests
         await using var testHost = await TestHost.Create(configuration);
 
         // Act
-        var workTimesPerOrder = await testHost.Get<OrderChartController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default, default, default, default, default, default));
+        var workTimesPerOrder = await testHost.Get<OrderChartController, List<WorkTimeDto>>(x => x.GetWorkTimesPerOrder(default, default));
 
         // Check
         workTimesPerOrder.Should().NotBeNull();

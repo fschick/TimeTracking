@@ -1,10 +1,9 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
+using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
@@ -40,6 +39,6 @@ public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGr
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<WorkedDaysInfoDto> GetWorkedDaysOverview([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _timeSheetService.GetWorkedDaysOverview(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+    public async Task<WorkedDaysInfoDto> GetWorkedDaysOverview([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+        => await _timeSheetService.GetWorkedDaysOverview(filters, cancellationToken);
 }

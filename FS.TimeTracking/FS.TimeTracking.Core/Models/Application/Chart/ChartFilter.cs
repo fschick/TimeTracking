@@ -2,11 +2,10 @@
 using FS.FilterExpressionCreator.Enums;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Filter;
 using System;
 
 namespace FS.TimeTracking.Core.Models.Application.Chart;
@@ -34,17 +33,12 @@ public record struct ChartFilter(EntityFilter<TimeSheet> WorkedTimes, EntityFilt
     /// <summary>
     /// Creates a new chart filter.
     /// </summary>
-    /// <param name="timeSheetFilter">A filter specifying the time sheet.</param>
-    /// <param name="projectFilter">A filter specifying the project.</param>
-    /// <param name="customerFilter">A filter specifying the customer.</param>
-    /// <param name="activityFilter">A filter specifying the activity.</param>
-    /// <param name="orderFilter">A filter specifying the order.</param>
-    /// <param name="holidayFilter">A filter specifying the holiday.</param>
-    public static ChartFilter Create(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static ChartFilter Create(TimeSheetFilterSet filters)
     {
-        var workedTimesFilter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
-        var plannedTimesFilter = FilterExtensions.CreateOrderFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
-        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter);
+        var workedTimesFilter = FilterExtensions.CreateTimeSheetFilter(filters);
+        var plannedTimesFilter = FilterExtensions.CreateOrderFilter(filters);
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters);
 
         var start = selectedPeriod.Start;
         var end = selectedPeriod.End;

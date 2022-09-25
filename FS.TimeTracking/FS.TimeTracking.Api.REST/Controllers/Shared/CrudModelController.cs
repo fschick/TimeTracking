@@ -1,8 +1,6 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Api.REST.Filters;
+﻿using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Models.Filter;
 using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,8 +34,8 @@ public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICru
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet]
-    public async Task<List<TGridDto>> GetGridFiltered([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _modelService.GetGridFiltered(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+    public async Task<List<TGridDto>> GetGridFiltered([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+        => await _modelService.GetGridFiltered(filters, cancellationToken);
 
     /// <inheritdoc />
     [NotFoundWhenEmpty]

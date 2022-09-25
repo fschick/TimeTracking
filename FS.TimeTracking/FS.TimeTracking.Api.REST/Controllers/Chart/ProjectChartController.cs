@@ -1,9 +1,7 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Chart;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
+using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
@@ -28,6 +26,6 @@ public class ProjectChartController : ControllerBase, IProjectChartService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<ProjectWorkTimeDto>> GetWorkTimesPerProject([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _chartService.GetWorkTimesPerProject(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+    public async Task<List<ProjectWorkTimeDto>> GetWorkTimesPerProject([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+        => await _chartService.GetWorkTimesPerProject(filters, cancellationToken);
 }

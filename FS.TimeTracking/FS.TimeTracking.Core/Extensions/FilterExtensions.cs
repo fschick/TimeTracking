@@ -1,10 +1,9 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Models;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Linq;
 using System.Web;
@@ -19,27 +18,22 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="Activity"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<Activity> CreateActivityFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<Activity> CreateActivityFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = customerFilter
+        var customerFilter1 = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
-        var projectCustomerFilter = projectFilter
+        var projectCustomerFilter = filters.ProjectFilter
             .Cast<Project>()
             .Clear(x => x.Id)
-            .Replace(x => x.CustomerId, customerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerFilter1);
 
-        var filter = activityFilter
+        var filter = filters.ActivityFilter
             .Cast<Activity>()
-            .Replace(x => x.ProjectId, projectFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
             .Replace(x => x.Project, projectCustomerFilter);
 
         return filter;
@@ -48,15 +42,10 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="Customer"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<Customer> CreateCustomerFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<Customer> CreateCustomerFilter(TimeSheetFilterSet filters)
     {
-        var filter = customerFilter
+        var filter = filters.CustomerFilter
             .Cast<Customer>();
         return filter;
     }
@@ -64,22 +53,17 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="Order"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<Order> CreateOrderFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<Order> CreateOrderFilter(TimeSheetFilterSet filters)
     {
-        var customerProjectFilter = customerFilter
+        var customerProjectFilter = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id)
-            .Replace(x => x.Projects, projectFilter.Cast<Project>());
+            .Replace(x => x.Projects, filters.ProjectFilter.Cast<Project>());
 
-        var filter = orderFilter
+        var filter = filters.OrderFilter
             .Cast<Order>()
-            .Replace(x => x.CustomerId, customerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerProjectFilter);
 
         return filter;
@@ -88,21 +72,16 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="Order"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<Project> CreateProjectFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<Project> CreateProjectFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = customerFilter
+        var customerFilter1 = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
-        var filter = projectFilter
+        var filter = filters.ProjectFilter
             .Cast<Project>()
-            .Replace(x => x.CustomerId, customerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerFilter1);
 
         return filter;
@@ -111,39 +90,34 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="TimeSheet"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<TimeSheet> CreateTimeSheetFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<TimeSheet> CreateTimeSheetFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = customerFilter
+        var customerFilter1 = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
-        var projectCustomerFilter = projectFilter
+        var projectCustomerFilter = filters.ProjectFilter
             .Cast<Project>()
             .Clear(x => x.Id)
-            .Replace(x => x.CustomerId, customerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerFilter1);
 
-        var activityFilter1 = activityFilter
+        var activityFilter1 = filters.ActivityFilter
             .Cast<Activity>()
             .Clear(x => x.Id);
 
-        var orderFilter1 = orderFilter
+        var orderFilter1 = filters.OrderFilter
             .Cast<Order>()
             .Clear(x => x.Id);
 
-        var filter = timeSheetFilter
+        var filter = filters.TimeSheetFilter
             .Cast<TimeSheet>()
-            .Replace(x => x.ProjectId, projectFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
             .Replace(x => x.Project, projectCustomerFilter)
-            .Replace(x => x.ActivityId, activityFilter.GetPropertyFilter(a => a.Id))
+            .Replace(x => x.ActivityId, filters.ActivityFilter.GetPropertyFilter(a => a.Id))
             .Replace(x => x.Activity, activityFilter1)
-            .Replace(x => x.OrderId, orderFilter.GetPropertyFilter(o => o.Id))
+            .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
             .Replace(x => x.Order, orderFilter1);
 
         return filter;
@@ -152,29 +126,24 @@ public static class FilterExtensions
     /// <summary>
     /// Creates the filter for <see cref="Order"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
-    public static EntityFilter<Holiday> CreateHolidayFilter(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter)
+    /// <param name="filters">Filters used to create result.</param>
+    public static EntityFilter<Holiday> CreateHolidayFilter(TimeSheetFilterSet filters)
     {
-        var filter = holidayFilter
+        var filter = filters.HolidayFilter
             .Cast<Holiday>();
 
         return filter;
     }
 
     /// <summary>
-    /// Gets the selection period from <paramref name="timeSheetFilter"/>.
+    /// Gets the selection period from <paramref name="filters.TimeSheetFilter"/>.
     /// </summary>
-    /// <param name="timeSheetFilter">The time sheet filter.</param>
+    /// <param name="filters">Filters used to create result.</param>
     /// <param name="endDateExclusive">Handle given end date as (right) exclusive.</param>
-    public static Range<DateTimeOffset> GetSelectedPeriod(EntityFilter<TimeSheetDto> timeSheetFilter, bool endDateExclusive = false)
+    public static Range<DateTimeOffset> GetSelectedPeriod(TimeSheetFilterSet filters, bool endDateExclusive = false)
     {
-        var startDateFilter = timeSheetFilter.GetPropertyFilter(x => x.StartDate);
-        var endDateFilter = timeSheetFilter.GetPropertyFilter(x => x.EndDate);
+        var startDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.StartDate);
+        var endDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.EndDate);
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
@@ -193,23 +162,18 @@ public static class FilterExtensions
     /// <summary>
     /// Creates HTTP query parameters from given filters.
     /// </summary>
-    /// <param name="timeSheetFilter">Filter applied to <see cref="TimeSheetDto"/>.</param>
-    /// <param name="projectFilter">Filter applied to <see cref="ProjectDto"/>.</param>
-    /// <param name="customerFilter">Filter applied to <see cref="CustomerDto"/>.</param>
-    /// <param name="activityFilter">Filter applied to <see cref="ActivityDto"/>.</param>
-    /// <param name="orderFilter">Filter applied to <see cref="OrderDto"/>.</param>
-    /// <param name="holidayFilter">Filter applied to <see cref="HolidayDto"/>.</param>
+    /// <param name="filters">Filters used to create result.</param>
     /// <param name="additionalParameters">A variable-length parameters list containing additional parameters.</param>
-    public static string ToQueryParams(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, params (string key, string value)[] additionalParameters)
+    public static string ToQueryParams(TimeSheetFilterSet filters, params (string key, string value)[] additionalParameters)
     {
         var filterParameters = new[]
         {
-            timeSheetFilter.ToQueryParams(),
-            projectFilter.ToQueryParams(),
-            customerFilter.ToQueryParams(),
-            activityFilter.ToQueryParams(),
-            orderFilter.ToQueryParams(),
-            holidayFilter.ToQueryParams(),
+            filters.TimeSheetFilter.ToQueryParams(),
+            filters.ProjectFilter.ToQueryParams(),
+            filters.CustomerFilter.ToQueryParams(),
+            filters.ActivityFilter.ToQueryParams(),
+            filters.OrderFilter.ToQueryParams(),
+            filters.HolidayFilter.ToQueryParams(),
         };
 
         var additionalParams = additionalParameters.Select(param => $"{HttpUtility.UrlEncode(param.key)}={HttpUtility.UrlEncode(param.value)}");

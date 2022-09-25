@@ -58,6 +58,9 @@ internal static class ControllerExtensions
         foreach (var parameter in apiMethodDescription.ParameterDescriptions)
         {
             var parameterIndex = controllerActionCallParameters.FindIndex(x => x.Name == parameter.Name);
+            if (parameterIndex == -1)
+                continue;
+
             var parameterExpression = controllerActionCall.Arguments[parameterIndex];
             try
             {

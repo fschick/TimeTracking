@@ -2,7 +2,6 @@
 using FS.FilterExpressionCreator.Abstractions.Models;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
@@ -13,6 +12,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,9 +43,9 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     }
 
     /// <inheritdoc />
-    public override async Task<List<TimeSheetGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public override async Task<List<TimeSheetGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var filter = FilterExtensions.CreateTimeSheetFilter(filters);
 
         return await Repository
             .Get<TimeSheet, TimeSheetGridDto>(
@@ -83,9 +83,9 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     }
 
     /// <inheritdoc />
-    public async Task<WorkedDaysInfoDto> GetWorkedDaysOverview(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public async Task<WorkedDaysInfoDto> GetWorkedDaysOverview(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateTimeSheetFilter(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var filter = FilterExtensions.CreateTimeSheetFilter(filters);
 
         var dbMinMaxTotal = await Repository
             .GetGrouped(
@@ -102,7 +102,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
             .AsEnumerableAsync()
             .FirstOrDefaultAsync();
 
-        var selectedPeriod = FilterExtensions.GetSelectedPeriod(timeSheetFilter, true);
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters, true);
         selectedPeriod = await AlignPeriodToAvailableData(selectedPeriod, dbMinMaxTotal?.Start, dbMinMaxTotal?.End);
         var workDays = await _workdayService.GetWorkdays(selectedPeriod, cancellationToken);
 

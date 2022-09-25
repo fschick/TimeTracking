@@ -1,9 +1,7 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.Reporting;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+﻿using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
+using FS.TimeTracking.Core.Models.Filter;
 using FS.TimeTracking.Report.Client.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -32,21 +30,21 @@ public class ActivityReportController : ControllerBase, IActivityReportService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetCustomersHavingTimeSheets(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, cancellationToken);
+    public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetCustomersHavingTimeSheets(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<FileResult> GetActivityReport([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetActivityReport(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
+    public async Task<FileResult> GetActivityReport([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetActivityReport(filters, language, reportType, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<ReportPreviewDto> GetActivityReportPreview([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetActivityReportPreview(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
+    public async Task<ReportPreviewDto> GetActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetActivityReportPreview(filters, language, reportType, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<ActivityReportDto> GetActivityReportData([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetActivityReportData(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, language, reportType, cancellationToken);
+    public async Task<ActivityReportDto> GetActivityReportData([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetActivityReportData(filters, language, reportType, cancellationToken);
 }

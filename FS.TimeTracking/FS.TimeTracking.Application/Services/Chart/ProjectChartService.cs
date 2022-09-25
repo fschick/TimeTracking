@@ -1,12 +1,10 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Chart;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.Chart;
+using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +32,10 @@ public class ProjectChartService : IProjectChartService
     }
 
     /// <inheritdoc />
-    public async Task<List<ProjectWorkTimeDto>> GetWorkTimesPerProject(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
+    public async Task<List<ProjectWorkTimeDto>> GetWorkTimesPerProject(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
         var settings = await _settingService.GetSettings(cancellationToken);
-        var filter = ChartFilter.Create(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter);
+        var filter = ChartFilter.Create(filters);
         var workedTimesPerProject = await GetWorkedTimesPerProject(filter, cancellationToken);
 
         var totalWorkedDays = workedTimesPerProject.Sum(x => x.WorkedDays);

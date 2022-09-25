@@ -1,10 +1,8 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Chart;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Models.Application.Chart;
+using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,8 +28,8 @@ public class OrderChartController : ControllerBase, IOrderChartService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<OrderWorkTimeDto>> GetWorkTimesPerOrder([FromQuery] EntityFilter<TimeSheetDto> timeSheetFilter, [FromQuery] EntityFilter<ProjectDto> projectFilter, [FromQuery] EntityFilter<CustomerDto> customerFilter, [FromQuery] EntityFilter<ActivityDto> activityFilter, [FromQuery] EntityFilter<OrderDto> orderFilter, [FromQuery] EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default)
-        => await _chartService.GetWorkTimesPerOrder(timeSheetFilter, projectFilter, customerFilter, activityFilter, orderFilter, holidayFilter, cancellationToken);
+    public async Task<List<OrderWorkTimeDto>> GetWorkTimesPerOrder([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+        => await _chartService.GetWorkTimesPerOrder(filters, cancellationToken);
 
     [NonAction]
     Task<List<OrderWorkTime>> IOrderChartService.GetPlannedTimesPerOrder(ChartFilter filter, CancellationToken cancellationToken)

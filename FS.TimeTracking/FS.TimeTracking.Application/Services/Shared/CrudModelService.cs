@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -48,7 +46,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
             );
 
     /// <inheritdoc />
-    public abstract Task<List<TGridDto>> GetGridFiltered(EntityFilter<TimeSheetDto> timeSheetFilter, EntityFilter<ProjectDto> projectFilter, EntityFilter<CustomerDto> customerFilter, EntityFilter<ActivityDto> activityFilter, EntityFilter<OrderDto> orderFilter, EntityFilter<HolidayDto> holidayFilter, CancellationToken cancellationToken = default);
+    public abstract Task<List<TGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default);
 
     /// <inheritdoc />
     public async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
