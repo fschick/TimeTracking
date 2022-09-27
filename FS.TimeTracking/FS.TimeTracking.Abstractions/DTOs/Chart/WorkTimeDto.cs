@@ -79,12 +79,6 @@ public abstract class WorkTimeDto
     public bool PlannedIsPartial { get; set; }
 
     /// <summary>
-    /// Ratio between planned and worked days/time/budget.
-    /// </summary>
-    [Required]
-    public double? Completed => DaysWorked / DaysPlanned;
-
-    /// <summary>
     /// Ratio of worked time related to all other <see cref="WorkTimeDto"/>.
     /// </summary>
     [Required]

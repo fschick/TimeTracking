@@ -23,10 +23,10 @@ public class DateTimeOffsetTests
         await using var testHost = await TestHost.Create(configuration);
         using var client = testHost.GetTestClient();
 
-        var newCustomer = FakeEntityFactory.CreateCustomerDto();
-        var newProject = FakeEntityFactory.CreateProjectDto(newCustomer.Id);
-        var newActivity = FakeEntityFactory.CreateActivityDto();
-        var newTimeSheet = FakeEntityFactory.CreateTimeSheetDto(newProject.Id, newActivity.Id);
+        var newCustomer = FakeCustomer.CreateDto();
+        var newProject = FakeProject.CreateDto(newCustomer.Id);
+        var newActivity = FakeActivity.CreateDto();
+        var newTimeSheet = FakeTimeSheet.CreateDto(newProject.Id, newActivity.Id);
 
         // Act
         newTimeSheet.StartDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(-4));

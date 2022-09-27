@@ -46,10 +46,10 @@ export class ChartService {
   ) {
   }
 
-  public addColors<T>(rows: T[]): (T & { color: string })[] {
+  public addColors<T>(rows: T[]): (T & { color: string, completed: number })[] {
     return rows.map((row, index) => {
       const colorIndex = index % this.chartColors.length;
-      return ({...row, color: this.chartColors[colorIndex]});
+      return ({...row, color: this.chartColors[colorIndex], completed: 0});
     });
   }
 

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
@@ -9,6 +10,7 @@ using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.IntegrationTests;
@@ -22,23 +24,25 @@ public class CustomDbFunctionTests
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
-        var newCustomer = FakeEntityFactory.CreateCustomerDto(hidden: true);
+        var newCustomer = FakeCustomer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
 
-        var newProject = FakeEntityFactory.CreateProjectDto(newCustomer.Id, hidden: true);
+        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
         var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
 
-        var newActivity = FakeEntityFactory.CreateActivityDto(hidden: true);
+        var newActivity = FakeActivity.CreateDto(hidden: true);
         var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
 
-        var newTimeSheet = FakeEntityFactory.CreateTimeSheetDto(newProject.Id, newActivity.Id);
+        var newTimeSheet = FakeTimeSheet.CreateDto(newProject.Id, newActivity.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
         var readTimeSheet = await testHost.Get<CustomerChartController, List<CustomerWorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default));
 
         // Check
-        readTimeSheet.Should().HaveCount(1);
+        using var _ = new AssertionScope();
+        readTimeSheet.Should().ContainSingle();
+        readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(12);
 
         // Cleanup
         await testHost.Delete((TimeSheetController x) => x.Delete(createdCustomer.Id));

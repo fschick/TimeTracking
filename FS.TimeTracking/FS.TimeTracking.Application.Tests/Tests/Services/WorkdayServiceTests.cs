@@ -30,7 +30,7 @@ public class WorkdayServiceTests
 
     [DataTestMethod]
     [DynamicData(nameof(GetWorkDayRanges))]
-    public async Task WhenWorkdaysRequested_PublicAndPersonalWorkdaysMatchesExpected(DateTime start, DateTime end, int publicWorkdays, int personalWorkdays)
+    public async Task WhenWorkdaysRequested_PublicAndPersonalWorkdaysMatchExpected(DateTime start, DateTime end, int publicWorkdays, int personalWorkdays)
     {
         using var autoFake = new AutoFake();
 

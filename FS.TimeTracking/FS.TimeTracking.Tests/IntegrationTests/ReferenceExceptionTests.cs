@@ -22,11 +22,11 @@ public class ReferenceExceptionTests
         using var client = testHost.GetTestClient();
 
         // Act
-        var newCustomer = FakeEntityFactory.CreateCustomerDto();
+        var newCustomer = FakeCustomer.CreateDto();
         var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
         await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
 
-        var newProject = FakeEntityFactory.CreateProjectDto(newCustomer.Id);
+        var newProject = FakeProject.CreateDto(newCustomer.Id);
         var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
         await client.PostAsJsonAsync(projectCreateRoute, newProject);
 

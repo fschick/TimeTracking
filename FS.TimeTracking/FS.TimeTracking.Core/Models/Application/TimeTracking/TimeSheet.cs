@@ -111,7 +111,8 @@ public class TimeSheet : IIdEntityModel
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}"
+    private string DebuggerDisplay =>
+        $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
         + (Project?.Customer != null ? $", {Project.Customer.Title}" : string.Empty)
         + (Project != null ? $", {Project.Title}" : string.Empty)
         + (Activity != null ? $", {Activity.Title}" : string.Empty);

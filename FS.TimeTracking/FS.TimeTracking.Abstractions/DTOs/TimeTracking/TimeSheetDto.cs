@@ -73,5 +73,5 @@ public class TimeSheetDto
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}";
+    private string DebuggerDisplay => $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}";
 }

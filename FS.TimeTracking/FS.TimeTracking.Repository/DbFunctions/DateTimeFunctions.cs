@@ -77,6 +77,7 @@ public static class DateTimeFunctions
     private static string GetFunctionSchema(DatabaseType databaseType)
         => databaseType switch
         {
+            DatabaseType.InMemory or
             DatabaseType.Sqlite => null,
             DatabaseType.SqlServer => "dbo",
             DatabaseType.PostgreSql => null,
@@ -87,6 +88,7 @@ public static class DateTimeFunctions
     private static string GetFunctionName(string functionName, DatabaseType databaseType)
         => databaseType switch
         {
+            DatabaseType.InMemory or
             DatabaseType.Sqlite => functionName,
             DatabaseType.SqlServer => functionName,
             DatabaseType.MySql => functionName,

@@ -2,7 +2,13 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {Observable, Subscription} from 'rxjs';
 import {OrderChartService, OrderWorkTimeDto} from '../../../../../api/timetracking';
 import {single, switchMap} from 'rxjs/operators';
-import {Column, Configuration, DataCellClickEvent, DataCellTemplate, FooterCellTemplate} from '../../../../../core/app/components/simple-table/simple-table.component';
+import {
+  Column,
+  Configuration,
+  DataCellClickEvent,
+  DataCellTemplate,
+  FooterCellTemplate
+} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {FormatService} from '../../../../../core/app/services/format.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
@@ -12,7 +18,7 @@ import {ChartOptions, ChartService} from '../../services/chart.service';
 import {UtilityService} from '../../../../../core/app/services/utility.service';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 
-type ColoredOrderWorkTimeDto = OrderWorkTimeDto & { color: string, selected: boolean };
+type ColoredOrderWorkTimeDto = OrderWorkTimeDto & { color: string, completed: number, selected: boolean };
 
 @Component({
   selector: 'ts-chart-orders',

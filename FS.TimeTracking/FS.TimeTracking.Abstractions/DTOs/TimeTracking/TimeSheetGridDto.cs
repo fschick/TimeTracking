@@ -49,7 +49,8 @@ public class TimeSheetGridDto
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay => $"{StartDate:d} - {EndDate:d}"
+    private string DebuggerDisplay =>
+        $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
         + (CustomerTitle != null ? $", {CustomerTitle}" : string.Empty)
         + (ProjectTitle != null ? $", {ProjectTitle}" : string.Empty)
         + (ActivityTitle != null ? $", {ActivityTitle}" : string.Empty);

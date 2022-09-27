@@ -6,6 +6,11 @@
 public enum DatabaseType
 {
     /// <summary>
+    /// Sqlite in memory (unit testing only)
+    /// </summary>
+    InMemory,
+
+    /// <summary>
     /// SQLite
     /// </summary>
     Sqlite,

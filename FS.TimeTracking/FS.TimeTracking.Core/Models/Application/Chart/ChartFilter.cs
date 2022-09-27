@@ -2,6 +2,7 @@
 using FS.FilterExpressionCreator.Enums;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
@@ -38,20 +39,18 @@ public record struct ChartFilter(EntityFilter<TimeSheet> WorkedTimes, EntityFilt
     {
         var workedTimesFilter = FilterExtensions.CreateTimeSheetFilter(filters);
         var plannedTimesFilter = FilterExtensions.CreateOrderFilter(filters);
-        var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters);
 
-        var start = selectedPeriod.Start;
-        var end = selectedPeriod.End;
-        if (start == DateTimeOffset.MinValue)
-            start = DateTimeOffset.MinValue.AddDays(1); // Let space for timezone conversions.
-        if (end == DateTimeOffset.MaxValue)
-            end = DateTimeOffset.MaxValue.AddDays(-1); // Let space for timezone conversions.
-        selectedPeriod = new(start, end);
+        var selectedPeriodForFilter = FilterExtensions.GetSelectedPeriod(filters);
 
-        plannedTimesFilter = plannedTimesFilter
-           .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, selectedPeriod.Start)
-           .Replace(x => x.StartDate, FilterOperator.LessThan, selectedPeriod.End);
+        if (selectedPeriodForFilter.Start != DateOffset.MinDate)
+            plannedTimesFilter = plannedTimesFilter
+               .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, selectedPeriodForFilter.Start);
 
+        if (selectedPeriodForFilter.End != DateOffset.MaxDate)
+            plannedTimesFilter = plannedTimesFilter
+                .Replace(x => x.StartDate, FilterOperator.LessThan, selectedPeriodForFilter.End);
+
+        var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters, true);
         return new ChartFilter(workedTimesFilter, plannedTimesFilter, selectedPeriod);
     }
 }
