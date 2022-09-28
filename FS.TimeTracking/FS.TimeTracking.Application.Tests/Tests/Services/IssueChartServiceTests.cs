@@ -9,6 +9,7 @@ using FS.TimeTracking.Application.Tests.Models;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
@@ -39,7 +40,8 @@ public class IssueChartServiceTests
         autoFake.Provide<IIssueChartService, IssueChartService>();
 
         var repository = autoFake.Resolve<IRepository>();
-        await repository.AddRange(testCase.TimeSheets.EliminateDuplicateReferences());
+        await repository.AddRange(testCase.MasterData);
+        await repository.AddRange(testCase.TimeSheets);
         await repository.SaveChanges();
 
         // Act
@@ -60,14 +62,16 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
     private static List<TestCase> GetTestCases()
     {
         var customer = FakeCustomer.Create();
-        var project = FakeProject.Create(customer);
-        var activity = FakeActivity.Create(project);
+        var project = FakeProject.Create(customer.Id);
+        var activity = FakeActivity.Create(project.Id);
+        var masterData = new List<IIdEntityModel> { customer, project, activity };
 
         return new List<TestCase>
         {
             new WorkTimesPerIssueTestCase
             {
                 Identifier = "Two_issues_2_and_1_third",
+                MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(project, activity, "IssueA"),
                     CreateTimeSheet(project, activity, "IssueA"),
@@ -82,6 +86,7 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
             new WorkTimesPerIssueTestCase
             {
                 Identifier = "No_issues",
+                MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(project, activity, string.Empty),
                     CreateTimeSheet(project, activity, string.Empty),
@@ -99,11 +104,12 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
     }
 
     private static TimeSheet CreateTimeSheet(Project project, Activity activity, string issue)
-        => FakeTimeSheet.Create(project, activity, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"), issue: issue);
+        => FakeTimeSheet.Create(project.Id, activity.Id, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"), issue: issue);
 }
 
 public class WorkTimesPerIssueTestCase : TestCase
 {
+    public List<IIdEntityModel> MasterData { get; set; } = new();
     public List<TimeSheet> TimeSheets { get; set; } = new();
     public List<object> Expected { get; set; } = new();
 }

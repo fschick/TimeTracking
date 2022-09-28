@@ -22,6 +22,7 @@ internal static class AutoFakeExtensions
         configuration.Database.ConnectionString = connectionString;
 
         autoFake.Provide(Options.Create(configuration));
+        autoFake.Provide(Options.Create(new EnvironmentConfiguration { IsDevelopment = true, IsProduction = false }));
         autoFake.Provide<TimeTrackingDbContext, TimeTrackingDbContext>();
 
         EntityFilter.DefaultInterceptor = new DateTimeOffsetInterceptor();

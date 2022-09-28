@@ -1,5 +1,4 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
-using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -22,15 +21,6 @@ public static class FakeTimeSheet
             Comment = $"{prefix}{nameof(TimeSheet.Comment)}",
             Issue = issue ?? $"{prefix}{nameof(TimeSheet.Issue)}",
         };
-
-    public static TimeSheet Create(Project project, Activity activity, Order order = null, DateTimeOffset? startDate = null, DateTimeOffset? endDate = null, string issue = null, string prefix = "Test")
-    {
-        var timeSheet = Create(project.Id, activity.Id, order?.Id, startDate, endDate, issue, prefix);
-        timeSheet.Project = project;
-        timeSheet.Activity = activity;
-        timeSheet.Order = order;
-        return timeSheet;
-    }
 
     public static TimeSheetDto CreateDto(Guid projectId, Guid activityId, Guid? orderId = null, DateTimeOffset? startDate = null, DateTimeOffset? endDate = null, string prefix = "Test")
         => FakeAutoMapper.Mapper.Map<TimeSheetDto>(Create(projectId, activityId, orderId, startDate, endDate, prefix));

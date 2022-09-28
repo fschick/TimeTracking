@@ -18,13 +18,6 @@ public static partial class FakeProject
             Hidden = hidden
         };
 
-    public static Project Create(Customer customer, string prefix = "Test", bool hidden = false)
-    {
-        var result = Create(customer.Id, prefix, hidden);
-        result.Customer = customer;
-        return result;
-    }
-
     public static ProjectDto CreateDto(Guid customerId, string prefix = "Test", bool hidden = false)
         => FakeAutoMapper.Mapper.Map<ProjectDto>(Create(customerId, prefix, hidden));
 }

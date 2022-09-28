@@ -12,6 +12,7 @@ using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -177,6 +178,7 @@ public class OrderChartService : IOrderChartService
     }
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage(Justification = "Tested by TimeSheetServiceTests/TimeSheetService.GetWorkedDaysOverview")]
     public async Task<int> GetPersonalWorkdaysCount(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
     {
         var workdays = await _workdayService.GetWorkdays(startDate.Date, endDate.Date, cancellationToken);

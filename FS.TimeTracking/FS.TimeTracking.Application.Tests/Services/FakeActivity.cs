@@ -18,13 +18,6 @@ public static class FakeActivity
             Hidden = hidden
         };
 
-    public static Activity Create(Project project, string prefix = "Test", bool hidden = false)
-    {
-        var result = Create(project.Id, prefix, hidden);
-        result.Project = project;
-        return result;
-    }
-
     public static ActivityDto CreateDto(Guid? projectId = null, string prefix = "Test", bool hidden = false)
         => FakeAutoMapper.Mapper.Map<ActivityDto>(Create(projectId, prefix));
 }
