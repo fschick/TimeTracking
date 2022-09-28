@@ -150,4 +150,18 @@ public static class DateTimeExtensions
     /// <param name="date">The date to truncate.</param>
     public static DateTime StartOfYear(this DateTime date)
         => date.AddDays(-date.DayOfYear + 1).Date;
+
+    /// <summary>
+    /// Gets the start date of the year.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    public static DateTimeOffset StartOfYear(this DateTimeOffset date)
+        => date.AddDays(-date.DayOfYear + 1).Date;
+
+    /// <summary>
+    /// Gets the start date of the year.
+    /// </summary>
+    /// <param name="date">The date to truncate.</param>
+    public static DateTimeOffset EndOfYear(this DateTimeOffset date)
+        => date.StartOfYear().AddYears(1).AddTicks(-1);
 }
