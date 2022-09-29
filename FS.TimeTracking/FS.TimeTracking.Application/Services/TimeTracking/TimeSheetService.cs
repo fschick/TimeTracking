@@ -6,6 +6,7 @@ using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
@@ -128,8 +129,8 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     private Task<Range<DateTimeOffset>> AlignPeriodToAvailableData(Range<DateTimeOffset> selectedPeriod, DateTime? minDate, DateTime? maxDate)
     {
         var now = DateTime.Now;
-        var selectionHasStartValue = selectedPeriod.Start != DateTimeOffset.MinValue;
-        var selectionHasEndValue = selectedPeriod.End != DateTimeOffset.MaxValue;
+        var selectionHasStartValue = selectedPeriod.Start != DateOffset.MinDate;
+        var selectionHasEndValue = selectedPeriod.End != DateOffset.MaxDate;
         var startDate = selectionHasStartValue ? selectedPeriod.Start : minDate ?? now;
         var endDate = selectionHasEndValue ? selectedPeriod.End : maxDate ?? now;
         selectedPeriod = new Range<DateTimeOffset>(startDate, endDate);

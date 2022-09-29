@@ -1,6 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Models;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
@@ -147,13 +148,13 @@ public static class FilterExtensions
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateTimeOffset.MinValue.AddDays(2); // Let space for timezone conversions.
+            : DateOffset.MinDate;
 
         var endDate = startDateFilter != null
             ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateTimeOffset.MaxValue.AddDays(-2); // Let space for timezone conversions.
+            : DateOffset.MaxDate; // Let space for timezone conversions.
 
-        if (endDate != DateTimeOffset.MaxValue.AddDays(-2) && endDateExclusive)
+        if (endDate != DateOffset.MaxDate && endDateExclusive)
             endDate = endDate.AddDays(-1);
 
         return new Range<DateTimeOffset>(startDate, endDate);
