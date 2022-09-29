@@ -1,8 +1,11 @@
-﻿namespace FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
 /// <summary>
 /// Product information DTO.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class ProductInformationDto
 {
     /// <summary>

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
@@ -12,7 +13,8 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// </summary>
 [ValidationDescription]
 [FilterEntity(Prefix = "Activity")]
-[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
+[ExcludeFromCodeCoverage]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class ActivityDto
 {
     ///  <summary>
@@ -46,6 +48,6 @@ public class ActivityDto
     public bool Hidden { get; set; }
 
     [JsonIgnore]
-    [DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay => $"{Title}";
 }

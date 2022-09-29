@@ -1,12 +1,14 @@
 ﻿using FS.TimeTracking.Core.Models.Application.MasterData;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Application.Chart;
 
 /// <summary>
 /// Work times per order.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class OrderWorkTime : WorkTime
 {
     /// <inheritdoc cref="Order.Id"/>

@@ -4,6 +4,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IIssueChartService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class IssueChartController : ControllerBase, IIssueChartService
 {
     private readonly IIssueChartService _chartService;

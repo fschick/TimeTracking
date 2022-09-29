@@ -5,6 +5,7 @@ using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <inheritdoc cref="ICrudModelService{TDto,TGridDto}" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICrudModelService{TDto, TGridDto}" />
+[ExcludeFromCodeCoverage]
 public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICrudModelService<TDto, TGridDto>
 {
     private readonly ICrudModelService<TDto, TGridDto> _modelService;

@@ -5,13 +5,17 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Activity = FS.TimeTracking.Core.Models.Application.MasterData.Activity;
 
 namespace FS.TimeTracking.Core.Models.Application.TimeTracking;
 
 /// <summary>
 /// Time sheet position.
 /// </summary>
-[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
+[ExcludeFromCodeCoverage]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheet : IIdEntityModel
 {
     /// <inheritdoc />
@@ -110,7 +114,7 @@ public class TimeSheet : IIdEntityModel
     public DateTime Modified { get; set; }
 
     [JsonIgnore]
-    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay =>
         $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
         + (Project?.Customer != null ? $", {Project.Customer.Title}" : string.Empty)

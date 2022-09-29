@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 
 /// <summary>
 /// Work times for an entity.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public abstract class WorkTimeDto
 {
     /// <summary>

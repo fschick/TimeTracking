@@ -1,12 +1,14 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 
 /// <summary>
 /// Work times for a project.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class ProjectWorkTimeDto : WorkTimeDto
 {
     /// <inheritdoc cref="CustomerDto.Id"/>

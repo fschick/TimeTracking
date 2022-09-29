@@ -5,6 +5,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ISettingService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class SettingController : ISettingService
 {
     private readonly ISettingService _modelService;

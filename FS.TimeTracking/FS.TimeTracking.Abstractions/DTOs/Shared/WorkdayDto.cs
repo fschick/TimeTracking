@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
 /// <summary>
 /// Last worked times.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class WorkdayDto
 {
     /// <summary>

@@ -4,12 +4,14 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.Shared
 {
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public class DebugService : IDebugService
     {
         private readonly IRepository _repository;

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
@@ -14,6 +15,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// </summary>
 [ValidationDescription]
 [FilterEntity(Prefix = "TimeSheet")]
+[ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetDto
 {

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
 /// <summary>
 /// Non-generic factory for <see cref="TypeaheadDto{TValue}"/>.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class TypeaheadDto
 {
     /// <summary>
@@ -22,6 +24,7 @@ public class TypeaheadDto
 /// Generic type ahead DTO.
 /// </summary>
 /// <typeparam name="TValue">The type of the value.</typeparam>
+[ExcludeFromCodeCoverage]
 public class TypeaheadDto<TValue>
 {
     /// <summary>

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Routing;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+[ExcludeFromCodeCoverage]
 internal class V1ApiController : ControllerAttribute, IApiBehaviorMetadata, IRouteTemplateProvider, IApiDescriptionGroupNameProvider
 {
     public const string API_PREFIX = "api";

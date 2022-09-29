@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
 /// <inheritdoc cref="ActivityDto"/>
-[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
+[ExcludeFromCodeCoverage]
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class ActivityGridDto
 {
     /// <inheritdoc cref="ActivityDto.Id"/>

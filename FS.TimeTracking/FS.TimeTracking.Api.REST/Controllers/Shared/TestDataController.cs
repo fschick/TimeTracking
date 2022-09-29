@@ -2,6 +2,7 @@
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared
@@ -10,6 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="ITestDataService" />
     [V1ApiController]
+    [ExcludeFromCodeCoverage]
     public class TestDataController : ControllerBase, ITestDataService
     {
         private readonly ITestDataService _testDataService;

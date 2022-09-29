@@ -2,6 +2,7 @@
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     /// <seealso cref="IDebugService" />
     [V1ApiController]
+    [ExcludeFromCodeCoverage]
     public class DebugController : ControllerBase, IDebugService
     {
         private readonly IDebugService _debugService;

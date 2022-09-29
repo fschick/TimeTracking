@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.Attributes;
 
@@ -8,6 +9,7 @@ namespace FS.TimeTracking.Abstractions.Attributes;
 /// </summary>
 /// <seealso cref="System.Attribute" />
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+[ExcludeFromCodeCoverage]
 public class ValidationDescriptionAttribute : Attribute
 {
     /// <summary>

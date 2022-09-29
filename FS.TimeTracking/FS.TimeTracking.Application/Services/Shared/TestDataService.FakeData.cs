@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace FS.TimeTracking.Application.Services.Shared;
 
+[ExcludeFromCodeCoverage]
 internal static class DevelopmentActivities
 {
     public static List<string> Activities = new()
@@ -23,6 +25,7 @@ internal static class DevelopmentActivities
     };
 }
 
+[ExcludeFromCodeCoverage]
 internal static class ProjectCodeNames
 {
     private static readonly List<ProjectCodeName> _codeNames = new List<ProjectCodeName>
@@ -1423,6 +1426,7 @@ internal static class ProjectCodeNames
         => _codeNames.FirstOrDefault(x => x.CodeName == codeName)?.Description;
 }
 
+[ExcludeFromCodeCoverage]
 internal class ProjectCodeName
 {
     public string CodeName { get; init; }

@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Api.REST.Startup;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
@@ -9,6 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// </summary>
 /// <seealso cref="ControllerBase" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class RedirectController : ControllerBase
 {
     /// <summary>

@@ -2,6 +2,7 @@
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Filter;
 
@@ -9,6 +10,7 @@ namespace FS.TimeTracking.Core.Models.Filter;
 /// Common set of filters used by most API operations.
 /// </summary>
 [EntityFilterSet]
+[ExcludeFromCodeCoverage]
 public class TimeSheetFilterSet
 {
     /// <summary>

@@ -4,6 +4,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <seealso cref="Controller" />
 /// <seealso cref="IWorkdayService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class WorkdayController : Controller, IWorkdayService
 {
     private readonly IWorkdayService _workdayService;

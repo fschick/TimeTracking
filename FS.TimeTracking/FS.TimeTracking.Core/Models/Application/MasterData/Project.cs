@@ -3,12 +3,14 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Application.MasterData;
 
 /// <summary>
 /// Project
 /// </summary>
+[ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Project : IIdEntityModel
 {

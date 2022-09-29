@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Reporting;
 /// </summary>
 [V1ApiController]
 [FeatureGate(Features.Reporting)]
+[ExcludeFromCodeCoverage]
 public class ActivityReportController : ControllerBase, IActivityReportService
 {
     private readonly IActivityReportService _activityReportService;

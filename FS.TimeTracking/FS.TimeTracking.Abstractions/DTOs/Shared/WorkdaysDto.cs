@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
 /// <summary>
 /// Workdays.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class WorkdaysDto
 {
     /// <summary>

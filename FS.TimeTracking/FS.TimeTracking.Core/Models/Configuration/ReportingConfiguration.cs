@@ -1,8 +1,11 @@
-﻿namespace FS.TimeTracking.Core.Models.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FS.TimeTracking.Core.Models.Configuration;
 
 /// <summary>
 /// Report specific configuration.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class ReportingConfiguration
 {
     /// <summary>

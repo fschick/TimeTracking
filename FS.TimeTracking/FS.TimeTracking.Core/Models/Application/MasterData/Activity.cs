@@ -4,10 +4,12 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Application.MasterData;
 
 /// <inheritdoc cref="ActivityDto"/>
+[ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class Activity : IIdEntityModel
 {

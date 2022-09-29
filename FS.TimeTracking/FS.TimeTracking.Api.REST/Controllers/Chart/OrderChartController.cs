@@ -6,6 +6,7 @@ using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IOrderChartService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class OrderChartController : ControllerBase, IOrderChartService
 {
     private readonly IOrderChartService _chartService;

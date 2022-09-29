@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Constants;
 
 /// <summary>
 /// Timezone conversion safe constants for <see cref="DateTimeOffset"/>
 /// </summary>
+[ExcludeFromCodeCoverage]
 public static class DateOffset
 {
     /// <summary>

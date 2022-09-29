@@ -4,6 +4,7 @@ using FS.TimeTracking.Abstractions.Attributes.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
@@ -12,6 +13,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// </summary>
 [ValidationDescription]
 [FilterEntity(Prefix = "Setting")]
+[ExcludeFromCodeCoverage]
 public record SettingDto
 {
     /// <summary>

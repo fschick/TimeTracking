@@ -2,6 +2,7 @@
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
@@ -9,6 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IValidationDescriptionService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class ValidationDescriptionController : ControllerBase, IValidationDescriptionService
 {
     private readonly IValidationDescriptionService _validationDescriptionService;

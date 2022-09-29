@@ -1,8 +1,11 @@
-﻿namespace FS.TimeTracking.Core.Models.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FS.TimeTracking.Core.Models.Configuration;
 
 /// <summary>
 /// Global environment configurations
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class EnvironmentConfiguration
 {
     /// <summary>

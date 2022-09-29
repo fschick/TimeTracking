@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Configuration;
 
 /// <summary>
 /// Database specific configuration
 /// </summary>
+[ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class DatabaseConfiguration
 {

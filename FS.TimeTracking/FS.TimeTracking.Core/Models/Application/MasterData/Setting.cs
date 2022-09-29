@@ -1,12 +1,14 @@
 ﻿using FS.TimeTracking.Core.Interfaces.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Application.MasterData;
 
 /// <summary>
 /// User defined application settings
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class Setting : IEntityModel
 {
     /// <summary>

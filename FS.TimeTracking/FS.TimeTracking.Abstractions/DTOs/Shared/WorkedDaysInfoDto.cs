@@ -3,12 +3,14 @@ using FS.TimeTracking.Abstractions.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
 /// <summary>
 /// Worked time info like days.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class WorkedDaysInfoDto
 {
     /// <summary>

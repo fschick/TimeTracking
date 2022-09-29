@@ -2,10 +2,12 @@
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheetDto"/>
+[ExcludeFromCodeCoverage]
 [System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class TimeSheetGridDto
 {

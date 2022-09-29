@@ -6,6 +6,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ITimeSheetService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGridDto>, ITimeSheetService
 {
     private readonly ITimeSheetService _timeSheetService;

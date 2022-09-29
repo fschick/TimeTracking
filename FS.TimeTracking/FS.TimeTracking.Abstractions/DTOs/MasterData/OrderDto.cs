@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 
@@ -13,6 +14,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// </summary>
 [ValidationDescription]
 [FilterEntity(Prefix = "Order")]
+[ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public class OrderDto
 {

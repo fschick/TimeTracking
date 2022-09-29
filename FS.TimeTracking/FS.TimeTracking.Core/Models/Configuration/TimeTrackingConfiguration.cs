@@ -1,5 +1,6 @@
 ﻿using FS.TimeTracking.Core.Extensions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace FS.TimeTracking.Core.Models.Configuration;
@@ -7,6 +8,7 @@ namespace FS.TimeTracking.Core.Models.Configuration;
 /// <summary>
 /// Global application configuration
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class TimeTrackingConfiguration
 {
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Mono.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace FS.TimeTracking;
@@ -8,6 +9,7 @@ namespace FS.TimeTracking;
 /// <summary>
 /// Command line options
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class CommandLineOptions
 {
     /// <summary>

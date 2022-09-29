@@ -3,6 +3,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ITypeaheadService" />
 [V1ApiController]
+[ExcludeFromCodeCoverage]
 public class TypeaheadController : ControllerBase, ITypeaheadService
 {
     private readonly ITypeaheadService _typeaheadService;
