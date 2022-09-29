@@ -187,12 +187,15 @@ public class OrderChartService : IOrderChartService
 
     private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Range<DateTimeOffset> selectedPeriod)
     {
-        var orderPeriod = new Range<DateTimeOffset>(order.StartDate, order.DueDate.AddDays(1));
+        var orderPeriod = new Range<DateTimeOffset>(order.StartDate, order.DueDate);
         var orderWorkdays = await _workdayService.GetWorkdays(orderPeriod);
         var orderWorkHours = order.HourlyRate != 0 ? order.Budget / order.HourlyRate : 0;
 
         var planningPeriod = orderPeriod.Intersection(selectedPeriod);
-        var plannedWorkDays = await _workdayService.GetWorkdays(planningPeriod) ?? orderWorkdays;
+        if (planningPeriod == null)
+            throw new InvalidOperationException($"Order '{order.Title}' has no planned time within selected period. Order period: {orderPeriod}, selected period: {selectedPeriod}.");
+
+        var plannedWorkDays = await _workdayService.GetWorkdays(planningPeriod);
 
         var ratio = orderWorkdays.PersonalWorkdays.Count != 0
             ? plannedWorkDays.PersonalWorkdays.Count / (double)orderWorkdays.PersonalWorkdays.Count

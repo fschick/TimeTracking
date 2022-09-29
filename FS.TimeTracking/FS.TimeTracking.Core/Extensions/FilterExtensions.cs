@@ -147,13 +147,13 @@ public static class FilterExtensions
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateTimeOffset.MinValue;
+            : DateTimeOffset.MinValue.AddDays(2); // Let space for timezone conversions.
 
         var endDate = startDateFilter != null
             ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateTimeOffset.MaxValue;
+            : DateTimeOffset.MaxValue.AddDays(-2); // Let space for timezone conversions.
 
-        if (endDate != DateTimeOffset.MaxValue && endDateExclusive)
+        if (endDate != DateTimeOffset.MaxValue.AddDays(-2) && endDateExclusive)
             endDate = endDate.AddDays(-1);
 
         return new Range<DateTimeOffset>(startDate, endDate);
