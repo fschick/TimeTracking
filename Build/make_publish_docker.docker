@@ -8,6 +8,10 @@ FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-alpine3.14 AS base
 ARG CI_PROJECT_NAME
 ARG CI_COMMIT_REF_NAME
 
+# Install cultures (same approach as Alpine SDK image)
+# See https://andrewlock.net/dotnet-core-docker-and-cultures-solving-culture-issues-porting-a-net-core-app-from-windows-to-linux/#the-heart-of-the-issue-alpine-is-small
+RUN apk add --no-cache icu-libs
+
 RUN adduser \
   --disabled-password \
   --home /opt/timetracking \
@@ -24,6 +28,7 @@ COPY --from=build ./${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME} .
 
 ENV \
   DOTNET_RUNNING_IN_CONTAINER=true \
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
   ASPNETCORE_URLS=http://+:5000
 
 EXPOSE 5000
