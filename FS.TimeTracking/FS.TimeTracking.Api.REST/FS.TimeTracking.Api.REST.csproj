@@ -11,7 +11,7 @@
     <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.2.0" />
     <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.2.0" />
     <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
     
     <!--
     Can't update from 6.2.3 because:
