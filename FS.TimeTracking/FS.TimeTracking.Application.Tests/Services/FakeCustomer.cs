@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Application.Tests.Services;
 [ExcludeFromCodeCoverage]
 public static class FakeCustomer
 {
-    public static Customer Create(string prefix = "Test", bool hidden = false)
+    public static Customer Create(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
         => new()
         {
             Id = Guid.NewGuid(),
@@ -19,9 +19,10 @@ public static class FakeCustomer
             ZipCode = $"{prefix}{nameof(Customer.ZipCode)}",
             City = $"{prefix}{nameof(Customer.City)}",
             Country = $"{prefix}{nameof(Customer.Country)}",
+            HourlyRate = hourlyRate ?? 0,
             Hidden = hidden,
         };
 
-    public static CustomerDto CreateDto(string prefix = "Test", bool hidden = false)
-        => FakeAutoMapper.Mapper.Map<CustomerDto>(Create(prefix, hidden));
+    public static CustomerDto CreateDto(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
+        => FakeAutoMapper.Mapper.Map<CustomerDto>(Create(prefix, hourlyRate, hidden));
 }
