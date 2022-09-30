@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {combineLatest, fromEvent, interval, merge, mergeMap, Observable, of, Subject} from 'rxjs';
+import {combineLatest, EMPTY, fromEvent, interval, merge, mergeMap, Observable, of, Subject} from 'rxjs';
 import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
 import {filter, map, single, startWith, switchMap, takeUntil, takeWhile, tap, throttleTime} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
+import {environment} from '../../../../timetracking/environments/environment';
 
 export interface EntityChanged<TDto> {
   entity?: TDto;
@@ -117,8 +118,11 @@ export class EntityService {
     const pingWhileVisibleButInactive$ = interval(fiveMinutes).pipe(takeWhile(() => !window.document.hidden), takeUntil(windowFocused$));
     const pollWhileVisibleButInactive$ = merge(windowDeactivated$, windowDisplayed$).pipe(switchMap(() => pingWhileVisibleButInactive$), startWith(0));
 
-    return combineLatest([filterChanged$, windowActivated$, pollWhileVisibleButInactive$])
-      .pipe(map(([filter]) => filter));
+    const reloadTrigger = environment.production
+      ? combineLatest([filterChanged$, windowActivated$, pollWhileVisibleButInactive$])
+      : combineLatest([filterChanged$, of(0), of(0)]);
+
+    return reloadTrigger.pipe(map(([filter]) => filter));
   }
 
   // public showUpdateNote(dtoTransUnitId: string) {
