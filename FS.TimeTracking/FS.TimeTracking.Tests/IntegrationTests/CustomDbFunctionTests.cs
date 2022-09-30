@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
@@ -24,16 +25,8 @@ public class CustomDbFunctionTests
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
-        var newCustomer = FakeCustomer.CreateDto(hidden: true);
-        var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
-
-        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
-        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
-
-        var newActivity = FakeActivity.CreateDto(hidden: true);
-        var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
-
-        var newTimeSheet = FakeTimeSheet.CreateDto(newProject.Id, newActivity.Id);
+        var (customer, project, activity) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -45,9 +38,74 @@ public class CustomDbFunctionTests
         readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(12);
 
         // Cleanup
-        await testHost.Delete((TimeSheetController x) => x.Delete(createdCustomer.Id));
-        await testHost.Delete((ActivityController x) => x.Delete(createdProject.Id));
-        await testHost.Delete((ProjectController x) => x.Delete(createdActivity.Id));
+        await DeleteMasterData(testHost, customer, project, activity);
         await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+    }
+
+    [DataTestMethod, TestDatabases]
+    public async Task WhenDiffSecondsIsCalledWhileStartOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
+    {
+        // Prepare
+        await using var testHost = await TestHost.Create(configuration);
+
+        var (customer, project, activity) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id, startDate: FakeDateTime.Offset("2020-03-29 00:30"), endDate: FakeDateTime.Offset("2020-03-29 03:30"));
+        var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
+
+        // Act
+        var readTimeSheet = await testHost.Get<CustomerChartController, List<CustomerWorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default));
+
+        // Check
+        using var _ = new AssertionScope();
+        readTimeSheet.Should().ContainSingle();
+        readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(2);
+
+        // Cleanup
+        await DeleteMasterData(testHost, customer, project, activity);
+        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+    }
+
+    [DataTestMethod, TestDatabases]
+    public async Task WhenDiffSecondsIsCalledWhileEndOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
+    {
+        // Prepare
+        await using var testHost = await TestHost.Create(configuration);
+
+        var (customer, project, activity) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id, startDate: FakeDateTime.Offset("2020-10-25 00:30"), endDate: FakeDateTime.Offset("2020-10-25 03:30"));
+        var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
+
+        // Act
+        var readTimeSheet = await testHost.Get<CustomerChartController, List<CustomerWorkTimeDto>>(x => x.GetWorkTimesPerCustomer(default, default));
+
+        // Check
+        using var _ = new AssertionScope();
+        readTimeSheet.Should().ContainSingle();
+        readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(4);
+
+        // Cleanup
+        await DeleteMasterData(testHost, customer, project, activity);
+        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+    }
+
+    private static async Task<(CustomerDto Customer, ProjectDto Project, ActivityDto Activity)> InsertMasterData(TestHost testHost)
+    {
+        var newCustomer = FakeCustomer.CreateDto(hidden: true);
+        var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
+
+        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
+        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
+
+        var newActivity = FakeActivity.CreateDto(hidden: true);
+        var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
+
+        return (createdCustomer, createdProject, createdActivity);
+    }
+
+    private static async Task DeleteMasterData(TestHost testHost, CustomerDto customer, ProjectDto project, ActivityDto activity)
+    {
+        await testHost.Delete((TimeSheetController x) => x.Delete(customer.Id));
+        await testHost.Delete((ActivityController x) => x.Delete(project.Id));
+        await testHost.Delete((ProjectController x) => x.Delete(activity.Id));
     }
 }

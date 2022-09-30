@@ -153,7 +153,7 @@ public class CustomerChartService : ICustomerChartService
                {
                    CustomerId = timeSheets.Key.Id,
                    CustomerTitle = timeSheets.Key.Title,
-                   WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                   WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                    timeSheets.FirstOrDefault().Project.Customer.HourlyRate,
                },
                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),

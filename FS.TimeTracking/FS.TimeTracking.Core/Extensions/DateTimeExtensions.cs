@@ -111,12 +111,16 @@ public static class DateTimeExtensions
     /// Calculates the difference of two dates in seconds.
     /// </summary>
     /// <param name="fromDate">Start date.</param>
-    /// <param name="offset">The offset of start date from UTC in minutes</param>
+    /// <param name="fromOffset">The offset of start date from UTC in minutes</param>
     /// <param name="toDate">End date.</param>
-    public static ulong DiffSeconds(this DateTime fromDate, int offset, DateTime? toDate)
+    /// <param name="toOffset">The offset of to date from UTC in minutes</param>
+    public static ulong DiffSeconds(this DateTime fromDate, int fromOffset, DateTime? toDate, int? toOffset)
     {
-        toDate ??= DateTime.UtcNow.AddMinutes(offset);
-        return (ulong)(toDate.Value - fromDate).TotalSeconds;
+        var from = new DateTimeOffset(fromDate, TimeSpan.FromMinutes(fromOffset));
+        var to = toDate.HasValue
+            ? new DateTimeOffset(toDate.Value, TimeSpan.FromMinutes(toOffset ?? 0))
+            : DateTimeOffset.UtcNow;
+        return (ulong)(to - from).TotalSeconds;
     }
 
     /// <summary>

@@ -95,7 +95,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
                 {
                     Start = x.Min(timeSheet => timeSheet.StartDateLocal),
                     End = x.Max(timeSheet => timeSheet.EndDateLocal),
-                    TotalWorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
+                    TotalWorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset)))
                 },
                 where: filter,
                 cancellationToken: cancellationToken
@@ -126,7 +126,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         };
     }
 
-    private Task<Range<DateTimeOffset>> AlignPeriodToAvailableData(Range<DateTimeOffset> selectedPeriod, DateTime? minDate, DateTime? maxDate)
+    private static Task<Range<DateTimeOffset>> AlignPeriodToAvailableData(Range<DateTimeOffset> selectedPeriod, DateTime? minDate, DateTime? maxDate)
     {
         var now = DateTime.Now;
         var selectionHasStartValue = selectedPeriod.Start != DateOffset.MinDate;
@@ -179,7 +179,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
                 select: x => new WorkdayDto
                 {
                     Date = x.Min(timeSheet => timeSheet.StartDateLocal),
-                    TimeWorked = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal)))
+                    TimeWorked = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset)))
                 },
                 where: filter,
                 cancellationToken: cancellationToken

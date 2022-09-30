@@ -121,6 +121,6 @@ public static class DateTimeFunctions
             => connection.CreateFunction(nameof(DateTimeExtensions.ToUtc), (Func<DateTime?, int, DateTime?>)DateTimeExtensions.ToUtc, isDeterministic: true);
 
         private static void CreateFunctionDiffSeconds(SqliteConnection connection)
-            => connection.CreateFunction(nameof(DateTimeExtensions.DiffSeconds), (Func<DateTime, int, DateTime?, ulong>)DateTimeExtensions.DiffSeconds, isDeterministic: true);
+            => connection.CreateFunction(nameof(DateTimeExtensions.DiffSeconds), (Func<DateTime, int, DateTime?, int?, ulong>)DateTimeExtensions.DiffSeconds, isDeterministic: true);
     }
 }

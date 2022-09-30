@@ -99,6 +99,7 @@ public class TimeTrackingDbContext : DbContext
                 optionsBuilder.UseSqlServer(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                 break;
             case DatabaseType.PostgreSql:
+                // Set to false for migrations.
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 optionsBuilder.UseNpgsql(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                 break;

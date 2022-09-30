@@ -111,7 +111,7 @@ public class OrderChartService : IOrderChartService
                     OrderId = timeSheets.Key.OrderId.Value,
                     OrderTitle = timeSheets.Key.Title,
                     OrderNumber = timeSheets.Key.Number,
-                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     timeSheets.FirstOrDefault().Order.HourlyRate,
                     CustomerId = timeSheets.FirstOrDefault().Project.Customer.Id,
                     CustomerTitle = timeSheets.FirstOrDefault().Project.Customer.Title,

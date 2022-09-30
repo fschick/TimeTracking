@@ -72,7 +72,7 @@ public class ProjectChartService : IProjectChartService
                     ProjectId = timeSheets.Key.Id,
                     ProjectTitle = timeSheets.Key.Title,
                     CustomerTitle = timeSheets.FirstOrDefault().Project.Customer.Title,
-                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal))),
+                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     HourlyRate = timeSheets.Key.OrderId != null
                         ? timeSheets.Min(t => t.Order.HourlyRate)
                         : timeSheets.Min(t => t.Project.Customer.HourlyRate),
