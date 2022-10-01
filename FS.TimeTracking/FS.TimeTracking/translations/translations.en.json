@@ -15,6 +15,7 @@
     "Yes": "Yes",
     "No": "No",
     "Summary": "Summary",
+    "Total": "Total",
     "Optional": "optional",
     "OptionalShort": "opt."
   },
@@ -87,7 +88,7 @@
       "Activity": {
         "Title": "Activity report",
         "TitleDaily": "Activity report",
-        "TitleDetailed": "Detailed",
+        "TitleDetailed": "Activity report (detailed)",
         "Company": "Company",
         "Department": "Department",
         "Contact": "Contact",
@@ -115,8 +116,12 @@
       },
       "ActivityOverview": {
         "Title": "Overview",
-        "WorkTime": "Worked time",
-        "Revenue": "Revenue"
+        "Customer": "Customer",
+        "WorkedTime": "Worked time",
+        "Revenue": "Revenue",
+        "Download": "Download",
+        "ActivityReport": "Activity report",
+        "ActivityReportDetailed": "Detailed"
       }
     },
     "MasterData": {

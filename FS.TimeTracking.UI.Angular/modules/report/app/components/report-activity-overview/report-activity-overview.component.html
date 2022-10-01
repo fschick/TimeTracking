@@ -1,9 +1,9 @@
 <div class="row">
   <!-- Report preview -->
-  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first px-4">
+  <div class="col-12 col-lg-8 col-xl-9 order-last order-lg-first px-4">
     <ng-container *ngTemplateOutlet="reportOverview"></ng-container>
   </div>
-  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+  <div class="col-12 col-lg-4 col-xl-3 order-first order-lg-last ps-lg-2 ps-lg-5 pb-5 pb-lg-0 filter">
     <!-- Filter -->
     <ts-filter filterId="filterReport"
                [filters]="filters">
@@ -28,13 +28,13 @@
 
 <ng-template #dailyActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
   <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.dailyActivityReportUrl}}">
-    <ng-container i18n="@@Page.Report.Activity.Download">[i18n] Download</ng-container>
+    <ng-container i18n="@@Page.Report.ActivityOverview.Download">[i18n] Download</ng-container>
   </a>
 </ng-template>
 
 <ng-template #detailedActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
   <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.detailedActivityReportUrl}}">
-    <ng-container i18n="@@Page.Report.Activity.Download">[i18n] Download</ng-container>
+    <ng-container i18n="@@Page.Report.ActivityOverview.Download">[i18n] Download</ng-container>
   </a>
 </ng-template>
 

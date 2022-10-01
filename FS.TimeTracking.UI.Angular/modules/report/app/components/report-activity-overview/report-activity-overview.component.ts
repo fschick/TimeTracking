@@ -66,12 +66,28 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.columns = [
       {
-        title: $localize`:@@Page.Report.Activity.Customer:[i18n] Customer`,
+        title: $localize`:@@Page.Report.ActivityOverview.Customer:[i18n] Customer`,
         prop: 'customerTitle',
         cssFooterCell: 'fw-bold',
-        footer: $localize`:@@Page.Report.Activity.Total:[i18n] Total`,
+        footer: $localize`:@@Common.Total:[i18n] Total`,
       }, {
-        title: $localize`:@@Page.Report.ActivityOverview.WorkTime:[i18n] Worked time`,
+        title: $localize`:@@Page.Report.ActivityOverview.ActivityReport:[i18n] Activity report`,
+        prop: 'dailyActivityReportUrl',
+        dataCellTemplate: this.dailyActivityReportDownloadTemplate,
+        width: '1%',
+        cssHeadCell: 'text-center text-nowrap',
+        cssDataCell: 'text-center text-nowrap',
+        sortable: false,
+      }, {
+        title: $localize`:@@Page.Report.ActivityOverview.ActivityReportDetailed:[i18n] Detailed`,
+        prop: 'detailedActivityReportUrl',
+        dataCellTemplate: this.detailedActivityReportDownloadTemplate,
+        width: '1%',
+        cssHeadCell: 'text-center text-nowrap pe-3',
+        cssDataCell: 'text-center text-nowrap pe-3',
+        sortable: false,
+      }, {
+        title: $localize`:@@Page.Report.ActivityOverview.WorkedTime:[i18n] Worked time`,
         prop: 'timeWorked',
         width: '1%',
         cssHeadCell: 'text-end text-nowrap pe-3',
@@ -84,27 +100,11 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
         title: $localize`:@@Page.Report.ActivityOverview.Revenue:[i18n] Revenue`,
         prop: 'budgetWorked',
         width: '1%',
-        cssHeadCell: 'text-end text-nowrap pe-3',
-        cssDataCell: 'text-end text-nowrap pe-3',
-        cssFooterCell: 'text-end text-nowrap pe-3 fw-bold',
+        cssHeadCell: 'text-end text-nowrap',
+        cssDataCell: 'text-end text-nowrap',
+        cssFooterCell: 'text-end text-nowrap fw-bold',
         format: row => `${this.formatService.formatBudget(row.budgetWorked)} ${row.currency}`,
         footer: () => this.rows ? `${this.formatService.formatBudget(this.utilityService.sum(this.rows.map(row => row.budgetWorked)))} ${this.rows[0].currency}` : '',
-      }, {
-        title: $localize`:@@Page.Report.Activity.TitleDaily:[i18n] Daily activity report`,
-        prop: 'dailyActivityReportUrl',
-        dataCellTemplate: this.dailyActivityReportDownloadTemplate,
-        width: '1%',
-        cssHeadCell: 'text-center',
-        cssDataCell: 'text-center',
-        sortable: false,
-      }, {
-        title: $localize`:@@Page.Report.Activity.TitleDetailed:[i18n] Detailed`,
-        prop: 'detailedActivityReportUrl',
-        dataCellTemplate: this.detailedActivityReportDownloadTemplate,
-        width: '1%',
-        cssHeadCell: 'text-center',
-        cssDataCell: 'text-center',
-        sortable: false,
       },
     ];
 

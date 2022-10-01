@@ -15,6 +15,7 @@
     "Yes": "Ja",
     "No": "Nein",
     "Summary": "Summe",
+    "Total": "Summe",
     "Optional": "optional",
     "OptionalShort": "opt."
   },
@@ -87,7 +88,7 @@
       "Activity": {
         "Title": "Tätigkeitsnachweis",
         "TitleDaily": "Tätigkeitsnachweis",
-        "TitleDetailed": "Detailiert",
+        "TitleDetailed": "Tätigkeitsnachweis (detailiert)",
         "Company": "Firma",
         "Department": "Abteilung",
         "Contact": "Ansprechpartner",
@@ -115,8 +116,12 @@
       },
       "ActivityOverview": {
         "Title": "Übersicht",
-        "WorkTime": "Arbeitszeit",
-        "Revenue": "Umsatz"
+        "Customer": "Kunde",
+        "WorkedTime": "Arbeitszeit",
+        "Revenue": "Umsatz",
+        "Download": "Download",
+        "ActivityReport": "Tätigkeitsnachweis",
+        "ActivityReportDetailed": "Detailiert"
       }
     },
     "MasterData": {
