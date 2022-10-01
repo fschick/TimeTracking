@@ -182,11 +182,6 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "No_TimeSheets",
-                    Expected = new { TotalTimeWorked = TimeSpan.FromHours(0), PersonalWorkdays = 1, PublicWorkdays = 1 },
-                },
-                new WorkedDaysOverviewTestCase
-                {
                     Identifier = "No_TimeSheets_But_Filtered",
                     Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-06-04", ">=2020-06-02")),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(0), PersonalWorkdays = 2, PublicWorkdays = 2 },
