@@ -131,7 +131,7 @@ export class ChartProjectsComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.ProjectTitle:[i18n] Project`,
         prop: 'projectTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Summary:[i18n] Summary`,
+        footer: $localize`:@@Common.Total:[i18n] Total`,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',

@@ -199,7 +199,7 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.OrderTitle:[i18n] Order`,
         prop: 'orderTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Summary:[i18n] Summary`,
+        footer: $localize`:@@Common.Total:[i18n] Total`,
         dataCellTemplate: this.orderDataTemplate,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,

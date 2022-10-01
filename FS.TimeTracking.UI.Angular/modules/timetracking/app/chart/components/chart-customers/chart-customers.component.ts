@@ -192,7 +192,7 @@ export class ChartCustomersComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Summary:[i18n] Summary`,
+        footer: $localize`:@@Common.Total:[i18n] Total`,
         dataCellTemplate: this.customerDataTemplate,
       }, {
         title: $localize`:@@DTO.WorkTimeDto.OrderPeriod:[i18n] Order period`,

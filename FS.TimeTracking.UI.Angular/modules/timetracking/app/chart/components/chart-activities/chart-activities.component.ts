@@ -131,7 +131,7 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
         title: $localize`:@@DTO.WorkTimeDto.ActivityTitle:[i18n] Activity`,
         prop: 'activityTitle',
         cssHeadCell: cssHeadCell,
-        footer: $localize`:@@Common.Summary:[i18n] Summary`,
+        footer: $localize`:@@Common.Total:[i18n] Total`,
       }, {
         title: $localize`:@@Page.Chart.Common.DaysWorked:[i18n] Days worked`,
         prop: 'daysWorked',
