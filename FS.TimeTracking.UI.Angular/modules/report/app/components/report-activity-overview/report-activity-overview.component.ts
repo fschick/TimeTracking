@@ -7,6 +7,9 @@ import {Observable, Subscription} from 'rxjs';
 import {ActivityReportGridDto, ActivityReportService} from '../../../../api/timetracking';
 import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 import {Column, Configuration, DataCellTemplate} from '../../../../core/app/components/simple-table/simple-table.component';
+import {FormatService} from '../../../../core/app/services/format.service';
+import {DurationPipe} from '../../../../core/app/pipes/duration.pipe';
+import {UtilityService} from '../../../../core/app/services/utility.service';
 
 @Component({
   selector: 'ts-report-activity-overview',
@@ -25,10 +28,14 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
 
   private readonly subscriptions = new Subscription();
 
+  private readonly LOCALIZED_DAYS = $localize`:@@Abbreviations.Days:[i18n] days`;
+
   constructor(
     private entityService: EntityService,
     private localizationService: LocalizationService,
     private activityReportService: ActivityReportService,
+    private formatService: FormatService,
+    private utilityService: UtilityService,
   ) {
     const defaultStartDate = DateTime.now().minus({month: 1}).startOf('month');
     const defaultEndDate = DateTime.now().minus({month: 1}).endOf('month');
@@ -61,21 +68,42 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
       {
         title: $localize`:@@Page.Report.Activity.Customer:[i18n] Customer`,
         prop: 'customerTitle',
-        width: '40%',
-        cssDataCell: 'align-middle',
+        cssFooterCell: 'fw-bold',
+        footer: $localize`:@@Page.Report.Activity.Total:[i18n] Total`,
+      }, {
+        title: $localize`:@@Page.Report.ActivityOverview.WorkTime:[i18n] Worked time`,
+        prop: 'timeWorked',
+        width: '1%',
+        cssHeadCell: 'text-end text-nowrap pe-3',
+        cssDataCell: 'text-end text-nowrap pe-3',
+        cssFooterCell: 'text-end text-nowrap pe-3 fw-bold',
+        format: row => `${this.formatService.formatDays(row.daysWorked)} ${this.LOCALIZED_DAYS}`,
+        footer: () => this.rows ? `${this.formatService.formatDays(this.utilityService.sum(this.rows.map(row => row.daysWorked)))} ${this.LOCALIZED_DAYS}` : '',
+      },
+      {
+        title: $localize`:@@Page.Report.ActivityOverview.Revenue:[i18n] Revenue`,
+        prop: 'budgetWorked',
+        width: '1%',
+        cssHeadCell: 'text-end text-nowrap pe-3',
+        cssDataCell: 'text-end text-nowrap pe-3',
+        cssFooterCell: 'text-end text-nowrap pe-3 fw-bold',
+        format: row => `${this.formatService.formatBudget(row.budgetWorked)} ${row.currency}`,
+        footer: () => this.rows ? `${this.formatService.formatBudget(this.utilityService.sum(this.rows.map(row => row.budgetWorked)))} ${this.rows[0].currency}` : '',
       }, {
         title: $localize`:@@Page.Report.Activity.TitleDaily:[i18n] Daily activity report`,
         prop: 'dailyActivityReportUrl',
         dataCellTemplate: this.dailyActivityReportDownloadTemplate,
+        width: '1%',
         cssHeadCell: 'text-center',
-        cssDataCell: 'text-center align-middle',
+        cssDataCell: 'text-center',
         sortable: false,
       }, {
-        title: $localize`:@@Page.Report.Activity.TitleDetailed:[i18n] Detailed activity report`,
+        title: $localize`:@@Page.Report.Activity.TitleDetailed:[i18n] Detailed`,
         prop: 'detailedActivityReportUrl',
         dataCellTemplate: this.detailedActivityReportDownloadTemplate,
+        width: '1%',
         cssHeadCell: 'text-center',
-        cssDataCell: 'text-center align-middle',
+        cssDataCell: 'text-center',
         sortable: false,
       },
     ];

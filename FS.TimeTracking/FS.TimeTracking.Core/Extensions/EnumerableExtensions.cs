@@ -64,6 +64,15 @@ public static class EnumerableExtensions
         => (await source).ToList();
 
     /// <summary>
+    /// Filters a sequence of values based on a predicate.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+    /// <param name="source">An <see cref="IEnumerable{T}"/> to filter.</param>
+    /// <param name="predicate">A function to test each element for a condition.</param>
+    public static async Task<IEnumerable<T>> WhereAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate)
+        => (await source).Where(predicate);
+
+    /// <summary>
     /// Returns the first element of a sequence.
     /// </summary>
     /// <param name="source">The source.</param>
@@ -77,6 +86,16 @@ public static class EnumerableExtensions
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, T defaultValue = default)
         => (await source).FirstOrDefault(defaultValue);
+
+    /// <summary>
+    /// Sorts the elements of a sequence in ascending order.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+    /// <typeparam name="TKey">The type of the key returned by the function that is represented by <paramref name="keySelector"/>.</typeparam>
+    /// <param name="source">A sequence of values to order.</param>
+    /// <param name="keySelector">A function to extract a key from an element.</param>
+    public static async Task<IOrderedEnumerable<TSource>> OrderByAsync<TSource, TKey>(this Task<IEnumerable<TSource>> source, Func<TSource, TKey> keySelector)
+        => (await source).OrderBy(keySelector);
 
     /// <summary>
     /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.

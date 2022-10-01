@@ -87,7 +87,7 @@
       "Activity": {
         "Title": "Tätigkeitsnachweis",
         "TitleDaily": "Tätigkeitsnachweis",
-        "TitleDetailed": "Tätigkeitsnachweis (detailiert)",
+        "TitleDetailed": "Detailiert",
         "Company": "Firma",
         "Department": "Abteilung",
         "Contact": "Ansprechpartner",
@@ -114,7 +114,9 @@
         "Download": "Download"
       },
       "ActivityOverview": {
-        "Title": "Übersicht"
+        "Title": "Übersicht",
+        "WorkTime": "Arbeitszeit",
+        "Revenue": "Umsatz"
       }
     },
     "MasterData": {

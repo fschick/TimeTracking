@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Application.AutoMapper;
 using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
@@ -31,6 +32,7 @@ public class ActivityReportService : IActivityReportService
     private readonly HttpClient _httpClient;
     private readonly TimeTrackingConfiguration _configuration;
     private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionProvider;
+    private readonly ICustomerChartService _customerChartService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ActivityReportService"/> class.
@@ -40,12 +42,14 @@ public class ActivityReportService : IActivityReportService
     /// <param name="httpClient">The HTTP client.</param>
     /// <param name="configuration">The configuration.</param>
     /// <param name="apiDescriptionGroupCollectionProvider">The API description group collection provider.</param>
-    public ActivityReportService(ISettingService settingService, IRepository repository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider)
+    /// <param name="customerChartService">The customer chart service.</param>
+    public ActivityReportService(ISettingService settingService, IRepository repository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, ICustomerChartService customerChartService)
     {
         _settingService = settingService;
         _repository = repository;
         _httpClient = httpClient;
         _apiDescriptionProvider = apiDescriptionGroupCollectionProvider;
+        _customerChartService = customerChartService;
         _configuration = configuration.Value;
     }
 
@@ -59,29 +63,27 @@ public class ActivityReportService : IActivityReportService
             .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetActivityReport))
             .RelativePath;
 
-        var queryParams = FilterExtensions.ToQueryParams(
-            filters,
-                ("language", language)
-            );
+        var queryParams = FilterExtensions.ToQueryParams(filters, ("language", language));
 
         var reportDownloadUrl = $"{activityReportUrl}?{queryParams}";
 
-        var customers = await _repository
-            .GetGrouped(
-                groupBy: (TimeSheet x) => x.Project.CustomerId,
-                select: x => new { Id = x.Key, x.FirstOrDefault().Project.Customer.Title },
-                where: filter,
-                orderBy: o => o.OrderBy(x => x.Title),
-                cancellationToken: cancellationToken
-            );
+        var workTimes = await _customerChartService
+            .GetWorkTimesPerCustomer(filters, cancellationToken)
+            .AsEnumerableAsync()
+            .WhereAsync(workTime => workTime.BudgetWorked > 0)
+            .OrderByAsync(workTime => workTime.CustomerTitle);
 
-        return customers
-            .Select(customer => new ActivityReportGridDto
+        return workTimes
+            .Select(workTime => new ActivityReportGridDto
             {
-                CustomerId = customer.Id,
-                CustomerTitle = customer.Title,
-                DailyActivityReportUrl = $"{reportDownloadUrl}&customerId={customer.Id}&reportType={ActivityReportType.Daily.ToString().LowercaseFirstChar()}",
-                DetailedActivityReportUrl = $"{reportDownloadUrl}&customerId={customer.Id}&reportType={ActivityReportType.Detailed.ToString().LowercaseFirstChar()}",
+                CustomerId = workTime.CustomerId,
+                CustomerTitle = workTime.CustomerTitle,
+                DaysWorked = workTime.DaysWorked,
+                TimeWorked = workTime.TimeWorked,
+                BudgetWorked = workTime.BudgetWorked,
+                Currency = workTime.Currency,
+                DailyActivityReportUrl = $"{reportDownloadUrl}&customerId={workTime.CustomerId}&reportType={ActivityReportType.Daily.ToString().LowercaseFirstChar()}",
+                DetailedActivityReportUrl = $"{reportDownloadUrl}&customerId={workTime.CustomerId}&reportType={ActivityReportType.Detailed.ToString().LowercaseFirstChar()}",
             })
             .ToList();
     }
