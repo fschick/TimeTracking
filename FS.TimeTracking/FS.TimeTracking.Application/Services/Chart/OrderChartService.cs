@@ -92,6 +92,7 @@ public class OrderChartService : IOrderChartService
                 })
             .OrderBy(x => x.PlannedStart)
             .ThenBy(x => x.CustomerTitle)
+            .ThenBy(x => x.OrderTitle)
             .ThenBy(x => x.OrderNumber)
             .ToList();
 
