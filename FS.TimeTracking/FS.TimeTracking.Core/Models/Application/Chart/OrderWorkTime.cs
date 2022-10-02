@@ -23,6 +23,10 @@ public class OrderWorkTime : WorkTime
     [Required]
     public string OrderNumber { get; set; }
 
+    /// <inheritdoc cref="Order.Hidden"/>
+    [Required]
+    public bool OrderHidden { get; set; }
+
     /// <inheritdoc cref="Customer.Id"/>
     [Required]
     public Guid CustomerId { get; set; }
@@ -30,4 +34,8 @@ public class OrderWorkTime : WorkTime
     /// <inheritdoc cref="Customer.Title"/>
     [Required]
     public string CustomerTitle { get; set; }
+
+    /// <inheritdoc cref="Customer.Hidden"/>
+    [Required]
+    public bool CustomerHidden { get; set; }
 }

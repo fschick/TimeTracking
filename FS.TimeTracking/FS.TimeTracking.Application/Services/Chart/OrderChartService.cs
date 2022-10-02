@@ -72,6 +72,7 @@ public class OrderChartService : IOrderChartService
                         OrderId = worked?.OrderId ?? planned.OrderId,
                         OrderTitle = worked?.OrderTitle ?? planned?.OrderTitle,
                         OrderNumber = worked?.OrderNumber ?? planned?.OrderNumber,
+                        OrderHidden = worked?.OrderHidden ?? planned.OrderHidden,
                         CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
                         TotalWorkedPercentage = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
@@ -106,12 +107,13 @@ public class OrderChartService : IOrderChartService
 
         var timeSheetsPerOrder = await _repository
             .GetGrouped(
-                groupBy: timeSheet => new { timeSheet.OrderId, timeSheet.Order.Title, timeSheet.Order.Number },
+                groupBy: timeSheet => new { timeSheet.OrderId, timeSheet.Order.Title, timeSheet.Order.Number, timeSheet.Order.Hidden },
                 select: timeSheets => new
                 {
                     OrderId = timeSheets.Key.OrderId.Value,
                     OrderTitle = timeSheets.Key.Title,
                     OrderNumber = timeSheets.Key.Number,
+                    OrderHidden = timeSheets.Key.Hidden,
                     WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     timeSheets.FirstOrDefault().Order.HourlyRate,
                     CustomerId = timeSheets.FirstOrDefault().Project.Customer.Id,
@@ -129,6 +131,7 @@ public class OrderChartService : IOrderChartService
                 OrderId = timeSheet.OrderId,
                 OrderTitle = timeSheet.OrderTitle,
                 OrderNumber = timeSheet.OrderNumber,
+                OrderHidden = timeSheet.OrderHidden,
                 WorkedDays = timeSheet.WorkedTime.TotalHours / settings.WorkHoursPerWorkday.TotalHours,
                 WorkedTime = timeSheet.WorkedTime,
                 WorkedBudget = timeSheet.WorkedTime.TotalHours * timeSheet.HourlyRate,
@@ -164,6 +167,7 @@ public class OrderChartService : IOrderChartService
                     OrderId = order.Id,
                     OrderTitle = order.Title,
                     OrderNumber = order.Number,
+                    OrderHidden = order.Hidden,
                     CustomerId = order.CustomerId,
                     CustomerTitle = order.Customer.Title,
                     PlannedTime = plannedTime,

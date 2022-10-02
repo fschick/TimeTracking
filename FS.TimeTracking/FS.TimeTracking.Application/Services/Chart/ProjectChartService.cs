@@ -45,6 +45,7 @@ public class ProjectChartService : IProjectChartService
             {
                 ProjectId = worked.ProjectId,
                 ProjectTitle = worked.ProjectTitle,
+                ProjectHidden = worked.ProjectHidden,
                 CustomerTitle = worked.CustomerTitle,
                 TimeWorked = worked.WorkedTime,
                 DaysWorked = worked.WorkedDays,
@@ -66,11 +67,12 @@ public class ProjectChartService : IProjectChartService
 
         var timeSheetsPerProjectAndOrder = await _repository
             .GetGrouped(
-                groupBy: timeSheet => new { timeSheet.Project.Id, timeSheet.Project.Title, timeSheet.OrderId },
+                groupBy: timeSheet => new { timeSheet.Project.Id, timeSheet.Project.Title, timeSheet.Project.Hidden, timeSheet.OrderId },
                 select: timeSheets => new
                 {
                     ProjectId = timeSheets.Key.Id,
                     ProjectTitle = timeSheets.Key.Title,
+                    ProjectHidden = timeSheets.Key.Hidden,
                     CustomerTitle = timeSheets.FirstOrDefault().Project.Customer.Title,
                     WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     HourlyRate = timeSheets.Key.OrderId != null
@@ -82,11 +84,12 @@ public class ProjectChartService : IProjectChartService
             );
 
         var workedTimesPerProject = timeSheetsPerProjectAndOrder
-            .GroupBy(timeSheet => new { timeSheet.ProjectId, timeSheet.ProjectTitle })
+            .GroupBy(timeSheet => new { timeSheet.ProjectId, timeSheet.ProjectTitle, timeSheet.ProjectHidden })
             .Select(timeSheets => new ProjectWorkTime
             {
                 ProjectId = timeSheets.Key.ProjectId,
                 ProjectTitle = timeSheets.Key.ProjectTitle,
+                ProjectHidden = timeSheets.Key.ProjectHidden,
                 CustomerTitle = timeSheets.First().CustomerTitle,
                 WorkedTime = timeSheets.Sum(h => h.WorkedTime),
                 WorkedBudget = timeSheets.Select(f => f.WorkedTime.TotalHours * f.HourlyRate).Sum(),

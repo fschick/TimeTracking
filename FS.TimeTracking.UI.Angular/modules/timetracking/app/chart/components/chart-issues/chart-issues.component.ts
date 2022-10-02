@@ -114,10 +114,10 @@ export class ChartIssuesComponent implements OnInit, OnDestroy {
     return {
       cssWrapper: 'table-responsive',
       cssTable: 'table',
+      cssFooterRow: 'fw-bold',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssFooterRow: 'fw-bold',
     };
   }
 

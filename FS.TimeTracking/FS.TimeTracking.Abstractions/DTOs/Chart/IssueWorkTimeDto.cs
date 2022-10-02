@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using System;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -9,15 +9,11 @@ namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 /// Work times for a project.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class ProjectWorkTimeDto : WorkTimeDto
+public class IssueWorkTimeDto : WorkTimeDto
 {
-    /// <inheritdoc cref="CustomerDto.Id"/>
+    /// <inheritdoc cref="TimeSheetDto.Issue"/>
     [Required]
-    public Guid ProjectId { get; set; }
-
-    /// <inheritdoc cref="CustomerDto.Title"/>
-    [Required]
-    public string ProjectTitle { get; set; }
+    public string Issue { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     [Required]

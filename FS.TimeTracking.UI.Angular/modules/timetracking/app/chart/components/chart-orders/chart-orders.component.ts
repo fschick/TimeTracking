@@ -181,10 +181,10 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
     return {
       cssWrapper: 'table-responsive',
       cssTable: 'table table-hover',
+      cssDataRow: row => `cursor-pointer ${row.selected ? 'selected' : ''} ${row.orderHidden ? 'text-secondary' : ''}`,
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssDataRow: row => `cursor-pointer ${row.selected ? 'selected' : ''}`,
       cssFooterRow: 'fw-bold',
     };
   }

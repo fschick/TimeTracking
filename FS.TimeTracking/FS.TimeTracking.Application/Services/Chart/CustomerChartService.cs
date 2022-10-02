@@ -67,6 +67,7 @@ public class CustomerChartService : ICustomerChartService
                     {
                         CustomerId = worked?.CustomerId ?? planned.CustomerId,
                         CustomerTitle = worked?.CustomerTitle ?? planned?.CustomerTitle,
+                        CustomerHidden = worked?.CustomerHidden ?? planned.CustomerHidden,
                         TotalWorkedPercentage = totalWorkedDays != 0 ? (worked?.WorkedDays ?? 0) / totalWorkedDays : 0,
                         TotalPlannedPercentage = totalPlannedDays != 0 ? (planned?.PlannedDays ?? 0) / totalPlannedDays : null,
                         DaysWorked = worked?.WorkedDays ?? 0,
@@ -110,6 +111,7 @@ public class CustomerChartService : ICustomerChartService
                     {
                         CustomerId = withOrder?.CustomerId ?? withoutOrder.CustomerId,
                         CustomerTitle = withOrder?.CustomerTitle ?? withoutOrder.CustomerTitle,
+                        CustomerHidden = withOrder?.CustomerHidden ?? withoutOrder.CustomerHidden,
                         WorkedTime = workTimes.Sum(x => x.WorkedTime),
                         WorkedBudget = workTimes.Sum(x => x.WorkedBudget),
                         PlannedStart = withOrder?.PlannedStart,
@@ -134,6 +136,7 @@ public class CustomerChartService : ICustomerChartService
             {
                 CustomerId = orderWorkItems.Key,
                 CustomerTitle = orderWorkItems.First().CustomerTitle,
+                CustomerHidden = orderWorkItems.First().CustomerHidden,
                 WorkedTime = orderWorkItems.Sum(x => x.WorkedTime),
                 WorkedBudget = orderWorkItems.Sum(x => x.WorkedBudget),
                 PlannedStart = orderWorkItems.Min(x => x.PlannedStart),
@@ -148,11 +151,12 @@ public class CustomerChartService : ICustomerChartService
     {
         var timeSheetsPerCustomer = await _repository
            .GetGrouped(
-               groupBy: timeSheet => new { timeSheet.Project.Customer.Id, timeSheet.Project.Customer.Title },
+               groupBy: timeSheet => new { timeSheet.Project.Customer.Id, timeSheet.Project.Customer.Title, timeSheet.Project.Customer.Hidden },
                select: timeSheets => new
                {
                    CustomerId = timeSheets.Key.Id,
                    CustomerTitle = timeSheets.Key.Title,
+                   CustomerHidden = timeSheets.Key.Hidden,
                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                    timeSheets.FirstOrDefault().Project.Customer.HourlyRate,
                },
@@ -165,6 +169,7 @@ public class CustomerChartService : ICustomerChartService
             {
                 CustomerId = timeSheet.CustomerId,
                 CustomerTitle = timeSheet.CustomerTitle,
+                CustomerHidden = timeSheet.CustomerHidden,
                 WorkedTime = timeSheet.WorkedTime,
                 WorkedBudget = timeSheet.WorkedTime.TotalHours * timeSheet.HourlyRate,
             })
@@ -190,6 +195,7 @@ public class CustomerChartService : ICustomerChartService
             {
                 CustomerId = orderWorkItems.Key,
                 CustomerTitle = orderWorkItems.First().Planned.CustomerTitle,
+                CustomerHidden = orderWorkItems.First().Planned.CustomerHidden,
                 PlannedTime = orderWorkItems.Sum(x => x.Planned.PlannedTime),
                 PlannedBudget = orderWorkItems.Sum(x => x.Planned.PlannedBudget),
                 WorkedTime = orderWorkItems.Sum(x => x.Worked?.WorkedTime ?? TimeSpan.Zero),

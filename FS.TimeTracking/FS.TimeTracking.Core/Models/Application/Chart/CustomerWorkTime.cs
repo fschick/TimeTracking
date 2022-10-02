@@ -18,4 +18,8 @@ public class CustomerWorkTime : WorkTime
     /// <inheritdoc cref="Customer.Title"/>
     [Required]
     public string CustomerTitle { get; set; }
+
+    /// <inheritdoc cref="Customer.Hidden"/>
+    [Required]
+    public bool CustomerHidden { get; set; }
 }

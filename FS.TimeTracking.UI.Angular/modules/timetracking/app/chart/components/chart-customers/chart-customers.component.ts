@@ -177,7 +177,7 @@ export class ChartCustomersComponent implements OnInit, OnDestroy {
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssDataRow: row => `cursor-pointer ${row.selected ? 'selected' : ''}`,
+      cssDataRow: row => `cursor-pointer ${row.selected ? 'selected' : ''} ${row.customerHidden ? 'text-secondary' : ''}`,
       cssFooterRow: 'fw-bold',
     };
   }

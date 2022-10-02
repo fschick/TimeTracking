@@ -114,10 +114,11 @@ export class ChartActivitiesComponent implements OnInit, OnDestroy {
     return {
       cssWrapper: 'table-responsive',
       cssTable: 'table',
+      cssDataRow: row => row.activityHidden ? 'text-secondary' : '',
+      cssFooterRow: 'fw-bold',
       glyphSortAsc: '',
       glyphSortDesc: '',
       locale: this.localizationService.language,
-      cssFooterRow: 'fw-bold',
     };
   }
 

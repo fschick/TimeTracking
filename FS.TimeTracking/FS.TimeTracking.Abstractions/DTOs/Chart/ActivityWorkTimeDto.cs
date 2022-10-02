@@ -18,4 +18,8 @@ public class ActivityWorkTimeDto : WorkTimeDto
     /// <inheritdoc cref="ActivityDto.Title"/>
     [Required]
     public string ActivityTitle { get; set; }
+
+    /// <inheritdoc cref="ActivityDto.Hidden"/>
+    [Required]
+    public bool ActivityHidden { get; set; }
 }

@@ -23,6 +23,10 @@ public class OrderWorkTimeDto : WorkTimeDto
     [Required]
     public string OrderNumber { get; set; }
 
+    /// <inheritdoc cref="OrderDto.Hidden" />
+    [Required]
+    public bool OrderHidden { get; set; }
+
     /// <inheritdoc cref="CustomerDto.Title"/>
     [Required]
     public string CustomerTitle { get; set; }

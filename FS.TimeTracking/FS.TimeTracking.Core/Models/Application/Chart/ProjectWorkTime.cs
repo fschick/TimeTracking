@@ -21,5 +21,9 @@ public class ProjectWorkTime : WorkTime
 
     /// <inheritdoc cref="Customer.Title"/>
     [Required]
+    public bool ProjectHidden { get; set; }
+
+    /// <inheritdoc cref="Customer.Title"/>
+    [Required]
     public string CustomerTitle { get; set; }
 }
