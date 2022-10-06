@@ -73,7 +73,7 @@ public class ActivityChartService : IActivityChartService
                     WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     HourlyRate = timeSheets.Key.OrderId != null
                         ? timeSheets.Min(t => t.Order.HourlyRate)
-                        : timeSheets.Min(t => t.Project.Customer.HourlyRate),
+                        : timeSheets.Min(t => t.Customer.HourlyRate),
                 },
                 where: filter.WorkedTimes.CreateFilter(),
                 cancellationToken: cancellationToken

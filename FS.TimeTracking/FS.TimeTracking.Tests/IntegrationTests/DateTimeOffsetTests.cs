@@ -24,9 +24,9 @@ public class DateTimeOffsetTests
         using var client = testHost.GetTestClient();
 
         var newCustomer = FakeCustomer.CreateDto();
-        var newProject = FakeProject.CreateDto(newCustomer.Id);
         var newActivity = FakeActivity.CreateDto();
-        var newTimeSheet = FakeTimeSheet.CreateDto(newProject.Id, newActivity.Id);
+        var newProject = FakeProject.CreateDto(newCustomer.Id);
+        var newTimeSheet = FakeTimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
 
         // Act
         newTimeSheet.StartDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(-4));

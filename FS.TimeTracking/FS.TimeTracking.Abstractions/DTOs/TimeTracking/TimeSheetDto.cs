@@ -26,11 +26,11 @@ public class TimeSheetDto
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="ProjectDto"/>.
+    /// The identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
     [Required]
     [Filter(Visible = false)]
-    public Guid ProjectId { get; set; }
+    public Guid CustomerId { get; set; }
 
     /// <summary>
     /// The identifier to the related <see cref="ActivityDto"/>.
@@ -38,6 +38,12 @@ public class TimeSheetDto
     [Required]
     [Filter(Visible = false)]
     public Guid ActivityId { get; set; }
+
+    /// <summary>
+    /// The identifier to the related <see cref="ProjectDto"/>.
+    /// </summary>
+    [Filter(Visible = false)]
+    public Guid? ProjectId { get; set; }
 
     /// <summary>
     /// The identifier to the related <see cref="OrderDto"/>.

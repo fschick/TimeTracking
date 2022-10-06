@@ -31,10 +31,22 @@ public class ActivityDto
     public string Title { get; set; }
 
     /// <summary>
+    /// Identifier to the related <see cref="CustomerDto"/>.
+    /// </summary>
+    [Filter(Visible = false)]
+    public Guid? CustomerId { get; set; }
+
+    /// <summary>
     /// Identifier to the related <see cref="ProjectDto"/>.
     /// </summary>
     [Filter(Visible = false)]
     public Guid? ProjectId { get; set; }
+
+    /// <summary>
+    /// ID of the project's customer. Unused while create/update the entity.
+    /// </summary>
+    [Filter(Visible = false)]
+    public Guid? ProjectCustomerId { get; set; }
 
     /// <summary>
     /// Comment for this item.

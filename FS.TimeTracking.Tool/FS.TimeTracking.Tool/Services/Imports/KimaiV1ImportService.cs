@@ -63,9 +63,10 @@ public class KimaiV1ImportService : IKimaiV1ImportService
                         var activity = _mapper.Map<Activity>(kimaiActivity);
                         if (index > 0)
                             activity.Id = Guid.NewGuid();
-                        activity.ProjectId = kimaiProjects
-                                                 .SingleOrDefault(x => x.ProjectId == kimaiProject.ProjectId)?.Id
-                                             ?? throw new InvalidOperationException($"Kimai project with ID {kimaiProject.ProjectId} not found, Kimai activity ID {kimaiActivity.ActivityId}");
+                        // TODO: Reactivate Project
+                        //activity.ProjectId = kimaiProjects
+                        //    .SingleOrDefault(x => x.ProjectId == kimaiProject.ProjectId)?.Id
+                        //    ?? throw new InvalidOperationException($"Kimai project with ID {kimaiProject.ProjectId} not found, Kimai activity ID {kimaiActivity.ActivityId}");
                         return activity;
                     });
             })
@@ -94,7 +95,8 @@ public class KimaiV1ImportService : IKimaiV1ImportService
                 if (timeSheet.EndDate.HasValue)
                     timeSheet.EndDate = TimeZoneInfo.ConvertTime(timeSheet.EndDate.Value, kimaiTimeZone);
 
-                timeSheet.ProjectId = kimaiProject.Id;
+                // TODO: Reactivate Project
+                //timeSheet.ProjectId = kimaiProject.Id;
                 timeSheet.ActivityId = kimaiActivity.Id;
 
                 return timeSheet;

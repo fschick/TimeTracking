@@ -44,14 +44,14 @@ public class CrudIntegrationTests
         var newCustomer = FakeCustomer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
 
-        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
-        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
-
         var newActivity = FakeActivity.CreateDto(hidden: true);
         var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
 
+        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
+        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
+
         //// Act
-        var newTimeSheet = FakeTimeSheet.CreateDto(newProject.Id, newActivity.Id);
+        var newTimeSheet = FakeTimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
         var readTimeSheet = await testHost.Get<TimeSheetController, TimeSheetDto>(x => x.Get(createdTimeSheet.Id, default));
 

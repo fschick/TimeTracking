@@ -28,8 +28,7 @@ public class Project : IIdEntityModel
     /// <summary>
     /// Identifier to the related <see cref="MasterData.Customer"/>.
     /// </summary>
-    [Required]
-    public Guid CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
 
     /// <inheritdoc cref="MasterData.Customer"/>
     public Customer Customer { get; set; }

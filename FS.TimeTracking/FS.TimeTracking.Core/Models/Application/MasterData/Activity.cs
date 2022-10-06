@@ -23,6 +23,14 @@ public class Activity : IIdEntityModel
     public string Title { get; set; }
 
     /// <summary>
+    /// Identifier to the related <see cref="MasterData.Customer"/>.
+    /// </summary>
+    public Guid? CustomerId { get; set; }
+
+    /// <inheritdoc cref="MasterData.Project"/>
+    public Customer Customer { get; set; }
+
+    /// <summary>
     /// Identifier to the related <see cref="MasterData.Project"/>.
     /// </summary>
     public Guid? ProjectId { get; set; }
@@ -51,5 +59,5 @@ public class Activity : IIdEntityModel
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay => $"{Title} {(Project?.Customer != null ? $"({Project.Customer.Title})" : string.Empty)}";
+    private string DebuggerDisplay => $"{Title} {(Customer != null ? $"({Customer.Title})" : string.Empty)}";
 }

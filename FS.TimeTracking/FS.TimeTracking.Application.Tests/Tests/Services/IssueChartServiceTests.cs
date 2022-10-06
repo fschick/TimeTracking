@@ -62,9 +62,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
     private static List<TestCase> GetTestCases()
     {
         var customer = FakeCustomer.Create();
-        var project = FakeProject.Create(customer.Id);
-        var activity = FakeActivity.Create(project.Id);
-        var masterData = new List<IIdEntityModel> { customer, project, activity };
+        var activity = FakeActivity.Create(customer.Id);
+        var masterData = new List<IIdEntityModel> { customer, activity };
 
         return new List<TestCase>
         {
@@ -73,9 +72,9 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "Two_issues_2_and_1_third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(project, activity, "IssueA"),
-                    CreateTimeSheet(project, activity, "IssueA"),
-                    CreateTimeSheet(project, activity, "IssueB"),
+                    CreateTimeSheet(customer, activity, "IssueA"),
+                    CreateTimeSheet(customer, activity, "IssueA"),
+                    CreateTimeSheet(customer, activity, "IssueB"),
                 },
                 Expected = new List<object>
                 {
@@ -88,8 +87,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "No_issues",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(project, activity, string.Empty),
-                    CreateTimeSheet(project, activity, string.Empty),
+                    CreateTimeSheet(customer, activity, string.Empty),
+                    CreateTimeSheet(customer, activity, string.Empty),
                 },
                 Expected = new List<object> {
                     new { Issue = string.Empty, TimeWorked = TimeSpan.FromHours(2) }
@@ -103,8 +102,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Project project, Activity activity, string issue)
-        => FakeTimeSheet.Create(project.Id, activity.Id, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"), issue: issue);
+    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, string issue)
+        => FakeTimeSheet.Create(customer.Id, activity.Id, null, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"), issue: issue);
 }
 
 public class WorkTimesPerIssueTestCase : TestCase

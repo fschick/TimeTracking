@@ -74,9 +74,9 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
                 Identifier = "Two_projects_2_and_1_third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(project1, activity),
-                    CreateTimeSheet(project1, activity),
-                    CreateTimeSheet(project2, activity),
+                    CreateTimeSheet(customer, project1, activity),
+                    CreateTimeSheet(customer, project1, activity),
+                    CreateTimeSheet(customer, project2, activity),
                 },
                 Expected = new List<object>
                 {
@@ -92,8 +92,8 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Project project, Activity activity)
-        => FakeTimeSheet.Create(project.Id, activity.Id, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"));
+    private static TimeSheet CreateTimeSheet(Customer customer, Project project, Activity activity)
+        => FakeTimeSheet.Create(customer.Id, activity.Id, project.Id, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"));
 }
 
 public class WorkTimesPerProjectTestCase : TestCase

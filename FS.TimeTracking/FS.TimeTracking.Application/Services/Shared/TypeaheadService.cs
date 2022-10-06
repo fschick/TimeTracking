@@ -40,7 +40,7 @@ public class TypeaheadService : ITypeaheadService
                 select: (Project x) => new TypeaheadDto<string>
                 {
                     Id = x.Id,
-                    Value = $"{x.Title} ({x.Customer.Title})",
+                    Value = x.Customer != null ? $"{x.Title} ({x.Customer.Title})" : x.Title,
                     Hidden = x.Hidden,
                     Extended = new { x.CustomerId }
                 },
@@ -76,9 +76,9 @@ public class TypeaheadService : ITypeaheadService
                 select: (Activity x) => new TypeaheadDto<string>
                 {
                     Id = x.Id,
-                    Value = x.Project != null ? $"{x.Title} ({x.Project.Title})" : x.Title,
+                    Value = x.Project != null ? $"{x.Title} ({x.Project.Title})" : x.Customer != null ? $"{x.Title} ({x.Customer.Title})" : x.Title,
                     Hidden = x.Hidden,
-                    Extended = new { x.ProjectId }
+                    Extended = new { x.CustomerId, x.ProjectId, }
                 },
                 where: x => showHidden || !x.Hidden,
                 orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
