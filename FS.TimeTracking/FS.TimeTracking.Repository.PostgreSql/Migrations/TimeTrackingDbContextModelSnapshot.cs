@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -34,6 +34,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("Hidden")
                         .HasColumnType("boolean");
 
@@ -49,6 +52,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ProjectId");
 
@@ -223,7 +228,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid?>("CustomerId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("Hidden")
@@ -287,6 +292,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("EndDateLocal")
                         .HasColumnType("timestamp");
 
@@ -302,7 +310,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDateLocal")
@@ -315,6 +323,8 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.HasIndex("ActivityId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProjectId");
@@ -324,10 +334,17 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
             modelBuilder.Entity("FS.TimeTracking.Core.Models.Application.MasterData.Activity", b =>
                 {
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Project");
                 });
@@ -348,8 +365,7 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
                         .WithMany("Projects")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Customer");
                 });
@@ -362,6 +378,12 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
@@ -370,10 +392,11 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.HasOne("FS.TimeTracking.Core.Models.Application.MasterData.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Activity");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Order");
 

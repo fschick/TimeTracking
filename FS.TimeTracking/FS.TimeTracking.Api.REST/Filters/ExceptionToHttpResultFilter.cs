@@ -1,9 +1,11 @@
-﻿using FS.TimeTracking.Core.Exceptions;
+﻿using FS.TimeTracking.Api.REST.Models;
+using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Configuration;
-using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System.Data.Common;
 using System.Net;
 using System.Net.Http;
@@ -14,11 +16,13 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
 {
     private readonly IDbExceptionService _dbExceptionService;
     private readonly EnvironmentConfiguration _environment;
+    private readonly ILogger<ExceptionToHttpResultFilter> _logger;
 
-    public ExceptionToHttpResultFilter(IDbExceptionService dbExceptionService, EnvironmentConfiguration environment)
+    public ExceptionToHttpResultFilter(IDbExceptionService dbExceptionService, EnvironmentConfiguration environment, ILogger<ExceptionToHttpResultFilter> logger)
     {
         _dbExceptionService = dbExceptionService;
         _environment = environment;
+        _logger = logger;
     }
 
     public void OnException(ExceptionContext context)
@@ -26,25 +30,32 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
         switch (context.Exception)
         {
             case DbException dbException when IsForeignKeyViolation(dbException):
-                var errorCode = context.HttpContext.Request.Method == HttpMethod.Delete.Method
-                    ? RestErrorCode.ForeignKeyViolationOnDelete
-                    : RestErrorCode.ForeignKeyViolation;
+                var isDeleteOperation = context.HttpContext.Request.Method == HttpMethod.Delete.Method;
+                var errorCode = isDeleteOperation
+                    ? ErrorCode.ForeignKeyViolationOnDelete
+                    : ErrorCode.ForeignKeyViolation;
                 var dbErrorMessages = _environment.IsDevelopment ? new[] { dbException.Message } : null;
                 var foreignKeyViolationError = new RestError { Code = errorCode, Messages = dbErrorMessages };
                 context.Result = new ConflictObjectResult(foreignKeyViolationError);
                 break;
             case ConformityException conformityException:
-                var conformityError = new RestError { Code = RestErrorCode.ConformityViolation, Messages = conformityException.Errors };
+                _logger.LogWarning(context.Exception, "Entity could not be modified.");
+                var conformityError = new RestError
+                {
+                    Code = conformityException.ErrorCode ?? ErrorCode.ConformityViolation,
+                    Messages = conformityException.Errors
+                };
                 context.Result = new ConflictObjectResult(conformityError);
                 break;
             default:
+                _logger.LogError(context.Exception, "An unhandled exception has occurred while executing the request.");
                 var serverErrorMessages = _environment.IsDevelopment ? new[] { context.Exception.ToString() } : null;
-                var internalServerError = new RestError { Code = RestErrorCode.InternalServerError, Messages = serverErrorMessages };
+                var internalServerError = new RestError { Code = ErrorCode.InternalServerError, Messages = serverErrorMessages };
                 context.Result = new ObjectResult(internalServerError) { StatusCode = (int)HttpStatusCode.InternalServerError };
                 break;
         }
     }
 
     private bool IsForeignKeyViolation(DbException dbException)
-        => _dbExceptionService.TranslateDbException(dbException) == RestErrorCode.ForeignKeyViolation;
+        => _dbExceptionService.TranslateDbException(dbException) == ErrorCode.ForeignKeyViolation;
 }

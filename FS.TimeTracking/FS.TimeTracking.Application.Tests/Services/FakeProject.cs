@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Application.Tests.Services;
 [ExcludeFromCodeCoverage]
 public static partial class FakeProject
 {
-    public static Project Create(Guid customerId, string prefix = "Test", bool hidden = false)
+    public static Project Create(Guid? customerId = null, string prefix = "Test", bool hidden = false)
         => new()
         {
             Id = Guid.NewGuid(),
@@ -18,6 +18,6 @@ public static partial class FakeProject
             Hidden = hidden
         };
 
-    public static ProjectDto CreateDto(Guid customerId, string prefix = "Test", bool hidden = false)
+    public static ProjectDto CreateDto(Guid? customerId = null, string prefix = "Test", bool hidden = false)
         => FakeAutoMapper.Mapper.Map<ProjectDto>(Create(customerId, prefix, hidden));
 }

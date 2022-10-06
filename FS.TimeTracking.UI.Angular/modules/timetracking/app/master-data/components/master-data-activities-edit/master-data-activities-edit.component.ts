@@ -17,6 +17,7 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public customers$: Observable<StringTypeaheadDto[]>;
+  public customerReadonly = false;
   public projects$: Observable<StringTypeaheadDto[]>;
 
   @ViewChild('activityEdit') private activityEdit?: TemplateRef<any>;
@@ -32,14 +33,17 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     private modalService: NgbModal,
     typeaheadService: TypeaheadService,
   ) {
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: GuidService.guidEmpty, hidden: false});
 
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     if (!this.isNewRecord)
       this.activityService
         .get({id: this.route.snapshot.params['id']})
         .pipe(single())
-        .subscribe(activity => this.activityForm.patchValue(activity));
+        .subscribe(activity => {
+          this.activityForm.patchValue(activity);
+          this.customerReadonly = activity.projectCustomerId != null;
+        });
 
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
     this.projects$ = typeaheadService.getProjects({showHidden: true});
@@ -48,6 +52,12 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.modal = this.modalService.open(this.activityEdit, {size: 'lg', scrollable: true});
     this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
+  }
+
+  public projectChanged(selectedProject: StringTypeaheadDto | undefined) {
+    if (selectedProject?.extended.customerId)
+      this.activityForm.patchValue({customerId: selectedProject.extended.customerId});
+    this.customerReadonly = selectedProject?.extended.customerId != null;
   }
 
   public save(): void {

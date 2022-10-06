@@ -54,6 +54,5 @@ public class TimeSheetGridDto
     private string DebuggerDisplay =>
         $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
         + (CustomerTitle != null ? $", {CustomerTitle}" : string.Empty)
-        + (ProjectTitle != null ? $", {ProjectTitle}" : string.Empty)
         + (ActivityTitle != null ? $", {ActivityTitle}" : string.Empty);
 }

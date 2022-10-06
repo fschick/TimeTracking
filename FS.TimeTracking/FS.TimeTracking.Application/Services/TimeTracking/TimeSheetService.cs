@@ -7,11 +7,13 @@ using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Constants;
+using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
 using System;
@@ -124,6 +126,50 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
             LastWorkedTimes = lastWorkedTimes.Take(7).ToList(),
             LastWorkedTimesAggregationUnit = aggregationUnit
         };
+    }
+
+    /// <inheritdoc />
+    protected override async Task CheckConformity(TimeSheet model)
+    {
+        await base.CheckConformity(model);
+
+        var errors = new List<string>();
+
+        var activityCustomerId = await Repository
+            .FirstOrDefault(
+                select: (Activity x) => x.CustomerId,
+                where: x => x.Id == model.ActivityId
+            );
+
+        if (activityCustomerId != null && model.CustomerId != activityCustomerId)
+            errors.Add("Customer of time sheet does not match customer of assigned activity.");
+
+        if (model.ProjectId != null)
+        {
+            var projectCustomerId = await Repository
+                .FirstOrDefault(
+                    select: (Project x) => x.CustomerId,
+                    where: x => x.Id == model.ProjectId
+                );
+
+            if (projectCustomerId != null && model.CustomerId != projectCustomerId)
+                errors.Add("Customer of time sheet does not match customer of assigned project.");
+        }
+
+        if (model.OrderId != null)
+        {
+            var orderCustomerId = await Repository
+                .FirstOrDefault(
+                    select: (Order x) => x.CustomerId,
+                    where: x => x.Id == model.OrderId
+                );
+
+            if (model.CustomerId != orderCustomerId)
+                errors.Add("Customer of time sheet does not match customer of assigned order.");
+        }
+
+        if (errors.Any())
+            throw new ConformityException(errors);
     }
 
     private static Task<Range<DateTimeOffset>> AlignPeriodToAvailableData(Range<DateTimeOffset> selectedPeriod, DateTime? minDate, DateTime? maxDate)

@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
+﻿using FS.FilterExpressionCreator.Abstractions.Extensions;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
@@ -73,13 +74,13 @@ public class ProjectChartService : IProjectChartService
                     ProjectId = timeSheets.Key.Id,
                     ProjectTitle = timeSheets.Key.Title,
                     ProjectHidden = timeSheets.Key.Hidden,
-                    CustomerTitle = timeSheets.FirstOrDefault().Project.Customer.Title,
+                    CustomerTitle = timeSheets.FirstOrDefault().Customer.Title,
                     WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     HourlyRate = timeSheets.Key.OrderId != null
                         ? timeSheets.Min(t => t.Order.HourlyRate)
-                        : timeSheets.Min(t => t.Project.Customer.HourlyRate),
+                        : timeSheets.Min(t => t.Customer.HourlyRate),
                 },
-                where: filter.WorkedTimes.CreateFilter(),
+                where: new[] { x => x.ProjectId != null, filter.WorkedTimes.CreateFilter() }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken
             );
 

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FS.TimeTracking.Core.Models.Application.Core;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FS.TimeTracking.Core.Models.REST;
+namespace FS.TimeTracking.Api.REST.Models;
 
 /// <summary>
 /// Contains extended error information about failed API requests
@@ -14,7 +15,7 @@ public class RestError
     /// A unified error code.
     /// </summary>
     [Required]
-    public RestErrorCode Code { get; set; }
+    public ErrorCode Code { get; set; }
 
     /// <summary>
     /// Gets detailed causes of the error.

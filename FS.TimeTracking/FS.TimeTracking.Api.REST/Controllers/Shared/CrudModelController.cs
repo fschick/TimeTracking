@@ -1,7 +1,7 @@
 ﻿using FS.TimeTracking.Api.REST.Filters;
+using FS.TimeTracking.Api.REST.Models;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Models.Filter;
-using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

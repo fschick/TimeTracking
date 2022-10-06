@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Core.Models.REST;
+﻿using FS.TimeTracking.Api.REST.Models;
+using FS.TimeTracking.Core.Models.Application.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -12,6 +13,6 @@ internal class NotFoundWhenEmptyAttribute : ResultFilterAttribute
     {
         base.OnResultExecuting(context);
         if (context.Result is ObjectResult { Value: null })
-            context.Result = new NotFoundObjectResult(new RestError { Code = RestErrorCode.NotFound });
+            context.Result = new NotFoundObjectResult(new RestError { Code = ErrorCode.NotFound });
     }
 }

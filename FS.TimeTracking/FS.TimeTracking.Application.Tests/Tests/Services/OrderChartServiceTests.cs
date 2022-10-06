@@ -71,15 +71,13 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
         var activity = FakeActivity.Create();
 
         var customer1 = FakeCustomer.Create("1_");
-        var project1 = FakeProject.Create(customer1.Id, "1_");
         var order1A = FakeOrder.Create(customer1.Id, FakeDateTime.Offset("2020-01-01"), FakeDateTime.Offset("2020-12-31"), "1100", 100, 1200, "1A_");
 
         var customer2 = FakeCustomer.Create("2_");
-        var project2 = FakeProject.Create(customer2.Id, "2_");
         var order2A = FakeOrder.Create(customer2.Id, FakeDateTime.Offset("2020-07-01"), FakeDateTime.Offset("2020-12-31"), "2100", 50, 600, "2A_");
         var order2B = FakeOrder.Create(customer2.Id, FakeDateTime.Offset("2021-01-01"), FakeDateTime.Offset("2021-06-30"), "2200", 75, 600, "2B_");
 
-        var masterData = new List<IIdEntityModel> { activity, customer1, project1, order1A, customer2, project2, order2A, order2B };
+        var masterData = new List<IIdEntityModel> { activity, customer1, order1A, customer2, order2A, order2B };
 
         return new List<TestCase>
         {
@@ -89,7 +87,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(project1, activity, order1A, "2020-07-01 08:00", "2020-07-01 16:00"),
+                    CreateTimeSheet(customer1, activity, order1A, "2020-07-01 08:00", "2020-07-01 16:00"),
                 },
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-08-01", ">=2020-07-01")),
                 Expected = new List<object>
@@ -116,7 +114,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(project1, activity, order1A, "2021-02-01 08:00", "2021-02-01 16:00"),
+                    CreateTimeSheet(customer1, activity, order1A, "2021-02-01 08:00", "2021-02-01 16:00"),
                 },
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2022-01-01", ">=2021-01-01")),
                 Expected = new List<object>
@@ -128,7 +126,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
             new WorkTimesPerOrderTestCase
             {
                 Identifier = "When_selected_time_range_is_one_day_before_start_day_of_order_than_order_is_excluded",
-                MasterData = new List<IIdEntityModel> { activity, customer2, project2, order2B },
+                MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-01-01", ">=2020-12-31")),
                 Expected = new List<object>(),
@@ -136,7 +134,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
             new WorkTimesPerOrderTestCase
             {
                 Identifier = "When_selected_time_range_is_start_day_of_order_than_order_is_found",
-                MasterData = new List<IIdEntityModel> { activity, customer2, project2, order2B },
+                MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-01-02", ">=2021-01-01")),
                 Expected = new List<object>
@@ -147,7 +145,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
             new WorkTimesPerOrderTestCase
             {
                 Identifier = "When_selected_time_range_is_due_day_of_order_than_order_is_found",
-                MasterData = new List<IIdEntityModel> { activity, customer2, project2, order2B },
+                MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-07-01", ">=2021-06-30")),
                 Expected = new List<object>
@@ -158,7 +156,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
             new WorkTimesPerOrderTestCase
             {
                 Identifier = "When_selected_time_range_is_one_day_after_due_date_of_order_than_order_is_excluded",
-                MasterData = new List<IIdEntityModel> { activity, customer2, project2, order2B },
+                MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-07-02", ">=2021-07-01")),
                 Expected = new List<object>(),
@@ -169,9 +167,9 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(project1, activity, order1A, "2020-03-01 08:00", "2020-03-01 16:00"),
-                    CreateTimeSheet(project2, activity, order2A, "2020-03-01 08:00", "2020-03-01 12:00"),
-                    CreateTimeSheet(project2, activity, order2B, "2020-03-01 08:00", "2020-03-01 12:00"),
+                    CreateTimeSheet(customer1, activity, order1A, "2020-03-01 08:00", "2020-03-01 16:00"),
+                    CreateTimeSheet(customer2, activity, order2A, "2020-03-01 08:00", "2020-03-01 12:00"),
+                    CreateTimeSheet(customer2, activity, order2B, "2020-03-01 08:00", "2020-03-01 12:00"),
                 },
                 Expected = new List<object>
                 {
@@ -188,8 +186,8 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Project project, Activity activity, Order order, string startDate, string endDate)
-        => FakeTimeSheet.Create(project.Id, activity.Id, order.Id, FakeDateTime.Offset(startDate), FakeDateTime.Offset(endDate));
+    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, Order order, string startDate, string endDate)
+        => FakeTimeSheet.Create(customer.Id, activity.Id, null, order.Id, FakeDateTime.Offset(startDate), FakeDateTime.Offset(endDate));
 }
 
 public class WorkTimesPerOrderTestCase : TestCase
