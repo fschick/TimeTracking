@@ -47,7 +47,9 @@ public class TimeTrackingAutoMapper : Profile
             .ReverseMap();
 
         CreateMap<Activity, ActivityDto>()
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(x => x.Customer, x => x.Ignore())
+            .ForMember(x => x.Project, x => x.Ignore());
 
         CreateMap<Order, OrderDto>()
             .ReverseMap()
@@ -69,20 +71,21 @@ public class TimeTrackingAutoMapper : Profile
 
         CreateMap<Project, ProjectGridDto>();
 
-        CreateMap<Activity, ActivityGridDto>()
-            .ForMember(x => x.CustomerTitle, x => x.MapFrom(activity => activity.Project.Customer.Title));
+        CreateMap<Activity, ActivityGridDto>();
 
         CreateMap<Order, OrderGridDto>();
 
         CreateMap<TimeSheet, TimeSheetGridDto>()
-            .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
+            .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))
+            .ForMember(x => x.ProjectTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
 
         CreateMap<TimeSheet, ActivityReportTimeSheetDto>()
-            .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Title))
-            .ForMember(x => x.CustomerCompanyName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.CompanyName))
-            .ForMember(x => x.CustomerDepartment, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.Department))
-            .ForMember(x => x.CustomerContactName, x => x.MapFrom(timeSheet => timeSheet.Project.Customer.ContactName))
+            .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))
+            .ForMember(x => x.ProjectTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Title))
+            .ForMember(x => x.CustomerCompanyName, x => x.MapFrom(timeSheet => timeSheet.Customer.CompanyName))
+            .ForMember(x => x.CustomerDepartment, x => x.MapFrom(timeSheet => timeSheet.Customer.Department))
+            .ForMember(x => x.CustomerContactName, x => x.MapFrom(timeSheet => timeSheet.Customer.ContactName))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))
             .ForMember(x => x.GroupBy, x => x.Ignore());
     }

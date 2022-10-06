@@ -151,14 +151,14 @@ public class CustomerChartService : ICustomerChartService
     {
         var timeSheetsPerCustomer = await _repository
            .GetGrouped(
-               groupBy: timeSheet => new { timeSheet.Project.Customer.Id, timeSheet.Project.Customer.Title, timeSheet.Project.Customer.Hidden },
+               groupBy: timeSheet => new { timeSheet.Customer.Id, timeSheet.Customer.Title, timeSheet.Customer.Hidden },
                select: timeSheets => new
                {
                    CustomerId = timeSheets.Key.Id,
                    CustomerTitle = timeSheets.Key.Title,
                    CustomerHidden = timeSheets.Key.Hidden,
                    WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
-                   timeSheets.FirstOrDefault().Project.Customer.HourlyRate,
+                   timeSheets.FirstOrDefault().Customer.HourlyRate,
                },
                where: new[] { filter.WorkedTimes.CreateFilter(), x => x.OrderId == null }.CombineWithConditionalAnd(),
                cancellationToken: cancellationToken

@@ -33,9 +33,8 @@ public class ProjectDto
     /// <summary>
     /// Identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
-    [Required]
     [Filter(Visible = false)]
-    public Guid CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
 
     /// <summary>
     /// Comment for this item.

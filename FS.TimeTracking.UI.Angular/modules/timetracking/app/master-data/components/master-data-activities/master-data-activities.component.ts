@@ -69,15 +69,15 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
         cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
-        title: $localize`:@@DTO.ActivityGridDto.ProjectTitle:[i18n] Project`,
-        prop: 'projectTitle',
-        cssHeadCell: cssHeadCell,
-        dataCellTemplate: this.dataCellTemplate
-      }, {
         title: $localize`:@@DTO.ActivityGridDto.CustomerTitle:[i18n] Customer`,
         prop: 'customerTitle',
         cssHeadCell: `${cssHeadCell} ${cssHeadCellMd}`,
         cssDataCell: cssDataCellMd,
+        dataCellTemplate: this.dataCellTemplate
+      }, {
+        title: $localize`:@@DTO.ActivityGridDto.ProjectTitle:[i18n] Project`,
+        prop: 'projectTitle',
+        cssHeadCell: cssHeadCell,
         dataCellTemplate: this.dataCellTemplate
       }, {
         title: '',

@@ -18,11 +18,11 @@ public class ActivityGridDto
     /// <inheritdoc cref="ActivityDto.Title"/>
     public string Title { get; set; }
 
-    /// <inheritdoc cref="ProjectDto.Title"/>
-    public string ProjectTitle { get; set; }
-
     /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }
+
+    /// <inheritdoc cref="ProjectDto.Title"/>
+    public string ProjectTitle { get; set; }
 
     /// <inheritdoc cref="ProjectDto.Hidden"/>
     public bool Hidden { get; set; }

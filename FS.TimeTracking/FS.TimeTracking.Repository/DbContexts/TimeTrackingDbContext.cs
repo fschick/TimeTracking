@@ -100,7 +100,7 @@ public class TimeTrackingDbContext : DbContext
                 break;
             case DatabaseType.PostgreSql:
                 // Set to false for migrations.
-                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 optionsBuilder.UseNpgsql(_connectionString, o => o.MigrationsAssembly(migrationAssembly));
                 break;
             case DatabaseType.MySql:
@@ -200,8 +200,7 @@ public class TimeTrackingDbContext : DbContext
             .HasOne(project => project.Customer)
             .WithMany(customer => customer.Projects)
             .HasForeignKey(project => project.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
     private void ConfigureOrder(EntityTypeBuilder<Order> orderBuilder)
@@ -210,9 +209,9 @@ public class TimeTrackingDbContext : DbContext
             .ToTable("Orders");
 
         orderBuilder
-            .HasOne(project => project.Customer)
+            .HasOne(order => order.Customer)
             .WithMany(customer => customer.Orders)
-            .HasForeignKey(project => project.CustomerId)
+            .HasForeignKey(order => order.CustomerId)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
 
@@ -232,6 +231,12 @@ public class TimeTrackingDbContext : DbContext
     {
         activityBuilder
             .ToTable("Activities");
+
+        activityBuilder
+            .HasOne(activity => activity.Customer)
+            .WithMany()
+            .HasForeignKey(activity => activity.CustomerId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         activityBuilder
             .HasOne(activity => activity.Project)
@@ -255,9 +260,9 @@ public class TimeTrackingDbContext : DbContext
             .HasConversion(GetNullableDateTimeCutSecondsConverter());
 
         timeSheetBuilder
-            .HasOne(x => x.Project)
+            .HasOne(x => x.Customer)
             .WithMany()
-            .HasForeignKey(timeSheet => timeSheet.ProjectId)
+            .HasForeignKey(timeSheet => timeSheet.CustomerId)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
 
@@ -267,6 +272,12 @@ public class TimeTrackingDbContext : DbContext
             .HasForeignKey(timeSheet => timeSheet.ActivityId)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
+
+        timeSheetBuilder
+            .HasOne(x => x.Project)
+            .WithMany()
+            .HasForeignKey(timeSheet => timeSheet.ProjectId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         timeSheetBuilder
             .HasOne(x => x.Order)

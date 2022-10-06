@@ -4,8 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../../api/timetracking';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
-import {filter, map, pairwise, single, startWith} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
+import {combineLatestAll, filter, map, pairwise, single, startWith} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
 import {FormControl} from '@angular/forms';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
@@ -16,14 +16,16 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./timesheet-edit.component.scss']
 })
 export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
-  public projects$: Observable<StringTypeaheadDto[]>;
-  public selectedProject$: BehaviorSubject<StringTypeaheadDto | undefined>;
-  public activities$: Observable<StringTypeaheadDto[]>;
-  public selectedActivity$: BehaviorSubject<StringTypeaheadDto | undefined>;
-  public orders$: Observable<StringTypeaheadDto[]>;
-  public selectedOrder$: BehaviorSubject<StringTypeaheadDto | undefined>;
+  public allCustomers: StringTypeaheadDto[] = [];
+  public selectableProjects: StringTypeaheadDto[] = [];
+  public selectableActivities: StringTypeaheadDto[] = [];
+  public selectableOrders: StringTypeaheadDto[] = [];
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
+
+  private allProjects: StringTypeaheadDto[] = [];
+  private allActivities: StringTypeaheadDto[] = [];
+  private allOrders: StringTypeaheadDto[] = [];
 
   @ViewChild('timesheetEdit') private timesheetEdit?: TemplateRef<any>;
 
@@ -40,33 +42,27 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     private modalService: NgbModal
   ) {
     this.timesheetForm = this.createTimesheetForm();
-
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    if (this.isNewRecord)
-      this.setTimeToNowWhenEmptyEndDateIsFilled(null);
-    else
-      this.timesheetService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(timesheet => {
+
+    const getTimeSheet = !this.isNewRecord ? timesheetService.get({id: this.route.snapshot.params['id']}) : of(undefined);
+    const getCustomers = typeaheadService.getCustomers({});
+    const getProjects = typeaheadService.getProjects({});
+    const getActivities = typeaheadService.getActivities({});
+    const getOrders = typeaheadService.getOrders({});
+
+    forkJoin([getTimeSheet, getCustomers, getProjects, getActivities, getOrders])
+      .subscribe(([timesheet, customers, projects, activities, orders]) => {
+        this.allCustomers = customers;
+        this.allActivities = activities;
+        this.allProjects = projects;
+        this.allOrders = orders
+
+        if (timesheet)
           this.timesheetForm.patchValue(timesheet);
-          this.setTimeToNowWhenEmptyEndDateIsFilled(timesheet.endDate);
-        });
 
-    this.projects$ = typeaheadService.getProjects({});
-    this.selectedProject$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
-
-    this.activities$ = combineLatest([typeaheadService.getActivities({}), this.selectedProject$])
-      .pipe(map(([activities, project]) =>
-        activities.filter(activity => !project || !activity.extended.projectId || activity.extended.projectId === project.extended.id)
-      ));
-    this.selectedActivity$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
-
-    this.orders$ = combineLatest([this.typeaheadService.getOrders({}), this.selectedProject$])
-      .pipe(map(([orders, project]) =>
-        orders.filter(order => !project || order.extended.customerId === project.extended.customerId)
-      ));
-    this.selectedOrder$ = new BehaviorSubject<StringTypeaheadDto | undefined>(undefined);
+        this.setSelectable(timesheet?.customerId);
+        this.setTimeEndToNowAfterEndDateWasSet(timesheet?.endDate);
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -74,16 +70,32 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
+  public selectedCustomerChanged(customer?: StringTypeaheadDto): void {
+    this.setSelectable(customer?.id);
+  }
+
+  public selectedActivityChanged(activity?: StringTypeaheadDto): void {
+    if (!activity?.extended.customerId)
+      return;
+
+    this.timesheetForm.patchValue({customerId: activity.extended.customerId});
+    this.setSelectable(activity.extended.customerId);
+  }
+
   public selectedProjectChanged(project?: StringTypeaheadDto): void {
-    const activityProjectId = this.selectedActivity$.value?.extended.projectId;
-    if (activityProjectId && activityProjectId !== project?.id)
-      this.timesheetForm.controls['activityId'].patchValue(undefined);
+    if (!project?.extended.customerId)
+      return;
 
-    const orderCustomerId = this.selectedOrder$.value?.extended.customerId;
-    if (orderCustomerId !== project?.extended.customerId)
-      this.timesheetForm.controls['orderId'].patchValue(undefined);
+    this.timesheetForm.patchValue({customerId: project.extended.customerId});
+    this.setSelectable(project.extended.customerId);
+  }
 
-    this.selectedProject$.next(project);
+  public selectedOrderChanged(order?: StringTypeaheadDto): void {
+    if (!order)
+      return;
+
+    this.timesheetForm.patchValue({customerId: order.extended.customerId});
+    this.setSelectable(order.extended.customerId);
   }
 
   public save(): void {
@@ -138,7 +150,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     return timesheetForm;
   }
 
-  private setTimeToNowWhenEmptyEndDateIsFilled(initialValue: DateTime | null | undefined): void {
+  private setTimeEndToNowAfterEndDateWasSet(initialValue: DateTime | null | undefined): void {
     const endDateChanged = this.timesheetForm.controls['endDate'].valueChanges
       .pipe(
         startWith(initialValue),
@@ -155,5 +167,29 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
       });
 
     this.subscriptions.add(endDateChanged);
+  }
+
+  private setSelectable(customerId: string | undefined): void {
+    if (customerId) {
+      this.selectableActivities = this.allActivities.filter(activity => activity.extended.customerId == null || activity.extended.customerId === customerId)
+      this.selectableProjects = this.allProjects.filter(project => project.extended.customerId == null || project.extended.customerId === customerId)
+      this.selectableOrders = this.allOrders.filter(order => order.extended.customerId === customerId)
+    } else {
+      this.selectableActivities = this.allActivities;
+      this.selectableProjects = this.allProjects;
+      this.selectableOrders = this.allOrders;
+    }
+
+    const selectedActivityIsSelectable = this.selectableActivities.some(activity => activity.id === this.timesheetForm.value.activityId);
+    if (!selectedActivityIsSelectable)
+      this.timesheetForm.patchValue({activityId: null});
+
+    const selectedProjectIsSelectable = this.selectableProjects.some(project => project.id === this.timesheetForm.value.projectId);
+    if (!selectedProjectIsSelectable)
+      this.timesheetForm.patchValue({projectId: null});
+
+    const selectedOrderIsSelectable = this.selectableOrders.some(order => order.id === this.timesheetForm.value.orderId);
+    if (!selectedOrderIsSelectable)
+      this.timesheetForm.patchValue({orderId: null});
   }
 }

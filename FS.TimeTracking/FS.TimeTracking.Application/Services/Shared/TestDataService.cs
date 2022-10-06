@@ -66,7 +66,7 @@ public class TestDataService : ITestDataService
             .StrictMode(true)
             .RuleFor(project => project.Id, faker => faker.Random.Uuid())
             .RuleFor(project => project.Title, faker => faker.PickRandom(ProjectCodeNames.CodeNames))
-            .RuleFor(project => project.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
+            .RuleFor(project => project.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id).OrNull(faker)))
             .RuleFor(project => project.Customer, _ => default)
             .RuleFor(project => project.Comment, (_, project) => ProjectCodeNames.GetDescription(project.Title))
             .RuleFor(project => project.Hidden, hidden)
@@ -80,6 +80,8 @@ public class TestDataService : ITestDataService
             .StrictMode(true)
             .RuleFor(activity => activity.Id, faker => faker.Random.Uuid())
             .RuleFor(activity => activity.Title, _ => activityEnumerator.MoveNext() ? activityEnumerator.Current : null)
+            .RuleFor(activity => activity.CustomerId, (faker, _) => faker.PickRandom(customers.Select(c => c.Id)).OrNull(faker))
+            .RuleFor(activity => activity.Customer, _ => default)
             .RuleFor(activity => activity.ProjectId, (faker, _) => faker.PickRandom(projects.Select(c => c.Id)).OrNull(faker))
             .RuleFor(activity => activity.Project, _ => default)
             .RuleFor(activity => activity.Comment, comment)
@@ -95,7 +97,7 @@ public class TestDataService : ITestDataService
         var orders = new Faker<Order>(locale)
             .StrictMode(true)
             .RuleFor(order => order.Id, faker => faker.Random.Uuid())
-            .RuleFor(order => order.Title, faker => faker.PickRandom(activities.Select(activity => $"{activity.Title} {activity.Project?.Title ?? faker.PickRandom(projects.Select(x => x.Title))}")))
+            .RuleFor(order => order.Title, faker => faker.PickRandom(activities.Select(activity => $"{activity.Title} {activity.Customer?.Title ?? faker.PickRandom(customers.Select(x => x.Title))}")))
             .RuleFor(order => order.Description, faker => faker.Hacker.Phrase())
             .RuleFor(order => order.Number, faker => faker.Random.Replace("???-****-##"))
             .RuleFor(order => order.CustomerId, faker => faker.PickRandom(customers.Select(c => c.Id)))
@@ -155,7 +157,7 @@ public class TestDataService : ITestDataService
                 var endOfActivity = startOfWork.AddMinutes(randomizer.Number(10, 420)); // 10 minutes - 7 hours
 
                 timesheetRules = timesheetRules
-                    .RuleFor(timeSheet => timeSheet.ProjectId, faker => faker.PickRandom(projects.Select(c => c.Id)))
+                    .RuleFor(timeSheet => timeSheet.ProjectId, faker => faker.PickRandom(projects.Select(c => c.Id)).OrNull(faker, .2f))
                     .RuleFor(timeSheet => timeSheet.OrderId, faker => faker.PickRandom(orders.Select(c => c.Id)).OrNull(faker, .2f))
                     .RuleFor(timeSheet => timeSheet.StartDate, _ => startOfActivity.ConvertTo(timeZone))
                     .RuleFor(timeSheet => timeSheet.EndDate, _ => endOfActivity.ConvertTo(timeZone));

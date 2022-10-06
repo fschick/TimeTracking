@@ -1,9 +1,9 @@
-﻿namespace FS.TimeTracking.Core.Models.REST;
+﻿namespace FS.TimeTracking.Core.Models.Application.Core;
 
 /// <summary>
 /// Unified database error codes.
 /// </summary>
-public enum RestErrorCode
+public enum ErrorCode
 {
     /// <summary>
     /// An unknown error has occurred.
@@ -34,4 +34,14 @@ public enum RestErrorCode
     /// A conflict has occurred while model was added or updated to database.
     /// </summary>
     ConformityViolation = 2000,
+
+    /// <summary>
+    /// Activity is already assigned to time sheets with different customers.
+    /// </summary>
+    ConformityViolationActivityAlreadyAssignedToDifferentCustomers = 2001,
+
+    /// <summary>
+    /// Activity is already assigned to time sheets with different projects.
+    /// </summary>
+    ConformityViolationActivityAlreadyAssignedToDifferentProjects = 2002,
 }

@@ -93,6 +93,7 @@
         "Issue": "Ticket",
         "Customer": "Kunde",
         "Project": "Projekt",
+        "WithoutProject": "Ohne Projektbezug",
         "Activity": "Tätigkeit",
         "Order": "Auftrag",
         "OrderNumber": "Auftragsnummer",
@@ -221,13 +222,15 @@
     }
   },
   "Enum": {
-    "RestErrorCode": {
+    "ErrorCode": {
       "Unknown": "Ein unbekannter Fehler ist aufgetreten",
       "NotFound": "Der Datensatz konnte nicht gefunden werden",
       "InternalServerError": "Ein interner Serverfehler ist aufgetreten",
       "ForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
       "ForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
-      "ConformityViolation": "Der Datensatz entspricht nicht seinen Konformitätsregeln"
+      "ConformityViolation": "Der Datensatz entspricht nicht seinen Konformitätsregeln",
+      "ConformityViolationActivityAlreadyAssignedToDifferentCustomers": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Kunden zugeordnet",
+      "ConformityViolationActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet"
     },
     "HolidayType": {
       "Holiday": "Urlaub",
@@ -242,6 +245,8 @@
       "EndTime": "Endzeit",
       "Start": "Beginn",
       "End": "Ende",
+      "CustomerId": "Kunde",
+      "CustomerIdPlaceholder": "Kunden auswählen",
       "ProjectId": "Projekt",
       "ProjectIdPlaceholder": "Projekt auswählen",
       "ActivityId": "Tätigkeit",

@@ -74,10 +74,18 @@ public class TimeSheet : IIdEntityModel
     public string Issue { get; set; }
 
     /// <summary>
-    /// The identifier to the related <see cref="MasterData.Project"/>.
+    /// The identifier to the related <see cref="MasterData.Customer"/>.
     /// </summary>
     [Required]
-    public Guid ProjectId { get; set; }
+    public Guid CustomerId { get; set; }
+
+    /// <inheritdoc cref="MasterData.Project"/>
+    public Customer Customer { get; set; }
+
+    /// <summary>
+    /// The identifier to the related <see cref="MasterData.Project"/>.
+    /// </summary>
+    public Guid? ProjectId { get; set; }
 
     /// <inheritdoc cref="MasterData.Project"/>
     public Project Project { get; set; }
@@ -117,7 +125,6 @@ public class TimeSheet : IIdEntityModel
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay =>
         $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
-        + (Project?.Customer != null ? $", {Project.Customer.Title}" : string.Empty)
-        + (Project != null ? $", {Project.Title}" : string.Empty)
+        + (Customer != null ? $", {Customer.Title}" : string.Empty)
         + (Activity != null ? $", {Activity.Title}" : string.Empty);
 }

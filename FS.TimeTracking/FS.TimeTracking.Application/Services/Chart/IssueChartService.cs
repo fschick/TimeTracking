@@ -65,7 +65,7 @@ public class IssueChartService : IIssueChartService
 
         var timeSheetsPerIssueAndOrder = await _repository
             .GetGrouped(
-                groupBy: timeSheet => new { timeSheet.Issue, CustomerTitle = timeSheet.Project.Customer.Title, timeSheet.OrderId },
+                groupBy: timeSheet => new { timeSheet.Issue, CustomerTitle = timeSheet.Customer.Title, timeSheet.OrderId },
                 select: timeSheets => new
                 {
                     timeSheets.Key.Issue,
@@ -73,7 +73,7 @@ public class IssueChartService : IIssueChartService
                     WorkedTime = TimeSpan.FromSeconds(timeSheets.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset))),
                     HourlyRate = timeSheets.Key.OrderId != null
                         ? timeSheets.Min(t => t.Order.HourlyRate)
-                        : timeSheets.Min(t => t.Project.Customer.HourlyRate),
+                        : timeSheets.Min(t => t.Customer.HourlyRate),
                 },
                 where: new[] { x => x.Issue != null, filter.WorkedTimes.CreateFilter() }.CombineWithConditionalAnd(),
                 cancellationToken: cancellationToken

@@ -25,8 +25,8 @@ public class CustomDbFunctionTests
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
-        var (customer, project, activity) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id);
+        var (customer, activity, project) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -48,8 +48,8 @@ public class CustomDbFunctionTests
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
-        var (customer, project, activity) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id, startDate: FakeDateTime.Offset("2020-03-29 00:30"), endDate: FakeDateTime.Offset("2020-03-29 03:30"));
+        var (customer, activity, project) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: FakeDateTime.Offset("2020-03-29 00:30"), endDate: FakeDateTime.Offset("2020-03-29 03:30"));
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -71,8 +71,8 @@ public class CustomDbFunctionTests
         // Prepare
         await using var testHost = await TestHost.Create(configuration);
 
-        var (customer, project, activity) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(project.Id, activity.Id, startDate: FakeDateTime.Offset("2020-10-25 00:30"), endDate: FakeDateTime.Offset("2020-10-25 03:30"));
+        var (customer, activity, project) = await InsertMasterData(testHost);
+        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: FakeDateTime.Offset("2020-10-25 00:30"), endDate: FakeDateTime.Offset("2020-10-25 03:30"));
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -88,18 +88,18 @@ public class CustomDbFunctionTests
         await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
     }
 
-    private static async Task<(CustomerDto Customer, ProjectDto Project, ActivityDto Activity)> InsertMasterData(TestHost testHost)
+    private static async Task<(CustomerDto Customer, ActivityDto Activity, ProjectDto Project)> InsertMasterData(TestHost testHost)
     {
         var newCustomer = FakeCustomer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
 
-        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
-        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
-
         var newActivity = FakeActivity.CreateDto(hidden: true);
         var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
 
-        return (createdCustomer, createdProject, createdActivity);
+        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
+        var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
+
+        return (createdCustomer, createdActivity, createdProject);
     }
 
     private static async Task DeleteMasterData(TestHost testHost, CustomerDto customer, ProjectDto project, ActivityDto activity)

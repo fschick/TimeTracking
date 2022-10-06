@@ -22,20 +22,20 @@ public static class FilterExtensions
     /// <param name="filters">Filters used to create result.</param>
     public static EntityFilter<Activity> CreateActivityFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = filters.CustomerFilter
+        var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
-        var projectCustomerFilter = filters.ProjectFilter
+        var projectFilter = filters.ProjectFilter
             .Cast<Project>()
-            .Clear(x => x.Id)
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerFilter1);
+            .Clear(x => x.Id);
 
         var filter = filters.ActivityFilter
             .Cast<Activity>()
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.Customer, customerFilter)
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Project, projectCustomerFilter);
+            .Replace(x => x.Project, projectFilter);
 
         return filter;
     }
@@ -76,14 +76,14 @@ public static class FilterExtensions
     /// <param name="filters">Filters used to create result.</param>
     public static EntityFilter<Project> CreateProjectFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = filters.CustomerFilter
+        var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
         var filter = filters.ProjectFilter
             .Cast<Project>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerFilter1);
+            .Replace(x => x.Customer, customerFilter);
 
         return filter;
     }
@@ -94,32 +94,32 @@ public static class FilterExtensions
     /// <param name="filters">Filters used to create result.</param>
     public static EntityFilter<TimeSheet> CreateTimeSheetFilter(TimeSheetFilterSet filters)
     {
-        var customerFilter1 = filters.CustomerFilter
+        var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id);
 
-        var projectCustomerFilter = filters.ProjectFilter
-            .Cast<Project>()
-            .Clear(x => x.Id)
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerFilter1);
-
-        var activityFilter1 = filters.ActivityFilter
+        var activityFilter = filters.ActivityFilter
             .Cast<Activity>()
             .Clear(x => x.Id);
 
-        var orderFilter1 = filters.OrderFilter
+        var projectFilter = filters.ProjectFilter
+            .Cast<Project>()
+            .Clear(x => x.Id);
+
+        var orderFilter = filters.OrderFilter
             .Cast<Order>()
             .Clear(x => x.Id);
 
         var filter = filters.TimeSheetFilter
             .Cast<TimeSheet>()
-            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Project, projectCustomerFilter)
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.Customer, customerFilter)
             .Replace(x => x.ActivityId, filters.ActivityFilter.GetPropertyFilter(a => a.Id))
-            .Replace(x => x.Activity, activityFilter1)
+            .Replace(x => x.Activity, activityFilter)
+            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.Project, projectFilter)
             .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
-            .Replace(x => x.Order, orderFilter1);
+            .Replace(x => x.Order, orderFilter);
 
         return filter;
     }
