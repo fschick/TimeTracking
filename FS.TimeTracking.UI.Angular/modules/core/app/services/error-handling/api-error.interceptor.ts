@@ -3,7 +3,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {DatabaseErrorCode, ErrorInformation} from '../../../../api/timetracking';
+import {ErrorCode, ErrorInformation} from '../../../../api/timetracking';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
@@ -23,7 +23,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             message = $localize`:@@API.NotFound:[i18n] The record could not be found`;
             break;
           case 409:
-            if (request.method === 'DELETE' && error.databaseErrorCode === DatabaseErrorCode.foreignKeyViolation)
+            if (request.method === 'DELETE' && error.errorCode === ErrorCode.foreignKeyViolation)
               message = $localize`:@@API.Delete.ForeignKeyViolation:[i18n] The record could not be deleted because other data depend on it`;
             else
               message = $localize`:@@API.Conflict:[i18n] The operation conflicts with other data`;

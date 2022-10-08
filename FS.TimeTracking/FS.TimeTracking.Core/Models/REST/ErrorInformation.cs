@@ -1,5 +1,4 @@
-﻿using FS.TimeTracking.Core.Models.Repository;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.REST;
 
@@ -12,5 +11,5 @@ public class ErrorInformation
     /// <summary>
     /// A unified database error code.
     /// </summary>
-    public DatabaseErrorCode DatabaseErrorCode { get; set; }
+    public ErrorCode ErrorCode { get; set; }
 }

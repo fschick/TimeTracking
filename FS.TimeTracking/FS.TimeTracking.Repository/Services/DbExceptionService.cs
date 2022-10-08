@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
-using FS.TimeTracking.Core.Models.Repository;
+using FS.TimeTracking.Core.Models.REST;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using MySqlConnector;
@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Repository.Services;
 public class DbExceptionService : IDbExceptionService
 {
     /// <inheritdoc />
-    public DatabaseErrorCode TranslateDbException(DbException dbException)
+    public ErrorCode TranslateDbException(DbException dbException)
     {
         switch (dbException)
         {
@@ -20,9 +20,9 @@ public class DbExceptionService : IDbExceptionService
             case SqlException sqlException when IsForeignKeyViolation(sqlException):
             case PostgresException postgresException when IsForeignKeyViolation(postgresException):
             case MySqlException mySqlException when IsForeignKeyViolation(mySqlException):
-                return DatabaseErrorCode.ForeignKeyViolation;
+                return ErrorCode.ForeignKeyViolation;
             default:
-                return DatabaseErrorCode.Unknown;
+                return ErrorCode.Unknown;
         }
     }
 

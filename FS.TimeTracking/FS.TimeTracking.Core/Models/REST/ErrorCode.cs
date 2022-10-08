@@ -1,9 +1,9 @@
-﻿namespace FS.TimeTracking.Core.Models.Repository;
+﻿namespace FS.TimeTracking.Core.Models.REST;
 
 /// <summary>
 /// Unified database error codes.
 /// </summary>
-public enum DatabaseErrorCode
+public enum ErrorCode
 {
     /// <summary>
     /// An unknown error has occurred.

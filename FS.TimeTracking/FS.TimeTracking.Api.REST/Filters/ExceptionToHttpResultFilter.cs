@@ -1,5 +1,4 @@
 ﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
-using FS.TimeTracking.Core.Models.Repository;
 using FS.TimeTracking.Core.Models.REST;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -19,11 +18,11 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
         switch (context.Exception)
         {
             case DbException dbException when IsForeignKeyViolation(dbException):
-                context.Result = new ConflictObjectResult(new ErrorInformation { DatabaseErrorCode = DatabaseErrorCode.ForeignKeyViolation });
+                context.Result = new ConflictObjectResult(new ErrorInformation { ErrorCode = ErrorCode.ForeignKeyViolation });
                 break;
         }
     }
 
     private bool IsForeignKeyViolation(DbException dbException)
-        => _dbExceptionService.TranslateDbException(dbException) == DatabaseErrorCode.ForeignKeyViolation;
+        => _dbExceptionService.TranslateDbException(dbException) == ErrorCode.ForeignKeyViolation;
 }
