@@ -58,7 +58,9 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     /// <inheritdoc />
     public async Task<TDto> Create(TDto dto)
     {
-        var result = await Repository.Add(Mapper.Map<TModel>(dto));
+        var model = Mapper.Map<TModel>(dto);
+        await CheckConformity(model);
+        var result = await Repository.Add(model);
         await Repository.SaveChanges();
         return Mapper.Map<TDto>(result);
     }
@@ -66,10 +68,19 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     /// <inheritdoc />
     public async Task<TDto> Update(TDto dto)
     {
-        var result = Repository.Update(Mapper.Map<TModel>(dto));
+        var model = Mapper.Map<TModel>(dto);
+        await CheckConformity(model);
+        var result = Repository.Update(model);
         await Repository.SaveChanges();
         return Mapper.Map<TDto>(result);
     }
+
+    /// <summary>
+    /// Checks conformity of an entity on a deeper level than model validation can do before it's added or modified to database.
+    /// </summary>
+    /// <param name="model">The model to check.</param>
+    protected virtual Task CheckConformity(TModel model)
+        => Task.CompletedTask;
 
     /// <inheritdoc />
     public async Task<long> Delete(Guid id)

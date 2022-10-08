@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.REST;
@@ -10,8 +11,14 @@ namespace FS.TimeTracking.Core.Models.REST;
 public class RestError
 {
     /// <summary>
-    /// A unified database error code.
+    /// A unified error code.
     /// </summary>
     [Required]
-    public RestErrorCode ErrorCode { get; set; }
+    public RestErrorCode Code { get; set; }
+
+    /// <summary>
+    /// Gets detailed causes of the error.
+    /// </summary>
+    [Required]
+    public IEnumerable<string> Messages { get; set; } = new List<string>();
 }

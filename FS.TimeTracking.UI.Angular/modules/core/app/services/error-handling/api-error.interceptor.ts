@@ -21,7 +21,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
         const error = response.error as RestError;
         const message = error != null
-          ? this.enumTranslationService.translate('RestErrorCode', error.errorCode)
+          ? this.enumTranslationService.translate('RestErrorCode', error.code)
           : $localize`:@@Enum.RestErrorCode.Unknown:[i18n] An unkown error has occurred`;
 
         // const requestId = response.headers.get('Request-Id');

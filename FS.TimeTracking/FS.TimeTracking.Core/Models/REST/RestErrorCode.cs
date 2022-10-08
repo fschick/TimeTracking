@@ -29,4 +29,9 @@ public enum RestErrorCode
     /// A foreign key violation has occurred during DELETE action.
     /// </summary>
     ForeignKeyViolationOnDelete = 1101,
+
+    /// <summary>
+    /// A conflict has occurred while model was added or updated to database.
+    /// </summary>
+    ConformityViolation = 2000,
 }

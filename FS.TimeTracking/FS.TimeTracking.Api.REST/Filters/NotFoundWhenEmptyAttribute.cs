@@ -12,6 +12,6 @@ internal class NotFoundWhenEmptyAttribute : ResultFilterAttribute
     {
         base.OnResultExecuting(context);
         if (context.Result is ObjectResult { Value: null })
-            context.Result = new NotFoundObjectResult(new RestError { ErrorCode = RestErrorCode.NotFound });
+            context.Result = new NotFoundObjectResult(new RestError { Code = RestErrorCode.NotFound });
     }
 }
