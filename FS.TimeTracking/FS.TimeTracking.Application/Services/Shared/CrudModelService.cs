@@ -39,8 +39,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     /// <inheritdoc />
     public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
         => await Repository
-            .FirstOrDefault(
-                select: (TModel model) => Mapper.Map<TDto>(model),
+            .FirstOrDefault<TModel, TDto>(
                 where: model => model.Id == id,
                 cancellationToken: cancellationToken
             );
