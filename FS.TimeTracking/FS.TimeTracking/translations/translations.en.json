@@ -29,12 +29,6 @@
     "Days": "days",
     "CalendarWeek": "CW"
   },
-  "API": {
-    "NotFound": "The record could not be found",
-    "Conflict": "The operation conflicts with other data",
-    "InternalServerError": "Internal server error occurred",
-    "Delete.ForeignKeyViolation": "The record could not be deleted because other data depend on it"
-  },
   "Page": {
     "Timesheet": {
       "Title": "Timesheet",
@@ -227,6 +221,13 @@
     }
   },
   "Enum": {
+    "RestErrorCode": {
+      "Unknown": "An unkown error has occurred",
+      "NotFound": "The record could not be found",
+      "InternalServerError": "An internal server error has occurred",
+      "ForeignKeyViolation": "The operation conflicts with other data",
+      "ForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it"
+    },
     "HolidayType": {
       "Holiday": "Holidays / Vacation",
       "PublicHoliday": "Public holiday"

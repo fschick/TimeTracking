@@ -3,34 +3,26 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {ErrorCode, ErrorInformation} from '../../../../api/timetracking';
+import {RestError, RestErrorCode} from '../../../../api/timetracking';
+import {EnumTranslationService} from '../enum-translation.service';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
 
-  constructor(private toastrService: ToastrService) {}
+  constructor(
+    private toastrService: ToastrService,
+    private enumTranslationService: EnumTranslationService
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(tap(
       () => {},
       (response: HttpErrorResponse) => {
 
-        let message: string;
-        const error = response.error as ErrorInformation;
-
-        switch (response.status) {
-          case 404:
-            message = $localize`:@@API.NotFound:[i18n] The record could not be found`;
-            break;
-          case 409:
-            if (request.method === 'DELETE' && error.errorCode === ErrorCode.foreignKeyViolation)
-              message = $localize`:@@API.Delete.ForeignKeyViolation:[i18n] The record could not be deleted because other data depend on it`;
-            else
-              message = $localize`:@@API.Conflict:[i18n] The operation conflicts with other data`;
-            break;
-          default:
-            message = $localize`:@@API.InternalServerError:[i18n] Internal server error occurred`;
-        }
+        const error = response.error as RestError;
+        const message = error != null
+          ? this.enumTranslationService.translate('RestErrorCode', error.errorCode)
+          : $localize`:@@Enum.RestErrorCode.Unknown:[i18n] An unkown error has occurred`;
 
         // const requestId = response.headers.get('Request-Id');
         // message += `. RequestID: ${requestId}`;

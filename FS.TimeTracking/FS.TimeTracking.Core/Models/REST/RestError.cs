@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.REST;
 
@@ -6,10 +7,11 @@ namespace FS.TimeTracking.Core.Models.REST;
 /// Contains extended error information about failed API requests
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class ErrorInformation
+public class RestError
 {
     /// <summary>
     /// A unified database error code.
     /// </summary>
-    public ErrorCode ErrorCode { get; set; }
+    [Required]
+    public RestErrorCode ErrorCode { get; set; }
 }

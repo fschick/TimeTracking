@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Repository.Services;
 public class DbExceptionService : IDbExceptionService
 {
     /// <inheritdoc />
-    public ErrorCode TranslateDbException(DbException dbException)
+    public RestErrorCode TranslateDbException(DbException dbException)
     {
         switch (dbException)
         {
@@ -20,9 +20,9 @@ public class DbExceptionService : IDbExceptionService
             case SqlException sqlException when IsForeignKeyViolation(sqlException):
             case PostgresException postgresException when IsForeignKeyViolation(postgresException):
             case MySqlException mySqlException when IsForeignKeyViolation(mySqlException):
-                return ErrorCode.ForeignKeyViolation;
+                return RestErrorCode.ForeignKeyViolation;
             default:
-                return ErrorCode.Unknown;
+                return RestErrorCode.Unknown;
         }
     }
 
@@ -34,10 +34,8 @@ public class DbExceptionService : IDbExceptionService
         => exception.Number == 547 && exception.Class == 16;
 
     private static bool IsForeignKeyViolation(PostgresException exception)
-        // foreign_key_violation
-        => exception.SqlState == "23503";
+        => exception.SqlState == "23503" /* foreign_key_violation */;
 
     private static bool IsForeignKeyViolation(MySqlException exception)
-        // ER_ROW_IS_REFERENCED_2
-        => exception.Number == 1451 && exception.SqlState == "23000";
+        => exception.Number == 1451 && exception.SqlState == "23000"; /* ER_ROW_IS_REFERENCED_2 */
 }

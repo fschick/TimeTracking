@@ -29,12 +29,6 @@
     "Days": "Tage",
     "CalendarWeek": "KW"
   },
-  "API": {
-    "NotFound": "Der Datensatz konnte nicht gefunden werden",
-    "Conflict": "Die Anfrage steht in Konflikt mit anderen Daten",
-    "InternalServerError": "Interner Serverfehler aufgetreten",
-    "Delete.ForeignKeyViolation": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen"
-  },
   "Page": {
     "Timesheet": {
       "Title": "Zeiterfassung",
@@ -227,6 +221,13 @@
     }
   },
   "Enum": {
+    "RestErrorCode": {
+      "Unknown": "Ein unbekannter Fehler ist aufgetreten",
+      "NotFound": "Der Datensatz konnte nicht gefunden werden",
+      "InternalServerError": "Ein interner Serverfehler ist aufgetreten",
+      "ForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
+      "ForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen"
+    },
     "HolidayType": {
       "Holiday": "Urlaub",
       "PublicHoliday": "Feiertag"
