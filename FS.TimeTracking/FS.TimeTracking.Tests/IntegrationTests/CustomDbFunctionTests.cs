@@ -23,10 +23,11 @@ public class CustomDbFunctionTests
     public async Task WhenDbFunctionDiffSecondsIsUsed_ItWillBeTranslated(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id);
+        var newTimeSheet = faker.TimeSheet.CreateDto(customer.Id, activity.Id, project.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -46,10 +47,11 @@ public class CustomDbFunctionTests
     public async Task WhenDiffSecondsIsCalledWhileStartOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: FakeDateTime.Offset("2020-03-29 00:30"), endDate: FakeDateTime.Offset("2020-03-29 03:30"));
+        var newTimeSheet = faker.TimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: faker.DateTime.Offset("2020-03-29 00:30"), endDate: faker.DateTime.Offset("2020-03-29 03:30"));
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -69,10 +71,11 @@ public class CustomDbFunctionTests
     public async Task WhenDiffSecondsIsCalledWhileEndOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
-        var newTimeSheet = FakeTimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: FakeDateTime.Offset("2020-10-25 00:30"), endDate: FakeDateTime.Offset("2020-10-25 03:30"));
+        var newTimeSheet = faker.TimeSheet.CreateDto(customer.Id, activity.Id, project.Id, startDate: faker.DateTime.Offset("2020-10-25 00:30"), endDate: faker.DateTime.Offset("2020-10-25 03:30"));
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
 
         // Act
@@ -90,13 +93,15 @@ public class CustomDbFunctionTests
 
     private static async Task<(CustomerDto Customer, ActivityDto Activity, ProjectDto Project)> InsertMasterData(TestHost testHost)
     {
-        var newCustomer = FakeCustomer.CreateDto(hidden: true);
+        var faker = new Faker(2000);
+
+        var newCustomer = faker.Customer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
 
-        var newActivity = FakeActivity.CreateDto(hidden: true);
+        var newActivity = faker.Activity.CreateDto(hidden: true);
         var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
 
-        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
+        var newProject = faker.Project.CreateDto(newCustomer.Id, hidden: true);
         var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
 
         return (createdCustomer, createdActivity, createdProject);
