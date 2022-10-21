@@ -2,9 +2,9 @@
   "profiles": {
     "FS.TimeTracking": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": false,
       "externalUrlConfiguration": true,
+      "applicationUrl": "http://localhost:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
