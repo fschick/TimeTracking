@@ -32,9 +32,11 @@ public class ActivityChartServiceTests
 {
     [DataTestMethod]
     [WorkTimesPerActivityDataSource]
-    public async Task WhenGetWorkTimesPerActivityRequested_ResultMatchesExpectedValues(WorkTimesPerActivityTestCase testCase)
+    public async Task WhenGetWorkTimesPerActivityRequested_ResultMatchesExpectedValues(string testCaseJson)
     {
         // Prepare
+        var testCase = TestCase.FromJson<WorkTimesPerActivityTestCase>(testCaseJson);
+
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(FakeAutoMapper.Mapper);
