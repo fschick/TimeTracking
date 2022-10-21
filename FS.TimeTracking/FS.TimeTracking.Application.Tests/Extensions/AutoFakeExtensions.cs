@@ -7,6 +7,7 @@ using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Extensions;
@@ -15,7 +16,7 @@ internal static class AutoFakeExtensions
 {
     public static async Task ConfigureInMemoryDatabase(this AutoFake autoFake, TimeTrackingConfiguration configuration = null)
     {
-        const string connectionString = "DataSource=UnitTests;mode=memory;cache=shared";
+        var connectionString = $"DataSource={Guid.NewGuid()};mode=memory;cache=shared";
         configuration ??= new TimeTrackingConfiguration();
         configuration.Database ??= new DatabaseConfiguration();
         configuration.Database.Type = DatabaseType.InMemory;

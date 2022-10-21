@@ -19,19 +19,20 @@ public class FilterTests
     public async Task WhenTimeSheetOverviewIsRetrievedWithFilter_NoExceptionIsThrown(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
 
-        var newCustomer = FakeCustomer.CreateDto(hidden: true);
+        var newCustomer = faker.Customer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);
 
-        var newActivity = FakeActivity.CreateDto(hidden: true);
+        var newActivity = faker.Activity.CreateDto(hidden: true);
         var createdActivity = await testHost.Post((ActivityController x) => x.Create(default), newActivity);
 
-        var newProject = FakeProject.CreateDto(newCustomer.Id, hidden: true);
+        var newProject = faker.Project.CreateDto(newCustomer.Id, hidden: true);
         var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
 
         //// Act
-        var newTimeSheet = FakeTimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
+        var newTimeSheet = faker.TimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
         var readTimeSheet = await testHost.Get<List<TimeSheetGridDto>>("api/v1/TimeSheet/GetGridFiltered?timeSheetStartDate=2000-01-01_2010-01-01");
 

@@ -8,8 +8,13 @@ using System.Text.RegularExpressions;
 namespace FS.TimeTracking.Application.Tests.Services;
 
 [ExcludeFromCodeCoverage]
-public static class FakeFilters
+public class FakeFilters
 {
+    private readonly Faker _faker;
+
+    public FakeFilters(Faker faker)
+        => _faker = faker;
+
     public static TimeSheetFilterSet Empty()
         => new()
         {
@@ -21,7 +26,7 @@ public static class FakeFilters
             HolidayFilter = new(),
         };
 
-    public static TimeSheetFilterSet Create(string timeSheetStartDate, string timeSheetEndDate)
+    public TimeSheetFilterSet Create(string timeSheetStartDate, string timeSheetEndDate)
     {
         timeSheetStartDate = AddTimeZoneOffsetIfMissing(timeSheetStartDate);
         timeSheetEndDate = AddTimeZoneOffsetIfMissing(timeSheetEndDate);
@@ -32,7 +37,7 @@ public static class FakeFilters
         return filters;
     }
 
-    private static string AddTimeZoneOffsetIfMissing(string dateString)
+    private string AddTimeZoneOffsetIfMissing(string dateString)
     {
         const string offsetPattern = @"^(?<datetime>.+?)(?<offset>Z|[\+\-]\d{1,2}:\d{1,2})$";
         var hasOffsetPattern = Regex.IsMatch(dateString, offsetPattern);
@@ -41,7 +46,7 @@ public static class FakeFilters
 
         var valueFilter = ValueFilter.Create(dateString);
         var date = valueFilter.Value.ConvertStringToDateTimeRange(DateTimeOffset.Now).Start;
-        var dateOffset = FakeDateTime.DefaultTimezone.GetUtcOffset(date);
+        var dateOffset = _faker.DateTime.DefaultTimezone.GetUtcOffset(date);
         var sign = dateOffset > TimeSpan.Zero ? "+" : "-";
         dateString += dateOffset.ToString($@"\{sign}hh\:mm");
 

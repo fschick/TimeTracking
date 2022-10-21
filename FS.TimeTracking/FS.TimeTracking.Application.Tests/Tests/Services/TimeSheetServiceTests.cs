@@ -34,9 +34,10 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetIsStopped_EndDateIsSet()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
 
-        var timeSheet = FakeTimeSheet.Create(Guid.Empty, Guid.Empty);
+        var timeSheet = faker.TimeSheet.Create(Guid.Empty, Guid.Empty);
         timeSheet.EndDate = null;
 
         var repository = autoFake.Resolve<IRepository>();
@@ -47,7 +48,7 @@ public class TimeSheetServiceTests
             .WithAnyArguments()
             .ReturnsLazily((TimeSheet updatedTimeSheet) => updatedTimeSheet);
 
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide(repository);
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
@@ -63,12 +64,13 @@ public class TimeSheetServiceTests
     public async Task WhenAlreadyStoppedAndTimeSheetIsStoppedAgain_ExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
 
         var repository = autoFake.Resolve<IRepository>();
         A.CallTo(() => repository.FirstOrDefault((TimeSheet x) => x, default, default, default, default, default, default))
             .WithAnyArguments()
-            .Returns(FakeTimeSheet.Create(Guid.Empty, Guid.Empty));
+            .Returns(faker.TimeSheet.Create(Guid.Empty, Guid.Empty));
 
         autoFake.Provide(repository);
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
@@ -85,24 +87,26 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithActivityIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
+
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
 
-        var activityCustomer = FakeCustomer.Create();
-        var activity = FakeActivity.Create(activityCustomer.Id);
-        var timeSheetCustomer = FakeCustomer.Create();
+        var activityCustomer = faker.Customer.Create();
+        var activity = faker.Activity.Create(activityCustomer.Id);
+        var timeSheetCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, activityCustomer, activity });
         await repository.SaveChanges();
 
         // Act
-        var timeSheet = FakeTimeSheet.CreateDto(timeSheetCustomer.Id, activity.Id);
+        var timeSheet = faker.TimeSheet.CreateDto(timeSheetCustomer.Id, activity.Id);
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
@@ -115,23 +119,24 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithActivityIsAddedAndActivityHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
 
-        var activity = FakeActivity.Create();
-        var timeSheetCustomer = FakeCustomer.Create();
+        var activity = faker.Activity.Create();
+        var timeSheetCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, activity });
         await repository.SaveChanges();
 
         // Act
-        var timeSheet = FakeTimeSheet.CreateDto(timeSheetCustomer.Id, activity.Id);
+        var timeSheet = faker.TimeSheet.CreateDto(timeSheetCustomer.Id, activity.Id);
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
@@ -142,24 +147,25 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithProjectIsAddedAndProjectHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
 
-        var project = FakeProject.Create();
-        var timeSheetActivity = FakeActivity.Create();
-        var timeSheetCustomer = FakeCustomer.Create();
+        var project = faker.Project.Create();
+        var timeSheetActivity = faker.Activity.Create();
+        var timeSheetCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetActivity, project });
         await repository.SaveChanges();
 
         // Act
-        var timeSheet = FakeTimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, project.Id);
+        var timeSheet = faker.TimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, project.Id);
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
@@ -170,25 +176,26 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithProjectIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
 
-        var projectCustomer = FakeCustomer.Create();
-        var project = FakeProject.Create(projectCustomer.Id);
-        var timeSheetActivity = FakeActivity.Create();
-        var timeSheetCustomer = FakeCustomer.Create();
+        var projectCustomer = faker.Customer.Create();
+        var project = faker.Project.Create(projectCustomer.Id);
+        var timeSheetActivity = faker.Activity.Create();
+        var timeSheetCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetActivity, projectCustomer, project });
         await repository.SaveChanges();
 
         // Act
-        var timeSheet = FakeTimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, project.Id);
+        var timeSheet = faker.TimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, project.Id);
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
@@ -201,25 +208,26 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithOrderIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
 
-        var orderCustomer = FakeCustomer.Create();
-        var order = FakeProject.Create(orderCustomer.Id);
-        var timeSheetActivity = FakeActivity.Create();
-        var timeSheetCustomer = FakeCustomer.Create();
+        var orderCustomer = faker.Customer.Create();
+        var order = faker.Project.Create(orderCustomer.Id);
+        var timeSheetActivity = faker.Activity.Create();
+        var timeSheetCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetActivity, orderCustomer, order });
         await repository.SaveChanges();
 
         // Act
-        var timeSheet = FakeTimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, null, order.Id);
+        var timeSheet = faker.TimeSheet.CreateDto(timeSheetCustomer.Id, timeSheetActivity.Id, null, order.Id);
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
@@ -235,9 +243,10 @@ public class TimeSheetServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkedDaysOverviewTestCase>(testCaseJson);
 
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
@@ -263,8 +272,9 @@ public class TimeSheetServiceTests
 
         private static List<TestCase> GetTestCases()
         {
-            var customer = FakeCustomer.Create();
-            var activity = FakeActivity.Create();
+            var faker = new Faker(2000);
+            var customer = faker.Customer.Create();
+            var activity = faker.Activity.Create();
             var masterData = new List<IIdEntityModel> { customer, activity };
 
             return new List<TestCase>
@@ -273,7 +283,7 @@ public class TimeSheetServiceTests
                 {
                     Identifier = "NoPublicHolidaysNoVacation",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00") },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 1, PublicWorkdays = 1 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -281,10 +291,10 @@ public class TimeSheetServiceTests
                     Identifier = "NoPublicHolidaysButVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Holidays = new List<Holiday> { FakeHoliday.Create("2020-06-02", "2020-06-02", HolidayType.Holiday)  },
+                    Holidays = new List<Holiday> { faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.Holiday)  },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 2, PublicWorkdays = 3 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -292,10 +302,10 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysButNoVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Holidays = new List<Holiday> { FakeHoliday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday)  },
+                    Holidays = new List<Holiday> { faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday)  },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -303,12 +313,12 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysSameDayVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
                     Holidays = new List<Holiday> {
-                        FakeHoliday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
-                        FakeHoliday.Create("2020-06-02", "2020-06-02", HolidayType.Holiday),
+                        faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
+                        faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.Holiday),
                     },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
@@ -317,19 +327,19 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysOverlappingVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
                     Holidays = new List<Holiday> {
-                        FakeHoliday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
-                        FakeHoliday.Create("2020-06-01", "2020-06-03", HolidayType.Holiday),
+                        faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
+                        faker.Holiday.Create("2020-06-01", "2020-06-03", HolidayType.Holiday),
                     },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 0, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "NoTimeSheetsButFiltered",
-                    Filters = FakeFilters.Create("<2020-06-04", ">=2020-06-02"),
+                    Filters = faker.Filters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(0), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -337,10 +347,10 @@ public class TimeSheetServiceTests
                     Identifier = "CutFirstByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Filters = FakeFilters.Create("<2020-06-04", ">=2020-06-02"),
+                    Filters = faker.Filters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -348,38 +358,38 @@ public class TimeSheetServiceTests
                     Identifier = "CutLastByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
-                        CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
+                        CreateTimeSheet(faker, customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Filters = FakeFilters.Create("<2020-06-03", ">=2020-06-01"),
+                    Filters = faker.Filters.Create("<2020-06-03", ">=2020-06-01"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "BeforeStartOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-03-28 00:30", "2020-03-28 03:30") },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(faker, customer, activity, "2020-03-28 00:30", "2020-03-28 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(3), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "WhileStartOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-03-29 00:30", "2020-03-29 03:30") },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(faker, customer, activity, "2020-03-29 00:30", "2020-03-29 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "WhileEndOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-10-25 00:30", "2020-10-25 03:30") },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet(faker, customer, activity, "2020-10-25 00:30", "2020-10-25 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(4), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
             };
         }
 
-        private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, string startDate, string endDate)
-            => FakeTimeSheet.Create(customer.Id, activity.Id, null, null, FakeDateTime.Offset(startDate), FakeDateTime.Offset(endDate));
+        public static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity, string startDate, string endDate)
+            => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset(startDate), faker.DateTime.Offset(endDate));
     }
 
     public class WorkedDaysOverviewTestCase : TestCase

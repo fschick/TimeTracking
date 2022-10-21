@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace FS.TimeTracking.Application.Tests.Services;
 
 [ExcludeFromCodeCoverage]
-public static class FakeDateTime
+public class FakeDateTime
 {
-    public static readonly TimeZoneInfo DefaultTimezone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+    public readonly TimeZoneInfo DefaultTimezone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
 
-    public static DateTimeOffset Offset(string dateTime, TimeZoneInfo timeZone = null)
+    public DateTimeOffset Offset(string dateTime, TimeZoneInfo timeZone = null)
     {
         var parsedDateTime = DateTime.Parse(dateTime);
         timeZone ??= DefaultTimezone;
