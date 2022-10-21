@@ -18,15 +18,16 @@ public class ReferenceExceptionTests
     public async Task WhenReferencedEntityShouldRemoved_HttpStatusConflictIsReturned(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
         using var client = testHost.GetTestClient();
 
         // Act
-        var newCustomer = FakeCustomer.CreateDto();
+        var newCustomer = faker.Customer.CreateDto();
         var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
         await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
 
-        var newProject = FakeProject.CreateDto(newCustomer.Id);
+        var newProject = faker.Project.CreateDto(newCustomer.Id);
         var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
         await client.PostAsJsonAsync(projectCreateRoute, newProject);
 

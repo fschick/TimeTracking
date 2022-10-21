@@ -1,17 +1,21 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Core.Models.Application.MasterData;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Application.Tests.Services;
 
 [ExcludeFromCodeCoverage]
-public static class FakeCustomer
+public class FakeCustomer
 {
-    public static Customer Create(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
+    private readonly Faker _faker;
+
+    public FakeCustomer(Faker faker)
+        => _faker = faker;
+
+    public Customer Create(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
         => new()
         {
-            Id = Guid.NewGuid(),
+            Id = _faker.Guid.Create(),
             Title = $"{prefix}{nameof(Customer)}",
             CompanyName = $"{prefix}{nameof(Customer.CompanyName)}",
             ContactName = $"{prefix}{nameof(Customer.ContactName)}",
@@ -23,6 +27,6 @@ public static class FakeCustomer
             Hidden = hidden,
         };
 
-    public static CustomerDto CreateDto(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
-        => FakeAutoMapper.Mapper.Map<CustomerDto>(Create(prefix, hourlyRate, hidden));
+    public CustomerDto CreateDto(string prefix = "Test", double? hourlyRate = null, bool hidden = false)
+        => _faker.AutoMapper.Map<CustomerDto>(Create(prefix, hourlyRate, hidden));
 }

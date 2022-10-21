@@ -6,12 +6,17 @@ using System.Diagnostics.CodeAnalysis;
 namespace FS.TimeTracking.Application.Tests.Services;
 
 [ExcludeFromCodeCoverage]
-public static class FakeActivity
+public class FakeActivity
 {
-    public static Activity Create(Guid? customerId = null, Guid? projectId = null, string prefix = "Test", bool hidden = false)
+    private readonly Faker _faker;
+
+    public FakeActivity(Faker faker)
+        => _faker = faker;
+
+    public Activity Create(Guid? customerId = null, Guid? projectId = null, string prefix = "Test", bool hidden = false)
         => new()
         {
-            Id = Guid.NewGuid(),
+            Id = _faker.Guid.Create(),
             Title = $"{prefix}{nameof(Activity)}",
             CustomerId = customerId,
             ProjectId = projectId,
@@ -19,6 +24,6 @@ public static class FakeActivity
             Hidden = hidden
         };
 
-    public static ActivityDto CreateDto(Guid? customerId = null, Guid? projectId = null, string prefix = "Test", bool hidden = false)
-        => FakeAutoMapper.Mapper.Map<ActivityDto>(Create(customerId, projectId, prefix));
+    public ActivityDto CreateDto(Guid? customerId = null, Guid? projectId = null, string prefix = "Test", bool hidden = false)
+        => _faker.AutoMapper.Map<ActivityDto>(Create(customerId, projectId, prefix, hidden));
 }

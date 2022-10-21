@@ -20,13 +20,14 @@ public class DateTimeOffsetTests
     public async Task WhenDateTimeOffsetIsSaveAndReadFromDatabase_ValueDoesNotChange(DatabaseConfiguration configuration)
     {
         // Prepare
+        var faker = new Faker(2000);
         await using var testHost = await TestHost.Create(configuration);
         using var client = testHost.GetTestClient();
 
-        var newCustomer = FakeCustomer.CreateDto();
-        var newActivity = FakeActivity.CreateDto();
-        var newProject = FakeProject.CreateDto(newCustomer.Id);
-        var newTimeSheet = FakeTimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
+        var newCustomer = faker.Customer.CreateDto();
+        var newActivity = faker.Activity.CreateDto();
+        var newProject = faker.Project.CreateDto(newCustomer.Id);
+        var newTimeSheet = faker.TimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
 
         // Act
         newTimeSheet.StartDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(-4));

@@ -33,9 +33,10 @@ public class ProjectChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerProjectTestCase>(testCaseJson);
 
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IProjectChartService, ProjectChartService>();
@@ -62,10 +63,11 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
 
     private static List<TestCase> GetTestCases()
     {
-        var customer = FakeCustomer.Create();
-        var project1 = FakeProject.Create(customer.Id, "Test1");
-        var project2 = FakeProject.Create(customer.Id, "Test2");
-        var activity = FakeActivity.Create();
+        var faker = new Faker(2000);
+        var customer = faker.Customer.Create();
+        var project1 = faker.Project.Create(customer.Id, "Test1");
+        var project2 = faker.Project.Create(customer.Id, "Test2");
+        var activity = faker.Activity.Create();
         var masterData = new List<IIdEntityModel> { customer, project1, project2, activity };
 
         return new List<TestCase>
@@ -75,9 +77,9 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
                 Identifier = "TwoProjects2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(customer, project1, activity),
-                    CreateTimeSheet(customer, project1, activity),
-                    CreateTimeSheet(customer, project2, activity),
+                    CreateTimeSheet(faker, customer, project1, activity),
+                    CreateTimeSheet(faker, customer, project1, activity),
+                    CreateTimeSheet(faker, customer, project2, activity),
                 },
                 Expected = new List<object>
                 {
@@ -93,8 +95,8 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Customer customer, Project project, Activity activity)
-        => FakeTimeSheet.Create(customer.Id, activity.Id, project.Id, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"));
+    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Project project, Activity activity)
+        => faker.TimeSheet.Create(customer.Id, activity.Id, project.Id, null, faker.DateTime.Offset("2020-06-01 03:00"), faker.DateTime.Offset("2020-06-01 04:00"));
 }
 
 public class WorkTimesPerProjectTestCase : TestCase

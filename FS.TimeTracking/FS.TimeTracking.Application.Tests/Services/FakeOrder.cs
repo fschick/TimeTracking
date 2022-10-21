@@ -7,14 +7,19 @@ using System.Diagnostics.CodeAnalysis;
 namespace FS.TimeTracking.Application.Tests.Services;
 
 [ExcludeFromCodeCoverage]
-public static partial class FakeOrder
+public class FakeOrder
 {
-    public static Order Create(Guid customerId, DateTimeOffset? startDate = null, DateTimeOffset? dueDate = null, string number = null, double? hourlyRate = null, double? budget = null, string prefix = "Test", bool hidden = false)
+    private readonly Faker _faker;
+
+    public FakeOrder(Faker faker)
+        => _faker = faker;
+
+    public Order Create(Guid customerId, DateTimeOffset? startDate = null, DateTimeOffset? dueDate = null, string number = null, double? hourlyRate = null, double? budget = null, string prefix = "Test", bool hidden = false)
         => new()
         {
-            Id = Guid.NewGuid(),
+            Id = _faker.Guid.Create(),
             Title = $"{prefix}{nameof(Order)}",
-            Number = number ?? Guid.NewGuid().GetHashCode().ToString(),
+            Number = number ?? _faker.Guid.Create().GetHashCode().ToString(),
             CustomerId = customerId,
             StartDate = startDate ?? DateTimeOffset.Now.StartOfYear(),
             DueDate = dueDate ?? DateTimeOffset.Now.EndOfYear(),
@@ -24,6 +29,6 @@ public static partial class FakeOrder
             Hidden = hidden
         };
 
-    public static OrderDto CreateDto(Guid customerId, DateTimeOffset? startDate = null, DateTimeOffset? dueDate = null, string number = null, double? hourlyRate = null, double? budget = null, string prefix = "Test", bool hidden = false)
-        => FakeAutoMapper.Mapper.Map<OrderDto>(Create(customerId, startDate, dueDate, number, hourlyRate, budget, prefix, hidden));
+    public OrderDto CreateDto(Guid customerId, DateTimeOffset? startDate = null, DateTimeOffset? dueDate = null, string number = null, double? hourlyRate = null, double? budget = null, string prefix = "Test", bool hidden = false)
+        => _faker.AutoMapper.Map<OrderDto>(Create(customerId, startDate, dueDate, number, hourlyRate, budget, prefix, hidden));
 }

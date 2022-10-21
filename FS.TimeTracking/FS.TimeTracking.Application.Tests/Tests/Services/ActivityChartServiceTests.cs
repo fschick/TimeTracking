@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Faker = FS.TimeTracking.Application.Tests.Services.Faker;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
 
@@ -37,9 +38,10 @@ public class ActivityChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerActivityTestCase>(testCaseJson);
 
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IActivityChartService, ActivityChartService>();
@@ -63,25 +65,26 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
-        var projectCustomer = FakeCustomer.Create();
-        var project = FakeProject.Create(projectCustomer.Id);
+        var projectCustomer = faker.Customer.Create();
+        var project = faker.Project.Create(projectCustomer.Id);
 
-        var activityCustomer = FakeCustomer.Create();
+        var activityCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { activityCustomer, projectCustomer, project });
         await repository.SaveChanges();
 
         // Act
-        var activity = FakeActivity.CreateDto(activityCustomer.Id, project.Id);
+        var activity = faker.Activity.CreateDto(activityCustomer.Id, project.Id);
         var createActivity = () => activityService.Create(activity);
 
         // Check
@@ -94,24 +97,25 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsAddedAndProjectHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
-        var project = FakeProject.Create();
+        var project = faker.Project.Create();
 
-        var activityCustomer = FakeCustomer.Create();
+        var activityCustomer = faker.Customer.Create();
 
         await repository.AddRange(new List<IIdEntityModel> { activityCustomer, project });
         await repository.SaveChanges();
 
         // Act
-        var activity = FakeActivity.CreateDto(activityCustomer.Id, project.Id);
+        var activity = faker.Activity.CreateDto(activityCustomer.Id, project.Id);
         var createActivity = () => activityService.Create(activity);
 
         // Check
@@ -123,27 +127,28 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithCustomerIsUpdatedButTimeSheetsWithDifferentCustomerExists_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
-        var activity = FakeActivity.Create();
+        var activity = faker.Activity.Create();
         await repository.AddRange(new List<IIdEntityModel> { activity });
         await repository.SaveChanges();
 
-        var timeSheetCustomer = FakeCustomer.Create();
-        var timeSheet = FakeTimeSheet.Create(timeSheetCustomer.Id, activity.Id);
+        var timeSheetCustomer = faker.Customer.Create();
+        var timeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, activity.Id);
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheet });
         await repository.SaveChanges();
 
         // Act
-        var activityDto = FakeAutoMapper.Mapper.Map<ActivityDto>(activity);
+        var activityDto = faker.AutoMapper.Map<ActivityDto>(activity);
         activityDto.CustomerId = Guid.NewGuid();
         var updateActivity = () => activityService.Update(activityDto);
 
@@ -157,28 +162,29 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsUpdatedButTimeSheetsWithDifferentProjectsExists_ConformityExceptionIsThrown()
     {
         // Prepare
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
         var repository = autoFake.Resolve<IRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
-        var activity = FakeActivity.Create();
+        var activity = faker.Activity.Create();
         await repository.AddRange(new List<IIdEntityModel> { activity });
         await repository.SaveChanges();
 
-        var timeSheetCustomer = FakeCustomer.Create();
-        var timeSheetProject = FakeProject.Create();
-        var timeSheet = FakeTimeSheet.Create(timeSheetCustomer.Id, activity.Id, timeSheetProject.Id);
+        var timeSheetCustomer = faker.Customer.Create();
+        var timeSheetProject = faker.Project.Create();
+        var timeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, activity.Id, timeSheetProject.Id);
 
         await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetProject, timeSheet });
         await repository.SaveChanges();
 
         // Act
-        var activityDto = FakeAutoMapper.Mapper.Map<ActivityDto>(activity);
+        var activityDto = faker.AutoMapper.Map<ActivityDto>(activity);
         activityDto.ProjectId = Guid.NewGuid();
         var updateActivity = () => activityService.Update(activityDto);
 
@@ -195,9 +201,10 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
 
     private static List<TestCase> GetTestCases()
     {
-        var customer = FakeCustomer.Create();
-        var activity1 = FakeActivity.Create(prefix: "Test1");
-        var activity2 = FakeActivity.Create(prefix: "Test2");
+        var faker = new Faker(2000);
+        var customer = faker.Customer.Create();
+        var activity1 = faker.Activity.Create(prefix: "Test1");
+        var activity2 = faker.Activity.Create(prefix: "Test2");
         var masterData = new List<IIdEntityModel> { customer, activity1, activity2 };
 
         return new List<TestCase>
@@ -207,9 +214,9 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
                 Identifier = "TwoActivities2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(customer, activity1),
-                    CreateTimeSheet(customer, activity1),
-                    CreateTimeSheet(customer, activity2),
+                    CreateTimeSheet(faker, customer, activity1),
+                    CreateTimeSheet(faker, customer, activity1),
+                    CreateTimeSheet(faker, customer, activity2),
                 },
                 Expected = new List<object>
                 {
@@ -225,8 +232,8 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity)
-        => FakeTimeSheet.Create(customer.Id, activity.Id, null, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"));
+    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity)
+        => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset("2020-06-01 03:00"), faker.DateTime.Offset("2020-06-01 04:00"));
 }
 
 public class WorkTimesPerActivityTestCase : TestCase

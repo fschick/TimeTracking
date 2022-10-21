@@ -33,9 +33,10 @@ public class IssueChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerIssueTestCase>(testCaseJson);
 
+        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(FakeAutoMapper.Mapper);
+        autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IIssueChartService, IssueChartService>();
@@ -62,8 +63,9 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
 
     private static List<TestCase> GetTestCases()
     {
-        var customer = FakeCustomer.Create();
-        var activity = FakeActivity.Create(customer.Id);
+        var faker = new Faker(2000);
+        var customer = faker.Customer.Create();
+        var activity = faker.Activity.Create(customer.Id);
         var masterData = new List<IIdEntityModel> { customer, activity };
 
         return new List<TestCase>
@@ -73,9 +75,9 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "TwoIssues2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(customer, activity, "IssueA"),
-                    CreateTimeSheet(customer, activity, "IssueA"),
-                    CreateTimeSheet(customer, activity, "IssueB"),
+                    CreateTimeSheet(faker, customer, activity, "IssueA"),
+                    CreateTimeSheet(faker, customer, activity, "IssueA"),
+                    CreateTimeSheet(faker, customer, activity, "IssueB"),
                 },
                 Expected = new List<object>
                 {
@@ -88,8 +90,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "NoIssues",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(customer, activity, string.Empty),
-                    CreateTimeSheet(customer, activity, string.Empty),
+                    CreateTimeSheet(faker, customer, activity, string.Empty),
+                    CreateTimeSheet(faker, customer, activity, string.Empty),
                 },
                 Expected = new List<object> {
                     new { Issue = string.Empty, TimeWorked = TimeSpan.FromHours(2) }
@@ -103,8 +105,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, string issue)
-        => FakeTimeSheet.Create(customer.Id, activity.Id, null, null, FakeDateTime.Offset("2020-06-01 03:00"), FakeDateTime.Offset("2020-06-01 04:00"), issue: issue);
+    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity, string issue)
+        => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset("2020-06-01 03:00"), faker.DateTime.Offset("2020-06-01 04:00"), issue: issue);
 }
 
 public class WorkTimesPerIssueTestCase : TestCase
