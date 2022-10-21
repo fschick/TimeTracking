@@ -28,11 +28,12 @@ public class ProjectChartServiceTests
 {
     [DataTestMethod]
     [WorkTimesPerProjectDataSource]
-    public async Task WhenGetWorkTimesPerProjectRequested_ResultMatchesExpectedValues(WorkTimesPerProjectTestCase testCase)
+    public async Task WhenGetWorkTimesPerProjectRequested_ResultMatchesExpectedValues(string testCaseJson)
     {
         // Prepare
-        using var autoFake = new AutoFake();
+        var testCase = TestCase.FromJson<WorkTimesPerProjectTestCase>(testCaseJson);
 
+        using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(FakeAutoMapper.Mapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
