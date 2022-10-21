@@ -204,7 +204,7 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
         {
             new WorkTimesPerActivityTestCase
             {
-                Identifier = "Two_activities_2_and_1_third",
+                Identifier = "TwoActivities2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(customer, activity1),
@@ -219,7 +219,7 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerActivityTestCase
             {
-                Identifier = "No_time_sheets",
+                Identifier = "NoTimeSheets",
                 Expected = new List<object>(),
             },
         };

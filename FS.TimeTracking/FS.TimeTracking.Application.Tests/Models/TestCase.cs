@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace FS.TimeTracking.Application.Tests.Models;
 
-public abstract class TestCase
+public class TestCase
 {
     public string Identifier { get; set; }
 

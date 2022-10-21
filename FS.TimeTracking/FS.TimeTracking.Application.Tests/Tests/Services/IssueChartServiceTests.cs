@@ -70,7 +70,7 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
         {
             new WorkTimesPerIssueTestCase
             {
-                Identifier = "Two_issues_2_and_1_third",
+                Identifier = "TwoIssues2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(customer, activity, "IssueA"),
@@ -85,7 +85,7 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
             },
             new WorkTimesPerIssueTestCase
             {
-                Identifier = "No_issues",
+                Identifier = "NoIssues",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(customer, activity, string.Empty),
@@ -97,7 +97,7 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
             },
             new WorkTimesPerIssueTestCase
             {
-                Identifier = "No_time_sheets",
+                Identifier = "NoTimeSheets",
                 Expected = new List<object>(),
             },
         };
