@@ -1,6 +1,5 @@
 ﻿using FS.TimeTracking.Application.Tests.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +19,7 @@ public abstract class TestCaseDataSourceAttribute : Attribute, ITestDataSource
         => _testCases.Select(testCase => new object[] { testCase.ToJson() });
 
     public string GetDisplayName(MethodInfo methodInfo, object[] data)
-        => $"{methodInfo.Name}: {JObject.Parse((string)data[0]).SelectToken(nameof(TestCase.Identifier))!.Value<string>()}";
+        => $"{methodInfo.Name}_{TestCase.FromJson<TestCase>((string)data[0]).Identifier}";
 
     private static List<TestCase> EnsureUniqueTestCaseIdentifiers(List<TestCase> testCases)
     {

@@ -72,7 +72,7 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
         {
             new WorkTimesPerProjectTestCase
             {
-                Identifier = "Two_projects_2_and_1_third",
+                Identifier = "TwoProjects2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
                     CreateTimeSheet(customer, project1, activity),
@@ -87,7 +87,7 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
             },
             new WorkTimesPerProjectTestCase
             {
-                Identifier = "No_time_sheets",
+                Identifier = "NoTimeSheets",
                 Expected = new List<object>(),
             },
         };

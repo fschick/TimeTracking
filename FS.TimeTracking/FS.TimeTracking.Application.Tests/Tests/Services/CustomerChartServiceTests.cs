@@ -86,7 +86,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
         {
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_time_sheet_with_and_without_order_exists_than_worked_is_calculated_from_both_while_planned_and_difference_exclude_time_sheet_without_order",
+                Identifier = "WhenTimeSheetWithAndWithoutOrderExistsThanWorkedIsCalculatedFromBothWhilePlannedAndDifferenceExcludeTimeSheetWithoutOrder",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2A },
                 TimeSheets = new List<TimeSheet>
                 {
@@ -120,7 +120,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_order_time_range_is_cut_by_selection_values_are_calculated_proportionally",
+                Identifier = "WhenOrderTimeRangeIsCutBySelectionValuesAreCalculatedProportionally",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
@@ -135,7 +135,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "Orders_within_selected_time_range_are_shown_regardless_of_existing_time_sheets",
+                Identifier = "OrdersWithinSelectedTimeRangeAreShownRegardlessOfExistingTimeSheets",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>(),
                 Filters = FakeFilters.Create("<2021-01-01", ">=2020-01-01"),
@@ -147,7 +147,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "Orders_outside_selected_time_range_are_shown_when_time_sheets_exists",
+                Identifier = "OrdersOutsideSelectedTimeRangeAreShownWhenTimeSheetsExists",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
@@ -163,7 +163,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_selected_time_range_is_one_day_before_start_day_of_order_than_order_is_excluded",
+                Identifier = "WhenSelectedTimeRangeIsOneDayBeforeStartDayOfOrderThanOrderIsExcluded",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = FakeFilters.Create("<2020-01-01", ">=2020-12-31"),
@@ -171,7 +171,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_selected_time_range_is_start_day_of_order_than_order_is_found",
+                Identifier = "WhenSelectedTimeRangeIsStartDayOfOrderThanOrderIsFound",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = FakeFilters.Create("<2021-01-02", ">=2021-01-01"),
@@ -182,7 +182,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_selected_time_range_is_due_day_of_order_than_order_is_found",
+                Identifier = "WhenSelectedTimeRangeIsDueDayOfOrderThanOrderIsFound",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = FakeFilters.Create("<2021-07-01", ">=2021-06-30"),
@@ -193,7 +193,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_selected_time_range_is_one_day_after_due_date_of_order_than_order_is_excluded",
+                Identifier = "WhenSelectedTimeRangeIsOneDayAfterDueDateOfOrderThanOrderIsExcluded",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
                 Filters = FakeFilters.Create("<2021-07-02", ">=2021-07-01"),
@@ -201,7 +201,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "When_full_time_range_of_order_is_selected_than_result_match_expected_values",
+                Identifier = "WhenFullTimeRangeOfOrderIsSelectedThanResultMatchExpectedValues",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
@@ -224,7 +224,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
             },
             new WorkTimesPerCustomerTestCase
             {
-                Identifier = "No_orders_and_time_sheets",
+                Identifier = "NoOrdersAndTimeSheets",
                 Expected = new List<object>(),
             },
         };

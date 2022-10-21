@@ -271,14 +271,14 @@ public class TimeSheetServiceTests
             {
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "No_PublicHolidays_No_Vacation",
+                    Identifier = "NoPublicHolidaysNoVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 1, PublicWorkdays = 1 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "No_PublicHolidays_But_Vacation",
+                    Identifier = "NoPublicHolidaysButVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -289,7 +289,7 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "PublicHolidays_But_No_Vacation",
+                    Identifier = "PublicHolidaysButNoVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -300,7 +300,7 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "PublicHolidays_SameDay_Vacation",
+                    Identifier = "PublicHolidaysSameDayVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -314,7 +314,7 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "PublicHolidays_Overlapping_Vacation",
+                    Identifier = "PublicHolidaysOverlappingVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -328,13 +328,13 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "No_TimeSheets_But_Filtered",
+                    Identifier = "NoTimeSheetsButFiltered",
                     Filters = FakeFilters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(0), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "Cut_First_By_Filter",
+                    Identifier = "CutFirstByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -345,7 +345,7 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "Cut_Last_By_Filter",
+                    Identifier = "CutLastByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
@@ -356,21 +356,21 @@ public class TimeSheetServiceTests
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "Before_start_of_daylight_saving_time",
+                    Identifier = "BeforeStartOfDaylightSavingTime",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-03-28 00:30", "2020-03-28 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(3), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "While_start_of_daylight_saving_time",
+                    Identifier = "WhileStartOfDaylightSavingTime",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-03-29 00:30", "2020-03-29 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
-                    Identifier = "While_end_of_daylight_saving_time",
+                    Identifier = "WhileEndOfDaylightSavingTime",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> { CreateTimeSheet(customer, activity, "2020-10-25 00:30", "2020-10-25 03:30") },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(4), PersonalWorkdays = 0, PublicWorkdays = 0 },
