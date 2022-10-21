@@ -23,7 +23,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
@@ -231,11 +230,12 @@ public class TimeSheetServiceTests
 
     [DataTestMethod]
     [WorkedDaysOverviewDataSource]
-    public async Task WhenWorkedDaysOverviewRequested_ResultMatchesExpectedValues(WorkedDaysOverviewTestCase testCase)
+    public async Task WhenWorkedDaysOverviewRequested_ResultMatchesExpectedValues(string testCaseJson)
     {
         // Prepare
-        using var autoFake = new AutoFake();
+        var testCase = TestCase.FromJson<WorkedDaysOverviewTestCase>(testCaseJson);
 
+        using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(FakeAutoMapper.Mapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
@@ -250,8 +250,7 @@ public class TimeSheetServiceTests
 
         // Act
         var timeSheetService = autoFake.Resolve<ITimeSheetService>();
-        var filters = JsonSerializer.Deserialize<TimeSheetFilterSet>(testCase.Filters);
-        var workDayOverview = await timeSheetService.GetWorkedDaysOverview(filters);
+        var workDayOverview = await timeSheetService.GetWorkedDaysOverview(testCase.Filters);
 
         // Check
         using var _ = new AssertionScope();
@@ -330,7 +329,7 @@ public class TimeSheetServiceTests
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "No_TimeSheets_But_Filtered",
-                    Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-06-04", ">=2020-06-02")),
+                    Filters = FakeFilters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(0), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -341,7 +340,7 @@ public class TimeSheetServiceTests
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
                         CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-06-04", ">=2020-06-02")),
+                    Filters = FakeFilters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -352,7 +351,7 @@ public class TimeSheetServiceTests
                         CreateTimeSheet(customer, activity, "2020-06-01 03:00", "2020-06-01 04:00"),
                         CreateTimeSheet(customer, activity, "2020-06-03 03:00", "2020-06-03 04:00"),
                     },
-                    Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-06-03", ">=2020-06-01")),
+                    Filters = FakeFilters.Create("<2020-06-03", ">=2020-06-01"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -388,7 +387,7 @@ public class TimeSheetServiceTests
         public List<IIdEntityModel> MasterData { get; set; } = new();
         public List<TimeSheet> TimeSheets { get; set; } = new();
         public List<Holiday> Holidays { get; set; } = new();
-        public string Filters { get; set; } = JsonSerializer.Serialize(FakeFilters.Empty());
+        public TimeSheetFilterSet Filters { get; set; } = FakeFilters.Empty();
         public object Expected { get; set; } = new();
     }
 }

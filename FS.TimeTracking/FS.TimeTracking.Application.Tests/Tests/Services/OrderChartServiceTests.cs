@@ -20,7 +20,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
@@ -30,11 +29,12 @@ public class OrderChartServiceTests
 {
     [DataTestMethod]
     [WorkTimesPerOrderDataSource]
-    public async Task WhenGetWorkTimesPerOrderRequested_ResultMatchesExpectedValues(WorkTimesPerOrderTestCase testCase)
+    public async Task WhenGetWorkTimesPerOrderRequested_ResultMatchesExpectedValues(string testCaseJson)
     {
         // Prepare
-        using var autoFake = new AutoFake();
+        var testCase = TestCase.FromJson<WorkTimesPerOrderTestCase>(testCaseJson);
 
+        using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(FakeAutoMapper.Mapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
@@ -48,8 +48,7 @@ public class OrderChartServiceTests
 
         // Act
         var orderChartService = autoFake.Resolve<IOrderChartService>();
-        var filters = JsonSerializer.Deserialize<TimeSheetFilterSet>(testCase.Filters);
-        var workTimesPerOrder = await orderChartService.GetWorkTimesPerOrder(filters);
+        var workTimesPerOrder = await orderChartService.GetWorkTimesPerOrder(testCase.Filters);
 
         // Check
         using var _ = new AssertionScope();
@@ -89,7 +88,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 {
                     CreateTimeSheet(customer1, activity, order1A, "2020-07-01 08:00", "2020-07-01 16:00"),
                 },
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-08-01", ">=2020-07-01")),
+                Filters = FakeFilters.Create("<2020-08-01", ">=2020-07-01"),
                 Expected = new List<object>
                 {
                     new { OrderTitle = "1A_Order", DaysPlanned = 0.132, DaysDifference = -0.868, TimePlanned = TimeSpan.FromHours(1.05343), PlannedIsPartial = true },
@@ -101,7 +100,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "Orders_within_selected_time_range_are_shown_regardless_of_existing_time_sheets",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>(),
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-01-01", ">=2020-01-01")),
+                Filters = FakeFilters.Create("<2021-01-01", ">=2020-01-01"),
                 Expected = new List<object>
                 {
                     new { OrderTitle = "1A_Order", CustomerTitle = "1_Customer" },
@@ -116,7 +115,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 {
                     CreateTimeSheet(customer1, activity, order1A, "2021-02-01 08:00", "2021-02-01 16:00"),
                 },
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2022-01-01", ">=2021-01-01")),
+                Filters = FakeFilters.Create("<2022-01-01", ">=2021-01-01"),
                 Expected = new List<object>
                 {
                     new { OrderTitle = "1A_Order", CustomerTitle = "1_Customer", PlannedIsPartial = true },
@@ -128,7 +127,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "When_selected_time_range_is_one_day_before_start_day_of_order_than_order_is_excluded",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2020-01-01", ">=2020-12-31")),
+                Filters = FakeFilters.Create("<2020-01-01", ">=2020-12-31"),
                 Expected = new List<object>(),
             },
             new WorkTimesPerOrderTestCase
@@ -136,7 +135,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "When_selected_time_range_is_start_day_of_order_than_order_is_found",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-01-02", ">=2021-01-01")),
+                Filters = FakeFilters.Create("<2021-01-02", ">=2021-01-01"),
                 Expected = new List<object>
                 {
                     new { OrderTitle = "2B_Order" },
@@ -147,7 +146,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "When_selected_time_range_is_due_day_of_order_than_order_is_found",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-07-01", ">=2021-06-30")),
+                Filters = FakeFilters.Create("<2021-07-01", ">=2021-06-30"),
                 Expected = new List<object>
                 {
                     new { OrderTitle = "2B_Order" },
@@ -158,7 +157,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "When_selected_time_range_is_one_day_after_due_date_of_order_than_order_is_excluded",
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2B },
                 TimeSheets = new List<TimeSheet>(),
-                Filters = JsonSerializer.Serialize(FakeFilters.Create("<2021-07-02", ">=2021-07-01")),
+                Filters = FakeFilters.Create("<2021-07-02", ">=2021-07-01"),
                 Expected = new List<object>(),
             },
             new WorkTimesPerOrderTestCase
@@ -194,6 +193,6 @@ public class WorkTimesPerOrderTestCase : TestCase
 {
     public List<IIdEntityModel> MasterData { get; set; } = new();
     public List<TimeSheet> TimeSheets { get; set; } = new();
-    public string Filters { get; set; } = JsonSerializer.Serialize(FakeFilters.Empty());
+    public TimeSheetFilterSet Filters { get; set; } = FakeFilters.Empty();
     public List<object> Expected { get; set; } = new();
 }

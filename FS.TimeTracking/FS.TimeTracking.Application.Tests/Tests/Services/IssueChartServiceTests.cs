@@ -28,11 +28,12 @@ public class IssueChartServiceTests
 {
     [DataTestMethod]
     [WorkTimesPerIssueDataSource]
-    public async Task WhenGetWorkTimesPerIssueRequested_ResultMatchesExpectedValues(WorkTimesPerIssueTestCase testCase)
+    public async Task WhenGetWorkTimesPerIssueRequested_ResultMatchesExpectedValues(string testCaseJson)
     {
         // Prepare
-        using var autoFake = new AutoFake();
+        var testCase = TestCase.FromJson<WorkTimesPerIssueTestCase>(testCaseJson);
 
+        using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(FakeAutoMapper.Mapper);
         autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
