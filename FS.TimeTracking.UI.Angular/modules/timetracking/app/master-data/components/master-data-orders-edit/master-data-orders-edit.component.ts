@@ -32,7 +32,6 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     typeaheadService: TypeaheadService,
     private modalService: NgbModal
   ) {
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.orderForm = this.formValidationService
       .getFormGroup<OrderDto>('OrderDto', {
         id: GuidService.guidEmpty,
@@ -40,13 +39,16 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
         hidden: false
       });
 
-    if (!this.isNewRecord)
-      this.orderService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(order => this.orderForm.patchValue(order));
-
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
+
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    if (this.isNewRecord)
+      return;
+
+    this.orderService
+      .get({id: this.route.snapshot.params['id']})
+      .pipe(single())
+      .subscribe(order => this.orderForm.patchValue(order));
   }
 
   public ngAfterViewInit(): void {

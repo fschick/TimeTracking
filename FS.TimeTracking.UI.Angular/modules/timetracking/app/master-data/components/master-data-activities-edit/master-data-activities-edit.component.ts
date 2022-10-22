@@ -35,18 +35,20 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
   ) {
     this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: GuidService.guidEmpty, hidden: false});
 
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
-    if (!this.isNewRecord)
-      this.activityService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(activity => {
-          this.activityForm.patchValue(activity);
-          this.customerReadonly = activity.projectCustomerId != null;
-        });
-
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
     this.projects$ = typeaheadService.getProjects({showHidden: true});
+
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    if (this.isNewRecord)
+      return;
+
+    this.activityService
+      .get({id: this.route.snapshot.params['id']})
+      .pipe(single())
+      .subscribe(activity => {
+        this.activityForm.patchValue(activity);
+        this.customerReadonly = activity.projectCustomerId != null;
+      });
   }
 
   public ngAfterViewInit(): void {

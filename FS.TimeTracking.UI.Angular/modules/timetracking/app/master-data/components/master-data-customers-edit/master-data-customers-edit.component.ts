@@ -28,7 +28,6 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     private modalService: NgbModal
   ) {
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.customerForm = this.formValidationService
       .getFormGroup<CustomerDto>('CustomerDto', {
         id: GuidService.guidEmpty,
@@ -36,11 +35,14 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
         hidden: false
       });
 
-    if (!this.isNewRecord)
-      this.customerService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(customer => this.customerForm.patchValue(customer));
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    if (this.isNewRecord)
+      return;
+
+    this.customerService
+      .get({id: this.route.snapshot.params['id']})
+      .pipe(single())
+      .subscribe(customer => this.customerForm.patchValue(customer));
   }
 
   public ngAfterViewInit(): void {

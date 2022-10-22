@@ -31,16 +31,17 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
     typeaheadService: TypeaheadService,
     private modalService: NgbModal
   ) {
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.projectForm = this.formValidationService.getFormGroup<ProjectDto>('ProjectDto', {id: GuidService.guidEmpty, hidden: false});
 
-    if (!this.isNewRecord)
-      this.projectService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(project => this.projectForm.patchValue(project));
-
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
+
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    if (this.isNewRecord)
+      return;
+    this.projectService
+      .get({id: this.route.snapshot.params['id']})
+      .pipe(single())
+      .subscribe(project => this.projectForm.patchValue(project));
   }
 
   public ngAfterViewInit(): void {
