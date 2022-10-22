@@ -68,7 +68,8 @@ public class TimeTrackingDbContext : DbContext
 
         optionsBuilder
             .UseLoggerFactory(_loggerFactory)
-            .EnableSensitiveDataLogging(_environment.IsDevelopment);
+            .EnableSensitiveDataLogging(_environment.IsDevelopment)
+            .EnableDetailedErrors(_environment.IsDevelopment);
 
         var repositoryAssemblyName = typeof(TimeTrackingDbContext).Assembly.GetName().Name;
         var migrationAssembly = _databaseType switch
