@@ -22,12 +22,12 @@ export class ApiErrorInterceptor implements HttpInterceptor {
         const error = response.error as RestError;
         const message = error != null
           ? this.enumTranslationService.translate('ErrorCode', error.code)
-          : $localize`:@@Enum.ErrorCode.Unknown:[i18n] An unkown error has occurred`;
+          : $localize`:@@Enum.ErrorCode.Unknown:[i18n] An unknown error has occurred`;
 
         // const requestId = response.headers.get('Request-Id');
         // message += `. RequestID: ${requestId}`;
 
-        console.error(message);
+        console.error(`${message}: ${error.messages.join(', ')}`);
         this.toastrService.error(message);
       }));
   }
