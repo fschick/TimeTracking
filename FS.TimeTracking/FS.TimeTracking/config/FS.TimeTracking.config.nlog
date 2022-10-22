@@ -75,11 +75,11 @@
     <!-- Startup messages to console -->
     <logger name="Microsoft.Hosting.Lifetime" minlevel="Info" writeTo="log_to_console" />
 
-    <!-- Discard finally non-critical logs from Microsoft -->
+    <!-- Finally discard non-critical logs from Microsoft -->
     <logger name="Microsoft.*" maxlevel="Info" final="true" />
 
-    <!-- Discard finally non-critical logs from LinqToDB -->
-    <logger name="LinqToDB" maxlevel="Info" final="true" />
+    <!-- Finally discard logs from LinqToDB, errors will be logged by application itself -->
+    <logger name="LinqToDB" final="true" />
 
     <!-- Discard finally chatty task canceled logs from EF -->
     <!-- Remove as soon as chatty EF is fixed, see https://github.com/dotnet/efcore/issues/19526 -->
