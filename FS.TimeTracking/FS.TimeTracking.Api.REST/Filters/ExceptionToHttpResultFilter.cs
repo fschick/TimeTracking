@@ -30,6 +30,7 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
         switch (context.Exception)
         {
             case DbException dbException when IsForeignKeyViolation(dbException):
+                _logger.LogInformation(context.Exception, "Entity could not be modified.");
                 var isDeleteOperation = context.HttpContext.Request.Method == HttpMethod.Delete.Method;
                 var errorCode = isDeleteOperation
                     ? ErrorCode.ForeignKeyViolationOnDelete
@@ -39,7 +40,7 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
                 context.Result = new ConflictObjectResult(foreignKeyViolationError);
                 break;
             case ConformityException conformityException:
-                _logger.LogWarning(context.Exception, "Entity could not be modified.");
+                _logger.LogInformation(context.Exception, "Entity could not be modified.");
                 var conformityError = new RestError
                 {
                     Code = conformityException.ErrorCode ?? ErrorCode.ConformityViolation,
