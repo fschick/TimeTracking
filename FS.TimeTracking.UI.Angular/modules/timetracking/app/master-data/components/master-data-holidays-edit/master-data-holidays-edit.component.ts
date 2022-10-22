@@ -28,14 +28,16 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     private modalService: NgbModal
   ) {
-    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.holidayForm = this.formValidationService.getFormGroup<HolidayDto>('HolidayDto', {id: GuidService.guidEmpty, type: 'holiday'});
 
-    if (!this.isNewRecord)
-      this.holidayService
-        .get({id: this.route.snapshot.params['id']})
-        .pipe(single())
-        .subscribe(holiday => this.holidayForm.patchValue(holiday));
+    this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    if (this.isNewRecord)
+      return;
+
+    this.holidayService
+      .get({id: this.route.snapshot.params['id']})
+      .pipe(single())
+      .subscribe(holiday => this.holidayForm.patchValue(holiday));
   }
 
   public ngAfterViewInit(): void {
