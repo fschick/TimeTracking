@@ -1,10 +1,12 @@
-﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+﻿using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Tool.Interfaces.Import;
 using FS.TimeTracking.Tool.Models.Configurations;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tool.Services.Imports;
@@ -28,6 +30,12 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
 
     public async Task Import()
     {
+        var migrations = string.Join(",", await _importRepository.GetMigrations().OrderByAsync(x => x));
+        var appliedMigrations = string.Join(",", await _importRepository.GetAppliedMigrations().OrderByAsync(x => x));
+
+        if (migrations != appliedMigrations)
+            throw new InvalidOperationException("Source database is not up to date. Please update the application running on source database first.");
+
         var settings = await _importRepository.Get((Setting x) => x);
         var holidays = await _importRepository.Get((Holiday x) => x);
         var customers = await _importRepository.Get((Customer x) => x);

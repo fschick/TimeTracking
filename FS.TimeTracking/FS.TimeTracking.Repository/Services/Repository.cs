@@ -157,6 +157,14 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     }
 
     /// <inheritdoc />
+    public Task<IEnumerable<string>> GetMigrations(CancellationToken cancellationToken = default)
+        => Task.FromResult(_dbContext.Database.GetMigrations());
+
+    /// <inheritdoc />
+    public async Task<IEnumerable<string>> GetAppliedMigrations(CancellationToken cancellationToken = default)
+        => await _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
+
+    /// <inheritdoc />
     public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
     {
         var bulkCopyOptions = new BulkCopyOptions { KeepIdentity = true, CheckConstraints = true };
