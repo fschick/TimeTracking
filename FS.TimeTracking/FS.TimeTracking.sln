@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{4D7C
 		..\Build\targets\xml_documentation.props = ..\Build\targets\xml_documentation.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Keycloak", "FS.TimeTracking.Keycloak\FS.TimeTracking.Keycloak.csproj", "{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿#if DEBUG
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="ITestDataService" />
     [ApiV1Controller]
+    [Authorize]
     [ExcludeFromCodeCoverage]
     public class TestDataController : ControllerBase, ITestDataService
     {

@@ -177,6 +177,10 @@
       "PastMonths": "vergangene {$COUNT} Monate",
       "PastYears": "vergangene {$COUNT} Jahre"
     },
+    "Authorization": {
+      "Login": "Login",
+      "Logout": "Logout"
+    },
     "Filter": {
       "Title": "Einstellungen & Filter",
       "Add": "Filter hinzufügen",
@@ -226,6 +230,8 @@
     "ErrorCode": {
       "Unknown": "Ein unbekannter Fehler ist aufgetreten",
       "NotFound": "Der Datensatz konnte nicht gefunden werden",
+      "Unauthorized": "Der Zugriff auf die Daten erfordert eine Authentifizierung",
+      "Forbidden": "Der Zugriff auf die Daten ist nicht authorisiert",
       "InternalServerError": "Ein interner Serverfehler ist aufgetreten",
       "ForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
       "ForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",

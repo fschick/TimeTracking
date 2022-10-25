@@ -1,9 +1,10 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
@@ -12,8 +13,9 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerService" />
 [ApiV1Controller]
+[Authorize(Policy = PermissionNames.MASTER_DATA_CUSTOMERS)]
 [ExcludeFromCodeCoverage]
-public class CustomerController : CrudModelController<Guid, CustomerDto, CustomerGridDto>, ICustomerService
+public class CustomerController : CrudModelController<CustomerDto, CustomerGridDto>, ICustomerService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomerController"/> class.

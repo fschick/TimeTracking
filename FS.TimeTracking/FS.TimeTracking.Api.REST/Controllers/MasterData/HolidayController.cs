@@ -1,11 +1,12 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -17,8 +18,9 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IHolidayService" />
 [ApiV1Controller]
+[Authorize(Policy = PermissionNames.MASTER_DATA_HOLIDAYS)]
 [ExcludeFromCodeCoverage]
-public class HolidayController : CrudModelController<Guid, HolidayDto, HolidayGridDto>, IHolidayService
+public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayService
 {
     private readonly IHolidayService _holidayService;
 

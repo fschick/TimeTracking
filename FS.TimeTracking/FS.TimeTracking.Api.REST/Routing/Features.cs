@@ -11,7 +11,12 @@ namespace FS.TimeTracking.Api.REST.Routing;
 public static class Features
 {
     /// <summary>
-    /// Gets or sets if the reporting module is enabled.
+    /// Enable / disable authentication and authorization using Keycloak.
+    /// </summary>
+    public const string Authorization = nameof(Authorization);
+
+    /// <summary>
+    /// Enable / disable reporting module.
     /// </summary>
     public const string Reporting = nameof(Reporting);
 }

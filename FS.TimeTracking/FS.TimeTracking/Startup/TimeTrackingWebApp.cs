@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Core.Models.Configuration;
+using FS.TimeTracking.Keycloak.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,13 +85,17 @@ internal static class TimeTrackingWebApp
     {
         builder.WebHost.ConfigureServices((context, services) =>
         {
+            var configuration = context.Configuration.ReadTimeTrackingConfiguration();
+
             services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
             services.RegisterTimeTrackingAutoMapper();
             services.RegisterFilterExpressionInterceptor();
             services.RegisterApplicationServices();
-            services.RegisterOpenApiController();
+            services.RegisterOpenApiController(configuration);
             services.RegisterRestApiController();
+            services.RegisterAuthorizationPolicies();
             services.RegisterSpaStaticFiles(context.HostingEnvironment);
+            services.RegisterKeycloakAuthentication(configuration);
         });
     }
 
@@ -114,7 +119,8 @@ internal static class TimeTrackingWebApp
         }
 
         webApplication.UseRouting();
-        //webApplication.UseAuthorization();
+        webApplication.UseAuthentication();
+        webApplication.UseAuthorization();
         webApplication
             .RegisterOpenApiRoutes()
             .RegisterOpenApiUiRedirects()
@@ -131,6 +137,14 @@ internal static class TimeTrackingWebApp
 
     private static void CreateAndRegisterTimeTrackingConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services.Configure<TimeTrackingConfiguration>(configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION));
+
+    public static TimeTrackingConfiguration ReadTimeTrackingConfiguration(this IConfiguration configuration)
+    {
+        var timeTrackingConfigurationSection = configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION);
+        var timeTrackingConfiguration = new TimeTrackingConfiguration();
+        timeTrackingConfigurationSection.Bind(timeTrackingConfiguration);
+        return timeTrackingConfiguration;
+    }
 
     private static void RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
         => services.AddSpaStaticFiles(configuration => configuration.RootPath = GetWebRootPath(hostEnvironment));

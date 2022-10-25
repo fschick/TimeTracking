@@ -91,10 +91,13 @@ public class ActivityReportService : IActivityReportService
                 TimeWorked = workTime.TimeWorked,
                 BudgetWorked = workTime.BudgetWorked,
                 Currency = workTime.Currency,
-                DailyActivityReportUrl = $"{dailyReportDownloadUrl}&customerId={workTime.CustomerId}",
-                DetailedActivityReportUrl = $"{detailedReportDownloadUrl}&customerId={workTime.CustomerId}",
+                DailyActivityReportUrl = $"{dailyReportDownloadUrl}{customerId(workTime.CustomerId)}",
+                DetailedActivityReportUrl = $"{detailedReportDownloadUrl}{customerId(workTime.CustomerId)}",
             })
             .ToList();
+
+        static string customerId(Guid customerId)
+            => $"&customerId={customerId}";
     }
 
     /// <inheritdoc />

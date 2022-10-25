@@ -10,7 +10,13 @@ namespace FS.TimeTracking.Core.Models.Configuration;
 public class FeatureConfiguration
 {
     /// <summary>
-    /// Gets or sets if the reporting module is enabled.
+    /// Enable / disable authentication and authorization using Keycloak.
+    /// </summary>
+    [Required]
+    public bool Authorization { get; set; }
+
+    /// <summary>
+    /// Enable / disable reporting module.
     /// </summary>
     [Required]
     public bool Reporting { get; set; }

@@ -1,6 +1,7 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ITypeaheadService" />
 [ApiV1Controller]
+[Authorize]
 [ExcludeFromCodeCoverage]
 public class TypeaheadController : ControllerBase, ITypeaheadService
 {

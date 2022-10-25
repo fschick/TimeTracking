@@ -1,7 +1,9 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -13,6 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ISettingService" />
 [ApiV1Controller]
+[Authorize]
 [ExcludeFromCodeCoverage]
 public class SettingController : ISettingService
 {
@@ -28,11 +31,13 @@ public class SettingController : ISettingService
     /// <inheritdoc />
     [HttpGet]
     [NotFoundWhenEmpty]
+    [Authorize(Roles = RoleNames.ADMINISTRATION_SETTINGS_VIEW)]
     public async Task<SettingDto> GetSettings(CancellationToken cancellationToken = default)
         => await _modelService.GetSettings(cancellationToken);
 
     /// <inheritdoc />
     [HttpPut]
+    [Authorize(Roles = RoleNames.ADMINISTRATION_SETTINGS_MANAGE)]
     public async Task UpdateSettings(SettingDto settings)
         => await _modelService.UpdateSettings(settings);
 }

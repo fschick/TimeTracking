@@ -33,6 +33,7 @@
     <ProjectReference Include="..\FS.TimeTracking.Abstractions\FS.TimeTracking.Abstractions.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Api.REST\FS.TimeTracking.Api.REST.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Application\FS.TimeTracking.Application.csproj" />
+    <ProjectReference Include="..\FS.TimeTracking.Keycloak\FS.TimeTracking.Keycloak.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.MySql\FS.TimeTracking.Repository.MySql.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.PostgreSql\FS.TimeTracking.Repository.PostgreSql.csproj" />
     <ProjectReference Include="..\FS.TimeTracking.Repository.Sqlite\FS.TimeTracking.Repository.Sqlite.csproj" />
@@ -69,7 +70,7 @@
   </Target>
 
   <Target Name="GenerateOpenApiSpec" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">
-    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json --TimeTracking:Features:Reporting=true" />
+    <Exec Command="dotnet &quot;$(OutputPath)$(AssemblyName).dll&quot; --generate-openapi $(TargetName).openapi.json --TimeTracking:Features:Reporting=true --TimeTracking:Features:Authorization=true" />
   </Target>
 
   <Target Name="GenerateAngularApiClient" AfterTargets="AfterBuild" Condition="$(IsRuntimeSpecific) != true">

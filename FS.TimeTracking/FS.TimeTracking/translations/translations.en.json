@@ -177,6 +177,10 @@
       "PastMonths": "past {$COUNT} months",
       "PastYears": "past {$COUNT} years"
     },
+    "Authorization": {
+      "Login": "Login",
+      "Logout": "Logout"
+    },
     "Filter": {
       "Title": "Settings & Filter",
       "Add": "Add filter",
@@ -226,6 +230,8 @@
     "ErrorCode": {
       "Unknown": "An unknown error has occurred",
       "NotFound": "The record could not be found",
+      "Unauthorized": "Access to data requires authentication",
+      "Forbidden": "Access to data is not authorized",
       "InternalServerError": "An internal server error has occurred",
       "ForeignKeyViolation": "The operation conflicts with other data",
       "ForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it",

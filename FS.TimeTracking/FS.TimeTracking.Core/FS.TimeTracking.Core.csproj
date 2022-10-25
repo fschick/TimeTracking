@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/targets/net_core.props" />
   <Import Project="../../Build/targets/version.props" />
   <Import Project="../../Build/targets/xml_documentation.props" />

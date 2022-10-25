@@ -5,7 +5,7 @@ import {PageFooterComponent} from './layout/components/page-footer/page-footer.c
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimeTrackingRoutingModule} from './timetracking-routing.module';
 import {TimeTrackingComponent} from './timetracking.component';
-import {ApiModule, Configuration, InformationService, SettingService} from '../../api/timetracking';
+import {ApiModule, Configuration, InformationService} from '../../api/timetracking';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
@@ -46,10 +46,12 @@ import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-over
 import {CoreModule} from '../../core/app/core.module';
 import {LocalizationService} from '../../core/app/services/internationalization/localization.service';
 import {ReportModule} from '../../report/app/report.module';
-import {forkJoin, Observable, tap} from 'rxjs';
+import {AuthenticationInterceptor} from '../../core/app/services/http-interceptors/authentication.interceptor';
+import {forkJoin, from, mergeMap, Observable, tap} from 'rxjs';
 import {ApiDateTimeInterceptor} from '../../core/app/services/http-interceptors/api-date-time.interceptor';
 import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api-error.interceptor';
 import {ConfigurationService} from '../../core/app/services/configuration.service';
+import {AuthenticationService} from '../../core/app/services/authentication.service';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,7 @@ import {ConfigurationService} from '../../core/app/services/configuration.servic
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,
-      deps: [InformationService, LocalizationService, ConfigurationService, NgbConfig, NgSelectConfig],
+      deps: [InformationService, LocalizationService, ConfigurationService, AuthenticationService, NgbConfig, NgSelectConfig],
       multi: true
     }, {
       provide: LOCALE_ID,
@@ -121,6 +123,10 @@ import {ConfigurationService} from '../../core/app/services/configuration.servic
       provide: HTTP_INTERCEPTORS,
       useClass: ApiErrorInterceptor,
       multi: true
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
     }
   ],
   bootstrap: [TimeTrackingComponent]
@@ -128,21 +134,23 @@ import {ConfigurationService} from '../../core/app/services/configuration.servic
 export class TimeTrackingModule {
 }
 
-export function configurationLoaderFactory(informationService: InformationService, localizationService: LocalizationService, configurationService: ConfigurationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
+export function configurationLoaderFactory(informationService: InformationService, localizationService: LocalizationService, configurationService: ConfigurationService, authenticationService: AuthenticationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
   return () => {
     const language = getLanguage(localizationService);
     const getTranslations = informationService.getTranslations({language});
     const getClientConfiguration = informationService.getClientConfiguration();
 
     return forkJoin([getTranslations, getClientConfiguration])
-      .pipe(tap(([translations, clientConfiguration]) => {
-        // Disable animations in e2e tests.
-        ngbConfig.animation = !((window as any).Cypress);
+      .pipe(
+        tap(([translations, clientConfiguration]) => {
+          // Disable animations in e2e tests.
+          ngbConfig.animation = !((window as any).Cypress);
 
-        configurationService.clientConfiguration = clientConfiguration;
-
-        activateTranslations(translations, ngbConfig, ngSelectConfig);
-      }));
+          configurationService.clientConfiguration = clientConfiguration;
+          activateTranslations(translations, ngbConfig, ngSelectConfig);
+        }),
+        mergeMap(() => from(authenticationService.init())),
+      );
   };
 }
 

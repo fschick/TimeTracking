@@ -5,8 +5,14 @@ namespace FS.TimeTracking.Abstractions.DTOs.Configuration;
 /// <summary>
 /// Feature management.
 /// </summary>
-public class ClientFeaturesDto
+public class FeatureConfigurationDto
 {
+    /// <summary>
+    /// Enable / disable authentication and authorization using Keycloak.
+    /// </summary>
+    [Required]
+    public bool Authorization { get; set; }
+
     /// <summary>
     /// Enable / disable reporting module.
     /// </summary>

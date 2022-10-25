@@ -1,6 +1,7 @@
 {
   "TimeTracking": {
     "Features": {
+      "AuthServices": false,
       "Reporting": false
     },
     "Database": {
@@ -18,6 +19,13 @@
     },
     "Reporting": {
       "ReportServerBaseUrl": "http://localhost:5010"
+    },
+    "Keycloak": {
+      "AuthServerUrl": "https://URL/to/Keykloak",
+      "Realm": "<Realm>",
+      "ClientId": "<Front-end client id>",
+      "SslRequired": true,
+      "VerifyTokenAudience": true
     }
   },
   "Kestrel": {

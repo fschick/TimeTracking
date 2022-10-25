@@ -91,9 +91,10 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))
             .ForMember(x => x.GroupBy, x => x.Ignore());
 
-        CreateMap<FeatureConfiguration, ClientFeaturesDto>();
+        CreateMap<FeatureConfiguration, FeatureConfigurationDto>();
 
-        CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>()
-            .ForMember(x => x.Features, x => x.MapFrom(timeTrackingConfiguration => timeTrackingConfiguration.Features));
+        CreateMap<KeycloakConfiguration, KeycloakConfigurationDto>();
+
+        CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>();
     }
 }

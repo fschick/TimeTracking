@@ -63,6 +63,11 @@ public class TimeTrackingConfiguration
     public DatabaseConfiguration Database { get; set; } = new();
 
     /// <summary>
+    /// Keycloak specific configuration.
+    /// </summary>
+    public KeycloakConfiguration Keycloak { get; set; } = new();
+
+    /// <summary>
     /// Report specific configuration.
     /// </summary>
     public ReportingConfiguration Reporting { get; set; } = new();
@@ -70,5 +75,5 @@ public class TimeTrackingConfiguration
     /// <summary>
     /// Enable or disable feature modules
     /// </summary>
-    public FeatureConfiguration Features { get; set; }
+    public FeatureConfiguration Features { get; set; } = new();
 }

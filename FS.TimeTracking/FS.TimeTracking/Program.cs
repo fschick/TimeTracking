@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
+using FS.TimeTracking.Keycloak.Startup;
 
 namespace FS.TimeTracking;
 

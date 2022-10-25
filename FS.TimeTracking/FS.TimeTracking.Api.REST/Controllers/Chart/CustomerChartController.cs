@@ -1,7 +1,9 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
+﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Models.Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -14,6 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerChartService" />
 [ApiV1Controller]
+[Authorize(Roles = RoleNames.CHARTS_BY_CUSTOMER_VIEW)]
 [ExcludeFromCodeCoverage]
 public class CustomerChartController : ControllerBase, ICustomerChartService
 {

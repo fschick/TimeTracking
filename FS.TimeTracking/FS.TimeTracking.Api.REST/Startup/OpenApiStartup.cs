@@ -1,5 +1,7 @@
 ﻿using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
+using FS.TimeTracking.Core.Models.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +10,9 @@ using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using AssemblyExtensions = FS.TimeTracking.Core.Extensions.AssemblyExtensions;
 
@@ -20,7 +24,7 @@ internal static class OpenApiStartup
     private const string SWAGGER_UI_ROUTE = "swagger/";
     private const string OPEN_API_SPEC = "openapi.json";
 
-    public static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
+    public static IServiceCollection RegisterOpenApiController(this IServiceCollection services, TimeTrackingConfiguration configuration)
         => services
             .AddSwaggerGenNewtonsoftSupport()
             .AddSwaggerGen(options =>
@@ -38,6 +42,8 @@ internal static class OpenApiStartup
                 options.IncludeXmlComments(abstractionsXmlDoc);
 
                 options.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc);
+                options.AddAuthorizationCodeFlow(configuration);
+                //options.AddGenericAuthorization(configuration);
             });
 
     public static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
@@ -88,5 +94,72 @@ internal static class OpenApiStartup
         var openApiJson = openApiDocument.SerializeAsJson(OpenApiSpecVersion.OpenApi3_0);
 
         File.WriteAllText(outFile, openApiJson);
+    }
+
+    private static void AddAuthorizationCodeFlow(this SwaggerGenOptions options, TimeTrackingConfiguration configuration)
+    {
+        if (!configuration.Features.Authorization)
+            return;
+
+        var keycloakConfiguration = configuration.Keycloak;
+        var authServerUrl = keycloakConfiguration.AuthServerUrl.Trim('/');
+        var realm = keycloakConfiguration.Realm;
+        var authority = $"{authServerUrl}/realms/{realm}";
+
+        options.OperationFilter<AuthorizationOperationFilter>();
+        options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new OpenApiOAuthFlows
+            {
+                AuthorizationCode = new OpenApiOAuthFlow
+                {
+                    AuthorizationUrl = new Uri($"{authority}/protocol/openid-connect/auth"),
+                    TokenUrl = new Uri($"{authority}/protocol/openid-connect/token"),
+                }
+            },
+            Name = realm,
+            Description = realm
+        });
+
+        options.AddSecurityRequirement();
+    }
+
+    private static void AddGenericAuthorization(this SwaggerGenOptions options, TimeTrackingConfiguration configuration)
+    {
+        var keycloakConfiguration = configuration.Keycloak;
+        var authServerUrl = keycloakConfiguration.AuthServerUrl.Trim('/');
+        var realm = keycloakConfiguration.Realm;
+        var authority = $"{authServerUrl}/realms/{realm}";
+
+        options.OperationFilter<AuthorizationOperationFilter>();
+        options
+            .AddSecurityDefinition(
+                JwtBearerDefaults.AuthenticationScheme,
+                new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OpenIdConnect,
+                    OpenIdConnectUrl = new Uri($"{authority}/.well-known/openid-configuration")
+                });
+
+        options.AddSecurityRequirement();
+    }
+
+    private static void AddSecurityRequirement(this SwaggerGenOptions options)
+    {
+        var securityRequirement = new OpenApiSecurityRequirement
+        { {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme,
+                }
+            },
+            new List<string>()
+        } };
+
+        options.AddSecurityRequirement(securityRequirement);
     }
 }

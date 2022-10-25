@@ -31,6 +31,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
 
+        <!-- Timesheet -->
         <li class="nav-item"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">
@@ -42,6 +43,7 @@
           </a>
         </li>
 
+        <!-- Charts -->
         <li class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="chartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Chart.Title">[i18n] Charts</ng-container>
@@ -80,6 +82,7 @@
           </ul>
         </li>
 
+        <!-- Reports -->
         <li *ngIf="reportingEnabled" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Report.Title">[i18n] Reports</ng-container>
@@ -113,6 +116,7 @@
           </ul>
         </li>
 
+        <!-- Master data -->
         <li class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.MasterData.Title">[i18n] Master data</ng-container>
@@ -148,6 +152,9 @@
                    i18n="@@Page.MasterData.Holidays.Title"
                    routerLink="/master-data/holidays"
                    routerLinkActive="active">[i18n] Holidays</a></li>
+
+            <li><hr class="dropdown-divider"></li>
+
             <li><a class="dropdown-item"
                    data-bs-toggle="collapse"
                    data-bs-target=".navbar-collapse.show"
@@ -159,6 +166,25 @@
       </ul>
 
       <ul class="navbar-nav ms-auto">
+        <!-- Login -->
+        <li *ngIf="authorizationEnabled" class="nav-item">
+          <a *ngIf="!isAuthenticated"
+             class="nav-link"
+             data-bs-toggle="collapse"
+             data-bs-target=".navbar-collapse.show"
+             (click)="login()">
+            <span i18n="@@Component.Authorization.Login">[i18n] Login</span>
+          </a>
+          <a *ngIf="isAuthenticated"
+             class="nav-link"
+             data-bs-toggle="collapse"
+             data-bs-target=".navbar-collapse.show"
+             (click)="logout()">
+            <span i18n="@@Component.Authorization.Logout">[i18n] Logout</span>
+          </a>
+        </li>
+
+        <!-- Language -->
         <li class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle pe-0" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <svg class="flag" viewBox="0 0 4 3">

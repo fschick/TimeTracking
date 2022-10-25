@@ -22,9 +22,15 @@ export class ApiErrorInterceptor implements HttpInterceptor {
         const error = response?.error as ApplicationError;
         const isApplicationError = error != null;
 
-        const message = isApplicationError
-          ? this.enumTranslationService.translate('ErrorCode', error.code)
-          : $localize`:@@Enum.ErrorCode.Unknown:[i18n] An unknown error has occurred`;
+        let message: string;
+        if (isApplicationError)
+          message = this.enumTranslationService.translate('ErrorCode', error.code);
+        else if (response.status === 401)
+          message = $localize`:@@Enum.ErrorCode.Unauthorized:[i18n] Access to data requires authentication`;
+        else if (response.status === 403)
+          message = $localize`:@@Enum.ErrorCode.Forbidden:[i18n] Access to data is not authorized`;
+        else
+          message = $localize`:@@Enum.ErrorCode.Unknown:[i18n] An unknown error has occurred`;
 
         // const requestId = response.headers.get('Request-Id');
         // message += `. RequestID: ${requestId}`;
