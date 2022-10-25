@@ -1,9 +1,9 @@
 ﻿namespace FS.TimeTracking.Core.Models.Application.Core;
 
 /// <summary>
-/// Unified database error codes.
+/// Application specific error codes.
 /// </summary>
-public enum ErrorCode
+public enum ApplicationErrorCode
 {
     /// <summary>
     /// An unknown error has occurred.

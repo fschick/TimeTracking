@@ -9,13 +9,13 @@ namespace FS.TimeTracking.Api.REST.Models;
 /// Contains extended error information about failed API requests
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class RestError
+public class ApplicationError
 {
     /// <summary>
-    /// A unified error code.
+    /// The error code.
     /// </summary>
     [Required]
-    public ErrorCode Code { get; set; }
+    public ApplicationErrorCode Code { get; set; }
 
     /// <summary>
     /// Gets detailed causes of the error.

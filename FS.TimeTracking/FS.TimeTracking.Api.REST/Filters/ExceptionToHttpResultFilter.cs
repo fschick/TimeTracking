@@ -33,17 +33,17 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
                 _logger.LogInformation(context.Exception, "Entity could not be modified.");
                 var isDeleteOperation = context.HttpContext.Request.Method == HttpMethod.Delete.Method;
                 var errorCode = isDeleteOperation
-                    ? ErrorCode.ForeignKeyViolationOnDelete
-                    : ErrorCode.ForeignKeyViolation;
+                    ? ApplicationErrorCode.ForeignKeyViolationOnDelete
+                    : ApplicationErrorCode.ForeignKeyViolation;
                 var dbErrorMessages = _environment.IsDevelopment ? new[] { dbException.Message } : null;
-                var foreignKeyViolationError = new RestError { Code = errorCode, Messages = dbErrorMessages };
+                var foreignKeyViolationError = new ApplicationError { Code = errorCode, Messages = dbErrorMessages };
                 context.Result = new ConflictObjectResult(foreignKeyViolationError);
                 break;
             case ConformityException conformityException:
                 _logger.LogInformation(context.Exception, "Entity could not be modified.");
-                var conformityError = new RestError
+                var conformityError = new ApplicationError
                 {
-                    Code = conformityException.ErrorCode ?? ErrorCode.ConformityViolation,
+                    Code = conformityException.ErrorCode ?? ApplicationErrorCode.ConformityViolation,
                     Messages = conformityException.Errors
                 };
                 context.Result = new ConflictObjectResult(conformityError);
@@ -51,12 +51,12 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
             default:
                 _logger.LogError(context.Exception, "An unhandled exception has occurred while executing the request.");
                 var serverErrorMessages = _environment.IsDevelopment ? new[] { context.Exception.ToString() } : null;
-                var internalServerError = new RestError { Code = ErrorCode.InternalServerError, Messages = serverErrorMessages };
+                var internalServerError = new ApplicationError { Code = ApplicationErrorCode.InternalServerError, Messages = serverErrorMessages };
                 context.Result = new ObjectResult(internalServerError) { StatusCode = (int)HttpStatusCode.InternalServerError };
                 break;
         }
     }
 
     private bool IsForeignKeyViolation(DbException dbException)
-        => _dbExceptionService.TranslateDbException(dbException) == ErrorCode.ForeignKeyViolation;
+        => _dbExceptionService.TranslateDbException(dbException) == ApplicationErrorCode.ForeignKeyViolation;
 }

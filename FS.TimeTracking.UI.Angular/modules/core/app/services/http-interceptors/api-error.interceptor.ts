@@ -3,8 +3,8 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {RestError, ErrorCode} from '../../../../api/timetracking';
 import {EnumTranslationService} from '../enum-translation.service';
+import {ApplicationError} from '../../../../api/timetracking';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
@@ -19,8 +19,10 @@ export class ApiErrorInterceptor implements HttpInterceptor {
       () => {},
       (response: HttpErrorResponse) => {
 
-        const error = response.error as RestError;
-        const message = error != null
+        const error = response?.error as ApplicationError;
+        const isApplicationError = error != null;
+
+        const message = isApplicationError
           ? this.enumTranslationService.translate('ErrorCode', error.code)
           : $localize`:@@Enum.ErrorCode.Unknown:[i18n] An unknown error has occurred`;
 

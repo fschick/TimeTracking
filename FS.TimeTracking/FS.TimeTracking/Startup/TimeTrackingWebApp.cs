@@ -66,7 +66,7 @@ internal static class TimeTrackingWebApp
         {
             services
                 .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
-                .Configure<TimeTrackingConfiguration>(context.Configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION));
+                .CreateAndRegisterTimeTrackingConfiguration(context.Configuration);
         });
     }
 
@@ -127,6 +127,9 @@ internal static class TimeTrackingWebApp
             IsDevelopment = hostEnvironment.IsDevelopment(),
             IsProduction = hostEnvironment.IsProduction(),
         });
+
+    private static IServiceCollection CreateAndRegisterTimeTrackingConfiguration(this IServiceCollection services, IConfiguration configuration)
+        => services.Configure<TimeTrackingConfiguration>(configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION));
 
     private static void RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)
         => services.AddSpaStaticFiles(configuration => configuration.RootPath = GetWebRootPath(hostEnvironment));

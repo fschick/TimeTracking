@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Repository.Services;
 public class DbExceptionService : IDbExceptionService
 {
     /// <inheritdoc />
-    public ErrorCode TranslateDbException(DbException dbException)
+    public ApplicationErrorCode TranslateDbException(DbException dbException)
     {
         switch (dbException)
         {
@@ -20,9 +20,9 @@ public class DbExceptionService : IDbExceptionService
             case SqlException sqlException when IsForeignKeyViolation(sqlException):
             case PostgresException postgresException when IsForeignKeyViolation(postgresException):
             case MySqlException mySqlException when IsForeignKeyViolation(mySqlException):
-                return ErrorCode.ForeignKeyViolation;
+                return ApplicationErrorCode.ForeignKeyViolation;
             default:
-                return ErrorCode.Unknown;
+                return ApplicationErrorCode.Unknown;
         }
     }
 

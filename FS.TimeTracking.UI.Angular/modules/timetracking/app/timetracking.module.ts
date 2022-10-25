@@ -45,9 +45,10 @@ import {ChartWorkdayInfoComponent} from './chart/components/chart-workday-info/c
 import {ChartTotalsOverviewComponent} from './chart/components/chart-totals-overview/chart-totals-overview.component';
 import {CoreModule} from '../../core/app/core.module';
 import {LocalizationService} from '../../core/app/services/internationalization/localization.service';
-import {ApiDateTimeInterceptor} from '../../core/app/services/error-handling/api-date-time.interceptor';
-import {ApiErrorInterceptor} from '../../core/app/services/error-handling/api-error.interceptor';
 import {ReportModule} from '../../report/app/report.module';
+import {forkJoin, Observable, tap} from 'rxjs';
+import {ApiDateTimeInterceptor} from '../../core/app/services/http-interceptors/api-date-time.interceptor';
+import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -126,35 +127,42 @@ import {ReportModule} from '../../report/app/report.module';
 export class TimeTrackingModule {
 }
 
-export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<void> {
+export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
   return () => {
-    let language;
-    switch (localizationService.language) {
-      case 'de':
-      case 'de-DE':
-      case 'de-CH':
-      case 'de-AT':
-        language = 'de';
-        break;
-      default:
-        language = 'en';
-        break;
-    }
+    const language = getLanguage(localizationService);
+    const getTranslations = settingService.getTranslations({language});
 
-    return settingService.getTranslations({language}).toPromise().then(translations => {
-      loadTranslations(flattenTranslations(translations));
+    return forkJoin([getTranslations])
+      .pipe(tap(([translations]) => {
+        // Disable animations in e2e tests.
+        ngbConfig.animation = !((window as any).Cypress);
 
-      // Disable animations in e2e tests.
-      ngbConfig.animation = !((window as any).Cypress);
-
-      ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
-      ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
-      ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
-      ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
-      ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
-      ngSelectConfig.appendTo = 'body';
-    });
+        activateTranslations(translations, ngbConfig, ngSelectConfig);
+      }));
   };
+}
+
+function getLanguage(localizationService: LocalizationService): string {
+  switch (localizationService.language) {
+    case 'de':
+    case 'de-DE':
+    case 'de-CH':
+    case 'de-AT':
+      return 'de';
+    default:
+      return 'en';
+  }
+}
+
+function activateTranslations(translations: any, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig) {
+  loadTranslations(flattenTranslations(translations));
+
+  ngSelectConfig.addTagText = $localize`:@@Component.NgSelect.AddTagText:[i18n] Add item`;
+  ngSelectConfig.loadingText = $localize`:@@Component.NgSelect.LoadingText:[i18n] Loading...`;
+  ngSelectConfig.clearAllText = $localize`:@@Component.NgSelect.ClearAllText:[i18n] Clear all`;
+  ngSelectConfig.notFoundText = $localize`:@@Component.NgSelect.NotFoundText:[i18n] No items found`;
+  ngSelectConfig.typeToSearchText = $localize`:@@Component.NgSelect.TypeToSearchText:[i18n] Type to search`;
+  ngSelectConfig.appendTo = 'body';
 }
 
 export function localeLoaderFactory(localizationService: LocalizationService) {

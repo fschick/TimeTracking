@@ -13,6 +13,6 @@ internal class NotFoundWhenEmptyAttribute : ResultFilterAttribute
     {
         base.OnResultExecuting(context);
         if (context.Result is ObjectResult { Value: null })
-            context.Result = new NotFoundObjectResult(new RestError { Code = ErrorCode.NotFound });
+            context.Result = new NotFoundObjectResult(new ApplicationError { Code = ApplicationErrorCode.NotFound });
     }
 }

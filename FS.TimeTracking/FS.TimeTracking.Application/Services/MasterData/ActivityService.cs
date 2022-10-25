@@ -89,7 +89,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         var assignedToMultipleProjects = timeSheetProjectIds.Count > 1;
         if (differentProjectAssigned || assignedToMultipleProjects)
             throw new ConformityException(
-                ErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentProjects,
+                ApplicationErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentProjects,
                 "Activity is already assigned to different projects via time sheets."
             );
     }
@@ -114,7 +114,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         var assignedToMultipleCustomers = timeSheetCustomerIds.Count > 1;
         if (differentCustomerAssigned || assignedToMultipleCustomers)
             throw new ConformityException(
-                ErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentCustomers,
+                ApplicationErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentCustomers,
                 "Activity is already assigned to different customers via time sheets."
             );
     }

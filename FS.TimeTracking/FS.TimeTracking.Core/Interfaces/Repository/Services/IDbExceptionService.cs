@@ -12,5 +12,5 @@ public interface IDbExceptionService
     /// Translates the database specific exception to an unified error code.
     /// </summary>
     /// <param name="dbException">The database exception.</param>
-    ErrorCode TranslateDbException(DbException dbException);
+    ApplicationErrorCode TranslateDbException(DbException dbException);
 }
