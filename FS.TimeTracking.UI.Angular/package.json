@@ -12,12 +12,12 @@
     "build:icons": "node icon-generator/create-sprite.js icons",
     "build:flags": "node icon-generator/create-sprite.js flags",
     "lint": "ng lint",
-    "test": "ng test --browsers=Chrome",
-    "test:single": "npm run test -- --no-watch --browsers=Chrome",
-    "test:headless": "npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "cypress": "npx cypress open",
+	"test": "npm run test:unit:headless && npm run test:e2e",
+    "test:unit": "ng test --browsers=Chrome",
+    "test:unit:headless": "npm run test:unit -- --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:cypress": "npx cypress run",
-    "test:e2e": "start-server-and-test start:api http://localhost:5000/openapi/index.html start 4200 test:cypress",
-    "cypress": "npx cypress open"
+    "test:e2e": "start-server-and-test start:api http://localhost:5000/openapi/index.html start 4200 test:cypress"
   },
   "private": true,
   "dependencies": {

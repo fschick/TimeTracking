@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/build_core.props" />
-  <Import Project="../../Build/build_version.props" />
+  <Import Project="../../Build/targets/net_core.props" />
+  <Import Project="../../Build/targets/version.props" />
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
