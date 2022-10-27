@@ -17,7 +17,7 @@ describe('rematch', () => {
     const matcher = rematch('admin/master-data');
 
     const match = matcher(toSegments('admin/master-data'), {} as UrlSegmentGroup, {} as Route);
-    const expected = {consumed: [{path: 'admin'},{path: 'master-data'}], posParams: {}} as UrlMatchResult;
+    const expected = {consumed: [{path: 'admin'}, {path: 'master-data'}], posParams: {}} as UrlMatchResult;
     expect(match).toEqual(expected);
 
     const noMatch = matcher(toSegments('admin/reports'), {} as UrlSegmentGroup, {} as Route);
@@ -91,6 +91,20 @@ describe('rematch', () => {
     expect(match).toEqual(expected);
 
     const noMatch = matcher(toSegments('master-data/reports/11'), {} as UrlSegmentGroup, {} as Route);
+    expect(noMatch).toBeNull();
+  });
+
+  it('should match path with regex parameters', () => {
+    const matcher = rematch('master-data/:id([a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})');
+
+    const match = matcher(toSegments('master-data/b4dd4db3-5d27-4fe4-8993-48e742577fff'), {} as UrlSegmentGroup, {} as Route);
+    const expected = {
+      consumed: [{path: 'master-data'}, {path: 'b4dd4db3-5d27-4fe4-8993-48e742577fff'}],
+      posParams: {id: {path: 'b4dd4db3-5d27-4fe4-8993-48e742577fff'}}
+    } as unknown as UrlMatchResult;
+    expect(match).toEqual(expected);
+
+    const noMatch = matcher(toSegments('master-data/subpage'), {} as UrlSegmentGroup, {} as Route);
     expect(noMatch).toBeNull();
   });
 

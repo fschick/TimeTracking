@@ -21,6 +21,10 @@ import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
 import {ReportActivityOverviewComponent} from '../../report/app/components/report-activity-overview/report-activity-overview.component';
 import {ReportActivityPreviewComponent} from '../../report/app/components/report-activity-preview/report-activity-preview.component';
+import {rematch} from '../../core/app/services/routing/rematch';
+
+const guidRegex = '[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}';
+const guidId = `:id(${guidRegex})`;
 
 const routes: Routes = [
   {
@@ -28,25 +32,25 @@ const routes: Routes = [
     children: [
       {
         path: 'customers', component: MasterDataCustomersComponent,
-        children: [{path: ':id', component: MasterDataCustomersEditComponent}]
+        children: [{matcher: rematch(guidId), component: MasterDataCustomersEditComponent}]
       },
       {
         path: 'projects', component: MasterDataProjectsComponent,
-        children: [{path: ':id', component: MasterDataProjectsEditComponent}]
+        children: [{matcher: rematch(guidId), component: MasterDataProjectsEditComponent}]
       },
       {
         path: 'activities', component: MasterDataActivitiesComponent,
-        children: [{path: ':id', component: MasterDataActivitiesEditComponent}]
+        children: [{matcher: rematch(guidId), component: MasterDataActivitiesEditComponent}]
       },
       {
         path: 'orders', component: MasterDataOrdersComponent,
-        children: [{path: ':id', component: MasterDataOrdersEditComponent}]
+        children: [{matcher: rematch(guidId), component: MasterDataOrdersEditComponent}]
       },
       {
         path: 'holidays', component: MasterDataHolidaysComponent,
         children: [
           {path: 'import', component: MasterDataHolidaysImportComponent},
-          {path: ':id', component: MasterDataHolidaysEditComponent},
+          {matcher: rematch(guidId), component: MasterDataHolidaysEditComponent},
         ]
       },
       {
@@ -87,7 +91,7 @@ const routes: Routes = [
   },
   {
     path: '', component: TimesheetComponent,
-    children: [{path: ':id', component: TimesheetEditComponent}]
+    children: [{matcher: rematch(guidId), component: TimesheetEditComponent}]
   },
 ];
 
