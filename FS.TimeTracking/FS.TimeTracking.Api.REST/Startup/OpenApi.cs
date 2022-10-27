@@ -18,35 +18,40 @@ internal static class OpenApi
     public const string OPEN_API_UI_ROUTE = "openapi/";
     public const string OPEN_API_SPEC = "openapi.json";
     public const string SWAGGER_UI_ROUTE = "swagger/";
+    public const string SECURITY_DEFINITION_NAME = "OAuth2";
 
     internal static IServiceCollection RegisterOpenApiController(this IServiceCollection services)
         => services
             .AddSwaggerGenNewtonsoftSupport()
-            .AddSwaggerGen(c =>
+            .AddSwaggerGen(options =>
             {
                 const string documentName = V1ApiController.API_VERSION;
-                c.SwaggerDoc(documentName, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
+                options.SwaggerDoc(documentName, new OpenApiInfo { Title = $"{AssemblyExtensions.GetProgramProduct()} API", Version = V1ApiController.API_VERSION });
 
-                c.OperationFilter<AddCSharpActionFilter>();
-                c.DocumentFilter<FeatureGateDocumentFilter>();
+                options.OperationFilter<AddCSharpActionFilter>();
+                options.DocumentFilter<FeatureGateDocumentFilter>();
 
                 var restXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Api.REST.xml");
                 var abstractionsXmlDoc = Path.Combine(AppContext.BaseDirectory, "FS.TimeTracking.Abstractions.xml");
-                c.IncludeXmlComments(restXmlDoc);
-                c.IncludeXmlComments(abstractionsXmlDoc);
+                options.IncludeXmlComments(restXmlDoc);
+                options.IncludeXmlComments(abstractionsXmlDoc);
 
-                c.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc);
+                options.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc);
             });
 
     internal static WebApplication RegisterOpenApiRoutes(this WebApplication webApplication)
     {
         webApplication
             .UseSwagger(c => c.RouteTemplate = $"{OPEN_API_UI_ROUTE}{{documentName}}/{OPEN_API_SPEC}")
-            .UseSwaggerUI(c =>
+            .UseSwaggerUI(options =>
             {
-                c.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
-                c.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
-                c.DisplayRequestDuration();
+                options.RoutePrefix = OPEN_API_UI_ROUTE.Trim('/');
+                options.SwaggerEndpoint($"{V1ApiController.API_VERSION}/{OPEN_API_SPEC}", $"API version {V1ApiController.API_VERSION}");
+                options.DisplayRequestDuration();
+                options.EnableDeepLinking();
+                options.EnableFilter();
+                options.EnableTryItOutByDefault();
+                options.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
             });
 
         return webApplication;
