@@ -29,7 +29,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
         this.toastrService.error(message);
 
-        if (error.messages?.length > 0)
+        if (error?.messages?.length > 0)
           console.error(`${message}: ${error.messages?.join(', ')}`);
       }));
   }
