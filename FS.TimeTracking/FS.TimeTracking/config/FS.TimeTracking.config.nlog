@@ -89,6 +89,7 @@
         <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Database.Command') and equals('${event-properties:item=EventId_Id}', '20102') and equals('${exception:format=tostring}', '')" action="IgnoreFinal" />
         <when condition="equals(logger, 'Microsoft.EntityFrameworkCore.Query') and contains('${exception:format=tostring}', 'System.Threading.Tasks.TaskCanceledException')" action="IgnoreFinal" />
         <when condition="equals(logger, 'Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware') and contains('${exception:format=tostring}', 'System.Threading.Tasks.TaskCanceledException')" action="IgnoreFinal" />
+        <when condition="equals(logger, 'FS.TimeTracking.Api.REST.Filters.ExceptionToHttpResultFilter') and contains('${exception:format=tostring}', 'System.Threading.Tasks.TaskCanceledException')" action="IgnoreFinal" />
       </filters>
     </logger>
 
