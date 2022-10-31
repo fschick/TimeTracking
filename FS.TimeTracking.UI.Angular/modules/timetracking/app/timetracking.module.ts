@@ -5,7 +5,7 @@ import {PageFooterComponent} from './layout/components/page-footer/page-footer.c
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimeTrackingRoutingModule} from './timetracking-routing.module';
 import {TimeTrackingComponent} from './timetracking.component';
-import {ApiModule, Configuration, InformationService} from '../../api/timetracking';
+import {ApiModule, Configuration, InformationService, SettingService} from '../../api/timetracking';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
@@ -49,6 +49,7 @@ import {ReportModule} from '../../report/app/report.module';
 import {forkJoin, Observable, tap} from 'rxjs';
 import {ApiDateTimeInterceptor} from '../../core/app/services/http-interceptors/api-date-time.interceptor';
 import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api-error.interceptor';
+import {ConfigurationService} from '../../core/app/services/configuration.service';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,
-      deps: [InformationService, LocalizationService, NgbConfig, NgSelectConfig],
+      deps: [InformationService, LocalizationService, ConfigurationService, NgbConfig, NgSelectConfig],
       multi: true
     }, {
       provide: LOCALE_ID,
@@ -127,15 +128,18 @@ import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api
 export class TimeTrackingModule {
 }
 
-export function configurationLoaderFactory(informationService: InformationService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
+export function configurationLoaderFactory(informationService: InformationService, localizationService: LocalizationService, configurationService: ConfigurationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
   return () => {
     const language = getLanguage(localizationService);
     const getTranslations = informationService.getTranslations({language});
+    const getClientConfiguration = informationService.getClientConfiguration();
 
-    return forkJoin([getTranslations])
-      .pipe(tap(([translations]) => {
+    return forkJoin([getTranslations, getClientConfiguration])
+      .pipe(tap(([translations, clientConfiguration]) => {
         // Disable animations in e2e tests.
         ngbConfig.animation = !((window as any).Cypress);
+
+        configurationService.clientConfiguration = clientConfiguration;
 
         activateTranslations(translations, ngbConfig, ngSelectConfig);
       }));

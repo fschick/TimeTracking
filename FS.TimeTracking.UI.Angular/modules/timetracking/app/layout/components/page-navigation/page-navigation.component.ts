@@ -3,8 +3,9 @@ import {environment} from '../../../../environments/environment';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {$localizeId} from '../../../../../core/app/services/internationalization/localizeId';
 import {Observable} from 'rxjs';
-import {InformationService, SettingService} from '../../../../../api/timetracking';
+import {SettingService} from '../../../../../api/timetracking';
 import {map} from 'rxjs/operators';
+import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
 
 @Component({
   selector: 'ts-page-navigation',
@@ -15,16 +16,16 @@ export class PageNavigationComponent {
   public isDevelopment: boolean;
   public languageCode: string;
   public languageName: string;
-  public reportingEnabled: Observable<boolean>;
+  public reportingEnabled: boolean;
 
   constructor(
-    informationService: InformationService,
+    configurationService: ConfigurationService,
     private localizationService: LocalizationService,
   ) {
     this.isDevelopment = !environment.production;
     this.languageCode = localizationService.language;
 
-    this.reportingEnabled = informationService.getClientConfiguration().pipe(map(x => x.features.reporting))
+    this.reportingEnabled = configurationService.clientConfiguration.features.reporting;
 
     const languageTransUnitId = `@@Language.${this.languageCode}`;
     this.languageName = $localizeId`${languageTransUnitId}:TRANSUNITID:`;
