@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FS.TimeTracking.Abstractions.DTOs.Configuration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
+using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Report.Client.Model;
 using System;
 using System.Collections.Generic;
@@ -88,5 +90,10 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.CustomerContactName, x => x.MapFrom(timeSheet => timeSheet.Customer.ContactName))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))
             .ForMember(x => x.GroupBy, x => x.Ignore());
+
+        CreateMap<FeatureConfiguration, ClientFeaturesDto>();
+
+        CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>()
+            .ForMember(x => x.Features, x => x.MapFrom(timeTrackingConfiguration => timeTrackingConfiguration.Features));
     }
 }

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace FS.TimeTracking.Core.Models.Configuration;
 
 /// <summary>
-/// Report specific configuration.
+/// Feature management.
 /// </summary>
 [ExcludeFromCodeCoverage]
 public class FeatureConfiguration

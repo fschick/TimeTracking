@@ -1,8 +1,8 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.DTOs.Configuration;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
@@ -46,6 +46,6 @@ public class SettingController : ISettingService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<FeatureConfiguration> GetFeatures(CancellationToken cancellationToken = default)
-        => await _modelService.GetFeatures(cancellationToken);
+    public async Task<ClientConfigurationDto> ClientConfiguration(CancellationToken cancellationToken = default)
+        => await _modelService.ClientConfiguration(cancellationToken);
 }

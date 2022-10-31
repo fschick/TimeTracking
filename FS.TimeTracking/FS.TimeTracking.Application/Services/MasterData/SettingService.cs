@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FS.TimeTracking.Abstractions.DTOs.Configuration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
@@ -20,8 +21,8 @@ public class SettingService : ISettingService
 {
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
-    private AsyncLazy<SettingDto> _settingsCache;
     private readonly TimeTrackingConfiguration _configuration;
+    private AsyncLazy<SettingDto> _settingsCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingService"/> class.
@@ -74,8 +75,11 @@ public class SettingService : ISettingService
     }
 
     /// <inheritdoc />
-    public Task<FeatureConfiguration> GetFeatures(CancellationToken cancellationToken = default)
-        => Task.FromResult(_configuration.Features);
+    public Task<ClientConfigurationDto> ClientConfiguration(CancellationToken cancellationToken = default)
+    {
+        var clientConfiguration = _mapper.Map<ClientConfigurationDto>(_configuration);
+        return Task.FromResult(clientConfiguration);
+    }
 
     private async Task<SettingDto> LoadSettings()
     {

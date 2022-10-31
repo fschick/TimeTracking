@@ -24,7 +24,7 @@ export class PageNavigationComponent {
     this.isDevelopment = !environment.production;
     this.languageCode = localizationService.language;
 
-    this.reportingEnabled = settingService.getFeatures().pipe(map(x => x.reporting))
+    this.reportingEnabled = settingService.clientConfiguration().pipe(map(x => x.features.reporting))
 
     const languageTransUnitId = `@@Language.${this.languageCode}`;
     this.languageName = $localizeId`${languageTransUnitId}:TRANSUNITID:`;

@@ -1,5 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Core.Models.Configuration;
+﻿using FS.TimeTracking.Abstractions.DTOs.Configuration;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,8 +30,8 @@ public interface ISettingService
     Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets enabled features.
+    /// Gets configuration values for client.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<FeatureConfiguration> GetFeatures(CancellationToken cancellationToken = default);
+    Task<ClientConfigurationDto> ClientConfiguration(CancellationToken cancellationToken = default);
 }
