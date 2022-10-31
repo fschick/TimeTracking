@@ -5,7 +5,7 @@ import {PageFooterComponent} from './layout/components/page-footer/page-footer.c
 import {TimesheetComponent} from './timesheet/components/timesheet/timesheet.component';
 import {TimeTrackingRoutingModule} from './timetracking-routing.module';
 import {TimeTrackingComponent} from './timetracking.component';
-import {ApiModule, Configuration, SettingService} from '../../api/timetracking';
+import {ApiModule, Configuration, InformationService} from '../../api/timetracking';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {loadTranslations} from '@angular/localize';
@@ -106,7 +106,7 @@ import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api
     {
       provide: APP_INITIALIZER,
       useFactory: configurationLoaderFactory,
-      deps: [SettingService, LocalizationService, NgbConfig, NgSelectConfig],
+      deps: [InformationService, LocalizationService, NgbConfig, NgSelectConfig],
       multi: true
     }, {
       provide: LOCALE_ID,
@@ -127,10 +127,10 @@ import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api
 export class TimeTrackingModule {
 }
 
-export function configurationLoaderFactory(settingService: SettingService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
+export function configurationLoaderFactory(informationService: InformationService, localizationService: LocalizationService, ngbConfig: NgbConfig, ngSelectConfig: NgSelectConfig): () => Promise<any> | Observable<any> {
   return () => {
     const language = getLanguage(localizationService);
-    const getTranslations = settingService.getTranslations({language});
+    const getTranslations = informationService.getTranslations({language});
 
     return forkJoin([getTranslations])
       .pipe(tap(([translations]) => {

@@ -4,6 +4,7 @@ using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -28,6 +29,7 @@ namespace FS.TimeTracking.Application.Services.Reporting;
 public class ActivityReportService : IActivityReportService
 {
     private readonly ISettingService _settingService;
+    private readonly IInformationService _informationService;
     private readonly IDbRepository _dbRepository;
     private readonly HttpClient _httpClient;
     private readonly TimeTrackingConfiguration _configuration;
@@ -38,14 +40,16 @@ public class ActivityReportService : IActivityReportService
     /// Initializes a new instance of the <see cref="ActivityReportService"/> class.
     /// </summary>
     /// <param name="settingService">The setting service.</param>
+    /// <param name="informationService">The information service.</param>
     /// <param name="dbRepository">The repository.</param>
     /// <param name="httpClient">The HTTP client.</param>
     /// <param name="configuration">The configuration.</param>
     /// <param name="apiDescriptionGroupCollectionProvider">The API description group collection provider.</param>
     /// <param name="customerChartService">The customer chart service.</param>
-    public ActivityReportService(ISettingService settingService, IDbRepository dbRepository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, ICustomerChartService customerChartService)
+    public ActivityReportService(ISettingService settingService, IInformationService informationService, IDbRepository dbRepository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, ICustomerChartService customerChartService)
     {
         _settingService = settingService;
+        _informationService = informationService;
         _dbRepository = dbRepository;
         _httpClient = httpClient;
         _apiDescriptionProvider = apiDescriptionGroupCollectionProvider;
@@ -133,7 +137,7 @@ public class ActivityReportService : IActivityReportService
 
         var serviceProvider = await GetServiceProviderInformation(cancellationToken);
 
-        var translations = await _settingService.GetTranslations(language, cancellationToken);
+        var translations = await _informationService.GetTranslations(language, cancellationToken);
         var reportTranslations = translations
             .SelectToken("Page.Report.Activity")
             .ToDictionary()

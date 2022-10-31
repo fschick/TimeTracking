@@ -1,7 +1,10 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.Configuration;
+using FS.TimeTracking.Abstractions.DTOs.Shared;
+using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,4 +46,15 @@ public class InformationController : ControllerBase, IInformationService
     [HttpGet]
     public async Task<string> GetProductCopyright(CancellationToken cancellationToken = default)
         => await _informationService.GetProductCopyright(cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<ClientConfigurationDto> GetClientConfiguration(CancellationToken cancellationToken = default)
+        => await _informationService.GetClientConfiguration(cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [NotFoundWhenEmpty]
+    public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
+        => await _informationService.GetTranslations(language, cancellationToken);
 }

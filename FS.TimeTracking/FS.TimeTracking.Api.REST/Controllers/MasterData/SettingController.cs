@@ -1,10 +1,8 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Configuration;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,15 +35,4 @@ public class SettingController : ISettingService
     [HttpPut]
     public async Task UpdateSettings(SettingDto settings)
         => await _modelService.UpdateSettings(settings);
-
-    /// <inheritdoc />
-    [HttpGet]
-    [NotFoundWhenEmpty]
-    public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
-        => await _modelService.GetTranslations(language, cancellationToken);
-
-    /// <inheritdoc />
-    [HttpGet]
-    public async Task<ClientConfigurationDto> ClientConfiguration(CancellationToken cancellationToken = default)
-        => await _modelService.ClientConfiguration(cancellationToken);
 }

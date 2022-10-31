@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Abstractions.DTOs.Configuration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
-using FS.TimeTracking.Core.Models.Configuration;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using Nito.AsyncEx;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +16,6 @@ public class SettingService : ISettingService
 {
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
-    private readonly TimeTrackingConfiguration _configuration;
     private AsyncLazy<SettingDto> _settingsCache;
 
     /// <summary>
@@ -29,12 +23,10 @@ public class SettingService : ISettingService
     /// </summary>
     /// <param name="dbRepository">The repository.</param>
     /// <param name="mapper">The mapper.</param>
-    /// <param name="configuration">The configuration.</param>
-    public SettingService(IDbRepository dbRepository, IMapper mapper, IOptions<TimeTrackingConfiguration> configuration)
+    public SettingService(IDbRepository dbRepository, IMapper mapper)
     {
         _dbRepository = dbRepository;
         _mapper = mapper;
-        _configuration = configuration.Value;
 
         _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
     }
@@ -57,28 +49,6 @@ public class SettingService : ISettingService
 
         await _dbRepository.SaveChanges();
         _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
-    }
-
-    /// <inheritdoc />
-    public async Task<JObject> GetTranslations(string language, CancellationToken cancellationToken = default)
-    {
-        var translationFolder = Path.Combine(TimeTrackingConfiguration.PathToContentRoot, TimeTrackingConfiguration.TRANSLATION_FOLDER);
-        var translationFile = Path.Combine(translationFolder, $"translations.{language}.json");
-        if (!File.Exists(translationFile) && language != null)
-            translationFile = Path.Combine(translationFolder, $"translations.{language[..2]}.json");
-        if (!File.Exists(translationFile))
-            translationFile = Path.Combine(translationFolder, "translations.en.json");
-        if (!File.Exists(translationFile))
-            return new JObject();
-
-        return JObject.Parse(await File.ReadAllTextAsync(translationFile, cancellationToken));
-    }
-
-    /// <inheritdoc />
-    public Task<ClientConfigurationDto> ClientConfiguration(CancellationToken cancellationToken = default)
-    {
-        var clientConfiguration = _mapper.Map<ClientConfigurationDto>(_configuration);
-        return Task.FromResult(clientConfiguration);
     }
 
     private async Task<SettingDto> LoadSettings()
