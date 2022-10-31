@@ -1,9 +1,12 @@
-﻿using FS.TimeTracking.Core.Models.Configuration;
+﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Authorization;
+using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Keycloak.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Keycloak.Startup;
@@ -39,6 +42,18 @@ internal static class KeycloakStartup
         services.AddScoped<IClaimsTransformation, KeycloakJwtTransformation>();
 
         return services;
+    }
+
+    public static async Task CreateRealmIfNotExists(this WebApplication webApp, CancellationToken cancellationToken = default)
+    {
+        using var serviceScope = webApp.Services.CreateScope();
+        var services = serviceScope.ServiceProvider;
+        var keycloakDeploymentService = services.GetRequiredService<IKeycloakDeploymentService>();
+
+        //await keycloakDeploymentService.DeleteRealmIfExists(cancellationToken);
+        var realmCreated = await keycloakDeploymentService.CreateRealmIfNotExists(cancellationToken);
+        if (realmCreated)
+            await keycloakDeploymentService.SetUserIdOfRelatedEntitiesToDefaultUser(cancellationToken);
     }
 
     private static void AllowJwtTokenFromQueryParam(this JwtBearerOptions options)

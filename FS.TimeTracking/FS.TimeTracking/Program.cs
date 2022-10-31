@@ -1,4 +1,5 @@
 using FS.TimeTracking.Api.REST.Startup;
+using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Startup;
@@ -31,6 +32,7 @@ internal class Program
             else
             {
                 await webApp.MigrateDatabase();
+                await webApp.CreateRealmIfNotExists();
                 await webApp.RunAsync();
             }
         }

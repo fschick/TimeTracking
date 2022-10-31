@@ -38,4 +38,19 @@ public class KeycloakConfiguration
     /// Audience verification
     /// </summary>
     public bool VerifyTokenAudience { get; set; }
+
+    /// <summary>
+    /// Create the realm and all it's configuration in Keycloak if not exists. Requires <see cref="AdminUser"/> and <see cref="AdminPassword"/> to be set.
+    /// </summary>
+    public bool CreateRealm { get; set; }
+
+    /// <summary>
+    /// An user having privileges to create the realm and it's structure.
+    /// </summary>
+    public string AdminUser { get; set; }
+
+    /// <summary>
+    /// The password for the <see cref="AdminUser"/>
+    /// </summary>
+    public string AdminPassword { get; set; }
 }

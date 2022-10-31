@@ -1,7 +1,7 @@
 {
   "TimeTracking": {
     "Features": {
-      "AuthServices": false,
+      "Authorization": false,
       "Reporting": false
     },
     "Database": {
@@ -23,9 +23,13 @@
     "Keycloak": {
       "AuthServerUrl": "https://URL/to/Keykloak",
       "Realm": "<Realm>",
+      "ResourceServerId": "<Resource (server) client id>",
       "ClientId": "<Front-end client id>",
       "SslRequired": true,
-      "VerifyTokenAudience": true
+      "VerifyTokenAudience": true,
+      "CreateRealm": false,
+      "AdminUser": null,
+      "AdminPassword": null
     }
   },
   "Kestrel": {
