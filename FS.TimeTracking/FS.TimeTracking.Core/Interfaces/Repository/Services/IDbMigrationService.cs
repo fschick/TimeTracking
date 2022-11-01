@@ -1,4 +1,7 @@
-﻿namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
 
 /// <summary>
 /// Database migration service
@@ -9,5 +12,6 @@ public interface IDbMigrationService
     /// Applies all outstanding database migrations.
     /// </summary>
     /// <param name="truncateDatabase">True, if the database should be truncated before applying migrations.</param>
-    void MigrateDatabase(bool truncateDatabase);
+    /// <param name="cancellationToken"> a token that allows processing to be cancelled.</param>
+    Task MigrateDatabase(bool truncateDatabase, CancellationToken cancellationToken = default);
 }

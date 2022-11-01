@@ -28,9 +28,10 @@ internal class Program
             else if (options.GenerateValidationSpecFile)
                 await webApp.GenerateValidationSpec(options.ValidationSpecFile);
             else
-                await webApp
-                    .MigrateDatabase()
-                    .RunAsync();
+            {
+                await webApp.MigrateDatabase();
+                await webApp.RunAsync();
+            }
         }
         catch (Exception exception)
         {

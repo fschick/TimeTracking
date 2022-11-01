@@ -41,7 +41,7 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
         var orders = await _importRepository.Get((Order x) => x);
         var timeSheets = await _importRepository.Get((TimeSheet x) => x);
 
-        _dbMigrationService.MigrateDatabase(_importConfiguration.TruncateBeforeImport);
+        await _dbMigrationService.MigrateDatabase(_importConfiguration.TruncateBeforeImport);
         using var transaction = _dbRepository.CreateTransactionScope();
         await _dbRepository.BulkAddRange(settings);
         await _dbRepository.BulkAddRange(holidays);

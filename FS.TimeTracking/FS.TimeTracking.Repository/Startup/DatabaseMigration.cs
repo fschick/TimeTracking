@@ -7,30 +7,29 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Repository.Startup;
 
 internal static class DatabaseMigration
 {
-    public static WebApplication MigrateDatabase(this WebApplication webApplication)
+    public static async Task MigrateDatabase(this WebApplication webApplication, CancellationToken cancellationToken = default)
     {
         var serviceFactory = webApplication.Services.GetRequiredService<IServiceScopeFactory>();
         using var serviceScope = serviceFactory.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
-        MigrateDatabase(serviceProvider);
-        return webApplication;
+        await MigrateDatabase(serviceProvider, cancellationToken);
     }
 
-    public static IServiceProvider MigrateDatabase(this IServiceProvider serviceProvider)
+    private static async Task MigrateDatabase(this IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TimeTrackingDbContext>>();
-        using var dbContext = serviceProvider.GetRequiredService<TimeTrackingDbContext>();
+        await using var dbContext = serviceProvider.GetRequiredService<TimeTrackingDbContext>();
         var dbTruncateService = serviceProvider.GetRequiredService<IDbTruncateService>();
         var databaseConfiguration = serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value.Database;
 
         var dbMigrationService = new DbMigrationService(logger, dbContext, dbTruncateService);
-        dbMigrationService.MigrateDatabase(databaseConfiguration.TruncateOnApplicationStart);
-
-        return serviceProvider;
+        await dbMigrationService.MigrateDatabase(databaseConfiguration.TruncateOnApplicationStart, cancellationToken);
     }
 }

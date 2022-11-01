@@ -1,8 +1,10 @@
-﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Extensions;
+using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Repository.Services;
 
@@ -28,12 +30,12 @@ public class DbMigrationService : IDbMigrationService
     }
 
     /// <inheritdoc />
-    public void MigrateDatabase(bool truncateDatabase)
+    public async Task MigrateDatabase(bool truncateDatabase, CancellationToken cancellationToken = default)
     {
         if (truncateDatabase)
             _dbTruncateService.TruncateDatabase();
 
-        var pendingMigrations = _dbContext.Database.GetPendingMigrations().ToList();
+        var pendingMigrations = await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken).ToListAsync();
         if (pendingMigrations.Count == 0)
             return;
 
@@ -41,7 +43,7 @@ public class DbMigrationService : IDbMigrationService
         foreach (var pendingMigration in pendingMigrations)
             _logger.LogInformation(pendingMigration);
 
-        _dbContext.Database.Migrate();
+        await _dbContext.Database.MigrateAsync(cancellationToken);
 
         _logger.LogInformation("Database migration finished.");
     }
