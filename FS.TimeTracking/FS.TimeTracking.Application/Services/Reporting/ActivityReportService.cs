@@ -28,7 +28,7 @@ namespace FS.TimeTracking.Application.Services.Reporting;
 public class ActivityReportService : IActivityReportService
 {
     private readonly ISettingService _settingService;
-    private readonly IRepository _repository;
+    private readonly IDbRepository _dbRepository;
     private readonly HttpClient _httpClient;
     private readonly TimeTrackingConfiguration _configuration;
     private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionProvider;
@@ -38,15 +38,15 @@ public class ActivityReportService : IActivityReportService
     /// Initializes a new instance of the <see cref="ActivityReportService"/> class.
     /// </summary>
     /// <param name="settingService">The setting service.</param>
-    /// <param name="repository">The repository.</param>
+    /// <param name="dbRepository">The repository.</param>
     /// <param name="httpClient">The HTTP client.</param>
     /// <param name="configuration">The configuration.</param>
     /// <param name="apiDescriptionGroupCollectionProvider">The API description group collection provider.</param>
     /// <param name="customerChartService">The customer chart service.</param>
-    public ActivityReportService(ISettingService settingService, IRepository repository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, ICustomerChartService customerChartService)
+    public ActivityReportService(ISettingService settingService, IDbRepository dbRepository, HttpClient httpClient, IOptions<TimeTrackingConfiguration> configuration, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, ICustomerChartService customerChartService)
     {
         _settingService = settingService;
-        _repository = repository;
+        _dbRepository = dbRepository;
         _httpClient = httpClient;
         _apiDescriptionProvider = apiDescriptionGroupCollectionProvider;
         _customerChartService = customerChartService;
@@ -170,7 +170,7 @@ public class ActivityReportService : IActivityReportService
     {
         var filter = FilterExtensions.CreateTimeSheetFilter(filters);
 
-        var timeSheets = await _repository
+        var timeSheets = await _dbRepository
             .Get<TimeSheet, ActivityReportTimeSheetDto>(
                 where: filter,
                 orderBy: o => o.OrderBy(x => x.StartDateLocal),

@@ -23,9 +23,9 @@ internal static class DependencyConfiguration
     {
         //services.AddDbContextPool<TimeTrackingDbContext>(o => { });
         services.AddDbContext<TimeTrackingDbContext>();
-        services.AddScoped<IRepository, Repository<TimeTrackingDbContext>>();
+        services.AddScoped<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         services.AddSingleton<IDbExceptionService, DbExceptionService>();
-        services.AddScoped<ITruncateDbService, TruncateDbService>();
+        services.AddScoped<IDbTruncateService, DbTruncateService>();
 
         services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IInformationService, InformationService>();

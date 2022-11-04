@@ -31,7 +31,7 @@ internal static class DependencyConfiguration
             .AddDbContext<TimeTrackingDbContext>()
             .AddDbContext<KimaiV1DbContext>()
             .AddScoped(CreateTimeTrackingImportDbContext)
-            .AddScoped<IRepository, Repository<TimeTrackingDbContext>>()
+            .AddScoped<IDbRepository, DbRepository<TimeTrackingDbContext>>()
             .AddScoped<IKimaiV1Repository, KimaiV1Repository>()
             .AddScoped<ITimeTrackingImportRepository, TimeTrackingImportRepository>()
             .AddScoped<IWorkdayService, WorkdayService>()
@@ -39,8 +39,8 @@ internal static class DependencyConfiguration
             .AddScoped<ITestDataService, TestDataService>()
             .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>()
             .AddScoped<ITimeTrackingImportService, TimeTrackingImportService>()
-            .AddScoped<ITruncateDbService, TruncateDbService>()
-            .AddScoped<IDatabaseMigrationService, DatabaseMigrationService>();
+            .AddScoped<IDbTruncateService, DbTruncateService>()
+            .AddScoped<IDbMigrationService, DbMigrationService>();
 
     private static IServiceCollection RegisterConfiguration(this IServiceCollection services, CommandLineOptions commandLineOptions)
         => services

@@ -42,14 +42,14 @@ public class ActivityChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IActivityChartService, ActivityChartService>();
 
-        var repository = autoFake.Resolve<IRepository>();
-        await repository.AddRange(testCase.MasterData);
-        await repository.AddRange(testCase.TimeSheets);
-        await repository.SaveChanges();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
+        await dbRepository.AddRange(testCase.MasterData);
+        await dbRepository.AddRange(testCase.TimeSheets);
+        await dbRepository.SaveChanges();
 
         // Act
         var activityChartService = autoFake.Resolve<IActivityChartService>();
@@ -69,10 +69,10 @@ public class ActivityChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
         var projectCustomer = faker.Customer.Create();
@@ -80,8 +80,8 @@ public class ActivityChartServiceTests
 
         var activityCustomer = faker.Customer.Create();
 
-        await repository.AddRange(new List<IIdEntityModel> { activityCustomer, projectCustomer, project });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { activityCustomer, projectCustomer, project });
+        await dbRepository.SaveChanges();
 
         // Act
         var activity = faker.Activity.CreateDto(activityCustomer.Id, project.Id);
@@ -101,18 +101,18 @@ public class ActivityChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
         var project = faker.Project.Create();
 
         var activityCustomer = faker.Customer.Create();
 
-        await repository.AddRange(new List<IIdEntityModel> { activityCustomer, project });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { activityCustomer, project });
+        await dbRepository.SaveChanges();
 
         // Act
         var activity = faker.Activity.CreateDto(activityCustomer.Id, project.Id);
@@ -131,21 +131,21 @@ public class ActivityChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
         var activity = faker.Activity.Create();
-        await repository.AddRange(new List<IIdEntityModel> { activity });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { activity });
+        await dbRepository.SaveChanges();
 
         var timeSheetCustomer = faker.Customer.Create();
         var timeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, activity.Id);
 
-        await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheet });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheet });
+        await dbRepository.SaveChanges();
 
         // Act
         var activityDto = faker.AutoMapper.Map<ActivityDto>(activity);
@@ -166,22 +166,22 @@ public class ActivityChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IActivityService, ActivityService>();
 
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var activityService = autoFake.Resolve<IActivityService>();
 
         var activity = faker.Activity.Create();
-        await repository.AddRange(new List<IIdEntityModel> { activity });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { activity });
+        await dbRepository.SaveChanges();
 
         var timeSheetCustomer = faker.Customer.Create();
         var timeSheetProject = faker.Project.Create();
         var timeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, activity.Id, timeSheetProject.Id);
 
-        await repository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetProject, timeSheet });
-        await repository.SaveChanges();
+        await dbRepository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetProject, timeSheet });
+        await dbRepository.SaveChanges();
 
         // Act
         var activityDto = faker.AutoMapper.Map<ActivityDto>(activity);

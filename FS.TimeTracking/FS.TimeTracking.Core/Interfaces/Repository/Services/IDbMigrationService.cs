@@ -3,7 +3,7 @@
 /// <summary>
 /// Database migration service
 /// </summary>
-public interface IDatabaseMigrationService
+public interface IDbMigrationService
 {
     /// <summary>
     /// Applies all outstanding database migrations.

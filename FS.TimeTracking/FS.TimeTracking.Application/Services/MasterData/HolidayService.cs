@@ -22,8 +22,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridDto>, IHolidayService
 {
     /// <inheritdoc />
-    public HolidayService(IRepository repository, IMapper mapper)
-        : base(repository, mapper)
+    public HolidayService(IDbRepository dbRepository, IMapper mapper)
+        : base(dbRepository, mapper)
     { }
 
     /// <inheritdoc />
@@ -31,7 +31,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
     {
         var filter = FilterExtensions.CreateHolidayFilter(filters);
 
-        return await Repository
+        return await DbRepository
             .Get<Holiday, HolidayGridDto>(
                 where: filter,
                 orderBy: o => o
@@ -65,8 +65,8 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
 
         var entities = Mapper.Map<List<Holiday>>(holidays);
         // ReSharper disable once MethodSupportsCancellation
-        await Repository.AddRange(entities);
+        await DbRepository.AddRange(entities);
         // ReSharper disable once MethodSupportsCancellation
-        await Repository.SaveChanges();
+        await DbRepository.SaveChanges();
     }
 }

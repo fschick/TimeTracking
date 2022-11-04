@@ -34,12 +34,12 @@ public class WorkdayServiceTests
     {
         using var autoFake = new AutoFake();
 
-        var repository = autoFake.Resolve<IRepository>();
-        A.CallTo(() => repository.Get<Holiday, HolidayDto>(default, default, default, default, default, default, default, default))
+        var dbRepository = autoFake.Resolve<IDbRepository>();
+        A.CallTo(() => dbRepository.Get<Holiday, HolidayDto>(default, default, default, default, default, default, default, default))
             .WithAnyArguments()
             .Returns(Task.FromResult(_holidays));
 
-        autoFake.Provide(repository);
+        autoFake.Provide(dbRepository);
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
 

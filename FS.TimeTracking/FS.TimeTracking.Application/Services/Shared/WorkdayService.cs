@@ -24,12 +24,12 @@ public class WorkdayService : IWorkdayService
     /// <summary>
     /// Initializes a new instance of the <see cref="WorkdayService" /> class.
     /// </summary>
-    /// <param name="repository">The repository.</param>
+    /// <param name="dbRepository">The repository.</param>
     /// <param name="settingService">The setting service.</param>
-    public WorkdayService(IRepository repository, ISettingService settingService)
+    public WorkdayService(IDbRepository dbRepository, ISettingService settingService)
     {
         _settingService = settingService;
-        _holidays = new AsyncLazy<List<HolidayDto>>(async () => await repository.Get<Holiday, HolidayDto>());
+        _holidays = new AsyncLazy<List<HolidayDto>>(async () => await dbRepository.Get<Holiday, HolidayDto>());
     }
 
     /// <inheritdoc />

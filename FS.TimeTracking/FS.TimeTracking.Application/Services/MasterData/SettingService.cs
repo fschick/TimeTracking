@@ -18,7 +18,7 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 /// <inheritdoc cref="ISettingService" />
 public class SettingService : ISettingService
 {
-    private readonly IRepository _repository;
+    private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
     private AsyncLazy<SettingDto> _settingsCache;
     private TimeTrackingConfiguration _configuration;
@@ -26,12 +26,12 @@ public class SettingService : ISettingService
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingService"/> class.
     /// </summary>
-    /// <param name="repository">The repository.</param>
+    /// <param name="dbRepository">The repository.</param>
     /// <param name="mapper">The mapper.</param>
     /// <param name="configuration">The configuration.</param>
-    public SettingService(IRepository repository, IMapper mapper, IOptions<TimeTrackingConfiguration> configuration)
+    public SettingService(IDbRepository dbRepository, IMapper mapper, IOptions<TimeTrackingConfiguration> configuration)
     {
-        _repository = repository;
+        _dbRepository = dbRepository;
         _mapper = mapper;
         _configuration = configuration.Value;
 
@@ -48,13 +48,13 @@ public class SettingService : ISettingService
         var settingsList = _mapper.Map<List<Setting>>(settings);
         foreach (var setting in settingsList)
         {
-            if (!await _repository.Exists((Setting x) => x.Key == setting.Key))
-                await _repository.Add(setting);
+            if (!await _dbRepository.Exists((Setting x) => x.Key == setting.Key))
+                await _dbRepository.Add(setting);
             else
-                _repository.Update(setting);
+                _dbRepository.Update(setting);
         }
 
-        await _repository.SaveChanges();
+        await _dbRepository.SaveChanges();
         _settingsCache = new AsyncLazy<SettingDto>(async () => await LoadSettings());
     }
 
@@ -79,7 +79,7 @@ public class SettingService : ISettingService
 
     private async Task<SettingDto> LoadSettings()
     {
-        var settings = await _repository.Get((Setting x) => x);
+        var settings = await _dbRepository.Get((Setting x) => x);
         return settings.Any()
             ? _mapper.Map<SettingDto>(settings)
             : new SettingDto();

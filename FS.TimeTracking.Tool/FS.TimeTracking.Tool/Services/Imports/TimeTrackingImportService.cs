@@ -1,5 +1,4 @@
 ﻿using FS.TimeTracking.Core.Extensions;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
@@ -13,18 +12,16 @@ namespace FS.TimeTracking.Tool.Services.Imports;
 
 internal class TimeTrackingImportService : ITimeTrackingImportService
 {
-    private readonly IRepository _repository;
+    private readonly IDbRepository _dbRepository;
     private readonly ITimeTrackingImportRepository _importRepository;
-    private readonly ITestDataService _testDataService;
     private readonly TimeTrackingImportConfiguration _importConfiguration;
-    private readonly IDatabaseMigrationService _databaseMigrationService;
+    private readonly IDbMigrationService _dbMigrationService;
 
-    public TimeTrackingImportService(IRepository repository, ITimeTrackingImportRepository importRepository, ITestDataService testDataService, IOptions<TimeTrackingImportConfiguration> importConfiguration, IDatabaseMigrationService databaseMigrationService)
+    public TimeTrackingImportService(IDbRepository dbRepository, ITimeTrackingImportRepository importRepository, IOptions<TimeTrackingImportConfiguration> importConfiguration, IDbMigrationService dbMigrationService)
     {
-        _repository = repository;
+        _dbRepository = dbRepository;
         _importRepository = importRepository;
-        _testDataService = testDataService;
-        _databaseMigrationService = databaseMigrationService;
+        _dbMigrationService = dbMigrationService;
         _importConfiguration = importConfiguration.Value;
     }
 
@@ -44,16 +41,16 @@ internal class TimeTrackingImportService : ITimeTrackingImportService
         var orders = await _importRepository.Get((Order x) => x);
         var timeSheets = await _importRepository.Get((TimeSheet x) => x);
 
-        _databaseMigrationService.MigrateDatabase(_importConfiguration.TruncateBeforeImport);
-        using var transaction = _repository.CreateTransactionScope();
-        await _repository.BulkAddRange(settings);
-        await _repository.BulkAddRange(holidays);
-        await _repository.BulkAddRange(customers);
-        await _repository.BulkAddRange(projects);
-        await _repository.BulkAddRange(activities);
-        await _repository.BulkAddRange(orders);
-        await _repository.BulkAddRange(timeSheets);
-        await _repository.SaveChanges();
+        _dbMigrationService.MigrateDatabase(_importConfiguration.TruncateBeforeImport);
+        using var transaction = _dbRepository.CreateTransactionScope();
+        await _dbRepository.BulkAddRange(settings);
+        await _dbRepository.BulkAddRange(holidays);
+        await _dbRepository.BulkAddRange(customers);
+        await _dbRepository.BulkAddRange(projects);
+        await _dbRepository.BulkAddRange(activities);
+        await _dbRepository.BulkAddRange(orders);
+        await _dbRepository.BulkAddRange(timeSheets);
+        await _dbRepository.SaveChanges();
         transaction.Complete();
     }
 }

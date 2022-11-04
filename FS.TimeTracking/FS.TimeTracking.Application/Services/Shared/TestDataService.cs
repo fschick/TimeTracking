@@ -17,17 +17,17 @@ namespace FS.TimeTracking.Application.Services.Shared;
 /// <inheritdoc />
 public class TestDataService : ITestDataService
 {
-    private readonly IRepository _repository;
+    private readonly IDbRepository _dbRepository;
     private readonly IWorkdayService _workDaysService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TestDataService"/> class.
     /// </summary>
-    /// <param name="repository">The repository.</param>
+    /// <param name="dbRepository">The repository.</param>
     /// <param name="workDaysService">The work days service.</param>
-    public TestDataService(IRepository repository, IWorkdayService workDaysService)
+    public TestDataService(IDbRepository dbRepository, IWorkdayService workDaysService)
     {
-        _repository = repository;
+        _dbRepository = dbRepository;
         _workDaysService = workDaysService;
     }
 
@@ -170,16 +170,16 @@ public class TestDataService : ITestDataService
             }
         }
 
-        using var scope = _repository.CreateTransactionScope();
+        using var scope = _dbRepository.CreateTransactionScope();
 
         if (truncateBeforeSeed)
             await TruncateData();
 
-        await _repository.BulkAddRange(customers);
-        await _repository.BulkAddRange(projects);
-        await _repository.BulkAddRange(activities);
-        await _repository.BulkAddRange(orders);
-        await _repository.BulkAddRange(timesSheets);
+        await _dbRepository.BulkAddRange(customers);
+        await _dbRepository.BulkAddRange(projects);
+        await _dbRepository.BulkAddRange(activities);
+        await _dbRepository.BulkAddRange(orders);
+        await _dbRepository.BulkAddRange(timesSheets);
 
         scope.Complete();
     }
@@ -187,15 +187,15 @@ public class TestDataService : ITestDataService
     /// <inheritdoc />
     public async Task TruncateData()
     {
-        using var scope = _repository.CreateTransactionScope();
+        using var scope = _dbRepository.CreateTransactionScope();
 
-        await _repository.Remove<TimeSheet>();
-        await _repository.Remove<Order>();
-        await _repository.Remove<Activity>();
-        await _repository.Remove<Project>();
-        await _repository.Remove<Customer>();
-        await _repository.Remove<Holiday>();
-        await _repository.Remove<Setting>();
+        await _dbRepository.Remove<TimeSheet>();
+        await _dbRepository.Remove<Order>();
+        await _dbRepository.Remove<Activity>();
+        await _dbRepository.Remove<Project>();
+        await _dbRepository.Remove<Customer>();
+        await _dbRepository.Remove<Holiday>();
+        await _dbRepository.Remove<Setting>();
 
         scope.Complete();
     }

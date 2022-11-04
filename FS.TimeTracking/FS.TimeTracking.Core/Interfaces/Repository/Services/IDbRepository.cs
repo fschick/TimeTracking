@@ -33,7 +33,7 @@ namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
 /// <summary>
 /// Generic repository.
 /// </summary>
-public interface IRepository
+public interface IDbRepository
 {
     /// <summary>
     /// Gets a projection of entities from database.

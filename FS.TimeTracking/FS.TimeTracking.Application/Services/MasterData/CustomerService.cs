@@ -17,8 +17,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerGridDto>, ICustomerService
 {
     /// <inheritdoc />
-    public CustomerService(IRepository repository, IMapper mapper)
-        : base(repository, mapper)
+    public CustomerService(IDbRepository dbRepository, IMapper mapper)
+        : base(dbRepository, mapper)
     { }
 
     /// <inheritdoc />
@@ -26,7 +26,7 @@ public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerG
     {
         var filter = FilterExtensions.CreateCustomerFilter(filters);
 
-        return await Repository
+        return await DbRepository
             .Get<Customer, CustomerGridDto>(
                 where: filter,
                 orderBy: o => o

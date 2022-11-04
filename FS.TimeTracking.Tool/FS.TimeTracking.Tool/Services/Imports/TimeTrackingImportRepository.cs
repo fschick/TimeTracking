@@ -5,7 +5,7 @@ using FS.TimeTracking.Tool.Interfaces.Import;
 
 namespace FS.TimeTracking.Tool.Services.Imports
 {
-    internal class TimeTrackingImportRepository : Repository<TimeTrackingImportDbContext>, ITimeTrackingImportRepository
+    internal class TimeTrackingImportRepository : DbRepository<TimeTrackingImportDbContext>, ITimeTrackingImportRepository
     {
         public TimeTrackingImportRepository(TimeTrackingImportDbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
     }

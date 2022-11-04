@@ -21,8 +21,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityService
 {
     /// <inheritdoc />
-    public ActivityService(IRepository repository, IMapper mapper)
-        : base(repository, mapper)
+    public ActivityService(IDbRepository dbRepository, IMapper mapper)
+        : base(dbRepository, mapper)
     { }
 
     /// <inheritdoc />
@@ -30,7 +30,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
     {
         var filter = FilterExtensions.CreateActivityFilter(filters);
 
-        return await Repository
+        return await DbRepository
             .Get<Activity, ActivityGridDto>(
                 where: filter,
                 orderBy: o => o
@@ -56,7 +56,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         if (model.CustomerId == null || model.ProjectId == null)
             return;
 
-        var projectCustomerId = await Repository
+        var projectCustomerId = await DbRepository
             .FirstOrDefault(
                 select: (Project x) => x.CustomerId,
                 where: x => x.Id == model.ProjectId
@@ -75,7 +75,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         if (isNewActivity || model.ProjectId == null)
             return;
 
-        var timeSheetProjectIds = await Repository
+        var timeSheetProjectIds = await DbRepository
             .GetGrouped(
                 (TimeSheet timeSheet) => timeSheet.ProjectId,
                 projectGroup => projectGroup.Key,
@@ -100,7 +100,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         if (isNewActivity || model.CustomerId == null)
             return;
 
-        var timeSheetCustomerIds = await Repository
+        var timeSheetCustomerIds = await DbRepository
             .GetGrouped(
                 (TimeSheet timeSheet) => timeSheet.CustomerId,
                 customerGroup => customerGroup.Key,

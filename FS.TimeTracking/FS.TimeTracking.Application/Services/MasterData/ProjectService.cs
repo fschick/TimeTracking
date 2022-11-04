@@ -17,8 +17,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridDto>, IProjectService
 {
     /// <inheritdoc />
-    public ProjectService(IRepository repository, IMapper mapper)
-        : base(repository, mapper)
+    public ProjectService(IDbRepository dbRepository, IMapper mapper)
+        : base(dbRepository, mapper)
     { }
 
     /// <inheritdoc />
@@ -26,7 +26,7 @@ public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridD
     {
         var filter = FilterExtensions.CreateProjectFilter(filters);
 
-        return await Repository
+        return await DbRepository
             .Get<Project, ProjectGridDto>(
                 where: filter,
                 orderBy: o => o

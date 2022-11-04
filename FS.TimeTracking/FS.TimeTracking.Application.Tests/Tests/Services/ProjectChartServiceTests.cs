@@ -37,14 +37,14 @@ public class ProjectChartServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IProjectChartService, ProjectChartService>();
 
-        var repository = autoFake.Resolve<IRepository>();
-        await repository.AddRange(testCase.MasterData);
-        await repository.AddRange(testCase.TimeSheets);
-        await repository.SaveChanges();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
+        await dbRepository.AddRange(testCase.MasterData);
+        await dbRepository.AddRange(testCase.TimeSheets);
+        await dbRepository.SaveChanges();
 
         // Act
         var projectChartService = autoFake.Resolve<IProjectChartService>();

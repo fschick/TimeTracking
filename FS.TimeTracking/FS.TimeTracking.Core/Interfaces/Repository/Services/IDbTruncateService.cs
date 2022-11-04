@@ -3,7 +3,7 @@
 /// <summary>
 /// Services to truncate whole database without removing the database itself
 /// </summary>
-public interface ITruncateDbService
+public interface IDbTruncateService
 {
     /// <summary>
     /// Truncates the database without removing itself.

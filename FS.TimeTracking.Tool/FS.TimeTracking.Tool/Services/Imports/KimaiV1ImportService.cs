@@ -17,15 +17,15 @@ namespace FS.TimeTracking.Tool.Services.Imports;
 
 public class KimaiV1ImportService : IKimaiV1ImportService
 {
-    private readonly IRepository _repository;
+    private readonly IDbRepository _dbRepository;
     private readonly ITestDataService _testDataService;
     private readonly IKimaiV1Repository _kimaiV1Repository;
     private readonly IMapper _mapper;
     private readonly KimaiV1ImportConfiguration _importConfiguration;
 
-    public KimaiV1ImportService(IRepository repository, IKimaiV1Repository kimaiV1Repository, ITestDataService testDataService, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
+    public KimaiV1ImportService(IDbRepository dbRepository, IKimaiV1Repository kimaiV1Repository, ITestDataService testDataService, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
     {
-        _repository = repository;
+        _dbRepository = dbRepository;
         _kimaiV1Repository = kimaiV1Repository;
         _testDataService = testDataService;
         _mapper = mapper;
@@ -103,14 +103,14 @@ public class KimaiV1ImportService : IKimaiV1ImportService
             })
             .ToList();
 
-        using var transaction = _repository.CreateTransactionScope();
+        using var transaction = _dbRepository.CreateTransactionScope();
         if (_importConfiguration.TruncateBeforeImport)
             await _testDataService.TruncateData();
-        await _repository.BulkAddRange(customers);
-        await _repository.BulkAddRange(projects);
-        await _repository.BulkAddRange(activities);
-        await _repository.BulkAddRange(timeSheets);
-        await _repository.SaveChanges();
+        await _dbRepository.BulkAddRange(customers);
+        await _dbRepository.BulkAddRange(projects);
+        await _dbRepository.BulkAddRange(activities);
+        await _dbRepository.BulkAddRange(timeSheets);
+        await _dbRepository.SaveChanges();
         transaction.Complete();
     }
 }

@@ -25,11 +25,11 @@ internal static class DatabaseMigration
     {
         var logger = serviceProvider.GetRequiredService<ILogger<TimeTrackingDbContext>>();
         using var dbContext = serviceProvider.GetRequiredService<TimeTrackingDbContext>();
-        var truncateDbService = serviceProvider.GetRequiredService<ITruncateDbService>();
+        var dbTruncateService = serviceProvider.GetRequiredService<IDbTruncateService>();
         var databaseConfiguration = serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value.Database;
 
-        var databaseMigrationService = new DatabaseMigrationService(logger, dbContext, truncateDbService);
-        databaseMigrationService.MigrateDatabase(databaseConfiguration.TruncateOnApplicationStart);
+        var dbMigrationService = new DbMigrationService(logger, dbContext, dbTruncateService);
+        dbMigrationService.MigrateDatabase(databaseConfiguration.TruncateOnApplicationStart);
 
         return serviceProvider;
     }

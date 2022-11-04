@@ -22,12 +22,12 @@ public class RepositoryTests
         // Prepare
         using var autoFake = new AutoFake();
         autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "Data Source=timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
 
         // Act
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var customer = new Customer { Id = Guid.NewGuid() };
-        var addedCustomer = await repository.Add(customer);
+        var addedCustomer = await dbRepository.Add(customer);
 
         // Check
         addedCustomer.Created.Should().BeAfter(DateTime.UtcNow.Date);
@@ -41,14 +41,14 @@ public class RepositoryTests
         // Prepare
         using var autoFake = new AutoFake();
         autoFake.Provide(Options.Create(new TimeTrackingConfiguration { Database = new DatabaseConfiguration { ConnectionString = "Data Source=timetracking.test.sqlite", Type = DatabaseType.Sqlite } }));
-        autoFake.Provide<IRepository, Repository<TimeTrackingDbContext>>();
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
 
         // Act
-        var repository = autoFake.Resolve<IRepository>();
+        var dbRepository = autoFake.Resolve<IDbRepository>();
         var customer = new Customer { Id = Guid.NewGuid() };
-        var addedCustomer = await repository.Add(customer);
+        var addedCustomer = await dbRepository.Add(customer);
         addedCustomer.Title = "TestName";
-        var updatedCustomer = repository.Update(customer);
+        var updatedCustomer = dbRepository.Update(customer);
 
         // Check
         updatedCustomer.Modified.Should().BeAfter(updatedCustomer.Created);

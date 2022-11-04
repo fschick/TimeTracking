@@ -42,11 +42,11 @@ internal static class AutoFakeExtensions
         autoFake.Provide(Options.Create(configuration));
         autoFake.Provide(Options.Create(new EnvironmentConfiguration { IsDevelopment = true, IsProduction = false }));
         autoFake.Provide<TimeTrackingDbContext, TimeTrackingDbContext>();
-        autoFake.Provide<ITruncateDbService, TruncateDbService>();
+        autoFake.Provide<IDbTruncateService, DbTruncateService>();
 
         EntityFilter.DefaultInterceptor = new DateTimeOffsetInterceptor();
-        var truncateDbService = autoFake.Resolve<ITruncateDbService>();
-        truncateDbService.TruncateDatabase();
+        var dbTruncateService = autoFake.Resolve<IDbTruncateService>();
+        dbTruncateService.TruncateDatabase();
         var dbContext = autoFake.Resolve<TimeTrackingDbContext>();
         await dbContext.Database.MigrateAsync();
     }
