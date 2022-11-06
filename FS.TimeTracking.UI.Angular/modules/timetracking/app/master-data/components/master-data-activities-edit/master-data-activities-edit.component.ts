@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
-import {ActivityDto, ActivityService, StringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
+import {ActivityDto, ActivityService, GuidStringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
@@ -16,9 +16,9 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataActivitiesEditComponent implements AfterViewInit {
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;
-  public customers$: Observable<StringTypeaheadDto[]>;
+  public customers$: Observable<GuidStringTypeaheadDto[]>;
   public customerReadonly = false;
-  public projects$: Observable<StringTypeaheadDto[]>;
+  public projects$: Observable<GuidStringTypeaheadDto[]>;
 
   @ViewChild('activityEdit') private activityEdit?: TemplateRef<any>;
 
@@ -56,7 +56,7 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
-  public projectChanged(selectedProject: StringTypeaheadDto | undefined) {
+  public projectChanged(selectedProject: GuidStringTypeaheadDto | undefined) {
     if (selectedProject?.extended.customerId)
       this.activityForm.patchValue({customerId: selectedProject.extended.customerId});
     this.customerReadonly = selectedProject?.extended.customerId != null;

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../../api/timetracking';
+import {GuidStringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../../api/timetracking';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {combineLatestAll, filter, map, pairwise, single, startWith} from 'rxjs/operators';
@@ -16,16 +16,16 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./timesheet-edit.component.scss']
 })
 export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
-  public allCustomers: StringTypeaheadDto[] = [];
-  public selectableProjects: StringTypeaheadDto[] = [];
-  public selectableActivities: StringTypeaheadDto[] = [];
-  public selectableOrders: StringTypeaheadDto[] = [];
+  public allCustomers: GuidStringTypeaheadDto[] = [];
+  public selectableProjects: GuidStringTypeaheadDto[] = [];
+  public selectableActivities: GuidStringTypeaheadDto[] = [];
+  public selectableOrders: GuidStringTypeaheadDto[] = [];
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
 
-  private allProjects: StringTypeaheadDto[] = [];
-  private allActivities: StringTypeaheadDto[] = [];
-  private allOrders: StringTypeaheadDto[] = [];
+  private allProjects: GuidStringTypeaheadDto[] = [];
+  private allActivities: GuidStringTypeaheadDto[] = [];
+  private allOrders: GuidStringTypeaheadDto[] = [];
 
   @ViewChild('timesheetEdit') private timesheetEdit?: TemplateRef<any>;
 
@@ -70,11 +70,11 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.modal.hidden.pipe(single()).subscribe(() => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 
-  public selectedCustomerChanged(customer?: StringTypeaheadDto): void {
+  public selectedCustomerChanged(customer?: GuidStringTypeaheadDto): void {
     this.setSelectable(customer?.id);
   }
 
-  public selectedActivityChanged(activity?: StringTypeaheadDto): void {
+  public selectedActivityChanged(activity?: GuidStringTypeaheadDto): void {
     if (!activity?.extended.customerId)
       return;
 
@@ -82,7 +82,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.setSelectable(activity.extended.customerId);
   }
 
-  public selectedProjectChanged(project?: StringTypeaheadDto): void {
+  public selectedProjectChanged(project?: GuidStringTypeaheadDto): void {
     if (!project?.extended.customerId)
       return;
 
@@ -90,7 +90,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.setSelectable(project.extended.customerId);
   }
 
-  public selectedOrderChanged(order?: StringTypeaheadDto): void {
+  public selectedOrderChanged(order?: GuidStringTypeaheadDto): void {
     if (!order)
       return;
 

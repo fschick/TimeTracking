@@ -24,7 +24,7 @@ public class TypeaheadService : ITypeaheadService
         => _dbRepository = dbRepository;
 
     /// <inheritdoc />
-    public async Task<List<TypeaheadDto<string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
         => await _dbRepository
             .Get(
                 select: (Customer x) => TypeaheadDto.Create(x.Id, x.Title, x.Hidden),
@@ -34,10 +34,10 @@ public class TypeaheadService : ITypeaheadService
             );
 
     /// <inheritdoc />
-    public async Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
         => await _dbRepository
             .Get(
-                select: (Project x) => new TypeaheadDto<string>
+                select: (Project x) => new TypeaheadDto<Guid, string>
                 {
                     Id = x.Id,
                     Value = x.Customer != null ? $"{x.Title} ({x.Customer.Title})" : x.Title,
@@ -50,10 +50,10 @@ public class TypeaheadService : ITypeaheadService
             );
 
     /// <inheritdoc />
-    public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
         => await _dbRepository
             .Get(
-                select: (Order x) => new TypeaheadDto<string>
+                select: (Order x) => new TypeaheadDto<Guid, string>
                 {
                     Id = x.Id,
                     Value = x.Number != null ? $"{x.Title} ({x.Number})" : x.Title,
@@ -70,10 +70,10 @@ public class TypeaheadService : ITypeaheadService
             );
 
     /// <inheritdoc />
-    public async Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
         => await _dbRepository
             .Get(
-                select: (Activity x) => new TypeaheadDto<string>
+                select: (Activity x) => new TypeaheadDto<Guid, string>
                 {
                     Id = x.Id,
                     Value = x.Project != null ? $"{x.Title} ({x.Project.Title})" : x.Customer != null ? $"{x.Title} ({x.Customer.Title})" : x.Title,

@@ -2,6 +2,7 @@
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -28,21 +29,21 @@ public class TypeaheadController : ControllerBase, ITypeaheadService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<TypeaheadDto<string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetCustomers(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetCustomers(showHidden, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<TypeaheadDto<string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetProjects(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetProjects(showHidden, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<TypeaheadDto<string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetOrders(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetOrders(showHidden, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<List<TypeaheadDto<string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
+    public async Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetActivities(showHidden, cancellationToken);
 }

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {EMPTY, map, Observable, shareReplay, Subscription, tap} from 'rxjs';
-import {StringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../../../api/timetracking';
+import {GuidStringTypeaheadDto, TimeSheetGetGridFilteredRequestParams, TypeaheadService} from '../../../../api/timetracking';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {ActivatedRoute, ParamMap} from '@angular/router';
@@ -67,10 +67,10 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public visibleFilters: Filter[];
   public hiddenFilters: Filter[];
   public _filters?: Filter[];
-  public customers$: Observable<StringTypeaheadDto[]> = EMPTY;
-  public projects$: Observable<StringTypeaheadDto[]> = EMPTY;
-  public orders$: Observable<StringTypeaheadDto[]> = EMPTY;
-  public activities$: Observable<StringTypeaheadDto[]> = EMPTY;
+  public customers$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
+  public projects$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
+  public orders$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
+  public activities$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
   public isFiltered$: Observable<boolean> | undefined;
   public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
-import {OrderDto, OrderService, StringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
+import {OrderDto, OrderService, GuidStringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
@@ -17,7 +17,7 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataOrdersEditComponent implements AfterViewInit {
   public orderForm: ValidationFormGroup;
   public isNewRecord: boolean;
-  public customers$: Observable<StringTypeaheadDto[]>;
+  public customers$: Observable<GuidStringTypeaheadDto[]>;
 
   @ViewChild('orderEdit') private orderEdit?: TemplateRef<any>;
 
