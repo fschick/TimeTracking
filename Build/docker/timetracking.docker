@@ -4,7 +4,7 @@ ARG CI_COMMIT_REF_NAME
 COPY / .
 RUN pwsh -Command Build/scripts/timetracking.publish.ps1 -version "${CI_COMMIT_REF_NAME}" -publshFolder "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}"
 
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-alpine3.14 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.7-bullseye-slim AS base
 ARG CI_PROJECT_NAME
 ARG CI_COMMIT_REF_NAME
 
