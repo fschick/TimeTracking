@@ -8,10 +8,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0.7-bullseye-slim AS base
 ARG CI_PROJECT_NAME
 ARG CI_COMMIT_REF_NAME
 
-# Install cultures (same approach as Alpine SDK image)
-# See https://andrewlock.net/dotnet-core-docker-and-cultures-solving-culture-issues-porting-a-net-core-app-from-windows-to-linux/#the-heart-of-the-issue-alpine-is-small
-RUN apk add --no-cache icu-libs
-
 RUN adduser \
   --disabled-password \
   --home /opt/timetracking \
