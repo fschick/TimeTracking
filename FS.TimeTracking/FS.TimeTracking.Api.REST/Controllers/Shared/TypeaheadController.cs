@@ -46,4 +46,9 @@ public class TypeaheadController : ControllerBase, ITypeaheadService
     [HttpGet]
     public async Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetActivities(showHidden, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<List<TypeaheadDto<string, string>>> GetTimezones(CancellationToken cancellationToken = default)
+        => await _typeaheadService.GetTimezones(cancellationToken);
 }

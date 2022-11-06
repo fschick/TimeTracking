@@ -160,6 +160,7 @@
         "Title": "Einstellungen",
         "WorkTime": "Arbeitszeit",
         "Workdays": "Arbeitstage",
+        "TimeZone": "Zeitzone",
         "Company": "Firma",
         "LogoPreview": "Vorschau"
       }
@@ -386,6 +387,8 @@
       "Type": "Typ"
     },
     "SettingDto": {
+      "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
+      "WorkHoursPerWorkdayDate": "Arbeitsstunden / Werktag",
       "Monday": "Montag",
       "Tuesday": "Dienstag",
       "Wednesday": "Mittwoch",
@@ -393,11 +396,11 @@
       "Friday": "Freitag",
       "Saturday": "Samstag",
       "Sunday": "Sonntag",
-      "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",
-      "WorkHoursPerWorkdayDate": "Arbeitsstunden / Werktag",
-      "Currency": "Währung",
+      "ClientTimeZoneId": "Zeitzone des Clients",
+      "ClientTimeZoneIdPlaceholder": "Zeitzone auswählen",
       "Company": "Firmenname",
       "Department": "Abteilung",
+      "Currency": "Währung",
       "ServiceProvider": "Name des Dienstleisters",
       "Street": "Straße",
       "AddressAddition": "Adresszusatz",

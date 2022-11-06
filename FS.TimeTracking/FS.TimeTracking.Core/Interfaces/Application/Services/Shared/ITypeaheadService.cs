@@ -39,4 +39,10 @@ public interface ITypeaheadService
     /// <param name="showHidden">If set to <c>true</c>, objects marked as hidden will also be returned.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets available timezones.
+    /// </summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    Task<List<TypeaheadDto<string, string>>> GetTimezones(CancellationToken cancellationToken = default);
 }

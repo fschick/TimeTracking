@@ -26,6 +26,12 @@ public record SettingDto
     [Required]
     public WorkdaysOfWeekDto Workdays { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets the client time zone identifier.
+    /// </summary>
+    [Required]
+    public string ClientTimeZoneId { get; set; } = TimeZoneInfo.Local.Id;
+
     /// <inheritdoc cref="CompanyDto" />
     [Required]
     public CompanyDto Company { get; set; } = new();

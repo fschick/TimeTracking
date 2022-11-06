@@ -84,4 +84,8 @@ public class TypeaheadService : ITypeaheadService
                 orderBy: o => o.OrderBy(x => x.Hidden).ThenBy(x => x.Title),
                 cancellationToken: cancellationToken
             );
+
+    /// <inheritdoc />
+    public Task<List<TypeaheadDto<string, string>>> GetTimezones(CancellationToken cancellationToken = default)
+        => Task.FromResult(TimeZoneInfo.GetSystemTimeZones().Select(x => TypeaheadDto.Create(x.Id, x.DisplayName)).ToList());
 }

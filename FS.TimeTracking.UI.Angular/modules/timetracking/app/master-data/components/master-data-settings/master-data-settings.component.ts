@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {map, single} from 'rxjs/operators';
 import {DateTime, Duration} from 'luxon';
-import {SettingDto, SettingService} from '../../../../../api/timetracking';
+import {SettingDto, SettingService, StringStringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
 import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {FormControl, Validators} from '@angular/forms';
 import {UtilityService} from '../../../../../core/app/services/utility.service';
@@ -20,6 +20,7 @@ interface SettingDtoWithDate extends SettingDto {
 export class MasterDataSettingsComponent {
 
   public settingsForm: ValidationFormGroup;
+  public timeZones$: Observable<StringStringTypeaheadDto[]>;
   public logoImageSrc$: Observable<SafeUrl | undefined>;
 
   constructor(
@@ -27,12 +28,15 @@ export class MasterDataSettingsComponent {
     private formValidationService: FormValidationService,
     private utilityService: UtilityService,
     private sanitizer: DomSanitizer,
+    private typeaheadService: TypeaheadService,
   ) {
     this.settingsForm = this.createSettingsForm();
 
     this.logoImageSrc$ = this.settingsForm.valueChanges.pipe(map(value => {
       return this.getImageUrl(value.company.logo);
     }));
+
+    this.timeZones$ = typeaheadService.getTimezones();
 
     this.settingService.getSettings()
       .pipe(single())

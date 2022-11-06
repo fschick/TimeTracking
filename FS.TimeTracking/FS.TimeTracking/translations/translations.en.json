@@ -160,6 +160,7 @@
         "Title": "Settings",
         "WorkTime": "Work time",
         "Workdays": "Workdays",
+        "TimeZone": "Time zone",
         "Company": "Company",
         "LogoPreview": "Preview"
       }
@@ -386,6 +387,8 @@
       "Type": "Type"
     },
     "SettingDto": {
+      "WorkHoursPerWorkday": "Working hours / workday",
+      "WorkHoursPerWorkdayDate": "Working hours / workday",
       "Monday": "Monday",
       "Tuesday": "Tuesday",
       "Wednesday": "Wednesday",
@@ -393,12 +396,12 @@
       "Friday": "Friday",
       "Saturday": "Saturday",
       "Sunday": "Sunday",
-      "WorkHoursPerWorkday": "Working hours / workday",
-      "WorkHoursPerWorkdayDate": "Working hours / workday",
-      "Currency": "Currency",
+      "ClientTimeZoneId": "Client time zone",
+      "ClientTimeZoneIdPlaceholder": "Select client time zone",
       "Company": "Company name",
       "Department": "Department",
       "ServiceProvider": "Provider name",
+      "Currency": "Currency",
       "Street": "Street",
       "AddressAddition": "Additional address information",
       "ZipCode": "Zip code",

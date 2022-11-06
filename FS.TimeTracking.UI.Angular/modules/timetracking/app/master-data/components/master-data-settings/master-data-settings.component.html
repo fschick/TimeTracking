@@ -7,8 +7,9 @@
 <form id="workingHoursForm" [formGroup]="settingsForm" (ngSubmit)="save()" #form="ngForm">
 
   <div class="row  g-4">
-    <div class="col-12 col-lg-4">
-      <div class="card h-100">
+    <div class="col-12 col-lg-4 d-flex flex-column">
+      <!-- Work time -->
+      <div class="card mb-4 flex-grow-1">
         <div class="card-body">
           <h6 class="form-label" i18n="@@Page.MasterData.Settings.WorkTime">
             [i18n] Work time
@@ -50,6 +51,27 @@
           </ng-container>
         </div>
 
+      </div>
+
+      <!-- Time zone -->
+      <div class="card">
+        <div class="card-body">
+          <h6 class="form-label" i18n="@@Page.MasterData.Settings.TimeZone">
+            [i18n] Time zone
+          </h6>
+
+          <!--suppress XmlInvalidId -->
+          <label for="clientTimeZoneId" class="form-label" i18n="@@DTO.SettingDto.ClientTimeZoneId">[i18n] Client time zone</label>
+          <ng-select [items]="timeZones$ | async"
+                     [selectOnTab]="true"
+                     bindValue="id"
+                     bindLabel="value"
+                     labelForId="clientTimeZoneId"
+                     placeholder="[i18n] Select client time zone"
+                     i18n-placeholder="@@DTO.SettingDto.ClientTimeZoneIdPlaceholder"
+                     formControlName="clientTimeZoneId">
+          </ng-select>
+        </div>
       </div>
     </div>
 
