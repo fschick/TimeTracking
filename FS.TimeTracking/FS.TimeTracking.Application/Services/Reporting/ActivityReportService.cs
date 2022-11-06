@@ -56,8 +56,6 @@ public class ActivityReportService : IActivityReportService
     /// <inheritdoc />
     public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateTimeSheetFilter(filters);
-
         var activityReportUrl = _apiDescriptionProvider.ApiDescriptionGroups.Items
             .SelectMany(x => x.Items)
             .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetActivityReport))
@@ -123,12 +121,14 @@ public class ActivityReportService : IActivityReportService
     public async Task<ActivityReportDto> GetActivityReportData(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters, true);
-        var parameters = new ReportParameter
+        var settings = await _settingService.GetSettings(cancellationToken);
+        var parameters = new ReportParameterDto
         {
             ReportType = reportType,
             Culture = language,
             StartDate = selectedPeriod.Start,
             EndDate = selectedPeriod.End,
+            TargetTimeZoneId = settings.ClientTimeZoneId,
         };
 
         var serviceProvider = await GetServiceProviderInformation(cancellationToken);

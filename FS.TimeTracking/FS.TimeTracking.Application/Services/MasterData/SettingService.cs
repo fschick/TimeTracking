@@ -21,7 +21,7 @@ public class SettingService : ISettingService
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
     private AsyncLazy<SettingDto> _settingsCache;
-    private TimeTrackingConfiguration _configuration;
+    private readonly TimeTrackingConfiguration _configuration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingService"/> class.
