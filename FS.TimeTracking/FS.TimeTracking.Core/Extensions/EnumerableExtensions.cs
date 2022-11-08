@@ -76,8 +76,9 @@ public static class EnumerableExtensions
     /// Returns the first element of a sequence.
     /// </summary>
     /// <param name="source">The source.</param>
-    public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> source)
-        => (await source).First();
+    /// <param name="predicate">A function to test each element for a condition.</param>
+    public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate = null)
+        => predicate != null ? (await source).First(predicate) : (await source).First();
 
     /// <summary>
     /// Returns the first element of a sequence, or a default value if the sequenz contains no elements.
@@ -86,6 +87,15 @@ public static class EnumerableExtensions
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, T defaultValue = default)
         => (await source).FirstOrDefault(defaultValue);
+
+    /// <summary>
+    /// Returns the first element of a sequence, or a default value if the sequenz contains no elements.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="predicate">A function to test each element for a condition.</param>
+    /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
+    public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate, T defaultValue = default)
+        => (await source).FirstOrDefault(predicate, defaultValue);
 
     /// <summary>
     /// Sorts the elements of a sequence in ascending order.
@@ -98,51 +108,6 @@ public static class EnumerableExtensions
         => (await source).OrderBy(keySelector);
 
     /// <summary>
-    /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.
-    /// </summary>
-    /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
-    /// <typeparam name="TInner">The type of the elements of the second sequence.</typeparam>
-    /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
-    /// <typeparam name="TResult">The type of the result elements.</typeparam>
-    /// <param name="outer">The first sequence to join.</param>
-    /// <param name="inner">The sequence to join to the first sequence.</param>
-    /// <param name="outerKeySelector">A function to extract the join key from each element of the first sequence.</param>
-    /// <param name="innerKeySelector">A function to extract the join key from each element of the second sequence.</param>
-    /// <param name="resultSelector">A function to create a result element from two matching elements.</param>
-    public static IEnumerable<TResult> OuterJoin<TOuter, TInner, TKey, TResult>(this IEnumerable<TOuter> outer, IEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector)
-        => outer
-            .GroupJoin(inner, outerKeySelector, innerKeySelector, (o, i) => new { Outer = o, Inner = i })
-            .SelectMany(join => join.Inner.DefaultIfEmpty(), (join, i) => resultSelector(join.Outer, i));
-
-    /// <summary>
-    /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.
-    /// </summary>
-    /// <typeparam name="TOuter">The type of the elements of the first sequence.</typeparam>
-    /// <typeparam name="TInner">The type of the elements of the second sequence.</typeparam>
-    /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
-    /// <typeparam name="TResult">The type of the result elements.</typeparam>
-    /// <param name="outer">The first sequence to join.</param>
-    /// <param name="inner">The sequence to join to the first sequence.</param>
-    /// <param name="outerKeySelector">A function to extract the join key from each element of the first sequence.</param>
-    /// <param name="innerKeySelector">A function to extract the join key from each element of the second sequence.</param>
-    /// <param name="resultSelector">A function to create a result element from two matching elements.</param>
-    public static IEnumerable<TResult> CrossJoin<TOuter, TInner, TKey, TResult>(this IEnumerable<TOuter> outer, IEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector)
-    {
-        var outerList = new Lazy<IEnumerable<TOuter>>(() => outer as List<TOuter> ?? outer.ToList());
-        var innerList = new Lazy<IEnumerable<TInner>>(() => inner as List<TInner> ?? inner.ToList());
-
-        return outer
-           .Select(outerKeySelector)
-           .Union(innerList.Value.Select(innerKeySelector))
-           .Select(key =>
-           {
-               var o = outerList.Value.FirstOrDefault(x => outerKeySelector(x).Equals(key));
-               var i = innerList.Value.FirstOrDefault(x => innerKeySelector(x).Equals(key));
-               return resultSelector(o, i);
-           });
-    }
-
-    /// <summary>
     /// Computes the sum of a sequence of <see cref="TimeSpan"/> values.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
@@ -151,4 +116,49 @@ public static class EnumerableExtensions
     /// <returns>The sum of the projected values.</returns>
     public static TimeSpan Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, TimeSpan> selector)
         => TimeSpan.FromTicks(source.Sum(x => selector(x).Ticks));
+
+    /// <summary>
+    /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.
+    /// </summary>
+    /// <typeparam name="TInner">The type of the elements of the first sequence.</typeparam>
+    /// <typeparam name="TOuter">The type of the elements of the second sequence.</typeparam>
+    /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
+    /// <typeparam name="TResult">The type of the result elements.</typeparam>
+    /// <param name="inner">The first sequence to join.</param>
+    /// <param name="outer">The sequence to join to the first sequence.</param>
+    /// <param name="innerKeySelector">A function to extract the join key from each element of the first sequence.</param>
+    /// <param name="outerKeySelector">A function to extract the join key from each element of the second sequence.</param>
+    /// <param name="resultSelector">A function to create a result element from two matching elements.</param>
+    public static IEnumerable<TResult> OuterJoin<TInner, TOuter, TKey, TResult>(this IEnumerable<TInner> inner, IEnumerable<TOuter> outer, Func<TInner, TKey> innerKeySelector, Func<TOuter, TKey> outerKeySelector, Func<TInner, TOuter, TResult> resultSelector)
+        => inner
+            .GroupJoin(outer, innerKeySelector, outerKeySelector, (o, i) => new { Outer = o, Inner = i })
+            .SelectMany(join => join.Inner.DefaultIfEmpty(), (join, i) => resultSelector(join.Outer, i));
+
+    /// <summary>
+    /// Correlates the elements of two sequences based on matching keys. The default equality comparer is used to compare keys.
+    /// </summary>
+    /// <typeparam name="TInner">The type of the elements of the first sequence.</typeparam>
+    /// <typeparam name="TOuter">The type of the elements of the second sequence.</typeparam>
+    /// <typeparam name="TKey">The type of the keys returned by the key selector functions.</typeparam>
+    /// <typeparam name="TResult">The type of the result elements.</typeparam>
+    /// <param name="inner">The first sequence to join.</param>
+    /// <param name="outer">The sequence to join to the first sequence.</param>
+    /// <param name="innerKeySelector">A function to extract the join key from each element of the first sequence.</param>
+    /// <param name="outerKeySelector">A function to extract the join key from each element of the second sequence.</param>
+    /// <param name="resultSelector">A function to create a result element from two matching elements.</param>
+    public static IEnumerable<TResult> CrossJoin<TInner, TOuter, TKey, TResult>(this IEnumerable<TInner> inner, IEnumerable<TOuter> outer, Func<TInner, TKey> innerKeySelector, Func<TOuter, TKey> outerKeySelector, Func<TInner, TOuter, TResult> resultSelector)
+    {
+        var outerList = new Lazy<IEnumerable<TInner>>(() => inner as List<TInner> ?? inner.ToList());
+        var innerList = new Lazy<IEnumerable<TOuter>>(() => outer as List<TOuter> ?? outer.ToList());
+
+        return inner
+           .Select(innerKeySelector)
+           .Union(innerList.Value.Select(outerKeySelector))
+           .Select(key =>
+           {
+               var o = outerList.Value.FirstOrDefault(x => innerKeySelector(x).Equals(key));
+               var i = innerList.Value.FirstOrDefault(x => outerKeySelector(x).Equals(key));
+               return resultSelector(o, i);
+           });
+    }
 }
