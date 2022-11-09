@@ -4,12 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4F2876AD-723A-42E6-9FB3-CE1FB650866E}"
-	ProjectSection(SolutionItems) = preProject
-		..\Build\build_core.props = ..\Build\build_core.props
-		..\Build\build_tests.props = ..\Build\build_tests.props
-		..\Build\build_version.props = ..\Build\build_version.props
-		..\Build\build_xml_documentation.props = ..\Build\build_xml_documentation.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5A54A2E-518C-4EF3-85F0-EE957DA73D79}"
 EndProject
@@ -42,6 +36,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Core", "FS.TimeTracking.Core\FS.TimeTracking.Core.csproj", "{EB90948D-4ED3-4615-AA3C-1072ABA06185}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Core.Tests", "FS.TimeTracking.Core.Tests\FS.TimeTracking.Core.Tests.csproj", "{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{4D7C624D-9B5A-4AA3-A63F-8775241D2EF0}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\targets\net_core.props = ..\Build\targets\net_core.props
+		..\Build\targets\tests.props = ..\Build\targets\tests.props
+		..\Build\targets\version.props = ..\Build\targets\version.props
+		..\Build\targets\xml_documentation.props = ..\Build\targets\xml_documentation.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,7 @@ Global
 		{2205F08B-B25B-4421-BF77-F0CF71190155} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{E4FD20E4-C582-46FD-8A37-D629A61BC5A1} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
+		{4D7C624D-9B5A-4AA3-A63F-8775241D2EF0} = {4F2876AD-723A-42E6-9FB3-CE1FB650866E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}
