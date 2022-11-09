@@ -64,4 +64,9 @@ public enum ApplicationErrorCode
     /// Activity is already assigned to time sheets with different projects.
     /// </summary>
     ConflictActivityAlreadyAssignedToDifferentProjects = 40904,
+
+    /// <summary>
+    /// A user with same user name or email already exists.
+    /// </summary>
+    ConflictUserWithSameUsernameExists = 40905,
 }

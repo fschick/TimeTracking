@@ -7,6 +7,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {StorageService} from '../../services/storage.service';
 import {DateParserService} from '../../services/date-parser.service';
 import {EntityService} from '../../services/state-management/entity.service';
+import {ConfigurationService} from '../../services/configuration.service';
 
 export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams & AdditionalFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;
@@ -32,14 +33,13 @@ interface AdditionalFilteredRequestParams {
   styleUrls: ['./filter.component.scss']
 })
 export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() public filterId: string | undefined;
+  private authorizationRelatedFilters: FilterName[] = ['userId', 'userUsername', 'userFirstName', 'userLastName', 'userEmail', 'userEnabled'];
 
   @Input()
-  public set filters(filters: (FilterName | Filter)[]) {
-    this._filters = filters.map(x => typeof x === 'string' ? {name: x} : x);
-    this.updateFilterSources(this._filters);
-    this.applyFilterValues(this._filters);
-  }
+  public filterId: string | undefined;
+
+  @Input()
+  public set filters(filters: (FilterName | Filter)[]) { this.setFilters(filters); }
 
   @ViewChild('timeSheetStartDate') private timeSheetStartDate!: TemplateRef<any>;
   @ViewChild('timeSheetEndDate') private timeSheetEndDate!: TemplateRef<any>;
@@ -59,10 +59,19 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('holidayStartDate') private holidayStartDate!: TemplateRef<any>;
   @ViewChild('holidayEndDate') private holidayEndDate!: TemplateRef<any>;
   @ViewChild('holidayTitle') private holidayTitle!: TemplateRef<any>;
+  @ViewChild('userId') private userId!: TemplateRef<any>;
+  @ViewChild('userUsername') private userUsername!: TemplateRef<any>;
+  @ViewChild('userFirstName') private userFirstName!: TemplateRef<any>;
+  @ViewChild('userLastName') private userLastName!: TemplateRef<any>;
+  @ViewChild('userEmail') private userEmail!: TemplateRef<any>;
   @ViewChild('holidayType') private holidayType!: TemplateRef<any>;
   @ViewChild('timeSheetBillable') private timeSheetBillable!: TemplateRef<any>;
   @ViewChild('showDetails') private showDetails!: TemplateRef<any>;
   @ViewChild('filterNotImplemented') private filterNotImplemented!: TemplateRef<any>;
+
+  private readonly booleanTrueRegex = /^\s*(true|1|on)\s*$/i;
+  private onFilterChanged$: Observable<any> | undefined;
+  private readonly subscriptions = new Subscription();
 
   public visibleFilters: Filter[];
   public hiddenFilters: Filter[];
@@ -71,14 +80,11 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public projects$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
   public orders$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
   public activities$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
+  public users$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
   public isFiltered$: Observable<boolean> | undefined;
   public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;
   public filterCollapsed = true;
-
-  private readonly booleanTrueRegex = /^\s*(true|1|on)\s*$/i;
-  private onFilterChanged$: Observable<any> | undefined;
-  private readonly subscriptions = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -88,6 +94,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     private typeaheadService: TypeaheadService,
     private dateParserService: DateParserService,
     private entityService: EntityService,
+    private configurationService: ConfigurationService,
   ) {
     this.visibleFilters = this.getVisibleFilters();
     this.hiddenFilters = this.getHiddenFilters();
@@ -168,6 +175,12 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayEndDate: this.holidayEndDate,
       holidayType: this.holidayType,
       showDetails: this.showDetails,
+      userId: this.userId,
+      userUsername: this.userUsername,
+      userFirstName: this.userFirstName,
+      userLastName: this.userLastName,
+      userEmail: this.userEmail,
+      userEnabled: this.filterNotImplemented,
     };
 
     this.visibleFilters = this.getVisibleFilters();
@@ -217,10 +230,15 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     return this._filters.some(filter => this.isFiltered(filter));
   }
 
-  public isFieldFiltered(filterName: FilterName): boolean {
-    const filter = this._filters?.find(x => x.name === filterName);
-    return this.isFiltered(filter);
-  }
+  private excludeFiltersDisabledByFeatureGate(x: Filter): boolean {
+    const authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
+    if (authorizationEnabled)
+      return true;
+
+    const authorizationFilterIndex = this.authorizationRelatedFilters.indexOf(x.name);
+    const isNonAuthorizationFilter = authorizationFilterIndex < 0;
+    return isNonAuthorizationFilter;
+  };
 
   private getVisibleFilters(): Filter[] {
     const primaryFilters = this._filters?.filter(filter => filter.isPrimary) ?? [];
@@ -260,7 +278,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   private createFilterForm(): FormGroup {
     const filter = this.getInitialFilterValues();
 
-    const updateOnBlurFilter: FilterName[] = ['timeSheetIssue', 'timeSheetComment', 'projectTitle', 'projectComment', 'customerTitle', 'customerNumber', 'customerDepartment', 'customerCompanyName', 'customerContactName', 'customerStreet', 'customerZipCode', 'customerCity', 'customerCountry', 'activityTitle', 'activityComment', 'orderTitle', 'orderDescription', 'orderNumber', 'orderHourlyRate', 'orderBudget', 'orderComment', 'holidayTitle'];
+    const updateOnBlurFilter: FilterName[] = ['timeSheetIssue', 'timeSheetComment', 'projectTitle', 'projectComment', 'customerTitle', 'customerNumber', 'customerDepartment', 'customerCompanyName', 'customerContactName', 'customerStreet', 'customerZipCode', 'customerCity', 'customerCountry', 'activityTitle', 'activityComment', 'orderTitle', 'orderDescription', 'orderNumber', 'orderHourlyRate', 'orderBudget', 'orderComment', 'holidayTitle', 'userUsername', 'userFirstName', 'userLastName', 'userEmail'];
     const formControlsConfigMap = Object.entries(filter)
       .map(([filterName, value]) => [filterName, [value, {updateOn: updateOnBlurFilter.includes(filterName as FilterName) ? 'blur' : 'change'}]]);
     const formControlsConfig = Object.fromEntries(formControlsConfigMap);
@@ -339,6 +357,12 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       holidayEndDate: undefined,
       holidayType: undefined,
       showDetails: undefined,
+      userId: undefined,
+      userUsername: undefined,
+      userFirstName: undefined,
+      userLastName: undefined,
+      userEmail: undefined,
+      userEnabled: undefined,
     }
   }
 
@@ -439,6 +463,20 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     this.subscriptions.add(endDateChanged);
   }
 
+  public isFieldFiltered(filterName: FilterName): boolean {
+    const filter = this._filters?.find(x => x.name === filterName);
+    return this.isFiltered(filter);
+  }
+
+  private setFilters(filters: (FilterName | Filter)[]) {
+    this._filters = filters
+      .map(x => typeof x === 'string' ? {name: x} : x)
+      .filter(x => this.excludeFiltersDisabledByFeatureGate(x));
+
+    this.updateFilterSources(this._filters);
+    this.applyFilterValues(this._filters);
+  }
+
   private updateFilterSources(filters: Filter[]) {
     for (const filter of filters) {
       switch (filter.name) {
@@ -453,6 +491,10 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
           break;
         case 'activityId':
           this.activities$ = this.typeaheadService.getActivities({showHidden: filter.showHidden});
+          break;
+        case 'userId':
+          if (this.configurationService.clientConfiguration.features.authorization)
+            this.users$ = this.typeaheadService.getUsers({showHidden: filter.showHidden});
           break;
       }
     }

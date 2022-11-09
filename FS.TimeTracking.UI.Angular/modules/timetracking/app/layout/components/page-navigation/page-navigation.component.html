@@ -161,27 +161,43 @@
                    i18n="@@Page.Administration.Settings.Title"
                    routerLink="/administration/settings"
                    routerLinkActive="active">[i18n] Settings</a></li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Page.Administration.Users.Title"
+                   routerLink="/administration/users"
+                   routerLinkActive="active">[i18n] Customers</a></li>
           </ul>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <!-- Login -->
-        <li *ngIf="authorizationEnabled" class="nav-item">
-          <a *ngIf="!isAuthenticated"
-             class="nav-link"
+        <ng-container *ngIf="authorizationEnabled"></ng-container>
+        <li *ngIf="!isAuthenticated" class="nav-item">
+          <a class="nav-link"
              data-bs-toggle="collapse"
              data-bs-target=".navbar-collapse.show"
              (click)="login()">
             <span i18n="@@Component.Authorization.Login">[i18n] Login</span>
           </a>
-          <a *ngIf="isAuthenticated"
-             class="nav-link"
-             data-bs-toggle="collapse"
-             data-bs-target=".navbar-collapse.show"
-             (click)="logout()">
-            <span i18n="@@Component.Authorization.Logout">[i18n] Logout</span>
+        </li>
+        <li *ngIf="isAuthenticated" class="nav-item dropdown">
+
+          <a class="nav-link dropdown-toggle" id="userProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <ng-container>{{getUsername()}}</ng-container>
           </a>
+          <ul class="dropdown-menu" aria-labelledby="userProfileDropdown">
+            <li>
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Component.Authorization.Logout"
+                 (click)="logout()">
+                [i18n] Logout
+              </a>
+            </li>
+          </ul>
         </li>
 
         <!-- Language -->

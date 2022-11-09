@@ -1,0 +1,64 @@
+<div class="row">
+  <!-- User data -->
+  <div class="col-12 col-md-8 col-xl-9 order-last order-md-first timesheet px-4">
+    <ng-container *ngTemplateOutlet="userData"></ng-container>
+  </div>
+  <div class="col-12 col-md-4 col-xl-3 order-first order-md-last ps-md-2 ps-lg-5 pb-5 pb-md-0 filter">
+    <!-- Filter -->
+    <ts-filter filterId="filterTimeSheet"
+               [filters]="filters">
+    </ts-filter>
+  </div>
+</div>
+
+<ng-template #userData>
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <h4 i18n="@@Page.Administration.Users.Title">
+      [i18n] Users
+    </h4>
+    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
+      <ng-container i18n="@@Page.Administration.Users.New">[i18n] New customer</ng-container>
+    </button>
+  </div>
+
+  <ts-simple-table
+    *ngIf="rows"
+    [columns]="columns"
+    [rows]="rows"
+    [configuration]="configuration">
+  </ts-simple-table>
+</ng-template>
+
+<ng-template #dataCellTemplate let-row="row" let-column="column" let-table="table">
+  <span [ngClass]="{'text-secondary': !row.enabled}">
+    {{table.getCellValue(row, column)}}
+  </span>
+</ng-template>
+
+<ng-template #actionCellTemplate let-row="row">
+  <a class="text-secondary me-2"
+     title="[i18n] Edit Customer"
+     i18n-title="@@Page.Administration.Users.Edit"
+     [routerLink]="row.id">
+    <svg class="bi action-icon" fill="currentColor">
+      <use xlink:href="assets/icons.svg#pencil"/>
+    </svg>
+  </a>
+  <ts-simple-confirm
+    title="[i18n] Delete customer"
+    i18n-title="@@Page.Administration.Users.Delete"
+    message="[i18n] Are you sure you want to delete this user?. This cannot be undone."
+    i18n-message="@@Page.Administration.Users.DeleteMessage"
+    actionText="[i18n] Delete customer"
+    i18n-actionText="@@Page.Administration.Users.Delete"
+    color="danger"
+    (confirmed)="deleteItem(row.id)">
+    <a class="text-secondary">
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons.svg#eraser"/>
+      </svg>
+    </a>
+  </ts-simple-confirm>
+</ng-template>
+
+<router-outlet></router-outlet>

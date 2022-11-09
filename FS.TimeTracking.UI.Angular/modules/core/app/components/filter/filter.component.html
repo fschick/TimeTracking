@@ -62,6 +62,7 @@
   </ng-container>
 
 
+  <!-- timeSheetStartDate -->
   <ng-template #timeSheetStartDate>
     <div class="col-12">
       <label class="form-label" i18n="@@Component.Filter.LimitPeriod">[i18n] Limit period</label>
@@ -78,6 +79,7 @@
     </div>
   </ng-template>
 
+  <!-- timeSheetEndDate -->
   <ng-template #timeSheetEndDate>
     <div class="col-12">
       <label class="form-label visually-hidden" for="timeSheetEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
@@ -94,6 +96,7 @@
     </div>
   </ng-template>
 
+  <!-- orderStartDate -->
   <ng-template #orderStartDate>
     <div class="col-12">
       <label class="form-label" i18n="@@Component.Filter.LimitPeriod">[i18n] Limit period</label>
@@ -110,6 +113,7 @@
     </div>
   </ng-template>
 
+  <!-- orderDueDate -->
   <ng-template #orderDueDate>
     <div class="col-12">
       <label class="form-label visually-hidden" for="orderDueDate" i18n="@@Component.Filter.To">[i18n] To</label>
@@ -126,6 +130,7 @@
     </div>
   </ng-template>
 
+  <!-- holidayStartDate -->
   <ng-template #holidayStartDate>
     <div class="col-12">
       <label class="form-label" i18n="@@Component.Filter.LimitPeriod">[i18n] Limit period</label>
@@ -142,6 +147,7 @@
     </div>
   </ng-template>
 
+  <!-- holidayEndDate -->
   <ng-template #holidayEndDate>
     <div class="col-12">
       <label class="form-label visually-hidden" for="holidayEndDate" i18n="@@Component.Filter.To">[i18n] To</label>
@@ -158,6 +164,7 @@
     </div>
   </ng-template>
 
+  <!-- customerId -->
   <ng-template #customerId>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -178,6 +185,7 @@
     </div>
   </ng-template>
 
+  <!-- projectId -->
   <ng-template #projectId>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -198,6 +206,7 @@
     </div>
   </ng-template>
 
+  <!-- activityId -->
   <ng-template #activityId>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -218,6 +227,7 @@
     </div>
   </ng-template>
 
+  <!-- orderId -->
   <ng-template #orderId>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -238,6 +248,7 @@
     </div>
   </ng-template>
 
+  <!-- timeSheetIssue -->
   <ng-template #timeSheetIssue>
     <div class="col-12">
       <label for="timeSheetIssue" class="form-label" i18n="@@Component.Filter.Issue">[i18n] Issue</label>
@@ -249,6 +260,7 @@
     </div>
   </ng-template>
 
+  <!-- customerNumber -->
   <ng-template #customerNumber>
     <div class="col-12">
       <label for="customerNumber" class="form-label" i18n="@@Component.Filter.CustomerNumber">[i18n] Number</label>
@@ -260,6 +272,7 @@
     </div>
   </ng-template>
 
+  <!-- customerCompanyName -->
   <ng-template #customerCompanyName>
     <div class="col-12">
       <label for="customerCompanyName" class="form-label" i18n="@@Component.Filter.CustomerCompanyName">[i18n] Company</label>
@@ -271,6 +284,7 @@
     </div>
   </ng-template>
 
+  <!-- timeSheetComment -->
   <ng-template #timeSheetComment>
     <div class="col-12">
       <label for="timeSheetComment" class="form-label" i18n="@@Component.Filter.Comment">[i18n] Comment</label>
@@ -282,6 +296,7 @@
     </div>
   </ng-template>
 
+  <!-- holidayTitle -->
   <ng-template #holidayTitle>
     <div class="col-12">
       <label for="holidayTitle" class="form-label" i18n="@@Component.Filter.HolidayTitle">[i18n] Title</label>
@@ -293,6 +308,76 @@
     </div>
   </ng-template>
 
+  <!-- userId -->
+  <ng-template #userId>
+    <div class="col-12">
+      <!--suppress XmlInvalidId -->
+      <label for="userUsername" class="form-label" i18n="@@Component.Filter.Username">[i18n] Username</label>
+      <ng-select [items]="users$ | async"
+                 [selectOnTab]="true"
+                 [multiple]="true"
+                 placeholder="[i18n] Username"
+                 i18n-placeholder="@@Component.Filter.Username"
+                 bindValue="id"
+                 bindLabel="value"
+                 labelForId="userUsername"
+                 formControlName="userId">
+        <ng-template ng-option-tmp let-item="item">
+          <span [ngClass]="{'text-secondary': item.hidden}">{{item.value}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
+  </ng-template>
+
+  <!-- userUsername -->
+  <ng-template #userUsername>
+    <div class="col-12">
+      <label for="userUsername" class="form-label" i18n="@@Component.Filter.Username">[i18n] Username</label>
+      <ts-clearable-input id="userUsername"
+                          placeholder="[i18n] Username"
+                          i18n-placeholder="@@Component.Filter.Username"
+                          formControlName="userUsername">
+      </ts-clearable-input>
+    </div>
+  </ng-template>
+
+  <!-- userFirstName -->
+  <ng-template #userFirstName>
+    <div class="col-12">
+      <label for="userFirstName" class="form-label" i18n="@@Component.Filter.FirstName">[i18n] First name</label>
+      <ts-clearable-input id="userFirstName"
+                          placeholder="[i18n] First name"
+                          i18n-placeholder="@@Component.Filter.FirstName"
+                          formControlName="userFirstName">
+      </ts-clearable-input>
+    </div>
+  </ng-template>
+
+  <!-- userLastName -->
+  <ng-template #userLastName>
+    <div class="col-12">
+      <label for="userLastName" class="form-label" i18n="@@Component.Filter.LastName">[i18n] Last name</label>
+      <ts-clearable-input id="userLastName"
+                          placeholder="[i18n] Last name"
+                          i18n-placeholder="@@Component.Filter.LastName"
+                          formControlName="userLastName">
+      </ts-clearable-input>
+    </div>
+  </ng-template>
+
+  <!-- userEmail -->
+  <ng-template #userEmail>
+    <div class="col-12">
+      <label for="userEmail" class="form-label" i18n="@@Component.Filter.Email">[i18n] Email</label>
+      <ts-clearable-input id="userEmail"
+                          placeholder="[i18n] Email"
+                          i18n-placeholder="@@Component.Filter.Email"
+                          formControlName="userEmail">
+      </ts-clearable-input>
+    </div>
+  </ng-template>
+
+  <!-- activityHidden -->
   <ng-template #activityHidden>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -308,6 +393,7 @@
     </div>
   </ng-template>
 
+  <!-- customerHidden -->
   <ng-template #customerHidden>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -323,6 +409,7 @@
     </div>
   </ng-template>
 
+  <!-- projectHidden -->
   <ng-template #projectHidden>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -338,6 +425,7 @@
     </div>
   </ng-template>
 
+  <!-- holidayType -->
   <ng-template #holidayType>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -353,6 +441,7 @@
     </div>
   </ng-template>
 
+  <!-- timeSheetBillable -->
   <ng-template #timeSheetBillable>
     <div class="col-12">
       <!--suppress XmlInvalidId -->
@@ -368,6 +457,7 @@
     </div>
   </ng-template>
 
+  <!-- showDetails -->
   <ng-template #showDetails>
     <div class="col-12">
       <div class="form-check form-switch d-inline-block me-3">
@@ -379,6 +469,7 @@
     </div>
   </ng-template>
 
+  <!-- filterNotImplemented -->
   <ng-template #filterNotImplemented>
     <div class="col-12">
       <label for="filterNotImplemented" class="visually-hidden">FILTER NOT IMPLEMENTED</label>

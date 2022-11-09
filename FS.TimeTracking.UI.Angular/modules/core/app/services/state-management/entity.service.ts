@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {combineLatest, EMPTY, fromEvent, interval, merge, mergeMap, Observable, of, Subject} from 'rxjs';
-import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto} from '../../../../api/timetracking';
+import {ActivityGridDto, CustomerGridDto, HolidayGridDto, OrderGridDto, ProjectGridDto, TimeSheetGridDto, UserGridDto} from '../../../../api/timetracking';
 import {filter, map, single, startWith, switchMap, takeUntil, takeWhile, tap, throttleTime} from 'rxjs/operators';
 import {FilteredRequestParams, FilterName} from '../../components/filter/filter.component';
 import {environment} from '../../../../timetracking/environments/environment';
@@ -31,6 +31,7 @@ export class EntityService {
   public readonly customerChanged = new Subject<EntityChanged<CustomerGridDto>>();
   public readonly holidayChanged = new Subject<EntityChanged<HolidayGridDto>>();
   public readonly holidaysImported = new Subject<void>();
+  public readonly userChanged = new Subject<EntityChanged<UserGridDto>>();
 
   constructor() {
     this.reloadRequested = this.createReloadRequested();

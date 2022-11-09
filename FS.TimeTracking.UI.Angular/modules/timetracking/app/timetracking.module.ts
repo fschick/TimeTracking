@@ -52,6 +52,7 @@ import {ApiDateTimeInterceptor} from '../../core/app/services/http-interceptors/
 import {ApiErrorInterceptor} from '../../core/app/services/http-interceptors/api-error.interceptor';
 import {ConfigurationService} from '../../core/app/services/configuration.service';
 import {AuthenticationService} from '../../core/app/services/authentication.service';
+import {AuthorizationModule} from '../../authorization/app/authorization.module';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import {AuthenticationService} from '../../core/app/services/authentication.serv
     BrowserAnimationsModule,
     CoreModule,
     ReportModule,
+    AuthorizationModule,
     NgSelectModule,
     NgApexchartsModule,
     NgbModalModule,

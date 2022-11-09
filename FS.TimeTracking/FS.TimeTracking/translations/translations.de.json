@@ -73,7 +73,7 @@
         "Title": "Nach Tätigkeit"
       },
       "Issues": {
-        "Title": "Nach Issue"
+        "Title": "Nach Ticket"
       }
     },
     "Report": {
@@ -166,8 +166,34 @@
         "TimeZone": "Zeitzone",
         "Company": "Firma",
         "LogoPreview": "Vorschau"
+      },
+      "Users": {
+        "Title": "Benutzer",
+        "New": "Neuer Benutzer",
+        "Edit": "Benutzer bearbeiten",
+        "Delete": "Benutzer löschen",
+        "DeleteMessage": "Wollen Sie diesen Benutzer wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+        "Permissions": {
+          "foreign-data": "Daten anderer Benutzer",
+          "time-sheet": "Zeiterfassung",
+          "charts-by-customer": "Chart 'Soll / Ist nach Kunde'",
+          "charts-by-order": "Chart 'Soll / Ist nach Auftrag'",
+          "charts-by-project": "Chart 'Nach Projekt'",
+          "charts-by-activity": "Chart 'Nach Tätigkeit'",
+          "charts-by-issue": "Chart 'Nach Ticket'",
+          "report-activity-summary": "Tätigkeitsnachweis",
+          "report-activity-detail": "Tätigkeitsnachweis (detailiert)",
+          "report-activity-raw-data": "Rohdaten zum Tätigkeitsnachweis",
+          "master-data-customers": "Kunden",
+          "master-data-projects": "Projekte",
+          "master-data-activities": "Tätigkeiten",
+          "master-data-orders": "Aufträge",
+          "master-data-holidays": "Urlaub",
+          "administration-users": "Benutzer",
+          "administration-settings": "Einstellungen"
+        }
       }
-    }
+    },
   },
   "Component": {
     "Header": {
@@ -205,7 +231,11 @@
       "Issue": "Ticket",
       "Comment": "Kommentar",
       "Hidden": "versteckt",
-      "Billable": "verrechenbar"
+      "Billable": "verrechenbar",
+      "Username": "Benutzername",
+      "FirstName": "Vorname",
+      "LastName": "Nachname",
+      "Email": "E-Mail"
     },
     "NgSelect": {
       "AddTagText": "Element hinzufügen",
@@ -242,11 +272,17 @@
       "ConflictForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
       "ConflictForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Kunden zugeordnet",
-      "ConflictActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet"
+      "ConflictActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet",
+      "ConflictUserWithSameUsernameExists": "Ein Benutzer mit gleichem Benutzernamen oder gleicher E-Mailadresse existiert bereits"
     },
     "HolidayType": {
       "Holiday": "Urlaub",
       "PublicHoliday": "Feiertag"
+    },
+    "PermissionScope": {
+      "None": "Keine",
+      "View": "Anzeigen",
+      "Manage": "Bearbeiten"
     }
   },
   "DTO": {
@@ -396,6 +432,17 @@
     "HolidayImportDto": {
       "File": "iCal-Datei",
       "Type": "Typ"
+    },
+    "UserDto": {
+      "Username": "Benutzername",
+      "FirstName": "Vorname",
+      "LastName": "Nachname",
+      "Email": "E-Mail",
+      "Enabled": "Aktiviert",
+      "Password": "Passwort",
+      "ConfirmPassword": "Passwort bestätigen",
+      "Permissions": "Berechtigungen",
+      "RestrictToCustomerIds": "Beschränke auf Kunden"
     },
     "SettingDto": {
       "WorkHoursPerWorkday": "Arbeitsstunden / Werktag",

@@ -14,6 +14,7 @@ public static class DefaultPermissions
     /// </summary>
     public static List<PermissionDto> Value => new()
     {
+        CreatePermission(PermissionNames.FOREIGN_DATA, true),
         CreatePermission(PermissionNames.TIME_SHEET, true),
         CreatePermission(PermissionNames.CHARTS_BY_CUSTOMER, false),
         CreatePermission(PermissionNames.CHARTS_BY_ORDER, false),

@@ -158,6 +158,7 @@
       }
     },
     "Administration": {
+      "Title": "Administration",
       "Settings": {
         "Title": "Settings",
         "WorkTime": "Work time",
@@ -165,6 +166,32 @@
         "TimeZone": "Time zone",
         "Company": "Company",
         "LogoPreview": "Preview"
+      },
+      "Users": {
+        "Title": "Users",
+        "New": "New user",
+        "Edit": "Edit user",
+        "Delete": "Delete user",
+        "DeleteMessage": "Are you sure you want to delete this user? This cannot be undone.",
+        "Permissions": {
+          "foreign-data": "Data from other users",
+          "time-sheet": "Time sheets",
+          "charts-by-customer": "Chart 'Planned / actual by customer'",
+          "charts-by-order": "Chart 'Planned / actual by order'",
+          "charts-by-project": "Chart 'By project'",
+          "charts-by-activity": "Chart 'By activity'",
+          "charts-by-issue": "Chart 'By issue'",
+          "report-activity-summary": "Activity report",
+          "report-activity-detail": "Detailed activity report",
+          "report-activity-raw-data": "Activity report raw data",
+          "master-data-customers": "Customers",
+          "master-data-projects": "Projects",
+          "master-data-activities": "Activities",
+          "master-data-orders": "Orders",
+          "master-data-holidays": "Holidays",
+          "administration-users": "Users",
+          "administration-settings": "Settings"
+        }
       }
     }
   },
@@ -204,7 +231,11 @@
       "Issue": "Issue",
       "Comment": "Comment",
       "Hidden": "Hidden",
-      "Billable": "Billable"
+      "Billable": "Billable",
+      "Username": "Username",
+      "FirstName": "First name",
+      "LastName": "Last name",
+      "Email": "Email"
     },
     "NgSelect": {
       "AddTagText": "Add item",
@@ -241,11 +272,17 @@
       "ConflictForeignKeyViolation": "The operation conflicts with other data",
       "ConflictForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Activity is already assigned to time sheets with different customers",
-      "ConflictActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects"
+      "ConflictActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects",
+      "ConflictUserWithSameUsernameExists": "A user with same user name or email address already exists"
     },
     "HolidayType": {
       "Holiday": "Holidays / Vacation",
       "PublicHoliday": "Public holiday"
+    },
+    "PermissionScope": {
+      "None": "None",
+      "View": "Display",
+      "Manage": "Manage"
     }
   },
   "DTO": {
@@ -395,6 +432,17 @@
     "HolidayImportDto": {
       "File": "iCal file",
       "Type": "Type"
+    },
+    "UserDto": {
+      "Username": "Username",
+      "FirstName": "First name",
+      "LastName": "Last name",
+      "Email": "Email",
+      "Enabled": "Enabled",
+      "Password": "Password",
+      "ConfirmPassword": "Confirm password",
+      "Permissions": "Permissions",
+      "RestrictToCustomerIds": "Restrict to customers"
     },
     "SettingDto": {
       "WorkHoursPerWorkday": "Working hours / workday",

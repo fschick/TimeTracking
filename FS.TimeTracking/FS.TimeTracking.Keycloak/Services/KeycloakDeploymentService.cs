@@ -1,7 +1,7 @@
 ﻿using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Core.Extensions;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Authorization;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
@@ -146,7 +146,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         return createdClientScope.Id;
     }
 
-    private async Task<string> CreateDefaultAdminUser(string realm, CancellationToken cancellationToken)
+    private async Task<Guid> CreateDefaultAdminUser(string realm, CancellationToken cancellationToken)
     {
         var user = new UserRepresentation
         {
@@ -167,7 +167,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         var createdUser = await _keycloakRepository.GetUsers(realm, username: user.Username, cancellationToken: cancellationToken)
             .FirstAsync();
 
-        return createdUser.Id;
+        return Guid.Parse(createdUser.Id);
     }
 
     private async Task<List<RoleRepresentation>> CreateClientRoles(string realm, string clientId, CancellationToken cancellationToken)

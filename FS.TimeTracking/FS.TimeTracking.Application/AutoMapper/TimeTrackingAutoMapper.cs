@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using FS.Keycloak.RestApiClient.Model;
+using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.DTOs.Configuration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -35,6 +39,12 @@ public class TimeTrackingAutoMapper : Profile
         CreateMap<SettingDto, List<Setting>>()
             .ConvertUsing<SettingsFromDtoConverter>();
 
+        CreateMap<List<string>, List<PermissionDto>>()
+            .ConvertUsing<RolesToPermissionsConverter>();
+
+        CreateMap<List<PermissionDto>, List<string>>()
+            .ConvertUsing<RolesFromPermissionsConverter>();
+
         CreateMap<Holiday, HolidayDto>()
             .ReverseMap()
             .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
@@ -42,16 +52,24 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
+        CreateMap<Holiday, HolidayGridDto>();
+
         CreateMap<Customer, CustomerDto>()
             .ReverseMap();
 
+        CreateMap<Customer, CustomerGridDto>();
+
         CreateMap<Project, ProjectDto>()
             .ReverseMap();
+
+        CreateMap<Project, ProjectGridDto>();
 
         CreateMap<Activity, ActivityDto>()
             .ReverseMap()
             .ForMember(x => x.Customer, x => x.Ignore())
             .ForMember(x => x.Project, x => x.Ignore());
+
+        CreateMap<Activity, ActivityGridDto>();
 
         CreateMap<Order, OrderDto>()
             .ReverseMap()
@@ -60,22 +78,27 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.DueDateOffset, x => x.Ignore());
 
+        CreateMap<Order, OrderGridDto>();
+
+        CreateMap<UserDto, UserGridDto>()
+            .ReverseMap()
+            .ForMember(x => x.Password, x => x.Ignore());
+
+        CreateMap<UserRepresentation, UserDto>()
+            .ForMember(x => x.Password, x => x.Ignore())
+            .ForMember(x => x.Permissions, x => x.Ignore())
+            .ForMember(x => x.RestrictToCustomerIds, x => x.MapFrom(user => user.GetRestrictedCustomerIds()))
+            .ReverseMap()
+            .ForMember(x => x.Attributes, x => x.MapFrom((userDto, user) => user.SetRestrictedCustomerIds(userDto)));
+
+        CreateMap<UserRepresentation, UserGridDto>();
+
         CreateMap<TimeSheet, TimeSheetDto>()
             .ReverseMap()
             .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToMinuteConverter, DateTimeOffset>())
             .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateNullableDateTimeToMinuteConverter, DateTimeOffset?>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
-
-        CreateMap<Holiday, HolidayGridDto>();
-
-        CreateMap<Customer, CustomerGridDto>();
-
-        CreateMap<Project, ProjectGridDto>();
-
-        CreateMap<Activity, ActivityGridDto>();
-
-        CreateMap<Order, OrderGridDto>();
 
         CreateMap<TimeSheet, TimeSheetGridDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))
@@ -95,6 +118,7 @@ public class TimeTrackingAutoMapper : Profile
 
         CreateMap<KeycloakConfiguration, KeycloakConfigurationDto>();
 
-        CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>();
+        CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>()
+            .ForMember(x => x.DefaultPermissions, x => x.MapFrom(_ => DefaultPermissions.Value));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Extensions.ExpressionMapping;
 using FS.TimeTracking.Application.AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
@@ -11,7 +12,13 @@ public class AutoMapperConfigurationTests
     [TestMethod]
     public void AllMappingConfigurations_ShouldBeValid()
     {
-        new MapperConfiguration(cfg => cfg.AddProfile<TimeTrackingAutoMapper>())
+        var mapperConfiguration = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<TimeTrackingAutoMapper>();
+            cfg.AddExpressionMapping();
+        });
+
+        mapperConfiguration
             .CreateMapper()
             .ConfigurationProvider
             .AssertConfigurationIsValid();

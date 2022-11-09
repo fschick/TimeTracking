@@ -1,0 +1,102 @@
+<ng-template #userEdit let-modal>
+  <div class="modal-header">
+    <h4 class="m-0" i18n="@@Page.Administration.Users.Edit">[i18n] Edit user</h4>
+    <button type="button" class="btn modal-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <svg class="bi action-icon" fill="currentColor">
+        <use xlink:href="assets/icons.svg#x-circle"/>
+      </svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="userForm" [formGroup]="userForm" (ngSubmit)="save()" #form="ngForm">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <label for="username" class="form-label" i18n="@@DTO.UserDto.Username">[i18n] Username</label>
+          <input id="username" type="text" class="form-control" formControlName="username" ngbAutofocus>
+        </div>
+        <div class="col-lg-6">
+          <label for="email" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.Email">[i18n] Email</label>
+          <input id="email" type="text" class="form-control" formControlName="email">
+        </div>
+        <div class="col-lg-6">
+          <label for="firstName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.FirstName">[i18n] FirstName</label>
+          <input id="firstName" type="text" class="form-control" formControlName="firstName">
+        </div>
+        <div class="col-lg-6">
+          <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.LastName">[i18n] Last name</label>
+          <input id="lastName" type="text" class="form-control" formControlName="lastName">
+        </div>
+        <div class="col-lg-6">
+          <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.Password">[i18n] Password</label>
+          <input id="password" type="password" class="form-control" formControlName="password">
+        </div>
+        <div class="col-lg-6">
+          <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.ConfirmPassword">[i18n] Confirm password</label>
+          <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+        </div>
+        <div class="col-lg-6">
+          <!--suppress XmlInvalidId -->
+          <label for="customerTitle" class="form-label" i18n="@@DTO.UserDto.RestrictToCustomerIds">[i18n] Restrict to customers</label>
+          <ng-select [items]="customers$ | async"
+                     [selectOnTab]="true"
+                     [multiple]="true"
+                     bindValue="id"
+                     bindLabel="value"
+                     labelForId="customerTitle"
+                     formControlName="restrictToCustomerIds">
+            <ng-template ng-option-tmp let-item="item">
+              <span [ngClass]="{'text-secondary': item.hidden}">{{item.value}}</span>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-lg-12">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="enabled" formControlName="enabled">
+            <label class="form-label" for="enabled" i18n="@@DTO.UserDto.Enabled">
+              [i18n] Enabled
+            </label>
+          </div>
+        </div>
+
+        <!-- Permissions -->
+        <div class="col-lg-12" formArrayName="permissions">
+          <label for="permissions" class="form-label" i18n="@@DTO.UserDto.Permissions">[i18n] Permissions</label>
+          <div id="permissions" class="row g-4">
+            <div class="col-lg-6" *ngFor="let permission of getPermissionControls(); index as index">
+              <ng-container [formGroupName]="index">
+                <!--suppress XmlInvalidId -->
+                <label class="form-label" for="permission-{{index}}-scope">
+                  {{translatePermissionName(permission.value.name)}}
+                </label>
+                <ng-select [selectOnTab]="true"
+                           [clearable]="false"
+                           bindValue="id"
+                           bindLabel="value"
+                           labelForId="permission-{{index}}-scope"
+                           formControlName="scope">
+                  <ng-option value="none" i18n="@@Enum.PermissionScope.None">[i18n] None</ng-option>
+                  <ng-option value="view" i18n="@@Enum.PermissionScope.View">[i18n] Display</ng-option>
+                  <ng-option *ngIf="permission.value.manageable" value="manage" i18n="@@Enum.PermissionScope.Manage">[i18n] Manage</ng-option>
+                </ng-select>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <hr class="text-secondary" *ngIf="form.submitted && form.invalid">
+      <ts-form-validation-errors></ts-form-validation-errors>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancel" form="userForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
+      <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
+    </button>
+    <button id="save" form="userForm" type="submit" class="btn btn-primary">
+      <svg class="bi check-lg" fill="currentColor">
+        <use xlink:href="assets/icons.svg#check-lg"/>
+      </svg>
+      <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
+    </button>
+  </div>
+</ng-template>

@@ -19,14 +19,14 @@ import {ChartProjectsComponent} from './chart/components/chart-projects/chart-pr
 import {ChartActivitiesComponent} from './chart/components/chart-activities/chart-activities.component';
 import {ChartIssuesComponent} from './chart/components/chart-issues/chart-issues.component';
 import {ChartOrdersComponent} from './chart/components/chart-orders/chart-orders.component';
-import {ReportActivityOverviewComponent} from '../../report/app/components/report-activity-overview/report-activity-overview.component';
-import {ReportActivityPreviewComponent} from '../../report/app/components/report-activity-preview/report-activity-preview.component';
 import {rematch} from '../../core/app/services/routing/rematch';
+import {reportModuleRoutes} from '../../report/app/report.module.routes';
+import {authorizationModuleRoutes} from '../../authorization/app/authorization.module.routes';
 
 const guidRegex = '[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}';
 const guidId = `:id(${guidRegex})`;
 
-const routes: Routes = [
+const timeTrackingModuleRoutes: Routes = [
   {
     path: 'master-data',
     children: [
@@ -84,21 +84,16 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'report',
-    children: [
-      {
-        path: 'activity', component: ReportActivityOverviewComponent,
-      },
-      {
-        path: 'activity/preview/:reportType', component: ReportActivityPreviewComponent
-      },
-    ]
-  },
-  {
     path: '', component: TimesheetComponent,
     children: [{matcher: rematch(guidId), component: TimesheetEditComponent}]
   },
 ];
+
+const routes = [
+  ...timeTrackingModuleRoutes,
+  ...reportModuleRoutes,
+  ...authorizationModuleRoutes,
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: false})],

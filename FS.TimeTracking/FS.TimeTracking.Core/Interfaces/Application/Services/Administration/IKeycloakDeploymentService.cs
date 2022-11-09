@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Core.Interfaces.Application.Services.Authorization;
+namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 
 /// <summary>
 /// Keycloak deployment service

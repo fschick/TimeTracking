@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Authorization;
+﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Keycloak.Services;
 using Microsoft.AspNetCore.Authentication;

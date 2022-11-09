@@ -2,9 +2,6 @@ import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {$localizeId} from '../../../../../core/app/services/internationalization/localizeId';
-import {Observable} from 'rxjs';
-import {SettingService} from '../../../../../api/timetracking';
-import {map} from 'rxjs/operators';
 import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
 import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
@@ -45,6 +42,10 @@ export class PageNavigationComponent {
 
   public logout(): void {
     this.authenticationService.logout();
+  }
+
+  public getUsername(): string | undefined {
+    return this.authenticationService.username;
   }
 
   public setLanguage(language: string): void {

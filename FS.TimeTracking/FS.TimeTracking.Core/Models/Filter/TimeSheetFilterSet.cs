@@ -1,8 +1,9 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.FilterExpressionCreator.Filters;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using System.Diagnostics.CodeAnalysis;
+using FS.FilterExpressionCreator.Abstractions.Attributes;
+using FS.FilterExpressionCreator.Filters;
 
 namespace FS.TimeTracking.Core.Models.Filter;
 
@@ -42,4 +43,9 @@ public class TimeSheetFilterSet
     /// Filter applied to<see cref="HolidayDto"/>.
     /// </summary>
     public EntityFilter<HolidayDto> HolidayFilter { get; set; }
+
+    /// <summary>
+    /// Filter applied to<see cref="UserDto"/>.
+    /// </summary>
+    public EntityFilter<UserDto> UserFilter { get; set; }
 }

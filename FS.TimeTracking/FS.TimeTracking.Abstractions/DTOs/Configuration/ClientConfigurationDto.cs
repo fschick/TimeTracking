@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Configuration;
 
@@ -14,4 +16,9 @@ public class ClientConfigurationDto
     /// <inheritdoc cref="KeycloakConfigurationDto"/>
     [Required]
     public KeycloakConfigurationDto Keycloak { get; set; } = new();
+
+    /// <summary>
+    /// Default permissions.
+    /// </summary>
+    public List<PermissionDto> DefaultPermissions { get; set; } = new();
 }

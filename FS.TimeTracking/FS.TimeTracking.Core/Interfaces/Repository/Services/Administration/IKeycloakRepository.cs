@@ -1,4 +1,5 @@
 ﻿using FS.Keycloak.RestApiClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ public interface IKeycloakRepository
     /// <summary>
     /// Adds a client scope to a client.
     /// </summary>
-    Task AddScopeToClient(string realm, string clientId, string clientScopeId, CancellationToken cancellationToken);
+    Task AddScopeToClient(string realm, string clientId, string clientScopeId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get client roles.
@@ -86,12 +87,48 @@ public interface IKeycloakRepository
     /// <param name="exact">true to get exact match.</param>
     /// <param name="q">Search text.</param>
     /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
-    Task<List<UserRepresentation>> GetUsers(string realm, string search = default, string lastName = default, string firstName = default, string email = default, string username = default, bool? emailVerified = default, string idpAlias = default, string idpUserId = default, int? first = default, int? max = default, bool? enabled = default, bool? briefRepresentation = default, bool? exact = default, string q = default, CancellationToken cancellationToken = default);
+    Task<List<UserRepresentation>> GetUsers(string realm, string search = default, string lastName = default, string firstName = default, string email = default, string username = default, bool? emailVerified = default, string idpAlias = default, Guid? idpUserId = default, int? first = default, int? max = default, bool? enabled = default, bool? briefRepresentation = default, bool? exact = default, string q = default, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a user.
+    /// </summary>
+    /// <param name="realm">The realm.</param>
+    /// <param name="userId">Identifier for the user.</param>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task<UserRepresentation> GetUser(string realm, Guid userId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user.
     /// </summary>
-    Task CreateUser(string realm, UserRepresentation user, CancellationToken cancellationToken);
+    /// <param name="realm">The realm.</param>
+    /// <param name="user">The user.</param>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task CreateUser(string realm, UserRepresentation user, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates a user.
+    /// </summary>
+    /// <param name="realm">The realm.</param>
+    /// <param name="user">The user.</param>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task UpdateUser(string realm, UserRepresentation user, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a user.
+    /// </summary>
+    /// <param name="realm">The realm.</param>
+    /// <param name="userId">Identifier for the user.</param>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task DeleteUser(string realm, Guid userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get client roles for user.
+    /// </summary>
+    /// <param name="realm">The realm.</param>
+    /// <param name="userId">Identifier for the user.</param>
+    /// <param name="clientId">Identifier for the client.</param>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task<List<RoleRepresentation>> GetClientRolesOfUser(string realm, Guid userId, string clientId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds client roles to user.
@@ -101,7 +138,7 @@ public interface IKeycloakRepository
     /// <param name="clientId">Identifier for the client.</param>
     /// <param name="roles">The roles.</param>
     /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
-    Task AddClientRolesToUser(string realm, string userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default);
+    Task AddClientRolesToUser(string realm, Guid userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete client roles from user.
@@ -111,5 +148,5 @@ public interface IKeycloakRepository
     /// <param name="clientId">Identifier for the client.</param>
     /// <param name="roles">The roles.</param>
     /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
-    Task DeleteClientRolesOfUser(string realm, string userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default);
+    Task DeleteClientRolesOfUser(string realm, Guid userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default);
 }

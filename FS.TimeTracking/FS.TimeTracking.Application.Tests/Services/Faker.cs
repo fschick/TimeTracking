@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Extensions.ExpressionMapping;
 using FS.TimeTracking.Application.AutoMapper;
 using System;
 
@@ -21,7 +22,11 @@ public class Faker
     public Faker(int seed)
     {
         Random = new Random(seed);
-        AutoMapper = new MapperConfiguration(cfg => cfg.AddProfile<TimeTrackingAutoMapper>()).CreateMapper();
+        AutoMapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<TimeTrackingAutoMapper>();
+            cfg.AddExpressionMapping();
+        }).CreateMapper();
         DateTime = new FakeDateTime();
         Guid = new FakeGuid(this);
         Filters = new FakeFilters(this);
