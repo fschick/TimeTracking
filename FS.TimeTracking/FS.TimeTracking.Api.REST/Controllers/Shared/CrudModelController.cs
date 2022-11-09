@@ -3,7 +3,6 @@ using FS.TimeTracking.Api.REST.Models;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
@@ -12,25 +11,25 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
-/// <inheritdoc cref="ICrudModelService{TDto,TGridDto}" />
+/// <inheritdoc cref="ICrudModelService{TKey, TDto,TGridDto}" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ICrudModelService{TDto, TGridDto}" />
+/// <seealso cref="ICrudModelService{TKey, TDto, TGridDto}" />
 [ExcludeFromCodeCoverage]
-public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICrudModelService<TDto, TGridDto>
+public abstract class CrudModelController<TKey, TDto, TGridDto> : ControllerBase, ICrudModelService<TKey, TDto, TGridDto>
 {
-    private readonly ICrudModelService<TDto, TGridDto> _modelService;
+    private readonly ICrudModelService<TKey, TDto, TGridDto> _modelService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CrudModelController{TDto, TGridDto}"/> class.
+    /// Initializes a new instance of the <see cref="CrudModelController{TKey, TDto, TGridDto}"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    protected CrudModelController(ICrudModelService<TDto, TGridDto> modelService)
+    protected CrudModelController(ICrudModelService<TKey, TDto, TGridDto> modelService)
         => _modelService = modelService;
 
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet("{id:guid}", Name = "[controller]_[action]")]
-    public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
+    public async Task<TDto> Get(TKey id, CancellationToken cancellationToken = default)
         => await _modelService.Get(id, cancellationToken);
 
     /// <inheritdoc />
@@ -42,7 +41,7 @@ public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICru
     /// <inheritdoc />
     [NotFoundWhenEmpty]
     [HttpGet("{id:guid}", Name = "[controller]_[action]")]
-    public async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
+    public async Task<TGridDto> GetGridItem(TKey id, CancellationToken cancellationToken = default)
         => await _modelService.GetGridItem(id, cancellationToken);
 
     /// <inheritdoc />
@@ -59,6 +58,6 @@ public abstract class CrudModelController<TDto, TGridDto> : ControllerBase, ICru
     [HttpDelete("{id:guid}", Name = "[controller]_[action]")]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ApplicationError), (int)HttpStatusCode.Conflict)]
-    public async Task<long> Delete(Guid id)
+    public async Task<long> Delete(TKey id)
         => await _modelService.Delete(id);
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 
 /// <inheritdoc />
-public interface ITimeSheetService : ICrudModelService<TimeSheetDto, TimeSheetGridDto>
+public interface ITimeSheetService : ICrudModelService<Guid, TimeSheetDto, TimeSheetGridDto>
 {
     /// <summary>
     /// Starts a similar time sheet entry.

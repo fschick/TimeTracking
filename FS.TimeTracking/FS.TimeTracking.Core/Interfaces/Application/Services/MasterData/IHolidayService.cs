@@ -2,13 +2,14 @@
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 
 /// <inheritdoc />
-public interface IHolidayService : ICrudModelService<HolidayDto, HolidayGridDto>
+public interface IHolidayService : ICrudModelService<Guid, HolidayDto, HolidayGridDto>
 {
     /// <summary>
     /// Imports holidays/public holidays from iCal file.

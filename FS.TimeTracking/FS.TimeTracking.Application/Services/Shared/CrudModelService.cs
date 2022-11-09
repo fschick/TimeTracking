@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
-public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelService<TDto, TGridDto>
+public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelService<Guid, TDto, TGridDto>
     where TModel : class, IIdEntityModel, new()
 {
     /// <summary>

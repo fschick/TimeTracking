@@ -5,6 +5,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="IHolidayService" />
 [V1ApiController]
 [ExcludeFromCodeCoverage]
-public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayService
+public class HolidayController : CrudModelController<Guid, HolidayDto, HolidayGridDto>, IHolidayService
 {
     private readonly IHolidayService _holidayService;
 

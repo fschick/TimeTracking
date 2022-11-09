@@ -3,6 +3,7 @@ using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
@@ -12,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="IProjectService" />
 [V1ApiController]
 [ExcludeFromCodeCoverage]
-public class ProjectController : CrudModelController<ProjectDto, ProjectGridDto>, IProjectService
+public class ProjectController : CrudModelController<Guid, ProjectDto, ProjectGridDto>, IProjectService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectController"/> class.
