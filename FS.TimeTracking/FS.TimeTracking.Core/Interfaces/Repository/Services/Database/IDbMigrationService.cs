@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
+namespace FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 
 /// <summary>
 /// Database migration service

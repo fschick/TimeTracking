@@ -28,7 +28,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
+namespace FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 
 /// <summary>
 /// Generic repository.

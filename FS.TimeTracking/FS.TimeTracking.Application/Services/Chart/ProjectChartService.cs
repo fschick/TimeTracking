@@ -3,7 +3,7 @@ using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Filter;
 using System;

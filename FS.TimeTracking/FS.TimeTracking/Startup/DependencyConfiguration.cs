@@ -10,9 +10,9 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using FS.TimeTracking.Repository.Services.Database;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Startup;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using Nito.AsyncEx;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using FS.TimeTracking.Api.REST.Models;
 using FS.TimeTracking.Core.Exceptions;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;

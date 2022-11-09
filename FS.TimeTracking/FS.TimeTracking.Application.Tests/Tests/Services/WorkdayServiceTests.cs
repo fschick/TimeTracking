@@ -5,7 +5,7 @@ using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

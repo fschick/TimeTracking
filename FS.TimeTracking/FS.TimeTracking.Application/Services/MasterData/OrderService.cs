@@ -3,7 +3,7 @@ using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
 using System.Collections.Generic;

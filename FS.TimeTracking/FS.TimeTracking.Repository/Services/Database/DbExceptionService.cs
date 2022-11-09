@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.Core;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
@@ -6,7 +6,7 @@ using MySqlConnector;
 using Npgsql;
 using System.Data.Common;
 
-namespace FS.TimeTracking.Repository.Services;
+namespace FS.TimeTracking.Repository.Services.Database;
 
 /// <inheritdoc />
 public class DbExceptionService : IDbExceptionService

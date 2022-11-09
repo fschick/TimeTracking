@@ -1,7 +1,7 @@
-﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using FS.TimeTracking.Repository.Services.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

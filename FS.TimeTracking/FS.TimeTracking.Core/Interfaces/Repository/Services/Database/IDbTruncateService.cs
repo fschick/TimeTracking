@@ -1,4 +1,4 @@
-﻿namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿namespace FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 
 /// <summary>
 /// Services to truncate whole database without removing the database itself

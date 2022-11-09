@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FS.TimeTracking.Core.Interfaces.Models;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FS.TimeTracking.Repository.Services;
+namespace FS.TimeTracking.Repository.Services.Database;
 
 /// <inheritdoc />
 public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbContext

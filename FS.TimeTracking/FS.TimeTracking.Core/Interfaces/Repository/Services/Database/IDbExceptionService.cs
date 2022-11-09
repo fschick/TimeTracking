@@ -1,7 +1,7 @@
 ﻿using FS.TimeTracking.Core.Models.Application.Core;
 using System.Data.Common;
 
-namespace FS.TimeTracking.Core.Interfaces.Repository.Services;
+namespace FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 
 /// <summary>
 /// Database specific exception handling

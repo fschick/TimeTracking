@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Repository.Services;
+using FS.TimeTracking.Repository.Services.Database;
 using FS.TimeTracking.Tool.DbContexts.Imports;
 using FS.TimeTracking.Tool.Interfaces.Import;
 

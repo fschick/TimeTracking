@@ -1,4 +1,4 @@
-﻿using FS.TimeTracking.Core.Interfaces.Repository.Services;
+﻿using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 
-namespace FS.TimeTracking.Repository.Services;
+namespace FS.TimeTracking.Repository.Services.Database;
 
 /// <inheritdoc />
 public class DbTruncateService : IDbTruncateService

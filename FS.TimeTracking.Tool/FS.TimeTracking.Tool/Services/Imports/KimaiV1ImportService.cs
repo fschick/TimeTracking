@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Tool.Interfaces.Import;

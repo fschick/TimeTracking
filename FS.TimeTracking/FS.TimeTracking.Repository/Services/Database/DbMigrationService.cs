@@ -1,12 +1,12 @@
 ﻿using FS.TimeTracking.Core.Extensions;
-using FS.TimeTracking.Core.Interfaces.Repository.Services;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Repository.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Repository.Services;
+namespace FS.TimeTracking.Repository.Services.Database;
 
 /// <inheritdoc />
 public class DbMigrationService : IDbMigrationService
