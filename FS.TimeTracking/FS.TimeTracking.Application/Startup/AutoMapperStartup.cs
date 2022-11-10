@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Application.Startup;
 
-internal static class AutoMapper
+internal static class AutoMapperStartup
 {
     public static IServiceCollection RegisterTimeTrackingAutoMapper(this IServiceCollection services)
     {

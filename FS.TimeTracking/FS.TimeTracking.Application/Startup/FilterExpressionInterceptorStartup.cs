@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Application.Startup;
 
-internal static class FilterExpressionInterceptor
+internal static class FilterExpressionInterceptorStartup
 {
     public static IServiceCollection RegisterFilterExpressionInterceptor(this IServiceCollection services)
     {

@@ -14,11 +14,11 @@ public record HolidayGridDto
 {
     /// <inheritdoc cref="HolidayDto.Id"/>
     [Required]
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
 
     /// <inheritdoc cref="HolidayDto.Title"/>
     [Required]
-    public string Title { get; init; }
+    public string Title { get; set; }
 
     /// <inheritdoc cref="HolidayDto.StartDate"/>
     [Required]

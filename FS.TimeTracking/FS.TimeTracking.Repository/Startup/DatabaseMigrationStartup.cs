@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Repository.Startup;
 
-internal static class DatabaseMigration
+internal static class DatabaseMigrationStartup
 {
     public static async Task MigrateDatabase(this WebApplication webApplication, CancellationToken cancellationToken = default)
     {

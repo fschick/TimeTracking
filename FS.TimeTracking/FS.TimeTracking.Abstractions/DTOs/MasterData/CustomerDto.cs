@@ -21,14 +21,14 @@ public record CustomerDto
     /// The unique identifier of the entity.
     /// </summary>
     [Required]
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// The display name of the customer.
     /// </summary>
     [Required]
     [StringLength(100)]
-    public string Title { get; init; }
+    public string Title { get; set; }
 
     /// <summary>
     /// The customer number.
@@ -44,13 +44,13 @@ public record CustomerDto
     /// The name of the company.
     /// </summary>
     [StringLength(100)]
-    public string CompanyName { get; init; }
+    public string CompanyName { get; set; }
 
     /// <summary>
     /// The name of the contact.
     /// </summary>
     [StringLength(100)]
-    public string ContactName { get; init; }
+    public string ContactName { get; set; }
 
     /// <summary>
     /// The hourly rate.
@@ -63,25 +63,25 @@ public record CustomerDto
     /// The street.
     /// </summary>
     [StringLength(100)]
-    public string Street { get; init; }
+    public string Street { get; set; }
 
     /// <summary>
     /// The zip code.
     /// </summary>
     [StringLength(100)]
-    public string ZipCode { get; init; }
+    public string ZipCode { get; set; }
 
     /// <summary>
     /// The city.
     /// </summary>
     [StringLength(100)]
-    public string City { get; init; }
+    public string City { get; set; }
 
     /// <summary>
     /// The country.
     /// </summary>
     [StringLength(100)]
-    public string Country { get; init; }
+    public string Country { get; set; }
 
     /// <summary>
     /// Comment for this item.
@@ -92,7 +92,7 @@ public record CustomerDto
     /// Indicates whether this item is hidden.
     /// </summary>
     [Required]
-    public bool Hidden { get; init; }
+    public bool Hidden { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

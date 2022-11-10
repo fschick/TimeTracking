@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
-internal static class ValidationDescription
+internal static class ValidationDescriptionStartup
 {
-    internal static async Task GenerateValidationSpec(this IHost host, string outFile)
+    public static async Task GenerateValidationSpec(this IHost host, string outFile)
     {
         if (string.IsNullOrWhiteSpace(outFile))
             throw new ArgumentException("No destination file for generated validation document given.");

@@ -16,12 +16,12 @@ public class RedirectController : ControllerBase
     /// <summary>
     /// Redirects /swagger to OpenAPI UI.
     /// </summary>
-    [HttpGet($"/{OpenApi.SWAGGER_UI_ROUTE}{{**path}}")]
+    [HttpGet($"/{OpenApiStartup.SWAGGER_UI_ROUTE}{{**path}}")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public RedirectResult RedirectSwaggerToOpenApiUi(string path)
     {
         var query = HttpContext.Request.QueryString;
-        var redirectUrl = $"/{OpenApi.OPEN_API_UI_ROUTE}/{path}{query}";
+        var redirectUrl = $"/{OpenApiStartup.OPEN_API_UI_ROUTE}/{path}{query}";
         return RedirectPermanent(redirectUrl);
     }
 }

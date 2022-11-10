@@ -17,11 +17,11 @@ public record ActivityReportGridDto
 {
     /// <inheritdoc cref="CustomerDto.Id"/>
     [Required]
-    public Guid CustomerId { get; init; }
+    public Guid CustomerId { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     [Required]
-    public string CustomerTitle { get; init; }
+    public string CustomerTitle { get; set; }
 
     /// <inheritdoc cref="WorkTimeDto.DaysWorked"/>
     [Required]

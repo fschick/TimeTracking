@@ -22,14 +22,14 @@ public record HolidayDto
     /// The unique identifier of the entity.
     /// </summary>
     [Required]
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// The display name of the holiday.
     /// </summary>
     [Required]
     [StringLength(100)]
-    public string Title { get; init; }
+    public string Title { get; set; }
 
     /// <summary>
     /// The start date.

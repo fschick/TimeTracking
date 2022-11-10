@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
-internal static class RestApi
+internal static class RestApiStartup
 {
     public static WebApplication RegisterRestApiRoutes(this WebApplication webApplication)
     {

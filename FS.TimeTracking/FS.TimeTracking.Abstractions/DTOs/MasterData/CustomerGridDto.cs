@@ -13,21 +13,21 @@ public record CustomerGridDto
 {
     /// <inheritdoc cref="CustomerDto.Id"/>
     [Required]
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     [Required]
-    public string Title { get; init; }
+    public string Title { get; set; }
 
     /// <inheritdoc cref="CustomerDto.CompanyName"/>
-    public string CompanyName { get; init; }
+    public string CompanyName { get; set; }
 
     /// <inheritdoc cref="CustomerDto.ContactName"/>
-    public string ContactName { get; init; }
+    public string ContactName { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Hidden"/>
     [Required]
-    public bool Hidden { get; init; }
+    public bool Hidden { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

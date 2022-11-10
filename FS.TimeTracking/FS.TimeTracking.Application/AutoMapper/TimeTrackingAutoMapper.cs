@@ -30,15 +30,15 @@ public class TimeTrackingAutoMapper : Profile
             .ConvertUsing(x => string.IsNullOrEmpty(x) ? null : x);
 
         CreateMap<List<Setting>, SettingDto>()
-            .ConvertUsing<SettingsDtoConverter>();
+            .ConvertUsing<SettingsToDtoConverter>();
 
         CreateMap<SettingDto, List<Setting>>()
-            .ConvertUsing<SettingsFromDtoMapper>();
+            .ConvertUsing<SettingsFromDtoConverter>();
 
         CreateMap<Holiday, HolidayDto>()
             .ReverseMap()
-            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
-            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
@@ -55,15 +55,15 @@ public class TimeTrackingAutoMapper : Profile
 
         CreateMap<Order, OrderDto>()
             .ReverseMap()
-            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
-            .ForMember(x => x.DueDate, x => x.ConvertUsing<TruncateToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
+            .ForMember(x => x.DueDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.DueDateOffset, x => x.Ignore());
 
         CreateMap<TimeSheet, TimeSheetDto>()
             .ReverseMap()
-            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateToMinuteConverter, DateTimeOffset>())
-            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateNullableToMinuteConverter, DateTimeOffset?>())
+            .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToMinuteConverter, DateTimeOffset>())
+            .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateNullableDateTimeToMinuteConverter, DateTimeOffset?>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 

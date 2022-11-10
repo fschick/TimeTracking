@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FS.TimeTracking.Application.AutoMapper;
+namespace FS.TimeTracking.Application.Extensions;
 
 /// <summary>
 /// Extension methods to flatten/un-flatten object to/from path/values pairs.

@@ -13,7 +13,7 @@ using AssemblyExtensions = FS.TimeTracking.Core.Extensions.AssemblyExtensions;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
-internal static class OpenApi
+internal static class OpenApiStartup
 {
     public const string OPEN_API_UI_ROUTE = "openapi/";
     public const string OPEN_API_SPEC = "openapi.json";

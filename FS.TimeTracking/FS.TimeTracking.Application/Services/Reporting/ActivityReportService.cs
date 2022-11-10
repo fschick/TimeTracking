@@ -1,5 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.Reporting;
-using FS.TimeTracking.Application.AutoMapper;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;

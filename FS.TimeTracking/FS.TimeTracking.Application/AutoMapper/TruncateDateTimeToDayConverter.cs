@@ -4,13 +4,13 @@ using System;
 
 namespace FS.TimeTracking.Application.AutoMapper;
 
-internal class TruncateToDayConverter : IValueConverter<DateTimeOffset, DateTimeOffset>
+internal class TruncateDateTimeToDayConverter : IValueConverter<DateTimeOffset, DateTimeOffset>
 {
     public DateTimeOffset Convert(DateTimeOffset sourceMember, ResolutionContext context)
         => sourceMember.Truncate(TimeSpan.TicksPerDay);
 }
 
-internal class TruncateNullableToDayConverter : IValueConverter<DateTimeOffset?, DateTimeOffset?>
+internal class TruncateNullableDateTimeToDayConverter : IValueConverter<DateTimeOffset?, DateTimeOffset?>
 {
     public DateTimeOffset? Convert(DateTimeOffset? sourceMember, ResolutionContext context)
         => sourceMember.Truncate(TimeSpan.TicksPerDay);

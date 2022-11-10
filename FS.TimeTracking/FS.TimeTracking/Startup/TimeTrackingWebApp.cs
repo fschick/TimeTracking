@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Startup;
 
 internal static class TimeTrackingWebApp
 {
-    internal static WebApplication Create(string[] args)
+    public static WebApplication Create(string[] args)
     {
         var webAppBuilder = CreateWebApplicationBuilder(args);
         var webApp = webAppBuilder.Build();
@@ -24,7 +24,7 @@ internal static class TimeTrackingWebApp
         return webApp;
     }
 
-    internal static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
+    public static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
     {
         var options = new WebApplicationOptions { Args = args, ContentRootPath = TimeTrackingConfiguration.PathToContentRoot };
         var webAppBuilder = WebApplication.CreateBuilder(options);
@@ -128,7 +128,7 @@ internal static class TimeTrackingWebApp
             IsProduction = hostEnvironment.IsProduction(),
         });
 
-    private static IServiceCollection CreateAndRegisterTimeTrackingConfiguration(this IServiceCollection services, IConfiguration configuration)
+    private static void CreateAndRegisterTimeTrackingConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services.Configure<TimeTrackingConfiguration>(configuration.GetSection(TimeTrackingConfiguration.CONFIGURATION_SECTION));
 
     private static void RegisterSpaStaticFiles(this IServiceCollection services, IHostEnvironment hostEnvironment)

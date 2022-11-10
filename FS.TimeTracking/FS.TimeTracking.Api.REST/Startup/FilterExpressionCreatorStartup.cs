@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
-internal static class FilterExpressionCreator
+internal static class FilterExpressionCreatorStartup
 {
     public static IMvcBuilder AddFilterExpressionCreators(this IMvcBuilder mvcBuilder)
         => mvcBuilder

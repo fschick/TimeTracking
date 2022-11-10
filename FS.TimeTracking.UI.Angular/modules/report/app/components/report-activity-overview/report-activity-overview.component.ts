@@ -8,7 +8,6 @@ import {ActivityReportGridDto, ActivityReportService} from '../../../../api/time
 import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 import {Column, Configuration, DataCellTemplate} from '../../../../core/app/components/simple-table/simple-table.component';
 import {FormatService} from '../../../../core/app/services/format.service';
-import {DurationPipe} from '../../../../core/app/pipes/duration.pipe';
 import {UtilityService} from '../../../../core/app/services/utility.service';
 
 @Component({

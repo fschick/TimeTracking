@@ -95,8 +95,8 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
                 groupBy: (TimeSheet x) => 1,
                 select: x => new
                 {
-                    Start = x.Min(timeSheet => timeSheet.StartDateLocal),
-                    End = x.Max(timeSheet => timeSheet.EndDateLocal),
+                    MinStart = x.Min(timeSheet => timeSheet.StartDateLocal),
+                    MaxEnd = x.Max(timeSheet => timeSheet.EndDateLocal),
                     TotalWorkedTime = TimeSpan.FromSeconds(x.Sum(f => (double)f.StartDateLocal.DiffSeconds(f.StartDateOffset, f.EndDateLocal, f.EndDateOffset)))
                 },
                 where: filter,
@@ -106,7 +106,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
             .FirstOrDefaultAsync();
 
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters, true);
-        selectedPeriod = await AlignPeriodToAvailableData(selectedPeriod, dbMinMaxTotal?.Start, dbMinMaxTotal?.End);
+        selectedPeriod = await AlignPeriodToAvailableData(selectedPeriod, dbMinMaxTotal?.MinStart, dbMinMaxTotal?.MaxEnd);
         var workDays = await _workdayService.GetWorkdays(selectedPeriod, cancellationToken);
 
         var settings = await _settingService.GetSettings(cancellationToken);
@@ -114,7 +114,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         var totalWorkedTime = dbMinMaxTotal?.TotalWorkedTime ?? TimeSpan.Zero;
 
         var (lastWorkedTimes, aggregationUnit) = dbMinMaxTotal != null
-            ? await GetLastWorkedTimes(dbMinMaxTotal.Start, dbMinMaxTotal.End, filter, cancellationToken)
+            ? await GetLastWorkedTimes(dbMinMaxTotal.MinStart, dbMinMaxTotal.MaxEnd, filter, cancellationToken)
             : (new(), WorkdayAggregationUnit.Invalid);
 
         return new WorkedDaysInfoDto

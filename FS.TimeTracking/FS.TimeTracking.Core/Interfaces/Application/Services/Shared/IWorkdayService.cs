@@ -12,6 +12,14 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 public interface IWorkdayService
 {
     /// <summary>
+    /// Gets the workdays for a given date/time span.
+    /// </summary>
+    /// <param name="dateTimeRange">The date time range to get the workdays for.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>Enumerable with one entry per per working day.</returns>
+    Task<WorkdaysDto> GetWorkdays(Range<DateTimeOffset> dateTimeRange, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets the workdays for a given date/time range.
     /// </summary>
     /// <param name="startDate">The start date to get the workdays for.</param>
@@ -19,12 +27,4 @@ public interface IWorkdayService
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>Enumerable with one entry per per working day.</returns>
     Task<WorkdaysDto> GetWorkdays(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Gets the workdays for a given date/time span.
-    /// </summary>
-    /// <param name="dateTimeSection">The date time section to get the workdays for.</param>
-    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>Enumerable with one entry per per working day.</returns>
-    Task<WorkdaysDto> GetWorkdays(Range<DateTimeOffset> dateTimeSection, CancellationToken cancellationToken = default);
 }

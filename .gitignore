@@ -303,6 +303,7 @@ __pycache__/
 /FS.TimeTracking.Report/FS.TimeTracking.Report/config/FS.TimeTracking.Report.config.Development.json
 /FS.TimeTracking.ReportServer/FS.TimeTracking.Report.Client
 /FS.TimeTracking.UI.Angular/cypress/videos/**
+/FS.TimeTracking.UI.Angular/cypress/screenshots/**
 /FS.TimeTracking.UI.Angular/modules/api
 /FS.TimeTracking.UI.Angular/modules/assets/flags.svg
 /FS.TimeTracking.UI.Angular/modules/assets/icons.svg

@@ -1,5 +1,4 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Core.Extensions;
@@ -19,7 +18,7 @@ namespace FS.TimeTracking.Application.Services.Shared;
 public class WorkdayService : IWorkdayService
 {
     private readonly ISettingService _settingService;
-    private readonly AsyncLazy<List<HolidayDto>> _holidays;
+    private readonly AsyncLazy<List<Holiday>> _holidays;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WorkdayService" /> class.
@@ -29,7 +28,7 @@ public class WorkdayService : IWorkdayService
     public WorkdayService(IDbRepository dbRepository, ISettingService settingService)
     {
         _settingService = settingService;
-        _holidays = new AsyncLazy<List<HolidayDto>>(async () => await dbRepository.Get<Holiday, HolidayDto>());
+        _holidays = new AsyncLazy<List<Holiday>>(async () => await dbRepository.Get((Holiday x) => x));
     }
 
     /// <inheritdoc />
