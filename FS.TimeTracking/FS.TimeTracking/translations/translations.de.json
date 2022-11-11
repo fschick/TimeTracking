@@ -412,6 +412,7 @@
   },
   "Validation": {
     "RequiredWithField": "'{$FIELDNAME}' ist erforderlich",
+    "InvalidWithField": "'{$FIELDNAME}' ist ungültig",
     "MinLengthWithField": "'{$FIELDNAME}' muss mindesten {$VALUE} Zeichen haben",
     "MaxLengthWithField": "'{$FIELDNAME}' darf nicht mehr als {$VALUE} Zeichen haben",
     "MinWithField": "'{$FIELDNAME}' muss größer oder gleich {$VALUE} sein",

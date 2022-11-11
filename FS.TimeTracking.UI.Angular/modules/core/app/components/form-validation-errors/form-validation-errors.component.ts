@@ -98,7 +98,8 @@ export class FormValidationErrorsComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private validationErrorConverters: IValidationErrorConverters = {
     // eslint-disable-next-line max-len
-    required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[i18n] The field '${fieldName}:FIELDNAME:' is required`,
+    required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[i18n] '${fieldName}:FIELDNAME:' is required`,
+    email: (fieldName, _) => $localize`:@@Validation.InvalidWithField:[i18n] '${fieldName}:FIELDNAME:' is invalid`,
     minlength: (fieldName, error) => $localize`:@@Validation.MinLengthWithField:[i18n] '${fieldName}:FIELDNAME:' must be at least ${error.requiredLength}:VALUE: characters`,
     maxlength: (fieldName, error) => $localize`:@@Validation.MaxLengthWithField:[i18n] '${fieldName}:FIELDNAME:' must not have more than ${error.requiredLength}:VALUE: characters`,
     min: (fieldName, error) => $localize`:@@Validation.MinWithField:[i18n] '${fieldName}:FIELDNAME:' must be greater or equal to ${error.min}:VALUE:`,
@@ -125,7 +126,7 @@ export class FormValidationErrorsComponent implements OnInit {
         return $localize`:@@Validation.CompareToGreaterThanOrEqualWithField:[i18n] '${fieldName}:FIELDNAME:' must be greater or equal than '${otherFieldName}:OTHERFIELDNAME:'`;
       default:
         console.error(`No error converter for validation 'compareTo/${error.comparisonType}' found.`);
-        return $localize`:@@Validation.Common.InvalidWithField:'${fieldName + '/' + otherFieldName}:FIELDNAME:' is invalid.`;
+        return $localize`:@@Validation.InvalidWithField:'${fieldName + '/' + otherFieldName}:FIELDNAME:' is invalid.`;
     }
   };
 }

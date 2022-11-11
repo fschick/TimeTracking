@@ -103,6 +103,8 @@ export class FormValidationService {
     switch (validation.type) {
       case 'required':
         return [AngularValidators.required];
+      case 'email':
+        return [AngularValidators.email];
       case 'length':
         return this.getFieldLengthValidators(validation);
       case 'range':
