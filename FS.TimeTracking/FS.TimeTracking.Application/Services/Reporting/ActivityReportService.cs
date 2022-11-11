@@ -60,14 +60,21 @@ public class ActivityReportService : IActivityReportService
     /// <inheritdoc />
     public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
     {
-        var activityReportUrl = _apiDescriptionProvider.ApiDescriptionGroups.Items
+        var dailyActivityReportUrl = _apiDescriptionProvider.ApiDescriptionGroups.Items
             .SelectMany(x => x.Items)
-            .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetActivityReport))
+            .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetDailyActivityReport))
+            .RelativePath;
+
+        var detailedActivityReportUrl = _apiDescriptionProvider.ApiDescriptionGroups.Items
+            .SelectMany(x => x.Items)
+            .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetDetailedActivityReport))
             .RelativePath;
 
         var queryParams = FilterExtensions.ToQueryParams(filters, ("language", language));
 
-        var reportDownloadUrl = $"{activityReportUrl}?{queryParams}";
+        var dailyReportDownloadUrl = $"{dailyActivityReportUrl}?{queryParams}";
+
+        var detailedReportDownloadUrl = $"{detailedActivityReportUrl}?{queryParams}";
 
         var workTimes = await _customerChartService
             .GetWorkTimesPerCustomer(filters, cancellationToken)
@@ -84,14 +91,29 @@ public class ActivityReportService : IActivityReportService
                 TimeWorked = workTime.TimeWorked,
                 BudgetWorked = workTime.BudgetWorked,
                 Currency = workTime.Currency,
-                DailyActivityReportUrl = $"{reportDownloadUrl}&customerId={workTime.CustomerId}&reportType={ActivityReportType.Daily.ToString().LowercaseFirstChar()}",
-                DetailedActivityReportUrl = $"{reportDownloadUrl}&customerId={workTime.CustomerId}&reportType={ActivityReportType.Detailed.ToString().LowercaseFirstChar()}",
+                DailyActivityReportUrl = $"{dailyReportDownloadUrl}&customerId={workTime.CustomerId}",
+                DetailedActivityReportUrl = $"{detailedReportDownloadUrl}&customerId={workTime.CustomerId}",
             })
             .ToList();
     }
 
     /// <inheritdoc />
-    public async Task<FileResult> GetActivityReport(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+    public async Task<FileResult> GetDailyActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await GetActivityReport(filters, language, ActivityReportType.Daily, cancellationToken);
+
+    /// <inheritdoc />
+    public async Task<FileResult> GetDetailedActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await GetActivityReport(filters, language, ActivityReportType.Detailed, cancellationToken);
+
+    /// <inheritdoc />
+    public async Task<ReportPreviewDto> GetDailyActivityReportPreview(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await GetActivityReportPreview(filters, language, ActivityReportType.Daily, cancellationToken);
+
+    /// <inheritdoc />
+    public async Task<ReportPreviewDto> GetDetailedActivityReportPreview(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await GetActivityReportPreview(filters, language, ActivityReportType.Detailed, cancellationToken);
+
+    private async Task<FileResult> GetActivityReport(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
         var reportData = await GetActivityReportData(filters, language, reportType, cancellationToken);
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Reporting.ReportServerBaseUrl);
@@ -111,8 +133,7 @@ public class ActivityReportService : IActivityReportService
         return reportFileResult;
     }
 
-    /// <inheritdoc />
-    public async Task<ReportPreviewDto> GetActivityReportPreview(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+    private async Task<ReportPreviewDto> GetActivityReportPreview(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
         var reportData = await GetActivityReportData(filters, language, reportType, cancellationToken);
         if (reportData.TimeSheets?.Any() != true)

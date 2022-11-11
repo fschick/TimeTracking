@@ -37,13 +37,23 @@ public class ActivityReportController : ControllerBase, IActivityReportService
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<FileResult> GetActivityReport([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetActivityReport(filters, language, reportType, cancellationToken);
+    public async Task<FileResult> GetDailyActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDailyActivityReport(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    public async Task<ReportPreviewDto> GetActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
-        => await _activityReportService.GetActivityReportPreview(filters, language, reportType, cancellationToken);
+    public async Task<FileResult> GetDetailedActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDetailedActivityReport(filters, language, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<ReportPreviewDto> GetDailyActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDailyActivityReportPreview(filters, language, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    public async Task<ReportPreviewDto> GetDetailedActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDetailedActivityReportPreview(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]

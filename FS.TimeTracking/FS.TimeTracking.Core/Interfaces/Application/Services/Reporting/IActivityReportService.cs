@@ -22,22 +22,36 @@ public interface IActivityReportService
     Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Gets a daily activity report.
+    /// </summary>
+    /// <param name="filters">Filters applied to result.</param>
+    /// <param name="language">The language to get translations for.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<FileResult> GetDailyActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets a detailed activity report.
     /// </summary>
     /// <param name="filters">Filters applied to result.</param>
     /// <param name="language">The language to get translations for.</param>
-    /// <param name="reportType">The type of the activity report.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<FileResult> GetActivityReport(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default);
+    Task<FileResult> GetDetailedActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets the preview of a daily activity report.
+    /// </summary>
+    /// <param name="filters">Filters applied to result.</param>
+    /// <param name="language">The language to get translations for.</param>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<ReportPreviewDto> GetDailyActivityReportPreview(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the preview of a detailed activity report.
     /// </summary>
     /// <param name="filters">Filters applied to result.</param>
     /// <param name="language">The language to get translations for.</param>
-    /// <param name="reportType">The type of the activity report.</param>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    Task<ReportPreviewDto> GetActivityReportPreview(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default);
+    Task<ReportPreviewDto> GetDetailedActivityReportPreview(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets data to create activity based reports.
