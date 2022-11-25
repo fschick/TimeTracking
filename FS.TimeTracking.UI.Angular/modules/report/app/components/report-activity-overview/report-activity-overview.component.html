@@ -27,13 +27,13 @@
 </ng-template>
 
 <ng-template #dailyActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
-  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.dailyActivityReportUrl}}">
+  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.dailyActivityReportUrl}}" (click)="refreshDailyReportDownloadToken(row)">
     <ng-container i18n="@@Page.Report.ActivityOverview.Download">[i18n] Download</ng-container>
   </a>
 </ng-template>
 
 <ng-template #detailedActivityReportDownloadTemplate let-row="row" let-column="column" let-table="table">
-  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.detailedActivityReportUrl}}">
+  <a class="btn btn-sm btn-secondary" href="{{apiBasePath}}/{{row.detailedActivityReportUrl}}" (click)="refreshDetailedReportDownloadToken(row)">
     <ng-container i18n="@@Page.Report.ActivityOverview.Download">[i18n] Download</ng-container>
   </a>
 </ng-template>

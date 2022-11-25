@@ -28,6 +28,7 @@ internal static class DependencyConfiguration
         services.AddScoped<IDbTruncateService, DbTruncateService>();
 
         services.AddScoped<IWorkdayService, WorkdayService>();
+        services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<IInformationService, InformationService>();
         services.AddScoped<ITestDataService, TestDataService>();
         services.AddScoped<ITypeaheadService, TypeaheadService>();

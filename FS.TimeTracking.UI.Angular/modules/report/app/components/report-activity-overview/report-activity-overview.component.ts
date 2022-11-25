@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../core/app/components/filter/filter.component';
 import {DateTime} from 'luxon';
-import {switchMap} from 'rxjs/operators';
+import {single, switchMap} from 'rxjs/operators';
 import {EntityService} from '../../../../core/app/services/state-management/entity.service';
 import {Observable, Subscription} from 'rxjs';
 import {ActivityReportGridDto, ActivityReportService} from '../../../../api/timetracking';
@@ -121,5 +121,23 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
 
   private loadOverview(requestParameters: FilteredRequestParams): Observable<ActivityReportGridDto[]> {
     return this.activityReportService.getCustomersHavingTimeSheets({...requestParameters, language: this.localizationService.language});
+  }
+
+  public refreshDailyReportDownloadToken(row: ActivityReportGridDto) {
+    this.activityReportService.getDailyActivityReportDownloadToken()
+      .pipe(single())
+      .subscribe(newToken => {
+        if (row.dailyActivityReportUrl)
+          row.dailyActivityReportUrl = row.dailyActivityReportUrl.replace(/&accessToken=.*?(&|$)/, `&accessToken=${newToken}`);
+      });
+  }
+
+  public refreshDetailedReportDownloadToken(row: ActivityReportGridDto) {
+    this.activityReportService.getDetailedActivityReportDownloadToken()
+      .pipe(single())
+      .subscribe(newToken => {
+        if (row.detailedActivityReportUrl)
+          row.detailedActivityReportUrl = row.detailedActivityReportUrl.replace(/&accessToken=.*?(&|$)/, `&accessToken=${newToken}`);
+      });
   }
 }

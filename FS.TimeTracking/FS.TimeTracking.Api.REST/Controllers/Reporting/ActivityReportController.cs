@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Constants;
+﻿using FS.Authentication.OneTimeToken.Abstractions.Models;
+using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
@@ -42,12 +43,24 @@ public class ActivityReportController : ControllerBase, IActivityReportService
     /// <inheritdoc />
     [HttpGet]
     [Authorize(Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)]
+    public async Task<string> GetDailyActivityReportDownloadToken(CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDailyActivityReportDownloadToken(cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    public async Task<string> GetDetailedActivityReportDownloadToken(CancellationToken cancellationToken = default)
+        => await _activityReportService.GetDetailedActivityReportDownloadToken(cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)]
     public async Task<FileResult> GetDailyActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDailyActivityReport(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
     public async Task<FileResult> GetDetailedActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDetailedActivityReport(filters, language, cancellationToken);
 

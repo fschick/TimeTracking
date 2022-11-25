@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Api.REST.Startup;
+﻿using FS.Authentication.OneTimeToken.Extensions;
+using FS.TimeTracking.Api.REST.Startup;
 using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Keycloak.Startup;
@@ -96,6 +97,7 @@ internal static class TimeTrackingWebApp
             services.RegisterAuthorizationPolicies();
             services.RegisterSpaStaticFiles(context.HostingEnvironment);
             services.RegisterKeycloakAuthentication(configuration);
+            services.AddOneTimeTokenAuthentication();
         });
     }
 

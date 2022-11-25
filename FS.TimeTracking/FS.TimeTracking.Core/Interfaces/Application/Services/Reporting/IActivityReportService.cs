@@ -22,6 +22,18 @@ public interface IActivityReportService
     Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Generates an one-time access token to download a daily activity report.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<string> GetDailyActivityReportDownloadToken(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Generates an one-time access token to download a daily activity report.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    Task<string> GetDetailedActivityReportDownloadToken(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets a daily activity report.
     /// </summary>
     /// <param name="filters">Filters applied to result.</param>
