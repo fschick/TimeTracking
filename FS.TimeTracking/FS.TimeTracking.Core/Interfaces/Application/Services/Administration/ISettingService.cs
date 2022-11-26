@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 
 /// <summary>
 /// Service to read and persists settings

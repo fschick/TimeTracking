@@ -9,7 +9,7 @@ using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Extensions;
-using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;

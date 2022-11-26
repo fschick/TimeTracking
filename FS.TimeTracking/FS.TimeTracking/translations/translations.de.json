@@ -155,7 +155,10 @@
         "Edit": "Urlaub bearbeiten",
         "Delete": "Urlaub löschen",
         "DeleteMessage": "Wollen Sie diesen Urlaub wirklich löschen? Dies kann nicht rückgängig gemacht werden."
-      },
+      }
+    },
+    "Administration": {
+      "Title": "Administration",
       "Settings": {
         "Title": "Einstellungen",
         "WorkTime": "Arbeitszeit",

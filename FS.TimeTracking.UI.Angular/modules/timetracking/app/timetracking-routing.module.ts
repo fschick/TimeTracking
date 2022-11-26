@@ -53,6 +53,11 @@ const routes: Routes = [
           {matcher: rematch(guidId), component: MasterDataHolidaysEditComponent},
         ]
       },
+    ],
+  },
+  {
+    path: 'administration',
+    children: [
       {
         path: 'settings', component: MasterDataSettingsComponent,
       },

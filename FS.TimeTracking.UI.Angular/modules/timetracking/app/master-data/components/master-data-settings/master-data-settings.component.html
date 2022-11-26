@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
-  <h4 i18n="@@Page.MasterData.Settings.Title">
+  <h4 i18n="@@Page.Administration.Settings.Title">
     [i18n] Settings
   </h4>
 </div>
@@ -11,7 +11,7 @@
       <!-- Work time -->
       <div class="card mb-4 flex-grow-1">
         <div class="card-body">
-          <h6 class="form-label" i18n="@@Page.MasterData.Settings.WorkTime">
+          <h6 class="form-label" i18n="@@Page.Administration.Settings.WorkTime">
             [i18n] Work time
           </h6>
 
@@ -19,7 +19,7 @@
           <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkdayDate" autocomplete="off">
 
           <ng-container formGroupName="workdays">
-            <label class="form-label mt-4" i18n="@@Page.MasterData.Settings.Workdays">[i18n] Workdays</label>
+            <label class="form-label mt-4" i18n="@@Page.Administration.Settings.Workdays">[i18n] Workdays</label>
             <div class="form-check form-check">
               <input class="form-check-input" type="checkbox" id="monday" formControlName="monday">
               <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
@@ -56,7 +56,7 @@
       <!-- Time zone -->
       <div class="card">
         <div class="card-body">
-          <h6 class="form-label" i18n="@@Page.MasterData.Settings.TimeZone">
+          <h6 class="form-label" i18n="@@Page.Administration.Settings.TimeZone">
             [i18n] Time zone
           </h6>
 
@@ -79,7 +79,7 @@
       <div class="card h-100" formGroupName="company">
         <div class="card-body">
 
-          <h6 class="form-label" i18n="@@Page.MasterData.Settings.Company">
+          <h6 class="form-label" i18n="@@Page.Administration.Settings.Company">
             [i18n] Company
           </h6>
 
@@ -121,11 +121,11 @@
               <input id="country" type="text" class="form-control" formControlName="country">
             </div>
             <div class="col-md-2">
-              <label for="logoPreview" class="form-label w-100" i18n="@@Page.MasterData.Settings.LogoPreview">[i18n] Preview</label>
+              <label for="logoPreview" class="form-label w-100" i18n="@@Page.Administration.Settings.LogoPreview">[i18n] Preview</label>
               <img *ngIf="logoImageSrc$ | async; let logoImageSrc"
                    id="logoPreview"
                    [src]="logoImageSrc"
-                   i18n-alt="@@Page.MasterData.Settings.LogoPreview"
+                   i18n-alt="@@Page.Administration.Settings.LogoPreview"
                    alt="[i18n] Logo preview"
                    class="img-fluid img-thumbnail">
             </div>

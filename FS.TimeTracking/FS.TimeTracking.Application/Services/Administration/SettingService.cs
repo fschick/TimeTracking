@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
-using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using Nito.AsyncEx;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Application.Services.MasterData;
+namespace FS.TimeTracking.Application.Services.Administration;
 
 /// <inheritdoc cref="ISettingService" />
 public class SettingService : ISettingService

@@ -155,7 +155,9 @@
         "Edit": "Edit holiday",
         "Delete": "Delete holiday",
         "DeleteMessage": "Are you sure you want to delete this holiday? This cannot be undone."
-      },
+      }
+    },
+    "Administration": {
       "Settings": {
         "Title": "Settings",
         "WorkTime": "Work time",
