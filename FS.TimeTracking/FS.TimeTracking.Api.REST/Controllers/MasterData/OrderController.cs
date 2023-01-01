@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="IProjectService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IOrderService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class OrderController : CrudModelController<Guid, OrderDto, OrderGridDto>, IOrderService
 {

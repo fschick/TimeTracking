@@ -117,6 +117,7 @@ internal static class TimeTrackingWebApp
         //webApplication.UseAuthorization();
         webApplication
             .RegisterOpenApiRoutes()
+            .RegisterOpenApiUiRedirects()
             .RegisterRestApiRoutes()
             .RegisterSpaRoutes();
     }

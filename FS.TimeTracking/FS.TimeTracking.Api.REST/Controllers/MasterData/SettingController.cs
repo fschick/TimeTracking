@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="ISettingService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ISettingService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class SettingController : ISettingService
 {

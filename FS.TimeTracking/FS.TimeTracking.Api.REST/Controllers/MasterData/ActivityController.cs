@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="IActivityService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IActivityService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class ActivityController : CrudModelController<Guid, ActivityDto, ActivityGridDto>, IActivityService
 {

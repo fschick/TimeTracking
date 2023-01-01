@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <inheritdoc cref="ITypeaheadService" />    
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ITypeaheadService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class TypeaheadController : ControllerBase, ITypeaheadService
 {

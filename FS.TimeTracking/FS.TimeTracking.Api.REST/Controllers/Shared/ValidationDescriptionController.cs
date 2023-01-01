@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IValidationDescriptionService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class ValidationDescriptionController : ControllerBase, IValidationDescriptionService
 {

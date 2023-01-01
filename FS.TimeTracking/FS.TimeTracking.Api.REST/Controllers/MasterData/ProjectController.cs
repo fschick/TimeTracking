@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="IProjectService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IProjectService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class ProjectController : CrudModelController<Guid, ProjectDto, ProjectGridDto>, IProjectService
 {

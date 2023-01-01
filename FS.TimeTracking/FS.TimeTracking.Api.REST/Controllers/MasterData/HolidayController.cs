@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="IHolidayService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IHolidayService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class HolidayController : CrudModelController<Guid, HolidayDto, HolidayGridDto>, IHolidayService
 {

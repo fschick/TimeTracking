@@ -9,20 +9,21 @@ namespace FS.TimeTracking.Api.REST.Routing;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 [ExcludeFromCodeCoverage]
-internal class V1ApiController : ControllerAttribute, IApiBehaviorMetadata, IRouteTemplateProvider, IApiDescriptionGroupNameProvider
+internal abstract class ApiControllerAttribute : ControllerAttribute, IApiBehaviorMetadata, IRouteTemplateProvider, IApiDescriptionGroupNameProvider
 {
     public const string API_PREFIX = "api";
-    public const string API_VERSION = "v1";
+
+    protected abstract string ApiVersion { get; }
 
     /// <inheritdoc />
-    public string GroupName { get; } = API_VERSION;
+    public string GroupName => ApiVersion;
 
     /// <inheritdoc />
-    public string Template { get; } = $"{API_PREFIX}/{API_VERSION}/[controller]/[action]";
+    public string Template => $"{API_PREFIX}/{ApiVersion}/[controller]/[action]";
 
     /// <inheritdoc />
-    public int? Order { get; } = 0;
+    public int? Order => 0;
 
     /// <inheritdoc />
-    public string Name { get; } = "[controller]_[action]";
+    public string Name => "[controller]_[action]";
 }

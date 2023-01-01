@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 /// <inheritdoc cref="IInformationService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IInformationService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class InformationController : ControllerBase, IInformationService
 {

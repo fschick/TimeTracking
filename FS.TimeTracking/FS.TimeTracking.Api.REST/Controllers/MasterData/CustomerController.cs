@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <inheritdoc cref="ICustomerService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class CustomerController : CrudModelController<Guid, CustomerDto, CustomerGridDto>, ICustomerService
 {

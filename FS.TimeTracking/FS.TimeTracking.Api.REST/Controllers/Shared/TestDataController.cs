@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
     /// <inheritdoc cref="ITestDataService" />
     /// <seealso cref="ControllerBase" />
     /// <seealso cref="ITestDataService" />
-    [V1ApiController]
+    [ApiV1Controller]
     [ExcludeFromCodeCoverage]
     public class TestDataController : ControllerBase, ITestDataService
     {

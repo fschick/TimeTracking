@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <inheritdoc cref="IActivityChartService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IActivityChartService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class ActivityChartController : ControllerBase, IActivityChartService
 {

@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Shared
     /// <inheritdoc cref="IDebugService" />
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     /// <seealso cref="IDebugService" />
-    [V1ApiController]
+    [ApiV1Controller]
     [ExcludeFromCodeCoverage]
     public class DebugController : ControllerBase, IDebugService
     {

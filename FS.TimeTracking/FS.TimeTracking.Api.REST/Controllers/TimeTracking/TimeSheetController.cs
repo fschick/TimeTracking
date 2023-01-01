@@ -15,7 +15,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 /// <inheritdoc cref="ITimeSheetService" />
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ITimeSheetService" />
-[V1ApiController]
+[ApiV1Controller]
 [ExcludeFromCodeCoverage]
 public class TimeSheetController : CrudModelController<Guid, TimeSheetDto, TimeSheetGridDto>, ITimeSheetService
 {

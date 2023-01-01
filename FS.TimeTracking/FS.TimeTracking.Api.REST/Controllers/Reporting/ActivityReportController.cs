@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Reporting;
 /// <summary>
 /// A controller for handling time sheet reports.
 /// </summary>
-[V1ApiController]
+[ApiV1Controller]
 [FeatureGate(Features.Reporting)]
 [ExcludeFromCodeCoverage]
 public class ActivityReportController : ControllerBase, IActivityReportService
