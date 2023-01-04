@@ -272,10 +272,10 @@ public interface IDbRepository
     Task<int> SaveChanges(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets all the migrations that are defined in the configured migrations assembly.
+    /// Gets all migrations that are defined in the assembly but haven't been applied to the target database.
     /// </summary>
     /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
-    Task<IEnumerable<string>> GetMigrations(CancellationToken cancellationToken = default);
+    Task<IEnumerable<string>> GetPendingMigrations(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all migrations that have been applied to the target database.

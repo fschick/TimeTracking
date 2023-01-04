@@ -157,12 +157,12 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<string>> GetMigrations(CancellationToken cancellationToken = default)
-        => Task.FromResult(_dbContext.Database.GetMigrations());
+    public Task<IEnumerable<string>> GetPendingMigrations(CancellationToken cancellationToken = default)
+        => _dbContext.Database.GetPendingMigrationsAsync(cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IEnumerable<string>> GetAppliedMigrations(CancellationToken cancellationToken = default)
-        => await _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
+    public Task<IEnumerable<string>> GetAppliedMigrations(CancellationToken cancellationToken = default)
+        => _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
