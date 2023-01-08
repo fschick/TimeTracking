@@ -35,60 +35,68 @@
         <li class="nav-item"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link"
-             data-bs-toggle="collapse"
-             data-bs-target=".navbar-collapse.show"
-             routerLink="/">
+          <a
+            class="nav-link"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
+            routerLink="/">
             <span i18n="@@Page.Timesheet.Title">[i18n] Timesheet</span>
           </a>
         </li>
 
         <!-- Charts -->
-        <li class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="currentUser?.canChartsView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="chartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Chart.Title">[i18n] Charts</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="chartDropdown">
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Chart.Customers.Title"
-                   routerLink="/chart/customers"
-                   routerLinkActive="active">[i18n] By customers</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Chart.Orders.Title"
-                   routerLink="/chart/orders"
-                   routerLinkActive="active">[i18n] By order</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Chart.Projects.Title"
-                   routerLink="/chart/projects"
-                   routerLinkActive="active">[i18n] By project</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Chart.Activities.Title"
-                   routerLink="/chart/activities"
-                   routerLinkActive="active">[i18n] By activity</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Chart.Issues.Title"
-                   routerLink="/chart/issues"
-                   routerLinkActive="active">[i18n] By issue</a></li>
+            <li *ngIf="currentUser?.canChartsByCustomerView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Chart.Customers.Title"
+                 routerLink="/chart/customers"
+                 routerLinkActive="active"> [i18n] By customers </a>
+            </li>
+            <li *ngIf="currentUser?.canChartsByOrderView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Chart.Orders.Title"
+                 routerLink="/chart/orders"
+                 routerLinkActive="active">[i18n] By order</a>
+            </li>
+            <li *ngIf="currentUser?.canChartsByProjectView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Chart.Projects.Title"
+                 routerLink="/chart/projects"
+                 routerLinkActive="active">[i18n] By project</a></li>
+            <li *ngIf="currentUser?.canChartsByActivityView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Chart.Activities.Title"
+                 routerLink="/chart/activities"
+                 routerLinkActive="active">[i18n] By activity</a></li>
+            <li *ngIf="currentUser?.canChartsByIssueView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Chart.Issues.Title"
+                 routerLink="/chart/issues"
+                 routerLinkActive="active">[i18n] By issue</a></li>
           </ul>
         </li>
 
         <!-- Reports -->
-        <li *ngIf="reportingEnabled" class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="reportingEnabled && currentUser?.canReportView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Report.Title">[i18n] Reports</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="reportDropdown">
-            <li>
+            <li *ngIf="currentUser?.canReportActivitySummaryView || currentUser?.canReportActivityDetailView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -97,7 +105,7 @@
                  routerLinkActive="active"
                  [routerLinkActiveOptions]="{ exact: true }">[i18n] Activity reports (overview)</a>
             </li>
-            <li>
+            <li *ngIf="currentUser?.canReportActivitySummaryView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -105,7 +113,7 @@
                  i18n="@@Page.Report.Activity.TitleDaily"
                  routerLinkActive="active">[i18n] Daily activity report</a>
             </li>
-            <li>
+            <li *ngIf="currentUser?.canReportActivityDetailView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -117,88 +125,104 @@
         </li>
 
         <!-- Master data -->
-        <li class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="currentUser?.canMasterDataView || currentUser?.canAdministrationView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.MasterData.Title">[i18n] Master data</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="masterDataDropdown">
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.MasterData.Customers.Title"
-                   routerLink="/master-data/customers"
-                   routerLinkActive="active">[i18n] Customers</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.MasterData.Projects.Title"
-                   routerLink="/master-data/projects"
-                   routerLinkActive="active">[i18n] Projects</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.MasterData.Activities.Title"
-                   routerLink="/master-data/activities"
-                   routerLinkActive="active">[i18n] Activities</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.MasterData.Orders.Title"
-                   routerLink="/master-data/orders"
-                   routerLinkActive="active">[i18n] Orders</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.MasterData.Holidays.Title"
-                   routerLink="/master-data/holidays"
-                   routerLinkActive="active">[i18n] Holidays</a></li>
+            <li *ngIf="currentUser?.canMasterDataCustomersView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.MasterData.Customers.Title"
+                 routerLink="/master-data/customers"
+                 routerLinkActive="active">[i18n] Customers</a>
+            </li>
+            <li *ngIf="currentUser?.canMasterDataProjectsView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.MasterData.Projects.Title"
+                 routerLink="/master-data/projects"
+                 routerLinkActive="active">[i18n] Projects</a>
+            </li>
+            <li *ngIf="currentUser?.canMasterDataActivitiesView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.MasterData.Activities.Title"
+                 routerLink="/master-data/activities"
+                 routerLinkActive="active">[i18n] Activities</a>
+            </li>
+            <li *ngIf="currentUser?.canMasterDataOrdersView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.MasterData.Orders.Title"
+                 routerLink="/master-data/orders"
+                 routerLinkActive="active">[i18n] Orders</a>
+            </li>
+            <li *ngIf="currentUser?.canMasterDataHolidaysView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.MasterData.Holidays.Title"
+                 routerLink="/master-data/holidays"
+                 routerLinkActive="active">[i18n] Holidays</a>
+            </li>
 
-            <li><hr class="dropdown-divider"></li>
+            <li *ngIf="currentUser?.canMasterDataView && currentUser?.canAdministrationView">
+              <hr class="dropdown-divider">
+            </li>
 
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Administration.Settings.Title"
-                   routerLink="/administration/settings"
-                   routerLinkActive="active">[i18n] Settings</a></li>
-            <li><a class="dropdown-item"
-                   data-bs-toggle="collapse"
-                   data-bs-target=".navbar-collapse.show"
-                   i18n="@@Page.Administration.Users.Title"
-                   routerLink="/administration/users"
-                   routerLinkActive="active">[i18n] Customers</a></li>
+            <li *ngIf="currentUser?.canAdministrationSettingsView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Administration.Settings.Title"
+                 routerLink="/administration/settings"
+                 routerLinkActive="active">[i18n] Settings</a>
+            </li>
+            <li *ngIf="authorizationEnabled && currentUser?.canAdministrationUsersView">
+              <a class="dropdown-item"
+                 data-bs-toggle="collapse"
+                 data-bs-target=".navbar-collapse.show"
+                 i18n="@@Page.Administration.Users.Title"
+                 routerLink="/administration/users"
+                 routerLinkActive="active">[i18n] Customers</a>
+            </li>
           </ul>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <!-- Login -->
-        <ng-container *ngIf="authorizationEnabled"></ng-container>
-        <li *ngIf="!isAuthenticated" class="nav-item">
-          <a class="nav-link"
-             data-bs-toggle="collapse"
-             data-bs-target=".navbar-collapse.show"
-             (click)="login()">
-            <span i18n="@@Component.Authorization.Login">[i18n] Login</span>
-          </a>
-        </li>
-        <li *ngIf="isAuthenticated" class="nav-item dropdown">
-
-          <a class="nav-link dropdown-toggle" id="userProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <ng-container>{{getUsername()}}</ng-container>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="userProfileDropdown">
-            <li>
-              <a class="dropdown-item"
-                 data-bs-toggle="collapse"
-                 data-bs-target=".navbar-collapse.show"
-                 i18n="@@Component.Authorization.Logout"
-                 (click)="logout()">
-                [i18n] Logout
-              </a>
-            </li>
-          </ul>
-        </li>
+        <ng-container *ngIf="authorizationEnabled">
+          <li *ngIf="!currentUser?.isAuthenticated" class="nav-item">
+            <a class="nav-link"
+               data-bs-toggle="collapse"
+               data-bs-target=".navbar-collapse.show"
+               (click)="login()">
+              <span i18n="@@Component.Authorization.Login">[i18n] Login</span>
+            </a>
+          </li>
+          <li *ngIf="currentUser?.isAuthenticated" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="userProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <ng-container>{{currentUser?.name}}</ng-container>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userProfileDropdown">
+              <li>
+                <a class="dropdown-item"
+                   data-bs-toggle="collapse"
+                   data-bs-target=".navbar-collapse.show"
+                   i18n="@@Component.Authorization.Logout"
+                   (click)="logout()">
+                  [i18n] Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
 
         <!-- Language -->
         <li class="nav-item dropdown" routerLinkActive="active">

@@ -442,6 +442,7 @@
       "Password": "Passwort",
       "ConfirmPassword": "Passwort bestätigen",
       "Permissions": "Berechtigungen",
+      "Scope": "Scope",
       "RestrictToCustomerIds": "Beschränke auf Kunden"
     },
     "SettingDto": {

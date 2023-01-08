@@ -20,5 +20,6 @@ public class ClientConfigurationDto
     /// <summary>
     /// Default permissions.
     /// </summary>
+    [Required]
     public List<PermissionDto> DefaultPermissions { get; set; } = new();
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../../core/app/services/form-validation/form-validation.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,6 +11,7 @@ import {Validators} from '../../../../core/app/services/form-validation/validato
 import {ConfigurationService} from '../../../../core/app/services/configuration.service';
 import {$localizeId} from '../../../../core/app/services/internationalization/localizeId';
 import {EMPTY, Observable} from 'rxjs';
+import {AuthenticationService} from '../../../../core/app/services/authentication.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     private modalService: NgbModal,
+    private authenticationService: AuthenticationService,
     configurationService: ConfigurationService,
     typeaheadService: TypeaheadService,
   ) {
@@ -57,6 +59,8 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
       .pipe(single())
       .subscribe(user => {
         this.userForm.patchValue(user);
+        if (user.id === this.authenticationService.currentUser?.id)
+          this.disableAdministrateUsersControl();
       });
   }
 
@@ -92,5 +96,11 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
         this.modal?.close();
         this.entityService.userChanged.next({entity: user, action: userChangedAction});
       });
+  }
+
+  private disableAdministrateUsersControl() {
+    const permissions = (this.userForm.get('permissions') as FormArray);
+    const administrateUserPermissions = permissions.controls.find(control => control.value.name === 'administration-users');
+    administrateUserPermissions?.disable();
   }
 }

@@ -17,7 +17,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (!this.authenticationService.isAuthenticated)
+    if (!this.authenticationService.currentUser?.isAuthenticated)
       return next.handle(request);
 
     return this.authenticationService

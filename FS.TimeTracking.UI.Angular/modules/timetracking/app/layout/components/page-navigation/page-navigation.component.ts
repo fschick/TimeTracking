@@ -3,7 +3,7 @@ import {environment} from '../../../../environments/environment';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
 import {$localizeId} from '../../../../../core/app/services/internationalization/localizeId';
 import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
-import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
+import {AuthenticationService, User} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-page-navigation',
@@ -16,10 +16,7 @@ export class PageNavigationComponent {
   public languageName: string;
   public reportingEnabled: boolean;
   public authorizationEnabled: boolean;
-
-  public get isAuthenticated(): boolean {
-    return this.authenticationService.isAuthenticated;
-  }
+  public currentUser?: User;
 
   constructor(
     configurationService: ConfigurationService,
@@ -34,6 +31,8 @@ export class PageNavigationComponent {
 
     const languageTransUnitId = `@@Language.${this.languageCode}`;
     this.languageName = $localizeId`${languageTransUnitId}:TRANSUNITID:`;
+
+    this.currentUser = authenticationService.currentUser;
   }
 
   public login(): void {
@@ -42,10 +41,6 @@ export class PageNavigationComponent {
 
   public logout(): void {
     this.authenticationService.logout();
-  }
-
-  public getUsername(): string | undefined {
-    return this.authenticationService.username;
   }
 
   public setLanguage(language: string): void {

@@ -8,6 +8,7 @@ import {EntityService} from '../../../../core/app/services/state-management/enti
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
 import {single, switchMap} from 'rxjs/operators';
+import {AuthenticationService} from '../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-administration-users',
@@ -32,6 +33,7 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private userService: UserService,
     private localizationService: LocalizationService,
+    private authenticationService: AuthenticationService,
   ) {
     this.filters = [
       {name: 'userId', showHidden: true, isPrimary: true},
@@ -101,9 +103,8 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private loadData(filter: FilteredRequestParams): Observable<UserGridDto[]> {
-    return this.userService.getGridFiltered(filter)
-      .pipe(single());
+  public isCurrentUser(userDto: UserGridDto) {
+    return userDto.id === this.authenticationService.currentUser?.id;
   }
 
   public deleteItem(id: string): void {
@@ -114,4 +115,10 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
         this.entityService.userChanged.next({entity: {id} as UserGridDto, action: 'deleted'});
       });
   }
+
+  private loadData(filter: FilteredRequestParams): Observable<UserGridDto[]> {
+    return this.userService.getGridFiltered(filter)
+      .pipe(single());
+  }
+
 }

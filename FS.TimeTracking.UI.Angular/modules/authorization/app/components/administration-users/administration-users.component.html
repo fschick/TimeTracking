@@ -52,6 +52,7 @@
     actionText="[i18n] Delete customer"
     i18n-actionText="@@Page.Administration.Users.Delete"
     color="danger"
+    [disabled]="isCurrentUser(row)"
     (confirmed)="deleteItem(row.id)">
     <a class="text-secondary">
       <svg class="bi action-icon" fill="currentColor">

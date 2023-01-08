@@ -61,6 +61,12 @@ export class UtilityService {
     return value[0].toUpperCase() + value.slice(1);
   }
 
+  public snakeToCamelcase(value: string): string {
+    return value.toLowerCase()
+      .replace(/\w+?(_|$)/g, k => this.capitalize(k))
+      .replace(/_/g, '')
+  };
+
   public getFirstDifference(val1?: string, val2?: string): number {
     if (val1 === val2)
       return -1;
