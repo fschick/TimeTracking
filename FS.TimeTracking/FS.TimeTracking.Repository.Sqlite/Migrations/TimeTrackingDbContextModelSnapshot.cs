@@ -148,6 +148,10 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);
@@ -316,6 +320,10 @@ namespace FS.TimeTracking.Repository.Sqlite.Migrations
 
                     b.Property<int>("StartDateOffset")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

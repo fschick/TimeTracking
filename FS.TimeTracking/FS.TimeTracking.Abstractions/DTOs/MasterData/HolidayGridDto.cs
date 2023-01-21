@@ -32,6 +32,11 @@ public record HolidayGridDto
     [Required]
     public HolidayType Type { get; set; }
 
+    /// <summary>
+    /// The identifier of the user this entity belongs to.
+    /// </summary>
+    public Guid UserId { get; set; }
+
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay => $"{Title} ({StartDate:d} - {EndDate:d})";

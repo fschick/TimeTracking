@@ -27,11 +27,11 @@ public class TimeSheetGridDto
     /// </summary>
     public TimeSpan? Duration { get; set; }
 
-    /// <inheritdoc cref="TimeSheetDto.Comment"/>
-    public string Comment { get; set; }
-
     /// <inheritdoc cref="TimeSheetDto.Issue"/>
     public string Issue { get; set; }
+
+    /// <inheritdoc cref="TimeSheetDto.Comment"/>
+    public string Comment { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }
@@ -48,6 +48,11 @@ public class TimeSheetGridDto
     /// <inheritdoc cref="TimeSheetDto.Billable"/>
     [Required]
     public bool Billable { get; set; }
+
+    /// <summary>
+    /// The identifier of the user this entity belongs to.
+    /// </summary>
+    public Guid UserId { get; set; }
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

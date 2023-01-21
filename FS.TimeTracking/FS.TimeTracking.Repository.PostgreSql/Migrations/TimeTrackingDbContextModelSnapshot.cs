@@ -153,6 +153,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);
@@ -318,6 +321,9 @@ namespace FS.TimeTracking.Repository.PostgreSql.Migrations
 
                     b.Property<int>("StartDateOffset")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

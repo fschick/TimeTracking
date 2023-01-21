@@ -153,6 +153,9 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("Holidays", (string)null);
@@ -318,6 +321,9 @@ namespace FS.TimeTracking.Repository.SqlServer.Migrations
 
                     b.Property<int>("StartDateOffset")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

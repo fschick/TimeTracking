@@ -26,6 +26,11 @@ public class TimeSheetDto
     public Guid Id { get; set; }
 
     /// <summary>
+    /// Comment for this item.
+    /// </summary>
+    public string Comment { get; set; }
+
+    /// <summary>
     /// The identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
     [Required]
@@ -75,9 +80,10 @@ public class TimeSheetDto
     public bool Billable { get; set; }
 
     /// <summary>
-    /// Comment for this item.
+    /// The identifier of the user this entity belongs to.
     /// </summary>
-    public string Comment { get; set; }
+    [Filter(Visible = false)]
+    public Guid UserId { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

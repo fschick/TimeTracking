@@ -64,14 +64,14 @@ public class TimeSheet : IIdEntityModel
     }
 
     /// <summary>
-    /// Comment for this item.
-    /// </summary>
-    public string Comment { get; set; }
-
-    /// <summary>
     /// The related issue/ticket/... .
     /// </summary>
     public string Issue { get; set; }
+
+    /// <summary>
+    /// Comment for this item.
+    /// </summary>
+    public string Comment { get; set; }
 
     /// <summary>
     /// The identifier to the related <see cref="MasterData.Customer"/>.
@@ -112,6 +112,11 @@ public class TimeSheet : IIdEntityModel
     /// </summary>
     [Required]
     public bool Billable { get; set; }
+
+    /// <summary>
+    /// The identifier of the user this entity belongs to.
+    /// </summary>
+    public Guid UserId { get; set; }
 
     /// <inheritdoc />
     [Required]

@@ -78,6 +78,11 @@ public class Holiday : IIdEntityModel
     [Required]
     public HolidayType Type { get; set; }
 
+    /// <summary>
+    /// The identifier of the user this entity belongs to.
+    /// </summary>
+    public Guid UserId { get; set; }
+
     /// <inheritdoc />
     [Required]
     public DateTime Created { get; set; }
