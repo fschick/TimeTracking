@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Repository.Services.Database;
+namespace FS.TimeTracking.Repository.Services;
 
 /// <inheritdoc />
 public class DbMigrationService : IDbMigrationService

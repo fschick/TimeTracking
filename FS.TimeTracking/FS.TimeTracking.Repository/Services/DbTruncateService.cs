@@ -14,7 +14,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 
-namespace FS.TimeTracking.Repository.Services.Database;
+namespace FS.TimeTracking.Repository.Services;
 
 /// <inheritdoc />
 public class DbTruncateService : IDbTruncateService

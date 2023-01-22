@@ -6,7 +6,7 @@ using MySqlConnector;
 using Npgsql;
 using System.Data.Common;
 
-namespace FS.TimeTracking.Repository.Services.Database;
+namespace FS.TimeTracking.Repository.Services;
 
 /// <inheritdoc />
 public class DbExceptionService : IDbExceptionService

@@ -17,9 +17,9 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Keycloak.Services;
+using FS.TimeTracking.Keycloak.Services.Repository;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services.Administration;
-using FS.TimeTracking.Repository.Services.Database;
+using FS.TimeTracking.Repository.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FS.TimeTracking.Startup;

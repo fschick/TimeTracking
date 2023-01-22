@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Repository.Services.Administration;
+namespace FS.TimeTracking.Keycloak.Services.Repository;
 
 /// <inheritdoc />
 public class KeycloakRepository : IKeycloakRepository

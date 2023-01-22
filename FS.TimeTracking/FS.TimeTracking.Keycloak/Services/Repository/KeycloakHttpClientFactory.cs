@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace FS.TimeTracking.Repository.Services.Administration;
+namespace FS.TimeTracking.Keycloak.Services.Repository;
 
 internal static class KeycloakHttpClientFactory
 {

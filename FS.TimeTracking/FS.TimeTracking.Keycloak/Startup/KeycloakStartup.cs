@@ -1,6 +1,6 @@
 ﻿using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Models.Configuration;
-using FS.TimeTracking.Keycloak.Services;
+using FS.TimeTracking.Keycloak.Services.RoleTransformation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

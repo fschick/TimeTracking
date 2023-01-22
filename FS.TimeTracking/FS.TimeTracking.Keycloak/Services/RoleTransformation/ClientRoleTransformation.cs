@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Keycloak.Services;
+namespace FS.TimeTracking.Keycloak.Services.RoleTransformation;
 
 /// <summary>
 /// Transforms Keycloak client roles to JWT role claims.

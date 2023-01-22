@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FS.TimeTracking.Repository.Services.Database;
+namespace FS.TimeTracking.Repository.Services;
 
 /// <inheritdoc />
 public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbContext

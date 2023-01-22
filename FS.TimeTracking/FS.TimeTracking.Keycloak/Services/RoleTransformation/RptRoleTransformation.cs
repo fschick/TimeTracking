@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using FS.TimeTracking.Keycloak.Models;
+using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FS.TimeTracking.Keycloak.Models;
 
-namespace FS.TimeTracking.Keycloak.Services;
+namespace FS.TimeTracking.Keycloak.Services.RoleTransformation;
 
 /// <summary>
 /// Transforms Keycloak roles in the resource_access claim to JWT role claims.

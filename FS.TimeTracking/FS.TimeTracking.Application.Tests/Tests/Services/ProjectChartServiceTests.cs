@@ -14,7 +14,7 @@ using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services.Database;
+using FS.TimeTracking.Repository.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

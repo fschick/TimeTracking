@@ -4,7 +4,7 @@ using FS.TimeTracking.Application.FilterExpressionInterceptors;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services.Database;
+using FS.TimeTracking.Repository.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;

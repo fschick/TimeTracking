@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Keycloak.Services;
+namespace FS.TimeTracking.Keycloak.Services.RoleTransformation;
 
 /// <summary>
 /// Transforms Keycloak roles and UMA permissions to JWT role claims.
