@@ -229,15 +229,17 @@
   "Enum": {
     "ErrorCode": {
       "Unknown": "An unknown error has occurred",
-      "NotFound": "The record could not be found",
+      "BadRequest": null,
       "Unauthorized": "Access to data requires authentication",
       "Forbidden": "Access to data is not authorized",
+      "NotFound": "The record could not be found",
+      "Conflict": null,
       "InternalServerError": "An internal server error has occurred",
-      "ForeignKeyViolation": "The operation conflicts with other data",
-      "ForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it",
+      "BadRequestConformityViolation": "The record does not match it's conformity rules",
+      "ConflictForeignKeyViolation": "The operation conflicts with other data",
+      "ConflictForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Activity is already assigned to time sheets with different customers",
-      "ConflictActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects",
-      "ConformityViolation": "The record does not match it's conformity rules"
+      "ConflictActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects"
     },
     "HolidayType": {
       "Holiday": "Holidays / Vacation",

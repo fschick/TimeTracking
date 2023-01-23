@@ -237,6 +237,15 @@ public interface IDbRepository
     TEntity Update<TEntity>(TEntity entity) where TEntity : class, IEntityModel;
 
     /// <summary>
+    /// Bulk update the specific entity in database.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    /// <param name="where">Predicate to filter the entities to update.</param>
+    /// <param name="setter">A setter in the form of <code>previous => new TEntity { PropertyToSet = value }</code>.</param>
+    /// <returns> Number of updated records.</returns>
+    Task<int> BulkUpdate<TEntity>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TEntity>> setter) where TEntity : class;
+
+    /// <summary>
     /// Removes the specified entity from database.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>

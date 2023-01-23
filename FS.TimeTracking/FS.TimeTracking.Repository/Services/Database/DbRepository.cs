@@ -182,6 +182,16 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
     }
 
     /// <inheritdoc />
+    public async Task<int> BulkUpdate<TEntity>(
+        Expression<Func<TEntity, bool>> where,
+        Expression<Func<TEntity, TEntity>> setter
+    ) where TEntity : class
+    {
+        var query = GetInternal(e => e, where, null, null, null, false, null, null, false);
+        return await query.UpdateAsync(setter);
+    }
+
+    /// <inheritdoc />
     public TEntity Remove<TEntity>(TEntity entity) where TEntity : class
         => _dbContext.Remove(entity).Entity;
 

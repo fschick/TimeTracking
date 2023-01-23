@@ -11,27 +11,27 @@ public enum ApplicationErrorCode
     Unknown = 0,
 
     /// <summary>
-    /// The request could not be understood by the server due to malformed syntax
+    /// The request is malformed.
     /// </summary>
     BadRequest = 400,
 
     /// <summary>
-    /// Access to requested resource requires authentication.
+    /// Access to the requested resource requires authentication.
     /// </summary>
     Unauthorized = 401,
 
     /// <summary>
-    /// Access to requested resource is not authorized.
+    /// Access to the requested resource is not authorized.
     /// </summary>
     Forbidden = 403,
 
     /// <summary>
-    /// Requested resource could not found.
+    /// The requested resource could not found.
     /// </summary>
     NotFound = 404,
 
     /// <summary>
-    /// Request conflicts with the current state.
+    /// The request conflicts with the current state.
     /// </summary>
     Conflict = 409,
 

@@ -229,15 +229,17 @@
   "Enum": {
     "ErrorCode": {
       "Unknown": "Ein unbekannter Fehler ist aufgetreten",
-      "NotFound": "Der Datensatz konnte nicht gefunden werden",
+      "BadRequest": null,
       "Unauthorized": "Der Zugriff auf die Daten erfordert eine Authentifizierung",
       "Forbidden": "Der Zugriff auf die Daten ist nicht authorisiert",
+      "NotFound": "Der Datensatz konnte nicht gefunden werden",
+      "Conflict": null,
       "InternalServerError": "Ein interner Serverfehler ist aufgetreten",
-      "ForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
-      "ForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
+      "BadRequestConformityViolation": "Der Datensatz entspricht nicht seinen Konformitätsregeln",
+      "ConflictForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
+      "ConflictForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Kunden zugeordnet",
-      "ConflictActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet",
-      "ConformityViolation": "Der Datensatz entspricht nicht seinen Konformitätsregeln"
+      "ConflictActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet"
     },
     "HolidayType": {
       "Holiday": "Urlaub",
