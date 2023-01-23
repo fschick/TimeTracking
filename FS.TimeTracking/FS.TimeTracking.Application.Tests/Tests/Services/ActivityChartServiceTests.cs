@@ -119,7 +119,7 @@ public class ActivityChartServiceTests
         var createActivity = () => activityService.Create(activity);
 
         // Check
-        await createActivity.Should().NotThrowAsync<ConformityException>();
+        await createActivity.Should().NotThrowAsync();
     }
 
 
@@ -154,7 +154,7 @@ public class ActivityChartServiceTests
 
         // Check
         await updateActivity.Should()
-            .ThrowAsync<ConformityException>()
+            .ThrowAsync<ConflictException>()
             .WithMessage("Activity is already assigned to different customers via time sheets.");
     }
 
@@ -190,7 +190,7 @@ public class ActivityChartServiceTests
 
         // Check
         await updateActivity.Should()
-            .ThrowAsync<ConformityException>()
+            .ThrowAsync<ConflictException>()
             .WithMessage("Activity is already assigned to different projects via time sheets.");
     }
 }

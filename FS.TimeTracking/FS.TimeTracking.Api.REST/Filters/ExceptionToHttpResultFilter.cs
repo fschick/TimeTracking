@@ -29,24 +29,33 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
     {
         switch (context.Exception)
         {
-            case DbException dbException when IsForeignKeyViolation(dbException):
-                _logger.LogInformation(context.Exception, "Entity could not be modified.");
-                var isDeleteOperation = context.HttpContext.Request.Method == HttpMethod.Delete.Method;
-                var errorCode = isDeleteOperation
-                    ? ApplicationErrorCode.ForeignKeyViolationOnDelete
-                    : ApplicationErrorCode.ForeignKeyViolation;
-                var dbErrorMessages = _environment.IsDevelopment ? new[] { dbException.Message } : null;
-                var foreignKeyViolationError = new ApplicationError { Code = errorCode, Messages = dbErrorMessages };
-                context.Result = new ConflictObjectResult(foreignKeyViolationError);
-                break;
             case ConformityException conformityException:
                 _logger.LogInformation(context.Exception, "Entity could not be modified.");
                 var conformityError = new ApplicationError
                 {
-                    Code = conformityException.ErrorCode ?? ApplicationErrorCode.ConformityViolation,
+                    Code = conformityException.ErrorCode ?? ApplicationErrorCode.BadRequestConformityViolation,
                     Messages = conformityException.Errors
                 };
-                context.Result = new ConflictObjectResult(conformityError);
+                context.Result = new BadRequestObjectResult(conformityError);
+                break;
+            case ConflictException conflictException:
+                _logger.LogInformation(context.Exception, "Entity could not be modified.");
+                var conflictError = new ApplicationError
+                {
+                    Code = conflictException.ErrorCode ?? ApplicationErrorCode.BadRequestConformityViolation,
+                    Messages = conflictException.Errors
+                };
+                context.Result = new ConflictObjectResult(conflictError);
+                break;
+            case DbException dbException when IsForeignKeyViolation(dbException):
+                _logger.LogInformation(context.Exception, "Entity could not be modified.");
+                var isDeleteOperation = context.HttpContext.Request.Method == HttpMethod.Delete.Method;
+                var errorCode = isDeleteOperation
+                    ? ApplicationErrorCode.ConflictForeignKeyViolationOnDelete
+                    : ApplicationErrorCode.ConflictForeignKeyViolation;
+                var dbErrorMessages = _environment.IsDevelopment ? new[] { dbException.Message } : null;
+                var foreignKeyViolationError = new ApplicationError { Code = errorCode, Messages = dbErrorMessages };
+                context.Result = new ConflictObjectResult(foreignKeyViolationError);
                 break;
             default:
                 _logger.LogError(context.Exception, "An unhandled exception has occurred while executing the request.");
@@ -58,5 +67,5 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
     }
 
     private bool IsForeignKeyViolation(DbException dbException)
-        => _dbExceptionService.TranslateDbException(dbException) == ApplicationErrorCode.ForeignKeyViolation;
+        => _dbExceptionService.TranslateDbException(dbException) == ApplicationErrorCode.ConflictForeignKeyViolation;
 }

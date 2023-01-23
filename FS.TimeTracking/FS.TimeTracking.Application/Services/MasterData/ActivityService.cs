@@ -88,8 +88,8 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         var differentProjectAssigned = timeSheetProjectIds[0] != model.ProjectId;
         var assignedToMultipleProjects = timeSheetProjectIds.Count > 1;
         if (differentProjectAssigned || assignedToMultipleProjects)
-            throw new ConformityException(
-                ApplicationErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentProjects,
+            throw new ConflictException(
+                ApplicationErrorCode.ConflictActivityAlreadyAssignedToDifferentProjects,
                 "Activity is already assigned to different projects via time sheets."
             );
     }
@@ -113,8 +113,8 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
         var differentCustomerAssigned = timeSheetCustomerIds[0] != model.CustomerId;
         var assignedToMultipleCustomers = timeSheetCustomerIds.Count > 1;
         if (differentCustomerAssigned || assignedToMultipleCustomers)
-            throw new ConformityException(
-                ApplicationErrorCode.ConformityViolationActivityAlreadyAssignedToDifferentCustomers,
+            throw new ConflictException(
+                ApplicationErrorCode.ConflictActivityAlreadyAssignedToDifferentCustomers,
                 "Activity is already assigned to different customers via time sheets."
             );
     }

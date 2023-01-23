@@ -229,9 +229,9 @@
       "InternalServerError": "An internal server error has occurred",
       "ForeignKeyViolation": "The operation conflicts with other data",
       "ForeignKeyViolationOnDelete": "The record could not be deleted because other data depend on it",
-      "ConformityViolation": "The record does not match it's conformity rules",
-      "ConformityViolationActivityAlreadyAssignedToDifferentCustomers": "Activity is already assigned to time sheets with different customers",
-      "ConformityViolationActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects"
+      "ConflictActivityAlreadyAssignedToDifferentCustomers": "Activity is already assigned to time sheets with different customers",
+      "ConflictActivityAlreadyAssignedToDifferentProjects": "Activity is already assigned to time sheets with different projects",
+      "ConformityViolation": "The record does not match it's conformity rules"
     },
     "HolidayType": {
       "Holiday": "Holidays / Vacation",

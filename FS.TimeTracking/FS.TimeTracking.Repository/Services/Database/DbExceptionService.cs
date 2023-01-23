@@ -20,7 +20,7 @@ public class DbExceptionService : IDbExceptionService
             case SqlException sqlException when IsForeignKeyViolation(sqlException):
             case PostgresException postgresException when IsForeignKeyViolation(postgresException):
             case MySqlException mySqlException when IsForeignKeyViolation(mySqlException):
-                return ApplicationErrorCode.ForeignKeyViolation;
+                return ApplicationErrorCode.ConflictForeignKeyViolation;
             default:
                 return ApplicationErrorCode.Unknown;
         }

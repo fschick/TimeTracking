@@ -11,9 +11,29 @@ public enum ApplicationErrorCode
     Unknown = 0,
 
     /// <summary>
+    /// The request could not be understood by the server due to malformed syntax
+    /// </summary>
+    BadRequest = 400,
+
+    /// <summary>
+    /// Access to requested resource requires authentication.
+    /// </summary>
+    Unauthorized = 401,
+
+    /// <summary>
+    /// Access to requested resource is not authorized.
+    /// </summary>
+    Forbidden = 403,
+
+    /// <summary>
     /// Requested resource could not found.
     /// </summary>
     NotFound = 404,
+
+    /// <summary>
+    /// Request conflicts with the current state.
+    /// </summary>
+    Conflict = 409,
 
     /// <summary>
     /// The server encountered an unexpected condition that prevented it from fulfilling the request.
@@ -21,27 +41,27 @@ public enum ApplicationErrorCode
     InternalServerError = 500,
 
     /// <summary>
+    /// A conflict has occurred while model was added or updated to database.
+    /// </summary>
+    BadRequestConformityViolation = 40001,
+
+    /// <summary>
     /// A foreign key violation has occurred.
     /// </summary>
-    ForeignKeyViolation = 1100,
+    ConflictForeignKeyViolation = 40901,
 
     /// <summary>
     /// A foreign key violation has occurred during DELETE action.
     /// </summary>
-    ForeignKeyViolationOnDelete = 1101,
-
-    /// <summary>
-    /// A conflict has occurred while model was added or updated to database.
-    /// </summary>
-    ConformityViolation = 2000,
+    ConflictForeignKeyViolationOnDelete = 40902,
 
     /// <summary>
     /// Activity is already assigned to time sheets with different customers.
     /// </summary>
-    ConformityViolationActivityAlreadyAssignedToDifferentCustomers = 2001,
+    ConflictActivityAlreadyAssignedToDifferentCustomers = 40903,
 
     /// <summary>
     /// Activity is already assigned to time sheets with different projects.
     /// </summary>
-    ConformityViolationActivityAlreadyAssignedToDifferentProjects = 2002,
+    ConflictActivityAlreadyAssignedToDifferentProjects = 40904,
 }

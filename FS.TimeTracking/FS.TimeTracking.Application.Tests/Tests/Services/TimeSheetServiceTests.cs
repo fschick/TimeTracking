@@ -140,7 +140,7 @@ public class TimeSheetServiceTests
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
-        await createTimeSheet.Should().NotThrowAsync<ConformityException>();
+        await createTimeSheet.Should().NotThrowAsync();
     }
 
     [TestMethod]
@@ -169,7 +169,7 @@ public class TimeSheetServiceTests
         var createTimeSheet = () => timeSheetService.Create(timeSheet);
 
         // Check
-        await createTimeSheet.Should().NotThrowAsync<ConformityException>();
+        await createTimeSheet.Should().NotThrowAsync();
     }
 
     [TestMethod]
