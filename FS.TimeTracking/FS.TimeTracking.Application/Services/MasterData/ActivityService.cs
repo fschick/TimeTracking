@@ -2,8 +2,8 @@
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Exceptions;
-using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Application.MasterData;
@@ -20,15 +20,15 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 /// <inheritdoc cref="IActivityService" />
 public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityService
 {
-    /// <inheritdoc />
-    public ActivityService(IDbRepository dbRepository, IMapper mapper)
-        : base(dbRepository, mapper)
+    /// <inheritdoc/>
+    public ActivityService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
     public override async Task<List<ActivityGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateActivityFilter(filters);
+        var filter = await FilterFactory.CreateActivityFilter(filters);
 
         return await DbRepository
             .Get<Activity, ActivityGridDto>(

@@ -52,6 +52,7 @@ internal static class DependencyConfiguration
         services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<IInformationService, InformationService>();
         services.AddScoped<ITestDataService, TestDataService>();
+        services.AddScoped<IFilterFactory, FilterFactory>();
         services.AddScoped<ITypeaheadService, TypeaheadService>();
         services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 

@@ -2,8 +2,8 @@
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Application.Services.Shared;
-using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
@@ -22,14 +22,14 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridDto>, IHolidayService
 {
     /// <inheritdoc />
-    public HolidayService(IDbRepository dbRepository, IMapper mapper)
-        : base(dbRepository, mapper)
+    public HolidayService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
     public override async Task<List<HolidayGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateHolidayFilter(filters);
+        var filter = await FilterFactory.CreateHolidayFilter(filters);
 
         return await DbRepository
             .Get<Holiday, HolidayGridDto>(

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
-using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
@@ -17,14 +17,14 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerGridDto>, ICustomerService
 {
     /// <inheritdoc />
-    public CustomerService(IDbRepository dbRepository, IMapper mapper)
-        : base(dbRepository, mapper)
+    public CustomerService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
     public override async Task<List<CustomerGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
-        var filter = FilterExtensions.CreateCustomerFilter(filters);
+        var filter = await FilterFactory.CreateCustomerFilter(filters);
 
         return await DbRepository
             .Get<Customer, CustomerGridDto>(

@@ -1,26 +1,25 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Models;
+using FS.FilterExpressionCreator.Enums;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Core.Constants;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
+using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
-namespace FS.TimeTracking.Core.Extensions;
+namespace FS.TimeTracking.Application.Services.Shared;
 
-/// <summary>
-/// Extensions to create filters.
-/// </summary>
-public static class FilterExtensions
+/// <inheritdoc />
+public class FilterFactory : IFilterFactory
 {
-    /// <summary>
-    /// Creates the filter for <see cref="Activity"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<Activity> CreateActivityFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<Activity>> CreateActivityFilter(TimeSheetFilterSet filters)
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
@@ -37,25 +36,19 @@ public static class FilterExtensions
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
             .Replace(x => x.Project, projectFilter);
 
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Creates the filter for <see cref="Customer"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<Customer> CreateCustomerFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<Customer>> CreateCustomerFilter(TimeSheetFilterSet filters)
     {
         var filter = filters.CustomerFilter
             .Cast<Customer>();
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Creates the filter for <see cref="Order"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<Order> CreateOrderFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<Order>> CreateOrderFilter(TimeSheetFilterSet filters)
     {
         var customerProjectFilter = filters.CustomerFilter
             .Cast<Customer>()
@@ -67,14 +60,11 @@ public static class FilterExtensions
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerProjectFilter);
 
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Creates the filter for <see cref="Order"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<Project> CreateProjectFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<Project>> CreateProjectFilter(TimeSheetFilterSet filters)
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
@@ -85,14 +75,11 @@ public static class FilterExtensions
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
             .Replace(x => x.Customer, customerFilter);
 
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Creates the filter for <see cref="TimeSheet"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<TimeSheet> CreateTimeSheetFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<TimeSheet>> CreateTimeSheetFilter(TimeSheetFilterSet filters)
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
@@ -121,27 +108,40 @@ public static class FilterExtensions
             .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
             .Replace(x => x.Order, orderFilter);
 
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Creates the filter for <see cref="Order"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    public static EntityFilter<Holiday> CreateHolidayFilter(TimeSheetFilterSet filters)
+    /// <inheritdoc />
+    public Task<EntityFilter<Holiday>> CreateHolidayFilter(TimeSheetFilterSet filters)
     {
         var filter = filters.HolidayFilter
             .Cast<Holiday>();
 
-        return filter;
+        return Task.FromResult(filter);
     }
 
-    /// <summary>
-    /// Gets the selection period from <paramref name="filters.TimeSheetFilter"/>.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    /// <param name="endDateExclusive">Handle given end date as (right) exclusive.</param>
-    public static Range<DateTimeOffset> GetSelectedPeriod(TimeSheetFilterSet filters, bool endDateExclusive = false)
+    /// <inheritdoc />
+    public async Task<ChartFilter> CreateChartFilter(TimeSheetFilterSet filters)
+    {
+        var workedTimesFilter = await CreateTimeSheetFilter(filters);
+        var plannedTimesFilter = await CreateOrderFilter(filters);
+
+        var selectedPeriodForFilter = await GetSelectedPeriod(filters);
+
+        if (selectedPeriodForFilter.Start != DateOffset.MinDate)
+            plannedTimesFilter = plannedTimesFilter
+                .Replace(x => x.DueDate, FilterOperator.GreaterThanOrEqual, selectedPeriodForFilter.Start);
+
+        if (selectedPeriodForFilter.End != DateOffset.MaxDate)
+            plannedTimesFilter = plannedTimesFilter
+                .Replace(x => x.StartDate, FilterOperator.LessThan, selectedPeriodForFilter.End);
+
+        var selectedPeriod = await GetSelectedPeriod(filters, true);
+        return new ChartFilter(workedTimesFilter, plannedTimesFilter, selectedPeriod);
+    }
+
+    /// <inheritdoc />
+    public Task<Range<DateTimeOffset>> GetSelectedPeriod(TimeSheetFilterSet filters, bool endDateExclusive = false)
     {
         var startDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.StartDate);
         var endDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.EndDate);
@@ -157,15 +157,11 @@ public static class FilterExtensions
         if (endDate != DateOffset.MaxDate && endDateExclusive)
             endDate = endDate.AddDays(-1);
 
-        return new Range<DateTimeOffset>(startDate, endDate);
+        return Task.FromResult(new Range<DateTimeOffset>(startDate, endDate));
     }
 
-    /// <summary>
-    /// Creates HTTP query parameters from given filters.
-    /// </summary>
-    /// <param name="filters">Filters used to create result.</param>
-    /// <param name="additionalParameters">A variable-length parameters list containing additional parameters.</param>
-    public static string ToQueryParams(TimeSheetFilterSet filters, params (string key, string value)[] additionalParameters)
+    /// <inheritdoc />
+    public Task<string> ToQueryParams(TimeSheetFilterSet filters, params (string key, string value)[] additionalParameters)
     {
         var filterParameters = new[]
         {
@@ -179,6 +175,6 @@ public static class FilterExtensions
 
         var additionalParams = additionalParameters.Select(param => $"{HttpUtility.UrlEncode(param.key)}={HttpUtility.UrlEncode(param.value)}");
         var keyValuePairs = filterParameters.Concat(additionalParams).Where(x => !string.IsNullOrWhiteSpace(x));
-        return string.Join('&', keyValuePairs);
+        return Task.FromResult(string.Join('&', keyValuePairs));
     }
 }

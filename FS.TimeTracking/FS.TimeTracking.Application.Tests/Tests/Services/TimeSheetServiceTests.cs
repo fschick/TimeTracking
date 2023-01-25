@@ -247,6 +247,7 @@ public class TimeSheetServiceTests
         using var autoFake = new AutoFake();
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
+        autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<ITimeSheetService, TimeSheetService>();
