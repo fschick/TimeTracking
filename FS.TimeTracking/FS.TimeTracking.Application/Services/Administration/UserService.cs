@@ -56,21 +56,27 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc />
-    public async Task<List<UserGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+    public async Task<List<UserDto>> GetFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
     {
         var users = await _keycloakRepository.GetUsers(_configuration.Realm, cancellationToken: cancellationToken);
         var userDtos = _mapper
-            .Map<List<UserGridDto>>(users)
+            .Map<List<UserDto>>(users)
             .OrderBy(x => !x.Enabled)
             .ThenBy(x => x.Username)
             .ToList();
 
         var userFilter = filters.UserFilter.CreateFilter();
-        var userDtoFilter = _mapper.Map<Expression<Func<UserGridDto, bool>>>(userFilter);
-        if (userDtoFilter != null)
-            userDtos = userDtos.Where(userDtoFilter.Compile()).ToList();
+        if (userFilter != null)
+            userDtos = userDtos.Where(userFilter.Compile()).ToList();
 
         return userDtos;
+    }
+
+    /// <inheritdoc />
+    public async Task<List<UserGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+    {
+        var users = await GetFiltered(filters, cancellationToken);
+        return _mapper.Map<List<UserGridDto>>(users);
     }
 
     /// <inheritdoc />

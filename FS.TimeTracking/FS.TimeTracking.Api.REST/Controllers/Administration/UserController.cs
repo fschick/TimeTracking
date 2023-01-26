@@ -47,6 +47,12 @@ public class UserController : IUserService
     /// <inheritdoc />
     [HttpGet]
     [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
+    public async Task<List<UserDto>> GetFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
+        => await _userService.GetFiltered(filters, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
     public async Task<List<UserGridDto>> GetGridFiltered([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
         => await _userService.GetGridFiltered(filters, cancellationToken);
 

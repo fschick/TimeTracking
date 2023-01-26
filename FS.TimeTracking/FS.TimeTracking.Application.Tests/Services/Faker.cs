@@ -18,6 +18,7 @@ public class Faker
     public FakeOrder Order { get; }
     public FakeTimeSheet TimeSheet { get; }
     public FakeHoliday Holiday { get; }
+    public FakeUser User { get; }
 
     public Faker(int seed)
     {
@@ -36,5 +37,6 @@ public class Faker
         Order = new FakeOrder(this);
         TimeSheet = new FakeTimeSheet(this);
         Holiday = new FakeHoliday(this);
+        User = new FakeUser(this);
     }
 }

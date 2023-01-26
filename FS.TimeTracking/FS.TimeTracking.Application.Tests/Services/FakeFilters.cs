@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -34,6 +35,13 @@ public class FakeFilters
         var filters = Empty();
         filters.TimeSheetFilter.Add(x => x.StartDate, timeSheetStartDate);
         filters.TimeSheetFilter.Add(x => x.EndDate, timeSheetEndDate);
+        return filters;
+    }
+
+    public TimeSheetFilterSet Create(UserDto user)
+    {
+        var filters = Empty();
+        filters.UserFilter.Add(x => x.Id, user.Id);
         return filters;
     }
 
