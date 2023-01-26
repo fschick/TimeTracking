@@ -88,7 +88,6 @@ public class ActivityReportService : IActivityReportService
 
         var workTimes = await _customerChartService
             .GetWorkTimesPerCustomer(filters, cancellationToken)
-            .AsEnumerableAsync()
             .WhereAsync(workTime => workTime.BudgetWorked > 0)
             .OrderByAsync(workTime => workTime.CustomerTitle);
 

@@ -39,6 +39,20 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// Asynchronously projects each element of an <see cref="IEnumerable{T}"/> into a new form.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/></typeparam>
+    /// <typeparam name="TResult">The type of the value returned by <paramref name="selector"/>.</typeparam>
+    /// <param name="source">A sequence of values to invoke a transform function on.</param>
+    /// <param name="selector">A transform function to apply to each element.</param>
+    public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this Task<IEnumerable<TSource>> source, Func<TSource, TResult> selector)
+        => (await source).Select(selector);
+
+    /// <inheritdoc cref="SelectAsync{TSource, TResult}(Task{IEnumerable{TSource}}, Func{TSource, TResult})" />
+    public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this Task<List<TSource>> source, Func<TSource, TResult> selector)
+        => (await source).Select(selector);
+
+    /// <summary>
     /// Projects each element of a sequence to an <see cref="IEnumerable{T}"/> and flattens the resulting sequences into one sequence.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source"/></typeparam>
@@ -72,6 +86,10 @@ public static class EnumerableExtensions
     public static async Task<IEnumerable<T>> WhereAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate)
         => (await source).Where(predicate);
 
+    /// <inheritdoc cref="WhereAsync{T}(Task{IEnumerable{T}}, Func{T, bool})" />
+    public static async Task<IEnumerable<T>> WhereAsync<T>(this Task<List<T>> source, Func<T, bool> predicate)
+        => (await source).Where(predicate);
+
     /// <summary>
     /// Returns the first element of a sequence.
     /// </summary>
@@ -80,12 +98,20 @@ public static class EnumerableExtensions
     public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate = null)
         => predicate != null ? (await source).First(predicate) : (await source).First();
 
+    /// <inheritdoc cref="FirstAsync{T}(Task{IEnumerable{T}}, Func{T, bool})" />
+    public static async Task<T> FirstAsync<T>(this Task<List<T>> source, Func<T, bool> predicate = null)
+        => predicate != null ? (await source).First(predicate) : (await source).First();
+
     /// <summary>
-    /// Returns the first element of a sequence, or a default value if the sequenz contains no elements.
+    /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
     /// </summary>
     /// <param name="source">The source.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, T defaultValue = default)
+        => (await source).FirstOrDefault(defaultValue);
+
+    /// <inheritdoc cref="FirstOrDefaultAsync{T}(Task{IEnumerable{T}}, T)" />
+    public static async Task<T> FirstOrDefaultAsync<T>(this Task<List<T>> source, T defaultValue = default)
         => (await source).FirstOrDefault(defaultValue);
 
     /// <summary>
@@ -95,6 +121,10 @@ public static class EnumerableExtensions
     /// <param name="predicate">A function to test each element for a condition.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> source, Func<T, bool> predicate, T defaultValue = default)
+        => (await source).FirstOrDefault(predicate, defaultValue);
+
+    /// <inheritdoc cref="FirstOrDefaultAsync{T}(Task{IEnumerable{T}}, Func{T, bool}, T)" />
+    public static async Task<T> FirstOrDefaultAsync<T>(this Task<List<T>> source, Func<T, bool> predicate, T defaultValue = default)
         => (await source).FirstOrDefault(predicate, defaultValue);
 
     /// <summary>

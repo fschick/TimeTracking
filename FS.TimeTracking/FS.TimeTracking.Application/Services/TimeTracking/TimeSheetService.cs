@@ -102,7 +102,6 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
                 where: filter,
                 cancellationToken: cancellationToken
             )
-            .AsEnumerableAsync()
             .FirstOrDefaultAsync();
 
         var selectedPeriod = FilterExtensions.GetSelectedPeriod(filters, true);

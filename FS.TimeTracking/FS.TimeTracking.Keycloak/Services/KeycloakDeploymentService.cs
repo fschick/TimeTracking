@@ -73,7 +73,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
     {
         var defaultUser = await _keycloakRepository
             .GetUsers(_keycloakConfiguration.Realm, username: DEFAULT_USER_NAME, cancellationToken: cancellationToken)
-            .AsEnumerableAsync()
             .FirstOrDefaultAsync();
         var defaultUserId = new Guid(defaultUser.Id);
         await _dbRepository.BulkUpdate((TimeSheet t) => t.UserId == Guid.Empty, _ => new TimeSheet { UserId = defaultUserId });
@@ -114,7 +113,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
         var createdClient = await _keycloakRepository
             .GetClients(realm, cancellationToken)
-            .AsEnumerableAsync()
             .FirstAsync(storedClient => storedClient.ClientId == _keycloakConfiguration.ClientId);
 
         return createdClient.Id;
@@ -143,7 +141,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         await _keycloakRepository.CreateClientScope(realm, clientScope, cancellationToken);
 
         var createdClientScope = await _keycloakRepository.GetClientScopes(realm, cancellationToken)
-            .AsEnumerableAsync()
             .FirstAsync(storedScope => storedScope.Name == audienceName);
 
         return createdClientScope.Id;
@@ -168,7 +165,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         await _keycloakRepository.CreateUser(realm, user, cancellationToken);
 
         var createdUser = await _keycloakRepository.GetUsers(realm, username: user.Username, cancellationToken: cancellationToken)
-            .AsEnumerableAsync()
             .FirstAsync();
 
         return createdUser.Id;
@@ -188,7 +184,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         await roles.Select(async role => await _keycloakRepository.CreateClientRole(realm, clientId, role, cancellationToken)).WhenAll();
 
         var storedRoles = await _keycloakRepository.GetClientRoles(realm, clientId, cancellationToken)
-            .AsEnumerableAsync()
             .WhereAsync(storedRole => roles.Any(role => role.Name == storedRole.Name))
             .ToListAsync();
 
