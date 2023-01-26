@@ -239,6 +239,38 @@ public class TimeSheetServiceTests
             .WithMessage("Customer of time sheet does not match customer of assigned order.");
     }
 
+    [TestMethod]
+    public async Task WhenSimilarTimeSheetEntryIsStarted_UserIdChangedToIdOfCurrentUser()
+    {
+        // Prepare
+        var faker = new Faker(2000);
+        using var autoFake = new AutoFake();
+        await autoFake.ConfigureInMemoryDatabase();
+
+        var timeSheetActivity = faker.Activity.Create();
+        var timeSheetCustomer = faker.Customer.Create();
+        var originUser = new UserDto { Id = Guid.NewGuid(), Username = "Origin" };
+        var currentUser = new UserDto { Id = Guid.NewGuid(), Username = "Current" };
+        var originTimeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, timeSheetActivity.Id, userId: originUser.Id);
+
+        autoFake.Provide(faker.AutoMapper);
+        autoFake.Provide<IUserService>(new UserServiceInMemory(faker.AutoMapper, currentUser));
+        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+
+        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+
+        await dbRepository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetActivity, originTimeSheet });
+        await dbRepository.SaveChanges();
+
+        // Act
+        var copiedTimeSheet = await timeSheetService.StartSimilarTimeSheetEntry(originTimeSheet.Id, originTimeSheet.StartDate);
+
+        // Check
+        copiedTimeSheet.UserId.Should().Be(currentUser.Id);
+    }
+
     [DataTestMethod]
     [WorkedDaysOverviewDataSource]
     public async Task WhenWorkedDaysOverviewRequested_ResultMatchesExpectedValues(string testCaseJson)

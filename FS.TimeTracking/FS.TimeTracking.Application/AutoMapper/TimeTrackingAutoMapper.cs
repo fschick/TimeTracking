@@ -52,7 +52,8 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
-        CreateMap<Holiday, HolidayGridDto>();
+        CreateMap<Holiday, HolidayGridDto>()
+            .ForMember(x => x.Username, x => x.Ignore());
 
         CreateMap<Customer, CustomerDto>()
             .ReverseMap();
@@ -103,7 +104,8 @@ public class TimeTrackingAutoMapper : Profile
         CreateMap<TimeSheet, TimeSheetGridDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))
             .ForMember(x => x.ProjectTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Title))
-            .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate));
+            .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))
+            .ForMember(x => x.Username, x => x.Ignore());
 
         CreateMap<TimeSheet, ActivityReportTimeSheetDto>()
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))

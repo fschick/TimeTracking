@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.Enums;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="HolidayDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayGridDto : IIdEntityDto
+public record HolidayGridDto : IIdEntityDto, IUserRelatedGridDto
 {
     /// <inheritdoc cref="HolidayDto.Id"/>
     [Required]
@@ -36,7 +37,12 @@ public record HolidayGridDto : IIdEntityDto
     /// <summary>
     /// The identifier of the user this entity belongs to.
     /// </summary>
+    [Required]
+    [JsonIgnore]
     public Guid UserId { get; set; }
+
+    /// <inheritdoc cref="UserDto.Username"/>
+    public string Username { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

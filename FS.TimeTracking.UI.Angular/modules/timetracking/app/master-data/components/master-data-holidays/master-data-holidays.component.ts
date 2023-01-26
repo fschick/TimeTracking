@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HolidayGridDto, HolidayService, HolidayType} from '../../../../../api/timetracking';
 import {combineLatest, Observable, Subscription} from 'rxjs';
 import {LocalizationService} from '../../../../../core/app/services/internationalization/localization.service';
-import {  Column,  Configuration,  DataCellTemplate,  SimpleTableComponent} from '../../../../../core/app/components/simple-table/simple-table.component';
+import {Column, Configuration, DataCellTemplate, SimpleTableComponent} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {single, startWith, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
@@ -10,6 +10,7 @@ import {GuidService} from '../../../../../core/app/services/state-management/gui
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 import {DateTime} from 'luxon';
 import {EnumTranslationService} from '../../../../../core/app/services/enum-translation.service';
+import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
 
 @Component({
   selector: 'ts-master-data-holidays',
@@ -35,6 +36,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     private holidayService: HolidayService,
     private localizationService: LocalizationService,
     private enumTranslationService: EnumTranslationService,
+    private configurationService: ConfigurationService,
   ) {
     const defaultStartDate = DateTime.now().startOf('year');
     const defaultEndDate = DateTime.now().endOf('year');
@@ -49,7 +51,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     const reloadRequested$ = this.entityService.reloadRequested;
-    const holidayImported$ = this.entityService.holidaysImported.pipe(startWith( void 0));
+    const holidayImported$ = this.entityService.holidaysImported.pipe(startWith(void 0));
     const loadData = combineLatest([reloadRequested$, holidayImported$])
       .pipe(
         switchMap(([filter]) => this.loadData(filter)),
@@ -72,7 +74,7 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     const cssHeadCellMd = 'd-none d-md-table-cell';
     const cssDataCellMd = cssHeadCellMd;
 
-    this.columns = [
+    const columns: Column<HolidayGridDto>[] = [
       {
         title: $localize`:@@DTO.HolidayGridDto.Title:[i18n] Title`,
         prop: 'title',
@@ -109,6 +111,18 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
         sortable: false
       },
     ];
+
+    const authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
+    if (authorizationEnabled)
+      columns.splice(4, 0, {
+        title: $localize`:@@DTO.HolidayGridDto.Username:[i18n] User`,
+        prop: 'username',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellLg}`,
+        cssDataCell: cssDataCellLg,
+        dataCellTemplate: this.dataCellTemplate,
+      });
+
+    this.columns = columns;
   }
 
   public ngOnDestroy(): void {

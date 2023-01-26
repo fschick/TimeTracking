@@ -4,11 +4,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {GuidStringTypeaheadDto, TimeSheetDto, TimeSheetService, TypeaheadService} from '../../../../../api/timetracking';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
-import {combineLatestAll, filter, map, pairwise, single, startWith} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
+import {filter, map, pairwise, single, startWith} from 'rxjs/operators';
+import {forkJoin, of, Subscription} from 'rxjs';
 import {DateTime} from 'luxon';
 import {FormControl} from '@angular/forms';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-timesheet-edit',
@@ -20,8 +22,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   public selectableProjects: GuidStringTypeaheadDto[] = [];
   public selectableActivities: GuidStringTypeaheadDto[] = [];
   public selectableOrders: GuidStringTypeaheadDto[] = [];
+  public allUsers: GuidStringTypeaheadDto[] = [];
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public authorizationEnabled: boolean;
 
   private allProjects: GuidStringTypeaheadDto[] = [];
   private allActivities: GuidStringTypeaheadDto[] = [];
@@ -39,23 +43,28 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     private typeaheadService: TypeaheadService,
-    private modalService: NgbModal
+    private configurationService: ConfigurationService,
+    private authenticationService: AuthenticationService,
+    private modalService: NgbModal,
   ) {
-    this.timesheetForm = this.createTimesheetForm();
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
+    this.timesheetForm = this.createTimesheetForm();
 
     const getTimeSheet = !this.isNewRecord ? timesheetService.get({id: this.route.snapshot.params['id']}) : of(undefined);
     const getCustomers = typeaheadService.getCustomers({});
     const getProjects = typeaheadService.getProjects({});
     const getActivities = typeaheadService.getActivities({});
     const getOrders = typeaheadService.getOrders({});
+    const getUsers = this.authorizationEnabled ? typeaheadService.getUsers({}) : of([]);
 
-    forkJoin([getTimeSheet, getCustomers, getProjects, getActivities, getOrders])
-      .subscribe(([timesheet, customers, projects, activities, orders]) => {
+    forkJoin([getTimeSheet, getCustomers, getProjects, getActivities, getOrders, getUsers])
+      .subscribe(([timesheet, customers, projects, activities, orders, users]) => {
         this.allCustomers = customers;
         this.allActivities = activities;
         this.allProjects = projects;
-        this.allOrders = orders
+        this.allOrders = orders;
+        this.allUsers = users;
 
         if (timesheet)
           this.timesheetForm.patchValue(timesheet);
@@ -129,7 +138,8 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
         {
           startDate: DateTime.now(),
           id: GuidService.guidEmpty,
-          billable: true
+          billable: true,
+          userId: this.authorizationEnabled ? this.authenticationService.currentUser?.id : GuidService.guidEmpty,
         },
         {
           startTime: new FormControl(DateTime.now()),

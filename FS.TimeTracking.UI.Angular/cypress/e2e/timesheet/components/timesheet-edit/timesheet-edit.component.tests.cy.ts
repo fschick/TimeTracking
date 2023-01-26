@@ -3,7 +3,6 @@ import {GuidService} from '../../../../../modules/core/app/services/state-manage
 import {RestApi} from '../../../../fixtures/services/restApi';
 
 describe('Create and edit', () => {
-
   before(() => {
     const testId = GuidService.newGuid().substring(0, 8);
     RestApi.createCustomer(testId).then(response => RestApi.createProject(testId, response.body.id));

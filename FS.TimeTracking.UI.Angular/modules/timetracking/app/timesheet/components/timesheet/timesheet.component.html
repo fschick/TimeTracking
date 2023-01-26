@@ -143,6 +143,11 @@
 
           <!-- Timesheet row detail -->
           <div *ngIf="showDetails" class="row mx-0 pt-1" [ngClass]="{'row-running': !timeSheet.endDate}">
+            <div *ngIf="timeSheet.username" class="col-auto">
+              <span class="badge fw-normal">
+                {{timeSheet.username}}
+              </span>
+            </div>
             <div *ngIf="timeSheet.issue" class="col-auto">
               <span class="badge fw-normal">
                 {{timeSheet.issue}}

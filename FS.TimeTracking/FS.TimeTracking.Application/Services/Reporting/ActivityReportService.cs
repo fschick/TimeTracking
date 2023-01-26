@@ -112,7 +112,7 @@ public class ActivityReportService : IActivityReportApiService
             => $"&customerId={customerId}";
 
         string accessToken(string role)
-            => _authorizationService.IsCurrentUserInRole(role)
+            => _authorizationService.CurrentUser.IsInRole(role)
                 ? $"&{OneTimeTokenDefaults.AuthorizationQueryParamName}={_oneTimeTokenService.CreateToken(role)}"
                 : null;
     }

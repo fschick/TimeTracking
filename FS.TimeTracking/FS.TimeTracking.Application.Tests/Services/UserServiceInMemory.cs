@@ -1,26 +1,31 @@
 ﻿using AutoMapper;
+using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Models.Filter;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Services;
 
-public class UserServiceInMemory : IUserApiService
+public class UserServiceInMemory : IUserService
 {
     private readonly IMapper _mapper;
     private readonly ConcurrentDictionary<Guid, UserDto> _users = new();
 
-    public IIdentity CurrentUser => throw new NotImplementedException();
+    public ClaimsPrincipal CurrentUser { get; }
 
-    public UserServiceInMemory(IMapper mapper)
-        => _mapper = mapper;
+    public UserServiceInMemory(IMapper mapper, UserDto currentUser)
+    {
+        _mapper = mapper;
+        CurrentUser = CreateCurrentUser(currentUser);
+    }
 
     public Task<UserDto> Get(Guid id, CancellationToken cancellationToken = default)
         => Task.FromResult(_users.Values.FirstOrDefault(x => x.Id == id));
@@ -55,6 +60,38 @@ public class UserServiceInMemory : IUserApiService
 
     public Task<long> Delete(Guid id)
         => Task.FromResult<long>(_users.TryRemove(id, out _) ? 1 : 0);
+
+    public async Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto
+    {
+        var list = new List<T>() { dto };
+        await SetUserRelatedProperties(null, list, cancellationToken);
+    }
+
+    public async Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto
+    {
+        var filteredUsers = await GetFiltered(filters, cancellationToken);
+        dtos = dtos
+            .Join(filteredUsers, timeSheet => timeSheet.UserId, user => user.Id, (timeSheet, user) =>
+            {
+                timeSheet.UserId = user.Id;
+                timeSheet.Username = user.Username;
+                return timeSheet;
+            })
+            .ToList();
+    }
+
+    private static ClaimsPrincipal CreateCurrentUser(UserDto currentUser)
+    {
+        currentUser ??= new UserDto();
+        var allRoles = RoleNames.All.Select(name => new Claim(ClaimTypes.Role, name));
+        var claims = new List<Claim>(allRoles)
+        {
+            new (ClaimTypes.NameIdentifier, currentUser.Id.ToString()),
+            new (ClaimTypes.Name, currentUser.Username ?? string.Empty),
+        };
+        var identity = new ClaimsIdentity(claims);
+        return new ClaimsPrincipal(identity);
+    }
 
     private static Func<UserDto, bool> CreateUserFilter(TimeSheetFilterSet filters)
         => filters.UserFilter.CreateFilter()?.Compile() ?? (_ => true);

@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Core.Models.Filter;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,6 +10,23 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 /// <inheritdoc />
 public interface IUserService : IUserApiService
 {
+    /// <summary>
+    /// Sets the user related fields of a DTO.
+    /// </summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
+    /// <param name="dto">The DTO to work on.</param>
+    /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
+    Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto;
+
+    /// <summary>
+    /// Sets the user related fields of a DTO.
+    /// </summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
+    /// <param name="filters">The filters.</param>
+    /// <param name="dtos">The DTOs to work on.</param>
+    /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
+    Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto;
+
     /// <summary>
     /// Gets items filtered.
     /// </summary>

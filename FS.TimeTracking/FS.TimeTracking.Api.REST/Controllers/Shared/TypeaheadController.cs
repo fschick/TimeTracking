@@ -3,6 +3,7 @@ using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -48,6 +49,12 @@ public class TypeaheadController : ControllerBase, ITypeaheadApiService
     [HttpGet]
     public async Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default)
         => await _typeaheadService.GetActivities(showHidden, cancellationToken);
+
+    /// <inheritdoc />
+    [HttpGet]
+    [FeatureGate(Features.Authorization)]
+    public async Task<List<TypeaheadDto<Guid, string>>> GetUsers(bool showHidden, CancellationToken cancellationToken = default)
+        => await _typeaheadService.GetUsers(showHidden, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]

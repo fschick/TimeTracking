@@ -83,6 +83,7 @@ public class TimeSheetDto : IIdEntityDto
     /// <summary>
     /// The identifier of the user this entity belongs to.
     /// </summary>
+    [Required]
     [Filter(Visible = false)]
     public Guid UserId { get; set; }
 

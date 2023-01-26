@@ -301,6 +301,8 @@
       "ActivityIdPlaceholder": "Tätigkeit auswählen",
       "OrderId": "Auftrag",
       "Issue": "Ticket",
+      "UserId": "Benutzer",
+      "UserIdPlaceholder": "Benutzer auswählen",
       "Billable": "verrechenbar",
       "Comment": "Kommentar"
     },
@@ -421,13 +423,15 @@
       "StartDatePlaceholder": "Beginn",
       "EndDate": "Enddatum",
       "EndDatePlaceholder": "Ende",
-      "Type": "Typ"
+      "Type": "Typ",
+      "UserId": "Benutzer"
     },
     "HolidayGridDto": {
       "Title": "Titel",
       "StartDate": "Startdatum",
       "EndDate": "Enddatum",
-      "Type": "Typ"
+      "Type": "Typ",
+      "Username": "Benutzer"
     },
     "HolidayImportDto": {
       "File": "iCal-Datei",

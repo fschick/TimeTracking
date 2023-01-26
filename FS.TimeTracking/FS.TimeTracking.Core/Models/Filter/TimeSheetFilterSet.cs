@@ -1,9 +1,9 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
+using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using System.Diagnostics.CodeAnalysis;
-using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.FilterExpressionCreator.Filters;
 
 namespace FS.TimeTracking.Core.Models.Filter;
 
@@ -17,35 +17,35 @@ public class TimeSheetFilterSet
     /// <summary>
     /// Filter applied to<see cref="TimeSheetDto"/>.
     /// </summary>
-    public EntityFilter<TimeSheetDto> TimeSheetFilter { get; set; }
+    public EntityFilter<TimeSheetDto> TimeSheetFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="ProjectDto"/>.
     /// </summary>
-    public EntityFilter<ProjectDto> ProjectFilter { get; set; }
+    public EntityFilter<ProjectDto> ProjectFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="CustomerDto"/>.
     /// </summary>
-    public EntityFilter<CustomerDto> CustomerFilter { get; set; }
+    public EntityFilter<CustomerDto> CustomerFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="ActivityDto"/>.
     /// </summary>
-    public EntityFilter<ActivityDto> ActivityFilter { get; set; }
+    public EntityFilter<ActivityDto> ActivityFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="OrderDto"/>.
     /// </summary>
-    public EntityFilter<OrderDto> OrderFilter { get; set; }
+    public EntityFilter<OrderDto> OrderFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="HolidayDto"/>.
     /// </summary>
-    public EntityFilter<HolidayDto> HolidayFilter { get; set; }
+    public EntityFilter<HolidayDto> HolidayFilter { get; set; } = new();
 
     /// <summary>
     /// Filter applied to<see cref="UserDto"/>.
     /// </summary>
-    public EntityFilter<UserDto> UserFilter { get; set; }
+    public EntityFilter<UserDto> UserFilter { get; set; } = new();
 }

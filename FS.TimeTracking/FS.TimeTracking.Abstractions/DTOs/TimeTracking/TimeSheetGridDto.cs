@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// <inheritdoc cref="TimeSheetDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheetGridDto : IIdEntityDto
+public class TimeSheetGridDto : IIdEntityDto, IUserRelatedGridDto
 {
     /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]
@@ -47,14 +48,17 @@ public class TimeSheetGridDto : IIdEntityDto
     /// <inheritdoc cref="OrderDto.Title"/>
     public string OrderTitle { get; set; }
 
+    /// <inheritdoc cref="UserDto.Id"/>
+    [Required]
+    [JsonIgnore]
+    public Guid UserId { get; set; }
+
+    /// <inheritdoc cref="UserDto.Username"/>
+    public string Username { get; set; }
+
     /// <inheritdoc cref="TimeSheetDto.Billable"/>
     [Required]
     public bool Billable { get; set; }
-
-    /// <summary>
-    /// The identifier of the user this entity belongs to.
-    /// </summary>
-    public Guid UserId { get; set; }
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

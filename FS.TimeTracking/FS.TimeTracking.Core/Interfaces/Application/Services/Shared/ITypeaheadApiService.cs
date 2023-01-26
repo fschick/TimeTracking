@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,13 @@ public interface ITypeaheadApiService
     /// <param name="showHidden">If set to <c>true</c>, objects marked as hidden will also be returned.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     Task<List<TypeaheadDto<Guid, string>>> GetActivities(bool showHidden, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets the values for typeahead displaying <see cref="UserDto.Username" />.
+    /// </summary>
+    /// <param name="showHidden">If set to <c>true</c>, objects marked as hidden will also be returned.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    Task<List<TypeaheadDto<Guid, string>>> GetUsers(bool showHidden, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets available timezones.

@@ -53,7 +53,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     public abstract Task<List<TGridDto>> GetGridFiltered(TimeSheetFilterSet filters, CancellationToken cancellationToken = default);
 
     /// <inheritdoc />
-    public async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<TGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
         => await DbRepository
             .FirstOrDefault<TModel, TGridDto>(
                 where: model => model.Id == id,

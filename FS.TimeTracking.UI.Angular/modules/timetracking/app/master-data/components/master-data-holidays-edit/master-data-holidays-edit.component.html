@@ -55,6 +55,23 @@
             <ng-option value="publicHoliday" i18n="@@Enum.HolidayType.PublicHoliday">[i18n] Public holiday</ng-option>
           </ng-select>
         </div>
+        <div class="col-lg-6" *ngIf="authorizationEnabled">
+          <!--suppress XmlInvalidId -->
+          <label for="userId" class="form-label" i18n="@@DTO.TimeSheetDto.UserId">[i18n] User</label>
+          <ng-select [items]="allUsers"
+                     [selectOnTab]="true"
+                     [clearable]="false"
+                     bindValue="id"
+                     bindLabel="value"
+                     labelForId="userId"
+                     placeholder="[i18n] Select user"
+                     i18n-placeholder="@@DTO.TimeSheetDto.UserIdPlaceholder"
+                     formControlName="userId">
+            <ng-template ng-option-tmp let-item="item">
+              <span [ngClass]="{'text-secondary': item.hidden}">{{item.value}}</span>
+            </ng-template>
+          </ng-select>
+        </div>
       </div>
       <hr class="text-secondary" *ngIf="form.submitted && form.invalid">
       <ts-form-validation-errors></ts-form-validation-errors>

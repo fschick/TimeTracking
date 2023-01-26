@@ -63,6 +63,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
       {name: 'timeSheetIssue'},
       {name: 'timeSheetComment'},
       {name: 'timeSheetBillable'},
+      {name: 'userId'},
     ];
   }
 

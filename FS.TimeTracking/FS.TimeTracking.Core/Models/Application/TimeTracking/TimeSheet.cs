@@ -116,6 +116,7 @@ public class TimeSheet : IIdEntityModel
     /// <summary>
     /// The identifier of the user this entity belongs to.
     /// </summary>
+    [Required]
     public Guid UserId { get; set; }
 
     /// <inheritdoc />

@@ -72,6 +72,7 @@ internal static class DependencyConfiguration
         services.AddScoped<IActivityApiService, ActivityService>();
         services.AddScoped<IOrderApiService, OrderService>();
         services.AddScoped<IHolidayApiService, HolidayService>();
+        services.AddScoped<ISettingApiService, SettingService>();
         services.AddScoped<IUserApiService>(sp => sp.GetRequiredService<IUserService>());
 
 #if DEBUG
