@@ -31,13 +31,13 @@
                 (click)="collapse.toggle()"
                 aria-controls="extendedFilter"
                 [attr.aria-expanded]="!filterCollapsed">
-          <ng-container *ngIf="collapse.collapsed">
+          <ng-container *ngIf="filterCollapsed">
             <svg class="bi text-secondary me-2" fill="currentColor">
               <use xlink:href="assets/icons.svg#plus-square-dotted"/>
             </svg>
             <span class="text-expand" i18n="@@Component.Filter.Add">[i18n] Add filter</span>
           </ng-container>
-          <ng-container *ngIf="!collapse.collapsed">
+          <ng-container *ngIf="!filterCollapsed">
             <svg class="bi text-secondary me-2" fill="currentColor">
               <use xlink:href="assets/icons.svg#check-lg"/>
             </svg>

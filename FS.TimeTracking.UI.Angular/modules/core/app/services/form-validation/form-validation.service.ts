@@ -82,7 +82,7 @@ export class FormValidationService {
     const typeName = validation['class'] as keyof typeof validationDescriptions;
     const nestedFormControlField = formControls[typeName];
     const additionalFormControls = this.isCustomValidationFromControls(nestedFormControlField) ? nestedFormControlField : {};
-    return this.getFormGroup(typeName, initialValue, additionalFormControls);
+    return this.getFormGroup(typeName, initialValue ?? {}, additionalFormControls);
   }
 
   private isCustomValidationFromControls(

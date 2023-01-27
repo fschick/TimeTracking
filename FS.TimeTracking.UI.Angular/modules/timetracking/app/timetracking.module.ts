@@ -203,7 +203,7 @@ export function localeLoaderFactory(localizationService: LocalizationService) {
  * @param parent String (Optional)  The prefix to add before each key, also used for recursion
  * @param result                    The result (parameter used by recursion)
  **/
-export function flattenTranslations<T>(obj: T, parent: string = '', result: { [key: string]: string } = {}): { [key: string]: string } {
+export function flattenTranslations<T>(obj: [s: string], parent: string = '', result: { [key: string]: string } = {}): { [key: string]: string } {
 
   for (const [propertyName, property] of Object.entries(obj)) {
     if (typeof property === 'object' && property !== null)

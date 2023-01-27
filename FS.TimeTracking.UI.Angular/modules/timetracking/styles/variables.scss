@@ -1,10 +1,10 @@
 ﻿// https://getbootstrap.com/docs/5.1/customize/sass/
-@import '~bootstrap/scss/functions.scss';
+@import 'bootstrap/scss/functions.scss';
 @import "theme.overrides";
-@import '~bootstrap/scss/variables.scss';
-@import '~bootstrap/scss/maps.scss';
-@import '~bootstrap/scss/mixins.scss';
-@import '~bootstrap/scss/root.scss';
+@import 'bootstrap/scss/variables.scss';
+@import 'bootstrap/scss/maps.scss';
+@import 'bootstrap/scss/mixins.scss';
+@import 'bootstrap/scss/root.scss';
 
 @mixin focused-border {
   $focus-border-width: 2px;
