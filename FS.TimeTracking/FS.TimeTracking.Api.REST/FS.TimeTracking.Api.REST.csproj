@@ -4,25 +4,21 @@
   <Import Project="../../Build/targets/xml_documentation.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.0.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.2.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.2.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.2.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
-    
-    <!--
-    Can't update from 6.2.3 because:
-    https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/2406
-    https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/2436
-    https://github.com/domaindrivendev/Swashbuckle.AspNetCore/pull/2373
-    -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.0.1" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.3.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.3.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.3.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.14" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>

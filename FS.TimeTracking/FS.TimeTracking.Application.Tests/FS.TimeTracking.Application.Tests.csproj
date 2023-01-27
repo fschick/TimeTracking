@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/targets/tests.props" />
   <ItemGroup>
-    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.2.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,9 +4,9 @@
   <Import Project="../../Build/targets/xml_documentation.props" />
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Abstractions" Version="4.2.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Abstractions" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="File.TypeChecker" Version="3.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />

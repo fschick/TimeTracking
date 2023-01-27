@@ -4,12 +4,12 @@
   <Import Project="../../Build/targets/xml_documentation.props" />
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.2.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.2.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.3.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.3.0" />
     <PackageReference Include="Schick.Keycloak.RestApiClient" Version="20.0.1" />
-    <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.2.0" />
+    <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.2.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
