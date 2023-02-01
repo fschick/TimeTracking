@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.Administration;
 
-/// <inheritdoc cref="ISettingService" />
-public class SettingService : ISettingService
+/// <inheritdoc cref="ISettingApiService" />
+public class SettingService : ISettingApiService
 {
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;

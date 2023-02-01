@@ -12,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 
-/// <inheritdoc cref="ICustomerChartService" />
+/// <inheritdoc cref="ICustomerChartApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ICustomerChartService" />
+/// <seealso cref="ICustomerChartApiService" />
 [ApiV1Controller]
 [Authorize(Roles = RoleNames.CHARTS_BY_CUSTOMER_VIEW)]
 [ExcludeFromCodeCoverage]
-public class CustomerChartController : ControllerBase, ICustomerChartService
+public class CustomerChartController : ControllerBase, ICustomerChartApiService
 {
-    private readonly ICustomerChartService _chartService;
+    private readonly ICustomerChartApiService _chartService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OrderChartController"/> class.
     /// </summary>
     /// <param name="chartService">The chart service.</param>
-    public CustomerChartController(ICustomerChartService chartService)
+    public CustomerChartController(ICustomerChartApiService chartService)
         => _chartService = chartService;
 
     /// <inheritdoc />

@@ -50,30 +50,32 @@ internal static class DependencyConfiguration
 
         services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IAuthorizationService, AuthorizationService>();
-        services.AddScoped<IInformationService, InformationService>();
-        services.AddScoped<ITestDataService, TestDataService>();
+        services.AddScoped<IInformationApiService, InformationService>();
+        services.AddScoped<ITestDataApiService, TestDataService>();
         services.AddScoped<IFilterFactory, FilterFactory>();
-        services.AddScoped<ITypeaheadService, TypeaheadService>();
-        services.AddScoped<IValidationDescriptionService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
+        services.AddScoped<ITypeaheadApiService, TypeaheadService>();
+        services.AddScoped<IValidationDescriptionApiService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 
-        services.AddScoped<ITimeSheetService, TimeSheetService>();
-        services.AddScoped<ICustomerChartService, CustomerChartService>();
         services.AddScoped<IOrderChartService, OrderChartService>();
-        services.AddScoped<IActivityChartService, ActivityChartService>();
-        services.AddScoped<IProjectChartService, ProjectChartService>();
-        services.AddScoped<IIssueChartService, IssueChartService>();
-        services.AddScoped<IActivityReportService, ActivityReportService>();
-        services.AddHttpClient<IActivityReportService, ActivityReportService>();
-        services.AddScoped<ICustomerService, CustomerService>();
-        services.AddScoped<IProjectService, ProjectService>();
-        services.AddScoped<IActivityService, ActivityService>();
-        services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<IHolidayService, HolidayService>();
-        services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IUserService, UserService>();
 
+        services.AddScoped<ITimeSheetApiService, TimeSheetService>();
+        services.AddScoped<ICustomerChartApiService, CustomerChartService>();
+        services.AddScoped<IOrderChartApiService>(sp => sp.GetRequiredService<IOrderChartService>());
+        services.AddScoped<IActivityChartApiService, ActivityChartService>();
+        services.AddScoped<IProjectChartApiService, ProjectChartService>();
+        services.AddScoped<IIssueChartApiService, IssueChartService>();
+        services.AddScoped<IActivityReportApiService, ActivityReportService>();
+        services.AddHttpClient<IActivityReportApiService, ActivityReportService>();
+        services.AddScoped<ICustomerApiService, CustomerService>();
+        services.AddScoped<IProjectApiService, ProjectService>();
+        services.AddScoped<IActivityApiService, ActivityService>();
+        services.AddScoped<IOrderApiService, OrderService>();
+        services.AddScoped<IHolidayApiService, HolidayService>();
+        services.AddScoped<IUserApiService>(sp => sp.GetRequiredService<IUserService>());
+
 #if DEBUG
-        services.AddScoped<IDebugService, DebugService>();
+        services.AddScoped<IDebugApiService, DebugService>();
 #endif
         return services;
     }

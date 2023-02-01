@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Application.Services.Shared
 {
     /// <inheritdoc />
     [ExcludeFromCodeCoverage]
-    public class DebugService : IDebugService
+    public class DebugService : IDebugApiService
     {
         private readonly IDbRepository _dbRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;

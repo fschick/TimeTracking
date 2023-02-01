@@ -5,7 +5,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 /// <summary>
 /// Test data services.
 /// </summary>
-public interface ITestDataService
+public interface ITestDataApiService
 {
     /// <summary>
     /// Seeds test data to the database.

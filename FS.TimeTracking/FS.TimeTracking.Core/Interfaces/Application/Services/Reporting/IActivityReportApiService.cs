@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 /// <summary>
 /// Time sheet report service
 /// </summary>
-public interface IActivityReportService
+public interface IActivityReportApiService
 {
     /// <summary>
     /// Get all customers having time sheets matching the filters

@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 /// <summary>
 /// Validation description services
 /// </summary>
-public interface IValidationDescriptionService
+public interface IValidationDescriptionApiService
 {
     /// <summary>
     /// Gets a JSON with the validation rules of models marked with <see cref="ValidationDescriptionAttribute"/>.

@@ -17,8 +17,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
-/// <inheritdoc cref="IActivityService" />
-public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityService
+/// <inheritdoc cref="IActivityApiService" />
+public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityApiService
 {
     /// <inheritdoc/>
     public ActivityService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)

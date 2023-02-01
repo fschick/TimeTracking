@@ -9,19 +9,19 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
-/// <inheritdoc cref="IProjectService" />
+/// <inheritdoc cref="IProjectApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IProjectService" />
+/// <seealso cref="IProjectApiService" />
 [ApiV1Controller]
 [Authorize(Policy = PermissionNames.MASTER_DATA_PROJECTS)]
 [ExcludeFromCodeCoverage]
-public class ProjectController : CrudModelController<ProjectDto, ProjectGridDto>, IProjectService
+public class ProjectController : CrudModelController<ProjectDto, ProjectGridDto>, IProjectApiService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public ProjectController(IProjectService modelService)
+    public ProjectController(IProjectApiService modelService)
         : base(modelService)
     {
     }

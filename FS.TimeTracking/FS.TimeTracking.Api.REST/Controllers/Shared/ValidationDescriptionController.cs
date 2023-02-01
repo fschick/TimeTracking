@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IValidationDescriptionService" />
+/// <seealso cref="IValidationDescriptionApiService" />
 [ApiV1Controller]
 [ExcludeFromCodeCoverage]
-public class ValidationDescriptionController : ControllerBase, IValidationDescriptionService
+public class ValidationDescriptionController : ControllerBase, IValidationDescriptionApiService
 {
-    private readonly IValidationDescriptionService _validationDescriptionService;
+    private readonly IValidationDescriptionApiService _validationDescriptionService;
     /// <summary>
-    /// Initializes a new instance of the <see cref="IValidationDescriptionService"/> class.
+    /// Initializes a new instance of the <see cref="IValidationDescriptionApiService"/> class.
     /// </summary>
     /// <param name="validationDescriptionService">The validation description service.</param>
-    public ValidationDescriptionController(IValidationDescriptionService validationDescriptionService)
+    public ValidationDescriptionController(IValidationDescriptionApiService validationDescriptionService)
         => _validationDescriptionService = validationDescriptionService;
 
     /// <inheritdoc />

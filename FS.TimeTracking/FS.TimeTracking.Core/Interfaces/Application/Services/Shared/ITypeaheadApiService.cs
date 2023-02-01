@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 /// <summary>
 /// Service to get sources for typeahead fields
 /// </summary>
-public interface ITypeaheadService
+public interface ITypeaheadApiService
 {
     /// <summary>
     /// Gets the values for typeahead displaying <see cref="Customer.Title"/>.

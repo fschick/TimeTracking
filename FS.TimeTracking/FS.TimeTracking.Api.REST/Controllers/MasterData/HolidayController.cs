@@ -14,21 +14,21 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
-/// <inheritdoc cref="IHolidayService" />
+/// <inheritdoc cref="IHolidayApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IHolidayService" />
+/// <seealso cref="IHolidayApiService" />
 [ApiV1Controller]
 [Authorize(Policy = PermissionNames.MASTER_DATA_HOLIDAYS)]
 [ExcludeFromCodeCoverage]
-public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayService
+public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayApiService
 {
-    private readonly IHolidayService _holidayService;
+    private readonly IHolidayApiService _holidayService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HolidayController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public HolidayController(IHolidayService modelService)
+    public HolidayController(IHolidayApiService modelService)
         : base(modelService)
     {
         _holidayService = modelService;

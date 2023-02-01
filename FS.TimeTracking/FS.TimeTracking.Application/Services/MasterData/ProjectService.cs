@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
-/// <inheritdoc cref="IProjectService" />
-public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridDto>, IProjectService
+/// <inheritdoc cref="IProjectApiService" />
+public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridDto>, IProjectApiService
 {
     /// <inheritdoc />
     public ProjectService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)

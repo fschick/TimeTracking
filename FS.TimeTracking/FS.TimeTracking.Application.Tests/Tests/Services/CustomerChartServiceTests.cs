@@ -42,7 +42,7 @@ public class CustomerChartServiceTests
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IOrderChartService, OrderChartService>();
-        autoFake.Provide<ICustomerChartService, CustomerChartService>();
+        autoFake.Provide<ICustomerChartApiService, CustomerChartService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
@@ -50,7 +50,7 @@ public class CustomerChartServiceTests
         await dbRepository.SaveChanges();
 
         // Act
-        var customerChartService = autoFake.Resolve<ICustomerChartService>();
+        var customerChartService = autoFake.Resolve<ICustomerChartApiService>();
         var workTimesPerCustomer = await customerChartService.GetWorkTimesPerCustomer(testCase.Filters);
 
         // Check

@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared
 {
-    /// <inheritdoc cref="IDebugService" />
+    /// <inheritdoc cref="IDebugApiService" />
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    /// <seealso cref="IDebugService" />
+    /// <seealso cref="IDebugApiService" />
     [ApiV1Controller]
     [ExcludeFromCodeCoverage]
-    public class DebugController : ControllerBase, IDebugService
+    public class DebugController : ControllerBase, IDebugApiService
     {
-        private readonly IDebugService _debugService;
+        private readonly IDebugApiService _debugService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DebugController"/> class.
         /// </summary>
         /// <param name="debugService">The dev test service.</param>
-        public DebugController(IDebugService debugService)
+        public DebugController(IDebugApiService debugService)
             => _debugService = debugService;
 
         /// <inheritdoc />

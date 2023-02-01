@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 /// <summary>
 /// Service to read and persists settings
 /// </summary>
-public interface ISettingService
+public interface ISettingApiService
 {
     /// <summary>
     /// Gets the settings.

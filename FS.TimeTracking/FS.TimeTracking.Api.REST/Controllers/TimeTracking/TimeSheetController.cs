@@ -14,21 +14,21 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.TimeTracking;
 
-/// <inheritdoc cref="ITimeSheetService" />
+/// <inheritdoc cref="ITimeSheetApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ITimeSheetService" />
+/// <seealso cref="ITimeSheetApiService" />
 [ApiV1Controller]
 [Authorize]
 [ExcludeFromCodeCoverage]
-public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGridDto>, ITimeSheetService
+public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGridDto>, ITimeSheetApiService
 {
-    private readonly ITimeSheetService _timeSheetService;
+    private readonly ITimeSheetApiService _timeSheetService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TimeSheetController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public TimeSheetController(ITimeSheetService modelService)
+    public TimeSheetController(ITimeSheetApiService modelService)
         : base(modelService)
         => _timeSheetService = modelService;
 

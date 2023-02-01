@@ -23,15 +23,15 @@ namespace FS.TimeTracking.Api.REST.Controllers.Reporting;
 [Authorize]
 [FeatureGate(Features.Reporting)]
 [ExcludeFromCodeCoverage]
-public class ActivityReportController : ControllerBase, IActivityReportService
+public class ActivityReportController : ControllerBase, IActivityReportApiService
 {
-    private readonly IActivityReportService _activityReportService;
+    private readonly IActivityReportApiService _activityReportService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ActivityReportController"/> class.
     /// </summary>
     /// <param name="activityReportService">The activity report service.</param>
-    public ActivityReportController(IActivityReportService activityReportService)
+    public ActivityReportController(IActivityReportApiService activityReportService)
         => _activityReportService = activityReportService;
 
     /// <inheritdoc />

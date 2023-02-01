@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared
     /// <summary>
     /// Debug service
     /// </summary>
-    public interface IDebugService
+    public interface IDebugApiService
     {
         /// <summary>
         /// Debug tests method.

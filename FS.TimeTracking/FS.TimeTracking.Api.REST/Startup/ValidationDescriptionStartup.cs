@@ -14,7 +14,7 @@ internal static class ValidationDescriptionStartup
         if (string.IsNullOrWhiteSpace(outFile))
             throw new ArgumentException("No destination file for generated validation document given.");
 
-        var validationDescriptionService = host.Services.GetRequiredService<IValidationDescriptionService>();
+        var validationDescriptionService = host.Services.GetRequiredService<IValidationDescriptionApiService>();
         var validationSpec = await validationDescriptionService.GetValidationDescriptions();
         var outDirectory = Path.GetDirectoryName(outFile);
         if (outDirectory != null && !Directory.Exists(outDirectory))

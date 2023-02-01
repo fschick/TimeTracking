@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 /// <summary>
 /// Information services.
 /// </summary>
-public interface IInformationService
+public interface IInformationApiService
 {
     /// <summary>
     /// Gets the name, version and copyright of the product.

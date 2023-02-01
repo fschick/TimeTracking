@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 /// <summary>
 /// Customer specific chart service
 /// </summary>
-public interface ICustomerChartService
+public interface ICustomerChartApiService
 {
     /// <summary>
     /// Gets the work times grouped by customer.

@@ -53,8 +53,8 @@ public class TimeSheetServiceTests
 
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide(dbRepository);
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         // Act
         var stoppedTimeSheet = await timeSheetService.StopTimeSheetEntry(timeSheet.Id, DateTimeOffset.Now);
@@ -76,8 +76,8 @@ public class TimeSheetServiceTests
             .Returns(faker.TimeSheet.Create(Guid.Empty, Guid.Empty));
 
         autoFake.Provide(dbRepository);
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         // Act
         Func<Task> action = async () => await timeSheetService.StopTimeSheetEntry(default, default);
@@ -96,10 +96,10 @@ public class TimeSheetServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         var activityCustomer = faker.Customer.Create();
         var activity = faker.Activity.Create(activityCustomer.Id);
@@ -127,10 +127,10 @@ public class TimeSheetServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         var activity = faker.Activity.Create();
         var timeSheetCustomer = faker.Customer.Create();
@@ -155,10 +155,10 @@ public class TimeSheetServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         var project = faker.Project.Create();
         var timeSheetActivity = faker.Activity.Create();
@@ -184,10 +184,10 @@ public class TimeSheetServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         var projectCustomer = faker.Customer.Create();
         var project = faker.Project.Create(projectCustomer.Id);
@@ -216,10 +216,10 @@ public class TimeSheetServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
 
         var orderCustomer = faker.Customer.Create();
         var order = faker.Project.Create(orderCustomer.Id);
@@ -252,9 +252,9 @@ public class TimeSheetServiceTests
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IUserService, UserServiceInMemory>();
+        autoFake.Provide<IUserApiService, UserServiceInMemory>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<ITimeSheetService, TimeSheetService>();
+        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
@@ -262,12 +262,12 @@ public class TimeSheetServiceTests
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
-        var userService = autoFake.Resolve<IUserService>();
+        var userService = autoFake.Resolve<IUserApiService>();
         foreach (var user in testCase.Users)
             await userService.Create(user);
 
         // Act
-        var timeSheetService = autoFake.Resolve<ITimeSheetService>();
+        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
         var workDayOverview = await timeSheetService.GetWorkedDaysOverview(testCase.Filters);
 
         // Check

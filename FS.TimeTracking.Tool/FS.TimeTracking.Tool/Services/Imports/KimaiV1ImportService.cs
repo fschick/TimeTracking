@@ -18,12 +18,12 @@ namespace FS.TimeTracking.Tool.Services.Imports;
 public class KimaiV1ImportService : IKimaiV1ImportService
 {
     private readonly IDbRepository _dbRepository;
-    private readonly ITestDataService _testDataService;
+    private readonly ITestDataApiService _testDataService;
     private readonly IKimaiV1Repository _kimaiV1Repository;
     private readonly IMapper _mapper;
     private readonly KimaiV1ImportConfiguration _importConfiguration;
 
-    public KimaiV1ImportService(IDbRepository dbRepository, IKimaiV1Repository kimaiV1Repository, ITestDataService testDataService, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
+    public KimaiV1ImportService(IDbRepository dbRepository, IKimaiV1Repository kimaiV1Repository, ITestDataApiService testDataService, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
     {
         _dbRepository = dbRepository;
         _kimaiV1Repository = kimaiV1Repository;

@@ -9,19 +9,19 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
-/// <inheritdoc cref="IActivityService" />
+/// <inheritdoc cref="IActivityApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IActivityService" />
+/// <seealso cref="IActivityApiService" />
 [ApiV1Controller]
 [Authorize(Policy = PermissionNames.MASTER_DATA_ACTIVITIES)]
 [ExcludeFromCodeCoverage]
-public class ActivityController : CrudModelController<ActivityDto, ActivityGridDto>, IActivityService
+public class ActivityController : CrudModelController<ActivityDto, ActivityGridDto>, IActivityApiService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ActivityController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public ActivityController(IActivityService modelService)
+    public ActivityController(IActivityApiService modelService)
         : base(modelService)
     {
     }

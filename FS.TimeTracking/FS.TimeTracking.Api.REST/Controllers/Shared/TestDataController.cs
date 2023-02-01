@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared
 {
-    /// <inheritdoc cref="ITestDataService" />
+    /// <inheritdoc cref="ITestDataApiService" />
     /// <seealso cref="ControllerBase" />
-    /// <seealso cref="ITestDataService" />
+    /// <seealso cref="ITestDataApiService" />
     [ApiV1Controller]
     [Authorize]
     [ExcludeFromCodeCoverage]
-    public class TestDataController : ControllerBase, ITestDataService
+    public class TestDataController : ControllerBase, ITestDataApiService
     {
-        private readonly ITestDataService _testDataService;
+        private readonly ITestDataApiService _testDataService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestDataController"/> class.
         /// </summary>
         /// <param name="testDataService">The test data service.</param>
-        public TestDataController(ITestDataService testDataService)
+        public TestDataController(ITestDataApiService testDataService)
             => _testDataService = testDataService;
 
         /// <inheritdoc />

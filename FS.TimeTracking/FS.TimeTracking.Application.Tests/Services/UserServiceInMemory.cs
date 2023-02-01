@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Services;
 
-public class UserServiceInMemory : IUserService
+public class UserServiceInMemory : IUserApiService
 {
     private readonly IMapper _mapper;
     private readonly ConcurrentDictionary<Guid, UserDto> _users = new();

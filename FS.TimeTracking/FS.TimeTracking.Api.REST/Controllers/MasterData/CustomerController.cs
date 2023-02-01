@@ -9,19 +9,19 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
-/// <inheritdoc cref="ICustomerService" />
+/// <inheritdoc cref="ICustomerApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ICustomerService" />
+/// <seealso cref="ICustomerApiService" />
 [ApiV1Controller]
 [Authorize(Policy = PermissionNames.MASTER_DATA_CUSTOMERS)]
 [ExcludeFromCodeCoverage]
-public class CustomerController : CrudModelController<CustomerDto, CustomerGridDto>, ICustomerService
+public class CustomerController : CrudModelController<CustomerDto, CustomerGridDto>, ICustomerApiService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomerController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public CustomerController(ICustomerService modelService)
+    public CustomerController(ICustomerApiService modelService)
         : base(modelService)
     {
     }

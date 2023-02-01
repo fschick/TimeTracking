@@ -45,7 +45,7 @@ public class ActivityChartServiceTests
         autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<IActivityChartService, ActivityChartService>();
+        autoFake.Provide<IActivityChartApiService, ActivityChartService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
@@ -53,7 +53,7 @@ public class ActivityChartServiceTests
         await dbRepository.SaveChanges();
 
         // Act
-        var activityChartService = autoFake.Resolve<IActivityChartService>();
+        var activityChartService = autoFake.Resolve<IActivityChartApiService>();
         var workTimePerIssue = await activityChartService.GetWorkTimesPerActivity(FakeFilters.Empty());
 
         // Check
@@ -71,10 +71,10 @@ public class ActivityChartServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityService, ActivityService>();
+        autoFake.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityService>();
+        var activityService = autoFake.Resolve<IActivityApiService>();
 
         var projectCustomer = faker.Customer.Create();
         var project = faker.Project.Create(projectCustomer.Id);
@@ -103,10 +103,10 @@ public class ActivityChartServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityService, ActivityService>();
+        autoFake.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityService>();
+        var activityService = autoFake.Resolve<IActivityApiService>();
 
         var project = faker.Project.Create();
 
@@ -133,10 +133,10 @@ public class ActivityChartServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityService, ActivityService>();
+        autoFake.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityService>();
+        var activityService = autoFake.Resolve<IActivityApiService>();
 
         var activity = faker.Activity.Create();
         await dbRepository.AddRange(new List<IIdEntityModel> { activity });
@@ -168,10 +168,10 @@ public class ActivityChartServiceTests
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityService, ActivityService>();
+        autoFake.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityService>();
+        var activityService = autoFake.Resolve<IActivityApiService>();
 
         var activity = faker.Activity.Create();
         await dbRepository.AddRange(new List<IIdEntityModel> { activity });

@@ -1,7 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Models.Filter;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +7,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 
 /// <inheritdoc />
-public interface IUserService : ICrudModelService<Guid, UserDto, UserGridDto>
+public interface IUserService : IUserApiService
 {
     /// <summary>
     /// Gets items filtered.

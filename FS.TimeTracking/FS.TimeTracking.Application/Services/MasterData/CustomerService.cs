@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
-/// <inheritdoc cref="ICustomerService" />
-public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerGridDto>, ICustomerService
+/// <inheritdoc cref="ICustomerApiService" />
+public class CustomerService : CrudModelService<Customer, CustomerDto, CustomerGridDto>, ICustomerApiService
 {
     /// <inheritdoc />
     public CustomerService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)

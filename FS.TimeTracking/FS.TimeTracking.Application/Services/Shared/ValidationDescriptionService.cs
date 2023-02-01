@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
-public class ValidationDescriptionService<TModelAssembly, TConverterAssembly> : IValidationDescriptionService
+public class ValidationDescriptionService<TModelAssembly, TConverterAssembly> : IValidationDescriptionApiService
 {
     internal readonly IValidationDescriptionConverter[] ValidationDescriptionConverters = GetValidationDescriptionConverters();
 

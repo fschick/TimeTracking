@@ -15,7 +15,7 @@ using TimeZoneConverter;
 namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
-public class TestDataService : ITestDataService
+public class TestDataService : ITestDataApiService
 {
     private readonly IDbRepository _dbRepository;
     private readonly IWorkdayService _workDaysService;

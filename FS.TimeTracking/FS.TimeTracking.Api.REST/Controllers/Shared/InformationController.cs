@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Shared;
 
-/// <inheritdoc cref="IInformationService" />
+/// <inheritdoc cref="IInformationApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IInformationService" />
+/// <seealso cref="IInformationApiService" />
 [ApiV1Controller]
 [ExcludeFromCodeCoverage]
-public class InformationController : ControllerBase, IInformationService
+public class InformationController : ControllerBase, IInformationApiService
 {
-    private readonly IInformationService _informationService;
+    private readonly IInformationApiService _informationService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InformationController"/> class.
     /// </summary>
     /// <param name="informationService">The information service.</param>
-    public InformationController(IInformationService informationService)
+    public InformationController(IInformationApiService informationService)
         => _informationService = informationService;
 
     /// <inheritdoc />

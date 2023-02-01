@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Services.Shared;
 
 /// <inheritdoc />
-public class InformationService : IInformationService
+public class InformationService : IInformationApiService
 {
     private readonly IMapper _mapper;
     private readonly TimeTrackingConfiguration _configuration;

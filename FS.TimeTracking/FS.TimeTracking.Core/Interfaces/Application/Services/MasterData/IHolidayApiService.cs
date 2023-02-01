@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 
 /// <inheritdoc />
-public interface IHolidayService : ICrudModelService<Guid, HolidayDto, HolidayGridDto>
+public interface IHolidayApiService : ICrudModelService<Guid, HolidayDto, HolidayGridDto>
 {
     /// <summary>
     /// Imports holidays/public holidays from iCal file.

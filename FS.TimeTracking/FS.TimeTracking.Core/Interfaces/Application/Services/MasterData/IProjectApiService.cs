@@ -5,6 +5,6 @@ using System;
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 
 /// <inheritdoc />
-public interface IActivityService : ICrudModelService<Guid, ActivityDto, ActivityGridDto>
+public interface IProjectApiService : ICrudModelService<Guid, ProjectDto, ProjectGridDto>
 {
 }

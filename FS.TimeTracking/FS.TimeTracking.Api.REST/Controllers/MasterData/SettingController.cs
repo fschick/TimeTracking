@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 
-/// <inheritdoc cref="ISettingService" />
+/// <inheritdoc cref="ISettingApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="ISettingService" />
+/// <seealso cref="ISettingApiService" />
 [ApiV1Controller]
 [Authorize]
 [ExcludeFromCodeCoverage]
-public class SettingController : ISettingService
+public class SettingController : ISettingApiService
 {
-    private readonly ISettingService _modelService;
+    private readonly ISettingApiService _modelService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingController"/> class.
     /// </summary>
     /// <param name="modelService">The model service.</param>
-    public SettingController(ISettingService modelService)
+    public SettingController(ISettingApiService modelService)
         => _modelService = modelService;
 
     /// <inheritdoc />

@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Application.Services.Shared;
 /// <inheritdoc />
 public class WorkdayService : IWorkdayService
 {
-    private readonly ISettingService _settingService;
+    private readonly ISettingApiService _settingService;
     private readonly AsyncLazy<List<Holiday>> _holidays;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class WorkdayService : IWorkdayService
     /// </summary>
     /// <param name="dbRepository">The repository.</param>
     /// <param name="settingService">The setting service.</param>
-    public WorkdayService(IDbRepository dbRepository, ISettingService settingService)
+    public WorkdayService(IDbRepository dbRepository, ISettingApiService settingService)
     {
         _settingService = settingService;
         _holidays = new AsyncLazy<List<Holiday>>(async () => await dbRepository.Get((Holiday x) => x));

@@ -23,8 +23,8 @@ public class ValidationDescriptionServiceTests
     {
         // Prepare
         using var autoFake = new AutoFake();
-        autoFake.Provide<IValidationDescriptionService, ValidationDescriptionService<ValidationTestDto, RequiredValidationConverter>>();
-        var validationDescriptionService = autoFake.Resolve<IValidationDescriptionService>();
+        autoFake.Provide<IValidationDescriptionApiService, ValidationDescriptionService<ValidationTestDto, RequiredValidationConverter>>();
+        var validationDescriptionService = autoFake.Resolve<IValidationDescriptionApiService>();
 
         // Act
         var validationDescriptions = await validationDescriptionService.GetValidationDescriptions();

@@ -40,7 +40,7 @@ public class IssueChartServiceTests
         autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<IIssueChartService, IssueChartService>();
+        autoFake.Provide<IIssueChartApiService, IssueChartService>();
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
@@ -48,7 +48,7 @@ public class IssueChartServiceTests
         await dbRepository.SaveChanges();
 
         // Act
-        var issueChartService = autoFake.Resolve<IIssueChartService>();
+        var issueChartService = autoFake.Resolve<IIssueChartApiService>();
         var workTimePerIssue = await issueChartService.GetWorkTimesPerIssue(FakeFilters.Empty());
 
         // Check

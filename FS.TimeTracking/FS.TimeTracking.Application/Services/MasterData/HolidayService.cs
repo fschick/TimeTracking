@@ -18,8 +18,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.MasterData;
 
-/// <inheritdoc cref="IHolidayService" />
-public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridDto>, IHolidayService
+/// <inheritdoc cref="IHolidayApiService" />
+public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridDto>, IHolidayApiService
 {
     /// <inheritdoc />
     public HolidayService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
