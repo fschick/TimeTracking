@@ -1,8 +1,8 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Enums;
+﻿using FS.FilterExpressionCreator.Enums;
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Core.Constants;
+using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Models.Application.Chart;
@@ -11,10 +11,8 @@ using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.Extensions.Options;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace FS.TimeTracking.Application.Services.Shared;
 
@@ -151,7 +149,7 @@ public class FilterFactory : IFilterFactory
         var workedTimesFilter = await CreateTimeSheetFilter(filters);
         var plannedTimesFilter = await CreateOrderFilter(filters);
 
-        var selectedPeriodForFilter = await GetSelectedPeriod(filters);
+        var selectedPeriodForFilter = await filters.GetSelectedPeriod();
 
         if (selectedPeriodForFilter.Start != DateOffset.MinDate)
             plannedTimesFilter = plannedTimesFilter
@@ -161,45 +159,7 @@ public class FilterFactory : IFilterFactory
             plannedTimesFilter = plannedTimesFilter
                 .Replace(x => x.StartDate, FilterOperator.LessThan, selectedPeriodForFilter.End);
 
-        var selectedPeriod = await GetSelectedPeriod(filters, true);
+        var selectedPeriod = await filters.GetSelectedPeriod(true);
         return new ChartFilter(workedTimesFilter, plannedTimesFilter, selectedPeriod);
-    }
-
-    /// <inheritdoc />
-    public Task<Range<DateTimeOffset>> GetSelectedPeriod(TimeSheetFilterSet filters, bool endDateExclusive = false)
-    {
-        var startDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.StartDate);
-        var endDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.EndDate);
-
-        var startDate = endDateFilter != null
-            ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateOffset.MinDate;
-
-        var endDate = startDateFilter != null
-            ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
-            : DateOffset.MaxDate; // Let space for timezone conversions.
-
-        if (endDate != DateOffset.MaxDate && endDateExclusive)
-            endDate = endDate.AddDays(-1);
-
-        return Task.FromResult(new Range<DateTimeOffset>(startDate, endDate));
-    }
-
-    /// <inheritdoc />
-    public Task<string> ToQueryParams(TimeSheetFilterSet filters, params (string key, string value)[] additionalParameters)
-    {
-        var filterParameters = new[]
-        {
-            filters.TimeSheetFilter.ToQueryParams(),
-            filters.ProjectFilter.ToQueryParams(),
-            filters.CustomerFilter.ToQueryParams(),
-            filters.ActivityFilter.ToQueryParams(),
-            filters.OrderFilter.ToQueryParams(),
-            filters.HolidayFilter.ToQueryParams(),
-        };
-
-        var additionalParams = additionalParameters.Select(param => $"{HttpUtility.UrlEncode(param.key)}={HttpUtility.UrlEncode(param.value)}");
-        var keyValuePairs = filterParameters.Concat(additionalParams).Where(x => !string.IsNullOrWhiteSpace(x));
-        return Task.FromResult(string.Join('&', keyValuePairs));
     }
 }

@@ -105,7 +105,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
             )
             .FirstOrDefaultAsync();
 
-        var selectedPeriod = await FilterFactory.GetSelectedPeriod(filters, true);
+        var selectedPeriod = await filters.GetSelectedPeriod(true);
         selectedPeriod = await AlignPeriodToAvailableData(selectedPeriod, dbMinMaxTotal?.MinStart, dbMinMaxTotal?.MaxEnd);
         var workDays = await _workdayService.GetWorkdays(selectedPeriod, cancellationToken);
 

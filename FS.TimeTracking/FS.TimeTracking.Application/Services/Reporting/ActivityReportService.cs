@@ -83,7 +83,7 @@ public class ActivityReportService : IActivityReportApiService
             .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetDetailedActivityReport))
             .RelativePath;
 
-        var queryParams = _filterFactory.ToQueryParams(filters, ("language", language));
+        var queryParams = filters.ToQueryParams(("language", language));
 
         var dailyReportDownloadUrl = $"{dailyActivityReportUrl}?{queryParams}";
 
@@ -173,7 +173,7 @@ public class ActivityReportService : IActivityReportApiService
     /// <inheritdoc />
     public async Task<ActivityReportDto> GetActivityReportData(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
     {
-        var selectedPeriod = await _filterFactory.GetSelectedPeriod(filters, true);
+        var selectedPeriod = await filters.GetSelectedPeriod(true);
         var settings = await _settingService.GetSettings(cancellationToken);
         var parameters = new ReportParameterDto
         {
