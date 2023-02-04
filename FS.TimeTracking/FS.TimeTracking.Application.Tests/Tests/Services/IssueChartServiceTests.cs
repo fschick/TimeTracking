@@ -76,9 +76,9 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "TwoIssues2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(faker, customer, activity, "IssueA"),
-                    CreateTimeSheet(faker, customer, activity, "IssueA"),
-                    CreateTimeSheet(faker, customer, activity, "IssueB"),
+                    CreateTimeSheet(customer, activity, "IssueA", faker),
+                    CreateTimeSheet(customer, activity, "IssueA", faker),
+                    CreateTimeSheet(customer, activity, "IssueB", faker),
                 },
                 Expected = new List<object>
                 {
@@ -91,8 +91,8 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
                 Identifier = "NoIssues",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(faker, customer, activity, string.Empty),
-                    CreateTimeSheet(faker, customer, activity, string.Empty),
+                    CreateTimeSheet(customer, activity, string.Empty, faker),
+                    CreateTimeSheet(customer, activity, string.Empty, faker),
                 },
                 Expected = new List<object> {
                     new { Issue = string.Empty, TimeWorked = TimeSpan.FromHours(2) }
@@ -106,7 +106,7 @@ public class WorkTimesPerIssueDataSourceAttribute : TestCaseDataSourceAttribute
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity, string issue)
+    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, string issue, Faker faker)
         => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset("2020-06-01 03:00"), faker.DateTime.Offset("2020-06-01 04:00"), issue: issue);
 }
 

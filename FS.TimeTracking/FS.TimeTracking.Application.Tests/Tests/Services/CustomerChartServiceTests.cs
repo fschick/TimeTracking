@@ -64,7 +64,7 @@ public class CustomerChartServiceTests
     }
 }
 
-public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribute, ITestDataSource
+public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribute
 {
     public WorkTimesPerCustomerDataSourceAttribute() : base(GetTestCases()) { }
 
@@ -94,8 +94,8 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
                 MasterData = new List<IIdEntityModel> { activity, customer2, order2A },
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(faker, customer2, activity, order2A, "2020-03-01 08:00", "2020-03-01 12:00"),
-                    CreateTimeSheet(faker, customer2, activity, null,    "2020-03-01 08:00", "2020-03-01 12:00"),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 12:00", customer2, activity, order2A, faker),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 12:00", customer2, activity,    null, faker),
                 },
                 Expected = new List<object>
                 {
@@ -128,7 +128,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(faker, customer1, activity, order1A, "2020-07-01 08:00", "2020-07-01 16:00"),
+                    CreateTimeSheet("2020-07-01 08:00", "2020-07-01 16:00", customer1, activity, order1A, faker),
                 },
                 Filters = faker.Filters.Create("<2020-08-01", ">=2020-07-01"),
                 Expected = new List<object>
@@ -155,7 +155,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(faker, customer1, activity, order1A, "2021-02-01 08:00", "2021-02-01 16:00"),
+                    CreateTimeSheet("2021-02-01 08:00", "2021-02-01 16:00", customer1, activity, order1A, faker),
                 },
                 Filters = faker.Filters.Create("<2022-01-01", ">=2021-01-01"),
                 Expected = new List<object>
@@ -209,15 +209,15 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet>
                 {
-                    CreateTimeSheet(faker, customer1, activity, order1A, "2020-03-01 08:00", "2020-03-01 16:00"),
-                    CreateTimeSheet(faker, customer1, activity, null,    "2020-03-01 08:00", "2020-03-01 16:00"),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 16:00", customer1, activity, order1A, faker),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 16:00", customer1, activity,    null, faker),
 
-                    CreateTimeSheet(faker, customer2, activity, order2A, "2020-03-01 08:00", "2020-03-01 12:00"),
-                    CreateTimeSheet(faker, customer2, activity, order2B, "2020-03-01 08:00", "2020-03-01 12:00"),
-                    CreateTimeSheet(faker, customer2, activity, null,    "2020-03-01 08:00", "2020-03-01 16:00"),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 12:00", customer2, activity, order2A, faker),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 12:00", customer2, activity, order2B, faker),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 16:00", customer2, activity,    null, faker),
 
-                    CreateTimeSheet(faker, customer3, activity, order3A, "2020-03-01 08:00", "2020-03-01 16:00"),
-                    CreateTimeSheet(faker, customer3, activity, null,    "2020-03-01 08:00", "2020-03-01 16:00"),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 16:00", customer3, activity, order3A, faker),
+                    CreateTimeSheet("2020-03-01 08:00", "2020-03-01 16:00", customer3, activity,    null, faker),
                 },
                 Expected = new List<object>
                 {
@@ -236,7 +236,7 @@ public class WorkTimesPerCustomerDataSourceAttribute : TestCaseDataSourceAttribu
         return testCases;
     }
 
-    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity, Order order, string startDate, string endDate)
+    private static TimeSheet CreateTimeSheet(string startDate, string endDate, Customer customer, Activity activity, Order order, Faker faker)
         => faker.TimeSheet.Create(customer.Id, activity.Id, null, order?.Id, faker.DateTime.Offset(startDate), faker.DateTime.Offset(endDate));
 }
 

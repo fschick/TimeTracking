@@ -215,9 +215,9 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
                 Identifier = "TwoActivities2And1Third",
                 MasterData = masterData,
                 TimeSheets = new List<TimeSheet> {
-                    CreateTimeSheet(faker, customer, activity1),
-                    CreateTimeSheet(faker, customer, activity1),
-                    CreateTimeSheet(faker, customer, activity2),
+                    CreateTimeSheet(customer, activity1, faker),
+                    CreateTimeSheet(customer, activity1, faker),
+                    CreateTimeSheet(customer, activity2, faker),
                 },
                 Expected = new List<object>
                 {
@@ -233,7 +233,7 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
         };
     }
 
-    private static TimeSheet CreateTimeSheet(Faker faker, Customer customer, Activity activity)
+    private static TimeSheet CreateTimeSheet(Customer customer, Activity activity, Faker faker)
         => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset("2020-06-01 03:00"), faker.DateTime.Offset("2020-06-01 04:00"));
 }
 

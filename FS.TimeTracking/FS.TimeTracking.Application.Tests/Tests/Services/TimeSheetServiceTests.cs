@@ -252,7 +252,7 @@ public class TimeSheetServiceTests
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IUserApiService, UserServiceInMemory>();
+        autoFake.Provide<IUserService, UserServiceInMemory>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -262,7 +262,7 @@ public class TimeSheetServiceTests
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
-        var userService = autoFake.Resolve<IUserApiService>();
+        var userService = autoFake.Resolve<IUserService>();
         foreach (var user in testCase.Users)
             await userService.Create(user);
 
@@ -295,7 +295,7 @@ public class TimeSheetServiceTests
                 {
                     Identifier = "NoPublicHolidaysNoVacation",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1) },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker) },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 1, PublicWorkdays = 1 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -303,8 +303,8 @@ public class TimeSheetServiceTests
                     Identifier = "NoPublicHolidaysButVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Holidays = new List<Holiday> { faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.Holiday)  },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 2, PublicWorkdays = 3 },
@@ -314,8 +314,8 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysButNoVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Holidays = new List<Holiday> { faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday)  },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 2, PublicWorkdays = 2 },
@@ -325,8 +325,8 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysSameDayVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Holidays = new List<Holiday> {
                         faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
@@ -339,8 +339,8 @@ public class TimeSheetServiceTests
                     Identifier = "PublicHolidaysOverlappingVacation",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Holidays = new List<Holiday> {
                         faker.Holiday.Create("2020-06-02", "2020-06-02", HolidayType.PublicHoliday),
@@ -359,8 +359,8 @@ public class TimeSheetServiceTests
                     Identifier = "CutFirstByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Filters = faker.Filters.Create("<2020-06-04", ">=2020-06-02"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
@@ -370,8 +370,8 @@ public class TimeSheetServiceTests
                     Identifier = "CutLastByFilter",
                     MasterData = masterData,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user1),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user1, faker),
                     },
                     Filters = faker.Filters.Create("<2020-06-03", ">=2020-06-01"),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 2, PublicWorkdays = 2 },
@@ -380,21 +380,21 @@ public class TimeSheetServiceTests
                 {
                     Identifier = "BeforeStartOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-03-28 00:30", "2020-03-28 03:30", faker, customer, activity, user1) },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-03-28 00:30", "2020-03-28 03:30", customer, activity, user1, faker) },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(3), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "WhileStartOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-03-29 00:30", "2020-03-29 03:30", faker, customer, activity, user1) },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-03-29 00:30", "2020-03-29 03:30", customer, activity, user1, faker) },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(2), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
                 {
                     Identifier = "WhileEndOfDaylightSavingTime",
                     MasterData = masterData,
-                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-10-25 00:30", "2020-10-25 03:30", faker, customer, activity, user1) },
+                    TimeSheets = new List<TimeSheet> { CreateTimeSheet("2020-10-25 00:30", "2020-10-25 03:30", customer, activity, user1, faker) },
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(4), PersonalWorkdays = 0, PublicWorkdays = 0 },
                 },
                 new WorkedDaysOverviewTestCase
@@ -403,8 +403,8 @@ public class TimeSheetServiceTests
                     MasterData = masterData,
                     Users = users,
                     TimeSheets = new List<TimeSheet> {
-                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", faker, customer, activity, user1),
-                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", faker, customer, activity, user2),
+                        CreateTimeSheet("2020-06-01 03:00", "2020-06-01 04:00", customer, activity, user1, faker),
+                        CreateTimeSheet("2020-06-03 03:00", "2020-06-03 04:00", customer, activity, user2, faker),
                     },
                     Filters = faker.Filters.Create(user1),
                     Expected = new { TotalTimeWorked = TimeSpan.FromHours(1), PersonalWorkdays = 1, PublicWorkdays = 1 },
@@ -412,7 +412,7 @@ public class TimeSheetServiceTests
             };
         }
 
-        public static TimeSheet CreateTimeSheet(string startDate, string endDate, Faker faker, Customer customer, Activity activity, UserDto user)
+        public static TimeSheet CreateTimeSheet(string startDate, string endDate, Customer customer, Activity activity, UserDto user, Faker faker)
             => faker.TimeSheet.Create(customer.Id, activity.Id, null, null, faker.DateTime.Offset(startDate), faker.DateTime.Offset(endDate), null, user.Id);
     }
 
