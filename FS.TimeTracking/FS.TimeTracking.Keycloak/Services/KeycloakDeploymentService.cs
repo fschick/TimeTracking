@@ -21,6 +21,7 @@ namespace FS.TimeTracking.Keycloak.Services;
 public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 {
     private const string DEFAULT_USER_NAME = "admin";
+    private const string DEFAULT_PASSWORD = "admin";
 
     private readonly TimeTrackingConfiguration _configuration;
     private readonly KeycloakConfiguration _keycloakConfiguration;
@@ -156,7 +157,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
             {
                 new() {
                     Type = "password",
-                    Value = DEFAULT_USER_NAME,
+                    Value = DEFAULT_PASSWORD,
                     Temporary = true,
                 },
             },
@@ -164,7 +165,8 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
         await _keycloakRepository.CreateUser(realm, user, cancellationToken);
 
-        var createdUser = await _keycloakRepository.GetUsers(realm, username: user.Username, cancellationToken: cancellationToken)
+        var createdUser = await _keycloakRepository
+            .GetUsers(realm, username: user.Username, cancellationToken: cancellationToken)
             .FirstAsync();
 
         return Guid.Parse(createdUser.Id);

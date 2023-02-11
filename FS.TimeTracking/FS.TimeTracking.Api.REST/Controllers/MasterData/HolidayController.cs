@@ -36,6 +36,7 @@ public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>
 
     /// <inheritdoc />
     [HttpPost]
+    [Authorize(Roles = RoleNames.MASTER_DATA_HOLIDAYS_MANAGE)]
     public async Task Import([Required] IFormFile file, [Required] HolidayType type, CancellationToken cancellationToken = default)
         => await _holidayService.Import(file, type, cancellationToken);
 }

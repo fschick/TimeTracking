@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Core.Models.Application.MasterData;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class Holiday : IIdEntityModel
+public class Holiday : IIdEntityModel, IUserRelatedModel
 {
     /// <inheritdoc />
     [Required]

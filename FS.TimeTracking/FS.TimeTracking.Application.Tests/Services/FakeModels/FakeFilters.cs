@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-namespace FS.TimeTracking.Application.Tests.Services;
+namespace FS.TimeTracking.Application.Tests.Services.FakeModels;
 
 [ExcludeFromCodeCoverage]
 public class FakeFilters

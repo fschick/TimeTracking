@@ -46,6 +46,11 @@ public enum ApplicationErrorCode
     BadRequestConformityViolation = 40001,
 
     /// <summary>
+    /// Current user is not allowed to modify data from other users.
+    /// </summary>
+    ForbiddenForeignUserData = 40301,
+
+    /// <summary>
     /// A foreign key violation has occurred.
     /// </summary>
     ConflictForeignKeyViolation = 40901,
@@ -69,4 +74,14 @@ public enum ApplicationErrorCode
     /// A user with same user name or email already exists.
     /// </summary>
     ConflictUserWithSameUsernameExists = 40905,
+
+    /// <summary>
+    /// A user is not allowed to delete itself.
+    /// </summary>
+    ConflictUserNotAllowedToDeleteItself = 40906,
+
+    /// <summary>
+    /// A user is not allowed to remove the user edit permission from itself.
+    /// </summary>
+    ConflictUserNotAllowedToRemoveUserEditPermissionFromItself = 40907,
 }

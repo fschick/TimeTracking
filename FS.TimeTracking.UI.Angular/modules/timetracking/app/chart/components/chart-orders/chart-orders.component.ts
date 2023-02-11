@@ -72,6 +72,7 @@ export class ChartOrdersComponent implements OnInit, OnDestroy {
       {name: 'activityId', showHidden: true},
       {name: 'timeSheetIssue'},
       {name: 'timeSheetBillable', isPrimary: true, defaultValue: true},
+      {name: 'userId'},
     ];
 
     this.chartOptions = this.chartService.createChartOptions();

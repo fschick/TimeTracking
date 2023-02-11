@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Api.REST.Extensions;
 using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FS.TimeTracking.Api.REST.Startup;
@@ -58,39 +60,38 @@ internal static class RestApiStartup
         services.
             AddAuthorization(options =>
             {
-                foreach (var policyName in PermissionNames.CrudServicePolicyPermissions)
-                    options.AddPolicy(policyName, CreateCrudServicePolicy(policyName));
+                foreach (var permissionName in PermissionNames.CrudServicePermissionNames)
+                    options.ExtendPolicy(permissionName, policy => ConfigureCrudServicePolicy(policy, permissionName));
             });
 
         return services;
     }
 
-    private static Action<AuthorizationPolicyBuilder> CreateCrudServicePolicy(string policyName)
-        => policy =>
+    private static void ConfigureCrudServicePolicy(AuthorizationPolicyBuilder policy, string policyName)
+    {
+        policy.RequireAssertion(context =>
         {
-            policy.RequireAssertion(context =>
-            {
-                var httpContext = context.Resource as HttpContext;
-                var endpoint = httpContext?.GetEndpoint();
-                var actionDescriptor = endpoint?.Metadata.GetMetadata<ControllerActionDescriptor>();
-                if (actionDescriptor == null || !actionDescriptor.IsCrudModelService())
-                    throw new InvalidOperationException("Policy can only be applied to controllers implements interface 'ICrudModelService'.");
+            var httpContext = context.Resource as HttpContext;
+            var endpoint = httpContext?.GetEndpoint();
+            var actionDescriptor = endpoint?.Metadata.GetMetadata<ControllerActionDescriptor>();
+            if (actionDescriptor == null || !actionDescriptor.IsCrudModelService())
+                throw new InvalidOperationException("Policy can only be applied to controllers implements interface 'ICrudModelService'.");
 
-                switch (actionDescriptor.ActionName)
-                {
-                    case nameof(ICrudModelService<int, int, int>.Get):
-                    case nameof(ICrudModelService<int, int, int>.GetGridFiltered):
-                    case nameof(ICrudModelService<int, int, int>.GetGridItem):
-                        return context.User.IsInRole($"{policyName}-{ScopeNames.VIEW}");
-                    case nameof(ICrudModelService<int, int, int>.Create):
-                    case nameof(ICrudModelService<int, int, int>.Update):
-                    case nameof(ICrudModelService<int, int, int>.Delete):
-                        return context.User.IsInRole($"{policyName}-{ScopeNames.MANAGE}");
-                    default:
-                        return true;
-                }
-            });
-        };
+            switch (actionDescriptor.ActionName)
+            {
+                case nameof(ICrudModelService<object, object, object>.Get):
+                case nameof(ICrudModelService<object, object, object>.GetGridFiltered):
+                case nameof(ICrudModelService<object, object, object>.GetGridItem):
+                    return context.User.IsInRole($"{policyName}-{ScopeNames.VIEW}");
+                case nameof(ICrudModelService<object, object, object>.Create):
+                case nameof(ICrudModelService<object, object, object>.Update):
+                case nameof(ICrudModelService<object, object, object>.Delete):
+                    return context.User.IsInRole($"{policyName}-{ScopeNames.MANAGE}");
+                default:
+                    return true;
+            }
+        });
+    }
 
     private static bool IsCrudModelService(this ControllerActionDescriptor action)
         => action.ControllerTypeInfo.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICrudModelService<,,>));

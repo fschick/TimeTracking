@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 
@@ -11,12 +12,28 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 public record WorkdaysDto
 {
     /// <summary>
-    /// Public workdays.
+    /// Public workdays per user.
     /// </summary>
-    public List<DateTime> PublicWorkdays { get; set; }
+    public Dictionary<Guid, List<DateTime>> PublicWorkdays { get; set; }
 
     /// <summary>
-    /// Workdays taking individual leave into account.
+    /// Personal workdays per user (taking into account individual vacation).
     /// </summary>
-    public List<DateTime> PersonalWorkdays { get; set; }
+    public Dictionary<Guid, List<DateTime>> PersonalWorkdays { get; set; }
+
+    /// <summary>
+    /// Public workdays for all users.
+    /// </summary>
+    public List<DateTime> PublicWorkdaysOfAllUsers
+        => PublicWorkdays
+            .SelectMany(x => x.Value)
+            .ToList();
+
+    /// <summary>
+    /// Personal workdays for all users.
+    /// </summary>
+    public List<DateTime> PersonalWorkdaysOfAllUsers
+        => PersonalWorkdays
+            .SelectMany(x => x.Value)
+            .ToList();
 }

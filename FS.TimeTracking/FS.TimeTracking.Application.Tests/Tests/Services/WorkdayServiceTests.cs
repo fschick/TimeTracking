@@ -1,9 +1,11 @@
 ﻿using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
-using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Enums;
+using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Application.Tests.Services;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
@@ -18,7 +20,7 @@ namespace FS.TimeTracking.Application.Tests.Tests.Services;
 [TestClass, ExcludeFromCodeCoverage]
 public class WorkdayServiceTests
 {
-    private readonly List<HolidayDto> _holidays = new()
+    private readonly List<Holiday> _holidays = new()
     {
         new() { StartDate = new DateTime(2000, 01, 01), EndDate = new DateTime(2000, 01, 01), Title = "New Year", Type = HolidayType.PublicHoliday },
         new() { StartDate = new DateTime(2000, 01, 06), EndDate = new DateTime(2000, 01, 06), Title = "Epiphany", Type = HolidayType.PublicHoliday },
@@ -33,20 +35,23 @@ public class WorkdayServiceTests
     public async Task WhenWorkdaysRequested_PublicAndPersonalWorkdaysMatchExpected(DateTime start, DateTime end, int publicWorkdays, int personalWorkdays)
     {
         using var autoFake = new AutoFake();
+        var faker = new Faker(2000, autoFake);
 
         var dbRepository = autoFake.Resolve<IDbRepository>();
-        A.CallTo(() => dbRepository.Get<Holiday, HolidayDto>(default, default, default, default, default, default, default, default))
+        A.CallTo(() => dbRepository.Get<Holiday, Holiday>(default, default, default, default, default, default, default, default, default))
             .WithAnyArguments()
             .Returns(Task.FromResult(_holidays));
 
         autoFake.Provide(dbRepository);
-        autoFake.Provide<IWorkdayService, WorkdayService>();
+        autoFake.Provide(faker.KeycloakRepository.Create());
+        autoFake.Provide(faker.AuthorizationService.Create());
+        autoFake.Provide<IUserService, UserService>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
 
         var workdayService = autoFake.Resolve<IWorkdayService>();
-        var workDays = await workdayService.GetWorkdays(start, end);
-        workDays.PublicWorkdays.Should().HaveCount(publicWorkdays);
-        workDays.PersonalWorkdays.Should().HaveCount(personalWorkdays);
+        var workDays = await workdayService.GetWorkdays(null, start, end);
+        workDays.PublicWorkdaysOfAllUsers.Should().HaveCount(publicWorkdays);
+        workDays.PersonalWorkdaysOfAllUsers.Should().HaveCount(personalWorkdays);
         await Task.Delay(0);
     }
 

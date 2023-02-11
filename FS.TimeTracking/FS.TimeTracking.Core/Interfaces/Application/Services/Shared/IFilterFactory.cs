@@ -1,4 +1,5 @@
 ﻿using FS.FilterExpressionCreator.Filters;
+using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
@@ -47,6 +48,12 @@ public interface IFilterFactory
     /// </summary>
     /// <param name="filters">Filters used to create result.</param>
     Task<EntityFilter<Holiday>> CreateHolidayFilter(TimeSheetFilterSet filters);
+
+    /// <summary>
+    /// Creates the filter for <see cref="UserDto"/>.
+    /// </summary>
+    /// <param name="filters">Filters used to create result.</param>
+    public Task<EntityFilter<UserDto>> CreateUserFilter(TimeSheetFilterSet filters);
 
     /// <summary>
     /// Creates a new chart filter.

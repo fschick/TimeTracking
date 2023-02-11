@@ -1,12 +1,15 @@
 ﻿using Autofac.Extras.FakeItEasy;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Tests.Attributes;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Models;
 using FS.TimeTracking.Application.Tests.Services;
+using FS.TimeTracking.Application.Tests.Services.FakeModels;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Models;
@@ -34,12 +37,15 @@ public class OrderChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerOrderTestCase>(testCaseJson);
 
-        var faker = new Faker(2000);
         using var autoFake = new AutoFake();
+        var faker = new Faker(2000, autoFake);
         await autoFake.ConfigureInMemoryDatabase();
         autoFake.Provide(faker.AutoMapper);
         autoFake.Provide<IFilterFactory, FilterFactory>();
         autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
+        autoFake.Provide(faker.KeycloakRepository.Create());
+        autoFake.Provide(faker.AuthorizationService.Create());
+        autoFake.Provide<IUserService, UserService>();
         autoFake.Provide<IWorkdayService, WorkdayService>();
         autoFake.Provide<IOrderChartApiService, OrderChartService>();
 

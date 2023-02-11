@@ -29,6 +29,15 @@ internal class ExceptionToHttpResultFilter : IExceptionFilter
     {
         switch (context.Exception)
         {
+            case ForbiddenException forbiddenException:
+                _logger.LogWarning(context.Exception, "Unauthorized data request.");
+                var forbiddenError = new ApplicationError
+                {
+                    Code = forbiddenException.ErrorCode ?? ApplicationErrorCode.BadRequestConformityViolation,
+                    Messages = forbiddenException.Errors
+                };
+                context.Result = context.Result = new ObjectResult(forbiddenError) { StatusCode = (int)HttpStatusCode.Forbidden };
+                break;
             case ConformityException conformityException:
                 _logger.LogInformation(context.Exception, "Entity could not be modified.");
                 var conformityError = new ApplicationError

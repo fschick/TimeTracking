@@ -42,7 +42,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     }
 
     /// <inheritdoc />
-    public async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<TDto> Get(Guid id, CancellationToken cancellationToken = default)
         => await DbRepository
             .FirstOrDefault<TModel, TDto>(
                 where: model => model.Id == id,
@@ -61,7 +61,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
             );
 
     /// <inheritdoc />
-    public async Task<TDto> Create(TDto dto)
+    public virtual async Task<TDto> Create(TDto dto)
     {
         var model = Mapper.Map<TModel>(dto);
         await CheckConformity(model);
@@ -71,7 +71,7 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
     }
 
     /// <inheritdoc />
-    public async Task<TDto> Update(TDto dto)
+    public virtual async Task<TDto> Update(TDto dto)
     {
         var model = Mapper.Map<TModel>(dto);
         await CheckConformity(model);

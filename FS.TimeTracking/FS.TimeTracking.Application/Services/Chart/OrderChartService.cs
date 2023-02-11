@@ -164,7 +164,7 @@ public class OrderChartService : IOrderChartService
         var plannedTimesPerOrder = await orders
             .SelectAsync(async order =>
             {
-                var plannedTime = await GetPlannedTimeForPeriod(order, filter.SelectedPeriod);
+                var plannedTime = await GetPlannedTimeForPeriod(order, filter);
                 return new OrderWorkTime
                 {
                     OrderId = order.Id,
@@ -187,26 +187,26 @@ public class OrderChartService : IOrderChartService
 
     /// <inheritdoc />
     [ExcludeFromCodeCoverage(Justification = "Tested by TimeSheetServiceTests/TimeSheetService.GetWorkedDaysOverview")]
-    public async Task<int> GetPersonalWorkdaysCount(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
+    public async Task<int> GetPersonalWorkdaysCount(TimeSheetFilterSet filters, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
     {
-        var workdays = await _workdayService.GetWorkdays(startDate.Date, endDate.Date, cancellationToken);
-        return workdays.PersonalWorkdays.Count;
+        var workdays = await _workdayService.GetWorkdays(filters, startDate.Date, endDate.Date, cancellationToken);
+        return workdays.PersonalWorkdaysOfAllUsers.Count;
     }
 
-    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, Range<DateTimeOffset> selectedPeriod)
+    private async Task<TimeSpan> GetPlannedTimeForPeriod(Order order, ChartFilter filter)
     {
         var orderPeriod = new Range<DateTimeOffset>(order.StartDate, order.DueDate);
-        var orderWorkdays = await _workdayService.GetWorkdays(orderPeriod);
+        var orderWorkdays = await _workdayService.GetWorkdays(filter, orderPeriod);
         var orderWorkHours = order.HourlyRate != 0 ? order.Budget / order.HourlyRate : 0;
 
-        var planningPeriod = orderPeriod.Intersection(selectedPeriod);
+        var planningPeriod = orderPeriod.Intersection(filter.SelectedPeriod);
         if (planningPeriod == null)
-            throw new InvalidOperationException($"Order '{order.Title}' has no planned time within selected period. Order period: {orderPeriod}, selected period: {selectedPeriod}.");
+            throw new InvalidOperationException($"Order '{order.Title}' has no planned time within selected period. Order period: {orderPeriod}, selected period: {filter.SelectedPeriod}.");
 
-        var plannedWorkDays = await _workdayService.GetWorkdays(planningPeriod);
+        var plannedWorkDays = await _workdayService.GetWorkdays(filter, planningPeriod);
 
-        var ratio = orderWorkdays.PersonalWorkdays.Count != 0
-            ? plannedWorkDays.PersonalWorkdays.Count / (double)orderWorkdays.PersonalWorkdays.Count
+        var ratio = orderWorkdays.PersonalWorkdaysOfAllUsers.Count != 0
+            ? plannedWorkDays.PersonalWorkdaysOfAllUsers.Count / (double)orderWorkdays.PersonalWorkdaysOfAllUsers.Count
             : 1;
         return TimeSpan.FromHours(orderWorkHours * ratio);
     }

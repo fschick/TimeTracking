@@ -273,7 +273,9 @@
       "ConflictForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Kunden zugeordnet",
       "ConflictActivityAlreadyAssignedToDifferentProjects": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Projekten zugeordnet",
-      "ConflictUserWithSameUsernameExists": "Ein Benutzer mit gleichem Benutzernamen oder gleicher E-Mailadresse existiert bereits"
+      "ConflictUserWithSameUsernameExists": "Ein Benutzer mit gleichem Benutzernamen oder gleicher E-Mailadresse existiert bereits",
+      "ConflictUserNotAllowedToDeleteItself": "Ein Benutzer darf sich nicht selbst löschen",
+      "ConflictUserNotAllowedToRemoveUserEditPermissionFromItself": "Ein Benutzer darf sich selbst nicht die Berechtigung zum Bearbeiten von Benutzern entziehen"
     },
     "HolidayType": {
       "Holiday": "Urlaub",

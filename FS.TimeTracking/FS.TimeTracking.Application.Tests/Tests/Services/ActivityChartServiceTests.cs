@@ -8,7 +8,7 @@ using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Tests.Attributes;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Models;
-using FS.TimeTracking.Application.Tests.Services;
+using FS.TimeTracking.Application.Tests.Services.FakeModels;
 using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;

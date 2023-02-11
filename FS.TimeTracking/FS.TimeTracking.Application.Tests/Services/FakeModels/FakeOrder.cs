@@ -4,7 +4,7 @@ using FS.TimeTracking.Core.Models.Application.MasterData;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FS.TimeTracking.Application.Tests.Services;
+namespace FS.TimeTracking.Application.Tests.Services.FakeModels;
 
 [ExcludeFromCodeCoverage]
 public class FakeOrder
