@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="OrderDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class OrderGridDto
+public class OrderGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="OrderDto.Id"/>
     [Required]

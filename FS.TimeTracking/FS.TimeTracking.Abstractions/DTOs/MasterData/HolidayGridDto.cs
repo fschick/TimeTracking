@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.Enums;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="HolidayDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayGridDto
+public record HolidayGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="HolidayDto.Id"/>
     [Required]

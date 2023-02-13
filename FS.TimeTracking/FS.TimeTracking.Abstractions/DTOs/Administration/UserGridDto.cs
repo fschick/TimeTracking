@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -6,7 +7,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 
 /// <inheritdoc cref="UserDto"/>
 [ExcludeFromCodeCoverage]
-public class UserGridDto
+public class UserGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="UserDto.Id"/>
     [Required]

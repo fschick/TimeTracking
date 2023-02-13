@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +16,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Activity")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class ActivityDto
+public class ActivityDto : IIdEntityDto
 {
     ///  <summary>
     /// The display name for this item.

@@ -1,5 +1,6 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 [ValidationDescription]
 [FilterEntity(Prefix = "User")]
 [ExcludeFromCodeCoverage]
-public class UserDto
+public class UserDto : IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.

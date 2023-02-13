@@ -1,15 +1,17 @@
 ﻿using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 
 /// <inheritdoc cref="TimeSheetDto"/>
 [ExcludeFromCodeCoverage]
-[System.Diagnostics.DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheetGridDto
+[DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
+public class TimeSheetGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]

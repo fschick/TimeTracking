@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="ProjectDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class ProjectGridDto
+public class ProjectGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="ProjectDto.Id"/>
     [Required]

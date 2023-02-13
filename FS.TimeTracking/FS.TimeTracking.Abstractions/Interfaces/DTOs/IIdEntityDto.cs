@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FS.TimeTracking.Core.Interfaces.Models;
+namespace FS.TimeTracking.Abstractions.Interfaces.DTOs;
 
 /// <summary>
-/// Interface for entity models.
+/// Interface to identify DTOs with ID.
 /// </summary>
-public interface IIdEntityModel : IEntityModel
+public interface IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.
