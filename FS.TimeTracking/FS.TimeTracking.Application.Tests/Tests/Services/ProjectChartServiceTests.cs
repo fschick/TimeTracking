@@ -1,5 +1,4 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.Shared;
@@ -14,8 +13,7 @@ using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
-using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -34,22 +32,18 @@ public class ProjectChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerProjectTestCase>(testCaseJson);
 
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IFilterFactory, FilterFactory>();
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<IProjectChartApiService, ProjectChartService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IWorkdayService, WorkdayService>();
+        faker.Provide<IProjectChartApiService, ProjectChartService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
         // Act
-        var projectChartService = autoFake.Resolve<IProjectChartApiService>();
+        var projectChartService = faker.GetRequiredService<IProjectChartApiService>();
         var workTimePerIssue = await projectChartService.GetWorkTimesPerProject(FakeFilters.Empty());
 
         // Check
@@ -65,7 +59,7 @@ public class WorkTimesPerProjectDataSourceAttribute : TestCaseDataSourceAttribut
 
     private static List<TestCase> GetTestCases()
     {
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         var customer = faker.Customer.Create();
         var project1 = faker.Project.Create(customer.Id, "Test1");
         var project2 = faker.Project.Create(customer.Id, "Test2");

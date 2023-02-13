@@ -1,7 +1,5 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Tests.Attributes;
@@ -9,7 +7,6 @@ using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Models;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Application.Tests.Services.FakeModels;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Models;
@@ -17,8 +14,7 @@ using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
-using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -37,25 +33,19 @@ public class OrderChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerOrderTestCase>(testCaseJson);
 
-        using var autoFake = new AutoFake();
-        var faker = new Faker(2000, autoFake);
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IFilterFactory, FilterFactory>();
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide(faker.KeycloakRepository.Create());
-        autoFake.Provide(faker.AuthorizationService.Create());
-        autoFake.Provide<IUserService, UserService>();
-        autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<IOrderChartApiService, OrderChartService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(false);
+        faker.Provide<IWorkdayService, WorkdayService>();
+        faker.Provide<IOrderChartApiService, OrderChartService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
         // Act
-        var orderChartService = autoFake.Resolve<IOrderChartApiService>();
+        var orderChartService = faker.GetRequiredService<IOrderChartApiService>();
         var workTimesPerOrder = await orderChartService.GetWorkTimesPerOrder(testCase.Filters);
 
         // Check
@@ -75,7 +65,7 @@ public class WorkTimesPerOrderDataSourceAttribute : TestCaseDataSourceAttribute
 
     private static List<TestCase> GetTestCases()
     {
-        var faker = new Faker(2000);
+        using var faker = new Faker();
 
         var activity = faker.Activity.Create();
 

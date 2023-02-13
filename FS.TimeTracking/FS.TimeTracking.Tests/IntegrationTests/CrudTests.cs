@@ -20,7 +20,7 @@ public class CrudIntegrationTests
     public async Task WhenCustomerIsAdded_AllMembersAreSaved(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         // Act
@@ -40,7 +40,7 @@ public class CrudIntegrationTests
     public async Task WhenTimeSheetIsAdded_AllMembersAreSaved(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         var newCustomer = faker.Customer.CreateDto(hidden: true);

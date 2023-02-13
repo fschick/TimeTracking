@@ -19,7 +19,7 @@ public class FilterTests
     public async Task WhenTimeSheetOverviewIsRetrievedWithFilter_NoExceptionIsThrown(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         var newCustomer = faker.Customer.CreateDto(hidden: true);

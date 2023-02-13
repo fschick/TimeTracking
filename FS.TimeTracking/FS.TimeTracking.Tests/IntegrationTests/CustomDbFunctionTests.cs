@@ -24,7 +24,7 @@ public class CustomDbFunctionTests
     public async Task WhenDbFunctionDiffSecondsIsUsed_ItWillBeTranslated(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
@@ -47,7 +47,7 @@ public class CustomDbFunctionTests
     public async Task WhenDiffSecondsIsCalledWhileStartOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
@@ -70,7 +70,7 @@ public class CustomDbFunctionTests
     public async Task WhenDiffSecondsIsCalledWhileEndOfDaylightSavingTime_ItWillHandleOffsetDifference(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
 
         var (customer, activity, project) = await InsertMasterData(testHost);
@@ -91,7 +91,7 @@ public class CustomDbFunctionTests
 
     private static async Task<(CustomerDto Customer, ActivityDto Activity, ProjectDto Project)> InsertMasterData(TestHost testHost)
     {
-        var faker = new Faker(2000);
+        using var faker = new Faker();
 
         var newCustomer = faker.Customer.CreateDto(hidden: true);
         var createdCustomer = await testHost.Post((CustomerController x) => x.Create(default), newCustomer);

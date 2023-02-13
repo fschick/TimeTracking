@@ -1,14 +1,13 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FluentAssertions;
 using FS.TimeTracking.Abstractions.Enums;
-using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -34,25 +33,21 @@ public class WorkdayServiceTests
     [DynamicData(nameof(GetWorkDayRanges))]
     public async Task WhenWorkdaysRequested_PublicAndPersonalWorkdaysMatchExpected(DateTime start, DateTime end, int publicWorkdays, int personalWorkdays)
     {
-        using var autoFake = new AutoFake();
-        var faker = new Faker(2000, autoFake);
+        using var faker = new Faker();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         A.CallTo(() => dbRepository.Get<Holiday, Holiday>(default, default, default, default, default, default, default, default, default))
             .WithAnyArguments()
             .Returns(Task.FromResult(_holidays));
 
-        autoFake.Provide(dbRepository);
-        autoFake.Provide(faker.KeycloakRepository.Create());
-        autoFake.Provide(faker.AuthorizationService.Create());
-        autoFake.Provide<IUserService, UserService>();
-        autoFake.Provide<IWorkdayService, WorkdayService>();
+        faker.ConfigureAuthorization(false);
+        faker.Provide(dbRepository);
+        faker.Provide<IWorkdayService, WorkdayService>();
 
-        var workdayService = autoFake.Resolve<IWorkdayService>();
+        var workdayService = faker.GetRequiredService<IWorkdayService>();
         var workDays = await workdayService.GetWorkdays(null, start, end);
         workDays.PublicWorkdaysOfAllUsers.Should().HaveCount(publicWorkdays);
         workDays.PersonalWorkdaysOfAllUsers.Should().HaveCount(personalWorkdays);
-        await Task.Delay(0);
     }
 
     public static IEnumerable<object[]> GetWorkDayRanges =>

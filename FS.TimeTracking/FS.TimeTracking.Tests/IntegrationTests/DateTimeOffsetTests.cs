@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
@@ -8,7 +9,6 @@ using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.IntegrationTests;
@@ -20,7 +20,7 @@ public class DateTimeOffsetTests
     public async Task WhenDateTimeOffsetIsSaveAndReadFromDatabase_ValueDoesNotChange(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
         using var client = testHost.GetTestClient();
 
@@ -35,20 +35,12 @@ public class DateTimeOffsetTests
         var cetTimezoneOffset = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time").GetUtcOffset(endDate);
         newTimeSheet.EndDate = new DateTimeOffset(endDate, cetTimezoneOffset);
 
-        var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
-        await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
+        await testHost.Post<CustomerController, CustomerDto>(x => x.Create(default), newCustomer);
+        await testHost.Post<ProjectController, ProjectDto>(x => x.Create(default), newProject);
+        await testHost.Post<ActivityController, ActivityDto>(x => x.Create(default), newActivity);
+        await testHost.Post<TimeSheetController, TimeSheetDto>(x => x.Create(default), newTimeSheet);
 
-        var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
-        await client.PostAsJsonAsync(projectCreateRoute, newProject);
-
-        var activityCreateRoute = testHost.GetRoute<ActivityController>(x => x.Create(default));
-        await client.PostAsJsonAsync(activityCreateRoute, newActivity);
-
-        var timeSheetCreateRoute = testHost.GetRoute<TimeSheetController>(x => x.Create(default));
-        await client.PostAsJsonAsync(timeSheetCreateRoute, newTimeSheet);
-
-        var getTimeSheetRoute = testHost.GetRoute<TimeSheetController>(x => x.Get(newTimeSheet.Id, default));
-        var readTimeSheet = await client.GetFromJsonAsync<TimeSheetDto>(getTimeSheetRoute);
+        var readTimeSheet = await testHost.Get<TimeSheetController, TimeSheetDto>(x => x.Get(newTimeSheet.Id, default));
 
         // Check
         readTimeSheet!.StartDate.Should().Be(newTimeSheet.StartDate);

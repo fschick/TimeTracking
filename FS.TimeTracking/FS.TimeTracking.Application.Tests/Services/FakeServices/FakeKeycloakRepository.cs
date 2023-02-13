@@ -1,8 +1,8 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FS.Keycloak.RestApiClient.Model;
+﻿using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Administration;
 using FS.TimeTracking.Core.Models.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
@@ -15,21 +15,14 @@ namespace FS.TimeTracking.Application.Tests.Services.FakeServices;
 
 public class FakeKeycloakRepository
 {
-    private readonly Faker _faker;
-    private readonly AutoFake _autoFake;
+    private readonly IServiceProvider _serviceProvider;
 
-    public FakeKeycloakRepository(Faker faker, AutoFake autoFake)
-    {
-        _faker = faker;
-        _autoFake = autoFake;
-    }
+    public FakeKeycloakRepository(IServiceProvider serviceProvider)
+        => _serviceProvider = serviceProvider;
 
     public IKeycloakRepository Create()
     {
-        if (_autoFake == null)
-            throw new InvalidOperationException("AutoFake instance required to create fake services.");
-
-        var configuration = _autoFake.Resolve<IOptions<TimeTrackingConfiguration>>().Value;
+        var configuration = _serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value;
         var keycloakClientId = configuration.Keycloak.ClientId;
         return new InMemoryKeycloakRepository(keycloakClientId);
     }

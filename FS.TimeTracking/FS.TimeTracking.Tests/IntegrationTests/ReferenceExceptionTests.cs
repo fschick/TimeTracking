@@ -1,12 +1,13 @@
-﻿using FluentAssertions;
+﻿#pragma warning disable CS4014
+using FluentAssertions;
+using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
+using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Tests.IntegrationTests;
@@ -15,31 +16,28 @@ namespace FS.TimeTracking.Tests.IntegrationTests;
 public class ReferenceExceptionTests
 {
     [DataTestMethod, TestDatabases]
+    [SuppressMessage("ReSharper", "AccessToDisposedClosure")]
     public async Task WhenReferencedEntityShouldRemoved_HttpStatusConflictIsReturned(DatabaseConfiguration configuration)
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
         using var client = testHost.GetTestClient();
 
         // Act
         var newCustomer = faker.Customer.CreateDto();
-        var customerCreateRoute = testHost.GetRoute<CustomerController>(x => x.Create(default));
-        await client.PostAsJsonAsync(customerCreateRoute, newCustomer);
+        await testHost.Post<CustomerController, CustomerDto>(x => x.Create(default), newCustomer);
 
         var newProject = faker.Project.CreateDto(newCustomer.Id);
-        var projectCreateRoute = testHost.GetRoute<ProjectController>(x => x.Create(default));
-        await client.PostAsJsonAsync(projectCreateRoute, newProject);
+        await testHost.Post<ProjectController, ProjectDto>(x => x.Create(default), newProject);
 
-        var customerDeleteRoute = testHost.GetRoute<CustomerController>(x => x.Delete(newCustomer.Id));
-        using var response = await client.DeleteAsync(customerDeleteRoute);
+        var deleteCustomer = () => testHost.Delete<CustomerController>(x => x.Delete(newCustomer.Id));
 
         // Check
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        await deleteCustomer.Should().ThrowConflictAsync();
 
         // Cleanup
-        var projectDeleteRoute = testHost.GetRoute<ProjectController>(x => x.Delete(newProject.Id));
-        await client.DeleteAsync(projectDeleteRoute);
-        await client.DeleteAsync(customerDeleteRoute);
+        await testHost.Delete<ProjectController>(x => x.Delete(newProject.Id));
+        await testHost.Delete<CustomerController>(x => x.Delete(newCustomer.Id));
     }
 }

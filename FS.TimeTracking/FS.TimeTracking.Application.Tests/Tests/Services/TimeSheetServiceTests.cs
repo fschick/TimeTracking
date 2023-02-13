@@ -1,11 +1,9 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.Enums;
-using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Application.Services.TimeTracking;
 using FS.TimeTracking.Application.Tests.Attributes;
@@ -22,8 +20,7 @@ using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
-using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -39,13 +36,13 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetIsStopped_EndDateIsSet()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
+        using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
 
         var timeSheet = faker.TimeSheet.Create(Guid.Empty, Guid.Empty);
         timeSheet.EndDate = null;
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         A.CallTo(() => dbRepository.FirstOrDefault((TimeSheet x) => x, default, default, default, default, default, default))
             .WithAnyArguments()
             .Returns(timeSheet);
@@ -53,10 +50,9 @@ public class TimeSheetServiceTests
             .WithAnyArguments()
             .ReturnsLazily((TimeSheet updatedTimeSheet) => updatedTimeSheet);
 
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide(dbRepository);
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        faker.Provide(dbRepository);
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         // Act
         var stoppedTimeSheet = await timeSheetService.StopTimeSheetEntry(timeSheet.Id, DateTimeOffset.Now);
@@ -69,17 +65,17 @@ public class TimeSheetServiceTests
     public async Task WhenAlreadyStoppedAndTimeSheetIsStoppedAgain_ExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
+        using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         A.CallTo(() => dbRepository.FirstOrDefault((TimeSheet x) => x, default, default, default, default, default, default))
             .WithAnyArguments()
             .Returns(faker.TimeSheet.Create(Guid.Empty, Guid.Empty));
 
-        autoFake.Provide(dbRepository);
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        faker.Provide(dbRepository);
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         // Act
         Func<Task> action = async () => await timeSheetService.StopTimeSheetEntry(default, default);
@@ -92,16 +88,12 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithActivityIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
-
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         var activityCustomer = faker.Customer.Create();
         var activity = faker.Activity.Create(activityCustomer.Id);
@@ -124,15 +116,12 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithActivityIsAddedAndActivityHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         var activity = faker.Activity.Create();
         var timeSheetCustomer = faker.Customer.Create();
@@ -152,15 +141,12 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithProjectIsAddedAndProjectHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         var project = faker.Project.Create();
         var timeSheetActivity = faker.Activity.Create();
@@ -181,15 +167,12 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithProjectIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         var projectCustomer = faker.Customer.Create();
         var project = faker.Project.Create(projectCustomer.Id);
@@ -213,15 +196,12 @@ public class TimeSheetServiceTests
     public async Task WhenTimeSheetWithOrderIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         var orderCustomer = faker.Customer.Create();
         var order = faker.Project.Create(orderCustomer.Id);
@@ -245,8 +225,7 @@ public class TimeSheetServiceTests
     public async Task WhenSimilarTimeSheetEntryIsStarted_UserIdChangedToCurrentUserId()
     {
         // Prepare
-        using var autoFake = new AutoFake();
-        var faker = new Faker(2000, autoFake);
+        using var faker = new Faker();
 
         var timeSheetActivity = faker.Activity.Create();
         var timeSheetCustomer = faker.Customer.Create();
@@ -254,13 +233,12 @@ public class TimeSheetServiceTests
         var currentUser = faker.User.Create("Current", permissions: DefaultPermissions.ReadPermissions);
         var originTimeSheet = faker.TimeSheet.Create(timeSheetCustomer.Id, timeSheetActivity.Id, userId: originUser.Id);
 
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide(faker.AuthorizationService.Create(currentUser));
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(true, currentUser);
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
 
         await dbRepository.AddRange(new List<IIdEntityModel> { timeSheetCustomer, timeSheetActivity, originTimeSheet });
         await dbRepository.SaveChanges();
@@ -276,10 +254,7 @@ public class TimeSheetServiceTests
     public async Task WhenUserHasNoRightToViewForeignData_OnlyOwnTimeSheetsAreShown()
     {
         // Prepare
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase(x => x.Features.Authorization = true);
-        var faker = new Faker(2000, autoFake);
-        autoFake.Provide(faker.AutoMapper);
+        using var faker = new Faker();
         var activity = faker.Activity.Create();
         var customer = faker.Customer.Create();
         var currentUser = faker.User.Create("Own");
@@ -287,22 +262,19 @@ public class TimeSheetServiceTests
         var ownTimeSheet = faker.TimeSheet.Create(customer.Id, activity.Id, userId: currentUser.Id);
         var foreignTimeSheet = faker.TimeSheet.Create(customer.Id, activity.Id, userId: foreignUser.Id);
 
-        autoFake.Provide<IFilterFactory, FilterFactory>();
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide(faker.KeycloakRepository.Create());
-        autoFake.Provide(faker.AuthorizationService.Create(currentUser));
-        autoFake.Provide<IUserService, UserService>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(true, currentUser);
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var userService = autoFake.Resolve<IUserService>();
+        var userService = faker.Resolve<IUserService>();
         await userService.Create(currentUser);
         await userService.Create(foreignUser);
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.Resolve<IDbRepository>();
         await dbRepository.AddRange(new List<IIdEntityModel> { activity, customer, ownTimeSheet, foreignTimeSheet });
         await dbRepository.SaveChanges();
 
-        var timeSheetApiService = autoFake.Resolve<ITimeSheetApiService>();
+        var timeSheetApiService = faker.Resolve<ITimeSheetApiService>();
 
         // Act
         var timeSheets = await timeSheetApiService.GetGridFiltered(FakeFilters.Empty());
@@ -318,30 +290,24 @@ public class TimeSheetServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkedDaysOverviewTestCase>(testCaseJson);
 
-        using var autoFake = new AutoFake();
-        var faker = new Faker(2000, autoFake);
-        await autoFake.ConfigureInMemoryDatabase(x => x.Features.Authorization = true);
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IFilterFactory, FilterFactory>();
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide(faker.KeycloakRepository.Create());
-        autoFake.Provide(faker.AuthorizationService.Create(testCase.CurrentUser));
-        autoFake.Provide<IUserService, UserService>();
-        autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<ITimeSheetApiService, TimeSheetService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(true, testCase.CurrentUser);
+        faker.Provide<IWorkdayService, WorkdayService>();
+        faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
         await dbRepository.AddRange(testCase.Holidays);
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
-        var userService = autoFake.Resolve<IUserService>();
+        var userService = faker.GetRequiredService<IUserService>();
         foreach (var user in testCase.Users)
             await userService.Create(user);
 
         // Act
-        var timeSheetService = autoFake.Resolve<ITimeSheetApiService>();
+        var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();
         var workDayOverview = await timeSheetService.GetWorkedDaysOverview(testCase.Filters);
 
         // Check
@@ -355,7 +321,7 @@ public class TimeSheetServiceTests
 
         private static List<TestCase> GetTestCases()
         {
-            var faker = new Faker(2000);
+            using var faker = new Faker();
             var currentUser = faker.User.Create("Current", permissions: DefaultPermissions.ReadPermissions);
             var userEve = faker.User.Create("Eve");
             var userBob = faker.User.Create("Bob");

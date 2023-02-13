@@ -1,5 +1,4 @@
-﻿using Autofac.Extras.FakeItEasy;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Chart;
@@ -17,8 +16,7 @@ using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
-using FS.TimeTracking.Repository.DbContexts;
-using FS.TimeTracking.Repository.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -38,22 +36,18 @@ public class ActivityChartServiceTests
         // Prepare
         var testCase = TestCase.FromJson<WorkTimesPerActivityTestCase>(testCaseJson);
 
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IFilterFactory, FilterFactory>();
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IWorkdayService, WorkdayService>();
-        autoFake.Provide<IActivityChartApiService, ActivityChartService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IWorkdayService, WorkdayService>();
+        faker.Provide<IActivityChartApiService, ActivityChartService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
         await dbRepository.AddRange(testCase.MasterData);
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
         // Act
-        var activityChartService = autoFake.Resolve<IActivityChartApiService>();
+        var activityChartService = faker.GetRequiredService<IActivityChartApiService>();
         var workTimePerIssue = await activityChartService.GetWorkTimesPerActivity(FakeFilters.Empty());
 
         // Check
@@ -66,15 +60,12 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsAddedAndCustomersDoesNotMatch_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityApiService, ActivityService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IActivityApiService, ActivityService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var activityService = faker.GetRequiredService<IActivityApiService>();
 
         var projectCustomer = faker.Customer.Create();
         var project = faker.Project.Create(projectCustomer.Id);
@@ -98,15 +89,12 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsAddedAndProjectHasNoCustomer_NoExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityApiService, ActivityService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IActivityApiService, ActivityService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var activityService = faker.GetRequiredService<IActivityApiService>();
 
         var project = faker.Project.Create();
 
@@ -128,15 +116,12 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithCustomerIsUpdatedButTimeSheetsWithDifferentCustomerExists_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityApiService, ActivityService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IActivityApiService, ActivityService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var activityService = faker.GetRequiredService<IActivityApiService>();
 
         var activity = faker.Activity.Create();
         await dbRepository.AddRange(new List<IIdEntityModel> { activity });
@@ -163,15 +148,12 @@ public class ActivityChartServiceTests
     public async Task WhenActivityWithProjectIsUpdatedButTimeSheetsWithDifferentProjectsExists_ConformityExceptionIsThrown()
     {
         // Prepare
-        var faker = new Faker(2000);
-        using var autoFake = new AutoFake();
-        await autoFake.ConfigureInMemoryDatabase();
-        autoFake.Provide(faker.AutoMapper);
-        autoFake.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
-        autoFake.Provide<IActivityApiService, ActivityService>();
+        using var faker = new Faker();
+        faker.ConfigureInMemoryDatabase();
+        faker.Provide<IActivityApiService, ActivityService>();
 
-        var dbRepository = autoFake.Resolve<IDbRepository>();
-        var activityService = autoFake.Resolve<IActivityApiService>();
+        var dbRepository = faker.GetRequiredService<IDbRepository>();
+        var activityService = faker.GetRequiredService<IActivityApiService>();
 
         var activity = faker.Activity.Create();
         await dbRepository.AddRange(new List<IIdEntityModel> { activity });
@@ -202,7 +184,7 @@ public class WorkTimesPerActivityDataSourceAttribute : TestCaseDataSourceAttribu
 
     private static List<TestCase> GetTestCases()
     {
-        var faker = new Faker(2000);
+        using var faker = new Faker();
         var customer = faker.Customer.Create();
         var activity1 = faker.Activity.Create(prefix: "Test1");
         var activity2 = faker.Activity.Create(prefix: "Test2");
