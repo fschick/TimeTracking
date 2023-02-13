@@ -12,34 +12,72 @@ public static class DefaultPermissions
     /// <summary>
     /// Default permissions for new user.
     /// </summary>
-    public static List<PermissionDto> Value => new()
+    public static List<PermissionDto> NoPermissions => new()
     {
-        CreatePermission(PermissionNames.FOREIGN_DATA, true),
-        CreatePermission(PermissionNames.TIME_SHEET, true),
-        CreatePermission(PermissionNames.CHARTS_BY_CUSTOMER, false),
-        CreatePermission(PermissionNames.CHARTS_BY_ORDER, false),
-        CreatePermission(PermissionNames.CHARTS_BY_PROJECT, false),
-        CreatePermission(PermissionNames.CHARTS_BY_ACTIVITY, false),
-        CreatePermission(PermissionNames.CHARTS_BY_ISSUE, false),
-        CreatePermission(PermissionNames.REPORT_ACTIVITY_SUMMARY, false),
-        CreatePermission(PermissionNames.REPORT_ACTIVITY_DETAIL, false),
-        CreatePermission(PermissionNames.REPORT_ACTIVITY_RAW_DATA, false),
-        CreatePermission(PermissionNames.MASTER_DATA_CUSTOMERS, true),
-        CreatePermission(PermissionNames.MASTER_DATA_PROJECTS, true),
-        CreatePermission(PermissionNames.MASTER_DATA_ACTIVITIES, true),
-        CreatePermission(PermissionNames.MASTER_DATA_ORDERS, true),
-        CreatePermission(PermissionNames.MASTER_DATA_HOLIDAYS, true),
-        CreatePermission(PermissionNames.ADMINISTRATION_USERS, true),
-        CreatePermission(PermissionNames.ADMINISTRATION_SETTINGS, true),
+        new PermissionDto(PermissionNames.FOREIGN_DATA, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.TIME_SHEET, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.CHARTS_BY_CUSTOMER, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.CHARTS_BY_ORDER, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.CHARTS_BY_PROJECT, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.CHARTS_BY_ACTIVITY, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.CHARTS_BY_ISSUE, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_SUMMARY, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_DETAIL, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_RAW_DATA, false, PermissionScope.None),
+        new PermissionDto(PermissionNames.MASTER_DATA_CUSTOMERS, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.MASTER_DATA_PROJECTS, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.MASTER_DATA_ACTIVITIES, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.MASTER_DATA_ORDERS, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.MASTER_DATA_HOLIDAYS, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.ADMINISTRATION_USERS, true, PermissionScope.None),
+        new PermissionDto(PermissionNames.ADMINISTRATION_SETTINGS, true, PermissionScope.None),
     };
 
-    private static PermissionDto CreatePermission(string name, bool manageable)
+    /// <summary>
+    /// Default permissions for new user.
+    /// </summary>
+    public static List<PermissionDto> ReadPermissions => new()
     {
-        return new PermissionDto
-        {
-            Name = name,
-            Manageable = manageable,
-            Scope = PermissionScope.None,
-        };
-    }
+        new PermissionDto(PermissionNames.FOREIGN_DATA, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.TIME_SHEET, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_CUSTOMER, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ORDER, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_PROJECT, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ACTIVITY, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ISSUE, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_SUMMARY, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_DETAIL, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_RAW_DATA, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_CUSTOMERS, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_PROJECTS, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_ACTIVITIES, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_ORDERS, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_HOLIDAYS, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.ADMINISTRATION_USERS, true, PermissionScope.View),
+        new PermissionDto(PermissionNames.ADMINISTRATION_SETTINGS, true, PermissionScope.View),
+    };
+
+    /// <summary>
+    /// Default permissions for new user.
+    /// </summary>
+    public static List<PermissionDto> WritePermissions => new()
+    {
+        new PermissionDto(PermissionNames.FOREIGN_DATA, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.TIME_SHEET, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.CHARTS_BY_CUSTOMER, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ORDER, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_PROJECT, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ACTIVITY, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.CHARTS_BY_ISSUE, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_SUMMARY, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_DETAIL, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.REPORT_ACTIVITY_RAW_DATA, false, PermissionScope.View),
+        new PermissionDto(PermissionNames.MASTER_DATA_CUSTOMERS, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.MASTER_DATA_PROJECTS, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.MASTER_DATA_ACTIVITIES, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.MASTER_DATA_ORDERS, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.MASTER_DATA_HOLIDAYS, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.ADMINISTRATION_USERS, true, PermissionScope.Manage),
+        new PermissionDto(PermissionNames.ADMINISTRATION_SETTINGS, true, PermissionScope.Manage),
+    };
 }

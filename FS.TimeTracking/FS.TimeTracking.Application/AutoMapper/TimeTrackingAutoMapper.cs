@@ -119,6 +119,6 @@ public class TimeTrackingAutoMapper : Profile
         CreateMap<KeycloakConfiguration, KeycloakConfigurationDto>();
 
         CreateMap<TimeTrackingConfiguration, ClientConfigurationDto>()
-            .ForMember(x => x.DefaultPermissions, x => x.MapFrom(_ => DefaultPermissions.Value));
+            .ForMember(x => x.DefaultPermissions, x => x.MapFrom(_ => DefaultPermissions.NoPermissions));
     }
 }

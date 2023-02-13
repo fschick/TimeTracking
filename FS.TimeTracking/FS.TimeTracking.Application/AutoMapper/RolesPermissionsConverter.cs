@@ -14,7 +14,7 @@ internal class RolesToPermissionsConverter : ITypeConverter<List<string>, List<P
 {
     public List<PermissionDto> Convert(List<string> source, List<PermissionDto> destination, ResolutionContext context)
     {
-        var permissions = DefaultPermissions.Value;
+        var permissions = DefaultPermissions.NoPermissions;
         foreach (var permission in permissions)
         {
             var viewRoleExists = source.Any(name => name == $"{permission.Name}-{ScopeNames.VIEW}");
