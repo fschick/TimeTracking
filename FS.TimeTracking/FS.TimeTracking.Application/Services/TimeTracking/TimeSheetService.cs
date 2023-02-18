@@ -243,7 +243,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         }
 
         if (errors.Any())
-            throw new ConformityException(errors);
+            throw new ConformityException(errors.ToArray());
     }
 
     private static Task<Range<DateTimeOffset>> AlignPeriodToAvailableData(Range<DateTimeOffset> selectedPeriod, DateTime? minDate, DateTime? maxDate)

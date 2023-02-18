@@ -25,16 +25,16 @@ public class FakeAuthorizationService
     public IAuthorizationService Create(UserDto currentUser = null)
     {
         var httpContextAccessor = _faker.GetRequiredService<IHttpContextAccessor>();
-        A.CallTo(() => httpContextAccessor.HttpContext.User).Returns(CreatePrincipal(currentUser));
+        var mapper = _faker.GetRequiredService<IMapper>();
+        A.CallTo(() => httpContextAccessor.HttpContext.User).Returns(CreatePrincipal(currentUser, mapper, "DUMMY"));
         var configuration = _faker.GetRequiredService<IOptions<TimeTrackingConfiguration>>();
         var repository = _faker.GetRequiredService<IDbRepository>();
         return new AuthorizationService(httpContextAccessor, configuration, repository);
     }
 
-    private ClaimsPrincipal CreatePrincipal(UserDto currentUser)
+    public static ClaimsPrincipal CreatePrincipal(UserDto currentUser, IMapper mapper, string authenticationScheme)
     {
         currentUser ??= new UserDto();
-        var mapper = _faker.GetRequiredService<IMapper>();
         var userRoles = mapper.Map<List<string>>(currentUser.Permissions);
         var allRoles = (userRoles ?? RoleNames.All).Select(name => new Claim(ClaimTypes.Role, name));
         var claims = new List<Claim>(allRoles)
@@ -42,7 +42,7 @@ public class FakeAuthorizationService
             new (ClaimTypes.NameIdentifier, currentUser.Id.ToString()),
             new (ClaimTypes.Name, currentUser.Username ?? string.Empty),
         };
-        var identity = new ClaimsIdentity(claims);
+        var identity = new ClaimsIdentity(claims, authenticationScheme);
         return new ClaimsPrincipal(identity);
     }
 }

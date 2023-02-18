@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -45,7 +47,11 @@ internal static class ControllerExtensions
 
         var controllerActionParameterTypes = controllerActionCall.Arguments.Select(parameter => parameter.Type).ToList();
 
-        return apiMethodParameterTypes.SequenceEqual(controllerActionParameterTypes);
+        var result = apiMethodParameterTypes
+            .Zip(controllerActionParameterTypes)
+            .All(x => x.First.IsAssignableFrom(x.Second));
+
+        return result;
     }
 
     private static string GetRelativePath(this ApiDescription apiMethodDescription, MethodCallExpression controllerActionCall)
@@ -65,7 +71,11 @@ internal static class ControllerExtensions
             try
             {
                 var parameterValue = Expression.Lambda(parameterExpression).Compile().DynamicInvoke();
-                route = Regex.Replace(route, $"{{{parameter.Name}(\\W.*?)?}}", parameterValue?.ToString() ?? string.Empty);
+                var parameterValueString = parameterValue?.ToString();
+                if (parameter.Source == BindingSource.Query && parameterValueString != null)
+                    route = QueryHelpers.AddQueryString(route, parameter.Name, parameterValueString);
+                else if (parameter.Source == BindingSource.Path)
+                    route = Regex.Replace(route, $"{{{parameter.Name}(\\W.*?)?}}", parameterValueString ?? string.Empty);
             }
             catch (Exception)
             {

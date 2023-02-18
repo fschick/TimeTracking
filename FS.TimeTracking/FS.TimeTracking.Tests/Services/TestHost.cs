@@ -2,12 +2,14 @@
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Api.REST.Extensions;
+using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Application.Tests.Services.FakeServices;
 using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -109,7 +111,7 @@ public sealed class TestHost : IAsyncDisposable
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
         using var response = await client.GetAsync(route);
-        //EnsureSuccess(response);
+        EnsureSuccess(response);
         return await response.Content.ReadFromJsonAsync<TResult>();
     }
 
@@ -117,17 +119,36 @@ public sealed class TestHost : IAsyncDisposable
     {
         using var client = GetTestClient();
         using var response = await client.GetAsync(route);
-        //EnsureSuccess(response);
+        EnsureSuccess(response);
         return await response.Content.ReadFromJsonAsync<TResult>();
     }
 
-    public async Task<TResult> Post<TController, TResult>(Expression<Action<TController>> controllerAction, TResult entity)
+    public Task<TBody> Post<TController, TBody>(Expression<Action<TController>> controllerAction, TBody entity)
+        => Post<TController, TBody, TBody>(controllerAction, entity);
+
+    public async Task<TResult> Post<TController, TBody, TResult>(Expression<Action<TController>> controllerAction, TBody entity)
     {
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
-        using var response = await client.PostAsJsonAsync(route, entity);
-        //EnsureSuccess(response);
+
+        using var response = typeof(TBody).IsAssignableTo(typeof(IFormFile))
+            ? await client.PostFormFile(route, (IFormFile)entity)
+            : await client.PostAsJsonAsync(route, entity);
+
+        EnsureSuccess(response);
+        if (response.StatusCode == HttpStatusCode.NoContent)
+            return default;
+
         return await response.Content.ReadFromJsonAsync<TResult>();
+    }
+
+    public async Task<TBody> Put<TController, TBody>(Expression<Action<TController>> controllerAction, TBody entity)
+    {
+        using var client = GetTestClient();
+        var route = GetRoute(controllerAction);
+        using var response = await client.PutAsJsonAsync(route, entity);
+        EnsureSuccess(response);
+        return await response.Content.ReadFromJsonAsync<TBody>();
     }
 
     public async Task Delete<TController>(Expression<Action<TController>> controllerAction)
@@ -135,7 +156,7 @@ public sealed class TestHost : IAsyncDisposable
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
         using var response = await client.DeleteAsync(route);
-        //EnsureSuccess(response);
+        EnsureSuccess(response);
     }
 
     private string GetRoute<TController>(Expression<Action<TController>> controllerAction)
@@ -153,6 +174,7 @@ public sealed class TestHost : IAsyncDisposable
         {
             HttpStatusCode.Unauthorized => throw new UnauthorizedException(),
             HttpStatusCode.Forbidden => throw new ForbiddenException(),
+            HttpStatusCode.BadRequest => throw new BadRequestException(),
             HttpStatusCode.Conflict => throw new ConflictException(),
             _ => throw new ApplicationErrorException(ApplicationErrorCode.InternalServerError)
         };

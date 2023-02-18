@@ -29,8 +29,11 @@ public class CrudIntegrationTests
         var readCustomer = await testHost.Get<CustomerController, CustomerDto>(x => x.Get(createdCustomer.Id, default));
 
         // Check
-        createdCustomer.Should().BeEquivalentTo(newCustomer);
-        readCustomer.Should().BeEquivalentTo(createdCustomer);
+        createdCustomer.Should().BeEquivalentTo(newCustomer, options => options.Excluding(customer => customer.IsReadonly));
+        createdCustomer.IsReadonly.Should().BeFalse();
+
+        readCustomer.Should().BeEquivalentTo(newCustomer, options => options.Excluding(customer => customer.IsReadonly));
+        readCustomer.IsReadonly.Should().BeFalse();
 
         // Cleanup
         await testHost.Delete<CustomerController>(x => x.Delete(createdCustomer.Id));
@@ -58,8 +61,11 @@ public class CrudIntegrationTests
         var readTimeSheet = await testHost.Get<TimeSheetController, TimeSheetDto>(x => x.Get(createdTimeSheet.Id, default));
 
         // Check
-        createdTimeSheet.Should().BeEquivalentTo(newTimeSheet);
-        readTimeSheet.Should().BeEquivalentTo(createdTimeSheet);
+        createdTimeSheet.Should().BeEquivalentTo(newTimeSheet, options => options.Excluding(customer => customer.IsReadonly));
+        createdTimeSheet.IsReadonly.Should().BeFalse();
+
+        readTimeSheet.Should().BeEquivalentTo(newTimeSheet, options => options.Excluding(customer => customer.IsReadonly));
+        readTimeSheet.IsReadonly.Should().BeFalse();
 
         // Cleanup
         await testHost.Delete((TimeSheetController x) => x.Delete(createdTimeSheet.Id));

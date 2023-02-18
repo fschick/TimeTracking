@@ -1,4 +1,5 @@
-﻿using FS.Keycloak.RestApiClient.Model;
+﻿using FS.Keycloak.RestApiClient.Client;
+using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Administration;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -15,14 +16,14 @@ namespace FS.TimeTracking.Application.Tests.Services.FakeServices;
 
 public class FakeKeycloakRepository
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly Faker _faker;
 
-    public FakeKeycloakRepository(IServiceProvider serviceProvider)
-        => _serviceProvider = serviceProvider;
+    public FakeKeycloakRepository(Faker faker)
+        => _faker = faker;
 
     public IKeycloakRepository Create()
     {
-        var configuration = _serviceProvider.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value;
+        var configuration = _faker.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value;
         var keycloakClientId = configuration.Keycloak.ClientId;
         return new InMemoryKeycloakRepository(keycloakClientId);
     }
@@ -93,13 +94,18 @@ public class FakeKeycloakRepository
              => throw new NotImplementedException();
 
         public Task DeleteUser(string realm, Guid userId, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+        {
+            if (!_users.TryRemove(userId.ToString(), out _))
+                throw new ApiException(404, "Error calling DeleteUsersById: {\"error\":\"User not found\"}");
+            _clientUserRoles.TryRemove(userId.ToString(), out _);
+            return Task.CompletedTask;
+        }
 
         public Task<List<RoleRepresentation>> GetClientRoles(string realm, string clientId, CancellationToken cancellationToken = default)
             => Task.FromResult(_clientRoles);
 
         public Task<List<RoleRepresentation>> GetClientRolesOfUser(string realm, Guid userId, string clientId, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+            => Task.FromResult(_clientUserRoles.FirstOrDefault(x => x.Key == userId.ToString()).Value);
 
         public Task<List<ClientRepresentation>> GetClients(string realm, CancellationToken cancellationToken = default)
             => Task.FromResult(_clients);
@@ -111,12 +117,23 @@ public class FakeKeycloakRepository
              => throw new NotImplementedException();
 
         public Task<UserRepresentation> GetUser(string realm, Guid userId, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+        {
+            if (!_users.TryGetValue(userId.ToString(), out var user))
+                throw new ApiException(404, "Error calling GetUsersById: {\"error\":\"User not found\"}");
+            return Task.FromResult(user);
+        }
 
         public Task<List<UserRepresentation>> GetUsers(string realm, string search = null, string lastName = null, string firstName = null, string email = null, string username = null, bool? emailVerified = null, string idpAlias = null, Guid? idpUserId = null, int? first = null, int? max = null, bool? enabled = null, bool? briefRepresentation = null, bool? exact = null, string q = null, CancellationToken cancellationToken = default)
             => Task.FromResult(_users.Values.ToList());
 
         public Task UpdateUser(string realm, UserRepresentation user, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+        {
+            if (!_users.TryGetValue(user.Id, out var currentUser))
+                throw new ApiException(404, "Error calling GetUsersById: {\"error\":\"User not found\"}");
+            if (!_users.TryUpdate(user.Id, user, currentUser))
+                throw new ApiException(404, "Error calling GetUsersById: {\"error\":\"User not found\"}");
+            return Task.FromResult(user);
+        }
     }
+
 }

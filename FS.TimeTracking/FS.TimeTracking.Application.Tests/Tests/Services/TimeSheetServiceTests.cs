@@ -12,7 +12,6 @@ using FS.TimeTracking.Application.Tests.Models;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Application.Tests.Services.FakeModels;
 using FS.TimeTracking.Core.Exceptions;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Interfaces.Models;
@@ -89,6 +88,7 @@ public class TimeSheetServiceTests
     {
         // Prepare
         using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
         faker.ConfigureInMemoryDatabase();
         faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -117,6 +117,7 @@ public class TimeSheetServiceTests
     {
         // Prepare
         using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
         faker.ConfigureInMemoryDatabase();
         faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -142,6 +143,7 @@ public class TimeSheetServiceTests
     {
         // Prepare
         using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
         faker.ConfigureInMemoryDatabase();
         faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -168,6 +170,7 @@ public class TimeSheetServiceTests
     {
         // Prepare
         using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
         faker.ConfigureInMemoryDatabase();
         faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -197,6 +200,7 @@ public class TimeSheetServiceTests
     {
         // Prepare
         using var faker = new Faker();
+        faker.ConfigureAuthorization(false);
         faker.ConfigureInMemoryDatabase();
         faker.Provide<ITimeSheetApiService, TimeSheetService>();
 
@@ -250,39 +254,6 @@ public class TimeSheetServiceTests
         copiedTimeSheet.UserId.Should().Be(currentUser.Id);
     }
 
-    [TestMethod]
-    public async Task WhenUserHasNoRightToViewForeignData_OnlyOwnTimeSheetsAreShown()
-    {
-        // Prepare
-        using var faker = new Faker();
-        var activity = faker.Activity.Create();
-        var customer = faker.Customer.Create();
-        var currentUser = faker.User.Create("Own");
-        var foreignUser = faker.User.Create("Foreign");
-        var ownTimeSheet = faker.TimeSheet.Create(customer.Id, activity.Id, userId: currentUser.Id);
-        var foreignTimeSheet = faker.TimeSheet.Create(customer.Id, activity.Id, userId: foreignUser.Id);
-
-        faker.ConfigureInMemoryDatabase();
-        faker.ConfigureAuthorization(true, currentUser);
-        faker.Provide<ITimeSheetApiService, TimeSheetService>();
-
-        var userService = faker.Resolve<IUserService>();
-        await userService.Create(currentUser);
-        await userService.Create(foreignUser);
-
-        var dbRepository = faker.Resolve<IDbRepository>();
-        await dbRepository.AddRange(new List<IIdEntityModel> { activity, customer, ownTimeSheet, foreignTimeSheet });
-        await dbRepository.SaveChanges();
-
-        var timeSheetApiService = faker.Resolve<ITimeSheetApiService>();
-
-        // Act
-        var timeSheets = await timeSheetApiService.GetGridFiltered(FakeFilters.Empty());
-
-        // Check
-        timeSheets.Should().ContainSingle();
-    }
-
     [DataTestMethod]
     [WorkedDaysOverviewDataSource]
     public async Task WhenWorkedDaysOverviewRequested_ResultMatchesExpectedValues(string testCaseJson)
@@ -302,9 +273,7 @@ public class TimeSheetServiceTests
         await dbRepository.AddRange(testCase.TimeSheets);
         await dbRepository.SaveChanges();
 
-        var userService = faker.GetRequiredService<IUserService>();
-        foreach (var user in testCase.Users)
-            await userService.Create(user);
+        await faker.ProvideUsers(testCase.Users.ToArray());
 
         // Act
         var timeSheetService = faker.GetRequiredService<ITimeSheetApiService>();

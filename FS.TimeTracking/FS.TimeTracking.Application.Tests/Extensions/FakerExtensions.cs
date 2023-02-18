@@ -1,10 +1,13 @@
 ﻿using Autofac.Core;
+using AutoMapper;
 using FS.FilterExpressionCreator.Filters;
+using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Application.FilterExpressionInterceptors;
 using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
+using FS.TimeTracking.Core.Interfaces.Repository.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Repository.DbContexts;
@@ -13,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Tests.Extensions;
 
@@ -47,6 +53,28 @@ internal static class FakerExtensions
         faker.Provide(faker.KeycloakRepository.Create());
         faker.Provide(faker.AuthorizationService.Create(currentUser));
         faker.Provide<IUserService, UserService>();
+        return faker;
+    }
+
+    public static async Task<Faker> ProvideUsers(this Faker faker, params UserDto[] users)
+    {
+        var mapper = faker.GetRequiredService<IMapper>();
+        var keycloakConfiguration = faker.GetRequiredService<KeycloakConfiguration>();
+        var keycloakRepository = faker.GetRequiredService<IKeycloakRepository>();
+
+        var keycloakRealm = keycloakConfiguration.Realm;
+        var keycloakClientId = keycloakConfiguration.ClientId;
+        var allClientRoles = await keycloakRepository.GetClientRoles(keycloakRealm, keycloakClientId);
+
+        foreach (var userDto in users)
+        {
+            var user = mapper.Map<UserRepresentation>(userDto);
+            await keycloakRepository.CreateUser(keycloakRealm, user);
+            var userRoleNames = mapper.Map<List<string>>(userDto.Permissions);
+            var userRoles = allClientRoles.Where(x => userRoleNames.Contains(x.Name)).ToList();
+            await keycloakRepository.AddClientRolesToUser(keycloakRealm, userDto.Id, keycloakClientId, userRoles);
+        }
+
         return faker;
     }
 

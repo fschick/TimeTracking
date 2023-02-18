@@ -5,13 +5,13 @@ namespace FS.TimeTracking.Core.Exceptions;
 /// <summary>
 /// Exception for signalling user is not allowed to execute requested operation.
 /// </summary>
-public class ForbiddenException : ApplicationErrorException
+public class UnauthorizedException : ApplicationErrorException
 {
     /// <inheritdoc />
-    public ForbiddenException(params string[] errors)
-        : base(ApplicationErrorCode.Forbidden, errors) { }
+    public UnauthorizedException(params string[] errors)
+        : base(ApplicationErrorCode.Unauthorized, errors) { }
 
     /// <inheritdoc />
-    public ForbiddenException(ApplicationErrorCode errorCode, params string[] errors)
+    public UnauthorizedException(ApplicationErrorCode errorCode, params string[] errors)
         : base(errorCode, errors) { }
 }
