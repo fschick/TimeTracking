@@ -221,8 +221,10 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
     /// <inheritdoc />
     public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
     {
-        using (await _saveChangesLock.LockAsync())
-            return await _dbContext.SaveChangesAsync(cancellationToken);
+        using var async = await _saveChangesLock.LockAsync();
+        var result = await _dbContext.SaveChangesAsync(cancellationToken);
+        _dbContext.ChangeTracker.Clear();
+        return result;
     }
 
     private IQueryable<TResult> GetInternal<TEntity, TResult>(
