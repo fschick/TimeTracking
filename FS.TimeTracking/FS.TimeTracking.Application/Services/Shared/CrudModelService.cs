@@ -80,17 +80,18 @@ public abstract class CrudModelService<TModel, TDto, TGridDto> : ICrudModelServi
         return Mapper.Map<TDto>(result);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<long> Delete(Guid id)
+    {
+        var modelToRemove = new TModel { Id = id };
+        DbRepository.Remove(modelToRemove);
+        return await DbRepository.SaveChanges();
+    }
+
     /// <summary>
     /// Checks conformity of an entity on a deeper level than model validation can do before it's added or modified to database.
     /// </summary>
     /// <param name="model">The model to check.</param>
     protected virtual Task CheckConformity(TModel model)
         => Task.CompletedTask;
-
-    /// <inheritdoc />
-    public async Task<long> Delete(Guid id)
-    {
-        await DbRepository.Remove<TModel>(x => x.Id == id);
-        return await DbRepository.SaveChanges();
-    }
 }

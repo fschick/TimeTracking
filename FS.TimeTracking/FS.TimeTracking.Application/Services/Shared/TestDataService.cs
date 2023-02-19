@@ -189,13 +189,13 @@ public class TestDataService : ITestDataApiService
     {
         using var scope = _dbRepository.CreateTransactionScope();
 
-        await _dbRepository.Remove<TimeSheet>();
-        await _dbRepository.Remove<Order>();
-        await _dbRepository.Remove<Activity>();
-        await _dbRepository.Remove<Project>();
-        await _dbRepository.Remove<Customer>();
-        await _dbRepository.Remove<Holiday>();
-        await _dbRepository.Remove<Setting>();
+        await _dbRepository.BulkRemove<TimeSheet>();
+        await _dbRepository.BulkRemove<Order>();
+        await _dbRepository.BulkRemove<Activity>();
+        await _dbRepository.BulkRemove<Project>();
+        await _dbRepository.BulkRemove<Customer>();
+        await _dbRepository.BulkRemove<Holiday>();
+        await _dbRepository.BulkRemove<Setting>();
 
         scope.Complete();
     }

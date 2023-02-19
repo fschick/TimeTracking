@@ -202,7 +202,7 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
             .ToList();
 
     /// <inheritdoc />
-    public async Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class
+    public async Task<int> BulkRemove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class
     {
         var query = _dbContext
             .Set<TEntity>()

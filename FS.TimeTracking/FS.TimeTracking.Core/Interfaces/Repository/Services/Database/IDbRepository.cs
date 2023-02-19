@@ -220,7 +220,7 @@ public interface IDbRepository
     Task<List<TEntity>> AddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel;
 
     /// <summary>
-    /// Adds a range of specified entities to database.
+    /// Adds a range of specified entities to database. Data is immediately written to the database.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <param name="entities">The entities to add.</param>
@@ -237,7 +237,7 @@ public interface IDbRepository
     TEntity Update<TEntity>(TEntity entity) where TEntity : class, IEntityModel;
 
     /// <summary>
-    /// Bulk update the specific entity in database.
+    /// Bulk update the specific entity in database. Data is immediately written to the database.
     /// </summary>
     /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <param name="where">Predicate to filter the entities to update.</param>
@@ -262,11 +262,11 @@ public interface IDbRepository
     List<TEntity> Remove<TEntity>(List<TEntity> entities) where TEntity : class;
 
     /// <summary>
-    /// Removes a range of entities specified by a predicate.
+    /// Removes a range of entities specified by a predicate. Data is immediately written to the database.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <param name="where">Filters the entities based on a predicate.</param>
-    Task<int> Remove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class;
+    Task<int> BulkRemove<TEntity>(Expression<Func<TEntity, bool>> where = null) where TEntity : class;
 
     /// <summary>
     /// Creates a new transaction scope. Transaction scopes can be nested.
