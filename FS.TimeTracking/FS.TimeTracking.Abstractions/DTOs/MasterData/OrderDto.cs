@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Order")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class OrderDto : IIdEntityDto
+public record OrderDto : IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.

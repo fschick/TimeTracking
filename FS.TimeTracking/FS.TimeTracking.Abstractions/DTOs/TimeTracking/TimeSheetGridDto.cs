@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// <inheritdoc cref="TimeSheetDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheetGridDto : IIdEntityDto, IUserRelatedGridDto
+public record TimeSheetGridDto : IIdEntityDto, IUserRelatedGridDto
 {
     /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]

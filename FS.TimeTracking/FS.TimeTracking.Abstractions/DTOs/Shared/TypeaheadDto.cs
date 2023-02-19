@@ -6,7 +6,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// Non-generic factory for <see cref="TypeaheadDto{TKey, TValue}"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class TypeaheadDto
+public record TypeaheadDto
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeaheadDto{TKey, TValue}"/> class.
@@ -26,7 +26,7 @@ public class TypeaheadDto
 /// <typeparam name="TKey">The type of the key.</typeparam>
 /// <typeparam name="TValue">The type of the value.</typeparam>
 [ExcludeFromCodeCoverage]
-public class TypeaheadDto<TKey, TValue>
+public record TypeaheadDto<TKey, TValue>
 {
     /// <summary>
     /// The ID of the entity.

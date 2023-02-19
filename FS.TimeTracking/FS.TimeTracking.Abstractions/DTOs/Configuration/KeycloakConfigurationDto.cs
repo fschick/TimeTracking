@@ -5,7 +5,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Configuration;
 /// <summary>
 ///  Keycloak specific configuration.
 /// </summary>
-public class KeycloakConfigurationDto
+public record KeycloakConfigurationDto
 {
     /// <summary>
     /// Authorization server URL

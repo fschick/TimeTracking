@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 [ValidationDescription]
 [FilterEntity(Prefix = "User")]
 [ExcludeFromCodeCoverage]
-public class UserDto : IIdEntityDto
+public record UserDto : IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.

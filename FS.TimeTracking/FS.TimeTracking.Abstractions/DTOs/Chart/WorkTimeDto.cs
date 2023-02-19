@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 /// Work times for an entity.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract class WorkTimeDto
+public abstract record WorkTimeDto
 {
     /// <summary>
     /// Time worked in work days.

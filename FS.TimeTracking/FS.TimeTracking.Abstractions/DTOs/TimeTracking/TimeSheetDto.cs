@@ -18,7 +18,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 [FilterEntity(Prefix = "TimeSheet")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheetDto : IIdEntityDto
+public record TimeSheetDto : IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.

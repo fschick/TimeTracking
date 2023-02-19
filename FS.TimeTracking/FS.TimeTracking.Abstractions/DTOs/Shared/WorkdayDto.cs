@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// Last worked times.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class WorkdayDto
+public record WorkdayDto
 {
     /// <summary>
     /// The date.

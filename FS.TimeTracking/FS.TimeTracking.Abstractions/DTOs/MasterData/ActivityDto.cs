@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Activity")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class ActivityDto : IIdEntityDto
+public record ActivityDto : IIdEntityDto
 {
     ///  <summary>
     /// The display name for this item.

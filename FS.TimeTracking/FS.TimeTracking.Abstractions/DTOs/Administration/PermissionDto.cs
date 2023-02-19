@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 /// Permission for a resource.
 /// </summary>
 [ValidationDescription]
-public class PermissionDto
+public record PermissionDto
 {
     /// <summary>
     /// Gets or sets the name.

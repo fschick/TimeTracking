@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 
 /// <inheritdoc cref="UserDto"/>
 [ExcludeFromCodeCoverage]
-public class UserGridDto : IIdEntityDto
+public record UserGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="UserDto.Id"/>
     [Required]

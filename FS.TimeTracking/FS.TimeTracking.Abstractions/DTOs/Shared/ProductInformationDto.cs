@@ -6,7 +6,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// Product information DTO.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class ProductInformationDto
+public record ProductInformationDto
 {
     /// <summary>
     /// The name of the product.

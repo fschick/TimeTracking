@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// Worked time info like days.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class WorkedDaysInfoDto
+public record WorkedDaysInfoDto
 {
     /// <summary>
     /// Count of public workdays.

@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="ActivityDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class ActivityGridDto : IIdEntityDto
+public record ActivityGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="ActivityDto.Id"/>
     [Required]

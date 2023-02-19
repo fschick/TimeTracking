@@ -9,7 +9,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Chart;
 /// Work times for an entity.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class ActivityWorkTimeDto : WorkTimeDto
+public record ActivityWorkTimeDto : WorkTimeDto
 {
     /// <inheritdoc cref="ActivityDto.Id"/>
     [Required]

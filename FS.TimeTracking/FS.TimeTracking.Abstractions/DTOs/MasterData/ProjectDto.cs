@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Project")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class ProjectDto : IIdEntityDto
+public record ProjectDto : IIdEntityDto
 {
     /// <summary>
     /// The unique identifier of the entity.

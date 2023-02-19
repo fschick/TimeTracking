@@ -5,7 +5,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Configuration;
 /// <summary>
 /// Feature management.
 /// </summary>
-public class FeatureConfigurationDto
+public record FeatureConfigurationDto
 {
     /// <summary>
     /// Enable / disable authentication and authorization using Keycloak.

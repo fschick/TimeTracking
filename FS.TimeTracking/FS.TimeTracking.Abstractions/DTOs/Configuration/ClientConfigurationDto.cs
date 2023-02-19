@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Configuration;
 /// <summary>
 /// Client configuration.
 /// </summary>
-public class ClientConfigurationDto
+public record ClientConfigurationDto
 {
     /// <inheritdoc cref="FeatureConfigurationDto"/>
     [Required]

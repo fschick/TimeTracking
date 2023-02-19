@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="OrderDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class OrderGridDto : IIdEntityDto
+public record OrderGridDto : IIdEntityDto
 {
     /// <inheritdoc cref="OrderDto.Id"/>
     [Required]

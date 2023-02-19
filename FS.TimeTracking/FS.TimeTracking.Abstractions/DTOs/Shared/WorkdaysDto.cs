@@ -8,7 +8,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Shared;
 /// Workdays.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class WorkdaysDto
+public record WorkdaysDto
 {
     /// <summary>
     /// Public workdays.
