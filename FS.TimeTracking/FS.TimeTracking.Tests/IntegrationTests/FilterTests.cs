@@ -31,7 +31,7 @@ public class FilterTests
         var newProject = faker.Project.CreateDto(newCustomer.Id, hidden: true);
         var createdProject = await testHost.Post((ProjectController x) => x.Create(default), newProject);
 
-        //// Act
+        // Act
         var newTimeSheet = faker.TimeSheet.CreateDto(newCustomer.Id, newActivity.Id, newProject.Id);
         var createdTimeSheet = await testHost.Post((TimeSheetController x) => x.Create(default), newTimeSheet);
         var readTimeSheet = await testHost.Get<List<TimeSheetGridDto>>("api/v1/TimeSheet/GetGridFiltered?timeSheetStartDate=2000-01-01_2010-01-01");
@@ -40,9 +40,9 @@ public class FilterTests
         readTimeSheet.Should().NotBeNull();
 
         // Cleanup
-        await testHost.Delete((TimeSheetController x) => x.Delete(createdCustomer.Id));
-        await testHost.Delete((ActivityController x) => x.Delete(createdProject.Id));
-        await testHost.Delete((ProjectController x) => x.Delete(createdActivity.Id));
-        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+        await testHost.Delete((TimeSheetController x) => x.Delete(createdTimeSheet.Id));
+        await testHost.Delete((ProjectController x) => x.Delete(createdProject.Id));
+        await testHost.Delete((ActivityController x) => x.Delete(createdActivity.Id));
+        await testHost.Delete((CustomerController x) => x.Delete(createdCustomer.Id));
     }
 }

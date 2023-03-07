@@ -2,6 +2,7 @@
 using FluentAssertions.Execution;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.TimeTracking;
@@ -39,8 +40,7 @@ public class CustomDbFunctionTests
         readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(12);
 
         // Cleanup
-        await DeleteMasterData(testHost, customer, project, activity);
-        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+        await DeleteMasterData(testHost, createdTimeSheet, project, activity, customer);
     }
 
     [DataTestMethod, TestDatabases]
@@ -63,8 +63,7 @@ public class CustomDbFunctionTests
         readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(2);
 
         // Cleanup
-        await DeleteMasterData(testHost, customer, project, activity);
-        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+        await DeleteMasterData(testHost, createdTimeSheet, project, activity, customer);
     }
 
     [DataTestMethod, TestDatabases]
@@ -87,8 +86,7 @@ public class CustomDbFunctionTests
         readTimeSheet.Single().TimeWorked.TotalHours.Should().Be(4);
 
         // Cleanup
-        await DeleteMasterData(testHost, customer, project, activity);
-        await testHost.Delete((CustomerController x) => x.Delete(createdTimeSheet.Id));
+        await DeleteMasterData(testHost, createdTimeSheet, project, activity, customer);
     }
 
     private static async Task<(CustomerDto Customer, ActivityDto Activity, ProjectDto Project)> InsertMasterData(TestHost testHost)
@@ -107,10 +105,11 @@ public class CustomDbFunctionTests
         return (createdCustomer, createdActivity, createdProject);
     }
 
-    private static async Task DeleteMasterData(TestHost testHost, CustomerDto customer, ProjectDto project, ActivityDto activity)
+    private static async Task DeleteMasterData(TestHost testHost, TimeSheetDto timesheet, ProjectDto project, ActivityDto activity, CustomerDto customer)
     {
-        await testHost.Delete((TimeSheetController x) => x.Delete(customer.Id));
-        await testHost.Delete((ActivityController x) => x.Delete(project.Id));
-        await testHost.Delete((ProjectController x) => x.Delete(activity.Id));
+        await testHost.Delete((TimeSheetController x) => x.Delete(timesheet.Id));
+        await testHost.Delete((ProjectController x) => x.Delete(project.Id));
+        await testHost.Delete((ActivityController x) => x.Delete(activity.Id));
+        await testHost.Delete((CustomerController x) => x.Delete(customer.Id));
     }
 }
