@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
-using FS.TimeTracking.Abstractions.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -17,14 +16,14 @@ internal class RolesToPermissionsConverter : ITypeConverter<List<string>, List<P
         var permissions = DefaultPermissions.NoPermissions;
         foreach (var permission in permissions)
         {
-            var viewRoleExists = source.Any(name => name == $"{permission.Name}-{ScopeNames.VIEW}");
-            var manageRoleExists = source.Any(name => name == $"{permission.Name}-{ScopeNames.MANAGE}");
+            var viewRoleExists = source.Any(name => name == $"{permission.Name}-{PermissionScope.VIEW}");
+            var manageRoleExists = source.Any(name => name == $"{permission.Name}-{PermissionScope.MANAGE}");
             if (manageRoleExists)
-                permission.Scope = PermissionScope.Manage;
+                permission.Scope = PermissionScope.MANAGE;
             else if (viewRoleExists)
-                permission.Scope = PermissionScope.View;
+                permission.Scope = PermissionScope.VIEW;
             else
-                permission.Scope = PermissionScope.None;
+                permission.Scope = PermissionScope.NONE;
         }
 
         return permissions;
@@ -38,9 +37,9 @@ internal class RolesFromPermissionsConverter : ITypeConverter<List<PermissionDto
         => source
             .SelectMany(permission => permission.Scope switch
             {
-                PermissionScope.None => Array.Empty<string>(),
-                PermissionScope.View => new[] { $"{permission.Name}-{ScopeNames.VIEW}" },
-                PermissionScope.Manage => new[] { $"{permission.Name}-{ScopeNames.VIEW}", $"{permission.Name}-{ScopeNames.MANAGE}" },
+                PermissionScope.NONE => Array.Empty<string>(),
+                PermissionScope.VIEW => new[] { $"{permission.Name}-{PermissionScope.VIEW}" },
+                PermissionScope.MANAGE => new[] { $"{permission.Name}-{PermissionScope.VIEW}", $"{permission.Name}-{PermissionScope.MANAGE}" },
                 _ => throw new ArgumentOutOfRangeException(nameof(permission))
             })
             .ToList();

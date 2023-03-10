@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IProjectApiService" />
 [ApiV1Controller]
-[Authorize(Policy = PermissionNames.MASTER_DATA_PROJECTS)]
+[Authorize(Policy = PermissionName.MASTER_DATA_PROJECTS)]
 [ExcludeFromCodeCoverage]
 public class ProjectController : CrudModelController<ProjectDto, ProjectGridDto>, IProjectApiService
 {

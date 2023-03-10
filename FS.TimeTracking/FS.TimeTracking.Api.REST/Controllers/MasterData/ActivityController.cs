@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IActivityApiService" />
 [ApiV1Controller]
-[Authorize(Policy = PermissionNames.MASTER_DATA_ACTIVITIES)]
+[Authorize(Policy = PermissionName.MASTER_DATA_ACTIVITIES)]
 [ExcludeFromCodeCoverage]
 public class ActivityController : CrudModelController<ActivityDto, ActivityGridDto>, IActivityApiService
 {

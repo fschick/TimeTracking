@@ -40,37 +40,37 @@ public class UserController : IUserApiService
     /// <inheritdoc />
     [HttpGet]
     [NotFoundWhenEmpty]
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_VIEW)]
     public async Task<UserDto> Get(Guid id, CancellationToken cancellationToken = default)
         => await _userService.Get(id, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_VIEW)]
     public async Task<List<UserGridDto>> GetGridFiltered([FromQuery] TimeSheetFilterSet filters, CancellationToken cancellationToken = default)
         => await _userService.GetGridFiltered(filters, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
     [NotFoundWhenEmpty]
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_VIEW)]
     public async Task<UserGridDto> GetGridItem(Guid id, CancellationToken cancellationToken = default)
         => await _userService.GetGridItem(id, cancellationToken);
 
     /// <inheritdoc />
     [HttpPost]
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_VIEW)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_VIEW)]
     public async Task<UserDto> Create(UserDto dto)
         => await _userService.Create(dto);
 
     /// <inheritdoc />
     [HttpPut]
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_MANAGE)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_MANAGE)]
     public async Task<UserDto> Update(UserDto dto)
         => await _userService.Update(dto);
 
     /// <inheritdoc />
-    [Authorize(Roles = RoleNames.ADMINISTRATION_USERS_MANAGE)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_MANAGE)]
     [HttpDelete("{id}", Name = "[controller]_[action]")]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ApplicationError), (int)HttpStatusCode.Conflict)]

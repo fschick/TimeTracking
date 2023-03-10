@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IOrderApiService" />
 [ApiV1Controller]
-[Authorize(Policy = PermissionNames.MASTER_DATA_ORDERS)]
+[Authorize(Policy = PermissionName.MASTER_DATA_ORDERS)]
 [ExcludeFromCodeCoverage]
 public class OrderController : CrudModelController<OrderDto, OrderGridDto>, IOrderApiService
 {

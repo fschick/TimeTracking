@@ -36,7 +36,7 @@ public class FakeAuthorizationService
     {
         currentUser ??= new UserDto();
         var userRoles = mapper.Map<List<string>>(currentUser.Permissions);
-        var allRoles = (userRoles ?? RoleNames.All).Select(name => new Claim(ClaimTypes.Role, name));
+        var allRoles = (userRoles ?? RoleName.All).Select(name => new Claim(ClaimTypes.Role, name));
         var claims = new List<Claim>(allRoles)
         {
             new (ClaimTypes.NameIdentifier, currentUser.Id.ToString()),

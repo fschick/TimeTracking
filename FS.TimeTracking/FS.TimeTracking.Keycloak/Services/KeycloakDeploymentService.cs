@@ -174,7 +174,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
     private async Task<List<RoleRepresentation>> CreateClientRoles(string realm, string clientId, CancellationToken cancellationToken)
     {
-        var roles = RoleNames.All
+        var roles = RoleName.All
             .Select(role => new RoleRepresentation
             {
                 Name = role,

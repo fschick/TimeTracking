@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerApiService" />
 [ApiV1Controller]
-[Authorize(Policy = PermissionNames.MASTER_DATA_CUSTOMERS)]
+[Authorize(Policy = PermissionName.MASTER_DATA_CUSTOMERS)]
 [ExcludeFromCodeCoverage]
 public class CustomerController : CrudModelController<CustomerDto, CustomerGridDto>, ICustomerApiService
 {

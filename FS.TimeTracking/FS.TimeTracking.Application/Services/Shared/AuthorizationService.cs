@@ -67,8 +67,8 @@ public class AuthorizationService : IAuthorizationService
             : httpContextAccessor.HttpContext.User;
 
         CurrentUserId = GetUserId(CurrentUser);
-        CanViewForeignData = CurrentUser.IsInRole(RoleNames.FOREIGN_DATA_VIEW);
-        CanManageForeignData = CurrentUser.IsInRole(RoleNames.FOREIGN_DATA_MANAGE);
+        CanViewForeignData = CurrentUser.IsInRole(RoleName.FOREIGN_DATA_VIEW);
+        CanManageForeignData = CurrentUser.IsInRole(RoleName.FOREIGN_DATA_MANAGE);
     }
 
     /// <inheritdoc />

@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IProjectChartApiService" />
 [ApiV1Controller]
-[Authorize(Roles = RoleNames.CHARTS_BY_PROJECT_VIEW)]
+[Authorize(Roles = RoleName.CHARTS_BY_PROJECT_VIEW)]
 [ExcludeFromCodeCoverage]
 public class ProjectChartController : ControllerBase, IProjectChartApiService
 {

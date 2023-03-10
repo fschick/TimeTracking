@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IActivityChartApiService" />
 [ApiV1Controller]
-[Authorize(Roles = RoleNames.CHARTS_BY_ACTIVITY_VIEW)]
+[Authorize(Roles = RoleName.CHARTS_BY_ACTIVITY_VIEW)]
 [ExcludeFromCodeCoverage]
 public class ActivityChartController : ControllerBase, IActivityChartApiService
 {

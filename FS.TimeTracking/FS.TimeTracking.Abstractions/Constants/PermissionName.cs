@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FS.TimeTracking.Abstractions.Constants;
 
-internal class PermissionNames
+internal class PermissionName
 {
     /// <summary>
     /// Permission for data of other users.
@@ -109,7 +109,7 @@ internal class PermissionNames
     };
 
     private static IEnumerable<string> GetAllPermissionNames()
-        => typeof(RoleNames)
+        => typeof(RoleName)
             .GetFields()
             .Where(x => x.IsLiteral)
             .Select(x => (string)x.GetValue(null))

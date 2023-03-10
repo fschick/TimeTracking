@@ -18,7 +18,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.MasterData;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IHolidayApiService" />
 [ApiV1Controller]
-[Authorize(Policy = PermissionNames.MASTER_DATA_HOLIDAYS)]
+[Authorize(Policy = PermissionName.MASTER_DATA_HOLIDAYS)]
 [ExcludeFromCodeCoverage]
 public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>, IHolidayApiService
 {
@@ -36,7 +36,7 @@ public class HolidayController : CrudModelController<HolidayDto, HolidayGridDto>
 
     /// <inheritdoc />
     [HttpPost]
-    [Authorize(Roles = RoleNames.MASTER_DATA_HOLIDAYS_MANAGE)]
+    [Authorize(Roles = RoleName.MASTER_DATA_HOLIDAYS_MANAGE)]
     public async Task Import([Required] IFormFile file, [Required] HolidayType type, CancellationToken cancellationToken = default)
         => await _holidayService.Import(file, type, cancellationToken);
 }

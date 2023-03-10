@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="IOrderChartApiService" />
 [ApiV1Controller]
-[Authorize(Roles = RoleNames.CHARTS_BY_ORDER_VIEW)]
+[Authorize(Roles = RoleName.CHARTS_BY_ORDER_VIEW)]
 [ExcludeFromCodeCoverage]
 public class OrderChartController : ControllerBase, IOrderChartApiService
 {

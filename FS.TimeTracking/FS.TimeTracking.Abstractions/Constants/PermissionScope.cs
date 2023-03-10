@@ -1,7 +1,15 @@
 ﻿namespace FS.TimeTracking.Abstractions.Constants;
 
-internal class ScopeNames
+/// <summary>
+/// Scope of a resource permission.
+/// </summary>
+public class PermissionScope
 {
+    /// <summary>
+    /// Resource cannot be accessed.
+    /// </summary>
+    public const string NONE = "none";
+
     /// <summary>
     /// Resource can be displayed.
     /// </summary>

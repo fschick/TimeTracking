@@ -103,8 +103,8 @@ public class ActivityReportService : IActivityReportApiService
                 TimeWorked = workTime.TimeWorked,
                 BudgetWorked = workTime.BudgetWorked,
                 Currency = workTime.Currency,
-                DailyActivityReportUrl = $"{dailyReportDownloadUrl}{customerId(workTime.CustomerId)}{accessToken(RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)}",
-                DetailedActivityReportUrl = $"{detailedReportDownloadUrl}{customerId(workTime.CustomerId)}{accessToken(RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)}",
+                DailyActivityReportUrl = $"{dailyReportDownloadUrl}{customerId(workTime.CustomerId)}{accessToken(RoleName.REPORT_ACTIVITY_SUMMARY_VIEW)}",
+                DetailedActivityReportUrl = $"{detailedReportDownloadUrl}{customerId(workTime.CustomerId)}{accessToken(RoleName.REPORT_ACTIVITY_DETAIL_VIEW)}",
             })
             .ToList();
 
@@ -119,11 +119,11 @@ public class ActivityReportService : IActivityReportApiService
 
     /// <inheritdoc />
     public Task<string> GetDailyActivityReportDownloadToken(CancellationToken cancellationToken = default)
-        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW));
+        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleName.REPORT_ACTIVITY_SUMMARY_VIEW));
 
     /// <inheritdoc />
     public Task<string> GetDetailedActivityReportDownloadToken(CancellationToken cancellationToken = default)
-        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleNames.REPORT_ACTIVITY_DETAIL_VIEW));
+        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleName.REPORT_ACTIVITY_DETAIL_VIEW));
 
     /// <inheritdoc />
     public async Task<FileResult> GetDailyActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)

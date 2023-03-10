@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Api.REST.Controllers.Chart;
 /// <seealso cref="ControllerBase" />
 /// <seealso cref="ICustomerChartApiService" />
 [ApiV1Controller]
-[Authorize(Roles = RoleNames.CHARTS_BY_CUSTOMER_VIEW)]
+[Authorize(Roles = RoleName.CHARTS_BY_CUSTOMER_VIEW)]
 [ExcludeFromCodeCoverage]
 public class CustomerChartController : ControllerBase, ICustomerChartApiService
 {

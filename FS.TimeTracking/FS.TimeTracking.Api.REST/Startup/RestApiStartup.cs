@@ -60,7 +60,7 @@ internal static class RestApiStartup
         services.
             AddAuthorization(options =>
             {
-                foreach (var permissionName in PermissionNames.CrudServicePermissionNames)
+                foreach (var permissionName in PermissionName.CrudServicePermissionNames)
                     options.ExtendPolicy(permissionName, policy => ConfigureCrudServicePolicy(policy, permissionName));
             });
 
@@ -82,11 +82,11 @@ internal static class RestApiStartup
                 case nameof(ICrudModelService<object, object, object>.Get):
                 case nameof(ICrudModelService<object, object, object>.GetGridFiltered):
                 case nameof(ICrudModelService<object, object, object>.GetGridItem):
-                    return context.User.IsInRole($"{policyName}-{ScopeNames.VIEW}");
+                    return context.User.IsInRole($"{policyName}-{PermissionScope.VIEW}");
                 case nameof(ICrudModelService<object, object, object>.Create):
                 case nameof(ICrudModelService<object, object, object>.Update):
                 case nameof(ICrudModelService<object, object, object>.Delete):
-                    return context.User.IsInRole($"{policyName}-{ScopeNames.MANAGE}");
+                    return context.User.IsInRole($"{policyName}-{PermissionScope.MANAGE}");
                 default:
                     return true;
             }

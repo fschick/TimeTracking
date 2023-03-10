@@ -39,7 +39,7 @@ public class FakeKeycloakRepository
         {
             _clients = new List<ClientRepresentation> { new(clientId) };
             _clientUserRoles = new ConcurrentDictionary<string, List<RoleRepresentation>>();
-            _clientRoles = RoleNames.All
+            _clientRoles = RoleName.All
                 .Select(role => new RoleRepresentation
                 {
                     Name = role,

@@ -36,49 +36,49 @@ public class ActivityReportController : ControllerBase, IActivityReportApiServic
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW + ", " + RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_SUMMARY_VIEW + ", " + RoleName.REPORT_ACTIVITY_DETAIL_VIEW)]
     public async Task<List<ActivityReportGridDto>> GetCustomersHavingTimeSheets([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetCustomersHavingTimeSheets(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_SUMMARY_VIEW)]
     public async Task<string> GetDailyActivityReportDownloadToken(CancellationToken cancellationToken = default)
         => await _activityReportService.GetDailyActivityReportDownloadToken(cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_DETAIL_VIEW)]
     public async Task<string> GetDetailedActivityReportDownloadToken(CancellationToken cancellationToken = default)
         => await _activityReportService.GetDetailedActivityReportDownloadToken(cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)]
+    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleName.REPORT_ACTIVITY_SUMMARY_VIEW)]
     public async Task<FileResult> GetDailyActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDailyActivityReport(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme, Roles = RoleName.REPORT_ACTIVITY_DETAIL_VIEW)]
     public async Task<FileResult> GetDetailedActivityReport([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDetailedActivityReport(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_SUMMARY_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_SUMMARY_VIEW)]
     public async Task<ReportPreviewDto> GetDailyActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDailyActivityReportPreview(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_DETAIL_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_DETAIL_VIEW)]
     public async Task<ReportPreviewDto> GetDetailedActivityReportPreview([FromQuery] TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await _activityReportService.GetDetailedActivityReportPreview(filters, language, cancellationToken);
 
     /// <inheritdoc />
     [HttpGet]
-    [Authorize(Roles = RoleNames.REPORT_ACTIVITY_RAW_DATA_VIEW)]
+    [Authorize(Roles = RoleName.REPORT_ACTIVITY_RAW_DATA_VIEW)]
     public async Task<ActivityReportDto> GetActivityReportData([FromQuery] TimeSheetFilterSet filters, string language, [Required] ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
         => await _activityReportService.GetActivityReportData(filters, language, reportType, cancellationToken);
 }
