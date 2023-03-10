@@ -39,6 +39,7 @@ internal static class RestApiStartup
             {
                 options.OutputFormatters.RemoveType<StringOutputFormatter>();
                 options.Filters.Add<AddRequestIdToHeaderFilter>();
+                options.Filters.Add<VoidToHttpNoContentFilter>();
                 options.Filters.Add<ExceptionToHttpResultFilter>();
             })
             .AddFilterExpressionCreators()
