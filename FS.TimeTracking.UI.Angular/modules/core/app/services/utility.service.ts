@@ -132,6 +132,11 @@ export class UtilityService {
     return result;
   }
 
+  // https://stackoverflow.com/a/33121880
+  public distinct<V extends string | number>(array: Array<V>): Array<V> {
+    return [...new Set(array)];
+  }
+
   public sum(array: Array<number>): number {
     return array.reduce((prev, current) => prev + current, 0);
   }

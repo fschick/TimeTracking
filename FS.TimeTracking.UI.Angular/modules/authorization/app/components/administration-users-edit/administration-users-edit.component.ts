@@ -11,8 +11,11 @@ import {Validators} from '../../../../core/app/services/form-validation/validato
 import {ConfigurationService} from '../../../../core/app/services/configuration.service';
 import {$localizeId} from '../../../../core/app/services/internationalization/localizeId';
 import {EMPTY, Observable} from 'rxjs';
+import {UtilityService} from '../../../../core/app/services/utility.service';
 import {AuthenticationService} from '../../../../core/app/services/authentication.service';
 
+type IndexedControl = { index: number } & AbstractControl;
+type PermissionGroup = { name: string, controls: IndexedControl[] };
 
 @Component({
   selector: 'ts-administration-users-edit',
@@ -23,6 +26,7 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
   public userForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public customers$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
+  public permissionGroups: PermissionGroup[];
 
   @ViewChild('userEdit') private userEdit?: TemplateRef<any>;
 
@@ -34,6 +38,7 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
     private userService: UserService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
+    private utilityService: UtilityService,
     private modalService: NgbModal,
     private authenticationService: AuthenticationService,
     configurationService: ConfigurationService,
@@ -50,6 +55,10 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
         [Validators.compare('password', 'confirmPassword')]
       );
 
+    const permissionControls = (this.userForm.get('permissions') as FormArray).controls.map((control, index) => ({index, ...control} as IndexedControl));
+    const permissionControlGroups = this.utilityService.groupBy(permissionControls, permission => permission.value.group as string);
+    this.permissionGroups = Array.from(permissionControlGroups).map(([groupName, controls]) => ({name: groupName, controls}));
+
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     if (this.isNewRecord)
       return;
@@ -64,8 +73,9 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
       });
   }
 
-  public getPermissionControls(): AbstractControl[] {
-    return (this.userForm.get('permissions') as FormArray).controls;
+  public translatePermissionGroup(permissionGroup: string): string {
+    const transUnitId = `@@Page.Administration.Users.PermissionGroups.${permissionGroup}`;
+    return $localizeId`${transUnitId}:TRANSUNITID:`;
   }
 
   public translatePermissionName(permissionName: string): string {

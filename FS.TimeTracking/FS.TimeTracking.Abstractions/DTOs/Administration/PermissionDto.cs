@@ -1,4 +1,6 @@
 ﻿using FS.TimeTracking.Abstractions.Attributes;
+using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.Enums;
 
 namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 
@@ -24,6 +26,16 @@ public record PermissionDto
     public string Scope { get; set; }
 
     /// <summary>
+    /// Gets or sets the permission group.
+    /// </summary>
+    public PermissionGroup Group { get; set; }
+
+    /// <summary>
+    /// Sort order.
+    /// </summary>
+    public int SortOrder { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="PermissionDto"/> class.
     /// </summary>
     /// <param name="name">Gets or sets the name.</param>
@@ -35,5 +47,7 @@ public record PermissionDto
         Name = name;
         Manageable = manageable;
         Scope = scope;
+        Group = PermissionName.ToGroup(name);
+        SortOrder = PermissionName.ToSortOrder(name);
     }
 }
