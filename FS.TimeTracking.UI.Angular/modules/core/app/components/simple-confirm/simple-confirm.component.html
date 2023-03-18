@@ -1,4 +1,7 @@
-<div class="d-inline-block cursor-pointer" (click)="createConfirmDialog(confirmDialog)" aria-label="Confirm dialog">
+<div class="d-inline-block cursor-pointer"
+     [ngClass]="{ disabled: disabled }"
+     aria-label="Confirm dialog"
+     (click)="createConfirmDialog(confirmDialog)">
   <ng-content></ng-content>
 </div>
 
