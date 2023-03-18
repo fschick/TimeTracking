@@ -17,10 +17,10 @@
       [i18n] Holidays
     </h4>
     <div>
-      <button type="button" class="btn btn-secondary me-3" [routerLink]="'import'">
+      <button type="button" class="btn btn-secondary me-3" [routerLink]="'import'" [disabled]="createNewDisabled">
         <ng-container i18n="@@Page.MasterData.Holidays.Import">[i18n] Import</ng-container>
       </button>
-      <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
+      <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty" [disabled]="createNewDisabled">
         <ng-container i18n="@@Page.MasterData.Holidays.New">[i18n] New holiday</ng-container>
       </button>
     </div>
@@ -57,6 +57,7 @@
     actionText="[i18n] Delete Holiday"
     i18n-actionText="@@Page.MasterData.Holidays.Delete"
     color="danger"
+    [disabled]="row.isReadonly ?? false"
     (confirmed)="deleteItem(row.id)">
     <a class="text-secondary">
       <svg class="bi action-icon" fill="currentColor">

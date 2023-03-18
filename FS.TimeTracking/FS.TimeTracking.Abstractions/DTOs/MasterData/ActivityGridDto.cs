@@ -29,8 +29,7 @@ public record ActivityGridDto : IIdEntityDto, IManageableDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

@@ -16,7 +16,7 @@
     <h4 i18n="@@Page.Administration.Users.Title">
       [i18n] Users
     </h4>
-    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
+    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty" [disabled]="createNewDisabled">
       <ng-container i18n="@@Page.Administration.Users.New">[i18n] New customer</ng-container>
     </button>
   </div>
@@ -52,7 +52,7 @@
     actionText="[i18n] Delete customer"
     i18n-actionText="@@Page.Administration.Users.Delete"
     color="danger"
-    [disabled]="isCurrentUser(row)"
+    [disabled]="(row.isReadonly ?? false) || isCurrentUser(row)"
     (confirmed)="deleteItem(row.id)">
     <a class="text-secondary">
       <svg class="bi action-icon" fill="currentColor">

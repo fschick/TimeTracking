@@ -25,6 +25,8 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
   public columns!: Column<UserGridDto>[];
   public configuration?: Partial<Configuration<UserGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -35,6 +37,8 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
     private authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.administrationUsersManage || !authenticationService.currentUser.hasRole.foreignDataManage;
+
     this.filters = [
       {name: 'userId', showHidden: true, isPrimary: true},
       {name: 'userFirstName', isPrimary: true},
@@ -104,7 +108,7 @@ export class AdministrationUsersComponent implements OnInit, OnDestroy {
   }
 
   public isCurrentUser(userDto: UserGridDto) {
-    return userDto.id === this.authenticationService.currentUser?.id;
+    return userDto.id === this.authenticationService.currentUser.id;
   }
 
   public deleteItem(id: string): void {

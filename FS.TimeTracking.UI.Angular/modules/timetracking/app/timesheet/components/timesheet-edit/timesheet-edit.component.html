@@ -13,27 +13,28 @@
         <div class="col-6 col-lg-3">
           <label for="startDate" class="form-label" i18n="@@DTO.TimeSheetDto.Start">[i18n] Start</label>
           <label for="startDate" class="form-label visually-hidden" i18n="@@DTO.TimeSheetDto.StartDate">[i18n] Start date</label>
-          <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" formControlName="startDate" autocomplete="off">
+          <input id="startDate" type="text" inputmode="none" tsDatePicker class="form-control" [readonly]="isReadOnly" formControlName="startDate" autocomplete="off">
         </div>
         <div class="col-6 col-lg-3">
           <label for="startTime" class="form-label">&nbsp;</label>
           <label for="startTime" class="form-label visually-hidden" i18n="@@DTO.TimeSheetDto.StartTime">[i18n] Start time</label>
-          <input id="startTime" type="time" tsTime class="form-control" formControlName="startTime" autocomplete="off">
+          <input id="startTime" type="time" tsTime class="form-control" [readonly]="isReadOnly" formControlName="startTime" autocomplete="off">
         </div>
         <div class="col-6 col-lg-3">
           <label for="endDate" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.End">[i18n] End</label>
           <label for="endDate" class="form-label visually-hidden" i18n="@@DTO.TimeSheetDto.EndDate">[i18n] End date</label>
-          <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" formControlName="endDate" autocomplete="off">
+          <input id="endDate" type="text" inputmode="none" tsDatePicker relativeAnchor="end" class="form-control" [readonly]="isReadOnly" formControlName="endDate" autocomplete="off">
         </div>
         <div class="col-6 col-lg-3">
           <label for="endTime" class="form-label">&nbsp;</label>
           <label for="endTime" class="form-label visually-hidden" i18n="@@DTO.TimeSheetDto.EndTime">[i18n] End time</label>
-          <input id="endTime" type="time" tsTime class="form-control" formControlName="endTime" autocomplete="off">
+          <input id="endTime" type="time" tsTime class="form-control" [readonly]="isReadOnly" formControlName="endTime" autocomplete="off">
         </div>
         <div class="col-lg-12">
           <label for="comment" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.Comment">[i18n] Comment</label>
           <textarea id="comment"
                     class="form-control"
+                    [readonly]="isReadOnly"
                     rows="3"
                     formControlName="comment"
                     ngbAutofocus>
@@ -44,6 +45,7 @@
           <label for="customerId" class="form-label" i18n="@@DTO.TimeSheetDto.CustomerId">[i18n] Customer</label>
           <ng-select [items]="allCustomers"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerId"
@@ -61,6 +63,7 @@
           <label for="activityId" class="form-label" i18n="@@DTO.TimeSheetDto.ActivityId">[i18n] Activity</label>
           <ng-select [items]="selectableActivities"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="activityId"
@@ -78,6 +81,7 @@
           <label for="projectId" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.ProjectId">[i18n] Project</label>
           <ng-select [items]="selectableProjects"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="projectId"
@@ -95,6 +99,7 @@
           <label for="orderId" class="form-label" [tsOptionalLabel] i18n="@@DTO.TimeSheetDto.OrderId">[i18n] Order</label>
           <ng-select [items]="selectableOrders"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="orderId"
@@ -110,6 +115,7 @@
           <input id="issue"
                  type="text"
                  class="form-control"
+                 [readonly]="isReadOnly"
                  formControlName="issue">
         </div>
         <div class="col-lg-6" *ngIf="authorizationEnabled">
@@ -118,6 +124,8 @@
           <ng-select [items]="allUsers"
                      [selectOnTab]="true"
                      [clearable]="false"
+                     [readonly]="isReadOnly"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="userId"
@@ -130,7 +138,7 @@
           </ng-select>
         </div>
         <div class="col-lg-12">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch" [ngClass]="{disabled: isReadOnly}">
             <input class="form-check-input" type="checkbox" id="billable" formControlName="billable">
             <label class="form-label" for="billable" i18n="@@DTO.TimeSheetDto.Billable">
               [i18n] Billable
@@ -146,7 +154,7 @@
     <button id="cancel" form="timesheetForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button id="save" form="timesheetForm" type="submit" class="btn btn-primary">
+    <button id="save" form="timesheetForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
       <svg class="bi check-lg" fill="currentColor">
         <use xlink:href="assets/icons.svg#check-lg"/>
       </svg>

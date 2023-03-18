@@ -11,6 +11,7 @@ import {UtilityService} from '../../../../../core/app/services/utility.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 // import {Validators as CustomValidators} from '../../../../../core/app/services/form-validation/validators';
 
@@ -36,6 +37,7 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   public overview?: TimeSheetOverviewDto;
   public filters: (Filter | FilterName)[];
   public showDetails = false;
+  public createNewDisabled: boolean;
 
   private readonly subscriptions = new Subscription();
 
@@ -48,7 +50,10 @@ export class TimesheetComponent implements OnInit, OnDestroy {
     private httpClient: HttpClient,
     private storageService: StorageService,
     private utilityService: UtilityService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.timeSheetManage;
+
     const defaultStartDate = DateTime.now().minus({month: 1}).startOf('month');
     const defaultEndDate = DateTime.now().endOf('month');
 

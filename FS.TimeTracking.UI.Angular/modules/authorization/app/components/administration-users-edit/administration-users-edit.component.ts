@@ -25,6 +25,7 @@ type PermissionGroup = { name: string, controls: IndexedControl[] };
 export class AdministrationUsersEditComponent implements AfterViewInit {
   public userForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
   public customers$: Observable<GuidStringTypeaheadDto[]> = EMPTY;
   public permissionGroups: PermissionGroup[];
 
@@ -60,6 +61,8 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
     this.permissionGroups = Array.from(permissionControlGroups).map(([groupName, controls]) => ({name: groupName, controls}));
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.administrationUsersManage || !authenticationService.currentUser.hasRole.foreignDataManage;
+
     if (this.isNewRecord)
       return;
 
@@ -67,9 +70,10 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
       .get({id: this.route.snapshot.params['id']})
       .pipe(single())
       .subscribe(user => {
-        this.userForm.patchValue(user);
-        if (user.id === this.authenticationService.currentUser?.id)
+        this.isReadOnly = user.isReadonly ?? false;
+        if (user.id === this.authenticationService.currentUser.id)
           this.disableAdministrateUsersControl();
+        this.userForm.patchValue(user);
       });
   }
 
@@ -92,9 +96,11 @@ export class AdministrationUsersEditComponent implements AfterViewInit {
     if (!this.userForm.valid)
       return;
 
+    // https://stackoverflow.com/a/40148168
+    const userDto = this.userForm.getRawValue();
     const apiAction = this.isNewRecord
-      ? this.userService.create({userDto: this.userForm.value})
-      : this.userService.update({userDto: this.userForm.value});
+      ? this.userService.create({userDto})
+      : this.userService.update({userDto});
 
     const userChangedAction = this.isNewRecord
       ? 'created'

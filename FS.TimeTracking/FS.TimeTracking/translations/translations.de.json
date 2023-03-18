@@ -277,6 +277,7 @@
       "Conflict": null,
       "InternalServerError": "Ein interner Serverfehler ist aufgetreten",
       "BadRequestConformityViolation": "Der Datensatz entspricht nicht seinen Konformitätsregeln",
+      "ForbiddenForeignUserData": "Der Zugriff auf Daten anderer Benutzer ist nicht authorisiert",
       "ConflictForeignKeyViolation": "Die Anfrage steht in Konflikt mit anderen Daten",
       "ConflictForeignKeyViolationOnDelete": "Der Datensatz konnte nicht gelöscht werden, weil andere Daten von ihm abhängen",
       "ConflictActivityAlreadyAssignedToDifferentCustomers": "Die Tätigkeit ist bereits Stundenzetteln mit abweichenden Kunden zugeordnet",

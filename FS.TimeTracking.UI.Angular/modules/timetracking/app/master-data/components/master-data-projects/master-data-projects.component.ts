@@ -13,6 +13,7 @@ import {LocalizationService} from '../../../../../core/app/services/internationa
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-projects',
@@ -30,6 +31,8 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
   public columns!: Column<ProjectGridDto>[];
   public configuration?: Partial<Configuration<ProjectGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -38,7 +41,10 @@ export class MasterDataProjectsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private localizationService: LocalizationService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.masterDataProjectsManage;
+
     this.filters = [
       {name: 'projectId', showHidden: true, isPrimary: true},
       {name: 'customerId', showHidden: true, isPrimary: true},

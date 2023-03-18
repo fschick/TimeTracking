@@ -59,7 +59,7 @@ public class UserController : IUserApiService
 
     /// <inheritdoc />
     [HttpPost]
-    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_VIEW)]
+    [Authorize(Roles = RoleName.ADMINISTRATION_USERS_MANAGE)]
     public async Task<UserDto> Create(UserDto dto)
         => await _userService.Create(dto);
 

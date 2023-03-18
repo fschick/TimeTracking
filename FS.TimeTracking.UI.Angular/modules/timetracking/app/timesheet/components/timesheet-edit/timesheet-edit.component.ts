@@ -25,6 +25,8 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   public allUsers: GuidStringTypeaheadDto[] = [];
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
+
   public authorizationEnabled: boolean;
 
   private allProjects: GuidStringTypeaheadDto[] = [];
@@ -48,8 +50,13 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     private modalService: NgbModal,
   ) {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.timeSheetManage;
     this.authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
     this.timesheetForm = this.createTimesheetForm();
+
+    const canManageForeignData = authenticationService.currentUser.hasRole.foreignDataManage;
+    if (!canManageForeignData)
+      this.timesheetForm.get('userId')?.disable();
 
     const getTimeSheet = !this.isNewRecord ? timesheetService.get({id: this.route.snapshot.params['id']}) : of(undefined);
     const getCustomers = typeaheadService.getCustomers({});
@@ -66,8 +73,10 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
         this.allOrders = orders;
         this.allUsers = users;
 
-        if (timesheet)
+        if (timesheet) {
+          this.isReadOnly = timesheet.isReadonly ?? false;
           this.timesheetForm.patchValue(timesheet);
+        }
 
         this.setSelectable(timesheet?.customerId);
         this.setTimeEndToNowAfterEndDateWasSet(timesheet?.endDate);
@@ -139,7 +148,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
           startDate: DateTime.now(),
           id: GuidService.guidEmpty,
           billable: true,
-          userId: this.authorizationEnabled ? this.authenticationService.currentUser?.id : GuidService.guidEmpty,
+          userId: this.authorizationEnabled ? this.authenticationService.currentUser.id : GuidService.guidEmpty,
         },
         {
           startTime: new FormControl(DateTime.now()),

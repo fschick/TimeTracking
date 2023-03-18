@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, TemplateRef, ViewChild} from '@angular/core';
 import {FormValidationService, ValidationFormGroup} from '../../../../../core/app/services/form-validation/form-validation.service';
 import {Observable} from 'rxjs';
 import {OrderDto, OrderService, GuidStringTypeaheadDto, TypeaheadService} from '../../../../../api/timetracking';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {single} from 'rxjs/operators';
-import {Modal} from 'bootstrap';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-orders-edit',
@@ -17,6 +17,7 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataOrdersEditComponent implements AfterViewInit {
   public orderForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
   public customers$: Observable<GuidStringTypeaheadDto[]>;
 
   @ViewChild('orderEdit') private orderEdit?: TemplateRef<any>;
@@ -29,8 +30,9 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     private orderService: OrderService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
+    private modalService: NgbModal,
     typeaheadService: TypeaheadService,
-    private modalService: NgbModal
+    authenticationService: AuthenticationService,
   ) {
     this.orderForm = this.formValidationService
       .getFormGroup<OrderDto>('OrderDto', {
@@ -42,13 +44,18 @@ export class MasterDataOrdersEditComponent implements AfterViewInit {
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.masterDataOrdersManage;
+
     if (this.isNewRecord)
       return;
 
     this.orderService
       .get({id: this.route.snapshot.params['id']})
       .pipe(single())
-      .subscribe(order => this.orderForm.patchValue(order));
+      .subscribe(order => {
+        this.isReadOnly = order.isReadonly ?? false;
+        this.orderForm.patchValue(order);
+      });
   }
 
   public ngAfterViewInit(): void {

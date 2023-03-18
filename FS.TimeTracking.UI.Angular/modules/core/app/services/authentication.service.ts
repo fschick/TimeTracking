@@ -5,27 +5,28 @@ import {ConfigurationService} from './configuration.service';
 import {KeycloakConfigurationDto} from '../../../api/timetracking';
 import {switchMap, tap} from 'rxjs/operators';
 import {RoleNames} from '../../../authorization/app/services/RoleNames';
-import {UtilityService} from './utility.service';
 
 // https://stackoverflow.com/a/65642944/1271211
-type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}` ? `${T}${Capitalize<SnakeToCamelCase<U>>}` : S;
-type SnakeToPascalCase<S extends string> = Capitalize<SnakeToCamelCase<S>>
-export type UserPermissions = Record<`can${SnakeToPascalCase<Lowercase<keyof typeof RoleNames>>}`, boolean>;
+// export type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}` ? `${T}${Capitalize<SnakeToCamelCase<U>>}` : S;
+// export type SnakeToPascalCase<S extends string> = Capitalize<SnakeToCamelCase<S>>
+// export type UserRoles = Record<`can${SnakeToPascalCase<Lowercase<keyof typeof RoleNames>>}`, boolean>;
 
-export  type UserPermissionGroups = {
-  canChartsView: boolean;
-  canReportView: boolean;
-  canMasterDataView: boolean;
-  canAdministrationView: boolean;
+export type UserRoles = Record<keyof typeof RoleNames, boolean>;
+
+export type PermissionGroupsRoles = {
+  chartsView: boolean;
+  reportsView: boolean;
+  masterDataView: boolean;
+  administrationView: boolean;
 }
 
-export interface UserProfile {
+export interface User {
   id?: string;
   name?: string;
   isAuthenticated: boolean;
+  hasRole: UserRoles;
+  hasRolesInGroup: PermissionGroupsRoles;
 }
-
-export  type User = UserPermissions & UserPermissionGroups & UserProfile;
 
 @Injectable({
   providedIn: 'root'
@@ -35,18 +36,17 @@ export class AuthenticationService {
   private configuration?: KeycloakConfigurationDto;
   private authorizationEnabled: boolean = false;
 
-  public currentUser?: User;
+  public currentUser: User;
 
   constructor(
     private configurationService: ConfigurationService,
-    private utilities: UtilityService,
   ) {
+    this.currentUser = this.getCurrentUser();
   }
 
   public init(): Observable<any> {
     this.authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
     if (!this.authorizationEnabled) {
-      this.setUser();
       return from(Promise.resolve())
     }
 
@@ -64,7 +64,7 @@ export class AuthenticationService {
       .pipe(
         tap(isAuthenticated => this.ensureLoggedIn(isAuthenticated)),
         switchMap(() => this.loadUserProfile()),
-        tap(() => this.setUser())
+        tap(() => this.currentUser = this.getCurrentUser())
       );
   }
 
@@ -102,23 +102,25 @@ export class AuthenticationService {
     return from(this.keycloak!.loadUserProfile())
   }
 
-  private setUser(): void {
-    const permissions = Object
+  private getCurrentUser(): User {
+    const roles = Object
       .entries(RoleNames)
       .reduce((permissions: any, [propertyName, value]) => {
-        permissions[`can${this.utilities.snakeToCamelcase(propertyName)}`] = this.authorizationEnabled ? this.hasTole(value) : true;
+        permissions[propertyName] = this.authorizationEnabled ? this.hasTole(value) : true;
         return permissions;
-      }, {}) as UserPermissions;
+      }, {}) as UserRoles;
 
-    this.currentUser = {
+    return {
       id: this.keycloak?.profile?.id,
       name: this.keycloak?.profile?.username,
       isAuthenticated: this.keycloak?.authenticated ?? false,
-      ...permissions,
-      canChartsView: permissions.canChartsByCustomerView || permissions.canChartsByOrderView || permissions.canChartsByProjectView || permissions.canChartsByActivityView || permissions.canChartsByIssueView,
-      canReportView: permissions.canReportActivitySummaryView || permissions.canReportActivityDetailView,
-      canMasterDataView: permissions.canMasterDataCustomersView || permissions.canMasterDataProjectsView || permissions.canMasterDataActivitiesView || permissions.canMasterDataOrdersView || permissions.canMasterDataHolidaysView,
-      canAdministrationView: permissions.canAdministrationUsersView || permissions.canAdministrationSettingsView,
+      hasRole: roles,
+      hasRolesInGroup: {
+        chartsView: roles.chartsByCustomerView || roles.chartsByOrderView || roles.chartsByProjectView || roles.chartsByActivityView || roles.chartsByIssueView,
+        reportsView: roles.reportActivitySummaryView || roles.reportActivityDetailView,
+        masterDataView: roles.masterDataCustomersView || roles.masterDataProjectsView || roles.masterDataActivitiesView || roles.masterDataOrdersView || roles.masterDataHolidaysView,
+        administrationView: roles.administrationUsersView || roles.administrationSettingsView,
+      }
     };
   }
 

@@ -7,6 +7,7 @@ import {EntityService} from '../../../../../core/app/services/state-management/e
 import {single} from 'rxjs/operators';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-activities-edit',
@@ -16,6 +17,7 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataActivitiesEditComponent implements AfterViewInit {
   public activityForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
   public customers$: Observable<GuidStringTypeaheadDto[]>;
   public customerReadonly = false;
   public projects$: Observable<GuidStringTypeaheadDto[]>;
@@ -32,6 +34,7 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     private formValidationService: FormValidationService,
     private modalService: NgbModal,
     typeaheadService: TypeaheadService,
+    authenticationService: AuthenticationService,
   ) {
     this.activityForm = this.formValidationService.getFormGroup<ActivityDto>('ActivityDto', {id: GuidService.guidEmpty, hidden: false});
 
@@ -39,6 +42,8 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
     this.projects$ = typeaheadService.getProjects({showHidden: true});
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.masterDataActivitiesManage;
+
     if (this.isNewRecord)
       return;
 
@@ -46,8 +51,9 @@ export class MasterDataActivitiesEditComponent implements AfterViewInit {
       .get({id: this.route.snapshot.params['id']})
       .pipe(single())
       .subscribe(activity => {
-        this.activityForm.patchValue(activity);
+        this.isReadOnly = activity.isReadonly ?? false;
         this.customerReadonly = activity.projectCustomerId != null;
+        this.activityForm.patchValue(activity);
       });
   }
 

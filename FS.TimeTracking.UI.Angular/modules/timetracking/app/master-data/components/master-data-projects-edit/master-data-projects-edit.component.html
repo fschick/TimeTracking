@@ -15,6 +15,7 @@
           <input id="title"
                  type="text"
                  class="form-control"
+                 [readonly]="isReadOnly"
                  placeholder="[i18n] Project name"
                  i18n-placeholder="@@DTO.ProjectDto.TitlePlaceholder"
                  formControlName="title"
@@ -25,6 +26,7 @@
           <label for="customerName" class="form-label" i18n="@@DTO.ProjectDto.CustomerId">[i18n] Customer</label>
           <ng-select [items]="customers$ | async"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerName"
@@ -38,10 +40,10 @@
         </div>
         <div class="col-lg-12">
           <label for="comment" class="form-label" [tsOptionalLabel] i18n="@@DTO.ProjectDto.Comment">[i18n] Comment</label>
-          <textarea id="comment" class="form-control" formControlName="comment" rows="3"></textarea>
+          <textarea id="comment" class="form-control" [readonly]="isReadOnly" formControlName="comment" rows="3"></textarea>
         </div>
         <div class="col-lg-12">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch" [ngClass]="{disabled: isReadOnly}">
             <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
             <label class="form-label" for="hidden" i18n="@@DTO.ProjectDto.Hidden">
               [i18n] Hidden
@@ -57,7 +59,7 @@
     <button id="cancel" form="projectForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button id="save" form="projectForm" type="submit" class="btn btn-primary">
+    <button id="save" form="projectForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
       <svg class="bi check-lg" fill="currentColor">
         <use xlink:href="assets/icons.svg#check-lg"/>
       </svg>

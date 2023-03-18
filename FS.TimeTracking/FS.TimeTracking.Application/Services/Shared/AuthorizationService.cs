@@ -1,4 +1,5 @@
 ﻿using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Models;
@@ -118,14 +119,21 @@ public class AuthorizationService : IAuthorizationService
         if (permissionName == null)
             throw new InvalidOperationException($"Unable to get permission related to {typeof(TDto).Name}");
 
-        var userCanOnlyViewDto = !CurrentUser.IsInRole($"{permissionName}-{PermissionScope.MANAGE}");
+        var canManageDto = CurrentUser.IsInRole($"{permissionName}-{PermissionScope.MANAGE}");
 
         foreach (var entity in entities)
         {
-            if (entity is IUserRelatedDto userRelatedDto)
-                entity.IsReadonly = userCanOnlyViewDto || (!CanManageForeignData && userRelatedDto.UserId != CurrentUserId);
-            else
-                entity.IsReadonly = userCanOnlyViewDto;
+            entity.IsReadonly = entity switch
+            {
+                UserDto userDto
+                    => !canManageDto || (!CanManageForeignData && userDto.Id != CurrentUserId),
+                UserGridDto userGridDto
+                    => !canManageDto || (!CanManageForeignData && userGridDto.Id != CurrentUserId),
+                IUserRelatedDto userRelatedDto
+                    => !canManageDto || (!CanManageForeignData && userRelatedDto.UserId != default && userRelatedDto.UserId != CurrentUserId),
+                _
+                    => !canManageDto
+            };
         }
 
         return Task.CompletedTask;

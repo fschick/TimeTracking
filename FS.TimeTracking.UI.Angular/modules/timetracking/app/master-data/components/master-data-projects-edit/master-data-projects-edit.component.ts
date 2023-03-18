@@ -7,6 +7,7 @@ import {single} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-projects-edit',
@@ -16,6 +17,7 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataProjectsEditComponent implements AfterViewInit {
   public projectForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
   public customers$: Observable<GuidStringTypeaheadDto[]>;
 
   @ViewChild('projectEdit') private projectEdit?: TemplateRef<any>;
@@ -29,6 +31,7 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
     private entityService: EntityService,
     private formValidationService: FormValidationService,
     typeaheadService: TypeaheadService,
+    authenticationService: AuthenticationService,
     private modalService: NgbModal
   ) {
     this.projectForm = this.formValidationService.getFormGroup<ProjectDto>('ProjectDto', {id: GuidService.guidEmpty, hidden: false});
@@ -36,12 +39,18 @@ export class MasterDataProjectsEditComponent implements AfterViewInit {
     this.customers$ = typeaheadService.getCustomers({showHidden: true});
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.masterDataProjectsManage;
+
     if (this.isNewRecord)
       return;
+
     this.projectService
       .get({id: this.route.snapshot.params['id']})
       .pipe(single())
-      .subscribe(project => this.projectForm.patchValue(project));
+      .subscribe(project => {
+        this.isReadOnly = project.isReadonly ?? false;
+        this.projectForm.patchValue(project);
+      });
   }
 
   public ngAfterViewInit(): void {

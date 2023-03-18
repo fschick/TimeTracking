@@ -16,7 +16,7 @@
     color: $danger;
   }
 
-  &:hover {
+  &:hover, &:disabled {
     border: 1px solid transparent;
   }
 
@@ -114,6 +114,10 @@
 
   a {
     color: $gray-500;
+  }
+
+  .disabled{
+    opacity: 0.6;
   }
 }
 

@@ -30,6 +30,5 @@ public record UserGridDto : IIdEntityDto, IManageableDto
     public bool Enabled { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 }

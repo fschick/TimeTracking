@@ -66,6 +66,5 @@ public record UserDto : IIdEntityDto, IManageableDto
     public List<PermissionDto> Permissions { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 }

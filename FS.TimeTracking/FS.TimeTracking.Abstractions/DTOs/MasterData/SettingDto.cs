@@ -38,8 +38,7 @@ public record SettingDto : IManageableDto
     public CompanyDto Company { get; set; } = new();
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 
     /// <summary>
     /// Workdays of the week

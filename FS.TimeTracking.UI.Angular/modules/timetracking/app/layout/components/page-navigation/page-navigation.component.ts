@@ -16,7 +16,7 @@ export class PageNavigationComponent {
   public languageName: string;
   public reportingEnabled: boolean;
   public authorizationEnabled: boolean;
-  public currentUser?: User;
+  public currentUser: User;
 
   constructor(
     configurationService: ConfigurationService,
