@@ -92,7 +92,6 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<UserDto, UserGridDto>()
-            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.Password, x => x.Ignore());
 

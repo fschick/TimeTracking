@@ -8,6 +8,7 @@ import {Observable, Subscription} from 'rxjs';
 import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-activities',
@@ -25,6 +26,8 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
   public columns!: Column<ActivityGridDto>[];
   public configuration?: Partial<Configuration<ActivityGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -33,7 +36,10 @@ export class MasterDataActivitiesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private activityService: ActivityService,
     private localizationService: LocalizationService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.masterDataActivitiesManage;
+
     this.filters = [
       {name: 'activityId', showHidden: true, isPrimary: true},
       {name: 'projectId', showHidden: true, isPrimary: true},

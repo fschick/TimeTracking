@@ -15,6 +15,7 @@
           <input id="title"
                  type="text"
                  class="form-control"
+                 [readonly]="isReadOnly"
                  placeholder="[i18n] Order name"
                  i18n-placeholder="@@DTO.OrderDto.TitlePlaceholder"
                  formControlName="title"
@@ -27,6 +28,7 @@
                  inputmode="none"
                  tsDatePicker
                  class="form-control"
+                 [readonly]="isReadOnly"
                  placeholder="[i18n] Begin"
                  i18n-placeholder="@@DTO.OrderDto.StartDatePlaceholder"
                  formControlName="startDate"
@@ -40,6 +42,7 @@
                  tsDatePicker
                  relativeAnchor="end"
                  class="form-control"
+                 [readonly]="isReadOnly"
                  placeholder="[i18n] Due"
                  i18n-placeholder="@@DTO.OrderDto.DueDatePlaceholder"
                  formControlName="dueDate"
@@ -50,6 +53,7 @@
           <label for="customerName" class="form-label" i18n="@@DTO.OrderDto.CustomerId">[i18n] Customer</label>
           <ng-select [items]="customers$ | async"
                      [selectOnTab]="true"
+                     [readonly]="isReadOnly"
                      bindValue="id"
                      bindLabel="value"
                      labelForId="customerName"
@@ -63,26 +67,26 @@
         </div>
         <div class="col-lg-3">
           <label for="hourlyRate" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.OrderDto.HourlyRate">[i18n] Hourly rate</label>
-          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" formControlName="hourlyRate">
+          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" [readonly]="isReadOnly" formControlName="hourlyRate">
         </div>
         <div class="col-lg-3">
           <label for="budget" class="form-label" i18n="@@DTO.OrderDto.Budget">[i18n] Budget</label>
-          <input id="budget" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" formControlName="budget">
+          <input id="budget" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" [readonly]="isReadOnly" formControlName="budget">
         </div>
         <div class="col-lg-6">
           <label for="number" class="form-label" [tsOptionalLabel] i18n="@@DTO.OrderDto.Number">[i18n] Order number</label>
-          <input id="number" type="text" class="form-control" formControlName="number">
+          <input id="number" type="text" class="form-control" [readonly]="isReadOnly" formControlName="number">
         </div>
         <div class="col-lg-12">
           <label for="description" class="form-label" [tsOptionalLabel] i18n="@@DTO.OrderDto.Description">[i18n] Description</label>
-          <textarea id="description" class="form-control" formControlName="description" rows="2"></textarea>
+          <textarea id="description" class="form-control" [readonly]="isReadOnly" formControlName="description" rows="2"></textarea>
         </div>
         <div class="col-lg-12">
           <label for="comment" class="form-label" [tsOptionalLabel] i18n="@@DTO.OrderDto.Comment">[i18n] Comment</label>
-          <textarea id="comment" class="form-control" formControlName="comment" rows="2"></textarea>
+          <textarea id="comment" class="form-control" [readonly]="isReadOnly" formControlName="comment" rows="2"></textarea>
         </div>
         <div class="col-lg-12">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch" [ngClass]="{disabled: isReadOnly}">
             <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
             <label class="form-label" for="hidden" i18n="@@DTO.OrderDto.Hidden">
               [i18n] Hidden
@@ -98,7 +102,7 @@
     <button id="cancel" form="orderForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button id="save" form="orderForm" type="submit" class="btn btn-primary">
+    <button id="save" form="orderForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
       <svg class="bi check-lg" fill="currentColor">
         <use xlink:href="assets/icons.svg#check-lg"/>
       </svg>

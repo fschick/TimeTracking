@@ -6,6 +6,7 @@ import {FormValidationService, ValidationFormGroup} from '../../../../../core/ap
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-customers-edit',
@@ -15,6 +16,7 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 export class MasterDataCustomersEditComponent implements AfterViewInit {
   public customerForm: ValidationFormGroup;
   public isNewRecord: boolean;
+  public isReadOnly: boolean;
 
   @ViewChild('customerEdit') private customerEdit?: TemplateRef<any>;
 
@@ -26,7 +28,8 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
     private customerService: CustomerService,
     private entityService: EntityService,
     private formValidationService: FormValidationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    authenticationService: AuthenticationService,
   ) {
     this.customerForm = this.formValidationService
       .getFormGroup<CustomerDto>('CustomerDto', {
@@ -36,13 +39,18 @@ export class MasterDataCustomersEditComponent implements AfterViewInit {
       });
 
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
+    this.isReadOnly = !authenticationService.currentUser.hasRole.masterDataCustomersManage;
+
     if (this.isNewRecord)
       return;
 
     this.customerService
       .get({id: this.route.snapshot.params['id']})
       .pipe(single())
-      .subscribe(customer => this.customerForm.patchValue(customer));
+      .subscribe(customer => {
+        this.isReadOnly = customer.isReadonly ?? false;
+        this.customerForm.patchValue(customer);
+      });
   }
 
   public ngAfterViewInit(): void {

@@ -59,8 +59,7 @@ public record HolidayDto : IIdEntityDto, IManageableDto, IUserRelatedDto
     public Guid UserId { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

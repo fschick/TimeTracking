@@ -45,12 +45,12 @@
         </li>
 
         <!-- Charts -->
-        <li *ngIf="currentUser?.canChartsView" class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="currentUser.hasRolesInGroup?.chartsView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="chartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Chart.Title">[i18n] Charts</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="chartDropdown">
-            <li *ngIf="currentUser?.canChartsByCustomerView">
+            <li *ngIf="currentUser.hasRole.chartsByCustomerView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -58,7 +58,7 @@
                  routerLink="/chart/customers"
                  routerLinkActive="active"> [i18n] By customers </a>
             </li>
-            <li *ngIf="currentUser?.canChartsByOrderView">
+            <li *ngIf="currentUser.hasRole.chartsByOrderView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -66,21 +66,21 @@
                  routerLink="/chart/orders"
                  routerLinkActive="active">[i18n] By order</a>
             </li>
-            <li *ngIf="currentUser?.canChartsByProjectView">
+            <li *ngIf="currentUser.hasRole.chartsByProjectView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
                  i18n="@@Page.Chart.Projects.Title"
                  routerLink="/chart/projects"
                  routerLinkActive="active">[i18n] By project</a></li>
-            <li *ngIf="currentUser?.canChartsByActivityView">
+            <li *ngIf="currentUser.hasRole.chartsByActivityView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
                  i18n="@@Page.Chart.Activities.Title"
                  routerLink="/chart/activities"
                  routerLinkActive="active">[i18n] By activity</a></li>
-            <li *ngIf="currentUser?.canChartsByIssueView">
+            <li *ngIf="currentUser.hasRole.chartsByIssueView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -91,12 +91,12 @@
         </li>
 
         <!-- Reports -->
-        <li *ngIf="reportingEnabled && currentUser?.canReportView" class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="reportingEnabled && currentUser.hasRolesInGroup?.reportsView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.Report.Title">[i18n] Reports</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="reportDropdown">
-            <li *ngIf="currentUser?.canReportActivitySummaryView || currentUser?.canReportActivityDetailView">
+            <li *ngIf="currentUser.hasRole.reportActivitySummaryView || currentUser.hasRole.reportActivityDetailView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -105,7 +105,7 @@
                  routerLinkActive="active"
                  [routerLinkActiveOptions]="{ exact: true }">[i18n] Activity reports (overview)</a>
             </li>
-            <li *ngIf="currentUser?.canReportActivitySummaryView">
+            <li *ngIf="currentUser.hasRole.reportActivitySummaryView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -113,7 +113,7 @@
                  i18n="@@Page.Report.Activity.TitleDaily"
                  routerLinkActive="active">[i18n] Daily activity report</a>
             </li>
-            <li *ngIf="currentUser?.canReportActivityDetailView">
+            <li *ngIf="currentUser.hasRole.reportActivityDetailView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -125,12 +125,12 @@
         </li>
 
         <!-- Master data -->
-        <li *ngIf="currentUser?.canMasterDataView || currentUser?.canAdministrationView" class="nav-item dropdown" routerLinkActive="active">
+        <li *ngIf="currentUser.hasRolesInGroup?.masterDataView || currentUser.hasRolesInGroup?.administrationView" class="nav-item dropdown" routerLinkActive="active">
           <a class="nav-link dropdown-toggle" id="masterDataDropdown" routerLinkActive="active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <ng-container i18n="@@Page.MasterData.Title">[i18n] Master data</ng-container>
           </a>
           <ul class="dropdown-menu" aria-labelledby="masterDataDropdown">
-            <li *ngIf="currentUser?.canMasterDataCustomersView">
+            <li *ngIf="currentUser.hasRole.masterDataCustomersView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -138,7 +138,7 @@
                  routerLink="/master-data/customers"
                  routerLinkActive="active">[i18n] Customers</a>
             </li>
-            <li *ngIf="currentUser?.canMasterDataProjectsView">
+            <li *ngIf="currentUser.hasRole.masterDataProjectsView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -146,7 +146,7 @@
                  routerLink="/master-data/projects"
                  routerLinkActive="active">[i18n] Projects</a>
             </li>
-            <li *ngIf="currentUser?.canMasterDataActivitiesView">
+            <li *ngIf="currentUser.hasRole.masterDataActivitiesView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -154,7 +154,7 @@
                  routerLink="/master-data/activities"
                  routerLinkActive="active">[i18n] Activities</a>
             </li>
-            <li *ngIf="currentUser?.canMasterDataOrdersView">
+            <li *ngIf="currentUser.hasRole.masterDataOrdersView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -162,7 +162,7 @@
                  routerLink="/master-data/orders"
                  routerLinkActive="active">[i18n] Orders</a>
             </li>
-            <li *ngIf="currentUser?.canMasterDataHolidaysView">
+            <li *ngIf="currentUser.hasRole.masterDataHolidaysView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -171,11 +171,11 @@
                  routerLinkActive="active">[i18n] Holidays</a>
             </li>
 
-            <li *ngIf="currentUser?.canMasterDataView && currentUser?.canAdministrationView">
+            <li *ngIf="currentUser.hasRolesInGroup?.masterDataView && currentUser.hasRolesInGroup?.administrationView">
               <hr class="dropdown-divider">
             </li>
 
-            <li *ngIf="currentUser?.canAdministrationSettingsView">
+            <li *ngIf="currentUser.hasRole.administrationSettingsView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -183,7 +183,7 @@
                  routerLink="/administration/settings"
                  routerLinkActive="active">[i18n] Settings</a>
             </li>
-            <li *ngIf="authorizationEnabled && currentUser?.canAdministrationUsersView">
+            <li *ngIf="authorizationEnabled && currentUser.hasRole.administrationUsersView">
               <a class="dropdown-item"
                  data-bs-toggle="collapse"
                  data-bs-target=".navbar-collapse.show"
@@ -198,7 +198,7 @@
       <ul class="navbar-nav ms-auto">
         <!-- Login -->
         <ng-container *ngIf="authorizationEnabled">
-          <li *ngIf="!currentUser?.isAuthenticated" class="nav-item">
+          <li *ngIf="!currentUser.isAuthenticated" class="nav-item">
             <a class="nav-link"
                data-bs-toggle="collapse"
                data-bs-target=".navbar-collapse.show"
@@ -206,9 +206,9 @@
               <span i18n="@@Component.Authorization.Login">[i18n] Login</span>
             </a>
           </li>
-          <li *ngIf="currentUser?.isAuthenticated" class="nav-item dropdown">
+          <li *ngIf="currentUser.isAuthenticated" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="userProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <ng-container>{{currentUser?.name}}</ng-container>
+              <ng-container>{{currentUser.name}}</ng-container>
             </a>
             <ul class="dropdown-menu" aria-labelledby="userProfileDropdown">
               <li>

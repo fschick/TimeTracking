@@ -35,8 +35,7 @@ public record OrderGridDto : IIdEntityDto, IManageableDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -17,47 +17,48 @@
                  class="form-control"
                  placeholder="[i18n] Customer name"
                  i18n-placeholder="@@DTO.CustomerDto.TitlePlaceholder"
+                 [readonly]="isReadOnly"
                  formControlName="title"
                  ngbAutofocus>
         </div>
         <div class="col-lg-6">
           <label for="companyName" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.CompanyName">[i18n] Company</label>
-          <input id="companyName" type="text" class="form-control" formControlName="companyName">
+          <input id="companyName" type="text" class="form-control" [readonly]="isReadOnly" formControlName="companyName">
         </div>
         <div class="col-lg-6">
           <label for="department" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Department">[i18n] Department</label>
-          <input id="department" type="text" class="form-control" formControlName="department">
+          <input id="department" type="text" class="form-control" [readonly]="isReadOnly" formControlName="department">
         </div>
         <div class="col-lg-3">
           <label for="number" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.Number">[i18n] Cusomer number</label>
-          <input id="number" type="text" class="form-control" formControlName="number">
+          <input id="number" type="text" class="form-control" [readonly]="isReadOnly" formControlName="number">
         </div>
         <div class="col-lg-3">
           <label for="hourlyRate" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.HourlyRate">[i18n] Hourly rate</label>
-          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" formControlName="hourlyRate">
+          <input id="hourlyRate" type="text" inputmode="decimal" [tsNumeric]="{fractionDigits:2}" class="form-control" [readonly]="isReadOnly" formControlName="hourlyRate">
         </div>
         <div class="col-lg-6">
           <label for="street" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Street">[i18n] Street</label>
-          <input id="street" type="text" class="form-control" formControlName="street">
+          <input id="street" type="text" class="form-control" [readonly]="isReadOnly" formControlName="street">
         </div>
         <div class="col-lg-2 col-sm-3">
           <label for="zipCode" class="form-label" [tsOptionalLabel]="{short: true}" i18n="@@DTO.CustomerDto.ZipCode">[i18n] Zip</label>
-          <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
+          <input id="zipCode" type="text" class="form-control" [readonly]="isReadOnly" formControlName="zipCode">
         </div>
         <div class="col-lg-4 col-sm-9">
           <label for="city" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.City">[i18n] City</label>
-          <input id="city" type="text" class="form-control" formControlName="city">
+          <input id="city" type="text" class="form-control" [readonly]="isReadOnly" formControlName="city">
         </div>
         <div class="col-lg-6">
           <label for="country" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.Country">[i18n] Country</label>
-          <input id="country" type="text" class="form-control" formControlName="country">
+          <input id="country" type="text" class="form-control" [readonly]="isReadOnly" formControlName="country">
         </div>
         <div class="col-lg-6">
           <label for="contactName" class="form-label" [tsOptionalLabel] i18n="@@DTO.CustomerDto.ContactName">[i18n] Contact</label>
-          <input id="contactName" type="text" class="form-control" formControlName="contactName">
+          <input id="contactName" type="text" class="form-control" [readonly]="isReadOnly" formControlName="contactName">
         </div>
         <div class="col-lg-12">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch" [ngClass]="{disabled: isReadOnly}">
             <input class="form-check-input" type="checkbox" id="hidden" formControlName="hidden">
             <label class="form-label" for="hidden" i18n="@@DTO.CustomerDto.Hidden">
               [i18n] Hidden
@@ -73,7 +74,7 @@
     <button id="cancel" form="customerForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button id="save" form="customerForm" type="submit" class="btn btn-primary">
+    <button id="save" form="customerForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
       <svg class="bi check-lg" fill="currentColor">
         <use xlink:href="assets/icons.svg#check-lg"/>
       </svg>

@@ -20,17 +20,17 @@
 
     <ng-template #headerButtons>
       <div class="header-action">
-        <button *ngIf="!overview.runningTimeSheets.length" type="button" class="btn start" [routerLink]="guidService.guidEmpty">
+        <button *ngIf="!overview.runningTimeSheets.length" type="button" class="btn start" [routerLink]="guidService.guidEmpty" [disabled]="createNewDisabled">
           <svg class="bi" fill="currentColor">
             <use xlink:href="assets/icons.svg#play-circle-fill"/>
           </svg>
         </button>
-        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn stop" (click)="stopAllTimeSheets()">
+        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn stop" (click)="stopAllTimeSheets()" [disabled]="createNewDisabled">
           <svg class="bi" fill="currentColor">
             <use xlink:href="assets/icons.svg#stop-circle-fill"/>
           </svg>
         </button>
-        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn edit" [routerLink]="guidService.guidEmpty">
+        <button *ngIf="overview.runningTimeSheets.length" type="button" class="btn edit" [routerLink]="guidService.guidEmpty" [disabled]="createNewDisabled">
           <svg class="bi" fill="currentColor">
             <use xlink:href="assets/icons.svg#plus-circle-fill"/>
           </svg>
@@ -104,7 +104,7 @@
             </div>
             <div class="col-2 col-md-auto col-action">
             <span class="d-block d-md-inline me-md-2">
-              <a class="" (click)="restartTimeSheet(timeSheet.id)">
+              <a class="" (click)="restartTimeSheet(timeSheet.id)" [ngClass]="{ disabled: createNewDisabled }">
                 <svg *ngIf="timeSheet.endDate" class="bi action-icon" fill="currentColor">
                   <use xlink:href="assets/icons.svg#play-circle"/>
                 </svg>
@@ -131,6 +131,7 @@
                 actionText="[i18n] Delete Entry"
                 i18n-actionText="@@Page.Timesheet.Delete"
                 color="danger"
+                [disabled]="timeSheet.isReadonly ?? false"
                 (confirmed)="deleteItem(timeSheet.id)">
                 <a class="">
                   <svg class="bi action-icon" fill="currentColor">

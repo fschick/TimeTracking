@@ -12,30 +12,30 @@
       <div class="row g-4">
         <div class="col-lg-6">
           <label for="username" class="form-label" i18n="@@DTO.UserDto.Username">[i18n] Username</label>
-          <input id="username" type="text" class="form-control" formControlName="username" ngbAutofocus>
+          <input id="username" type="text" class="form-control" [readonly]="isReadOnly"  formControlName="username" ngbAutofocus>
         </div>
         <div class="col-lg-6">
           <label for="email" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.Email">[i18n] Email</label>
-          <input id="email" type="text" class="form-control" formControlName="email">
+          <input id="email" type="text" class="form-control" [readonly]="isReadOnly"  formControlName="email">
         </div>
         <div class="col-lg-6">
           <label for="firstName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.FirstName">[i18n] FirstName</label>
-          <input id="firstName" type="text" class="form-control" formControlName="firstName">
+          <input id="firstName" type="text" class="form-control" [readonly]="isReadOnly"  formControlName="firstName">
         </div>
         <div class="col-lg-6">
           <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.LastName">[i18n] Last name</label>
-          <input id="lastName" type="text" class="form-control" formControlName="lastName">
+          <input id="lastName" type="text" class="form-control" [readonly]="isReadOnly"  formControlName="lastName">
         </div>
         <div class="col-lg-6">
           <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.Password">[i18n] Password</label>
-          <input id="password" type="password" class="form-control" formControlName="password">
+          <input id="password" type="password" class="form-control" [readonly]="isReadOnly"  formControlName="password">
         </div>
         <div class="col-lg-6">
           <label for="lastName" class="form-label" [tsOptionalLabel] i18n="@@DTO.UserDto.ConfirmPassword">[i18n] Confirm password</label>
-          <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+          <input id="confirmPassword" type="password" class="form-control" [readonly]="isReadOnly"  formControlName="confirmPassword">
         </div>
         <div class="col-lg-12">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch" [ngClass]="{disabled: isReadOnly}">
             <input class="form-check-input" type="checkbox" id="enabled" formControlName="enabled">
             <label class="form-label" for="enabled" i18n="@@DTO.UserDto.Enabled">
               [i18n] Enabled
@@ -56,6 +56,7 @@
                   </label>
                   <ng-select [selectOnTab]="true"
                              [clearable]="false"
+                             [readonly]="isReadOnly"
                              bindValue="id"
                              bindLabel="value"
                              labelForId="permission-{{group.name}}-{{permission.index}}-scope"
@@ -76,6 +77,7 @@
               <ng-select [items]="customers$ | async"
                          [selectOnTab]="true"
                          [multiple]="true"
+                         [readonly]="isReadOnly"
                          bindValue="id"
                          bindLabel="value"
                          labelForId="customerTitle"
@@ -99,6 +101,7 @@
                   </label>
                   <ng-select [selectOnTab]="true"
                              [clearable]="false"
+                             [readonly]="isReadOnly"
                              bindValue="id"
                              bindLabel="value"
                              labelForId="permission-{{group.name}}-{{permission.index}}-scope"
@@ -122,7 +125,7 @@
     <button id="cancel" form="userForm" type="button" class="btn btn-secondary me-3" (click)="modal.close()">
       <ng-container i18n="@@Common.Cancel">[i18n] Cancel</ng-container>
     </button>
-    <button id="save" form="userForm" type="submit" class="btn btn-primary">
+    <button id="save" form="userForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
       <svg class="bi check-lg" fill="currentColor">
         <use xlink:href="assets/icons.svg#check-lg"/>
       </svg>

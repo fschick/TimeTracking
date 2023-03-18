@@ -11,6 +11,7 @@ import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app
 import {DateTime} from 'luxon';
 import {EnumTranslationService} from '../../../../../core/app/services/enum-translation.service';
 import {ConfigurationService} from '../../../../../core/app/services/configuration.service';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-holidays',
@@ -27,6 +28,8 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
   public columns!: Column<HolidayGridDto>[];
   public configuration?: Partial<Configuration<HolidayGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -37,7 +40,10 @@ export class MasterDataHolidaysComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
     private enumTranslationService: EnumTranslationService,
     private configurationService: ConfigurationService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.masterDataHolidaysManage;
+
     const defaultStartDate = DateTime.now().startOf('year');
     const defaultEndDate = DateTime.now().endOf('year');
 

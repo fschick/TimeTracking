@@ -9,6 +9,7 @@ import {single, switchMap} from 'rxjs/operators';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
 import {DateTime} from 'luxon';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-orders',
@@ -26,6 +27,8 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
   public columns!: Column<OrderGridDto>[];
   public configuration?: Partial<Configuration<OrderGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -34,7 +37,10 @@ export class MasterDataOrdersComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private localizationService: LocalizationService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.masterDataOrdersManage;
+
     const defaultStartDate = DateTime.now().startOf('year');
     const defaultEndDate = DateTime.now().endOf('year');
 

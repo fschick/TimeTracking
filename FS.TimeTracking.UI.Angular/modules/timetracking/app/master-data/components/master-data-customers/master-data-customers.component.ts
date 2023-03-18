@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EntityService} from '../../../../../core/app/services/state-management/entity.service';
 import {GuidService} from '../../../../../core/app/services/state-management/guid.service';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
+import {AuthenticationService} from '../../../../../core/app/services/authentication.service';
 
 @Component({
   selector: 'ts-master-data-customers',
@@ -24,6 +25,8 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
   public columns!: Column<CustomerGridDto>[];
   public configuration?: Partial<Configuration<CustomerGridDto>>;
   public filters: (Filter | FilterName)[];
+  public createNewDisabled: boolean;
+
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -32,7 +35,10 @@ export class MasterDataCustomersComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private localizationService: LocalizationService,
+    authenticationService: AuthenticationService,
   ) {
+    this.createNewDisabled = !authenticationService.currentUser.hasRole.masterDataCustomersManage;
+
     this.filters = [
       {name: 'customerId', showHidden: true, isPrimary: true},
       {name: 'customerNumber', isPrimary: true},

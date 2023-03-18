@@ -16,7 +16,7 @@
     <h4 i18n="@@Page.MasterData.Activities.Title">
       [i18n] Activities
     </h4>
-    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty">
+    <button type="button" class="btn btn-primary" [routerLink]="guidService.guidEmpty" [disabled]="createNewDisabled">
       <ng-container i18n="@@Page.MasterData.Activities.New">[i18n] New activity</ng-container>
     </button>
   </div>
@@ -52,6 +52,7 @@
     actionText="[i18n] Delete Activity"
     i18n-actionText="@@Page.MasterData.Activities.Delete"
     color="danger"
+    [disabled]="row.isReadonly ?? false"
     (confirmed)="deleteItem(row.id)">
     <a class="text-secondary">
       <svg class="bi action-icon" fill="currentColor">

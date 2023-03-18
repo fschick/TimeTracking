@@ -61,8 +61,7 @@ public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserRelatedGridD
     public bool Billable { get; set; }
 
     /// <inheritdoc />
-    [Required]
-    public bool IsReadonly { get; set; }
+    public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

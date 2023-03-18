@@ -128,6 +128,9 @@ public class UserService : IUserService
         if (_authorizationService.AuthorizationDisabled)
             throw new InvalidOperationException("Authorization is disabled");
 
+        if (!_authorizationService.CurrentUser.IsInRole(RoleName.FOREIGN_DATA_MANAGE))
+            throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
+
         var user = _mapper.Map<UserRepresentation>(dto);
 
         if (!string.IsNullOrEmpty(dto.Password))
