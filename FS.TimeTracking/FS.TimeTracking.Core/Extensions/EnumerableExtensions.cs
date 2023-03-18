@@ -178,17 +178,44 @@ public static class EnumerableExtensions
     /// <param name="resultSelector">A function to create a result element from two matching elements.</param>
     public static IEnumerable<TResult> CrossJoin<TInner, TOuter, TKey, TResult>(this IEnumerable<TInner> inner, IEnumerable<TOuter> outer, Func<TInner, TKey> innerKeySelector, Func<TOuter, TKey> outerKeySelector, Func<TInner, TOuter, TResult> resultSelector)
     {
-        var outerList = new Lazy<IEnumerable<TInner>>(() => inner as List<TInner> ?? inner.ToList());
-        var innerList = new Lazy<IEnumerable<TOuter>>(() => outer as List<TOuter> ?? outer.ToList());
+        var innerList = new Lazy<IEnumerable<TInner>>(() => inner as List<TInner> ?? inner.ToList());
+        var outerList = new Lazy<IEnumerable<TOuter>>(() => outer as List<TOuter> ?? outer.ToList());
 
         return inner
            .Select(innerKeySelector)
-           .Union(innerList.Value.Select(outerKeySelector))
+           .Union(outerList.Value.Select(outerKeySelector))
            .Select(key =>
            {
-               var o = outerList.Value.FirstOrDefault(x => innerKeySelector(x).Equals(key));
-               var i = innerList.Value.FirstOrDefault(x => outerKeySelector(x).Equals(key));
-               return resultSelector(o, i);
+               var i = innerList.Value.FirstOrDefault(x => innerKeySelector(x).Equals(key));
+               var o = outerList.Value.FirstOrDefault(x => outerKeySelector(x).Equals(key));
+               return resultSelector(i, o);
            });
+    }
+
+    /// <summary>
+    /// Merges two sequences based on a <paramref name="keySelector"/>. Elements from the sequence <paramref name="merge"/> have precedence over <paramref name="origin"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
+    /// <param name="origin">The origin sequence.</param>
+    /// <param name="merge">The sequence to merge.</param>
+    /// <param name="keySelector">The key selector.</param>
+    /// <returns>
+    /// The merged sequence.
+    /// </returns>
+    public static IEnumerable<TEntity> Merge<TEntity, TKey>(this IEnumerable<TEntity> origin, IEnumerable<TEntity> merge, Func<TEntity, TKey> keySelector)
+    {
+        var originList = new Lazy<IEnumerable<TEntity>>(() => origin as List<TEntity> ?? origin.ToList());
+        var mergeList = new Lazy<IEnumerable<TEntity>>(() => merge as List<TEntity> ?? merge.ToList());
+
+        return origin
+            .Select(keySelector)
+            .Union(mergeList.Value.Select(keySelector))
+            .Select(key =>
+            {
+                if (mergeList.Value.Any(x => keySelector(x).Equals(key)))
+                    return mergeList.Value.First(x => keySelector(x).Equals(key));
+                return originList.Value.FirstOrDefault(x => keySelector(x).Equals(key));
+            });
     }
 }
