@@ -7,7 +7,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 
 /// <inheritdoc cref="UserDto"/>
 [ExcludeFromCodeCoverage]
-public record UserGridDto : IIdEntityDto
+public record UserGridDto : IIdEntityDto, IManageableDto
 {
     /// <inheritdoc cref="UserDto.Id"/>
     [Required]
@@ -28,4 +28,8 @@ public record UserGridDto : IIdEntityDto
 
     /// <inheritdoc cref="UserDto.Enabled"/>
     public bool Enabled { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 }

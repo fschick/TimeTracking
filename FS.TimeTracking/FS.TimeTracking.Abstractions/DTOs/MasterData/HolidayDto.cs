@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Holiday")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayDto : IIdEntityDto, IUserRelatedDto
+public record HolidayDto : IIdEntityDto, IManageableDto, IUserRelatedDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -57,6 +57,10 @@ public record HolidayDto : IIdEntityDto, IUserRelatedDto
     [Required]
     [Filter(Visible = false)]
     public Guid UserId { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

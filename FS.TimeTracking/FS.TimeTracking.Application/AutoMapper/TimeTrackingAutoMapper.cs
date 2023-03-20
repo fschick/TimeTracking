@@ -46,6 +46,7 @@ public class TimeTrackingAutoMapper : Profile
             .ConvertUsing<RolesFromPermissionsConverter>();
 
         CreateMap<Holiday, HolidayDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
             .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
@@ -53,35 +54,45 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
         CreateMap<Holiday, HolidayGridDto>()
-            .ForMember(x => x.Username, x => x.Ignore());
+            .ForMember(x => x.Username, x => x.Ignore())
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<Customer, CustomerDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap();
 
-        CreateMap<Customer, CustomerGridDto>();
+        CreateMap<Customer, CustomerGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<Project, ProjectDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap();
 
-        CreateMap<Project, ProjectGridDto>();
+        CreateMap<Project, ProjectGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<Activity, ActivityDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.Customer, x => x.Ignore())
             .ForMember(x => x.Project, x => x.Ignore());
 
-        CreateMap<Activity, ActivityGridDto>();
+        CreateMap<Activity, ActivityGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<Order, OrderDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
             .ForMember(x => x.DueDate, x => x.ConvertUsing<TruncateDateTimeToDayConverter, DateTimeOffset>())
             .ForMember(x => x.StartDateOffset, x => x.Ignore())
             .ForMember(x => x.DueDateOffset, x => x.Ignore());
 
-        CreateMap<Order, OrderGridDto>();
+        CreateMap<Order, OrderGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<UserDto, UserGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.Password, x => x.Ignore());
 
@@ -89,12 +100,15 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.Password, x => x.Ignore())
             .ForMember(x => x.Permissions, x => x.Ignore())
             .ForMember(x => x.RestrictToCustomerIds, x => x.MapFrom(user => user.GetRestrictedCustomerIds()))
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.Attributes, x => x.MapFrom((userDto, user) => user.SetRestrictedCustomerIds(userDto)));
 
-        CreateMap<UserRepresentation, UserGridDto>();
+        CreateMap<UserRepresentation, UserGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore());
 
         CreateMap<TimeSheet, TimeSheetDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ReverseMap()
             .ForMember(x => x.StartDate, x => x.ConvertUsing<TruncateDateTimeToMinuteConverter, DateTimeOffset>())
             .ForMember(x => x.EndDate, x => x.ConvertUsing<TruncateNullableDateTimeToMinuteConverter, DateTimeOffset?>())
@@ -102,6 +116,7 @@ public class TimeTrackingAutoMapper : Profile
             .ForMember(x => x.EndDateOffset, x => x.Ignore());
 
         CreateMap<TimeSheet, TimeSheetGridDto>()
+            .ForMember(x => x.IsReadonly, x => x.Ignore())
             .ForMember(x => x.CustomerTitle, x => x.MapFrom(timeSheet => timeSheet.Customer.Title))
             .ForMember(x => x.ProjectTitle, x => x.MapFrom(timeSheet => timeSheet.Project.Title))
             .ForMember(x => x.Duration, x => x.MapFrom(timeSheet => timeSheet.EndDate - timeSheet.StartDate))

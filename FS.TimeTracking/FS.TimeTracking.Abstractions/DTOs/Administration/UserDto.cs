@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 [ValidationDescription]
 [FilterEntity(Prefix = "User")]
 [ExcludeFromCodeCoverage]
-public record UserDto : IIdEntityDto
+public record UserDto : IIdEntityDto, IManageableDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -64,4 +64,8 @@ public record UserDto : IIdEntityDto
     /// Permissions of the user.
     /// </summary>
     public List<PermissionDto> Permissions { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 }

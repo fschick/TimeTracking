@@ -21,8 +21,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityGridDto>, IActivityApiService
 {
     /// <inheritdoc/>
-    public ActivityService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
-        : base(dbRepository, mapper, filterFactory)
+    public ActivityService(IAuthorizationService authorizationService, IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(authorizationService, dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
@@ -30,7 +30,7 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
     {
         var filter = await FilterFactory.CreateActivityFilter(filters);
 
-        return await DbRepository
+        var gridItems = await DbRepository
             .Get<Activity, ActivityGridDto>(
                 where: filter,
                 orderBy: o => o
@@ -40,6 +40,10 @@ public class ActivityService : CrudModelService<Activity, ActivityDto, ActivityG
                     .ThenBy(x => x.Project.Title),
                 cancellationToken: cancellationToken
             );
+
+        await AuthorizationService.SetAuthorizationRelatedProperties(gridItems, cancellationToken);
+
+        return gridItems;
     }
 
     /// <inheritdoc />

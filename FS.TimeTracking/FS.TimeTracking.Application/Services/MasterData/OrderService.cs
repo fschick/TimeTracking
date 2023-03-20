@@ -17,8 +17,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class OrderService : CrudModelService<Order, OrderDto, OrderGridDto>, IOrderApiService
 {
     /// <inheritdoc />
-    public OrderService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
-        : base(dbRepository, mapper, filterFactory)
+    public OrderService(IAuthorizationService authorizationService, IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(authorizationService, dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
@@ -26,7 +26,7 @@ public class OrderService : CrudModelService<Order, OrderDto, OrderGridDto>, IOr
     {
         var filter = await FilterFactory.CreateOrderFilter(filters);
 
-        return await DbRepository
+        var gridItems = await DbRepository
             .Get<Order, OrderGridDto>(
                 where: filter,
                 orderBy: o => o
@@ -36,5 +36,9 @@ public class OrderService : CrudModelService<Order, OrderDto, OrderGridDto>, IOr
                     .ThenBy(x => x.Title),
                 cancellationToken: cancellationToken
             );
+
+        await AuthorizationService.SetAuthorizationRelatedProperties(gridItems, cancellationToken);
+
+        return gridItems;
     }
 }

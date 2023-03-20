@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// <inheritdoc cref="TimeSheetDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record TimeSheetGridDto : IIdEntityDto, IUserRelatedGridDto
+public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserRelatedGridDto
 {
     /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]
@@ -59,6 +59,10 @@ public record TimeSheetGridDto : IIdEntityDto, IUserRelatedGridDto
     /// <inheritdoc cref="TimeSheetDto.Billable"/>
     [Required]
     public bool Billable { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

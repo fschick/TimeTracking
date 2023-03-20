@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Activity")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record ActivityDto : IIdEntityDto
+public record ActivityDto : IIdEntityDto, IManageableDto
 {
     ///  <summary>
     /// The display name for this item.
@@ -59,6 +59,10 @@ public record ActivityDto : IIdEntityDto
     /// </summary>
     [Required]
     public bool Hidden { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Customer")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record CustomerDto : IIdEntityDto
+public record CustomerDto : IIdEntityDto, IManageableDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -94,6 +94,10 @@ public record CustomerDto : IIdEntityDto
     /// </summary>
     [Required]
     public bool Hidden { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

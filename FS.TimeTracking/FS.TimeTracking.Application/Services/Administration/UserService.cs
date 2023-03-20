@@ -5,7 +5,6 @@ using FS.Keycloak.RestApiClient.Client;
 using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
-using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Exceptions;
@@ -66,6 +65,8 @@ public class UserService : IUserService
         var userClientRoleNames = userClientRoles.Select(x => x.Name).ToList();
         userDto.Permissions = _mapper.Map<List<PermissionDto>>(userClientRoleNames);
 
+        await _authorizationService.SetAuthorizationRelatedProperties(userDto, cancellationToken);
+
         return userDto;
     }
 
@@ -88,6 +89,8 @@ public class UserService : IUserService
             .OrderBy(x => !x.Enabled)
             .ThenBy(x => x.Username)
             .ToList();
+
+        await _authorizationService.SetAuthorizationRelatedProperties(userDtos, cancellationToken);
 
         return userDtos;
     }
@@ -113,6 +116,8 @@ public class UserService : IUserService
 
         var user = await _keycloakRepository.GetUser(_keycloakConfiguration.Realm, id, cancellationToken);
         var userDto = _mapper.Map<UserGridDto>(user);
+
+        await _authorizationService.SetAuthorizationRelatedProperties(userDto, cancellationToken);
 
         return userDto;
     }
@@ -141,10 +146,10 @@ public class UserService : IUserService
 
         var keycloakUsers = await _keycloakRepository.GetUsers(_keycloakConfiguration.Realm);
         var keycloakUser = keycloakUsers.First(x => x.Username.Equals(dto.Username, StringComparison.OrdinalIgnoreCase));
-        var userDto = _mapper.Map<UserDto>(keycloakUser);
-        await UpdateUserRoles(userDto.Id, dto);
-
-        return userDto;
+        var resultDto = _mapper.Map<UserDto>(keycloakUser);
+        await UpdateUserRoles(resultDto.Id, dto);
+        await _authorizationService.SetAuthorizationRelatedProperties(resultDto);
+        return resultDto;
     }
 
     /// <inheritdoc />
@@ -156,7 +161,7 @@ public class UserService : IUserService
         if (!_authorizationService.CanManage(dto.Id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
-        var canManageUsers = dto.Permissions.First(x => x.Name == PermissionNames.ADMINISTRATION_USERS).Scope == PermissionScope.Manage;
+        var canManageUsers = dto.Permissions.First(x => x.Name == PermissionName.ADMINISTRATION_USERS).Scope == PermissionScope.MANAGE;
         if (dto.Id == _authorizationService.CurrentUserId && !canManageUsers)
             throw new ConflictException(ApplicationErrorCode.ConflictUserNotAllowedToRemoveUserEditPermissionFromItself);
 
@@ -177,8 +182,10 @@ public class UserService : IUserService
 
         await UpdateUserRoles(dto.Id, dto);
 
-        var updatedUser = await _keycloakRepository.GetUser(_keycloakConfiguration.Realm, dto.Id);
-        return _mapper.Map<UserDto>(updatedUser);
+        var result = await _keycloakRepository.GetUser(_keycloakConfiguration.Realm, dto.Id);
+        var resultDto = _mapper.Map<UserDto>(result);
+        await _authorizationService.SetAuthorizationRelatedProperties(resultDto);
+        return resultDto;
     }
 
     /// <inheritdoc />
@@ -209,7 +216,7 @@ public class UserService : IUserService
     public async Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken)
         where T : class, IUserRelatedGridDto
     {
-        if (!_configuration.Features.Authorization)
+        if (_authorizationService.AuthorizationDisabled)
             return;
 
         var filteredUsers = await GetFiltered(filters, cancellationToken);

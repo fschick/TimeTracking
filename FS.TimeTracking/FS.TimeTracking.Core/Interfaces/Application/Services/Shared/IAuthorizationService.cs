@@ -1,7 +1,9 @@
 ﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Core.Interfaces.Models;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
@@ -56,4 +58,20 @@ public interface IAuthorizationService
     Task<bool> CanManage<TDto, TEntity>(TDto dto)
         where TDto : class, IIdEntityDto, IUserRelatedDto
         where TEntity : class, IIdEntityModel, IUserRelatedModel;
+
+    /// <summary>
+    /// Sets user related fields of a DTO.
+    /// </summary>
+    /// <typeparam name="TDto">Generic type parameter.</typeparam>
+    /// <param name="entity">The DTO to work on.</param>
+    /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
+    Task SetAuthorizationRelatedProperties<TDto>(TDto entity, CancellationToken cancellationToken = default) where TDto : class, IManageableDto;
+
+    /// <summary>
+    /// Sets user related fields of a DTO.
+    /// </summary>
+    /// <typeparam name="TDto">Generic type parameter.</typeparam>
+    /// <param name="entities">The DTOs to work on.</param>
+    /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
+    Task SetAuthorizationRelatedProperties<TDto>(List<TDto> entities, CancellationToken cancellationToken = default) where TDto : class, IManageableDto;
 }

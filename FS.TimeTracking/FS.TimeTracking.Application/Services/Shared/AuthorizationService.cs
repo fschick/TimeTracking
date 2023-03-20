@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Application.Services.Shared;
@@ -101,6 +102,33 @@ public class AuthorizationService : IAuthorizationService
             return false;
 
         return await CanManage<TEntity>(dto.Id);
+    }
+
+    /// <inheritdoc />
+    public async Task SetAuthorizationRelatedProperties<TDto>(TDto entity, CancellationToken cancellationToken = default) where TDto : class, IManageableDto
+    {
+        var list = new List<TDto>() { entity };
+        await SetAuthorizationRelatedProperties(list, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task SetAuthorizationRelatedProperties<TDto>(List<TDto> entities, CancellationToken cancellationToken = default) where TDto : class, IManageableDto
+    {
+        var permissionName = PermissionName.FromProtectedDto(typeof(TDto));
+        if (permissionName == null)
+            throw new InvalidOperationException($"Unable to get permission related to {typeof(TDto).Name}");
+
+        var userCanOnlyViewDto = !CurrentUser.IsInRole($"{permissionName}-{PermissionScope.MANAGE}");
+
+        foreach (var entity in entities)
+        {
+            if (entity is IUserRelatedDto userRelatedDto)
+                entity.IsReadonly = userCanOnlyViewDto || (!CanManageForeignData && userRelatedDto.UserId != CurrentUserId);
+            else
+                entity.IsReadonly = userCanOnlyViewDto;
+        }
+
+        return Task.CompletedTask;
     }
 
     private static ClaimsPrincipal GetDefaultPrincipal()

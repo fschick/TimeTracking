@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 public interface IUserService : IUserApiService
 {
     /// <summary>
-    /// Sets the user related fields of a DTO.
+    /// Sets user related fields of a DTO.
     /// </summary>
     /// <typeparam name="T">Generic type parameter.</typeparam>
     /// <param name="dto">The DTO to work on.</param>
@@ -19,7 +19,7 @@ public interface IUserService : IUserApiService
     Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto;
 
     /// <summary>
-    /// Sets the user related fields of a DTO.
+    /// Sets user related fields of a DTO.
     /// </summary>
     /// <typeparam name="T">Generic type parameter.</typeparam>
     /// <param name="filters">The filters.</param>

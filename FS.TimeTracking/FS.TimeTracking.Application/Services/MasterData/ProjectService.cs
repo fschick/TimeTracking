@@ -17,8 +17,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridDto>, IProjectApiService
 {
     /// <inheritdoc />
-    public ProjectService(IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
-        : base(dbRepository, mapper, filterFactory)
+    public ProjectService(IAuthorizationService authorizationService, IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
+        : base(authorizationService, dbRepository, mapper, filterFactory)
     { }
 
     /// <inheritdoc />
@@ -26,7 +26,7 @@ public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridD
     {
         var filter = await FilterFactory.CreateProjectFilter(filters);
 
-        return await DbRepository
+        var gridItems = await DbRepository
             .Get<Project, ProjectGridDto>(
                 where: filter,
                 orderBy: o => o
@@ -35,5 +35,9 @@ public class ProjectService : CrudModelService<Project, ProjectDto, ProjectGridD
                     .ThenBy(x => x.Customer.Title),
                 cancellationToken: cancellationToken
             );
+
+        await AuthorizationService.SetAuthorizationRelatedProperties(gridItems, cancellationToken);
+
+        return gridItems;
     }
 }

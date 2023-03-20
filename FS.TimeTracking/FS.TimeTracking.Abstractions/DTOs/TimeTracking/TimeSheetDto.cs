@@ -18,7 +18,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 [FilterEntity(Prefix = "TimeSheet")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record TimeSheetDto : IIdEntityDto, IUserRelatedDto
+public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserRelatedDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -86,6 +86,10 @@ public record TimeSheetDto : IIdEntityDto, IUserRelatedDto
     [Required]
     [Filter(Visible = false)]
     public Guid UserId { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

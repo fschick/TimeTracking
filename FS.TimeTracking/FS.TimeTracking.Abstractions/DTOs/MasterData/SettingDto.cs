@@ -1,6 +1,7 @@
 ﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes.Validation;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [ValidationDescription]
 [FilterEntity(Prefix = "Setting")]
 [ExcludeFromCodeCoverage]
-public record SettingDto
+public record SettingDto : IManageableDto
 {
     /// <summary>
     /// The average working hours per workday
@@ -35,6 +36,10 @@ public record SettingDto
     /// <inheritdoc cref="CompanyDto" />
     [Required]
     public CompanyDto Company { get; set; } = new();
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     /// <summary>
     /// Workdays of the week

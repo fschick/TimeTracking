@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="HolidayDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayGridDto : IIdEntityDto, IUserRelatedGridDto
+public record HolidayGridDto : IIdEntityDto, IManageableDto, IUserRelatedGridDto
 {
     /// <inheritdoc cref="HolidayDto.Id"/>
     [Required]
@@ -43,6 +43,10 @@ public record HolidayGridDto : IIdEntityDto, IUserRelatedGridDto
 
     /// <inheritdoc cref="UserDto.Username"/>
     public string Username { get; set; }
+
+    /// <inheritdoc />
+    [Required]
+    public bool IsReadonly { get; set; }
 
     [JsonIgnore]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
