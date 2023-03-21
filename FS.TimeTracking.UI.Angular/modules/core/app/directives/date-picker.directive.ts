@@ -66,6 +66,10 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
     this.datePickerOptions = {...this.datePickerOptions, clearBtn: value};
   }
 
+  @Input() set readonly(value: boolean) {
+    this.elementRef.nativeElement.readOnly = value;
+  }
+
   private dateFormat: string;
   private hasCustomDateFormat = false;
   private value?: DateTime = DateTime.min();
@@ -115,7 +119,9 @@ export class DatePickerDirective implements AfterViewInit, OnDestroy, ControlVal
 
   @HostListener('click')
   public onClick(): void {
-    this.datePicker?.datepicker('show');
+    const readonly = this.elementRef.nativeElement.readOnly;
+    if (!this.disabled && !readonly)
+      this.datePicker?.datepicker('show');
   }
 
   @HostListener('blur', ['$event.target.value'])
