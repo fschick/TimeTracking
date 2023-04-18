@@ -40,24 +40,24 @@ public interface IAuthorizationService
     /// <summary>
     /// Indicates whether the current user is allowed to manage entities according to the user with ID <paramref name="userId"/>
     /// </summary>
-    bool CanView(Guid userId);
+    bool CanViewUser(Guid userId);
 
     /// <summary>
-    /// Indicates whether the current user is allowed to manage entities according to the user with ID <paramref name="userId"/>
+    /// Indicates whether the current user is allowed to view entity linked to user with ID <paramref name="userId"/>
     /// </summary>
-    bool CanManage(Guid userId);
+    bool CanManageUser(Guid userId);
 
     /// <summary>
     /// Indicates whether the current user is allowed to manage <typeparamref name="TEntity"/> with the given <paramref name="id"/>
     /// </summary>
-    Task<bool> CanManage<TEntity>(Guid id) where TEntity : class, IIdEntityModel, IUserRelatedModel;
+    Task<bool> CanManageUser<TEntity>(Guid id) where TEntity : class, IIdEntityModel, IUserLinkedModel;
 
     /// <summary>
-    /// Indicates whether the current user is allowed to manage <typeparamref name="TEntity"/>
+    /// Indicates whether the current user is allowed to manage entity linked to user with ID <paramref name="userId"/>
     /// </summary>
-    Task<bool> CanManage<TDto, TEntity>(TDto dto)
-        where TDto : class, IIdEntityDto, IUserRelatedDto
-        where TEntity : class, IIdEntityModel, IUserRelatedModel;
+    Task<bool> CanManageUser<TDto, TEntity>(TDto dto)
+        where TDto : class, IIdEntityDto, IUserLinkedDto
+        where TEntity : class, IIdEntityModel, IUserLinkedModel;
 
     /// <summary>
     /// Sets user related fields of a DTO.

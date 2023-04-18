@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Holiday")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayDto : IIdEntityDto, IManageableDto, IUserRelatedDto
+public record HolidayDto : IIdEntityDto, IManageableDto, IUserLinkedDto
 {
     /// <summary>
     /// The unique identifier of the entity.

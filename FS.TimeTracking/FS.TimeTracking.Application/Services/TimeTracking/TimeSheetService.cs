@@ -58,7 +58,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         if (result == null)
             return null;
 
-        if (!AuthorizationService.CanView(result.UserId))
+        if (!AuthorizationService.CanViewUser(result.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return result;
@@ -88,7 +88,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         if (result == null)
             return null;
 
-        if (!AuthorizationService.CanView(result.UserId))
+        if (!AuthorizationService.CanViewUser(result.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         await _userService.SetUserRelatedProperties(result, cancellationToken);
@@ -99,7 +99,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     /// <inheritdoc />
     public override async Task<TimeSheetDto> Create(TimeSheetDto dto)
     {
-        if (!AuthorizationService.CanManage(dto.UserId))
+        if (!AuthorizationService.CanManageUser(dto.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Create(dto);
@@ -108,7 +108,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     /// <inheritdoc />
     public override async Task<TimeSheetDto> Update(TimeSheetDto dto)
     {
-        if (!await AuthorizationService.CanManage<TimeSheetDto, TimeSheet>(dto))
+        if (!await AuthorizationService.CanManageUser<TimeSheetDto, TimeSheet>(dto))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Update(dto);
@@ -117,7 +117,7 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     /// <inheritdoc />
     public override async Task<long> Delete(Guid id)
     {
-        if (!await AuthorizationService.CanManage<TimeSheet>(id))
+        if (!await AuthorizationService.CanManageUser<TimeSheet>(id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Delete(id);
@@ -128,9 +128,9 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     {
         var timeSheet = await DbRepository.FirstOrDefault((TimeSheet x) => x, x => x.Id == copyFromTimesheetId);
         if (timeSheet == null)
-            throw new InvalidOperationException($"Time sheet with ID {copyFromTimesheetId} does not exists.");
+            return null;
 
-        if (!AuthorizationService.CanView(timeSheet.UserId))
+        if (!AuthorizationService.CanViewUser(timeSheet.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         var timeSheetCopy = Mapper.Map<TimeSheetDto>(timeSheet);
@@ -145,8 +145,10 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
     public async Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
     {
         var timeSheet = await DbRepository.FirstOrDefault((TimeSheet x) => x, x => x.Id == timesheetId);
+        if (timeSheet == null)
+            return null;
 
-        if (!AuthorizationService.CanManage(timeSheet.UserId))
+        if (!AuthorizationService.CanManageUser(timeSheet.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         if (timeSheet.EndDate != null)

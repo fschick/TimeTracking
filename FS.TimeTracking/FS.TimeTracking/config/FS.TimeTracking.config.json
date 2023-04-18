@@ -23,7 +23,6 @@
     "Keycloak": {
       "AuthServerUrl": "https://URL/to/Keykloak",
       "Realm": "<Realm>",
-      "ResourceServerId": "<Resource (server) client id>",
       "ClientId": "<Front-end client id>",
       "SslRequired": true,
       "VerifyTokenAudience": true,

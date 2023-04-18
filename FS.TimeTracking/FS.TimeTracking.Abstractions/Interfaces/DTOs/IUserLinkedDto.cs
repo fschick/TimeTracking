@@ -3,9 +3,9 @@
 namespace FS.TimeTracking.Abstractions.Interfaces.DTOs;
 
 /// <summary>
-/// Interface for user related DTOs.
+/// Entity linked to an user via <see cref="IUserLinkedDto.UserId"/>.
 /// </summary>
-public interface IUserRelatedDto
+public interface IUserLinkedDto
 {
     /// <summary>
     /// The unique identifier of the user.

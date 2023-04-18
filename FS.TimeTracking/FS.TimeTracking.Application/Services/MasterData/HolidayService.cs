@@ -47,7 +47,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
         if (result == null)
             return null;
 
-        if (!AuthorizationService.CanView(result.UserId))
+        if (!AuthorizationService.CanViewUser(result.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return result;
@@ -81,7 +81,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
         if (result == null)
             return null;
 
-        if (!AuthorizationService.CanView(result.UserId))
+        if (!AuthorizationService.CanViewUser(result.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         await _userService.SetUserRelatedProperties(result, cancellationToken);
@@ -92,7 +92,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
     /// <inheritdoc />
     public override async Task<HolidayDto> Create(HolidayDto dto)
     {
-        if (!AuthorizationService.CanManage(dto.UserId))
+        if (!AuthorizationService.CanManageUser(dto.UserId))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Create(dto);
@@ -101,7 +101,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
     /// <inheritdoc />
     public override async Task<HolidayDto> Update(HolidayDto dto)
     {
-        if (!await AuthorizationService.CanManage<HolidayDto, Holiday>(dto))
+        if (!await AuthorizationService.CanManageUser<HolidayDto, Holiday>(dto))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Update(dto);
@@ -110,7 +110,7 @@ public class HolidayService : CrudModelService<Holiday, HolidayDto, HolidayGridD
     /// <inheritdoc />
     public override async Task<long> Delete(Guid id)
     {
-        if (!await AuthorizationService.CanManage<Holiday>(id))
+        if (!await AuthorizationService.CanManageUser<Holiday>(id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         return await base.Delete(id);
