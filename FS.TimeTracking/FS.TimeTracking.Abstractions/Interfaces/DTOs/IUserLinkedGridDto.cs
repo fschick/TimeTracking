@@ -3,9 +3,9 @@
 namespace FS.TimeTracking.Abstractions.Interfaces.DTOs;
 
 /// <summary>
-/// Interface for user related grid DTOs.
+/// Entity linked to an user via <see cref="IUserLinkedDto.UserId"/>.
 /// </summary>
-public interface IUserRelatedGridDto : IUserRelatedDto
+public interface IUserLinkedGridDto : IUserLinkedDto
 {
     /// <inheritdoc cref="UserDto.Username"/>
     string Username { get; set; }

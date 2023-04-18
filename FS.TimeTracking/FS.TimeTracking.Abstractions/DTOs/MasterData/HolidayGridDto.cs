@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="HolidayDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record HolidayGridDto : IIdEntityDto, IManageableDto, IUserRelatedGridDto
+public record HolidayGridDto : IIdEntityDto, IManageableDto, IUserLinkedGridDto
 {
     /// <inheritdoc cref="HolidayDto.Id"/>
     [Required]

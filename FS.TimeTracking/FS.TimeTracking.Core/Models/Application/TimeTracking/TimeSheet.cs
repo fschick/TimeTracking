@@ -16,7 +16,7 @@ namespace FS.TimeTracking.Core.Models.Application.TimeTracking;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheet : IIdEntityModel, IUserRelatedModel
+public class TimeSheet : IIdEntityModel, IUserLinkedModel
 {
     /// <inheritdoc />
     [Required]

@@ -16,7 +16,7 @@ public interface IUserService : IUserApiService
     /// <typeparam name="T">Generic type parameter.</typeparam>
     /// <param name="dto">The DTO to work on.</param>
     /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
-    Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto;
+    Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken) where T : class, IUserLinkedGridDto;
 
     /// <summary>
     /// Sets user related fields of a DTO.
@@ -25,7 +25,7 @@ public interface IUserService : IUserApiService
     /// <param name="filters">The filters.</param>
     /// <param name="dtos">The DTOs to work on.</param>
     /// <param name="cancellationToken">A token that allows processing to be cancelled.</param>
-    Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken) where T : class, IUserRelatedGridDto;
+    Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken) where T : class, IUserLinkedGridDto;
 
     /// <summary>
     /// Gets items filtered.
