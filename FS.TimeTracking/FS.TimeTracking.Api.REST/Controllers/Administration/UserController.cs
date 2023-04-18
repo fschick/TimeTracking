@@ -4,7 +4,6 @@ using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Models;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
-using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +17,8 @@ using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Api.REST.Controllers.Administration;
 
-/// <inheritdoc cref="IActivityApiService" />
+/// <inheritdoc cref="IUserApiService" />
 /// <seealso cref="ControllerBase" />
-/// <seealso cref="IActivityApiService" />
 [ApiV1Controller]
 [Authorize]
 [FeatureGate(Features.Authorization)]

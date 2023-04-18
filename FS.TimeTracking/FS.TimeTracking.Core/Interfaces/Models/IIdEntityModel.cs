@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FS.TimeTracking.Core.Interfaces.Models;
 
 /// <summary>
-/// Interface for entity models.
+/// Entities having a property <see cref="Id"/>.
 /// </summary>
 public interface IIdEntityModel : IEntityModel
 {

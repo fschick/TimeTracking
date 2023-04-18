@@ -2,6 +2,7 @@
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.Shared;
+using FS.TimeTracking.Api.REST.Filters;
 using FS.TimeTracking.Api.REST.Routing;
 using FS.TimeTracking.Core.Interfaces.Application.Services.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
@@ -34,12 +35,14 @@ public class TimeSheetController : CrudModelController<TimeSheetDto, TimeSheetGr
 
     /// <inheritdoc />
     [HttpPut]
+    [NotFoundWhenEmpty]
     [Authorize(Roles = RoleName.TIME_SHEET_MANAGE)]
     public async Task<TimeSheetDto> StartSimilarTimeSheetEntry(Guid copyFromTimesheetId, DateTimeOffset startDateTime)
         => await _timeSheetService.StartSimilarTimeSheetEntry(copyFromTimesheetId, startDateTime);
 
     /// <inheritdoc />
     [HttpPut]
+    [NotFoundWhenEmpty]
     [Authorize(Roles = RoleName.TIME_SHEET_MANAGE)]
     public async Task<TimeSheetDto> StopTimeSheetEntry(Guid timesheetId, DateTimeOffset endDateTime)
         => await _timeSheetService.StopTimeSheetEntry(timesheetId, endDateTime);

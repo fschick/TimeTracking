@@ -74,15 +74,15 @@ public class AuthorizationService : IAuthorizationService
     }
 
     /// <inheritdoc />
-    public bool CanView(Guid userId)
+    public bool CanViewUser(Guid userId)
         => AuthorizationDisabled || CanViewForeignData || userId == Guid.Empty || userId == CurrentUserId;
 
     /// <inheritdoc />
-    public bool CanManage(Guid userId)
+    public bool CanManageUser(Guid userId)
         => AuthorizationDisabled || CanManageForeignData || userId == Guid.Empty || userId == CurrentUserId;
 
     /// <inheritdoc />
-    public async Task<bool> CanManage<TEntity>(Guid id) where TEntity : class, IIdEntityModel, IUserRelatedModel
+    public async Task<bool> CanManageUser<TEntity>(Guid id) where TEntity : class, IIdEntityModel, IUserLinkedModel
     {
         if (AuthorizationDisabled || CanManageForeignData)
             return true;
@@ -92,9 +92,9 @@ public class AuthorizationService : IAuthorizationService
     }
 
     /// <inheritdoc />
-    public async Task<bool> CanManage<TDto, TEntity>(TDto dto)
-        where TDto : class, IIdEntityDto, IUserRelatedDto
-        where TEntity : class, IIdEntityModel, IUserRelatedModel
+    public async Task<bool> CanManageUser<TDto, TEntity>(TDto dto)
+        where TDto : class, IIdEntityDto, IUserLinkedDto
+        where TEntity : class, IIdEntityModel, IUserLinkedModel
     {
         if (AuthorizationDisabled || CanManageForeignData)
             return true;
@@ -102,7 +102,7 @@ public class AuthorizationService : IAuthorizationService
         if (dto.UserId != DefaultUserId && dto.UserId != CurrentUserId)
             return false;
 
-        return await CanManage<TEntity>(dto.Id);
+        return await CanManageUser<TEntity>(dto.Id);
     }
 
     /// <inheritdoc />
@@ -129,8 +129,8 @@ public class AuthorizationService : IAuthorizationService
                     => !canManageDto || (!CanManageForeignData && userDto.Id != CurrentUserId),
                 UserGridDto userGridDto
                     => !canManageDto || (!CanManageForeignData && userGridDto.Id != CurrentUserId),
-                IUserRelatedDto userRelatedDto
-                    => !canManageDto || (!CanManageForeignData && userRelatedDto.UserId != default && userRelatedDto.UserId != CurrentUserId),
+                IUserLinkedDto userLinkedDto
+                    => !canManageDto || (!CanManageForeignData && userLinkedDto.UserId != default && userLinkedDto.UserId != CurrentUserId),
                 _
                     => !canManageDto
             };

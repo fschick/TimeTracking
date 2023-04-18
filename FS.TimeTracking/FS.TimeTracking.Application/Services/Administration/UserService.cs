@@ -53,7 +53,7 @@ public class UserService : IUserService
         if (_authorizationService.AuthorizationDisabled)
             return new UserDto { Id = AuthorizationService.DefaultUserId, Username = AuthorizationService.DefaultUsername };
 
-        if (!_authorizationService.CanView(id))
+        if (!_authorizationService.CanViewUser(id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         var user = await _keycloakRepository.GetUser(_keycloakConfiguration.Realm, id, cancellationToken);
@@ -111,7 +111,7 @@ public class UserService : IUserService
         if (_authorizationService.AuthorizationDisabled)
             return new UserGridDto { Id = AuthorizationService.DefaultUserId, Username = AuthorizationService.DefaultUsername };
 
-        if (!_authorizationService.CanView(id))
+        if (!_authorizationService.CanViewUser(id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         var user = await _keycloakRepository.GetUser(_keycloakConfiguration.Realm, id, cancellationToken);
@@ -161,7 +161,7 @@ public class UserService : IUserService
         if (_authorizationService.AuthorizationDisabled)
             throw new InvalidOperationException("Authorization is disabled");
 
-        if (!_authorizationService.CanManage(dto.Id))
+        if (!_authorizationService.CanManageUser(dto.Id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         var canManageUsers = dto.Permissions.First(x => x.Name == PermissionName.ADMINISTRATION_USERS).Scope == PermissionScope.MANAGE;
@@ -197,7 +197,7 @@ public class UserService : IUserService
         if (_authorizationService.AuthorizationDisabled)
             throw new InvalidOperationException("Authorization is disabled");
 
-        if (!_authorizationService.CanManage(id))
+        if (!_authorizationService.CanManageUser(id))
             throw new ForbiddenException(ApplicationErrorCode.ForbiddenForeignUserData);
 
         if (id == _authorizationService.CurrentUserId)
@@ -209,7 +209,7 @@ public class UserService : IUserService
 
     /// <inheritdoc />
     public async Task SetUserRelatedProperties<T>(T dto, CancellationToken cancellationToken)
-        where T : class, IUserRelatedGridDto
+        where T : class, IUserLinkedGridDto
     {
         var list = new List<T>() { dto };
         await SetUserRelatedProperties(null, list, cancellationToken);
@@ -217,7 +217,7 @@ public class UserService : IUserService
 
     /// <inheritdoc />
     public async Task SetUserRelatedProperties<T>(TimeSheetFilterSet filters, List<T> dtos, CancellationToken cancellationToken)
-        where T : class, IUserRelatedGridDto
+        where T : class, IUserLinkedGridDto
     {
         if (_authorizationService.AuthorizationDisabled)
             return;

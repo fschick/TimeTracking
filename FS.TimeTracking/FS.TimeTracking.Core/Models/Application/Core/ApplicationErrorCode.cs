@@ -46,7 +46,7 @@ public enum ApplicationErrorCode
     BadRequestConformityViolation = 40001,
 
     /// <summary>
-    /// Current user is not allowed to modify data from other users.
+    /// Current user is not allowed to view or modify data from other user.
     /// </summary>
     ForbiddenForeignUserData = 40301,
 
