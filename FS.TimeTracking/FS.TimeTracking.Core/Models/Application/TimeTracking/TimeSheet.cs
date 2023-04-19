@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Core.Extensions;
+﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace FS.TimeTracking.Core.Models.Application.TimeTracking;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class TimeSheet : IIdEntityModel, IUserLinkedModel
+public class TimeSheet : IIdEntityModel, IUserLinkedModel, ICustomerLinkedModel
 {
     /// <inheritdoc />
     [Required]
@@ -78,6 +79,9 @@ public class TimeSheet : IIdEntityModel, IUserLinkedModel
     /// </summary>
     [Required]
     public Guid CustomerId { get; set; }
+
+    /// <inheritdoc />
+    Guid? ICustomerLinkedDto.CustomerId => CustomerId;
 
     /// <inheritdoc cref="MasterData.Project"/>
     public Customer Customer { get; set; }

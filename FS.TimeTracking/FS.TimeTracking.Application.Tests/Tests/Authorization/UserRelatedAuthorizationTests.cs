@@ -24,10 +24,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace FS.TimeTracking.Application.Tests.Tests.Services;
+namespace FS.TimeTracking.Application.Tests.Tests.Authorization;
 
 [TestClass, ExcludeFromCodeCoverage]
-public class AuthorizationTests
+public class UserRelatedAuthorizationTests
 {
     [TestMethod]
     public async Task WhenUserHasNoRightToViewForeignData_OnlyOwnTimeSheetsAreViewable()

@@ -4,7 +4,6 @@ using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
-using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,21 +27,27 @@ public class FakeAuthorizationService
         var mapper = _faker.GetRequiredService<IMapper>();
         A.CallTo(() => httpContextAccessor.HttpContext.User).Returns(CreatePrincipal(currentUser, mapper, "DUMMY"));
         var configuration = _faker.GetRequiredService<IOptions<TimeTrackingConfiguration>>();
-        var repository = _faker.GetRequiredService<IDbRepository>();
-        return new AuthorizationService(httpContextAccessor, configuration, repository);
+        return new AuthorizationService(httpContextAccessor, configuration);
     }
 
     public static ClaimsPrincipal CreatePrincipal(UserDto currentUser, IMapper mapper, string authenticationScheme)
     {
         currentUser ??= new UserDto();
-        var userRoles = mapper.Map<List<string>>(currentUser.Permissions);
-        var allRoles = (userRoles ?? RoleName.All).Select(name => new Claim(ClaimTypes.Role, name));
-        var claims = new List<Claim>(allRoles)
-        {
-            new (ClaimTypes.NameIdentifier, currentUser.Id.ToString()),
-            new (ClaimTypes.Name, currentUser.Username ?? string.Empty),
-        };
-        var identity = new ClaimsIdentity(claims, authenticationScheme);
+
+        var userRoles = mapper.Map<List<string>>(currentUser.Permissions) ?? RoleName.All;
+        var userRoleClaims = userRoles.Select(name => new Claim(ClaimTypes.Role, name));
+        var restrictToCustomerClaims = currentUser.RestrictToCustomerIds.Select(customerId => new Claim(RestrictToCustomer.ATTRIBUTE, customerId.ToString()));
+
+        var identityClaims = new List<Claim>(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, currentUser.Id.ToString()),
+                new Claim(ClaimTypes.Name, currentUser.Username ?? string.Empty),
+            })
+            .Concat(userRoleClaims)
+            .Concat(restrictToCustomerClaims)
+            .ToList();
+
+        var identity = new ClaimsIdentity(identityClaims, authenticationScheme);
         return new ClaimsPrincipal(identity);
     }
 }

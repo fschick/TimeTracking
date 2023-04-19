@@ -17,7 +17,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Order")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record OrderDto : IIdEntityDto, IManageableDto
+public record OrderDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
 {
     /// <summary>
     /// The unique identifier of the entity.
@@ -49,6 +49,10 @@ public record OrderDto : IIdEntityDto, IManageableDto
     [Required]
     [Filter(Visible = false)]
     public Guid CustomerId { get; set; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    Guid? ICustomerLinkedDto.CustomerId => CustomerId;
 
     /// <summary>
     /// The start date.
