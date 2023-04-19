@@ -11,7 +11,7 @@ namespace FS.TimeTracking.Core.Models.Application.MasterData;
 /// <inheritdoc cref="ActivityDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class Activity : IIdEntityModel
+public class Activity : IIdEntityModel, ICustomerLinkedModel
 {
     /// <inheritdoc />
     [Required]

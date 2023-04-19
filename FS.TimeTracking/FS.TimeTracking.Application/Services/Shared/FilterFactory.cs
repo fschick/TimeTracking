@@ -2,6 +2,7 @@
 using FS.FilterExpressionCreator.Extensions;
 using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
@@ -51,7 +52,8 @@ public class FilterFactory : IFilterFactory
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
             .Replace(x => x.Customer, customerFilter)
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Project, projectFilter);
+            .Replace(x => x.Project, projectFilter)
+            .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
     }
@@ -60,7 +62,8 @@ public class FilterFactory : IFilterFactory
     public Task<EntityFilter<Customer>> CreateCustomerFilter(TimeSheetFilterSet filters)
     {
         var filter = filters.CustomerFilter
-            .Cast<Customer>();
+            .Cast<Customer>()
+            .RestrictToCustomers(x => x.Id, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
     }
@@ -76,7 +79,8 @@ public class FilterFactory : IFilterFactory
         var filter = filters.OrderFilter
             .Cast<Order>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerProjectFilter);
+            .Replace(x => x.Customer, customerProjectFilter)
+            .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
     }
@@ -91,7 +95,8 @@ public class FilterFactory : IFilterFactory
         var filter = filters.ProjectFilter
             .Cast<Project>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerFilter);
+            .Replace(x => x.Customer, customerFilter)
+            .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
     }
@@ -124,7 +129,8 @@ public class FilterFactory : IFilterFactory
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
             .Replace(x => x.Project, projectFilter)
             .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
-            .Replace(x => x.Order, orderFilter);
+            .Replace(x => x.Order, orderFilter)
+            .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         filter = await SetUserFilter(filters, filter, x => x.UserId);
 
@@ -176,6 +182,9 @@ public class FilterFactory : IFilterFactory
     private async Task<EntityFilter<TFilter>> SetUserFilter<TFilter>(TimeSheetFilterSet filters, EntityFilter<TFilter> filter, Expression<Func<TFilter, Guid>> userIdSelector, params Guid[] additionalAllowedUserIds)
     {
         if (_authorizationService.AuthorizationDisabled)
+            return filter;
+
+        if (filters.UserFilter.IsEmpty() && _authorizationService.CanViewForeignData)
             return filter;
 
         var filteredUsers = await _userService.GetFiltered(filters);

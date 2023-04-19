@@ -16,13 +16,17 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 [FilterEntity(Prefix = "Customer")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record CustomerDto : IIdEntityDto, IManageableDto
+public record CustomerDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
 {
     /// <summary>
     /// The unique identifier of the entity.
     /// </summary>
     [Required]
     public Guid Id { get; set; }
+
+    /// <inheritdoc cref="Id"/>
+    [JsonIgnore]
+    Guid? ICustomerLinkedDto.CustomerId => Id;
 
     /// <summary>
     /// The display name of the customer.

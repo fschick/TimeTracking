@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Core.Models.Application.MasterData;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class Project : IIdEntityModel
+public class Project : IIdEntityModel, ICustomerLinkedModel
 {
     /// <inheritdoc />
     [Required]

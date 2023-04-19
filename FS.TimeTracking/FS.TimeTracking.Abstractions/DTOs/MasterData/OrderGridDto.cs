@@ -10,7 +10,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// <inheritdoc cref="OrderDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record OrderGridDto : IIdEntityDto, IManageableDto
+public record OrderGridDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
 {
     /// <inheritdoc cref="OrderDto.Id"/>
     [Required]
@@ -19,6 +19,10 @@ public record OrderGridDto : IIdEntityDto, IManageableDto
     /// <inheritdoc cref="OrderDto.Title"/>
     [Required]
     public string Title { get; set; }
+
+    /// <inheritdoc cref="CustomerDto.Id" />
+    [JsonIgnore]
+    public Guid? CustomerId { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }

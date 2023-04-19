@@ -51,6 +51,11 @@ public enum ApplicationErrorCode
     ForbiddenForeignUserData = 40301,
 
     /// <summary>
+    /// Current user is not allowed to view or modify data of related customer.
+    /// </summary>
+    ForbiddenRestrictedCustomer = 40302,
+
+    /// <summary>
     /// A foreign key violation has occurred.
     /// </summary>
     ConflictForeignKeyViolation = 40901,

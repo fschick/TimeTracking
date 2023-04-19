@@ -56,8 +56,10 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
         var realm = await CreateRealm(cancellationToken);
         var clientId = await CreateClient(realm, cancellationToken);
-        var audienceId = await CreateAudienceClientScope(realm, cancellationToken);
-        await _keycloakRepository.AddScopeToClient(realm, clientId, audienceId, cancellationToken);
+        var audienceScopeId = await CreateAudienceClientScope(realm, cancellationToken);
+        await _keycloakRepository.AddScopeToClient(realm, clientId, audienceScopeId, cancellationToken);
+        var restrictToCustomerScopeId = await CreateRestrictToCustomerIdClientScope(realm, cancellationToken);
+        await _keycloakRepository.AddScopeToClient(realm, clientId, restrictToCustomerScopeId, cancellationToken);
         var adminUserId = await CreateDefaultAdminUser(realm, cancellationToken);
         var clientRoles = await CreateClientRoles(realm, clientId, cancellationToken);
         await _keycloakRepository.AddClientRolesToUser(realm, adminUserId, clientId, clientRoles, cancellationToken);
@@ -133,8 +135,8 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
                 Protocol = "openid-connect",
                 ProtocolMapper = "oidc-audience-mapper",
                 Config = new Dictionary<string, string>{
-                    { "included.client.audience", _keycloakConfiguration.ClientId} ,
-                    { "access.token.claim", "true"} ,
+                    { "included.client.audience", _keycloakConfiguration.ClientId},
+                    { "access.token.claim", "true"},
                 }
             } }
         };
@@ -143,6 +145,37 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
         var createdClientScope = await _keycloakRepository.GetClientScopes(realm, cancellationToken)
             .FirstAsync(storedScope => storedScope.Name == audienceName);
+
+        return createdClientScope.Id;
+    }
+
+    private async Task<string> CreateRestrictToCustomerIdClientScope(string realm, CancellationToken cancellationToken)
+    {
+        var clientScope = new ClientScopeRepresentation
+        {
+            Name = RestrictToCustomer.CLIENT_SCOPE,
+            Protocol = "openid-connect",
+            ProtocolMappers = new List<ProtocolMapperRepresentation> { new() {
+                Id = Guid.NewGuid().ToString(),
+                Name = RestrictToCustomer.MAPPER,
+                Protocol = "openid-connect",
+                ProtocolMapper = "oidc-usermodel-attribute-mapper",
+                ConsentRequired = false,
+                Config = new Dictionary<string, string>{
+                    { "multivalued", "true"},
+                    { "access.token.claim", "true"},
+                    { "id.token.claim", "false"},
+                    { "userinfo.token.claim", "false"},
+                    { "claim.name", RestrictToCustomer.CLAIM},
+                    { "user.attribute", RestrictToCustomer.ATTRIBUTE},
+                }
+            } }
+        };
+
+        await _keycloakRepository.CreateClientScope(realm, clientScope, cancellationToken);
+
+        var createdClientScope = await _keycloakRepository.GetClientScopes(realm, cancellationToken)
+            .FirstAsync(storedScope => storedScope.Name == RestrictToCustomer.CLIENT_SCOPE);
 
         return createdClientScope.Id;
     }

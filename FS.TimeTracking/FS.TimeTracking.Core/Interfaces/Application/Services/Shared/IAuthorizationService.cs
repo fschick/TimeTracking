@@ -1,5 +1,4 @@
 ﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
-using FS.TimeTracking.Core.Interfaces.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -38,6 +37,11 @@ public interface IAuthorizationService
     bool CanViewForeignData { get; }
 
     /// <summary>
+    /// Identifiers of customers the current user is restricted to.
+    /// </summary>
+    List<Guid> RestrictToCustomerIds { get; }
+
+    /// <summary>
     /// Indicates whether the current user is allowed to manage entities according to the user with ID <paramref name="userId"/>
     /// </summary>
     bool CanViewUser(Guid userId);
@@ -48,16 +52,9 @@ public interface IAuthorizationService
     bool CanManageUser(Guid userId);
 
     /// <summary>
-    /// Indicates whether the current user is allowed to manage <typeparamref name="TEntity"/> with the given <paramref name="id"/>
+    /// Indicates whether the current user is allowed to view entity linked to customer with ID <paramref name="customerId"/>
     /// </summary>
-    Task<bool> CanManageUser<TEntity>(Guid id) where TEntity : class, IIdEntityModel, IUserLinkedModel;
-
-    /// <summary>
-    /// Indicates whether the current user is allowed to manage entity linked to user with ID <paramref name="userId"/>
-    /// </summary>
-    Task<bool> CanManageUser<TDto, TEntity>(TDto dto)
-        where TDto : class, IIdEntityDto, IUserLinkedDto
-        where TEntity : class, IIdEntityModel, IUserLinkedModel;
+    bool CanViewCustomer(Guid? customerId);
 
     /// <summary>
     /// Sets user related fields of a DTO.

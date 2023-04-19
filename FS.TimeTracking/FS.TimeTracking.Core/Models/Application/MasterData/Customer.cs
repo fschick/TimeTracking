@@ -1,4 +1,5 @@
-﻿using FS.TimeTracking.Core.Interfaces.Models;
+﻿using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using FS.TimeTracking.Core.Interfaces.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace FS.TimeTracking.Core.Models.Application.MasterData;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class Customer : IIdEntityModel
+public class Customer : IIdEntityModel, ICustomerLinkedModel
 {
     /// <inheritdoc />
     [Required]
     public Guid Id { get; set; }
+
+    /// <inheritdoc />
+    Guid? ICustomerLinkedDto.CustomerId => Id;
 
     /// <summary>
     /// The display name of the customer.

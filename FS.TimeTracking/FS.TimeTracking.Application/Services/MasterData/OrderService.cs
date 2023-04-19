@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.Services.Shared;
+using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.MasterData;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
@@ -17,8 +18,8 @@ namespace FS.TimeTracking.Application.Services.MasterData;
 public class OrderService : CrudModelService<Order, OrderDto, OrderGridDto>, IOrderApiService
 {
     /// <inheritdoc />
-    public OrderService(IAuthorizationService authorizationService, IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory)
-        : base(authorizationService, dbRepository, mapper, filterFactory)
+    public OrderService(IAuthorizationService authorizationService, IDbRepository dbRepository, IMapper mapper, IFilterFactory filterFactory, IUserService userService)
+        : base(authorizationService, dbRepository, mapper, filterFactory, userService)
     { }
 
     /// <inheritdoc />
