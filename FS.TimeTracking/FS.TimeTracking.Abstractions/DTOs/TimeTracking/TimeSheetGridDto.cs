@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// <inheritdoc cref="TimeSheetDto"/>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserLinkedGridDto
+public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserLinkedGridDto, ICustomerLinkedDto
 {
     /// <inheritdoc cref="TimeSheetDto.Id"/>
     [Required]
@@ -35,6 +35,10 @@ public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserLinkedGridDt
 
     /// <inheritdoc cref="TimeSheetDto.Comment"/>
     public string Comment { get; set; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    public Guid? CustomerId { get; set; }
 
     /// <inheritdoc cref="CustomerDto.Title"/>
     public string CustomerTitle { get; set; }
@@ -64,7 +68,7 @@ public record TimeSheetGridDto : IIdEntityDto, IManageableDto, IUserLinkedGridDt
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
-    [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay =>
         $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd.MM.yyyy HH:mm}"
         + (CustomerTitle != null ? $", {CustomerTitle}" : string.Empty)

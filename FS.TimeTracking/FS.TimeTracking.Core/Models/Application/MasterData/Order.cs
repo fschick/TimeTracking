@@ -1,5 +1,6 @@
 ﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Enums;
+using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace FS.TimeTracking.Core.Models.Application.MasterData;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-public class Order : IIdEntityModel
+public class Order : IIdEntityModel, ICustomerLinkedModel
 {
     /// <inheritdoc />
     [Required]
@@ -45,6 +46,9 @@ public class Order : IIdEntityModel
     /// </summary>
     [Required]
     public Guid CustomerId { get; set; }
+
+    /// <inheritdoc />
+    Guid? ICustomerLinkedDto.CustomerId => CustomerId;
 
     /// <inheritdoc cref="MasterData.Customer"/>
     public Customer Customer { get; set; }

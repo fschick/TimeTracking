@@ -62,6 +62,7 @@ public class ActivityChartServiceTests
         // Prepare
         using var faker = new Faker();
         faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(false);
         faker.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = faker.GetRequiredService<IDbRepository>();
@@ -91,6 +92,7 @@ public class ActivityChartServiceTests
         // Prepare
         using var faker = new Faker();
         faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(false);
         faker.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = faker.GetRequiredService<IDbRepository>();
@@ -118,6 +120,7 @@ public class ActivityChartServiceTests
         // Prepare
         using var faker = new Faker();
         faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(false);
         faker.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = faker.GetRequiredService<IDbRepository>();
@@ -150,6 +153,7 @@ public class ActivityChartServiceTests
         // Prepare
         using var faker = new Faker();
         faker.ConfigureInMemoryDatabase();
+        faker.ConfigureAuthorization(false);
         faker.Provide<IActivityApiService, ActivityService>();
 
         var dbRepository = faker.GetRequiredService<IDbRepository>();
