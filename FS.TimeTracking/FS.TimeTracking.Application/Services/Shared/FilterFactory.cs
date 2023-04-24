@@ -50,9 +50,9 @@ public class FilterFactory : IFilterFactory
         var filter = filters.ActivityFilter
             .Cast<Activity>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Customer, customerFilter)
+            .ReplaceNested(x => x.Customer, customerFilter)
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Project, projectFilter)
+            .ReplaceNested(x => x.Project, projectFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
@@ -74,12 +74,12 @@ public class FilterFactory : IFilterFactory
         var customerProjectFilter = filters.CustomerFilter
             .Cast<Customer>()
             .Clear(x => x.Id)
-            .Replace(x => x.Projects, filters.ProjectFilter.Cast<Project>());
+            .ReplaceNested(x => x.Projects, filters.ProjectFilter.Cast<Project>());
 
         var filter = filters.OrderFilter
             .Cast<Order>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerProjectFilter)
+            .ReplaceNested(x => x.Customer, customerProjectFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
@@ -95,7 +95,7 @@ public class FilterFactory : IFilterFactory
         var filter = filters.ProjectFilter
             .Cast<Project>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
-            .Replace(x => x.Customer, customerFilter)
+            .ReplaceNested(x => x.Customer, customerFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         return Task.FromResult(filter);
@@ -123,13 +123,13 @@ public class FilterFactory : IFilterFactory
         var filter = filters.TimeSheetFilter
             .Cast<TimeSheet>()
             .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Customer, customerFilter)
+            .ReplaceNested(x => x.Customer, customerFilter)
             .Replace(x => x.ActivityId, filters.ActivityFilter.GetPropertyFilter(a => a.Id))
-            .Replace(x => x.Activity, activityFilter)
+            .ReplaceNested(x => x.Activity, activityFilter)
             .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
-            .Replace(x => x.Project, projectFilter)
+            .ReplaceNested(x => x.Project, projectFilter)
             .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
-            .Replace(x => x.Order, orderFilter)
+            .ReplaceNested(x => x.Order, orderFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
         filter = await SetUserFilter(filters, filter, x => x.UserId);

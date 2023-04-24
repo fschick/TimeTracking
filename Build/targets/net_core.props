@@ -1,8 +1,8 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0'">$(DefineConstants);NET_CORE</DefineConstants>
+    <TargetFramework>net7.0</TargetFramework>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net7.0'">$(DefineConstants);NET_CORE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IDisposableAnalyzers" Version="4.0.2">
+    <PackageReference Include="IDisposableAnalyzers" Version="4.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

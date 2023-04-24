@@ -144,7 +144,7 @@ Currently no user management / login exists. It's a long time since I've done th
 
 ### Pre requirements
 
-[.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
+[.NET 7 SDK](https://dotnet.microsoft.com/en-us/download)
 
 [Node.js 16.x](https://nodejs.org/en/)
 
@@ -186,4 +186,4 @@ http://localhost:4200/
 
 ### Publish
 
-See publish script `Build/make_publish.ps1
+See publish script `Build/make_publish.ps1`
