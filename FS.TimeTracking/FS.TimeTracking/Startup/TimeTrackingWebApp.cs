@@ -63,13 +63,8 @@ internal static class TimeTrackingWebApp
     {
         builder.Configuration.ClearConfiguration();
         builder.Configuration.AddConfigurationFromEnvironment(args);
-
-        builder.WebHost.ConfigureServices((context, services) =>
-        {
-            services
-                .CreateAndRegisterEnvironmentConfiguration(context.HostingEnvironment)
-                .CreateAndRegisterTimeTrackingConfiguration(context.Configuration);
-        });
+        builder.Services.CreateAndRegisterEnvironmentConfiguration(builder.Environment);
+        builder.Services.CreateAndRegisterTimeTrackingConfiguration(builder.Configuration);
     }
 
     private static void ConfigureNlog(this WebApplicationBuilder builder)
@@ -84,21 +79,18 @@ internal static class TimeTrackingWebApp
 
     private static void ConfigureServerServices(this WebApplicationBuilder builder)
     {
-        builder.WebHost.ConfigureServices((context, services) =>
-        {
-            var configuration = context.Configuration.ReadTimeTrackingConfiguration();
+        var configuration = builder.Configuration.ReadTimeTrackingConfiguration();
 
-            services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
-            services.RegisterTimeTrackingAutoMapper();
-            services.RegisterFilterExpressionInterceptor();
-            services.RegisterApplicationServices();
-            services.RegisterOpenApiController(configuration);
-            services.RegisterRestApiController();
-            services.RegisterAuthorizationPolicies();
-            services.RegisterSpaStaticFiles(context.HostingEnvironment);
-            services.RegisterKeycloakAuthentication(configuration);
-            services.AddOneTimeTokenAuthentication();
-        });
+        builder.Services.AddFeatureManagement(builder.Configuration.GetSection("TimeTracking:Features"));
+        builder.Services.RegisterTimeTrackingAutoMapper();
+        builder.Services.RegisterFilterExpressionInterceptor();
+        builder.Services.RegisterApplicationServices();
+        builder.Services.RegisterOpenApiController(configuration);
+        builder.Services.RegisterRestApiController();
+        builder.Services.RegisterAuthorizationPolicies();
+        builder.Services.RegisterSpaStaticFiles(builder.Environment);
+        builder.Services.RegisterKeycloakAuthentication(configuration);
+        builder.Services.AddOneTimeTokenAuthentication();
     }
 
     private static void ConfigureServerApplication(this WebApplication webApplication)

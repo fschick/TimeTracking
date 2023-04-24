@@ -11,7 +11,7 @@ param (
 Push-Location $PSScriptRoot/../..
 
 # Configure
-$framework = "net6.0"
+$framework = "net7.0"
 
 # Publish
 Npm-Restore -folder FS.TimeTracking.UI.Angular
