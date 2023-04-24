@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
 
 [TestClass, ExcludeFromCodeCoverage]
+[SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP013:Await in using", Justification = "False positive")]
 public class WorkdayServiceTests
 {
     private readonly List<Holiday> _holidays = new()

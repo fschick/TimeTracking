@@ -1,6 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/targets/tests.props" />
+
   <ItemGroup>
     <ProjectReference Include="..\FS.TimeTracking.Core\FS.TimeTracking.Core.csproj" />
   </ItemGroup>
+
 </Project>

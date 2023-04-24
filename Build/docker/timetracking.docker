@@ -1,4 +1,4 @@
-FROM schicksoftware/dotnet6.0-jre17-nodejs16.0:latest AS build
+FROM schicksoftware/dotnet7.0-jre17-nodejs18.0:latest AS build
 ARG CI_PROJECT_NAME
 ARG CI_COMMIT_REF_NAME
 COPY / .

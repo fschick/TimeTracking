@@ -27,6 +27,7 @@ using Faker = FS.TimeTracking.Application.Tests.Services.Faker;
 namespace FS.TimeTracking.Application.Tests.Tests.Services;
 
 [TestClass, ExcludeFromCodeCoverage]
+[SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP013:Await in using", Justification = "False positive")]
 public class ActivityChartServiceTests
 {
     [DataTestMethod]

@@ -22,15 +22,12 @@ internal static class RestApiStartup
 {
     public static WebApplication RegisterRestApiRoutes(this WebApplication webApplication)
     {
-        webApplication
-            .UseEndpoints(endpoints =>
-            {
-                var controllerBuilder = endpoints.MapControllers();
+        var controllerBuilder = webApplication.MapControllers();
 
-                var configuration = webApplication.Services.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value;
-                if (!configuration.Features.Authorization)
-                    controllerBuilder.AllowAnonymous();
-            });
+        var configuration = webApplication.Services.GetRequiredService<IOptions<TimeTrackingConfiguration>>().Value;
+        if (!configuration.Features.Authorization)
+            controllerBuilder.AllowAnonymous();
+
         return webApplication;
     }
 
