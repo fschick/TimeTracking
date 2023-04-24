@@ -1,7 +1,7 @@
 # Ensure unsigned powershell script execution is allowed: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 param (
-  [Parameter()][String]$version
+  [Parameter()][String]$version = "0.0.0"
 )
 
 . $PSScriptRoot/_core.ps1

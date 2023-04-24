@@ -13,11 +13,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-    - name: Setup Node 16.x
+        dotnet-version: 7.0.x
+    - name: Setup Node 18.x
       uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
+        node-version: '18.x'
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
@@ -35,11 +35,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-    - name: Use Node 16.x
+        dotnet-version: 7.0.x
+    - name: Setup Node 18.x
       uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
+        node-version: '18.x'
     - name: Use Java
       uses: actions/setup-java@v2
       with:
@@ -69,11 +69,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Setup Node 16.x
       uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
+        node-version: '18.x'
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
@@ -102,11 +102,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Setup Node 16.x
       uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
+        node-version: '18.x'
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
@@ -162,11 +162,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Setup Node 16.x
       uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
+        node-version: '18.x'
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
