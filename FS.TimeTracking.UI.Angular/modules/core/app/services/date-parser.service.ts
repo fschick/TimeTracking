@@ -79,7 +79,7 @@ export class DateParserService {
 
   private parseDay(valueParts: RegExpMatchArray): DateTime {
     const now = DateTime.now();
-    const day = Math.min(parseInt(valueParts[1], 10), now.daysInMonth);
+    const day = Math.min(parseInt(valueParts[1], 10), now.daysInMonth!);
     return DateTime.local(now.year, now.month, day);
   }
 
@@ -94,7 +94,7 @@ export class DateParserService {
     const month = Math.min(parseInt(dayIsFirst ? valueParts[2] : valueParts[1], 10), maxMonth);
 
     const maxDay = now.set({month: month}).daysInMonth;
-    const day = Math.min(parseInt(dayIsFirst ? valueParts[1] : valueParts[2], 10), maxDay);
+    const day = Math.min(parseInt(dayIsFirst ? valueParts[1] : valueParts[2], 10), maxDay!);
 
     return DateTime.local(now.year, month, day);
   }
@@ -137,7 +137,7 @@ export class DateParserService {
     const maxMonth = 12;
     month = Math.min(month, maxMonth);
     const maxDay = now.set({month: month}).daysInMonth;
-    day = Math.min(day, maxDay);
+    day = Math.min(day, maxDay!);
 
     return DateTime.local(year, month, day);
   }
@@ -163,7 +163,7 @@ export class DateParserService {
       dateUnit = {weekNumber: val};
     } else {
       const maxDay = operator ? Number.MAX_SAFE_INTEGER : today.daysInMonth;
-      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.day, maxDay);
+      const val = Math.min(value ? parseInt(value, 10) : operator ? 1 : today.day, maxDay!);
       duration = {days: val};
       dateUnit = {day: val};
     }
