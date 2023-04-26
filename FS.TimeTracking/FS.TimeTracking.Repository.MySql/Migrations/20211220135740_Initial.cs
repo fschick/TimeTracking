@@ -252,17 +252,17 @@ namespace FS.TimeTracking.Repository.MySql.Migrations
 
             // EDITED
             migrationBuilder.Sql(@"
-                CREATE FUNCTION ToUtc(date datetime(6), offset int)
+                CREATE FUNCTION ToUtc(`date` datetime(6), `offset` int)
 	                RETURNS datetime(6) 
 	                DETERMINISTIC
-	                RETURN (SELECT date + INTERVAL offset * -1 MINUTE);");
+	                RETURN (SELECT `date` + INTERVAL `offset` * -1 MINUTE);");
 
             // EDITED
             migrationBuilder.Sql(@"
-                CREATE FUNCTION DiffSeconds(fromDate datetime(6), offset int, toDate datetime(6))
+                CREATE FUNCTION DiffSeconds(`fromDate` datetime(6), `offset` int, `toDate` datetime(6))
                     RETURNS bigint unsigned
                     DETERMINISTIC
-                    RETURN (SELECT TIMESTAMPDIFF(SECOND , fromDate, COALESCE (toDate, UTC_TIMESTAMP() +  INTERVAL offset  MINUTE)));");
+                    RETURN (SELECT TIMESTAMPDIFF(SECOND , `fromDate`, COALESCE (`toDate`, UTC_TIMESTAMP() +  INTERVAL `offset` MINUTE)));");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
