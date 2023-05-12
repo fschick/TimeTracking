@@ -38,6 +38,7 @@ public record SettingDto : IManageableDto
     public CompanyDto Company { get; set; } = new();
 
     /// <inheritdoc />
+    [Filter(Visible = false)]
     public bool? IsReadonly { get; set; }
 
     /// <summary>

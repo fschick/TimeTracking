@@ -61,6 +61,7 @@ public record ActivityDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
+    [Filter(Visible = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

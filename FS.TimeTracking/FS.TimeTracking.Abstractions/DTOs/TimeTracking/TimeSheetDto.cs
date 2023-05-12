@@ -91,6 +91,7 @@ public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserLinkedDto, ICust
     public Guid UserId { get; set; }
 
     /// <inheritdoc />
+    [Filter(Visible = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]
