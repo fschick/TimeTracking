@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.0.2" />
+    <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.1.0" />
     <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.4.0" />
     <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.4.0" />
     <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.4.0" />
