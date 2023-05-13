@@ -83,7 +83,7 @@ public class ActivityReportService : IActivityReportApiService
             .Single(x => (x.ActionDescriptor as ControllerActionDescriptor)?.ActionName == nameof(GetDetailedActivityReport))
             .RelativePath;
 
-        var queryParams = filters.ToQueryParams(("language", language));
+        var queryParams = await filters.ToQueryParams(("language", language));
 
         var dailyReportDownloadUrl = $"{dailyActivityReportUrl}?{queryParams}";
 

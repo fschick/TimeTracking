@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using NLog.Web;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -90,7 +91,7 @@ internal static class TimeTrackingWebApp
         builder.Services.RegisterAuthorizationPolicies();
         builder.Services.RegisterSpaStaticFiles(builder.Environment);
         builder.Services.RegisterKeycloakAuthentication(configuration);
-        builder.Services.AddOneTimeTokenAuthentication();
+        builder.Services.AddOneTimeTokenAuthentication(o => o.NameIdentifier = Guid.Empty.ToString());
     }
 
     private static void ConfigureServerApplication(this WebApplication webApplication)
