@@ -216,7 +216,8 @@
     },
     "Authorization": {
       "Login": "Login",
-      "Logout": "Logout"
+      "Logout": "Logout",
+      "UserAccount": "User account"
     },
     "Filter": {
       "Title": "Settings & Filter",

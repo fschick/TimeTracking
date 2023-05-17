@@ -23,6 +23,7 @@ export type PermissionGroupsRoles = {
 export interface User {
   id?: string;
   name?: string;
+  userAccountUrl?: string;
   isAuthenticated: boolean;
   hasRole: UserRoles;
   hasRolesInGroup: PermissionGroupsRoles;
@@ -89,7 +90,10 @@ export class AuthenticationService {
   }
 
   private initKeycloak(keycloak: Keycloak): Observable<any> {
-    const initOptions: KeycloakInitOptions = {onLoad: 'check-sso', silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'};
+    const initOptions: KeycloakInitOptions = {
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
+    };
     return from(keycloak.init(initOptions));
   }
 
@@ -113,6 +117,7 @@ export class AuthenticationService {
     return {
       id: this.keycloak?.profile?.id,
       name: this.keycloak?.profile?.username,
+      userAccountUrl: `${this.keycloak?.createAccountUrl({redirectUri: location.href})}/#/personal-info`,
       isAuthenticated: this.keycloak?.authenticated ?? false,
       hasRole: roles,
       hasRolesInGroup: {

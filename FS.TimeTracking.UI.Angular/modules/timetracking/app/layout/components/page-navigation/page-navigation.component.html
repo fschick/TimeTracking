@@ -213,6 +213,11 @@
             <ul class="dropdown-menu" aria-labelledby="userProfileDropdown">
               <li>
                 <a class="dropdown-item"
+                   [href]="currentUser.userAccountUrl"
+                   i18n="@@Component.Authorization.UserAccount">
+                  [i18n] User account
+                </a>
+                <a class="dropdown-item"
                    data-bs-toggle="collapse"
                    data-bs-target=".navbar-collapse.show"
                    i18n="@@Component.Authorization.Logout"
