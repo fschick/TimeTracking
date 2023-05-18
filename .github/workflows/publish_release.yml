@@ -147,8 +147,7 @@ jobs:
         tags: |
           schicksoftware/timetracking:${{github.ref_name}}
           schicksoftware/timetracking:latest
-        push: ${{ github.ref == 'refs/heads/main' }}
-        # push: true
+        push: ${{ startsWith(github.ref, 'refs/tags') && !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
