@@ -1,7 +1,9 @@
 {
   "TimeTracking": {
     "Features": {
+      // Enable authorization
       "Authorization": false,
+      // Enable reporting
       "Reporting": false
     },
     "Database": {
@@ -18,16 +20,23 @@
       //"ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
     },
     "Reporting": {
+      // The base URL of the report server
       "ReportServerBaseUrl": "http://localhost:5010"
     },
     "Keycloak": {
+      // The URL of the Keycloak server
       "AuthServerUrl": "https://URL/to/Keykloak",
+      // The realm to use
       "Realm": "<Realm>",
+      // The client id of the backend application
       "ClientId": "<Front-end client id>",
       "SslRequired": true,
       "VerifyTokenAudience": true,
+      // Creates the realm if it does not exist
       "CreateRealm": false,
+      // The username of the admin user to create the realm, clients and users
       "AdminUser": null,
+      // The password of the admin user to create the realm, clients and users
       "AdminPassword": null
     }
   },

@@ -58,12 +58,10 @@ notepad config\FS.TimeTracking.config.nlog
 
 # Install and run as windows service
 # The service will be installed as "FS.TimeTracking". You can change the name in the .bat file
-cd C:\services\TimeTracking
-FS.TimeTracking.WindowsService.Install.bat
+C:\services\TimeTracking\services\windows.service.install.bat
 
 # Uninstall service
-cd C:\services\TimeTracking
-FS.TimeTracking.WindowsService.Uninstall.bat
+C:\services\TimeTracking\windows.service.uninstall.bat
 ```
 
 ### Install as Linux daemon
@@ -104,22 +102,44 @@ systemctl enable FS.TimeTracking.service
 
 ```json
 "TimeTracking": {
+  "Features": {
+    // Enable authorization
+    "Authorization": false,
+    // Enable reporting
+    "Reporting": false
+  },
   "Database": {
-    // SQL Server
-    "Type": "SqlServer",
-    "ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True"
-
-    // MariaDB / MySql
-    "Type": "MySql",
-    "ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
-
-    // Sqlite
     "Type": "Sqlite",
-    "ConnectionString": "Data Source=<database file>;"
+    "ConnectionString": "Data Source=database/TimeTracking.sqlite"
 
-    // PostgreSQL
-    "Type": "PostgreSql",
-    "ConnectionString": "Server=<server>;Database=<database>;User Id=<user>;Password=<password>;"
+    //"Type": "SqlServer",
+    //"ConnectionString": "Data Source=<server>;Initial Catalog=<database>;User ID=<user>;Password=<password>;Persist Security Info=True;TrustServerCertificate=True"
+
+    //"Type": "PostgreSql",
+    //"ConnectionString": "Server=<server>;Database=<database>;User Id=<user>;Password=<password>;"
+
+    //"Type": "MySql",
+    //"ConnectionString": "Server=<server>;Database=<database>;User=<user>;Password=<password>;"
+  },
+  "Reporting": {
+    // The base URL of the report server
+    "ReportServerBaseUrl": "http://localhost:5010"
+  },
+  "Keycloak": {
+    // The URL of the Keycloak server
+    "AuthServerUrl": "https://URL/to/Keykloak",
+    // The realm to use
+    "Realm": "<Realm>",
+    // The client id of the backend application
+    "ClientId": "<Front-end client id>",
+    "SslRequired": true,
+    "VerifyTokenAudience": true,
+    // Creates the realm if it does not exist
+    "CreateRealm": false,
+    // The username of the admin user to create the realm, clients and users
+    "AdminUser": null,
+    // The password of the admin user to create the realm, clients and users
+    "AdminPassword": null
   }
 }
 ```
@@ -130,15 +150,15 @@ systemctl enable FS.TimeTracking.service
 
 See [official documentation](https://github.com/nlog/nlog/wiki/Configuration-file) for details
 
-## Roadmap
+## Features
 
 ### Reports
 
-PDF activity reports for customers are in development and will follow
+Activity reports available via [TimeTracking Report Server](https://github.com/fschick/TimeTracking.ReportServer). The server uses a paid reporting engine. Let me know if you know of a suitable free report engine. Contact me, if you like to go with the paid reporting engine.
 
 ### User management
 
-Currently no user management / login exists. It's a long time since I've done this things and my knowledge isn't up to date. If you like to help please contact me.
+Authentication is available via OpenID Connect / OAuth2 with [Keycloak](https://www.keycloak.org/). Other identity servers may work with smaller adjustments or limitations (e.g. users and role must be created by your own).
 
 ## Development
 
