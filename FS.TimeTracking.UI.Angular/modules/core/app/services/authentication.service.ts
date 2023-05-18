@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import Keycloak, {KeycloakInitOptions} from 'keycloak-js';
+import Keycloak, {KeycloakInitOptions, KeycloakTokenParsed} from 'keycloak-js';
 import {from, map, Observable} from 'rxjs';
 import {ConfigurationService} from './configuration.service';
 import {KeycloakConfigurationDto} from '../../../api/timetracking';
 import {switchMap, tap} from 'rxjs/operators';
 import {RoleNames} from '../../../authorization/app/services/RoleNames';
+import {DateTime} from "luxon";
 
 // https://stackoverflow.com/a/65642944/1271211
 // export type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}` ? `${T}${Capitalize<SnakeToCamelCase<U>>}` : S;
@@ -73,6 +74,11 @@ export class AuthenticationService {
     if (!this.keycloak)
       throw Error('Keycloak authentication service is not initialized');
 
+    // this.dumpTokenInformation();
+
+    if (this.isRefreshTokenExpired(5))
+      this.keycloak.login();
+
     return from(this.keycloak.updateToken(5))
       .pipe(map(() => this.keycloak!.token ?? ''));
   }
@@ -134,5 +140,41 @@ export class AuthenticationService {
       return false;
 
     return this.keycloak!.hasResourceRole(role, this.configuration?.clientId);
+  }
+
+  private isRefreshTokenExpired = (minValidity: number) => {
+    return this.isTokenExpired(this.keycloak!.refreshTokenParsed, minValidity);
+  };
+
+  private isTokenExpired = (token?: KeycloakTokenParsed, minValidity: number = 5) => {
+    if (!token?.exp)
+      return true;
+    var expiresIn = token.exp - Math.ceil(new Date().getTime() / 1000) + this.keycloak!.timeSkew!;
+    expiresIn -= minValidity;
+    return expiresIn < 0;
+  };
+
+  private dumpTokenInformation() {
+    const getTokenTimeStamps = (token?: KeycloakTokenParsed) => {
+      const authAt = token?.auth_time ? DateTime.fromSeconds(token.auth_time) : null;
+      const issuedAt = token?.iat ? DateTime.fromSeconds(token.iat) : null;
+      const expireAt = token?.exp ? DateTime.fromSeconds(token.exp) : null;
+      const expireIn = expireAt ? expireAt.diffNow('seconds').seconds : -999;
+      return {
+        authAt: authAt?.toFormat('yyyy-MM-dd HH:mm:ss'),
+        issuedAt: issuedAt?.toFormat('yyyy-MM-dd HH:mm:ss'),
+        expireAt: expireAt?.toFormat('yyyy-MM-dd HH:mm:ss'),
+        expireIn: expireIn.toFixed(0),
+        isExpired: this.isTokenExpired(token),
+      }
+    };
+
+    const tokenTimestamps = {
+      id: getTokenTimeStamps(this.keycloak!.idTokenParsed),
+      access: getTokenTimeStamps(this.keycloak!.tokenParsed),
+      refresh: getTokenTimeStamps(this.keycloak!.refreshTokenParsed),
+    };
+
+    console.table(tokenTimestamps);
   }
 }
