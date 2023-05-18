@@ -45,7 +45,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{4D7C
 		..\Build\targets\xml_documentation.props = ..\Build\targets\xml_documentation.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.TimeTracking.Keycloak", "FS.TimeTracking.Keycloak\FS.TimeTracking.Keycloak.csproj", "{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.TimeTracking.Keycloak", "FS.TimeTracking.Keycloak\FS.TimeTracking.Keycloak.csproj", "{50A2E279-542E-4C00-BC1F-4EFFB9B9B27E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{2882B4C3-3E9C-4B84-91DA-9DD76DFEA969}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\services\linux.service.template = ..\Build\services\linux.service.template
+		..\Build\services\windows.service.install.bat = ..\Build\services\windows.service.install.bat
+		..\Build\services\windows.service.uninstall.bat = ..\Build\services\windows.service.uninstall.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{DA46FC64-FEE4-44E9-A914-FF4DD9A4D6A8}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\scripts\build_server.build.ps1 = ..\Build\scripts\build_server.build.ps1
+		..\Build\scripts\timetracking.build.ps1 = ..\Build\scripts\timetracking.build.ps1
+		..\Build\scripts\timetracking.publish.ps1 = ..\Build\scripts\timetracking.publish.ps1
+		..\Build\scripts\timetracking.test.ps1 = ..\Build\scripts\timetracking.test.ps1
+		..\Build\scripts\_core.ps1 = ..\Build\scripts\_core.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{8596EEBA-22F9-49E6-B652-254C38727D5E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\docker\build_server.docker = ..\Build\docker\build_server.docker
+		..\Build\docker\timetracking.docker = ..\Build\docker\timetracking.docker
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +150,9 @@ Global
 		{E4FD20E4-C582-46FD-8A37-D629A61BC5A1} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{2A2F6DFB-637D-41B5-9C11-D548EE12ADC1} = {A5A54A2E-518C-4EF3-85F0-EE957DA73D79}
 		{4D7C624D-9B5A-4AA3-A63F-8775241D2EF0} = {4F2876AD-723A-42E6-9FB3-CE1FB650866E}
+		{2882B4C3-3E9C-4B84-91DA-9DD76DFEA969} = {4F2876AD-723A-42E6-9FB3-CE1FB650866E}
+		{DA46FC64-FEE4-44E9-A914-FF4DD9A4D6A8} = {4F2876AD-723A-42E6-9FB3-CE1FB650866E}
+		{8596EEBA-22F9-49E6-B652-254C38727D5E} = {4F2876AD-723A-42E6-9FB3-CE1FB650866E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E05ED8E8-FD3C-488B-B215-FF32A6BE7EBC}

@@ -1,11 +1,11 @@
 [Unit]
-Description=FS.TimeTracking
+Description=TimeTracking
 
 [Service]
 Type=notify
-ExecStart=/opt/FS.TimeTracking/bin/FS.TimeTracking
-WorkingDirectory=/opt/FS.TimeTracking/bin
-SyslogIdentifier=FS.TimeTracking
+ExecStart=/opt/TimeTracking/bin/FS.TimeTracking
+WorkingDirectory=/opt/TimeTracking/bin
+SyslogIdentifier=TimeTracking
 Restart=on-failure
 RestartSec=10
 User=dotnetuser

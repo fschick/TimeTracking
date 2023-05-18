@@ -19,11 +19,5 @@ Publish-Project -project FS.TimeTracking.Tool/FS.TimeTracking.Tool -version $ver
 Build-Project -project FS.TimeTracking/FS.TimeTracking -version $version
 Publish-Project -project FS.TimeTracking/FS.TimeTracking -version $version -framework $framework -runtime $runtime -publshFolder $publshFolder
 Publish-Ui -project FS.TimeTracking.UI.Angular -publshFolder ../$publshFolder/webui
-if ($runtime.StartsWith("win")) {
-	Copy-Item ./Build/service/windows.service.install.bat $publshFolder/FS.TimeTracking.service.install.bat
-	Copy-Item ./Build/service/windows.service.uninstall.bat $publshFolder/FS.TimeTracking.service.uninstall.bat
-} else {
-	Copy-Item ./Build/service/linux.service.template $publshFolder/FS.TimeTracking.service.template
-}
 
 Pop-Location
