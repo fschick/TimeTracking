@@ -1,5 +1,10 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Column, Configuration, DataCellTemplate, FooterCellTemplate} from '../../../../../core/app/components/simple-table/simple-table.component';
+import {
+  Column,
+  Configuration,
+  DataCellTemplate,
+  FooterCellTemplate
+} from '../../../../../core/app/components/simple-table/simple-table.component';
 import {IssueChartService, IssueWorkTimeDto} from '../../../../../api/timetracking';
 import {Observable, Subscription} from 'rxjs';
 import {Filter, FilteredRequestParams, FilterName} from '../../../../../core/app/components/filter/filter.component';
@@ -105,7 +110,7 @@ export class ChartIssuesComponent implements OnInit, OnDestroy {
         data: workTimes.map(workTime => ({
           x: workTime.issue,
           y: workTime.daysWorked,
-          meta: {time: workTime.timeWorked}
+          meta: {days: workTime.daysWorked, time: workTime.timeWorked}
         }))
       }
     ];
