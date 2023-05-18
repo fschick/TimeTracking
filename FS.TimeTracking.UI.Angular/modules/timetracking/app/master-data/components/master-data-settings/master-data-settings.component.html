@@ -16,35 +16,35 @@
           </h6>
 
           <label for="workHoursPerWorkday" class="form-label" i18n="@@DTO.SettingDto.WorkHoursPerWorkday">[i18n] Working hours / weekday</label>
-          <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" formControlName="workHoursPerWorkdayDate" autocomplete="off">
+          <input id="workHoursPerWorkday" type="time" tsTime class="form-control w-auto" [readonly]="isReadOnly" formControlName="workHoursPerWorkdayDate" autocomplete="off">
 
           <ng-container formGroupName="workdays">
             <label class="form-label mt-4" i18n="@@Page.Administration.Settings.Workdays">[i18n] Workdays</label>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="monday" formControlName="monday">
               <label class="form-check-label" for="monday" i18n="@@DTO.SettingDto.Monday">[i18n] Monday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="tuesday" formControlName="tuesday">
               <label class="form-check-label" for="tuesday" i18n="@@DTO.SettingDto.Tuesday">[i18n] Tuesday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="wednesday" formControlName="wednesday">
               <label class="form-check-label" for="wednesday" i18n="@@DTO.SettingDto.Wednesday">[i18n] Wednesday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="thursday" formControlName="thursday">
               <label class="form-check-label" for="thursday" i18n="@@DTO.SettingDto.Thursday">[i18n] Thursday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="friday" formControlName="friday">
               <label class="form-check-label" for="friday" i18n="@@DTO.SettingDto.Friday">[i18n] Friday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="saturday" formControlName="saturday">
               <label class="form-check-label" for="saturday" i18n="@@DTO.SettingDto.Saturday">[i18n] Saturday</label>
             </div>
-            <div class="form-check form-check">
+            <div class="form-check form-check" [ngClass]="{disabled: isReadOnly}">
               <input class="form-check-input" type="checkbox" id="sunday" formControlName="sunday">
               <label class="form-check-label" for="sunday" i18n="@@DTO.SettingDto.Sunday">[i18n] Sunday</label>
             </div>
@@ -69,6 +69,7 @@
                      labelForId="clientTimeZoneId"
                      placeholder="[i18n] Select client time zone"
                      i18n-placeholder="@@DTO.SettingDto.ClientTimeZoneIdPlaceholder"
+                     [readonly]="isReadOnly"
                      formControlName="clientTimeZoneId">
           </ng-select>
         </div>
@@ -86,39 +87,39 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label for="company" class="form-label" i18n="@@DTO.SettingDto.Company">[i18n] Company name</label>
-              <input id="company" type="text" class="form-control" formControlName="company">
+              <input id="company" type="text" class="form-control" [readonly]="isReadOnly" formControlName="company">
             </div>
             <div class="col-md-6">
               <label for="department" class="form-label" i18n="@@DTO.SettingDto.Department">[i18n] Department</label>
-              <input id="department" type="text" class="form-control" formControlName="department">
+              <input id="department" type="text" class="form-control" [readonly]="isReadOnly" formControlName="department">
             </div>
             <div class="col-md-6">
               <label for="serviceProvider" class="form-label" i18n="@@DTO.SettingDto.ServiceProvider">[i18n] Service provider</label>
-              <input id="serviceProvider" type="text" class="form-control" formControlName="serviceProvider">
+              <input id="serviceProvider" type="text" class="form-control" [readonly]="isReadOnly" formControlName="serviceProvider">
             </div>
             <div class="col-md-6">
               <label for="currency" class="form-label" i18n="@@DTO.SettingDto.Currency">[i18n] Currency</label>
-              <input id="currency" type="text" class="form-control" formControlName="currency">
+              <input id="currency" type="text" class="form-control" [readonly]="isReadOnly" formControlName="currency">
             </div>
             <div class="col-md-6">
               <label for="street" class="form-label" i18n="@@DTO.SettingDto.Street">[i18n] Street</label>
-              <input id="street" type="text" class="form-control" formControlName="street">
+              <input id="street" type="text" class="form-control" [readonly]="isReadOnly" formControlName="street">
             </div>
             <div class="col-md-6">
               <label for="addressAddition" class="form-label" i18n="@@DTO.SettingDto.AddressAddition">[i18n] Additional address</label>
-              <input id="addressAddition" type="text" class="form-control" formControlName="addressAddition">
+              <input id="addressAddition" type="text" class="form-control" [readonly]="isReadOnly" formControlName="addressAddition">
             </div>
             <div class="col-md-2">
               <label for="zipCode" class="form-label" i18n="@@DTO.SettingDto.ZipCode">[i18n] Zip code</label>
-              <input id="zipCode" type="text" class="form-control" formControlName="zipCode">
+              <input id="zipCode" type="text" class="form-control" [readonly]="isReadOnly" formControlName="zipCode">
             </div>
             <div class="col-md-4">
               <label for="city" class="form-label" i18n="@@DTO.SettingDto.City">[i18n] City</label>
-              <input id="city" type="text" class="form-control" formControlName="city">
+              <input id="city" type="text" class="form-control" [readonly]="isReadOnly" formControlName="city">
             </div>
             <div class="col-md-6">
               <label for="country" class="form-label" i18n="@@DTO.SettingDto.Country">[i18n] Country</label>
-              <input id="country" type="text" class="form-control" formControlName="country">
+              <input id="country" type="text" class="form-control" [readonly]="isReadOnly" formControlName="country">
             </div>
             <div class="col-md-2">
               <label for="logoPreview" class="form-label w-100" i18n="@@Page.Administration.Settings.LogoPreview">[i18n] Preview</label>
@@ -132,9 +133,10 @@
             <div class="col-md-10">
               <label for="logo" class="form-label" i18n="@@DTO.SettingDto.Logo">[i18n] Logo</label>
               <div class="clearable">
-                <input id="logo" class="form-control" type="file" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff" (change)="setLogoFileInput($event)">
+                <input id="logo" class="form-control" type="file" [ngClass]="{disabled: isReadOnly}" accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff" (change)="setLogoFileInput($event)">
                 <button type="button"
                         class="text-secondary clear"
+                        [ngClass]="{disabled: isReadOnly}"
                         (click)="clearLogoFileInput()"
                         tabindex="-1">
                   <svg class="bi text-secondary" fill="currentColor">
@@ -154,7 +156,7 @@
   <ts-form-validation-errors></ts-form-validation-errors>
   <div class="row mt-4">
     <div class="col-auto ms-auto">
-      <button form="workingHoursForm" type="submit" class="btn btn-primary">
+      <button form="workingHoursForm" type="submit" class="btn btn-primary" [disabled]="isReadOnly">
         <ng-container i18n="@@Common.Save">[i18n] Save</ng-container>
       </button>
     </div>

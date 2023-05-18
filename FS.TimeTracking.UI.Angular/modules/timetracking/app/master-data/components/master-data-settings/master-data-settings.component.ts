@@ -7,6 +7,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {UtilityService} from '../../../../../core/app/services/utility.service';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
+import {AuthenticationService} from "../../../../../core/app/services/authentication.service";
 
 interface SettingDtoWithDate extends SettingDto {
   workHoursPerWorkdayDate: DateTime
@@ -22,6 +23,7 @@ export class MasterDataSettingsComponent {
   public settingsForm: ValidationFormGroup;
   public timeZones$: Observable<StringStringTypeaheadDto[]>;
   public logoImageSrc$: Observable<SafeUrl | undefined>;
+  public isReadOnly: boolean;
 
   constructor(
     private settingService: SettingService,
@@ -29,6 +31,7 @@ export class MasterDataSettingsComponent {
     private utilityService: UtilityService,
     private sanitizer: DomSanitizer,
     private typeaheadService: TypeaheadService,
+    authenticationService: AuthenticationService,
   ) {
     this.settingsForm = this.createSettingsForm();
 
@@ -37,6 +40,8 @@ export class MasterDataSettingsComponent {
     }));
 
     this.timeZones$ = typeaheadService.getTimezones();
+
+    this.isReadOnly = !authenticationService.currentUser.hasRole.administrationSettingsManage;
 
     this.settingService.getSettings()
       .pipe(single())
