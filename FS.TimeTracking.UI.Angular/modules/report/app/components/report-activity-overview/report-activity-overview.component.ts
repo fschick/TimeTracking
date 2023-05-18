@@ -6,9 +6,14 @@ import {EntityService} from '../../../../core/app/services/state-management/enti
 import {Observable, Subscription} from 'rxjs';
 import {ActivityReportGridDto, ActivityReportService} from '../../../../api/timetracking';
 import {LocalizationService} from '../../../../core/app/services/internationalization/localization.service';
-import {Column, Configuration, DataCellTemplate} from '../../../../core/app/components/simple-table/simple-table.component';
+import {
+  Column,
+  Configuration,
+  DataCellTemplate
+} from '../../../../core/app/components/simple-table/simple-table.component';
 import {FormatService} from '../../../../core/app/services/format.service';
 import {UtilityService} from '../../../../core/app/services/utility.service';
+import {AuthenticationService, User} from "../../../../core/app/services/authentication.service";
 
 @Component({
   selector: 'ts-report-activity-overview',
@@ -35,6 +40,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
     private activityReportService: ActivityReportService,
     private formatService: FormatService,
     private utilityService: UtilityService,
+    private authenticationService: AuthenticationService,
   ) {
     const defaultStartDate = DateTime.now().minus({month: 1}).startOf('month');
     const defaultEndDate = DateTime.now().minus({month: 1}).endOf('month');
@@ -107,6 +113,12 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
       },
     ];
 
+    if (!this.authenticationService.currentUser.hasRole.reportActivitySummaryView)
+      this.columns = this.columns.filter(column => column.prop != 'dailyActivityReportUrl');
+
+    if (!this.authenticationService.currentUser.hasRole.reportActivityDetailView)
+      this.columns = this.columns.filter(column => column.prop != 'detailedActivityReportUrl');
+
     const loadTimeSheets = this.entityService.reloadRequested
       .pipe(switchMap(filter => this.loadOverview(filter)))
       .subscribe(customers => {
@@ -120,7 +132,10 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   }
 
   private loadOverview(requestParameters: FilteredRequestParams): Observable<ActivityReportGridDto[]> {
-    return this.activityReportService.getCustomersHavingTimeSheets({...requestParameters, language: this.localizationService.language});
+    return this.activityReportService.getCustomersHavingTimeSheets({
+      ...requestParameters,
+      language: this.localizationService.language
+    });
   }
 
   public refreshDailyReportDownloadToken(row: ActivityReportGridDto) {
