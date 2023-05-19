@@ -14,9 +14,9 @@ import {combineLatest, Observable, of, Subscription} from 'rxjs';
 export class ChartWorkdayInfoComponent implements OnDestroy {
   private readonly subscriptions = new Subscription();
 
-  @Input() public daysWorked?: number;
-  @Input() public daysPlanned?: number;
-  @Input() public daysDifference?: number;
+  @Input() public daysWorked: number | undefined;
+  @Input() public daysPlanned: number | undefined;
+  @Input() public daysDifference: number | undefined;
   @Input() public overbookEntries: number = 0;
   @Input() public type?: 'customer' | 'order';
 

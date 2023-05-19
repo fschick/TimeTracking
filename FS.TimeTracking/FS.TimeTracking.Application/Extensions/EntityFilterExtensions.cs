@@ -19,9 +19,9 @@ internal static class EntityFilterExtensions
 
     public static EntityFilter<TEntity> RestrictToCustomers<TEntity>(this EntityFilter<TEntity> filter, Expression<Func<TEntity, Guid?>> customerIdSelector, IEnumerable<Guid> customerIds)
     {
-        var allowedIds = customerIds.EmptyIfNull().ToArray();
-        if (allowedIds.Any())
-            filter.Add(customerIdSelector, allowedIds);
+        var restrictedIds = customerIds.EmptyIfNull().ToArray();
+        if (restrictedIds.Any())
+            filter.Add(customerIdSelector, restrictedIds);
         return filter;
     }
 }

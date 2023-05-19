@@ -77,11 +77,11 @@ public class AuthorizationService : IAuthorizationService
 
     /// <inheritdoc />
     public bool CanViewUser(Guid userId)
-        => AuthorizationDisabled || CanViewForeignData || userId == DefaultUserId || userId == CurrentUserId;
+        => AuthorizationDisabled || CanViewForeignData || userId == CurrentUserId || userId == DefaultUserId;
 
     /// <inheritdoc />
     public bool CanManageUser(Guid userId)
-        => AuthorizationDisabled || CanManageForeignData || userId == DefaultUserId || userId == CurrentUserId;
+        => AuthorizationDisabled || CanManageForeignData || userId == CurrentUserId || userId == DefaultUserId;
 
     /// <inheritdoc />
     public bool CanViewCustomer(Guid? customerId)

@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build:icons && npm run build:flags && ng serve --host 127.0.0.1",
-    "start:nr": "npm run start -- --no-live-reload",
-    "start:allip": "npm run start -- --host 0.0.0.0 --disable-host-check",
+    "start": "npm run build:icons && npm run build:flags && ng serve --host 0.0.0.0 --disable-host-check",
     "start:api": "dotnet run --project ../FS.TimeTracking/FS.TimeTracking/FS.TimeTracking.csproj",
     "build": "npm run build:icons && npm run build:flags && ng build --source-map=true",
     "build:watch": "npm run build -- --watch --configuration development",
