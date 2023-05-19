@@ -54,6 +54,8 @@ internal static class KeycloakStartup
         var realmCreated = await keycloakDeploymentService.CreateRealmIfNotExists(cancellationToken);
         if (realmCreated)
             await keycloakDeploymentService.SetUserIdOfRelatedEntitiesToDefaultUser(cancellationToken);
+        else
+            await keycloakDeploymentService.SyncClientRoles(cancellationToken);
     }
 
     private static void AllowJwtTokenFromQueryParam(this JwtBearerOptions options)

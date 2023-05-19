@@ -88,6 +88,10 @@ public class KeycloakRepository : IKeycloakRepository
         => await _roleContainerApi.PostClientsRolesByIdAsync(realm, clientId, role, cancellationToken);
 
     /// <inheritdoc />
+    public async Task DeleteClientRole(string realm, string clientId, RoleRepresentation role, CancellationToken cancellationToken = default)
+        => await _roleContainerApi.DeleteClientsRolesByIdAndRoleNameAsync(realm, clientId, role.Id, cancellationToken);
+
+    /// <inheritdoc />
     public async Task<List<UserRepresentation>> GetUsers(string realm, string search = default, string lastName = default, string firstName = default, string email = default, string username = default, bool? emailVerified = default, string idpAlias = default, Guid? idpUserId = default, int? first = default, int? max = default, bool? enabled = default, bool? briefRepresentation = default, bool? exact = default, string q = default, CancellationToken cancellationToken = default)
         => await _usersService.GetUsersAsync(realm, search, lastName, firstName, email, username, emailVerified, idpAlias, idpUserId?.ToString(), first, max, enabled, briefRepresentation, exact, q, cancellationToken);
 

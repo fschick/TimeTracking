@@ -25,4 +25,10 @@ public interface IKeycloakDeploymentService
     /// </summary>
     /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
     Task SetUserIdOfRelatedEntitiesToDefaultUser(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Synchronize application permission roles with Keycloak.
+    /// </summary>
+    /// <param name="cancellationToken">a token that allows processing to be cancelled.</param>
+    Task SyncClientRoles(CancellationToken cancellationToken = default);
 }

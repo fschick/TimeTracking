@@ -31,6 +31,7 @@ public static class DefaultPermissions
             new(PermissionName.MASTER_DATA_HOLIDAYS, true, PermissionScope.NONE),
             new(PermissionName.ADMINISTRATION_USERS, true, PermissionScope.NONE),
             new(PermissionName.ADMINISTRATION_SETTINGS, true, PermissionScope.NONE),
+            new(PermissionName.ADMINISTRATION_MAINTENANCE, true, PermissionScope.NONE),
         }
         .SortByGroupAndSortOrder();
 
@@ -56,6 +57,7 @@ public static class DefaultPermissions
             new(PermissionName.MASTER_DATA_HOLIDAYS, true, PermissionScope.VIEW),
             new(PermissionName.ADMINISTRATION_USERS, true, PermissionScope.VIEW),
             new(PermissionName.ADMINISTRATION_SETTINGS, true, PermissionScope.VIEW),
+            new(PermissionName.ADMINISTRATION_MAINTENANCE, true, PermissionScope.VIEW),
         }
         .SortByGroupAndSortOrder();
 
@@ -81,6 +83,7 @@ public static class DefaultPermissions
             new(PermissionName.MASTER_DATA_HOLIDAYS, true, PermissionScope.MANAGE),
             new(PermissionName.ADMINISTRATION_USERS, true, PermissionScope.MANAGE),
             new(PermissionName.ADMINISTRATION_SETTINGS, true, PermissionScope.MANAGE),
+            new(PermissionName.ADMINISTRATION_MAINTENANCE, true, PermissionScope.MANAGE),
         }
         .SortByGroupAndSortOrder();
 

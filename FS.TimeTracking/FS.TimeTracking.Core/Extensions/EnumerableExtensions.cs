@@ -138,6 +138,24 @@ public static class EnumerableExtensions
         => (await source).OrderBy(keySelector);
 
     /// <summary>
+    /// Produces the set difference of two sequences according to a specified key selector function.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of the input sequence.</typeparam>
+    /// <typeparam name="TKey">The type of key to identify elements by.</typeparam>
+    /// <param name="first">An <see cref="IEnumerable{TSource}" /> whose keys that are not also in <paramref name="second"/> will be returned.</param>
+    /// <param name="second">An <see cref="IEnumerable{TKey}" /> whose keys that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
+    /// <param name="keySelector">A function to extract the key for each element.</param>
+    /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
+    public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> keySelector)
+    {
+        var set = new HashSet<TKey>(second.Select(keySelector));
+
+        foreach (var element in first)
+            if (set.Add(keySelector(element)))
+                yield return element;
+    }
+
+    /// <summary>
     /// Computes the sum of a sequence of <see cref="TimeSpan"/> values.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>

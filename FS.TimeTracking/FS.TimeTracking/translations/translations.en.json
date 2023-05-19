@@ -198,7 +198,8 @@
           "master-data-orders": "Orders",
           "master-data-holidays": "Holidays",
           "administration-users": "Users",
-          "administration-settings": "Settings"
+          "administration-settings": "Settings",
+          "administration-maintenance": "Maintenance"
         }
       }
     }

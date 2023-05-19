@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,6 +71,40 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         await _keycloakRepository.AddClientRolesToUser(realm, adminUserId, clientId, clientRoles, cancellationToken);
 
         return true;
+    }
+
+    /// <inheritdoc />
+    public async Task SyncClientRoles(CancellationToken cancellationToken = default)
+    {
+        if (!_configuration.Features.Authorization)
+            return;
+
+        var realm = _keycloakConfiguration.Realm;
+        var clientId = _keycloakConfiguration.ClientId;
+
+        var realms = await _keycloakRepository
+            .GetRealms(cancellationToken)
+            .FirstOrDefaultAsync(x => x.Realm == realm)
+            ?? throw new InvalidOperationException($"Keycloak realm '{realm}' not found");
+
+        var client = await _keycloakRepository
+            .GetClients(realms.Realm, cancellationToken)
+            .FirstOrDefaultAsync(x => x.ClientId == clientId)
+            ?? throw new InvalidOperationException($"Keycloak client '{clientId}' not found");
+
+        var savedRoles = await _keycloakRepository.GetClientRoles(realm, client.Id, cancellationToken);
+        var currentRoles = CreateAllRoles(clientId);
+
+        var rolesToAdd = currentRoles.ExceptBy(savedRoles, x => x.Name).ToList();
+        var rolesToRemove = savedRoles.ExceptBy(currentRoles, x => x.Name).ToList();
+
+        await rolesToAdd
+            .Select(async role => await _keycloakRepository.CreateClientRole(realm, client.Id, role, cancellationToken))
+            .WhenAll();
+
+        await rolesToRemove
+            .Select(async role => await _keycloakRepository.DeleteClientRole(realm, client.Id, role, cancellationToken))
+            .WhenAll();
     }
 
     /// <inheritdoc />
@@ -216,14 +251,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
     private async Task<List<RoleRepresentation>> CreateClientRoles(string realm, string clientId, CancellationToken cancellationToken)
     {
-        var roles = RoleName.All
-            .Select(role => new RoleRepresentation
-            {
-                Name = role,
-                ContainerId = clientId,
-                ClientRole = true,
-            })
-            .ToList();
+        var roles = CreateAllRoles(clientId);
 
         await roles.Select(async role => await _keycloakRepository.CreateClientRole(realm, clientId, role, cancellationToken)).WhenAll();
 
@@ -233,4 +261,14 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
 
         return storedRoles;
     }
+
+    private static List<RoleRepresentation> CreateAllRoles(string clientId)
+        => RoleName.All
+            .Select(role => new RoleRepresentation
+            {
+                Name = role,
+                ContainerId = clientId,
+                ClientRole = true,
+            })
+            .ToList();
 }

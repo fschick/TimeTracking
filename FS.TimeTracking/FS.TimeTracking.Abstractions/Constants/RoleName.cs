@@ -138,6 +138,16 @@ public static class RoleName
     public const string ADMINISTRATION_SETTINGS_MANAGE = $"{PermissionName.ADMINISTRATION_SETTINGS}-{PermissionScope.MANAGE}";
 
     /// <summary>
+    /// Data can be maintained, e.g. exported.
+    /// </summary>
+    public const string ADMINISTRATION_MAINTENANCE_VIEW = $"{PermissionName.ADMINISTRATION_MAINTENANCE}-{PermissionScope.VIEW}";
+
+    /// <summary>
+    /// Data can be maintained, e.g. imported or truncated.
+    /// </summary>
+    public const string ADMINISTRATION_MAINTENANCE_MANAGE = $"{PermissionName.ADMINISTRATION_MAINTENANCE}-{PermissionScope.MANAGE}";
+
+    /// <summary>
     /// All role names.
     /// </summary>
     public static List<string> All { get; } = GetAllRoleNames();
