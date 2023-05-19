@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
@@ -18,16 +17,16 @@ namespace FS.TimeTracking.Tool.Services.Imports;
 public class KimaiV1ImportService : IKimaiV1ImportService
 {
     private readonly IDbRepository _dbRepository;
-    private readonly ITestDataApiService _testDataService;
+    private readonly IDbTruncateService _dbTruncateService;
     private readonly IKimaiV1Repository _kimaiV1Repository;
     private readonly IMapper _mapper;
     private readonly KimaiV1ImportConfiguration _importConfiguration;
 
-    public KimaiV1ImportService(IDbRepository dbRepository, IKimaiV1Repository kimaiV1Repository, ITestDataApiService testDataService, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
+    public KimaiV1ImportService(IDbRepository dbRepository, IDbTruncateService dbTruncateService, IKimaiV1Repository kimaiV1Repository, IMapper mapper, IOptions<KimaiV1ImportConfiguration> importConfiguration)
     {
         _dbRepository = dbRepository;
+        _dbTruncateService = dbTruncateService;
         _kimaiV1Repository = kimaiV1Repository;
-        _testDataService = testDataService;
         _mapper = mapper;
         _importConfiguration = importConfiguration.Value;
     }
@@ -105,7 +104,7 @@ public class KimaiV1ImportService : IKimaiV1ImportService
 
         using var transaction = _dbRepository.CreateTransactionScope();
         if (_importConfiguration.TruncateBeforeImport)
-            await _testDataService.TruncateData();
+            _dbTruncateService.TruncateDatabase();
         await _dbRepository.BulkAddRange(customers);
         await _dbRepository.BulkAddRange(projects);
         await _dbRepository.BulkAddRange(activities);

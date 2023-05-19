@@ -36,7 +36,6 @@ internal static class DependencyConfiguration
             .AddScoped<ITimeTrackingImportRepository, TimeTrackingImportRepository>()
             .AddScoped<IWorkdayService, WorkdayService>()
             .AddScoped<ISettingApiService, SettingService>()
-            .AddScoped<ITestDataApiService, TestDataService>()
             .AddScoped<IKimaiV1ImportService, KimaiV1ImportService>()
             .AddScoped<ITimeTrackingImportService, TimeTrackingImportService>()
             .AddScoped<IDbTruncateService, DbTruncateService>()

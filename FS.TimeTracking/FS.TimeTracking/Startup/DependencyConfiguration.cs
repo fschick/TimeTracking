@@ -51,7 +51,6 @@ internal static class DependencyConfiguration
         services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<IInformationApiService, InformationService>();
-        services.AddScoped<ITestDataApiService, TestDataService>();
         services.AddScoped<IFilterFactory, FilterFactory>();
         services.AddScoped<ITypeaheadApiService, TypeaheadService>();
         services.AddScoped<IValidationDescriptionApiService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
