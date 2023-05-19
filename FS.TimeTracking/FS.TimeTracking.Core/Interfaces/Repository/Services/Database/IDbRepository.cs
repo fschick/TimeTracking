@@ -291,4 +291,9 @@ public interface IDbRepository
     /// </summary>
     /// <param name="cancellationToken"> a token that allows processing to be cancelled.</param>
     Task<IEnumerable<string>> GetAppliedMigrations(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a hash of the current database model
+    /// </summary>
+    Task<string> GetDatabaseModelHash(CancellationToken cancellationToken = default);
 }

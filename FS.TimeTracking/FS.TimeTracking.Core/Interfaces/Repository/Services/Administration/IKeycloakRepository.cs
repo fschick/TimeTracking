@@ -69,6 +69,15 @@ public interface IKeycloakRepository
     Task CreateClientRole(string realm, string clientId, RoleRepresentation role, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Deletes a client role.
+    /// </summary>
+    /// <param name="realm">The realm.</param>
+    /// <param name="clientId">Identifier for the client.</param>
+    /// <param name="role">The role.</param>
+    /// <param name="cancellationToken"> a token that allows processing to be cancelled.</param>
+    Task DeleteClientRole(string realm, string clientId, RoleRepresentation role, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets users of realm.
     /// </summary>
     /// <param name="realm">Realm.</param>

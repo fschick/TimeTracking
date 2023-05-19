@@ -31,12 +31,14 @@ public class FakeKeycloakRepository
     private class InMemoryKeycloakRepository : IKeycloakRepository
     {
         private readonly ConcurrentDictionary<string, UserRepresentation> _users = new();
+        private readonly List<RealmRepresentation> _realms;
         private readonly List<ClientRepresentation> _clients;
         private readonly List<RoleRepresentation> _clientRoles;
         private readonly ConcurrentDictionary<string, List<RoleRepresentation>> _clientUserRoles;
 
         public InMemoryKeycloakRepository(string clientId)
         {
+            _realms = new List<RealmRepresentation> { new() };
             _clients = new List<ClientRepresentation> { new(clientId) };
             _clientUserRoles = new ConcurrentDictionary<string, List<RoleRepresentation>>();
             _clientRoles = RoleName.All
@@ -60,19 +62,22 @@ public class FakeKeycloakRepository
         }
 
         public Task AddScopeToClient(string realm, string clientId, string clientScopeId, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+             => throw new NotImplementedException(nameof(AddScopeToClient));
 
         public Task CreateClient(string realm, ClientRepresentation client, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+            => throw new NotImplementedException(nameof(CreateClient));
 
         public Task CreateClientRole(string realm, string clientId, RoleRepresentation role, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+            => throw new NotImplementedException(nameof(CreateClientRole));
+
+        public Task DeleteClientRole(string realm, string clientId, RoleRepresentation role, CancellationToken cancellationToken = default)
+            => throw new NotImplementedException(nameof(DeleteClientRole));
 
         public Task CreateClientScope(string realm, ClientScopeRepresentation clientScope, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+            => throw new NotImplementedException(nameof(CreateClientScope));
 
         public Task CreateRealm(RealmRepresentation realm, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+            => throw new NotImplementedException(nameof(CreateRealm));
 
         public Task CreateUser(string realm, UserRepresentation user, CancellationToken cancellationToken = default)
         {
@@ -91,7 +96,7 @@ public class FakeKeycloakRepository
         }
 
         public Task DeleteRealm(string realm, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+             => throw new NotImplementedException(nameof(DeleteRealm));
 
         public Task DeleteUser(string realm, Guid userId, CancellationToken cancellationToken = default)
         {
@@ -111,10 +116,10 @@ public class FakeKeycloakRepository
             => Task.FromResult(_clients);
 
         public Task<List<ClientScopeRepresentation>> GetClientScopes(string realm, CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+             => throw new NotImplementedException(nameof(GetClientScopes));
 
         public Task<List<RealmRepresentation>> GetRealms(CancellationToken cancellationToken = default)
-             => throw new NotImplementedException();
+             => Task.FromResult(_realms);
 
         public Task<UserRepresentation> GetUser(string realm, Guid userId, CancellationToken cancellationToken = default)
         {

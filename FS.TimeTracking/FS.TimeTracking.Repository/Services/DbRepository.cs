@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -18,11 +22,11 @@ using System.Transactions;
 namespace FS.TimeTracking.Repository.Services;
 
 /// <inheritdoc />
-public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbContext
+public partial class DbRepository<TDbContext> : IDbRepository where TDbContext : DbContext
 {
     private readonly TDbContext _dbContext;
     private readonly IMapper _mapper;
-    private readonly AsyncLock _saveChangesLock = new AsyncLock();
+    private readonly AsyncLock _saveChangesLock = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DbRepository{TDbContext}"/> class.
@@ -165,6 +169,14 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
         => _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<string> GetDatabaseModelHash(CancellationToken cancellationToken = default)
+    {
+        var databaseModel = _dbContext.GetService<IDesignTimeModel>().Model.ToDebugString();
+        databaseModel = LineEndings().Replace(databaseModel, "\n");
+        return Task.FromResult(databaseModel.HashSHA256());
+    }
+
+    /// <inheritdoc />
     public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel
     {
         var bulkCopyOptions = new BulkCopyOptions { KeepIdentity = true, CheckConstraints = true };
@@ -272,4 +284,7 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
 
         return result;
     }
+
+    [GeneratedRegex("(\r\n|\r|\n)")]
+    private static partial Regex LineEndings();
 }
