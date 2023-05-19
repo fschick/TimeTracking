@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Models;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
@@ -163,6 +166,10 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
     /// <inheritdoc />
     public Task<IEnumerable<string>> GetAppliedMigrations(CancellationToken cancellationToken = default)
         => _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<string> GetDatabaseModelHash(CancellationToken cancellationToken = default)
+        => Task.FromResult(_dbContext.GetService<IDesignTimeModel>().Model.ToDebugString().HashSHA256());
 
     /// <inheritdoc />
     public async Task<List<TEntity>> BulkAddRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, IEntityModel

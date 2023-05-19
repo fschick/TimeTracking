@@ -3,10 +3,12 @@ using FluentAssertions;
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
+using FS.TimeTracking.Api.REST.Controllers.Shared;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Tests.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -70,6 +72,10 @@ public class AuthorizationTests
             testHost => testHost.Post<ProjectController, ProjectDto>(x => x.Create(default), default),
             testHost => testHost.Put<ProjectController, ProjectDto>(x => x.Update(default), default),
             testHost => testHost.Delete<ProjectController>(x => x.Delete(default)),
+
+            testHost => testHost.Get<MaintenanceController, JObject>(x => x.ExportData(default)),
+            testHost => testHost.Post<MaintenanceController, JObject>(x => x.ImportData(default), default),
+            testHost => testHost.Delete<MaintenanceController>(x => x.TruncateData()),
         };
 
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)

@@ -198,7 +198,8 @@
           "master-data-orders": "Aufträge",
           "master-data-holidays": "Urlaub",
           "administration-users": "Benutzer",
-          "administration-settings": "Einstellungen"
+          "administration-settings": "Einstellungen",
+          "administration-maintenance": "Wartung"
         }
       }
     },

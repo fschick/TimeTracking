@@ -116,6 +116,12 @@ internal class PermissionName
     public const string ADMINISTRATION_SETTINGS = "administration-settings";
 
     /// <summary>
+    /// Permission to maintenance data, e.g. import, export or truncate data.
+    /// </summary>
+    [Permission(PermissionGroup.Administration, 3)]
+    public const string ADMINISTRATION_MAINTENANCE = "administration-maintenance";
+
+    /// <summary>
     /// All role names.
     /// </summary>
     public static IEnumerable<string> All { get; } = GetAllPermissionNames();
