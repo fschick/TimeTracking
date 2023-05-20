@@ -131,6 +131,24 @@ public class DbRepository<TDbContext> : IDbRepository where TDbContext : DbConte
             .SumAsyncEF(select, cancellationToken);
 
     /// <inheritdoc />
+    public async Task<TResult> Min<TEntity, TResult>(
+        Expression<Func<TEntity, TResult>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class
+        => await GetInternal(x => x, where, null, null, null, false, null, null, false)
+            .MinAsyncEF(select, cancellationToken);
+
+    /// <inheritdoc />
+    public async Task<TResult> Max<TEntity, TResult>(
+        Expression<Func<TEntity, TResult>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class
+        => await GetInternal(x => x, where, null, null, null, false, null, null, false)
+            .MaxAsyncEF(select, cancellationToken);
+
+    /// <inheritdoc />
     public Task<bool> Exists<TEntity>(
         Expression<Func<TEntity, bool>> where = null,
         CancellationToken cancellationToken = default
