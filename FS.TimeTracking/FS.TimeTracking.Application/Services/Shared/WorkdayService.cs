@@ -62,7 +62,8 @@ public class WorkdayService : IWorkdayService
         var publicHolidayDates = holidays
             .Where(x => x.Type == HolidayType.PublicHoliday)
             .SelectMany(x => x.StartDate.Date.GetDays(x.EndDate.Date))
-            .Distinct();
+            .Distinct()
+            .ToList();
 
         var publicWorkdays = dates
             .Where(date => workdays.Contains(date.DayOfWeek))
