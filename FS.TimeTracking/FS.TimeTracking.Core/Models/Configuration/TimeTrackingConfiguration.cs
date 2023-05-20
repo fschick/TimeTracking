@@ -76,4 +76,9 @@ public class TimeTrackingConfiguration
     /// Enable or disable feature modules
     /// </summary>
     public FeatureConfiguration Features { get; set; } = new();
+
+    /// <summary>
+    /// Periodic database reset configuration.
+    /// </summary>
+    public DataResetConfiguration DataReset { get; set; } = new();
 }

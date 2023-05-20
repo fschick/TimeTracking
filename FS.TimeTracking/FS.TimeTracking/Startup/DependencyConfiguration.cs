@@ -1,6 +1,7 @@
 ﻿using FS.Keycloak.RestApiClient.Api;
 using FS.Keycloak.RestApiClient.Client;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
+using FS.TimeTracking.Application.BackgroundServices;
 using FS.TimeTracking.Application.Services.Administration;
 using FS.TimeTracking.Application.Services.Chart;
 using FS.TimeTracking.Application.Services.MasterData;
@@ -51,13 +52,15 @@ internal static class DependencyConfiguration
         services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<IInformationApiService, InformationService>();
-        services.AddScoped<IMaintenanceApiService, MaintenanceService>();
+        services.AddScoped<IMaintenanceService, MaintenanceService>();
+        services.AddScoped<IMaintenanceApiService>(sp => sp.GetRequiredService<IMaintenanceService>());
         services.AddScoped<IFilterFactory, FilterFactory>();
         services.AddScoped<ITypeaheadApiService, TypeaheadService>();
         services.AddScoped<IValidationDescriptionApiService, ValidationDescriptionService<ActivityDto, RequiredValidationConverter>>();
 
         services.AddScoped<IOrderChartService, OrderChartService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserApiService>(sp => sp.GetRequiredService<IUserService>());
 
         services.AddScoped<ITimeSheetApiService, TimeSheetService>();
         services.AddScoped<ICustomerChartApiService, CustomerChartService>();
@@ -73,7 +76,8 @@ internal static class DependencyConfiguration
         services.AddScoped<IOrderApiService, OrderService>();
         services.AddScoped<IHolidayApiService, HolidayService>();
         services.AddScoped<ISettingApiService, SettingService>();
-        services.AddScoped<IUserApiService>(sp => sp.GetRequiredService<IUserService>());
+
+        services.AddHostedService<DataResetBackgroundService>();
 
 #if DEBUG
         services.AddScoped<IDebugApiService, DebugService>();

@@ -38,6 +38,16 @@
       "AdminUser": null,
       // The password of the admin user to create the realm, clients and users
       "AdminPassword": null
+    },
+    "DataReset": {
+      // Enable periodic database reset for demo purposes
+      "Enabled": false,
+      // Run database reset by cron job expression. See https://crontab.guru/ for details
+      "CronJobSchedule": "0 6 * * *", // Every day at 6:00
+      // Path to exported data file to import on database reset
+      "TestDatabaseSource": "",
+      // Update timestamps to current time on database reset
+      "AdjustTimeStamps": true
     }
   },
   "Kestrel": {

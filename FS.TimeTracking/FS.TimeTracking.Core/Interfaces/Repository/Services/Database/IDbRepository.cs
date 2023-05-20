@@ -190,6 +190,36 @@ public interface IDbRepository
     ) where TEntity : class;
 
     /// <summary>
+    /// Computes the min of the sequence of values that is obtained by invoking a projection function on  each element of the input sequence.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="select">Projects each entity into desired result.</param>
+    /// <param name="where">Filters the entities based on a predicate.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns></returns>
+    Task<TResult> Min<TEntity, TResult>(
+        Expression<Func<TEntity, TResult>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class;
+
+    /// <summary>
+    /// Computes the max of the sequence of values that is obtained by invoking a projection function on  each element of the input sequence.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="select">Projects each entity into desired result.</param>
+    /// <param name="where">Filters the entities based on a predicate.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns></returns>
+    Task<TResult> Max<TEntity, TResult>(
+        Expression<Func<TEntity, TResult>> select,
+        Expression<Func<TEntity, bool>> where = null,
+        CancellationToken cancellationToken = default
+    ) where TEntity : class;
+
+    /// <summary>
     /// Tests if entities exists.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
