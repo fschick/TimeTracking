@@ -27,8 +27,8 @@
             "tsConfig": "tsconfig.timetracking.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "modules/assets",
-              "modules/timetracking/favicon.ico"
+              "modules/favicon.ico",
+              "modules/assets"
             ],
             "styles": [
               "modules/timetracking/styles.scss"
@@ -100,8 +100,8 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "modules/assets",
-              "modules/timetracking/favicon.ico"
+              "modules/favicon.ico",
+              "modules/assets"
             ],
             "styles": [
               "modules/timetracking/styles.scss"
