@@ -19,6 +19,7 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit, OnDestroy
   public holidayForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public isReadOnly: boolean;
+  public isUserReadOnly: boolean;
   public authorizationEnabled: boolean;
   public allUsers: GuidStringTypeaheadDto[] = [];
 
@@ -44,6 +45,7 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit, OnDestroy
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.isReadOnly = !authenticationService.currentUser.hasRole.masterDataHolidaysManage;
     this.canManageForeignData = authenticationService.currentUser.hasRole.foreignDataManage;
+    this.isUserReadOnly = this.isReadOnly || !this.canManageForeignData;
 
     this.holidayForm = this.formValidationService
       .getFormGroup<HolidayDto>(
@@ -54,9 +56,6 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit, OnDestroy
           userId: this.getUserId(HolidayType.holiday),
         }
       );
-
-    if (!this.canManageForeignData)
-      this.holidayForm.get('userId')?.disable();
 
     this.initializeUserHolidayTypeHandling();
 
@@ -117,9 +116,9 @@ export class MasterDataHolidaysEditComponent implements AfterViewInit, OnDestroy
         const userId = this.getUserId(type);
         this.holidayForm.patchValue({userId: userId});
         if (userId == GuidService.guidEmpty)
-          this.holidayForm.get('userId')?.disable();
+          this.isUserReadOnly = true;
         else if (this.canManageForeignData)
-          this.holidayForm.get('userId')?.enable();
+          this.isUserReadOnly = this.isReadOnly || !this.canManageForeignData
       });
     this.subscriptions.add(holidayChanged);
 
