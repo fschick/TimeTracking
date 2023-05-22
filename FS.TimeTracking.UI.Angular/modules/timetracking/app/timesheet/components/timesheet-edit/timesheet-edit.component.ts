@@ -26,6 +26,7 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
   public timesheetForm: ValidationFormGroup;
   public isNewRecord: boolean;
   public isReadOnly: boolean;
+  public isUserReadonly: boolean;
 
   public authorizationEnabled: boolean;
 
@@ -52,11 +53,8 @@ export class TimesheetEditComponent implements AfterViewInit, OnDestroy {
     this.isNewRecord = this.route.snapshot.params['id'] === GuidService.guidEmpty;
     this.isReadOnly = !authenticationService.currentUser.hasRole.timeSheetManage;
     this.authorizationEnabled = this.configurationService.clientConfiguration.features.authorization;
+    this.isUserReadonly = !authenticationService.currentUser.hasRole.foreignDataManage;
     this.timesheetForm = this.createTimesheetForm();
-
-    const canManageForeignData = authenticationService.currentUser.hasRole.foreignDataManage;
-    if (!canManageForeignData)
-      this.timesheetForm.get('userId')?.disable();
 
     const getTimeSheet = !this.isNewRecord ? timesheetService.get({id: this.route.snapshot.params['id']}) : of(undefined);
     const getCustomers = typeaheadService.getCustomers({});
