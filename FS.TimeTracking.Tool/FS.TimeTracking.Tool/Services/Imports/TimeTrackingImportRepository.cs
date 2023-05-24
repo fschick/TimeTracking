@@ -7,6 +7,6 @@ namespace FS.TimeTracking.Tool.Services.Imports
 {
     internal class TimeTrackingImportRepository : DbRepository<TimeTrackingImportDbContext>, ITimeTrackingImportRepository
     {
-        public TimeTrackingImportRepository(TimeTrackingImportDbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
+        public TimeTrackingImportRepository(TimeTrackingImportDbContext dbContext, IMapper mapper) : base(dbContext, mapper, null) { }
     }
 }
