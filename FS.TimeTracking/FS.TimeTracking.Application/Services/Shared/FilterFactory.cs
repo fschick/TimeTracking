@@ -49,9 +49,9 @@ public class FilterFactory : IFilterFactory
 
         var filter = filters.ActivityFilter
             .Cast<Activity>()
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilterSyntax(p => p.Id))
             .ReplaceNested(x => x.Customer, customerFilter)
-            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilterSyntax(p => p.Id))
             .ReplaceNested(x => x.Project, projectFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
@@ -78,7 +78,7 @@ public class FilterFactory : IFilterFactory
 
         var filter = filters.OrderFilter
             .Cast<Order>()
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilterSyntax(c => c.Id))
             .ReplaceNested(x => x.Customer, customerProjectFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
@@ -94,7 +94,7 @@ public class FilterFactory : IFilterFactory
 
         var filter = filters.ProjectFilter
             .Cast<Project>()
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(c => c.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilterSyntax(c => c.Id))
             .ReplaceNested(x => x.Customer, customerFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 
@@ -122,13 +122,13 @@ public class FilterFactory : IFilterFactory
 
         var filter = filters.TimeSheetFilter
             .Cast<TimeSheet>()
-            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.CustomerId, filters.CustomerFilter.GetPropertyFilterSyntax(p => p.Id))
             .ReplaceNested(x => x.Customer, customerFilter)
-            .Replace(x => x.ActivityId, filters.ActivityFilter.GetPropertyFilter(a => a.Id))
+            .Replace(x => x.ActivityId, filters.ActivityFilter.GetPropertyFilterSyntax(a => a.Id))
             .ReplaceNested(x => x.Activity, activityFilter)
-            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilter(p => p.Id))
+            .Replace(x => x.ProjectId, filters.ProjectFilter.GetPropertyFilterSyntax(p => p.Id))
             .ReplaceNested(x => x.Project, projectFilter)
-            .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilter(o => o.Id))
+            .Replace(x => x.OrderId, filters.OrderFilter.GetPropertyFilterSyntax(o => o.Id))
             .ReplaceNested(x => x.Order, orderFilter)
             .RestrictToCustomers(x => x.CustomerId, _authorizationService.RestrictToCustomerIds);
 

@@ -22,8 +22,8 @@ public static class FilterSetExtensions
     /// <param name="endDateExclusive">Handle given end date as (right) exclusive.</param>
     public static Task<Range<DateTimeOffset>> GetSelectedPeriod(this TimeSheetFilterSet filters, bool endDateExclusive = false)
     {
-        var startDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.StartDate);
-        var endDateFilter = filters.TimeSheetFilter.GetPropertyFilter(x => x.EndDate);
+        var startDateFilter = filters.TimeSheetFilter.GetPropertyFilterSyntax(x => x.StartDate);
+        var endDateFilter = filters.TimeSheetFilter.GetPropertyFilterSyntax(x => x.EndDate);
 
         var startDate = endDateFilter != null
             ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)

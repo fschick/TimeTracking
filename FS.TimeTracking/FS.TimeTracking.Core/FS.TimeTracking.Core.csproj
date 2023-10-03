@@ -6,10 +6,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.4.0" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.4.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator" Version="4.5.0" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.5.0" />
     <PackageReference Include="Schick.Keycloak.RestApiClient" Version="21.0.0" />
-    <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.3.1" />
+    <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.3.3" />
   </ItemGroup>
 
   <ItemGroup>

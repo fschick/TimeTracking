@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -113,17 +114,17 @@ public class ActivityReportService : IActivityReportApiService
 
         string accessToken(string role)
             => _authorizationService.CurrentUser.IsInRole(role)
-                ? $"&{OneTimeTokenDefaults.AuthorizationQueryParamName}={_oneTimeTokenService.CreateToken(role)}"
+                ? $"&{OneTimeTokenDefaults.AuthorizationQueryParamName}={_oneTimeTokenService.CreateToken(new Claim(ClaimTypes.Role, role))}"
                 : null;
     }
 
     /// <inheritdoc />
     public Task<string> GetDailyActivityReportDownloadToken(CancellationToken cancellationToken = default)
-        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleName.REPORT_ACTIVITY_SUMMARY_VIEW));
+        => Task.FromResult(_oneTimeTokenService.CreateToken(new Claim(ClaimTypes.Role, RoleName.REPORT_ACTIVITY_SUMMARY_VIEW)));
 
     /// <inheritdoc />
     public Task<string> GetDetailedActivityReportDownloadToken(CancellationToken cancellationToken = default)
-        => Task.FromResult(_oneTimeTokenService.CreateToken(RoleName.REPORT_ACTIVITY_DETAIL_VIEW));
+        => Task.FromResult(_oneTimeTokenService.CreateToken(new Claim(ClaimTypes.Role, RoleName.REPORT_ACTIVITY_DETAIL_VIEW)));
 
     /// <inheritdoc />
     public async Task<FileResult> GetDailyActivityReport(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)

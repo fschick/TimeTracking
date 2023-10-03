@@ -1,15 +1,14 @@
 using FS.TimeTracking.Api.REST.Startup;
-using FS.TimeTracking.Application.Startup;
 using FS.TimeTracking.Core.Models.Configuration;
+using FS.TimeTracking.Keycloak.Startup;
 using FS.TimeTracking.Repository.Startup;
 using FS.TimeTracking.Startup;
 using Microsoft.AspNetCore.Builder;
-using NLog.Web;
+using NLog;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
-using FS.TimeTracking.Keycloak.Startup;
 
 namespace FS.TimeTracking;
 
@@ -38,15 +37,20 @@ internal class Program
         }
         catch (Exception exception)
         {
-            using var loggerFactory = NLogBuilder.ConfigureNLog(Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.NLOG_CONFIGURATION_FILE));
-            loggerFactory
-                .GetCurrentClassLogger()
-                .Error(exception, "Program stopped due to an exception");
+            var loggerConfiguration = Path.Combine(TimeTrackingConfiguration.CONFIG_FOLDER, TimeTrackingConfiguration.NLOG_CONFIGURATION_FILE);
+            var logger = LogManager
+                .Setup()
+                .LoadConfigurationFromFile(loggerConfiguration)
+                .LogFactory
+                .GetCurrentClassLogger();
+
+            logger.Error(exception, "Program stopped due to an exception");
+
             throw;
         }
         finally
         {
-            NLog.LogManager.Shutdown();
+            LogManager.Shutdown();
         }
     }
 
