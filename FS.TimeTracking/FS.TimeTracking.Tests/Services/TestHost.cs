@@ -2,6 +2,7 @@
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Api.REST.Extensions;
+using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Application.Tests.Services.FakeServices;
@@ -18,17 +19,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -74,14 +74,19 @@ public sealed class TestHost : IAsyncDisposable
                 //builder.UseTestServer();
                 hostBuilder.ConfigureAppConfiguration((_, configurationBuilder) =>
                 {
-                    var appSettingsJson = JsonConvert.SerializeObject(applicationConfiguration);
-#pragma warning disable IDISP001 // Dispose created
-                    // Justification: No workable way found found to dispose, stream must be readable by TestHost later
-                    var appSettingsStream = new MemoryStream(Encoding.UTF8.GetBytes(appSettingsJson));
-#pragma warning restore IDISP001 // Dispose created
+                    var configurationValues = applicationConfiguration
+                        .ToDictionary()
+                        .ToDictionary(x => x.Key.Replace('.', ':'), x => x.Value);
 
-                    configurationBuilder.AddJsonStream(appSettingsStream);
+                    configurationBuilder.AddInMemoryCollection(configurationValues);
                 });
+
+                hostBuilder.ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton(Options.Create(timeTrackingConfiguration));
+                    services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
+                });
+
                 hostBuilder.ConfigureTestServices(services =>
                 {
                     services.AddSingleton(faker.KeycloakRepository.Create());
@@ -91,11 +96,6 @@ public sealed class TestHost : IAsyncDisposable
                         .Configure<TestAuthHandlerOptions>(options => options.CurrentUser = currentUser)
                         .AddAuthentication(TestAuthHandler.AUTHENTICATION_SCHEME)
                         .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AUTHENTICATION_SCHEME, _ => { });
-                });
-                hostBuilder.ConfigureServices((context, services) =>
-                {
-                    services.AddSingleton(Options.Create(timeTrackingConfiguration));
-                    services.AddFeatureManagement(context.Configuration.GetSection("TimeTracking:Features"));
                 });
             });
 
