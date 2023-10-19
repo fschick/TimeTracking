@@ -92,7 +92,7 @@ public class ActivityReportService : IActivityReportApiService
 
         var workTimes = await _customerChartService
             .GetWorkTimesPerCustomer(filters, cancellationToken)
-            .WhereAsync(workTime => workTime.BudgetWorked > 0)
+            .WhereAsync(workTime => workTime.TimeWorked > TimeSpan.Zero)
             .OrderByAsync(workTime => workTime.CustomerTitle);
 
         return workTimes
