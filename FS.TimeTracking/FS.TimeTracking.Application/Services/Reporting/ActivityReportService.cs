@@ -142,7 +142,7 @@ public class ActivityReportService : IActivityReportApiService
     public async Task<ReportPreviewDto> GetDetailedActivityReportPreview(TimeSheetFilterSet filters, string language, CancellationToken cancellationToken = default)
         => await GetActivityReportPreview(filters, language, ActivityReportType.Detailed, cancellationToken);
 
-    private async Task<FileResult> GetActivityReport(TimeSheetFilterSet filters, string language, ActivityReportType reportType = ActivityReportType.Detailed, CancellationToken cancellationToken = default)
+    private async Task<FileResult> GetActivityReport(TimeSheetFilterSet filters, string language, ActivityReportType reportType, CancellationToken cancellationToken = default)
     {
         var reportData = await GetActivityReportData(filters, language, reportType, cancellationToken);
         using var activityReportClient = new ActivityReportApi(_httpClient, _configuration.Reporting.ReportServerBaseUrl);
