@@ -1,5 +1,5 @@
 ﻿using FS.Keycloak.RestApiClient.Api;
-using FS.Keycloak.RestApiClient.Client;
+using FS.Keycloak.RestApiClient.Authentication.Client;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Application.BackgroundServices;
 using FS.TimeTracking.Application.Services.Administration;
@@ -22,6 +22,7 @@ using FS.TimeTracking.Keycloak.Services.Repository;
 using FS.TimeTracking.Repository.DbContexts;
 using FS.TimeTracking.Repository.Services;
 using Microsoft.Extensions.DependencyInjection;
+using ApiClientFactory = FS.Keycloak.RestApiClient.ClientFactory.ApiClientFactory;
 
 namespace FS.TimeTracking.Startup;
 
@@ -38,16 +39,16 @@ internal static class DependencyConfiguration
         services.AddScoped<IKeycloakRepository, KeycloakRepository>();
         services.AddScoped<IKeycloakDeploymentService, KeycloakDeploymentService>();
 
-        services.AddScoped<KeycloakHttpClient>(KeycloakHttpClientFactory.Create);
-        services.AddScoped<IRealmsAdminApi>(sp => ApiClientFactory.Create<RealmsAdminApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IRealmAdminApi>(sp => ApiClientFactory.Create<RealmAdminApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IClientsApi>(sp => ApiClientFactory.Create<ClientsApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IClientApi>(sp => ApiClientFactory.Create<ClientApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IClientScopesApi>(sp => ApiClientFactory.Create<ClientScopesApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IRoleContainerApi>(sp => ApiClientFactory.Create<RoleContainerApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IUsersApi>(sp => ApiClientFactory.Create<UsersApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IUserApi>(sp => ApiClientFactory.Create<UserApi>(sp.GetRequiredService<KeycloakHttpClient>()));
-        services.AddScoped<IClientRoleMappingsApi>(sp => ApiClientFactory.Create<ClientRoleMappingsApi>(sp.GetRequiredService<KeycloakHttpClient>()));
+        services.AddScoped<AuthenticationHttpClient>(AuthenticationHttpClientFactory.Create);
+        services.AddScoped<IRealmsAdminApi>(sp => ApiClientFactory.Create<RealmsAdminApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IRealmAdminApi>(sp => ApiClientFactory.Create<RealmAdminApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IClientsApi>(sp => ApiClientFactory.Create<ClientsApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IClientApi>(sp => ApiClientFactory.Create<ClientApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IClientScopesApi>(sp => ApiClientFactory.Create<ClientScopesApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IRoleContainerApi>(sp => ApiClientFactory.Create<RoleContainerApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IUsersApi>(sp => ApiClientFactory.Create<UsersApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IUserApi>(sp => ApiClientFactory.Create<UserApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
+        services.AddScoped<IClientRoleMappingsApi>(sp => ApiClientFactory.Create<ClientRoleMappingsApi>(sp.GetRequiredService<AuthenticationHttpClient>()));
 
         services.AddScoped<IWorkdayService, WorkdayService>();
         services.AddScoped<IAuthorizationService, AuthorizationService>();
