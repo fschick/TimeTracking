@@ -2,6 +2,7 @@
 using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Api.REST.Extensions;
+using FS.TimeTracking.Api.REST.Models;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -111,7 +113,7 @@ public sealed class TestHost : IAsyncDisposable
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
         using var response = await client.GetAsync(route);
-        EnsureSuccess(response);
+        await EnsureSuccess(response);
         return await response.Content.ReadFromJsonAsync<TResult>();
     }
 
@@ -119,7 +121,7 @@ public sealed class TestHost : IAsyncDisposable
     {
         using var client = GetTestClient();
         using var response = await client.GetAsync(route);
-        EnsureSuccess(response);
+        await EnsureSuccess(response);
         return await response.Content.ReadFromJsonAsync<TResult>();
     }
 
@@ -135,7 +137,7 @@ public sealed class TestHost : IAsyncDisposable
             ? await client.PostFormFile(route, (IFormFile)entity)
             : await client.PostAsJsonAsync(route, entity);
 
-        EnsureSuccess(response);
+        await EnsureSuccess(response);
         if (response.StatusCode == HttpStatusCode.NoContent)
             return default;
 
@@ -147,7 +149,7 @@ public sealed class TestHost : IAsyncDisposable
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
         using var response = await client.PutAsJsonAsync(route, entity);
-        EnsureSuccess(response);
+        await EnsureSuccess(response);
         return await response.Content.ReadFromJsonAsync<TBody>();
     }
 
@@ -156,7 +158,7 @@ public sealed class TestHost : IAsyncDisposable
         using var client = GetTestClient();
         var route = GetRoute(controllerAction);
         using var response = await client.DeleteAsync(route);
-        EnsureSuccess(response);
+        await EnsureSuccess(response);
     }
 
     private string GetRoute<TController>(Expression<Action<TController>> controllerAction)
@@ -165,19 +167,26 @@ public sealed class TestHost : IAsyncDisposable
         return ControllerExtensions.GetRoute(controllerAction, apiDescriptionProvider);
     }
 
-    private static void EnsureSuccess(HttpResponseMessage response)
+    private static async Task EnsureSuccess(HttpResponseMessage response)
     {
         if (response.IsSuccessStatusCode)
             return;
 
-        throw response.StatusCode switch
+        switch (response.StatusCode)
         {
-            HttpStatusCode.Unauthorized => throw new UnauthorizedException(),
-            HttpStatusCode.Forbidden => throw new ForbiddenException(),
-            HttpStatusCode.BadRequest => throw new BadRequestException(),
-            HttpStatusCode.Conflict => throw new ConflictException(),
-            _ => throw new ApplicationErrorException(ApplicationErrorCode.InternalServerError)
-        };
+            case HttpStatusCode.Unauthorized:
+                throw new UnauthorizedException();
+            case HttpStatusCode.Forbidden:
+                throw new ForbiddenException();
+            case HttpStatusCode.BadRequest:
+                throw new BadRequestException();
+            case HttpStatusCode.Conflict:
+                throw new ConflictException();
+            default:
+                var content = await response.Content.ReadAsStringAsync();
+                var messages = JsonConvert.DeserializeObject<ApplicationError>(content).Messages.ToArray();
+                throw new ApplicationErrorException(ApplicationErrorCode.InternalServerError, messages);
+        }
     }
 
     #region IAsyncDisposable
