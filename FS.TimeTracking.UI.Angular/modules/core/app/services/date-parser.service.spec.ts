@@ -147,12 +147,12 @@ describe('DateParserService', () => {
 
     input = '/5';
     parsedDate = service.parseDate(input);
-    expectedDate = DateTime.local(today.year, 1, 1).plus({weeks: 5}).startOf('week');
+    expectedDate = DateTime.local(today.year, 1, 1).set({weekNumber: 5}).startOf('week');
     expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     input = '/5';
     parsedDate = service.parseDate(input, 'end');
-    expectedDate = DateTime.local(today.year, 1, 1).plus({weeks: 5}).endOf('week');
+    expectedDate = DateTime.local(today.year, 1, 1).set({weekNumber: 5}).endOf('week');
     expect(parsedDate?.toString()).toBe(expectedDate.toString(), input);
 
     // Relative input, empty unit
