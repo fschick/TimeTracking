@@ -3,13 +3,13 @@ using FS.TimeTracking.Abstractions.Constants;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Api.REST.Extensions;
 using FS.TimeTracking.Api.REST.Models;
-using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Application.Tests.Extensions;
 using FS.TimeTracking.Application.Tests.Services;
 using FS.TimeTracking.Application.Tests.Services.FakeServices;
 using FS.TimeTracking.Core.Exceptions;
 using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Configuration;
+using FS.TimeTracking.Tests.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -76,10 +76,7 @@ public sealed class TestHost : IAsyncDisposable
                 //builder.UseTestServer();
                 hostBuilder.ConfigureAppConfiguration((_, configurationBuilder) =>
                 {
-                    var configurationValues = applicationConfiguration
-                        .ToDictionary()
-                        .ToDictionary(x => x.Key.Replace('.', ':'), x => x.Value);
-
+                    var configurationValues = applicationConfiguration.ToOptionsCollection();
                     configurationBuilder.AddInMemoryCollection(configurationValues);
                 });
 
