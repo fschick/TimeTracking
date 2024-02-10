@@ -3,15 +3,15 @@
 /* ----------------------------------------- */
 /* Font
 /* ----------------------------------------- */
-@import "styles/fonts";
+@import "./styles/fonts";
 
 /* ----------------------------------------- */
 /* Bootstrap + Icons
 /* ----------------------------------------- */
-@import "styles/theme.overrides";
+@import "./styles/theme.overrides";
 //$enable-reduced-motion: false; // DEV only
 @import "bootstrap/scss/bootstrap";
-@import "styles/theme.styles";
+@import "./styles/theme.styles";
 
 /* ----------------------------------------- */
 /* Fix flickering on show/hide scrollbar.
@@ -67,7 +67,7 @@ a {
 /* ----------------------------------------- */
 /* Bootstrap-datepicker
 /* ----------------------------------------- */
-@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
+@import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css";
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
   color: #E0E0E0;
 }
@@ -82,24 +82,24 @@ a {
 /* ----------------------------------------- */
 /* Toastr
 /* ----------------------------------------- */
-@import "styles/toastr";
+@import "./styles/toastr";
 
 /* ----------------------------------------- */
 /* ng-select
 /* ----------------------------------------- */
-@import "styles/ng-select";
+@import "./styles/ng-select";
 
 /* ----------------------------------------- */
 /* Form validation
 /* ----------------------------------------- */
-@import "styles/form-validation";
+@import "./styles/form-validation";
 
 /* ----------------------------------------- */
 /* Table
 /* ----------------------------------------- */
-@import "styles/table";
+@import "./styles/table";
 
 /* ----------------------------------------- */
 /* Footer
 /* ----------------------------------------- */
-@import "styles/footer";
+@import "./styles/footer";
