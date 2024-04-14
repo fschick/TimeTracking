@@ -100,7 +100,7 @@ public record CustomerDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

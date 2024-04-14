@@ -219,8 +219,8 @@ public sealed class TestHost : IAsyncDisposable
 
         private readonly ClaimsPrincipal _currentUserPrincipal;
 
-        public TestAuthHandler(IOptionsMonitor<TestAuthHandlerOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IMapper mapper)
-            : base(options, logger, encoder, clock)
+        public TestAuthHandler(IOptionsMonitor<TestAuthHandlerOptions> options, ILoggerFactory logger, UrlEncoder encoder, IMapper mapper)
+            : base(options, logger, encoder)
             => _currentUserPrincipal = FakeAuthorizationService.CreatePrincipal(options.CurrentValue.CurrentUser, mapper, AUTHENTICATION_SCHEME);
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()

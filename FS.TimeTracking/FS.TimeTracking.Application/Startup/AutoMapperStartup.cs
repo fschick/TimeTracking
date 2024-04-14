@@ -1,5 +1,5 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
-using FS.Keycloak.RestApiClient.Client;
+﻿
+using AutoMapper.Extensions.ExpressionMapping;
 using FS.TimeTracking.Application.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 

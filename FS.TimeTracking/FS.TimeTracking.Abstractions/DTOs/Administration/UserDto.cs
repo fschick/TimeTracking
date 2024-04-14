@@ -31,7 +31,7 @@ public record UserDto : IIdEntityDto, IManageableDto
     /// <summary>
     /// The password for this user.
     /// </summary>
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public string Password { get; set; }
 
     /// <summary>
@@ -66,6 +66,6 @@ public record UserDto : IIdEntityDto, IManageableDto
     public List<PermissionDto> Permissions { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 }

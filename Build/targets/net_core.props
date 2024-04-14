@@ -1,8 +1,8 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net7.0'">$(DefineConstants);NET_CORE</DefineConstants>
+    <TargetFramework>net8.0</TargetFramework>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net8.0'">$(DefineConstants);NET_CORE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup>

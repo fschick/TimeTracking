@@ -55,11 +55,11 @@ public record HolidayDto : IIdEntityDto, IManageableDto, IUserLinkedDto
     /// The identifier of the user this entity belongs to.
     /// </summary>
     [Required]
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid UserId { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

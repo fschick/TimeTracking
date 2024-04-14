@@ -14,6 +14,7 @@
     <Version>0.0.0.0</Version>
     <FileVersion>0.0.0.0</FileVersion>
     <AssemblyVersion>$(FileVersion)</AssemblyVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
     <PackageProjectUrl>https://github.com/fschick/TimeTracking</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fschick/TimeTracking.git</RepositoryUrl>

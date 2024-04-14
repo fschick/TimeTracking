@@ -47,7 +47,7 @@ public record OrderDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     /// The identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
     [Required]
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid CustomerId { get; set; }
 
     /// <inheritdoc />
@@ -93,7 +93,7 @@ public record OrderDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

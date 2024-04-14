@@ -34,7 +34,7 @@ public record ProjectDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     /// <summary>
     /// Identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid? CustomerId { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record ProjectDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto
     public bool Hidden { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

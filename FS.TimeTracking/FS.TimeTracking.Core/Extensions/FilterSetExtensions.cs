@@ -26,11 +26,11 @@ public static class FilterSetExtensions
         var endDateFilter = filters.TimeSheetFilter.GetPropertyFilterSyntax(x => x.EndDate);
 
         var startDate = endDateFilter != null
-            ? ValueFilterExtensions.Create(endDateFilter).First().Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
+            ? ValueFiltersFactory.Create(endDateFilter).First().Value!.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
             : DateOffset.MinDate;
 
         var endDate = startDateFilter != null
-            ? ValueFilter.Create(startDateFilter).Value.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
+            ? ValueFilter.Create(startDateFilter).Value!.ConvertStringToDateTimeOffset(DateTimeOffset.Now)
             : DateOffset.MaxDate; // Let space for timezone conversions.
 
         if (endDate != DateOffset.MaxDate && endDateExclusive)

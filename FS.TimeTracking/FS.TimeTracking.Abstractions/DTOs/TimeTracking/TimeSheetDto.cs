@@ -35,7 +35,7 @@ public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserLinkedDto, ICust
     /// The identifier to the related <see cref="CustomerDto"/>.
     /// </summary>
     [Required]
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid CustomerId { get; set; }
 
     /// <inheritdoc />
@@ -45,19 +45,19 @@ public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserLinkedDto, ICust
     /// The identifier to the related <see cref="ActivityDto"/>.
     /// </summary>
     [Required]
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid ActivityId { get; set; }
 
     /// <summary>
     /// The identifier to the related <see cref="ProjectDto"/>.
     /// </summary>
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid? ProjectId { get; set; }
 
     /// <summary>
     /// The identifier to the related <see cref="OrderDto"/>.
     /// </summary>
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid? OrderId { get; set; }
 
     /// <summary>
@@ -87,11 +87,11 @@ public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserLinkedDto, ICust
     /// The identifier of the user this entity belongs to.
     /// </summary>
     [Required]
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public Guid UserId { get; set; }
 
     /// <inheritdoc />
-    [Filter(Visible = false)]
+    [Filter(Filterable = false)]
     public bool? IsReadonly { get; set; }
 
     [JsonIgnore]

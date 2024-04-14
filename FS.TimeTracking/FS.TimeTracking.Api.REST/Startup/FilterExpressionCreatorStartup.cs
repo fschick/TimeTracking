@@ -10,9 +10,9 @@ internal static class FilterExpressionCreatorStartup
 {
     public static IMvcBuilder AddFilterExpressionCreators(this IMvcBuilder mvcBuilder)
         => mvcBuilder
-            .AddFilterExpressionsSupport()
-            .AddFilterExpressionsNewtonsoftSupport();
+            .AddFilterExpressionSupport()
+            .AddFilterExpressionNewtonsoftSupport();
 
     public static SwaggerGenOptions AddFilterExpressionCreators(this SwaggerGenOptions options, params string[] xmlDocumentationFilePaths)
-        => options.AddFilterExpressionsSupport(xmlDocumentationFilePaths);
+        => options.AddFilterExpressionSupport(xmlDocumentationFilePaths);
 }

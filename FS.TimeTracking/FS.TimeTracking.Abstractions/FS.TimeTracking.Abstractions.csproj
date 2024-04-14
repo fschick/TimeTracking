@@ -4,11 +4,11 @@
   <Import Project="../../Build/targets/xml_documentation.props" />
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Abstractions" Version="4.5.0" />
-    <PackageReference Include="File.TypeChecker" Version="4.0.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Abstractions" Version="4.6.1" />
+    <PackageReference Include="File.TypeChecker" Version="4.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
   </ItemGroup>
 
 </Project>
