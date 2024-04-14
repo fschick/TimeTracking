@@ -109,7 +109,7 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
         cssDataCell: 'text-end text-nowrap',
         cssFooterCell: 'text-end text-nowrap fw-bold',
         format: row => `${this.formatService.formatBudget(row.budgetWorked)} ${row.currency}`,
-        footer: () => this.rows ? `${this.formatService.formatBudget(this.utilityService.sum(this.rows.map(row => row.budgetWorked)))} ${this.rows[0].currency}` : '',
+        footer: () => this.rows ? `${this.formatService.formatBudget(this.utilityService.sum(this.rows.map(row => row.budgetWorked)))} ${this.rows[0]?.currency ?? ''}` : '',
       },
     ];
 
