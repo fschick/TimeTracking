@@ -1,6 +1,5 @@
-﻿using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Core.Extensions;
+﻿using FS.TimeTracking.Core.Extensions;
+using Plainquire.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;

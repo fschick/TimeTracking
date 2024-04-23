@@ -1,12 +1,11 @@
-﻿using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;

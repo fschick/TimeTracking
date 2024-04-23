@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
 using FS.Keycloak.RestApiClient.Client;
 using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.Constants;
@@ -15,6 +13,7 @@ using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Core.Models.Filter;
 using Microsoft.Extensions.Options;
+using Plainquire.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using FS.FilterExpressionCreator.Newtonsoft.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Plainquire.Filter.Newtonsoft;
 
 namespace FS.TimeTracking.Application.Tests.Models;
 

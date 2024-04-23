@@ -1,6 +1,4 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Extensions;
-using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.TimeTracking.Abstractions.DTOs.Chart;
+﻿using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Extensions;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Administration;
@@ -10,6 +8,7 @@ using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
 using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

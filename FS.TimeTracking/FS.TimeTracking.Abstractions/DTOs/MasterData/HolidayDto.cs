@@ -1,8 +1,8 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// Holiday
 /// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = "Holiday")]
+[EntityFilter(Prefix = "Holiday")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record HolidayDto : IIdEntityDto, IManageableDto, IUserLinkedDto

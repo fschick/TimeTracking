@@ -12,10 +12,10 @@
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.2.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.6.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.6.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.6.1" />
-    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.6.1" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc" Version="4.7.1-beta3" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Mvc.Newtonsoft" Version="4.7.1-beta3" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Newtonsoft" Version="4.7.1-beta3" />
+    <PackageReference Include="Schick.FilterExpressionCreator.Swashbuckle" Version="4.7.1-beta3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />

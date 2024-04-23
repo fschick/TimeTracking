@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
 using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Abstractions.Enums;
@@ -17,6 +14,8 @@ using FS.TimeTracking.Core.Models.Application.Core;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

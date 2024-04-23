@@ -1,7 +1,7 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// Project
 /// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = "Project")]
+[EntityFilter(Prefix = "Project")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record ProjectDto : IIdEntityDto, IManageableDto, ICustomerLinkedDto

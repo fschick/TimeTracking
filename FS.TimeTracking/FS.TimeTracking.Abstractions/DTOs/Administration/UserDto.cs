@@ -1,6 +1,6 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +12,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.Administration;
 /// User
 /// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = "User")]
+[EntityFilter(Prefix = "User")]
 [ExcludeFromCodeCoverage]
 public record UserDto : IIdEntityDto, IManageableDto
 {

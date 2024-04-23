@@ -1,8 +1,8 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Administration;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
+using Plainquire.Filter;
+using Plainquire.Filter.Abstractions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FS.TimeTracking.Core.Models.Filter;

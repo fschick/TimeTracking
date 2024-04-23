@@ -1,4 +1,4 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
+﻿using Plainquire.Filter.Abstractions;
 using System;
 
 namespace FS.TimeTracking.Application.Extensions;

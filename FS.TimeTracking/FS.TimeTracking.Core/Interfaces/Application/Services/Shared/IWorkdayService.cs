@@ -1,6 +1,6 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.TimeTracking.Abstractions.DTOs.Shared;
+﻿using FS.TimeTracking.Abstractions.DTOs.Shared;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

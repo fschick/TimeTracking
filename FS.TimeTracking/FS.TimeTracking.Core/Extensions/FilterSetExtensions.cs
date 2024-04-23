@@ -1,8 +1,7 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Core.Constants;
+﻿using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

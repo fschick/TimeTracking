@@ -1,7 +1,6 @@
-﻿using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Administration;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;

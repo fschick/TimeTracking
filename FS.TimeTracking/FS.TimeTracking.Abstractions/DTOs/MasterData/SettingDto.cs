@@ -1,7 +1,7 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.Attributes.Validation;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +13,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.MasterData;
 /// User defined application settings
 /// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = "Setting")]
+[EntityFilter(Prefix = "Setting")]
 [ExcludeFromCodeCoverage]
 public record SettingDto : IManageableDto
 {

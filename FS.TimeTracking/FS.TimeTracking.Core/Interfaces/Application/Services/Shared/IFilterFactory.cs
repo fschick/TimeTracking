@@ -1,9 +1,9 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Administration;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
 using System.Threading.Tasks;
 
 namespace FS.TimeTracking.Core.Interfaces.Application.Services.Shared;

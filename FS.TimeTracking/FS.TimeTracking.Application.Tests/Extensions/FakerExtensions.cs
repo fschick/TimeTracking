@@ -1,6 +1,5 @@
 ﻿using Autofac.Core;
 using AutoMapper;
-using FS.FilterExpressionCreator.Filters;
 using FS.Keycloak.RestApiClient.Model;
 using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Application.FilterExpressionInterceptors;
@@ -15,6 +14,7 @@ using FS.TimeTracking.Repository.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Plainquire.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,7 +95,7 @@ internal static class FakerExtensions
         faker.Provide<IDbRepository, DbRepository<TimeTrackingDbContext>>();
         faker.Provide<TimeTrackingDbContext, TimeTrackingDbContext>();
 
-        EntityFilter.DefaultInterceptor = new DateTimeOffsetInterceptor();
+        IFilterInterceptor.Default = new DateTimeOffsetInterceptor();
         var dbContext = faker.GetRequiredService<TimeTrackingDbContext>();
         dbContext.Database.Migrate();
 

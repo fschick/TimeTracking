@@ -1,8 +1,8 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Models;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Core.Models.Application.MasterData;
+﻿using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 
 namespace FS.TimeTracking.Core.Models.Application.Chart;

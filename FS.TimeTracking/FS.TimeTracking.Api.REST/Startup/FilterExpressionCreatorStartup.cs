@@ -1,7 +1,7 @@
-﻿using FS.FilterExpressionCreator.Mvc.Extensions;
-using FS.FilterExpressionCreator.Mvc.Newtonsoft.Extensions;
-using FS.FilterExpressionCreator.Swashbuckle.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Plainquire.Filter.Mvc;
+using Plainquire.Filter.Mvc.Newtonsoft;
+using Plainquire.Filter.Swashbuckle;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FS.TimeTracking.Api.REST.Startup;
@@ -10,9 +10,9 @@ internal static class FilterExpressionCreatorStartup
 {
     public static IMvcBuilder AddFilterExpressionCreators(this IMvcBuilder mvcBuilder)
         => mvcBuilder
-            .AddFilterExpressionSupport()
-            .AddFilterExpressionNewtonsoftSupport();
+            .AddFilterSupport()
+            .AddFilterNewtonsoftSupport();
 
     public static SwaggerGenOptions AddFilterExpressionCreators(this SwaggerGenOptions options, params string[] xmlDocumentationFilePaths)
-        => options.AddFilterExpressionSupport(xmlDocumentationFilePaths);
+        => options.AddFilterSupport(xmlDocumentationFilePaths);
 }

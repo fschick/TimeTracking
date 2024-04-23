@@ -1,6 +1,6 @@
-﻿using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Application.FilterExpressionInterceptors;
+﻿using FS.TimeTracking.Application.FilterExpressionInterceptors;
 using Microsoft.Extensions.DependencyInjection;
+using Plainquire.Filter;
 
 namespace FS.TimeTracking.Application.Startup;
 
@@ -8,7 +8,7 @@ internal static class FilterExpressionInterceptorStartup
 {
     public static IServiceCollection RegisterFilterExpressionInterceptor(this IServiceCollection services)
     {
-        EntityFilter.DefaultInterceptor = new DateTimeOffsetInterceptor();
+        IFilterInterceptor.Default = new DateTimeOffsetInterceptor();
         return services;
     }
 }

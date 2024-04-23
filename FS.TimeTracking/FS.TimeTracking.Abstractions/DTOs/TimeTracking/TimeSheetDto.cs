@@ -1,9 +1,9 @@
-﻿using FS.FilterExpressionCreator.Abstractions.Attributes;
-using FS.TimeTracking.Abstractions.Attributes;
+﻿using FS.TimeTracking.Abstractions.Attributes;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.Enums;
 using FS.TimeTracking.Abstractions.Interfaces.DTOs;
 using Newtonsoft.Json;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ namespace FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 /// Time sheet position.
 /// </summary>
 [ValidationDescription]
-[FilterEntity(Prefix = "TimeSheet")]
+[EntityFilter(Prefix = "TimeSheet")]
 [ExcludeFromCodeCoverage]
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public record TimeSheetDto : IIdEntityDto, IManageableDto, IUserLinkedDto, ICustomerLinkedDto

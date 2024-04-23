@@ -1,7 +1,4 @@
-﻿using FS.FilterExpressionCreator.Enums;
-using FS.FilterExpressionCreator.Extensions;
-using FS.FilterExpressionCreator.Filters;
-using FS.TimeTracking.Abstractions.DTOs.Administration;
+﻿using FS.TimeTracking.Abstractions.DTOs.Administration;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Constants;
 using FS.TimeTracking.Core.Extensions;
@@ -11,6 +8,8 @@ using FS.TimeTracking.Core.Models.Application.Chart;
 using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Filter;
+using Plainquire.Filter;
+using Plainquire.Filter.Abstractions;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -41,11 +40,11 @@ public class FilterFactory : IFilterFactory
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var projectFilter = filters.ProjectFilter
             .Cast<Project>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var filter = filters.ActivityFilter
             .Cast<Activity>()
@@ -73,7 +72,7 @@ public class FilterFactory : IFilterFactory
     {
         var customerProjectFilter = filters.CustomerFilter
             .Cast<Customer>()
-            .Clear(x => x.Id)
+            .Remove(x => x.Id)
             .ReplaceNested(x => x.Projects, filters.ProjectFilter.Cast<Project>());
 
         var filter = filters.OrderFilter
@@ -90,7 +89,7 @@ public class FilterFactory : IFilterFactory
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var filter = filters.ProjectFilter
             .Cast<Project>()
@@ -106,19 +105,19 @@ public class FilterFactory : IFilterFactory
     {
         var customerFilter = filters.CustomerFilter
             .Cast<Customer>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var activityFilter = filters.ActivityFilter
             .Cast<Activity>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var projectFilter = filters.ProjectFilter
             .Cast<Project>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var orderFilter = filters.OrderFilter
             .Cast<Order>()
-            .Clear(x => x.Id);
+            .Remove(x => x.Id);
 
         var filter = filters.TimeSheetFilter
             .Cast<TimeSheet>()
