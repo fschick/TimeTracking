@@ -315,3 +315,4 @@ __pycache__/
 /FS.TimeTracking/FS.TimeTracking/database
 /FS.TimeTracking/FS.TimeTracking/web.config
 /switcher.json
+/FS.TimeTracking.UI.Angular/.nx

@@ -77,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "TimeTracking:build:production"
+              "buildTarget": "TimeTracking:build:production"
             },
             "development": {
-              "browserTarget": "TimeTracking:build:development"
+              "buildTarget": "TimeTracking:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TimeTracking:build"
+            "buildTarget": "TimeTracking:build"
           }
         },
         "test": {
