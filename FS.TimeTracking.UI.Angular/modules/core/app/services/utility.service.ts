@@ -47,21 +47,33 @@ export class UtilityService {
     return rawValue1 === rawValue2;
   }
 
-  public escapeRegex(value: string) {
+  public escapeRegex(value: string): string {
+    if (value == null)
+      return '';
+
     //https://github.com/lodash/lodash/blob/master/escapeRegExp.js
     const charactersToEscape = /[\\^$.*+?()[\]{}|]/g;
     return value.replace(charactersToEscape, '\\$&');
   }
 
   public replaceAt(value: string, index: number, replacement: string): string {
-    return value.substr(0, index) + replacement + value.substr(index + replacement.length);
+    if (value == null)
+      return '';
+
+    return value.substring(0, index) + replacement + value.substr(index + replacement.length);
   }
 
   public capitalize(value: string): string {
+    if (value == null)
+      return '';
+
     return value[0].toUpperCase() + value.slice(1);
   }
 
   public snakeToCamelcase(value: string): string {
+    if (value == null)
+      return '';
+
     return value.toLowerCase()
       .replace(/\w+?(_|$)/g, k => this.capitalize(k))
       .replace(/_/g, '')
