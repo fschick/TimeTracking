@@ -115,7 +115,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
     public async Task SetUserIdOfRelatedEntitiesToDefaultUser(CancellationToken cancellationToken = default)
     {
         var defaultUser = await _keycloakRepository
-            .GetUsers(_keycloakConfiguration.Realm, username: DEFAULT_USER_NAME, cancellationToken: cancellationToken)
+            .GetUsers(_keycloakConfiguration.Realm, username: DEFAULT_USER_NAME, exact: true, cancellationToken: cancellationToken)
             .FirstOrDefaultAsync();
         var defaultUserId = new Guid(defaultUser.Id);
         await _dbRepository.BulkUpdate((TimeSheet t) => t.UserId == Guid.Empty, _ => new TimeSheet { UserId = defaultUserId });
@@ -126,17 +126,43 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
     {
         var realm = new RealmRepresentation
         {
-            //Id = Guid.NewGuid().ToString(),
             Realm = _keycloakConfiguration.Realm,
             DisplayName = productName,
             Enabled = true,
             EditUsernameAllowed = true,
             RememberMe = true,
-            SsoSessionIdleTimeoutRememberMe = 7 * 24 * 60 * 60,
-            SsoSessionMaxLifespanRememberMe = 30 * 24 * 60 * 60,
+            SsoSessionIdleTimeout = (int)TimeSpan.FromMinutes(30).TotalSeconds,
+            SsoSessionMaxLifespan = (int)TimeSpan.FromHours(10).TotalSeconds,
+            SsoSessionIdleTimeoutRememberMe = (int)TimeSpan.FromDays(7).TotalSeconds,
+            SsoSessionMaxLifespanRememberMe = (int)TimeSpan.FromDays(30).TotalSeconds,
+            OfflineSessionIdleTimeout = (int)TimeSpan.FromDays(30).TotalSeconds,
+            AccessCodeLifespanLogin = (int)TimeSpan.FromMinutes(30).TotalSeconds,
+            AccessCodeLifespanUserAction = (int)TimeSpan.FromMinutes(5).TotalSeconds,
+            Oauth2DeviceCodeLifespan = (int)TimeSpan.FromMinutes(10).TotalSeconds,
+            Oauth2DevicePollingInterval = (int)TimeSpan.FromSeconds(5).TotalSeconds,
+            AccessTokenLifespan = (int)TimeSpan.FromMinutes(5).TotalSeconds,
+            AccessTokenLifespanForImplicitFlow = (int)TimeSpan.FromMinutes(15).TotalSeconds,
+            AccessCodeLifespan = (int)TimeSpan.FromMinutes(1).TotalSeconds,
+            ActionTokenGeneratedByUserLifespan = (int)TimeSpan.FromMinutes(5).TotalSeconds,
+            ActionTokenGeneratedByAdminLifespan = (int)TimeSpan.FromHours(12).TotalSeconds,
+            Components = new Dictionary<string, List<ComponentExportRepresentation>>
+            {
+                ["org.keycloak.userprofile.UserProfileProvider"] = [
+                    new ComponentExportRepresentation
+                    {
+                        ProviderId = "declarative-user-profile",
+                        Config = new () { ["kc.user.profile.config"] = [DEFAULT_USER_PROFILE] }
+                    }
+                ]
+            }
         };
 
         await _keycloakRepository.CreateRealm(realm, cancellationToken);
+
+        // Used to get default user profile (DEFAULT_USER_PROFILE) JSON when update to newer Keycloak version.
+        //var components = await _keycloakRepository.GetComponents("test_realm_created_manually", cancellationToken);
+        //var componentNames = components.Select(x => x.ProviderId).ToList();
+        //var userProfile = components.FirstOrDefault(x => x.ProviderId == "declarative-user-profile");
 
         return realm.Realm;
     }
@@ -147,13 +173,15 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         {
             ClientId = _keycloakConfiguration.ClientId,
             Name = productName,
-            ClientAuthenticatorType = "",
+            Enabled = true,
+            ClientAuthenticatorType = "client-secret",
+            StandardFlowEnabled = true,
             PublicClient = true,
             FrontchannelLogout = true,
-            DirectAccessGrantsEnabled = false,
             RedirectUris = new List<string> { "*" },
             WebOrigins = new List<string> { "*" },
             Attributes = new Dictionary<string, string> { { "post.logout.redirect.uris", "*" } },
+            FullScopeAllowed = true,
         };
 
         await _keycloakRepository.CreateClient(realm, client, cancellationToken);
@@ -204,7 +232,6 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
                 Name = RestrictToCustomer.MAPPER,
                 Protocol = "openid-connect",
                 ProtocolMapper = "oidc-usermodel-attribute-mapper",
-                ConsentRequired = false,
                 Config = new Dictionary<string, string>{
                     { "multivalued", "true"},
                     { "access.token.claim", "true"},
@@ -229,7 +256,11 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         var user = new UserRepresentation
         {
             Username = DEFAULT_USER_NAME,
+            RequiredActions = [],
             Enabled = true,
+            Email = $"{DEFAULT_USER_NAME}@localhost",
+            FirstName = DEFAULT_USER_NAME,
+            LastName = DEFAULT_USER_NAME,
             Credentials = new List<CredentialRepresentation>
             {
                 new() {
@@ -243,7 +274,7 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
         await _keycloakRepository.CreateUser(realm, user, cancellationToken);
 
         var createdUser = await _keycloakRepository
-            .GetUsers(realm, username: user.Username, cancellationToken: cancellationToken)
+            .GetUsers(realm, username: user.Username, exact: true, cancellationToken: cancellationToken)
             .FirstAsync();
 
         return Guid.Parse(createdUser.Id);
@@ -271,4 +302,78 @@ public sealed class KeycloakDeploymentService : IKeycloakDeploymentService
                 ClientRole = true,
             })
             .ToList();
+
+    private const string DEFAULT_USER_PROFILE = """
+        {
+          "attributes": [{
+              "name": "username",
+              "displayName": "${username}",
+              "validations": {
+                "length": {
+                  "min": 1,
+                  "max": 255
+                },
+                "username-prohibited-characters": {},
+                "up-username-not-idn-homograph": {}
+              },
+              "permissions": {
+                "view": ["admin", "user"],
+                "edit": ["admin", "user"]
+              },
+              "multivalued": false
+            }, {
+              "name": "email",
+              "displayName": "${email}",
+              "validations": {
+                "email": {},
+                "length": {
+                  "max": 255
+                }
+              },
+              "annotations": {},
+              "permissions": {
+                "view": ["admin", "user"],
+                "edit": ["admin", "user"]
+              },
+              "multivalued": false
+            }, {
+              "name": "firstName",
+              "displayName": "${firstName}",
+              "validations": {
+                "length": {
+                  "max": 255
+                },
+                "person-name-prohibited-characters": {}
+              },
+              "annotations": {},
+              "permissions": {
+                "view": ["admin", "user"],
+                "edit": ["admin", "user"]
+              },
+              "multivalued": false
+            }, {
+              "name": "lastName",
+              "displayName": "${lastName}",
+              "validations": {
+                "length": {
+                  "max": 255
+                },
+                "person-name-prohibited-characters": {}
+              },
+              "annotations": {},
+              "permissions": {
+                "view": ["admin", "user"],
+                "edit": ["admin", "user"]
+              },
+              "multivalued": false
+            }
+          ],
+          "groups": [{
+              "name": "user-metadata",
+              "displayHeader": "User metadata",
+              "displayDescription": "Attributes, which refer to user metadata"
+            }
+          ]
+        }
+        """;
 }

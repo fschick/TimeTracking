@@ -98,6 +98,9 @@ public class FakeKeycloakRepository
         public Task DeleteRealm(string realm, CancellationToken cancellationToken = default)
              => throw new NotImplementedException(nameof(DeleteRealm));
 
+        public Task<List<ComponentRepresentation>> GetComponents(string realm, CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
+
         public Task DeleteUser(string realm, Guid userId, CancellationToken cancellationToken = default)
         {
             if (!_users.TryRemove(userId.ToString(), out _))
@@ -128,7 +131,7 @@ public class FakeKeycloakRepository
             return Task.FromResult(user);
         }
 
-        public Task<List<UserRepresentation>> GetUsers(string realm, string search = null, string lastName = null, string firstName = null, string email = null, string username = null, bool? emailVerified = null, string idpAlias = null, Guid? idpUserId = null, int? first = null, int? max = null, bool? enabled = null, bool? briefRepresentation = null, bool? exact = null, string q = null, CancellationToken cancellationToken = default)
+        public Task<List<UserRepresentation>> GetUsers(string realm, bool? briefRepresentation = null, string email = null, bool? emailVerified = null, bool? enabled = null, bool? exact = null, int? first = null, string firstName = null, string idpAlias = null, string idpUserId = null, string lastName = null, int? max = null, string q = null, string search = null, string username = null, CancellationToken cancellationToken = default)
             => Task.FromResult(_users.Values.ToList());
 
         public Task UpdateUser(string realm, UserRepresentation user, CancellationToken cancellationToken = default)

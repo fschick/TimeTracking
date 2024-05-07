@@ -123,7 +123,7 @@ export class AuthenticationService {
     return {
       id: this.keycloak?.profile?.id,
       name: this.keycloak?.profile?.username,
-      userAccountUrl: `${this.keycloak?.createAccountUrl({redirectUri: location.href})}/#/personal-info`,
+      userAccountUrl: `${this.keycloak?.createAccountUrl({redirectUri: location.href})}`,
       isAuthenticated: this.keycloak?.authenticated ?? false,
       hasRole: roles,
       hasRolesInGroup: {

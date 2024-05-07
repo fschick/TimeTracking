@@ -16,7 +16,7 @@
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-    <PackageReference Include="Schick.Keycloak.RestApiClient" Version="22.0.3" />
+    <PackageReference Include="Schick.Keycloak.RestApiClient" Version="24.0.1" />
   </ItemGroup>
 
   <ItemGroup>
