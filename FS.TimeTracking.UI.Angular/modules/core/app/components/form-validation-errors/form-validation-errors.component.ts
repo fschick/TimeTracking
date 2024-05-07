@@ -95,7 +95,6 @@ export class FormValidationErrorsComponent implements OnInit {
     return translatedFieldName !== '' ? translatedFieldName : fieldName;
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   private validationErrorConverters: IValidationErrorConverters = {
     // eslint-disable-next-line max-len
     required: (fieldName, _) => $localize`:@@Validation.RequiredWithField:[i18n] '${fieldName}:FIELDNAME:' is required`,
