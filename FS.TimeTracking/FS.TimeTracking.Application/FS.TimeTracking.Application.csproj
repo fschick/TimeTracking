@@ -6,8 +6,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Bogus" Version="35.5.0" />
-    <PackageReference Include="Bogus.Tools.Analyzer" Version="35.5.0">
+    <PackageReference Include="Bogus" Version="35.5.1" />
+    <PackageReference Include="Bogus.Tools.Analyzer" Version="35.5.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
