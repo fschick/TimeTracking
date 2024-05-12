@@ -15,7 +15,6 @@ $framework = "net8.0"
 
 # Publish
 Npm-Restore -folder FS.TimeTracking.UI.Angular
-Publish-Project -project FS.TimeTracking.Tool/FS.TimeTracking.Tool -version $version -framework $framework -runtime $runtime -publshFolder $publshFolder
 Build-Project -project FS.TimeTracking/FS.TimeTracking -version $version
 Publish-Project -project FS.TimeTracking/FS.TimeTracking -version $version -framework $framework -runtime $runtime -publshFolder $publshFolder
 Publish-Ui -project FS.TimeTracking.UI.Angular -publshFolder ../$publshFolder/webui
