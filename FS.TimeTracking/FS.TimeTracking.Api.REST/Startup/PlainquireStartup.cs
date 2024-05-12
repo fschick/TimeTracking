@@ -6,13 +6,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FS.TimeTracking.Api.REST.Startup;
 
-internal static class FilterExpressionCreatorStartup
+internal static class PlainquireStartup
 {
-    public static IMvcBuilder AddFilterExpressionCreators(this IMvcBuilder mvcBuilder)
+    public static IMvcBuilder AddPlainquire(this IMvcBuilder mvcBuilder)
         => mvcBuilder
             .AddFilterSupport()
             .AddFilterNewtonsoftSupport();
 
-    public static SwaggerGenOptions AddFilterExpressionCreators(this SwaggerGenOptions options, params string[] xmlDocumentationFilePaths)
+    public static SwaggerGenOptions AddPlainquire(this SwaggerGenOptions options, params string[] xmlDocumentationFilePaths)
         => options.AddFilterSupport(xmlDocumentationFilePaths);
 }

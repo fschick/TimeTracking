@@ -41,7 +41,7 @@ internal static class OpenApiStartup
                 options.IncludeXmlComments(restXmlDoc);
                 options.IncludeXmlComments(abstractionsXmlDoc);
 
-                options.AddFilterExpressionCreators(restXmlDoc, abstractionsXmlDoc);
+                options.AddPlainquire(restXmlDoc, abstractionsXmlDoc);
                 options.AddAuthorizationCodeFlow(configuration);
                 //options.AddGenericAuthorization(configuration);
             });

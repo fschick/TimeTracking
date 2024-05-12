@@ -41,7 +41,7 @@ internal static class RestApiStartup
                 options.Filters.Add<VoidToHttpNoContentFilter>();
                 options.Filters.Add<ExceptionToHttpResultFilter>();
             })
-            .AddFilterExpressionCreators()
+            .AddPlainquire()
             .AddNewtonsoftJson(options =>
             {
                 var camelCase = new CamelCaseNamingStrategy();
