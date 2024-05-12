@@ -105,12 +105,12 @@ deploy_windows:
   tags: [ linux, docker ]
   interruptible: true
   script:
-    - Build/scripts/timetracking.publish.ps1 -version "$env:CI_COMMIT_REF_NAME" -runtime win10-x64 -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    - Build/scripts/timetracking.publish.ps1 -version "$env:CI_COMMIT_REF_NAME" -runtime win-x64 -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
   rules:
     # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
     - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
   artifacts:
-    name: "$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME-win10-x64"
+    name: "$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME-win-x64"
     paths:
       - "$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME"
     expire_in: 1 month

@@ -8,6 +8,7 @@ function Npm-Restore([String] $folder) {
 	Push-Location $folder
 	
 	# Restore npm packages
+	Write-Host -ForegroundColor Green "npm ci --prefer-offline --no-audit"
 	& npm ci --prefer-offline --no-audit
 	if(!$?) {
 		Pop-Location
@@ -46,6 +47,7 @@ function Build-Project([String] $project, [String] $version = "0.0.0") {
 function Build-Ui([String] $project, [String] $outputFolder) {
 	Push-Location $project
 	
+	Write-Host -ForegroundColor Green "npm run lint"
 	& npm run lint
 	if(!$?) {
 		Pop-Location
