@@ -34,7 +34,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-icons": "^1.10.4",
-    "keycloak-js": "^24.0.3",
+    "keycloak-js": "^25.0.1",
     "luxon": "^3.4.4",
     "ng-apexcharts": "^1.10.0",
     "ng-let": "^17.0.4",
