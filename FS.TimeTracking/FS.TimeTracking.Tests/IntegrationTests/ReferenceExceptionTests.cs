@@ -23,7 +23,6 @@ public class ReferenceExceptionTests
         // Prepare
         using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
-        using var client = testHost.GetTestClient();
 
         // Act
         var newCustomer = faker.Customer.CreateDto();

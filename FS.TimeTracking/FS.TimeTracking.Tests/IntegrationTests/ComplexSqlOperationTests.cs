@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+using FluentAssertions;
 using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Api.REST.Controllers.Chart;
 using FS.TimeTracking.Core.Models.Configuration;
@@ -26,3 +27,4 @@ public class ComplexSqlOperationTests
         workTimesPerOrder.Should().NotBeNull();
     }
 }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed

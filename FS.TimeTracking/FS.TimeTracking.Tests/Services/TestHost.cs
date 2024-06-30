@@ -102,9 +102,6 @@ public sealed class TestHost : IAsyncDisposable
         return Task.FromResult(testHost);
     }
 
-    public HttpClient GetTestClient()
-        => _wepApplication.CreateClient();
-
     public async Task<TResult> Get<TController, TResult>(Expression<Action<TController>> controllerAction)
     {
         using var client = GetTestClient();
@@ -157,6 +154,9 @@ public sealed class TestHost : IAsyncDisposable
         using var response = await client.DeleteAsync(route);
         await EnsureSuccess(response);
     }
+
+    private HttpClient GetTestClient()
+        => _wepApplication.CreateClient();
 
     private string GetRoute<TController>(Expression<Action<TController>> controllerAction)
     {

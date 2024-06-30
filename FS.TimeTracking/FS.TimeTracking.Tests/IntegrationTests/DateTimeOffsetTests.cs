@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+using FluentAssertions;
 using FS.TimeTracking.Abstractions.DTOs.MasterData;
 using FS.TimeTracking.Abstractions.DTOs.TimeTracking;
 using FS.TimeTracking.Api.REST.Controllers.MasterData;
@@ -22,7 +23,6 @@ public class DateTimeOffsetTests
         // Prepare
         using var faker = new Faker();
         await using var testHost = await TestHost.Create(configuration);
-        using var client = testHost.GetTestClient();
 
         var newCustomer = faker.Customer.CreateDto();
         var newActivity = faker.Activity.CreateDto();
@@ -47,3 +47,4 @@ public class DateTimeOffsetTests
         readTimeSheet!.EndDate.Should().Be(newTimeSheet.EndDate);
     }
 }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
