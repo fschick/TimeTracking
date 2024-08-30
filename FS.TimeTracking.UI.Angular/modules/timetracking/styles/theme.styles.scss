@@ -49,11 +49,11 @@
 
 .modal-close {
   color: $gray-600;
-  padding: 0;
 
-  &:focus, &:active {
-    box-shadow: none;
-  }
+  padding: calc(var(--#{$prefix}modal-header-padding-y) * .5) calc(var(--#{$prefix}modal-header-padding-x) * .5);
+  margin: calc(-.5 * var(--#{$prefix}modal-header-padding-y)) calc(-.5 * var(--#{$prefix}modal-header-padding-x)) calc(-.5 * var(--#{$prefix}modal-header-padding-y)) auto;
+
+  box-shadow: none;
 }
 
 /* ----------------------------------------- */
