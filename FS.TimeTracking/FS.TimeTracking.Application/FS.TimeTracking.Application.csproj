@@ -4,10 +4,10 @@
   <Import Project="../../Build/targets/xml_documentation.props" />
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.1" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Bogus" Version="35.5.1" />
-    <PackageReference Include="Bogus.Tools.Analyzer" Version="35.5.1">
+    <PackageReference Include="Bogus" Version="35.6.0" />
+    <PackageReference Include="Bogus.Tools.Analyzer" Version="35.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -16,7 +16,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
     <PackageReference Include="Schick.Authentication.OneTimeToken.Abstractions" Version="1.2.1" />
-    <PackageReference Include="Plainquire.Filter" Version="5.0.1" />
+    <PackageReference Include="Plainquire.Filter" Version="5.1.0" />
     <PackageReference Include="Schick.TimeTracking.Report.Client" Version="1.3.3" />
     <PackageReference Include="TimeZoneConverter" Version="6.1.0" />
   </ItemGroup>

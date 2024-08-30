@@ -103,13 +103,13 @@ public class KeycloakRepository : IKeycloakRepository
 
     /// <inheritdoc />
     public async Task<List<RoleRepresentation>> GetClientRolesOfUser(string realm, Guid userId, string clientId, CancellationToken cancellationToken = default)
-        => await _clientRoleMappingsApi.GetUsersRoleMappingsClientsByUserIdAndClientAsync(realm, userId.ToString(), clientId, cancellationToken);
+        => await _clientRoleMappingsApi.GetUsersRoleMappingsClientsByUserIdAndClientIdAsync(realm, userId.ToString(), clientId, cancellationToken);
 
     /// <inheritdoc />
     public async Task AddClientRolesToUser(string realm, Guid userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default)
-        => await _clientRoleMappingsApi.PostUsersRoleMappingsClientsByUserIdAndClientAsync(realm, userId.ToString(), clientId, roles, cancellationToken);
+        => await _clientRoleMappingsApi.PostUsersRoleMappingsClientsByUserIdAndClientIdAsync(realm, userId.ToString(), clientId, roles, cancellationToken);
 
     /// <inheritdoc />
     public async Task DeleteClientRolesOfUser(string realm, Guid userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default)
-        => await _clientRoleMappingsApi.DeleteUsersRoleMappingsClientsByUserIdAndClientAsync(realm, userId.ToString(), clientId, roles, cancellationToken);
+        => await _clientRoleMappingsApi.DeleteUsersRoleMappingsClientsByUserIdAndClientIdAsync(realm, userId.ToString(), clientId, roles, cancellationToken);
 }

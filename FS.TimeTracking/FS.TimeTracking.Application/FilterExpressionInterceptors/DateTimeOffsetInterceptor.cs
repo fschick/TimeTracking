@@ -4,6 +4,7 @@ using Plainquire.Filter;
 using Plainquire.Filter.Abstractions;
 using Plainquire.Filter.PropertyFilterExpression;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -11,7 +12,7 @@ namespace FS.TimeTracking.Application.FilterExpressionInterceptors;
 
 internal class DateTimeOffsetInterceptor : IFilterInterceptor
 {
-    public Expression<Func<TEntity, bool>> CreatePropertyFilter<TEntity>(PropertyInfo propertyInfo, ValueFilter[] filters, FilterConfiguration configuration)
+    public Expression<Func<TEntity, bool>> CreatePropertyFilter<TEntity>(PropertyInfo propertyInfo, IEnumerable<ValueFilter> filters, FilterConfiguration configuration)
     {
         if (typeof(TEntity) == typeof(TimeSheet) && propertyInfo.Name == nameof(TimeSheet.StartDate))
             return (Expression<Func<TEntity, bool>>)(object)PropertyFilterExpression.CreateFilter((TimeSheet x) => x.StartDateLocal, filters, configuration, this);
