@@ -8,6 +8,7 @@ import {StorageService} from '../../services/storage.service';
 import {DateParserService} from '../../services/date-parser.service';
 import {EntityService} from '../../services/state-management/entity.service';
 import {ConfigurationService} from '../../services/configuration.service';
+import {Breakpoint, BreakpointService} from "../../services/breakpoint.service";
 
 export type FilteredRequestParams = TimeSheetGetGridFilteredRequestParams & AdditionalFilteredRequestParams;
 export type FilterName = keyof FilteredRequestParams;
@@ -84,6 +85,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public isFiltered$: Observable<boolean> | undefined;
   public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;
+  public filterCollapsed: boolean;
   public extendedFilterCollapsed = true;
 
   constructor(
@@ -95,9 +97,18 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     private dateParserService: DateParserService,
     private entityService: EntityService,
     private configurationService: ConfigurationService,
+    private breakpointService: BreakpointService,
   ) {
     this.visibleFilters = this.getVisibleFilters();
     this.hiddenFilters = this.getHiddenFilters();
+
+    this.filterCollapsed = this.isFilterCollapseable();
+    const breakpointChanged = breakpointService
+      .breakpoint$
+      .subscribe(breakpoint =>
+        this.filterCollapsed = this.isFilterCollapseable(breakpoint) && this.filterCollapsed
+      );
+    this.subscriptions.add(breakpointChanged);
   }
 
   public ngOnInit(): void {
@@ -193,6 +204,10 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
     this.subscriptions.unsubscribe();
   }
 
+  public collapseFilters() {
+    this.filterCollapsed = this.isFilterCollapseable() && !this.filterCollapsed;
+  }
+
   public resetFilterForm(): void {
     if (this.filterForm === undefined || this._filters === undefined)
       return;
@@ -228,6 +243,11 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
       return false;
 
     return this._filters.some(filter => this.isFiltered(filter));
+  }
+
+  private isFilterCollapseable(breakpoint?: Breakpoint): boolean {
+    breakpoint = breakpoint ?? this.breakpointService.getBreakpoint();
+    return breakpoint < Breakpoint.md;
   }
 
   private excludeFiltersDisabledByFeatureGate(x: Filter): boolean {

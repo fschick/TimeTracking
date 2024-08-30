@@ -1,9 +1,15 @@
 <!-- Header -->
-<div class="mb-4">
-  <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Filter</h4>
+<div class="d-flex align-items-baseline mb-4" (click)="collapseFilters()">
+  <h4 class="col-auto" i18n="@@Component.Filter.Title">[i18n] Settings & Filter</h4>
+  <div class="ms-auto d-md-none" style="user-select: none">
+    <svg class="bi text-secondary me-2" fill="currentColor">
+      <use *ngIf="filterCollapsed" xlink:href="assets/icons.svg#chevron-down"/>
+      <use *ngIf="!filterCollapsed" xlink:href="assets/icons.svg#chevron-up"/>
+    </svg>
+  </div>
 </div>
 
-<form *ngIf="filterForm !== undefined" id="filterForm" [formGroup]="filterForm">
+<form *ngIf="filterForm !== undefined" id="filterForm" [formGroup]="filterForm" #collapse="ngbCollapse" [(ngbCollapse)]="filterCollapsed">
 
   <ng-container *ngIf="filterTemplates">
     <!-- Standard filter -->
