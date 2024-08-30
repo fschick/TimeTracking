@@ -14,7 +14,7 @@
     </div>
 
     <!-- Extended filter -->
-    <div id="extendedFilter" #collapse="ngbCollapse" [(ngbCollapse)]="filterCollapsed">
+    <div id="extendedFilter" #collapse="ngbCollapse" [(ngbCollapse)]="extendedFilterCollapsed">
       <div class="row g-3 my-0">
         <ng-container *ngFor="let filter of hiddenFilters">
           <ng-container *ngTemplateOutlet="filterTemplates[filter.name]"></ng-container>
@@ -30,14 +30,14 @@
                 class="btn btn-secondary add-filter"
                 (click)="collapse.toggle()"
                 aria-controls="extendedFilter"
-                [attr.aria-expanded]="!filterCollapsed">
-          <ng-container *ngIf="filterCollapsed">
+                [attr.aria-expanded]="!extendedFilterCollapsed">
+          <ng-container *ngIf="extendedFilterCollapsed">
             <svg class="bi text-secondary me-2" fill="currentColor">
               <use xlink:href="assets/icons.svg#plus-square-dotted"/>
             </svg>
             <span class="text-expand" i18n="@@Component.Filter.Add">[i18n] Add filter</span>
           </ng-container>
-          <ng-container *ngIf="!filterCollapsed">
+          <ng-container *ngIf="!extendedFilterCollapsed">
             <svg class="bi text-secondary me-2" fill="currentColor">
               <use xlink:href="assets/icons.svg#check-lg"/>
             </svg>

@@ -84,7 +84,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
   public isFiltered$: Observable<boolean> | undefined;
   public filterForm: FormGroup | undefined;
   public filterTemplates?: FilterTemplates;
-  public filterCollapsed = true;
+  public extendedFilterCollapsed = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -110,7 +110,7 @@ export class TimesheetFilterComponent implements OnInit, AfterViewInit, OnDestro
           this.saveFilterFormValue(filter);
           this.visibleFilters = this.getVisibleFilters();
           this.hiddenFilters = this.getHiddenFilters();
-          this.filterCollapsed = true;
+          this.extendedFilterCollapsed = true;
         }),
         shareReplay(1)
       );
