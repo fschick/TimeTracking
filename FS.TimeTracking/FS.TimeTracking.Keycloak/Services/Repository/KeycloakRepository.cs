@@ -103,7 +103,7 @@ public class KeycloakRepository : IKeycloakRepository
 
     /// <inheritdoc />
     public async Task<List<RoleRepresentation>> GetClientRolesOfUser(string realm, Guid userId, string clientId, CancellationToken cancellationToken = default)
-        => await _clientRoleMappingsApi.GetUsersRoleMappingsClientsByUserIdAndClientIdAsync(realm, userId.ToString(), clientId, cancellationToken);
+        => await _clientRoleMappingsApi.GetUsersRoleMappingsClientsAvailableByUserIdAndClientIdAsync(realm, userId.ToString(), clientId, cancellationToken);
 
     /// <inheritdoc />
     public async Task AddClientRolesToUser(string realm, Guid userId, string clientId, List<RoleRepresentation> roles, CancellationToken cancellationToken = default)

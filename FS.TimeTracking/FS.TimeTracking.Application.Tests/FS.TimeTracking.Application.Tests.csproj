@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/targets/tests.props" />
   <ItemGroup>
-    <PackageReference Include="Plainquire.Filter.Newtonsoft" Version="5.1.0" />
+    <PackageReference Include="Plainquire.Filter.Newtonsoft" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

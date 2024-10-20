@@ -2,7 +2,7 @@
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using Plainquire.Filter;
 using Plainquire.Filter.Abstractions;
-using Plainquire.Filter.PropertyFilterExpression;
+using Plainquire.Filter.PropertyFilterExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
