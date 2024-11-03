@@ -1,6 +1,7 @@
 ﻿using FS.Authentication.OneTimeToken.Abstractions.Interfaces;
 using FS.Authentication.OneTimeToken.Abstractions.Models;
 using FS.TimeTracking.Abstractions.Constants;
+using FS.TimeTracking.Abstractions.DTOs.Chart;
 using FS.TimeTracking.Abstractions.DTOs.Reporting;
 using FS.TimeTracking.Application.Extensions;
 using FS.TimeTracking.Core.Extensions;
@@ -9,6 +10,7 @@ using FS.TimeTracking.Core.Interfaces.Application.Services.Chart;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Reporting;
 using FS.TimeTracking.Core.Interfaces.Application.Services.Shared;
 using FS.TimeTracking.Core.Interfaces.Repository.Services.Database;
+using FS.TimeTracking.Core.Models.Application.MasterData;
 using FS.TimeTracking.Core.Models.Application.TimeTracking;
 using FS.TimeTracking.Core.Models.Configuration;
 using FS.TimeTracking.Core.Models.Filter;
@@ -93,13 +95,17 @@ public class ActivityReportService : IActivityReportApiService
         var workTimes = await _customerChartService
             .GetWorkTimesPerCustomer(filters, cancellationToken)
             .WhereAsync(workTime => workTime.TimeWorked > TimeSpan.Zero)
-            .OrderByAsync(workTime => workTime.CustomerTitle);
+            .OrderByAsync(workTime => workTime.CustomerTitle)
+            .ToListAsync();
+
+        var customerIdToNameMap = await GetCustomerIdToNameMap(workTimes, cancellationToken);
 
         return workTimes
             .Select(workTime => new ActivityReportGridDto
             {
                 CustomerId = workTime.CustomerId,
                 CustomerTitle = workTime.CustomerTitle,
+                CustomerCompanyName = customerIdToNameMap[workTime.CustomerId],
                 DaysWorked = workTime.DaysWorked,
                 TimeWorked = workTime.TimeWorked,
                 BudgetWorked = workTime.BudgetWorked,
@@ -205,6 +211,23 @@ public class ActivityReportService : IActivityReportApiService
         };
 
         return reportData;
+    }
+
+    private async Task<Dictionary<Guid, string>> GetCustomerIdToNameMap(List<CustomerWorkTimeDto> workTimes, CancellationToken cancellationToken)
+    {
+        var customerIds = workTimes.Select(workTime => workTime.CustomerId).Distinct().ToList();
+
+        var customers = await _dbRepository
+            .Get(
+                (Customer customer) => new { customer.Id, customer.CompanyName },
+                where: customer => customerIds.Contains(customer.Id),
+                cancellationToken: cancellationToken
+            );
+
+        var customerIdToNameMap = customers
+            .ToDictionary(customer => customer.Id, customer => customer.CompanyName);
+
+        return customerIdToNameMap;
     }
 
     private async Task<ServiceProviderDto> GetServiceProviderInformation(CancellationToken cancellationToken)

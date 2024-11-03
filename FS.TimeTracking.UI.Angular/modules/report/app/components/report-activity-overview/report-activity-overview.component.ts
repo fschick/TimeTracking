@@ -69,12 +69,23 @@ export class ReportActivityOverviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const cssHeadCell = 'text-nowrap';
+    const cssHeadCellXl = 'd-none d-xl-table-cell';
+    const cssDataCellXl = cssHeadCellXl;
+
     this.columns = [
       {
         title: $localize`:@@Page.Report.ActivityOverview.Customer:[i18n] Customer`,
         prop: 'customerTitle',
         cssFooterCell: 'fw-bold',
         footer: $localize`:@@Common.Total:[i18n] Total`,
+      },
+      {
+        title: $localize`:@@Page.Report.ActivityOverview.Company:[i18n] Company`,
+        prop: 'customerCompanyName',
+        cssHeadCell: `${cssHeadCell} ${cssHeadCellXl}`,
+        cssDataCell: `${cssDataCellXl}`,
+        cssFooterCell: `${cssDataCellXl}`,
       }, {
         title: $localize`:@@Page.Report.ActivityOverview.ActivityReport:[i18n] Activity report`,
         prop: 'dailyActivityReportUrl',

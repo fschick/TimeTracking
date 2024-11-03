@@ -23,6 +23,10 @@ public record ActivityReportGridDto
     [Required]
     public string CustomerTitle { get; set; }
 
+    /// <inheritdoc cref="CustomerDto.CompanyName"/>
+    [Required]
+    public string CustomerCompanyName { get; set; }
+
     /// <inheritdoc cref="WorkTimeDto.DaysWorked"/>
     [Required]
     public double DaysWorked { get; set; }

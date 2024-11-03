@@ -111,6 +111,7 @@
       "ActivityOverview": {
         "Title": "Übersicht",
         "Customer": "Kunde",
+        "Company": "Firma",
         "WorkedTime": "Arbeitszeit",
         "Revenue": "Umsatz",
         "Download": "Download",

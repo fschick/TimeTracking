@@ -78,6 +78,13 @@ public static class EnumerableExtensions
         => (await source).ToList();
 
     /// <summary>
+    /// Creates a <see cref="List{T}"/> from an <see cref="IEnumerable{T}"/>.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public static async Task<List<T>> ToListAsync<T>(this Task<IOrderedEnumerable<T>> source)
+        => (await source).ToList();
+
+    /// <summary>
     /// Filters a sequence of values based on a predicate.
     /// </summary>
     /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
@@ -115,7 +122,7 @@ public static class EnumerableExtensions
         => (await source).FirstOrDefault(defaultValue);
 
     /// <summary>
-    /// Returns the first element of a sequence, or a default value if the sequenz contains no elements.
+    /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
     /// </summary>
     /// <param name="source">The source.</param>
     /// <param name="predicate">A function to test each element for a condition.</param>
