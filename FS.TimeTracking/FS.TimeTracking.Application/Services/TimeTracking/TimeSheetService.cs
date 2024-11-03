@@ -97,8 +97,11 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
             throw new InvalidOperationException($"Time sheet with ID {timesheetId} is already stopped.");
 
         timeSheet.EndDate = endDateTime;
+
+        await CheckConformity(timeSheet);
         timeSheet = DbRepository.Update(timeSheet);
         await DbRepository.SaveChanges();
+
         return Mapper.Map<TimeSheetDto>(timeSheet);
     }
 
@@ -150,6 +153,9 @@ public class TimeSheetService : CrudModelService<TimeSheet, TimeSheetDto, TimeSh
         await base.CheckConformity(model);
 
         var errors = new List<string>();
+
+        if (model.EndDate.HasValue && model.StartDate > model.EndDate)
+            errors.Add("Start date cannot be after end date.");
 
         var activityCustomerId = await DbRepository
             .FirstOrDefault(
